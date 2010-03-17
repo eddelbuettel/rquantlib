@@ -1,0 +1,91 @@
+% $Id: EuropeanOptionArrays.Rd,v 1.4 2004/12/28 03:20:07 edd Exp $
+\name{EuropeanOptionArrays}
+\alias{EuropeanOptionArrays}
+\title{European Option evaluation using Closed-Form solution}
+\description{
+  The \code{EuropeanOptionArrays} function allows any of the numerical
+  input parameters to be a list, and a list of arrays is returned. Each
+  of the returned arrays has as many dimension as there were lists among
+  the input parameters, and each multi-dimensional array element
+  corresponds to an evaluation under the given set of parameters.
+}
+\usage{
+EuropeanOptionArrays(type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility)
+}
+\arguments{
+  \item{type}{A string with one of the values \code{call} or \code{put}}
+  \item{underlying}{(Scalar or list) current price(s) of the underlying stock}
+  \item{strike}{(Scalar or list) strike price(s) of the option}
+  \item{dividendYield}{(Scalar or list) continuous dividend yield(s) (as a fraction) of the stock}
+  \item{riskFreeRate}{(Scalar or list) risk-free rate(s)}
+  \item{maturity}{(Scalar or list) time(s) to maturity (in fractional years)}
+  \item{volatility}{(Scalar or list) volatilit(y|ies) of the underlying stock}
+}
+\value{
+  The \code{EuropeanOptionArrays} function allows each of the numerical
+  input parameters to be a list (or vector, or sequence). A list of
+  multi-dimensional arrays is returned. Each array point corresponds to
+  an evaluation under the given set of parameters. 
+
+  For these functions, the following components are returned:
+  \item{value}{(Scalar or array) value of option}
+  \item{delta}{(Scalar or array) change in value for a change in the underlying}
+  \item{gamma}{(Scalar or array) change in value for a change in delta}
+  \item{vega}{(Scalar or array) change in value for a change in the underlying's volatility}
+  \item{theta}{(Scalar or array) change in value for a change in delta}
+  \item{rho}{(Scalar or array) change in value for a change in time to maturity}
+  \item{dividendRho}{(Scalar or array) change in value for a change in delta}
+  \item{parameters}{List with parameters with which object was created}
+}
+\details{
+  The well-known closed-form solution derived by Black, Scholes and
+  Merton is used for valuation. 
+
+  Please see any decent Finance textbook for background reading, and the
+  \code{QuantLib} documentation for details on the \code{QuantLib}
+  implementation.  
+}
+\references{\url{http://quantlib.org} for details on \code{QuantLib}.}
+\author{Dirk Eddelbuettel \email{edd@debian.org} for the \R interface;
+  the QuantLib Group for \code{QuantLib}}
+\note{The interface might change in future release as \code{QuantLib}
+  stabilises its own API.}
+\seealso{\code{\link{AmericanOption}},\code{\link{BinaryOption}}}
+
+\examples{
+# define two vectos for the underlying and the volatility
+und.seq <- seq(10,180,by=2)
+vol.seq <- seq(0.1,0.9,by=0.1)
+# evaluate them along with three scalar parameters
+EOarr <- EuropeanOptionArrays("call", underlying=und.seq,
+                              strike=100, dividendYield=0.01,
+                              riskFreeRate=0.03,
+                              maturity=1, volatility=vol.seq)
+# and look at four of the result arrays: value, delta, gamma, vega
+old.par <- par(no.readonly = TRUE)
+par(mfrow=c(2,2),oma=c(5,0,0,0),mar=c(2,2,2,1))
+plot(EOarr$parameter$underlying, EOarr$value[,1], type='n',
+     main="option value", xlab="", ylab="") 
+topocol <- topo.colors(length(vol.seq))
+for (i in 1:length(vol.seq))
+  lines(EOarr$parameter$underlying, EOarr$value[,i], col=topocol[i])
+plot(EOarr$parameter$underlying, EOarr$delta[,1],type='n',
+     main="option delta", xlab="", ylab="")
+for (i in 1:length(vol.seq))
+  lines(EOarr$parameter$underlying, EOarr$delta[,i], col=topocol[i])
+plot(EOarr$parameter$underlying, EOarr$gamma[,1],type='n',
+     main="option gamma", xlab="", ylab="")
+for (i in 1:length(vol.seq))
+  lines(EOarr$parameter$underlying, EOarr$gamma[,i], col=topocol[i])
+plot(EOarr$parameter$underlying, EOarr$vega[,1],type='n',
+     main="option vega", xlab="", ylab="")
+for (i in 1:length(vol.seq))
+  lines(EOarr$parameter$underlying, EOarr$vega[,i], col=topocol[i])
+mtext(text=paste("Strike is 100, maturity 1 year, riskless rate 0.03",
+        "\nUnderlying price from", und.seq[1],"to", und.seq[length(und.seq)],
+        "\nVolatility  from",vol.seq[1], "to",vol.seq[length(vol.seq)]),
+      side=1,font=1,outer=TRUE,line=3)
+par(old.par)
+}
+\keyword{misc}
+

@@ -1,0 +1,28 @@
+#!/bin/sh
+for f in ./config.*; do
+    rm -f $f
+done
+if [ -e confdefs.h ]; then
+    rm -f confdefs.h
+fi
+if [ -e src/Makevars ]; then
+    rm -f src/Makevars
+fi
+if [ -e src/libRQuantLib.a ]; then
+    rm -f src/libRQuantLib.a
+fi    
+if [ -e src/libRQuantLib.def ]; then
+    rm -f src/libRQuantLib.def
+fi    
+if [ -e autom4te.cache ]; then
+    rm -rf autom4te.cache
+fi
+for f in src/*.o src/*.so; do
+    rm -f $f
+done
+find . -name \*~ | xargs rm -f
+#rm -vf configure 
+rm -vf config.log config.status
+rm -f RcppSrc/*.a RcppSrc/*.o RcppSrc/config.*
+rm -f inst/Rcpp-version.txt
+exit 0

@@ -1,0 +1,8 @@
+# this file is now a null-op though we could test for QUANTLIB_ROOT
+
+if test -z "${QUANTLIB_ROOT}"; then
+    echo "You need to set a variable QUANTLIB_ROOT that points to a directory"
+    echo "containing directories ql/ and lib/ with QuantLib headers and library"
+    echo "as well as a directory boost/ with Boost headers."
+    exit 1
+fi

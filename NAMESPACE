@@ -1,0 +1,74 @@
+import("Rcpp")
+import("traitr")
+import("gWidgets")
+import("RGtk2")
+import("zoo")
+useDynLib(RQuantLib)
+
+exportPattern("*.default")
+
+
+export("discountBuilder")
+export("fittedBondBuilder")
+export("bondGUI")
+
+
+export(
+       ##--arrays.R
+       "EuropeanOptionArrays",
+       ##--asian.R
+       "AsianOption",
+       ##--bermudan.R
+       "BermudanSwaption",
+       "summary.G2Analytic",
+       "summary.HWAnalytic",
+       "summary.HWTree",
+       "summary.BKTree",
+       ##--bond.R
+       "ZeroCouponBond",
+       "ZeroPriceByYield",
+       "ZeroYield",
+       "FixedRateBond",
+       "FixedRateBondYield",
+       "FixedRateBondPriceByYield",
+       "FloatingRateBond",
+       "ConvertibleZeroCouponBond",
+       "ConvertibleFixedCouponBond",
+       "ConvertibleFloatingCouponBond",
+       "CallableBond",
+       "FittedBondCurve",
+       ##--calendars.R
+       "businessDay",
+       "isHoliday",
+       "isWeekend",
+       "isEndOfMonth",
+       "endOfMonth",
+       "adjust",
+       "advance",
+       "businessDaysBetween",
+       "holidayList",
+       ##--dayCounter.R
+       "dayCount",
+       "yearFraction",
+       ##--discount.R
+       "DiscountCurve",
+       "plot.DiscountCurve",
+       ##--implied.R
+       "EuropeanOptionImpliedVolatility",
+       "AmericanOptionImpliedVolatility",
+       "BinaryOptionImpliedVolatility",
+       ##--option.R
+       "EuropeanOption",
+       "AmericanOption",
+       "AmericanOption.default",
+       "BinaryOption",
+       "BarrierOption"
+       )
+
+S3method("plot", "Option")
+S3method("print", "Option")
+S3method("summary", "Option")
+
+S3method("plot", "Bond")
+S3method("print", "Bond")
+S3method("summary", "Bond")

@@ -1,17 +1,7 @@
 import("Rcpp")
-import("traitr")
-import("gWidgets")
-import("RGtk2")
-import("zoo")
 useDynLib(RQuantLib)
 
 exportPattern("*.default")
-
-
-export("discountBuilder")
-export("fittedBondBuilder")
-export("bondGUI")
-
 
 export(
        ##--arrays.R

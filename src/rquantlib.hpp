@@ -158,5 +158,8 @@ boost::shared_ptr<YieldTermStructure> getFlatCurve(SEXP flatcurve);
 boost::shared_ptr<YieldTermStructure> rebuildCurveFromZeroRates(
                                                                 SEXP dateSexp,
                                                                 SEXP zeroSexp);
+boost::shared_ptr<IborIndex> buildIborIndex(std::string type,
+                                            const Handle<YieldTermStructure>& iborStrc);
 Calendar* getCalendar(SEXP calParameters);
+Period periodByTimeUnit(int length, std::string unit);
 #endif

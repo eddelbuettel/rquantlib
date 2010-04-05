@@ -361,6 +361,16 @@ Frequency getFrequency(const double n){
 
 
 }
+
+Period periodByTimeUnit(int length, std::string unit){
+    TimeUnit tu = Years;
+    if (unit=="Days") tu=Days;
+    if (unit=="Weeks") tu=Weeks;
+    if (unit=="Months") tu=Months;
+
+    return Period(length, tu);
+
+}
 TimeUnit getTimeUnit(const double n){
     if (n==0) return Days;
     else if (n==1) return Weeks;
@@ -424,3 +434,41 @@ Calendar* getCalendar(SEXP calParameters){
 
     return pcal;
 }
+
+
+boost::shared_ptr<IborIndex> buildIborIndex(std::string type,
+                                            const Handle<YieldTermStructure>& iborStrc){
+
+    if (type == "Euribor10M") 
+        return boost::shared_ptr<IborIndex>(new Euribor10M(iborStrc));
+    if (type == "Euribor11M") 
+        return boost::shared_ptr<IborIndex>(new Euribor11M(iborStrc));
+    if (type == "Euribor1M") 
+        return boost::shared_ptr<IborIndex>(new Euribor1M(iborStrc));
+    if (type == "Euribor1Y") 
+        return boost::shared_ptr<IborIndex>(new Euribor1Y(iborStrc));
+    if (type == "Euribor2M") 
+        return boost::shared_ptr<IborIndex>(new Euribor2M(iborStrc));
+    if (type == "Euribor2W") 
+        return boost::shared_ptr<IborIndex>(new Euribor2W(iborStrc));
+    if (type == "Euribor3M") 
+        return boost::shared_ptr<IborIndex>(new Euribor3M(iborStrc));
+    if (type == "Euribor3W") 
+        return boost::shared_ptr<IborIndex>(new Euribor3W(iborStrc));
+    if (type == "Euribor4M") 
+        return boost::shared_ptr<IborIndex>(new Euribor4M(iborStrc));
+    if (type == "Euribor5M") 
+        return boost::shared_ptr<IborIndex>(new Euribor5M(iborStrc));
+    if (type == "Euribor6M") 
+        return boost::shared_ptr<IborIndex>(new Euribor6M(iborStrc));
+    if (type == "Euribor7M") 
+        return boost::shared_ptr<IborIndex>(new Euribor7M(iborStrc));
+    if (type == "Euribor8M") 
+        return boost::shared_ptr<IborIndex>(new Euribor8M(iborStrc));
+    if (type == "Euribor9M") 
+        return boost::shared_ptr<IborIndex>(new Euribor9M(iborStrc));
+    if (type == "EuriborSW") 
+        return boost::shared_ptr<IborIndex>(new EuriborSW(iborStrc));
+    return boost::shared_ptr<IborIndex>();   
+}
+

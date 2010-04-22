@@ -174,7 +174,7 @@ upin       105.0     3.0   put    110  100.0  0.04  0.08  0.50  0.30   8.3686  1
 ## Binary Options aka Digitals
 test.binary <- function() {
     ## cash or nothing European
-    rc <- BinaryOption("put", strike=80, underl=100, div=0.06, r=0.06, mat=0.75, vol=0.35, cash=10)
+    rc <- BinaryOption(binType="cash", type="put", excType="european", strike=80, underl=100, div=0.06, r=0.06, mat=0.75, vol=0.35, cash=10)
     checkEquals(rc$value, 2.671045684)
     checkEquals(rc[1:7],
                 list(value=2.671045, delta=-0.1060594, gamma=0.00310624, vega=8.153881, theta=-1.742309, rho=-9.9577, divRho=7.9544),

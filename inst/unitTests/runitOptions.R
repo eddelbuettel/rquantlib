@@ -50,7 +50,9 @@ put  100.00 100.00 0.10 0.10 0.50 0.35  9.5104
 put  100.00 110.00 0.10 0.10 0.50 0.35  5.8823"
 
     ## now loop over all tests -- note that we need a fairly loose tolerance value
-    Params <- read.delim(textConnection(Lines), sep="")
+    con <- textConnection(Lines)
+    Params <- read.delim(con, sep="")
+    close(con)
     for (i in NROW(Params)) {
         P <- Params[i,]
         rc <- AmericanOption(type=as.character(P$type), underlying=P$spot, strike=P$strike,
@@ -161,7 +163,9 @@ upin       105.0     3.0   put    100  100.0  0.04  0.08  0.50  0.30   4.4226  1
 upin       105.0     3.0   put    110  100.0  0.04  0.08  0.50  0.30   8.3686  1.0e-4"
 
     ## now loop over all tests -- note that we need a fairly loose tolerance value
-    Params <- read.delim(textConnection(Lines), sep="")
+    con <- textConnection(Lines)
+    Params <- read.delim(con, sep="")
+    close(con)
     for (i in NROW(Params)) {
         P <- Params[i,]
         rc <- BarrierOption(barrType=as.character(P$barrierType), type=as.character(P$type), underlying=P$spot, strike=P$strike,
@@ -236,7 +240,9 @@ put  100.00 110.00 0.10 0.10 0.50 0.35  5.7963 1.0e-4
 call  40.00  42.00 0.08 0.04 0.75 0.35  5.0975 1.0e-4"
 
     ## now loop over all tests -- note that we need a fairly loose tolerance value
-    Params <- read.delim(textConnection(Lines), sep="")
+    con <- textConnection(Lines)
+    Params <- read.delim(con, sep="")
+    close(con)
     for (i in NROW(Params)) {
         P <- Params[i,]
         rc <- EuropeanOption(type=as.character(P$type), underlying=P$spot, strike=P$strike,

@@ -23,10 +23,10 @@ RcppExport SEXP cbprice(SEXP params, SEXP dividendFrame, SEXP callFrame){
         DayCounter dayCounter = getDayCounter(basis);
         Frequency freq = getFrequency(p);
         Period period(freq);
-        double emr = rparams.getDoubleValue("emr");
+        //double emr = rparams.getDoubleValue("emr");
         double callType = rparams.getDoubleValue("calltype");
         double dividendType = rparams.getDoubleValue("dividendtype");
-        double treeType = rparams.getDoubleValue("treeType");        
+        //double treeType = rparams.getDoubleValue("treeType");        
 
 
         DividendSchedule dividendSchedule;

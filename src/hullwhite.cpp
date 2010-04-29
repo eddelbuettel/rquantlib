@@ -1,4 +1,4 @@
-#include "rquantlib.hpp";
+#include "rquantlib.hpp"
 
 using namespace boost;
 
@@ -29,7 +29,7 @@ RcppExport SEXP QL_HullWhiteCalibrationUsingCap(SEXP termStrcDateVec,
         boost::shared_ptr<IborIndex> index = buildIborIndex(iborType,
                                                             indexStrc);
         //process capDataDF
-        std::vector<boost::shared_ptr<CalibrationHelper>> caps;
+        std::vector<boost::shared_ptr <CalibrationHelper> > caps;
         try {
             RcppFrame capDF(capDataDF);
             std::vector<std::vector<ColDatum> > table = capDF.getTableData();
@@ -62,7 +62,7 @@ RcppExport SEXP QL_HullWhiteCalibrationUsingCap(SEXP termStrcDateVec,
         LevenbergMarquardt optimizationMethod(1.0e-8,1.0e-8,1.0e-8);
         EndCriteria endCriteria(10000, 100, 1e-6, 1e-8, 1e-8);
         model->calibrate(caps, optimizationMethod, endCriteria);
-        EndCriteria::Type ecType = model->endCriteria();
+        //EndCriteria::Type ecType = model->endCriteria();
         //return the result
         Array xMinCalculated = model->params();
 
@@ -114,7 +114,7 @@ RcppExport SEXP QL_HullWhiteCalibrationUsingSwap(SEXP termStrcDateVec,
         //process capDataDF
         boost::shared_ptr<PricingEngine> engine(
                                                 new JamshidianSwaptionEngine(model));
-        std::vector<boost::shared_ptr<CalibrationHelper>> swaps;
+        std::vector<boost::shared_ptr <CalibrationHelper> > swaps;
         try {
             RcppFrame swapDF(swapDataDF);
             std::vector<std::vector<ColDatum> > table = swapDF.getTableData();
@@ -155,7 +155,7 @@ RcppExport SEXP QL_HullWhiteCalibrationUsingSwap(SEXP termStrcDateVec,
         LevenbergMarquardt optimizationMethod(1.0e-8,1.0e-8,1.0e-8);
         EndCriteria endCriteria(10000, 100, 1e-6, 1e-8, 1e-8);
         model->calibrate(swaps, optimizationMethod, endCriteria);
-        EndCriteria::Type ecType = model->endCriteria();
+        //EndCriteria::Type ecType = model->endCriteria();
         //return the result
         Array xMinCalculated = model->params();
 

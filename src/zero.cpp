@@ -21,7 +21,7 @@ RcppExport SEXP zeroprice(SEXP params){
         DayCounter dayCounter = getDayCounter(basis);
         Frequency freq = getFrequency(period);
         Period p(freq);
-        double EMR = rparam.getDoubleValue("EMR");
+        //double EMR = rparam.getDoubleValue("EMR");
 
 
         ZeroCouponBond bond(1, calendar, 
@@ -65,7 +65,7 @@ RcppExport SEXP zeroyield(SEXP params){
         DayCounter dayCounter = getDayCounter(basis);
         Frequency freq = getFrequency(period);
         Period p(freq);
-        double EMR = rparam.getDoubleValue("EMR");
+        //double EMR = rparam.getDoubleValue("EMR");
 
 
         ZeroCouponBond bond(1, calendar, 100, maturity, Unadjusted, 100.0, settle);
@@ -96,7 +96,7 @@ RcppExport SEXP zbtyield(SEXP MatVec, SEXP BondMat,
 
 
         RcppParams rparam(param);
-        double oc = rparam.getDoubleValue("OC");
+        //double oc = rparam.getDoubleValue("OC");
 
         RcppDateVector rmat(MatVec);
         RcppDateVector rsettle(SettlVec);
@@ -173,12 +173,12 @@ RcppExport SEXP zbtyield(SEXP MatVec, SEXP BondMat,
             instruments.push_back(helper);
         }
         
+		/*
         bool constrainAtZero = true;
         Real tolerance = 1.0e-10;
         Size max = 5000;
 
-        /*
-	boost::shared_ptr<YieldTermStructure> curve;
+		boost::shared_ptr<YieldTermStructure> curve;
         NelsonSiegelFitting nelsonSiegel;
         boost::shared_ptr<FittedBondDiscountCurve> ts3 (
                                                         new FittedBondDiscountCurve(1,
@@ -204,8 +204,8 @@ RcppExport SEXP zbtyield(SEXP MatVec, SEXP BondMat,
         
         RcppFrame frame(colNames);
         Date current = SettleDates[0];
-        int n1 = curve->maxDate() - SettleDates[0];
-        for (int i = 0; i<numberOfBonds;i++){
+        //int n1 = curve->maxDate() - SettleDates[0];
+        for (unsigned int i = 0; i<numberOfBonds;i++){
             std::vector<ColDatum> row(numCol);
             Date d = MatDates[i];
             row[0].setDateValue(RcppDate(d.month(),

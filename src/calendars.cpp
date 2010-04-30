@@ -43,6 +43,9 @@ RcppExport SEXP QL_isBusinessDay(SEXP calParameters, SEXP dateSexp){
         if (calstr == "TARGET") { 		// generic calendar 
             pcal = new TARGET();
 
+        } else if (calstr == "Brazil") {
+            pcal = new Brazil();
+
         } else if (calstr == "Canada" || calstr == "Canada/Settlement") {
             pcal = new Canada(Canada::Settlement);
         } else if (calstr == "Canada/TSX") {
@@ -62,8 +65,13 @@ RcppExport SEXP QL_isBusinessDay(SEXP calParameters, SEXP dateSexp){
         } else if (calstr == "Italy/Exchange") {
             pcal = new Italy(Italy::Exchange);
 
-        } else if (calstr == "Japan") {
+        } else if (calstr == "Japan" || calstr == "Japan/Settlement") {
             pcal = new Japan();
+
+        } else if (calstr == "SouthKorea" || calstr == "SouthKorea/Settlement") {
+            pcal = new SouthKorea(SouthKorea::Settlement);
+        } else if (calstr == "SouthKorea/KRX") {
+            pcal = new SouthKorea(SouthKorea::KRX);
 
         } else if (calstr == "UnitedKingdom" || calstr == "UnitedKingdom/Settlement") {
             pcal = new UnitedKingdom(UnitedKingdom::Settlement);

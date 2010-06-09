@@ -120,7 +120,9 @@ params <- list(tradeDate=as.Date('2004-09-20'),
                interpHow="loglinear")
 
 ## We get numerical issue for the spline interpolation if we add
-## any on of these three extra futures
+## any on of these three extra futures -- the original example
+## creates different curves based on different deposit, fra, futures
+## and swap data
 tsQuotes <- list(d1w = 0.0382,
                  d1m = 0.0372,
                  d3m = 0.0363,

@@ -1,24 +1,22 @@
-2010-03-15  Khanh Nguyen  <knguyen@cs.umb.edu>
+2010-04-29  Dirk Eddelbuettel  <edd@debian.org>
 
-	* R/GUIs.R: first GUI verion
-	* man/GUI.Rd: added.
-	* NAMESPACE: add export GUI functions
+	* src/*.cpp: Suppress a few g++ warnings
 
-2010-02-02  Khanh Nguyen  <knguyen@cs.umb.edu>
+	* src/calendar.cpp: Added South Korea and Brazil
 
-	* Remove Matlab module
+2010-04-21  Dirk Eddelbuettel  <edd@debian.org>
 
-2010-01-31  Khanh Nguyen  <knguyen@cs.umb.edu>
+	* inst/unitTests/runitOptions.R: Updated binary option test
 
-	* Matlab's derivative securities: bkput, bkcall
+2010-04-05  Khanh Nguyen  <knguyen@cs.umb.edu>
 
-2010-01-30  Khanh Nguyen  <knguyen@cs.umb.edu>
+	* R/hullWhiteCalibration.R: added Hull-White calibration
+	* src/hullwhite.cpp: added Hull-White calibration
 
-	* Matlab's function: derivative securities, bkcaplet and bkfloorlet
+2010-02-12  Khanh Nguyen  <knguyen@cs.umb.edu>
 
-2010-01-26  Khanh Nguyen  <knguyen@cs.umb.edu>
-
-	* Matlab's functions: zero, treasury, convertible, certificate of deposit.
+	* R/*,src/*: Remove some deprecated fixed income code
+	* tests/*: Remove corresponding tests
 
 2010-01-23  Dirk Eddelbuettel  <edd@debian.org>
 

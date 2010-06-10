@@ -1,3 +1,8 @@
+2010-06-09  Dirk Eddelbuettel  <edd@debian.org>
+
+	* man/DiscountCurve.Rd: Uncomment futures entries as there are
+	numerical issues (in QuantLib) with the spline curve fit when present
+
 2010-04-29  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/*.cpp: Suppress a few g++ warnings

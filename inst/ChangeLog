@@ -1,3 +1,8 @@
+2010-06-11  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/calendars.cpp: Simplified code by using more of Rcpp's new API
+	  and some of this will depend on Rcpp (> 0.8.2) ie SVN as of now
+
 2010-06-09  Dirk Eddelbuettel  <edd@debian.org>
 
 	* man/DiscountCurve.Rd: Uncomment futures entries as there are

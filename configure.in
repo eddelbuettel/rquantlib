@@ -46,11 +46,11 @@ AC_PROG_RSCRIPT
 if test x"${RSCRIPT}" == x"yes" ; then
 #     AC_MSG_RESULT([yes])    
      ## Rcpp compile flag providing header directory containing Rcpp.h
-     rcpp_cxxflags=`${R_HOME}/bin/Rscript -e 'Rcpp:::CxxFlags()'`
+     #rcpp_cxxflags=`${R_HOME}/bin/Rscript -e 'Rcpp:::CxxFlags()'`
      ## link flag providing libary as well as path to library, and optionally rpath
      rcpp_ldflags=`${R_HOME}/bin/Rscript -e 'Rcpp:::LdFlags()'`
      ## now use all these
-     AC_SUBST([CXXFLAGS],["${CXXFLAGS} $rcpp_cxxflags"])
+     #AC_SUBST([CXXFLAGS],["${CXXFLAGS} $rcpp_cxxflags"])
      AC_SUBST([LDFLAGS],["${LDFLAGS} $rcpp_ldflags"])
 else
 #    AC_MSG_RESULT([no])    

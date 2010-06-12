@@ -1,7 +1,11 @@
 2010-06-11  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/calendars.cpp: Simplified code by using more of Rcpp's new API
-	  and some of this will depend on Rcpp (> 0.8.2) ie SVN as of now
+	* DESCRIPTION: Encode "Rcpp (>= 0.8.2.2)" aka current SVN
+
+	* DESCRIPTION: Switch to 'LinkingTo: Rcpp'
+	* configure.in: No longer need CxxFlags for Rcpp thanks to LinkingTo
+	* src/Makefile.win: Idem
 
 2010-06-09  Dirk Eddelbuettel  <edd@debian.org>
 

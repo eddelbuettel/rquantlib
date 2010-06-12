@@ -147,7 +147,7 @@ holidayList <- function(calendar="TARGET",
   stopifnot(class(to)=="Date")
   val <- .Call("QL_holidayList",
                calendar,
-               list(includeWeekends=as.double(includeWeekends), from, to),
+               list(includeWeekends=as.double(includeWeekends), from=from, to=to),
                PACKAGE="RQuantLib")
   val
 }

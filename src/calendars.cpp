@@ -25,68 +25,73 @@
 
 #include "rquantlib.hpp"
 
+Calendar* getCalendar(SEXP calParameters){
+    RcppParams rparam(calParameters);
+    std::string    calstr = rparam.getStringValue("calendar");
+    Calendar* pcal = NULL;
+
+    if (calstr == "TARGET") { 		// generic calendar 
+        pcal = new TARGET();
+        
+    } else if (calstr == "Brazil") {
+        pcal = new Brazil();
+
+    } else if (calstr == "Canada" || calstr == "Canada/Settlement") {
+        pcal = new Canada(Canada::Settlement);
+    } else if (calstr == "Canada/TSX") {
+        pcal = new Canada(Canada::TSX);
+        
+    } else if (calstr == "Germany" || calstr == "Germany/FrankfurtStockExchange") {
+        pcal = new Germany(Germany::FrankfurtStockExchange);
+    } else if (calstr == "Germany/Settlement") {
+        pcal = new Germany(Germany::Settlement);
+    } else if (calstr == "Germany/Xetra") {
+        pcal = new Germany(Germany::Xetra);
+        } else if (calstr == "Germany/Eurex") {
+        pcal = new Germany(Germany::Eurex);
+        
+    } else if (calstr == "Italy" || calstr == "Italy/Settlement") {
+        pcal = new Italy(Italy::Settlement);
+        } else if (calstr == "Italy/Exchange") {
+        pcal = new Italy(Italy::Exchange);
+        
+    } else if (calstr == "Japan" || calstr == "Japan/Settlement") {
+        pcal = new Japan();
+        
+    } else if (calstr == "SouthKorea" || calstr == "SouthKorea/Settlement") {
+        pcal = new SouthKorea(SouthKorea::Settlement);
+    } else if (calstr == "SouthKorea/KRX") {
+        pcal = new SouthKorea(SouthKorea::KRX);
+
+    } else if (calstr == "UnitedKingdom" || calstr == "UnitedKingdom/Settlement") {
+        pcal = new UnitedKingdom(UnitedKingdom::Settlement);
+        } else if (calstr == "UnitedKingdom/Exchange") {
+        pcal = new UnitedKingdom(UnitedKingdom::Exchange);
+    } else if (calstr == "UnitedKingdom/Metals") {
+        pcal = new UnitedKingdom(UnitedKingdom::Metals);
+        
+    } else if (calstr == "UnitedStates" || calstr == "UnitedStates/Settlement") {
+        pcal = new UnitedStates(UnitedStates::Settlement);
+    } else if (calstr == "UnitedStates/NYSE") {
+        pcal = new UnitedStates(UnitedStates::NYSE);
+        } else if (calstr == "UnitedStates/GovernmentBond") {
+        pcal = new UnitedStates(UnitedStates::GovernmentBond);
+    } else if (calstr == "UnitedStates/NERC") {
+        pcal = new UnitedStates(UnitedStates::NERC);
+
+    } else {
+        throw std::invalid_argument("Calendar " + calstr + " not recognised ");
+    }
+
+    return pcal;
+}
+
 RcppExport SEXP QL_isBusinessDay(SEXP calParameters, SEXP dateSexp){
 
     try {
-        RcppParams rparam(calParameters);
+        Calendar *pcal = getCalendar(calParameters);
 
-        std::string    calstr = rparam.getStringValue("calendar");
         RcppDateVector dates  = RcppDateVector(dateSexp);
-
-        Calendar *pcal = NULL;
-
-        if (calstr == "TARGET") { 		// generic calendar 
-            pcal = new TARGET();
-
-        } else if (calstr == "Brazil") {
-            pcal = new Brazil();
-
-        } else if (calstr == "Canada" || calstr == "Canada/Settlement") {
-            pcal = new Canada(Canada::Settlement);
-        } else if (calstr == "Canada/TSX") {
-            pcal = new Canada(Canada::TSX);
-
-        } else if (calstr == "Germany" || calstr == "Germany/FrankfurtStockExchange") {
-            pcal = new Germany(Germany::FrankfurtStockExchange);
-        } else if (calstr == "Germany/Settlement") {
-            pcal = new Germany(Germany::Settlement);
-        } else if (calstr == "Germany/Xetra") {
-            pcal = new Germany(Germany::Xetra);
-        } else if (calstr == "Germany/Eurex") {
-            pcal = new Germany(Germany::Eurex);
-
-        } else if (calstr == "Italy" || calstr == "Italy/Settlement") {
-            pcal = new Italy(Italy::Settlement);
-        } else if (calstr == "Italy/Exchange") {
-            pcal = new Italy(Italy::Exchange);
-
-        } else if (calstr == "Japan" || calstr == "Japan/Settlement") {
-            pcal = new Japan();
-
-        } else if (calstr == "SouthKorea" || calstr == "SouthKorea/Settlement") {
-            pcal = new SouthKorea(SouthKorea::Settlement);
-        } else if (calstr == "SouthKorea/KRX") {
-            pcal = new SouthKorea(SouthKorea::KRX);
-
-        } else if (calstr == "UnitedKingdom" || calstr == "UnitedKingdom/Settlement") {
-            pcal = new UnitedKingdom(UnitedKingdom::Settlement);
-        } else if (calstr == "UnitedKingdom/Exchange") {
-            pcal = new UnitedKingdom(UnitedKingdom::Exchange);
-        } else if (calstr == "UnitedKingdom/Metals") {
-            pcal = new UnitedKingdom(UnitedKingdom::Metals);
-
-        } else if (calstr == "UnitedStates" || calstr == "UnitedStates/Settlement") {
-            pcal = new UnitedStates(UnitedStates::Settlement);
-        } else if (calstr == "UnitedStates/NYSE") {
-            pcal = new UnitedStates(UnitedStates::NYSE);
-        } else if (calstr == "UnitedStates/GovernmentBond") {
-            pcal = new UnitedStates(UnitedStates::GovernmentBond);
-        } else if (calstr == "UnitedStates/NERC") {
-            pcal = new UnitedStates(UnitedStates::NERC);
-
-        } else {
-            throw std::invalid_argument("Calendar " + calstr + " not recognised ");
-        }
 
         int n = dates.size();
         std::vector<int> bizdays(n);

@@ -25,9 +25,7 @@
 
 #include "rquantlib.hpp"
 
-Calendar* getCalendar(SEXP calParameters){
-    RcppParams rparam(calParameters);
-    std::string    calstr = rparam.getStringValue("calendar");
+Calendar* getCalendar(const std::string &calstr) {
     Calendar* pcal = NULL;
 
     if (calstr == "TARGET") { 		// generic calendar 
@@ -86,10 +84,10 @@ Calendar* getCalendar(SEXP calParameters){
     return pcal;
 }
 
-RcppExport SEXP QL_isBusinessDay(SEXP calParameters, SEXP dateSexp){
+RcppExport SEXP QL_isBusinessDay(SEXP calSexp, SEXP dateSexp){
 
     try {
-        Calendar *pcal = getCalendar(calParameters);
+        Calendar *pcal = getCalendar(Rcpp::as<std::string>(calSexp));
 
         RcppDateVector dates  = RcppDateVector(dateSexp);
 
@@ -113,11 +111,10 @@ RcppExport SEXP QL_isBusinessDay(SEXP calParameters, SEXP dateSexp){
     return R_NilValue;
 }
 
-
-RcppExport SEXP QL_isHoliday(SEXP calParameters, SEXP dateSexp){
+RcppExport SEXP QL_isHoliday(SEXP calSexp, SEXP dateSexp){
 
     try {
-        Calendar* pcal = getCalendar(calParameters);
+        Calendar* pcal = getCalendar(Rcpp::as<std::string>(calSexp));
 
         RcppDateVector dates  = RcppDateVector(dateSexp);
         int n = dates.size();
@@ -142,10 +139,10 @@ RcppExport SEXP QL_isHoliday(SEXP calParameters, SEXP dateSexp){
 
 
 
-RcppExport SEXP QL_isWeekend(SEXP calParameters, SEXP dateSexp){
+RcppExport SEXP QL_isWeekend(SEXP calSexp, SEXP dateSexp){
 
     try {
-        Calendar* pcal = getCalendar(calParameters);
+        Calendar* pcal = getCalendar(Rcpp::as<std::string>(calSexp));
 
         RcppDateVector dates  = RcppDateVector(dateSexp);
         int n = dates.size();
@@ -169,10 +166,10 @@ RcppExport SEXP QL_isWeekend(SEXP calParameters, SEXP dateSexp){
 }
 
 
-RcppExport SEXP QL_isEndOfMonth(SEXP calParameters, SEXP dateSexp){
+RcppExport SEXP QL_isEndOfMonth(SEXP calSexp, SEXP dateSexp){
 
     try {
-        Calendar* pcal = getCalendar(calParameters);
+        Calendar* pcal = getCalendar(Rcpp::as<std::string>(calSexp));
 
         RcppDateVector dates  = RcppDateVector(dateSexp);
         int n = dates.size();
@@ -196,10 +193,10 @@ RcppExport SEXP QL_isEndOfMonth(SEXP calParameters, SEXP dateSexp){
 }
 
 
-RcppExport SEXP QL_endOfMonth(SEXP calParameters, SEXP dateSexp){
+RcppExport SEXP QL_endOfMonth(SEXP calSexp, SEXP dateSexp){
 
     try {
-        Calendar* pcal = getCalendar(calParameters);
+        Calendar* pcal = getCalendar(Rcpp::as<std::string>(calSexp));
 
         RcppDateVector dates  = RcppDateVector(dateSexp);
         int n = dates.size();
@@ -225,13 +222,11 @@ RcppExport SEXP QL_endOfMonth(SEXP calParameters, SEXP dateSexp){
 
 
 
-RcppExport SEXP QL_adjust(SEXP calParameters, SEXP dateSexp){
+RcppExport SEXP QL_adjust(SEXP calSexp, SEXP bdcSEXP, SEXP dateSexp){
 
     try {
-        Calendar* pcal = getCalendar(calParameters);
-        RcppParams rparam(calParameters);        
-        BusinessDayConvention bdc = getBusinessDayConvention(rparam.getDoubleValue("bdc"));
-
+        Calendar* pcal = getCalendar(Rcpp::as<std::string>(calSexp));
+        BusinessDayConvention bdc = getBusinessDayConvention( Rcpp::as<double>(bdcSEXP) );
         RcppDateVector dates  = RcppDateVector(dateSexp);
         int n = dates.size();
         std::vector<QuantLib::Date> adjusted(n);
@@ -256,17 +251,15 @@ RcppExport SEXP QL_adjust(SEXP calParameters, SEXP dateSexp){
     return R_NilValue;
 }
 
-
-RcppExport SEXP QL_advance1(SEXP calParameters, SEXP dateSexp){
+RcppExport SEXP QL_advance1(SEXP calSexp, SEXP params, SEXP dateSexp){
 
     try {
-        Calendar* pcal = getCalendar(calParameters);
-        RcppParams rparam(calParameters);        
-        BusinessDayConvention bdc = getBusinessDayConvention(rparam.getDoubleValue("bdc"));
-        double emr = rparam.getDoubleValue("emr");
-        double amount = rparam.getDoubleValue("amount");
-        double unit = rparam.getDoubleValue("unit");
-
+        Calendar* pcal = getCalendar(Rcpp::as<std::string>(calSexp));
+        Rcpp::List rparam(params);        
+        BusinessDayConvention bdc = getBusinessDayConvention(rparam["bdc"]);
+        double emr = rparam["emr"];
+        double amount = rparam["amount"];
+        double unit = rparam["unit"];
 
         RcppDateVector dates  = RcppDateVector(dateSexp);
         int n = dates.size();
@@ -293,15 +286,14 @@ RcppExport SEXP QL_advance1(SEXP calParameters, SEXP dateSexp){
 }
 
 
-RcppExport SEXP QL_advance2(SEXP calParameters, SEXP dateSexp){
+RcppExport SEXP QL_advance2(SEXP calSexp, SEXP param, SEXP dateSexp){
 
     try {
-        Calendar* pcal = getCalendar(calParameters);
-        RcppParams rparam(calParameters);        
-        BusinessDayConvention bdc = getBusinessDayConvention(rparam.getDoubleValue("bdc"));
-        double emr = rparam.getDoubleValue("emr");
-        double period = rparam.getDoubleValue("period");
-
+        Calendar* pcal = getCalendar(Rcpp::as<std::string>(calSexp));
+        Rcpp::List rparam(param);        
+        BusinessDayConvention bdc = getBusinessDayConvention(rparam["bdc"]);
+        double emr = rparam["emr"];
+        double period = rparam["period"];
 
         RcppDateVector dates  = RcppDateVector(dateSexp);
         int n = dates.size();
@@ -328,14 +320,14 @@ RcppExport SEXP QL_advance2(SEXP calParameters, SEXP dateSexp){
     return R_NilValue;
 }
 
-RcppExport SEXP QL_businessDaysBetween(SEXP calParameters, 
+RcppExport SEXP QL_businessDaysBetween(SEXP calSexp, SEXP params,
                                        SEXP from, SEXP to){
 
     try {
-        Calendar* pcal = getCalendar(calParameters);
-        RcppParams rparam(calParameters);
-        double ifirst = rparam.getDoubleValue("includeFirst");
-        double ilast = rparam.getDoubleValue("includeLast");
+        Calendar* pcal = getCalendar(Rcpp::as<std::string>(calSexp));
+        Rcpp::List rparam(params);
+        double ifirst = rparam["includeFirst"];
+        double ilast = rparam["includeLast"];
 
         RcppDateVector dates1  = RcppDateVector(from);
         RcppDateVector dates2  = RcppDateVector(to);
@@ -364,17 +356,14 @@ RcppExport SEXP QL_businessDaysBetween(SEXP calParameters,
 }
 
 
-RcppExport SEXP QL_holidayList(SEXP calParameters, 
-                                 SEXP from, 
-                                 SEXP to){
+RcppExport SEXP QL_holidayList(SEXP calSexp, SEXP params) {
 
     try {
-        Calendar* pcal = getCalendar(calParameters);
-        RcppParams rparam(calParameters);
-        double iw = rparam.getDoubleValue("includeWeekends");
-
-        RcppDate d1 = rparam.getDateValue("from");
-        RcppDate d2 = rparam.getDateValue("to");
+        Calendar* pcal = getCalendar(Rcpp::as<std::string>(calSexp));
+        Rcpp::List rparam(params);
+        double iw = rparam["includeWeekends"];
+        RcppDate d1 = RcppDate( (int) rparam["from"] );
+        RcppDate d2 = RcppDate( (int) rparam["to"] );
 
         std::vector<QuantLib::Date> 
             holidays = QuantLib::Calendar::holidayList(*pcal,

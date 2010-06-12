@@ -1,5 +1,7 @@
 2010-06-12  Dirk Eddelbuettel  <edd@debian.org>
 
+	* src/calendars.cpp: More code simplification using "new" Rcpp API
+
 	* src/utils.cpp: Add Brazil + South Korea to getCalendar()
 	* src/calendars.cpp: Move getCalendar() into this file
 

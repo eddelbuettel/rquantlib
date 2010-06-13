@@ -204,7 +204,7 @@ RcppExport SEXP QL_endOfMonth(SEXP calSexp, SEXP dateSexp){
         }
         delete pcal;
        
-        return Rcpp::List::create(Rcpp::Named("ret") = Rcpp::wrap(dates));
+        return Rcpp::List::create(Rcpp::Named("ret") = dates);
 
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
@@ -233,7 +233,7 @@ RcppExport SEXP QL_adjust(SEXP calSexp, SEXP bdcSEXP, SEXP dateSexp){
         }
         delete pcal;        
 
-        return Rcpp::List::create(Rcpp::Named("ret") = Rcpp::wrap(dates));
+        return Rcpp::List::create(Rcpp::Named("ret") = dates);
 
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
@@ -267,7 +267,7 @@ RcppExport SEXP QL_advance1(SEXP calSexp, SEXP params, SEXP dateSexp){
         }
         delete pcal;        
         
-        return Rcpp::List::create(Rcpp::Named("ret") = Rcpp::wrap(dates));
+        return Rcpp::List::create(Rcpp::Named("ret") = dates);
 
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
@@ -301,7 +301,7 @@ RcppExport SEXP QL_advance2(SEXP calSexp, SEXP param, SEXP dateSexp){
         }
         delete pcal;        
 
-        return Rcpp::List::create(Rcpp::Named("ret") = Rcpp::wrap(dates));
+        return Rcpp::List::create(Rcpp::Named("ret") = dates);
 
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
@@ -336,7 +336,7 @@ RcppExport SEXP QL_businessDaysBetween(SEXP calSexp, SEXP params,
         }
         delete pcal;        
         
-        return Rcpp::List::create(Rcpp::Named("ret") = Rcpp::wrap(between));
+        return Rcpp::List::create(Rcpp::Named("ret") = between);
 
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 

@@ -45,12 +45,12 @@ Calendar* getCalendar(const std::string &calstr) {
         pcal = new Germany(Germany::Settlement);
     } else if (calstr == "Germany/Xetra") {
         pcal = new Germany(Germany::Xetra);
-        } else if (calstr == "Germany/Eurex") {
+    } else if (calstr == "Germany/Eurex") {
         pcal = new Germany(Germany::Eurex);
         
     } else if (calstr == "Italy" || calstr == "Italy/Settlement") {
         pcal = new Italy(Italy::Settlement);
-        } else if (calstr == "Italy/Exchange") {
+    } else if (calstr == "Italy/Exchange") {
         pcal = new Italy(Italy::Exchange);
         
     } else if (calstr == "Japan" || calstr == "Japan/Settlement") {
@@ -63,7 +63,7 @@ Calendar* getCalendar(const std::string &calstr) {
 
     } else if (calstr == "UnitedKingdom" || calstr == "UnitedKingdom/Settlement") {
         pcal = new UnitedKingdom(UnitedKingdom::Settlement);
-        } else if (calstr == "UnitedKingdom/Exchange") {
+    } else if (calstr == "UnitedKingdom/Exchange") {
         pcal = new UnitedKingdom(UnitedKingdom::Exchange);
     } else if (calstr == "UnitedKingdom/Metals") {
         pcal = new UnitedKingdom(UnitedKingdom::Metals);
@@ -72,7 +72,7 @@ Calendar* getCalendar(const std::string &calstr) {
         pcal = new UnitedStates(UnitedStates::Settlement);
     } else if (calstr == "UnitedStates/NYSE") {
         pcal = new UnitedStates(UnitedStates::NYSE);
-        } else if (calstr == "UnitedStates/GovernmentBond") {
+    } else if (calstr == "UnitedStates/GovernmentBond") {
         pcal = new UnitedStates(UnitedStates::GovernmentBond);
     } else if (calstr == "UnitedStates/NERC") {
         pcal = new UnitedStates(UnitedStates::NERC);
@@ -361,12 +361,16 @@ RcppExport SEXP QL_holidayList(SEXP calSexp, SEXP params) {
                                                        Date(dateFromR(d2)), 
                                                        iw == 1 ? true : false);                
 
-        RcppDateVector dv( holidays.size() );
-        for (unsigned int i = 0; i< holidays.size(); i++){
-            dv.set(i, RcppDate(holidays[i].month(), holidays[i].dayOfMonth(), holidays[i].year()));
-        }
         delete pcal;
-        return Rcpp::wrap(dv);
+        if (holidays.size() > 0) {
+            RcppDateVector dv( holidays.size() );
+            for (unsigned int i = 0; i< holidays.size(); i++){
+                dv.set(i, RcppDate(holidays[i].month(), holidays[i].dayOfMonth(), holidays[i].year()));
+            }
+            return Rcpp::wrap(dv);
+        } else {
+            return R_NilValue;
+        }
 
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 

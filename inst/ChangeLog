@@ -1,3 +1,8 @@
+2010-06-14  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/calendars.cpp: Yet more simplification from "new" Rcpp API
+	* R/calendars.R: Simpler too as we get simpler result objects back
+
 2010-06-12  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/calendars.cpp: More code simplification using "new" Rcpp API

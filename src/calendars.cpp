@@ -23,7 +23,7 @@
 // Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
 // MA 02111-1307, USA
 
-#include "rquantlib.hpp"
+#include <rquantlib.hpp>
 
 Calendar* getCalendar(const std::string &calstr) {
     Calendar* pcal = NULL;
@@ -100,14 +100,13 @@ RcppExport SEXP QL_isBusinessDay(SEXP calSexp, SEXP dateSexp){
         }
         delete pcal;
 
-        return Rcpp::List::create(Rcpp::Named("bizday") = bizdays);
+        return Rcpp::wrap(bizdays);
 
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
     } catch(...) { 
         ::Rf_error("c++ exception (unknown reason)"); 
     }
-
     return R_NilValue;
 }
 
@@ -126,7 +125,7 @@ RcppExport SEXP QL_isHoliday(SEXP calSexp, SEXP dateSexp){
         }
         delete pcal;
 
-        return Rcpp::List::create(Rcpp::Named("holidays") = hdays);
+        return Rcpp::wrap(hdays);
 
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
@@ -151,7 +150,7 @@ RcppExport SEXP QL_isWeekend(SEXP calSexp, SEXP dateSexp){
         }
         delete pcal;
 
-        return Rcpp::List::create(Rcpp::Named("weekend") = weekends);
+        return Rcpp::wrap(weekends);
 
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
@@ -177,7 +176,7 @@ RcppExport SEXP QL_isEndOfMonth(SEXP calSexp, SEXP dateSexp){
         }
         delete pcal;
 
-        return Rcpp::List::create(Rcpp::Named("End.Of.Month") = eom);
+        return Rcpp::wrap(eom);
 
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
@@ -204,7 +203,7 @@ RcppExport SEXP QL_endOfMonth(SEXP calSexp, SEXP dateSexp){
         }
         delete pcal;
        
-        return Rcpp::List::create(Rcpp::Named("ret") = dates);
+        return Rcpp::wrap(dates);
 
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
@@ -233,7 +232,7 @@ RcppExport SEXP QL_adjust(SEXP calSexp, SEXP bdcSEXP, SEXP dateSexp){
         }
         delete pcal;        
 
-        return Rcpp::List::create(Rcpp::Named("ret") = dates);
+        return Rcpp::wrap(dates);
 
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
@@ -267,7 +266,7 @@ RcppExport SEXP QL_advance1(SEXP calSexp, SEXP params, SEXP dateSexp){
         }
         delete pcal;        
         
-        return Rcpp::List::create(Rcpp::Named("ret") = dates);
+        return Rcpp::wrap(dates);
 
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
@@ -301,7 +300,7 @@ RcppExport SEXP QL_advance2(SEXP calSexp, SEXP param, SEXP dateSexp){
         }
         delete pcal;        
 
-        return Rcpp::List::create(Rcpp::Named("ret") = dates);
+        return Rcpp::wrap(dates);
 
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
@@ -331,12 +330,12 @@ RcppExport SEXP QL_businessDaysBetween(SEXP calSexp, SEXP params,
             QuantLib::Date day1( dateFromR(dates1(i)) );
             QuantLib::Date day2( dateFromR(dates2(i)) );
             between[i] = pcal->businessDaysBetween(day1, day2,
-                                                   (ifirst == 1)?true:false,
-                                                   (ilast ==1)?true:false);
+                                                   (ifirst == 1) ? true: false,
+                                                   (ilast == 1) ? true: false);
         }
         delete pcal;        
         
-        return Rcpp::List::create(Rcpp::Named("ret") = between);
+        return Rcpp::wrap(between);
 
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
@@ -359,30 +358,15 @@ RcppExport SEXP QL_holidayList(SEXP calSexp, SEXP params) {
         std::vector<QuantLib::Date> 
             holidays = QuantLib::Calendar::holidayList(*pcal,
                                                        Date(dateFromR(d1)), 
-                                                       Date(dateFromR(d2)), (iw == 1)?true:false);                
+                                                       Date(dateFromR(d2)), 
+                                                       iw == 1 ? true : false);                
 
-        int numCol = 1;
-        std::vector<std::string> colNames(numCol);
-        colNames[0] = "Date";
-        RcppFrame frame(colNames);
-
+        RcppDateVector dv( holidays.size() );
         for (unsigned int i = 0; i< holidays.size(); i++){
-            std::vector<ColDatum> row(numCol);
-
-            row[0].setDateValue(RcppDate(holidays[i].month(), 
-                                         holidays[i].dayOfMonth(), 
-                                         holidays[i].year()));
- 
-            frame.addRow(row);
+            dv.set(i, RcppDate(holidays[i].month(), holidays[i].dayOfMonth(), holidays[i].year()));
         }
         delete pcal;
-
-        RcppResultSet rs;
-        if (holidays.size() > 0)
-            rs.add("ret", frame);
-        else 
-            rs.add("ret", -1);
-        return rs.getReturnList();
+        return Rcpp::wrap(dv);
 
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 

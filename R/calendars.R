@@ -24,10 +24,8 @@
 businessDay <- function(calendar="TARGET", dates=Sys.Date()) {
   stopifnot(is.character(calendar))
   stopifnot(class(dates)=="Date")
-  val <- .Call("QL_isBusinessDay",
-               calendar, dates,
-               PACKAGE="RQuantLib")
-  val <- as.logical(val[[1]])
+  val <- .Call("QL_isBusinessDay", calendar, dates, PACKAGE="RQuantLib")
+  val <- as.logical(val)
   names(val) <- dates
   val
 }
@@ -35,10 +33,8 @@ businessDay <- function(calendar="TARGET", dates=Sys.Date()) {
 isHoliday <- function(calendar="TARGET", dates=Sys.Date()) {
   stopifnot(is.character(calendar))
   stopifnot(class(dates)=="Date")
-  val <- .Call("QL_isHoliday",
-               calendar, dates,
-               PACKAGE="RQuantLib")
-  val <- as.logical(val[[1]])
+  val <- .Call("QL_isHoliday", calendar, dates, PACKAGE="RQuantLib")
+  val <- as.logical(val)
   names(val) <- dates
   val
 }
@@ -46,10 +42,8 @@ isHoliday <- function(calendar="TARGET", dates=Sys.Date()) {
 isWeekend <- function(calendar="TARGET", dates=Sys.Date()) {
   stopifnot(is.character(calendar))
   stopifnot(class(dates)=="Date")
-  val <- .Call("QL_isWeekend",
-               calendar, dates,
-               PACKAGE="RQuantLib")
-  val <- as.logical(val[[1]])
+  val <- .Call("QL_isWeekend", calendar, dates, PACKAGE="RQuantLib")
+  val <- as.logical(val)
   names(val) <- dates
   val
 }
@@ -57,10 +51,8 @@ isWeekend <- function(calendar="TARGET", dates=Sys.Date()) {
 isEndOfMonth <- function(calendar="TARGET", dates=Sys.Date()) {
   stopifnot(is.character(calendar))
   stopifnot(class(dates)=="Date")
-  val <- .Call("QL_isEndOfMonth",
-               calendar, dates,
-               PACKAGE="RQuantLib")
-  val <- as.logical(val[[1]])
+  val <- .Call("QL_isEndOfMonth", calendar, dates, PACKAGE="RQuantLib")
+  val <- as.logical(val)
   names(val) <- dates
   val
 }
@@ -68,10 +60,7 @@ isEndOfMonth <- function(calendar="TARGET", dates=Sys.Date()) {
 endOfMonth <- function(calendar="TARGET", dates=Sys.Date()) {
   stopifnot(is.character(calendar))
   stopifnot(class(dates)=="Date")
-  val <- .Call("QL_endOfMonth",
-               calendar, dates,
-               PACKAGE="RQuantLib")
-  val <- val[[1]]
+  val <- .Call("QL_endOfMonth", calendar, dates, PACKAGE="RQuantLib")
   names(val) <- dates
   val
 }
@@ -79,10 +68,7 @@ endOfMonth <- function(calendar="TARGET", dates=Sys.Date()) {
 adjust <- function(calendar="TARGET", dates=Sys.Date(), bdc = 0 ) {
   stopifnot(is.character(calendar))
   stopifnot(class(dates)=="Date")
-  val <- .Call("QL_adjust",
-               calendar, as.double(bdc), dates,
-               PACKAGE="RQuantLib")
-  val <- val[[1]]
+  val <- .Call("QL_adjust", calendar, as.double(bdc), dates, PACKAGE="RQuantLib")
   names(val) <- dates
   val
 }
@@ -115,7 +101,6 @@ advance <- function(calendar="TARGET", dates=Sys.Date(),
                  dates,
                  PACKAGE="RQuantLib")
   stopifnot( !is.null(val) )
-  val <- val[[1]]
   val
 }
 
@@ -134,7 +119,7 @@ businessDaysBetween  <- function(calendar="TARGET",
                     includeLast = as.double(includeLast)),
                from, to,
                PACKAGE="RQuantLib")
-  val <- val[[1]]
+  val <- val
   val
 }
 

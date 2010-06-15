@@ -9,7 +9,7 @@ RCPP_LDFLAGS	= `Rscript -e 'Rcpp:::LdFlags()'`
 
 BIN		= RQuantLib.dll
 #CXXFLAGS	= -I$(RHOME)/include -I$(RHOME)/src/include $(RCPP_INCFLAGS) -I$(QUANTLIB_ROOT) -Wall -O2
-CXXFLAGS	= -I$(RHOME)/include -I$(RHOME)/src/include -I$(QUANTLIB_ROOT) -Wall -O2
+CXXFLAGS	= -I$(RHOME)/include -I$(RHOME)/src/include -I. -I$(QUANTLIB_ROOT) -Wall -O2
 
 SOURCES		:= $(wildcard *.cpp)
 LINKOBJ		:= $(SOURCES:.cpp=.o)

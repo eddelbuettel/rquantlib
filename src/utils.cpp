@@ -24,7 +24,19 @@
 // Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
 // MA 02111-1307, USA
 
-#include "rquantlib.hpp"
+#include <rquantlib.hpp>
+
+Option::Type getOptionType(const std::string &type) {
+    Option::Type optionType;
+    if (type=="call") {
+        optionType = Option::Call;
+    } else if (type=="put") {
+        optionType = Option::Put;
+    } else {
+        throw std::range_error("Unknown option " + type);
+    }
+    return optionType;
+}
 
 // cf QuantLib-0.9.0/test-suite/europeanoption.cpp
 boost::shared_ptr<VanillaOption>

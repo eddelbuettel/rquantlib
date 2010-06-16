@@ -40,16 +40,7 @@ RcppExport SEXP QL_AsianOption(SEXP optionParameters){
         int length = int(maturity*360 + 0.5); // FIXME: this could be better
         double volatility = Rcpp::as<double>(rparam["volatility"]);
 
-        Option::Type optionType = Option::Call;
-        if (type=="call") {
-            optionType = Option::Call;
-        }
-        else if (type == "put") {
-            optionType = Option::Put;
-        }
-        else {
-            throw std::range_error("Unknown option " + type);
-        }
+        Option::Type optionType = getOptionType(type);
 
         Average::Type averageType = Average::Geometric;
         if (avgType=="geometric"){

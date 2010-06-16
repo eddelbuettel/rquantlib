@@ -39,14 +39,7 @@ RcppExport  SEXP QL_EuropeanOption(SEXP optionParameters) {
         int length = int(maturity*360 + 0.5); // FIXME: this could be better
         double volatility = Rcpp::as<double>(rparam["volatility"]);
     
-        Option::Type optionType=Option::Call;
-        if (type=="call") {
-            optionType = Option::Call;
-        } else if (type=="put") {
-            optionType = Option::Put;
-        } else {
-            throw std::range_error("Unknown option " + type);
-        }
+        Option::Type optionType = getOptionType(type);
 
         Date today = Date::todaysDate();
 
@@ -99,14 +92,7 @@ RcppExport  SEXP QL_AmericanOption(SEXP optionParameters) {
         int length = int(maturity*360 + 0.5); // FIXME: this could be better
         double volatility = Rcpp::as<double>(rparam["volatility"]);
         
-        Option::Type optionType = Option::Call;
-        if (type=="call") {
-            optionType = Option::Call;
-        } else if (type=="put") {
-            optionType = Option::Put;
-        } else {
-            throw std::range_error("Unknown option " + type);
-        }
+        Option::Type optionType = getOptionType(type);
 
         // new framework as per QuantLib 0.3.5, updated for 0.3.7
         // updated again for 0.9.0, see eg test-suite/americanoption.cpp

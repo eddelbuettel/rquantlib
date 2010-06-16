@@ -30,11 +30,7 @@
 
 using namespace QuantLib;
 
-
-//#include <R.h>
-//#include <Rinternals.h>
-
-#include "Rcpp.h"
+#include <Rcpp.h>
 
 //#define NULL_RateHelper (boost::shared_ptr<RateHelper>)Null<boost::shared_ptr<RateHelper> >()
 
@@ -162,4 +158,8 @@ boost::shared_ptr<IborIndex> buildIborIndex(std::string type,
                                             const Handle<YieldTermStructure>& iborStrc);
 Calendar* getCalendar(SEXP calParameters);
 Period periodByTimeUnit(int length, std::string unit);
+
+// simple option type creator based on string
+Option::Type getOptionType(const std::string &t);
+
 #endif

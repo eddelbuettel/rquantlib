@@ -1,5 +1,9 @@
 2010-06-16  Dirk Eddelbuettel  <edd@debian.org>
 
+	* src/utils.cpp: Added simple getOptionType() helper
+	* src/rquantlib.hpp: Added simple getOptionType() helper definition
+	* src/*cpp: Use getOptionType()
+
 	* src/asian.cpp: Converted to new API
 
 2010-06-15  Dirk Eddelbuettel  <edd@debian.org>

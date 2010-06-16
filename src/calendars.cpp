@@ -356,7 +356,7 @@ RcppExport SEXP QL_holidayList(SEXP calSexp, SEXP params) {
         if (holidays.size() > 0) {
             RcppDateVector dv( holidays.size() );
             for (unsigned int i = 0; i< holidays.size(); i++){
-                dv.set(i, RcppDate(holidays[i].month(), holidays[i].dayOfMonth(), holidays[i].year()));
+                dv(i) = RcppDate(holidays[i].month(), holidays[i].dayOfMonth(), holidays[i].year());
             }
             return Rcpp::wrap(dv);
         } else {

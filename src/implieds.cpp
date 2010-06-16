@@ -29,32 +29,22 @@
 RcppExport  SEXP QL_EuropeanOptionImpliedVolatility(SEXP optionParameters) {
     const Size maxEvaluations = 100;
     const double tolerance = 1.0e-6;
-
-    SEXP rl=R_NilValue;
-    char* exceptionMesg=NULL;
   
     try {
 
-        RcppParams rparam(optionParameters);    	// Parameter wrapper class
+        Rcpp::List rparam(optionParameters); 
 
-        std::string type = rparam.getStringValue("type");
-        double value = rparam.getDoubleValue("value");
-        double underlying = rparam.getDoubleValue("underlying");
-        double strike = rparam.getDoubleValue("strike");
-        Spread dividendYield = rparam.getDoubleValue("dividendYield");
-        Rate riskFreeRate = rparam.getDoubleValue("riskFreeRate");
-        Time maturity = rparam.getDoubleValue("maturity");
+        std::string type = Rcpp::as<std::string>(rparam["type"]);
+        double value = Rcpp::as<double>(rparam["value"]);
+        double underlying = Rcpp::as<double>(rparam["underlying"]);
+        double strike = Rcpp::as<double>(rparam["strike"]);
+        Spread dividendYield = Rcpp::as<double>(rparam["dividendYield"]);
+        Rate riskFreeRate = Rcpp::as<double>(rparam["riskFreeRate"]);
+        Time maturity = Rcpp::as<double>(rparam["maturity"]);
         int length = int(maturity*360 + 0.5); // FIXME: this could be better
-        double volatility = rparam.getDoubleValue("volatility");
+        double volatility = Rcpp::as<double>(rparam["volatility"]);
 
-        Option::Type optionType=Option::Call;
-        if (type=="call") {
-            optionType = Option::Call;
-        } else if (type=="put") {
-            optionType = Option::Put;
-        } else {
-            throw std::range_error("Unknown option " + type);
-        }
+        Option::Type optionType = getOptionType(type);
 
         Date today = Date::todaysDate();
 
@@ -85,51 +75,37 @@ RcppExport  SEXP QL_EuropeanOptionImpliedVolatility(SEXP optionParameters) {
 
         implVol = option->impliedVolatility(value, process, tolerance, maxEvaluations);
 
-        RcppResultSet rs;
-        rs.add("impliedVol", implVol);
-        rs.add("parameters", optionParameters, false);
-        rl = rs.getReturnList();
+        return Rcpp::List::create(Rcpp::Named("impliedVol") = implVol,
+                                  Rcpp::Named("parameters") = optionParameters);
 
-    } catch(std::exception& ex) {
-        exceptionMesg = copyMessageToR(ex.what());
-    } catch(...) {
-        exceptionMesg = copyMessageToR("unknown reason");
+    } catch(std::exception &ex) { 
+        forward_exception_to_r(ex); 
+    } catch(...) { 
+        ::Rf_error("c++ exception (unknown reason)"); 
     }
-    if(exceptionMesg != NULL)
-        Rf_error(exceptionMesg);
-    
-    return rl;
+
+    return R_NilValue;
 }
 
 RcppExport  SEXP QL_AmericanOptionImpliedVolatility(SEXP optionParameters) {
     const Size maxEvaluations = 100;
     const double tolerance = 1.0e-6;
-
-    SEXP rl=R_NilValue;
-    char* exceptionMesg=NULL;
   
     try {
 
-        RcppParams rparam(optionParameters);    	// Parameter wrapper class
+        Rcpp::List rparam(optionParameters);
 
-        std::string type = rparam.getStringValue("type");
-        double value = rparam.getDoubleValue("value");
-        double underlying = rparam.getDoubleValue("underlying");
-        double strike = rparam.getDoubleValue("strike");
-        Spread dividendYield = rparam.getDoubleValue("dividendYield");
-        Rate riskFreeRate = rparam.getDoubleValue("riskFreeRate");
-        Time maturity = rparam.getDoubleValue("maturity");
+        std::string type = Rcpp::as<std::string>(rparam["type"]);
+        double value = Rcpp::as<double>(rparam["value"]);
+        double underlying = Rcpp::as<double>(rparam["underlying"]);
+        double strike = Rcpp::as<double>(rparam["strike"]);
+        Spread dividendYield = Rcpp::as<double>(rparam["dividendYield"]);
+        Rate riskFreeRate = Rcpp::as<double>(rparam["riskFreeRate"]);
+        Time maturity = Rcpp::as<double>(rparam["maturity"]);
         int length = int(maturity*360 + 0.5); // FIXME: this could be better
-        double volguess = rparam.getDoubleValue("volatility");
+        double volguess = Rcpp::as<double>(rparam["volatility"]);
 
-        Option::Type optionType=Option::Call;
-        if (type=="call") {
-            optionType = Option::Call;
-        } else if (type=="put") {
-            optionType = Option::Put;
-        } else {
-            throw std::range_error("Unknown option " + type);
-        }
+        Option::Type optionType = getOptionType(type);
 
         Date today = Date::todaysDate();
 
@@ -154,20 +130,15 @@ RcppExport  SEXP QL_AmericanOptionImpliedVolatility(SEXP optionParameters) {
         double implVol = 0.0; // just to remove a warning...
         implVol = option->impliedVolatility(value, process, tolerance, maxEvaluations);
 
-        RcppResultSet rs;
-        rs.add("impliedVol", implVol);
-        rs.add("parameters", optionParameters, false);
-        rl = rs.getReturnList();
+        return Rcpp::List::create(Rcpp::Named("impliedVol") = implVol,
+                                  Rcpp::Named("parameters") = optionParameters);
 
-    } catch(std::exception& ex) {
-        exceptionMesg = copyMessageToR(ex.what());
-    } catch(...) {
-        exceptionMesg = copyMessageToR("unknown reason");
+    } catch(std::exception &ex) { 
+        forward_exception_to_r(ex); 
+    } catch(...) { 
+        ::Rf_error("c++ exception (unknown reason)"); 
     }
-  
-    if(exceptionMesg != NULL)
-        Rf_error(exceptionMesg);
-    
-    return rl;
+
+    return R_NilValue;
 }
  

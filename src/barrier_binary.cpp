@@ -2,7 +2,7 @@
 //
 // RQuantLib -- R interface to the QuantLib libraries
 //
-// Copyright (C) 2002 - 2009 Dirk Eddelbuettel <edd@debian.org>
+// Copyright (C) 2002 - 2010  Dirk Eddelbuettel <edd@debian.org>
 //
 // $Id$
 //
@@ -22,39 +22,26 @@
 // Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
 // MA 02111-1307, USA
 
-// NB can be build standalone as   PKG_LIBS=-lQuantLib R CMD SHLIB RQuantLib.cc
-
 #include "rquantlib.hpp"
 
 RcppExport  SEXP QL_BinaryOption(SEXP optionParameters) {
 
-    SEXP rl=R_NilValue;
-    char* exceptionMesg=NULL;
-  
     try {
+        Rcpp::List rparam(optionParameters);
 
-        RcppParams rparam(optionParameters);    	// Parameter wrapper class
-
-        std::string binType = rparam.getStringValue("binType");
-        std::string type = rparam.getStringValue("type");
-        std::string excType = rparam.getStringValue("excType");
-        double underlying = rparam.getDoubleValue("underlying");
-        double strike = rparam.getDoubleValue("strike");
-        Spread dividendYield = rparam.getDoubleValue("dividendYield");
-        Rate riskFreeRate = rparam.getDoubleValue("riskFreeRate");
-        Time maturity = rparam.getDoubleValue("maturity");
+        std::string binType = Rcpp::as<std::string>(rparam["binType"]);
+        std::string type = Rcpp::as<std::string>(rparam["type"]);
+        std::string excType = Rcpp::as<std::string>(rparam["excType"]);
+        double underlying = Rcpp::as<double>(rparam["underlying"]);
+        double strike = Rcpp::as<double>(rparam["strike"]);
+        Spread dividendYield = Rcpp::as<double>(rparam["dividendYield"]);
+        Rate riskFreeRate = Rcpp::as<double>(rparam["riskFreeRate"]);
+        Time maturity = Rcpp::as<double>(rparam["maturity"]);
         int length = int(maturity*360 + 0.5); // FIXME: this could be better, but same rounding in QL
-        double volatility = rparam.getDoubleValue("volatility");
-        double cashPayoff = rparam.getDoubleValue("cashPayoff");
+        double volatility = Rcpp::as<double>(rparam["volatility"]);
+        double cashPayoff = Rcpp::as<double>(rparam["cashPayoff"]);
     
-        Option::Type optionType=Option::Call;
-        if (type=="call") {
-            optionType = Option::Call;
-        } else if (type=="put") {
-            optionType = Option::Put;
-        } else {
-            throw std::range_error("Unknown option " + type);
-        }
+        Option::Type optionType = getOptionType(type);
 
         // new QuantLib 0.3.5 framework: digitals, updated for 0.3.7
         // updated again for QuantLib 0.9.0, 
@@ -115,66 +102,45 @@ RcppExport  SEXP QL_BinaryOption(SEXP optionParameters) {
         VanillaOption opt(payoff, exercise);
         opt.setPricingEngine(engine);
 
-        RcppResultSet rs;
-        rs.add("value", opt.NPV());
-        rs.add("delta", opt.delta());
-        rs.add("gamma", opt.gamma());
-        if (excType=="european") {
-            rs.add("vega", opt.vega());
-            rs.add("theta", opt.theta());
-            rs.add("rho", opt.rho());
-            rs.add("divRho", opt.dividendRho());
-        } else {
-            rs.add("vega", R_NaN);
-            rs.add("theta", R_NaN);
-            rs.add("rho", R_NaN);
-            rs.add("divRho", R_NaN);
-        }
-        rs.add("parameters", optionParameters, false);
-        rl = rs.getReturnList();
+        Rcpp::List rl = Rcpp::List::create(Rcpp::Named("value") = opt.NPV(),
+                                           Rcpp::Named("delta") = opt.delta(),
+                                           Rcpp::Named("gamma") = opt.gamma(),
+                                           Rcpp::Named("vega") = (excType=="european") ? opt.vega() : R_NaN,
+                                           Rcpp::Named("theta") = (excType=="european") ? opt.theta() : R_NaN,
+                                           Rcpp::Named("rho") = (excType=="european") ? opt.rho() : R_NaN,
+                                           Rcpp::Named("divRho") = (excType=="european") ? opt.dividendRho() : R_NaN,
+                                           Rcpp::Named("parameters") = optionParameters);
+        return rl;
 
-    } catch(std::exception& ex) {
-        exceptionMesg = copyMessageToR(ex.what());
-    } catch(...) {
-        exceptionMesg = copyMessageToR("unknown reason");
+    } catch(std::exception &ex) { 
+        forward_exception_to_r(ex); 
+    } catch(...) { 
+        ::Rf_error("c++ exception (unknown reason)"); 
     }
-  
-    if(exceptionMesg != NULL)
-        Rf_error(exceptionMesg);
-    
-    return rl;
+
+    return R_NilValue;
 }
 
 // dumped core when we tried last
 // no longer under 0.3.10 and g++ 4.0.1 (Aug 2005)
 RcppExport  SEXP QL_BinaryOptionImpliedVolatility(SEXP optionParameters) {
 
-    SEXP rl=R_NilValue;
-    char* exceptionMesg=NULL;
-  
     try {
 
-        RcppParams rparam(optionParameters);    	// Parameter wrapper class
+        Rcpp::List rparam(optionParameters);
 
-        std::string type = rparam.getStringValue("type");
-        double value = rparam.getDoubleValue("value");
-        double underlying = rparam.getDoubleValue("underlying");
-        double strike = rparam.getDoubleValue("strike");
-        Spread dividendYield = rparam.getDoubleValue("dividendYield");
-        Rate riskFreeRate = rparam.getDoubleValue("riskFreeRate");
-        Time maturity = rparam.getDoubleValue("maturity");
+        std::string type = Rcpp::as<std::string>(rparam["type"]);
+        double value = Rcpp::as<double>(rparam["value"]);
+        double underlying = Rcpp::as<double>(rparam["underlying"]);
+        double strike = Rcpp::as<double>(rparam["strike"]);
+        Spread dividendYield = Rcpp::as<double>(rparam["dividendYield"]);
+        Rate riskFreeRate = Rcpp::as<double>(rparam["riskFreeRate"]);
+        Time maturity = Rcpp::as<double>(rparam["maturity"]);
         int length = int(maturity*360 + 0.5); // FIXME: this could be better
-        double volatility = rparam.getDoubleValue("volatility");
-        double cashPayoff = rparam.getDoubleValue("cashPayoff");
+        double volatility = Rcpp::as<double>(rparam["volatility"]);
+        double cashPayoff = Rcpp::as<double>(rparam["cashPayoff"]);
 
-        Option::Type optionType=Option::Call;
-        if (type=="call") {
-            optionType = Option::Call;
-        } else if (type=="put") {
-            optionType = Option::Put;
-        } else {
-            throw std::range_error("Unknown option " + type);
-        }
+        Option::Type optionType = getOptionType(type);
 
         // updated again for QuantLib 0.9.0, 
         // cf QuantLib-0.9.0/test-suite/digitaloption.cpp
@@ -205,43 +171,35 @@ RcppExport  SEXP QL_BinaryOptionImpliedVolatility(SEXP optionParameters) {
         VanillaOption opt(payoff, exercise);
         opt.setPricingEngine(engine);
 
-        RcppResultSet rs;
-        rs.add("impliedVol", opt.impliedVolatility(value, stochProcess));
-        rs.add("parameters", optionParameters, false);
-        rl = rs.getReturnList();
+        return Rcpp::List::create(Rcpp::Named("impliedVol") = opt.impliedVolatility(value, stochProcess),
+                                  Rcpp::Named("parameters") = optionParameters);
 
-    } catch(std::exception& ex) {
-        exceptionMesg = copyMessageToR(ex.what());
-    } catch(...) {
-        exceptionMesg = copyMessageToR("unknown reason");
+    } catch(std::exception &ex) { 
+        forward_exception_to_r(ex); 
+    } catch(...) { 
+        ::Rf_error("c++ exception (unknown reason)"); 
     }
-  
-    if(exceptionMesg != NULL)
-        Rf_error(exceptionMesg);
-    
-    return rl;
+
+    return R_NilValue;
 }
 
 RcppExport  SEXP QL_BarrierOption(SEXP optionParameters) {
 
-    SEXP rl=R_NilValue;
-    char* exceptionMesg=NULL;
-  
     try {
 
-        RcppParams rparam(optionParameters);    	// Parameter wrapper class
+        Rcpp::List rparam(optionParameters);   
 
-        std::string barrType = rparam.getStringValue("barrType");
-        std::string type = rparam.getStringValue("type");
-        double underlying = rparam.getDoubleValue("underlying");
-        double strike = rparam.getDoubleValue("strike");
-        Spread dividendYield = rparam.getDoubleValue("dividendYield");
-        Rate riskFreeRate = rparam.getDoubleValue("riskFreeRate");
-        Time maturity = rparam.getDoubleValue("maturity");
+        std::string barrType = Rcpp::as<std::string>(rparam["barrType"]);
+        std::string type = Rcpp::as<std::string>(rparam["type"]);
+        double underlying = Rcpp::as<double>(rparam["underlying"]);
+        double strike = Rcpp::as<double>(rparam["strike"]);
+        Spread dividendYield = Rcpp::as<double>(rparam["dividendYield"]);
+        Rate riskFreeRate = Rcpp::as<double>(rparam["riskFreeRate"]);
+        Time maturity = Rcpp::as<double>(rparam["maturity"]);
         int length = int(maturity*360 + 0.5); // FIXME: this could be better
-        double volatility = rparam.getDoubleValue("volatility");
-        double barrier = rparam.getDoubleValue("barrier");
-        double rebate = rparam.getDoubleValue("rebate");
+        double volatility = Rcpp::as<double>(rparam["volatility"]);
+        double barrier = Rcpp::as<double>(rparam["barrier"]);
+        double rebate = Rcpp::as<double>(rparam["rebate"]);
         
         Barrier::Type barrierType=Barrier::DownIn;
         if (barrType=="downin") {
@@ -256,14 +214,7 @@ RcppExport  SEXP QL_BarrierOption(SEXP optionParameters) {
             throw std::range_error("Unknown barrier type " + type);
         }
 
-        Option::Type optionType=Option::Call;
-        if (type=="call") {
-            optionType = Option::Call;
-        } else if (type=="put") {
-            optionType = Option::Put;
-        } else {
-            throw std::range_error("Unknown option " + type);
-        }
+        Option::Type optionType = getOptionType(type);
 
         // new QuantLib 0.3.5 framework, updated for 0.3.7
         // updated again for QuantLib 0.9.0, 
@@ -307,26 +258,22 @@ RcppExport  SEXP QL_BarrierOption(SEXP optionParameters) {
                                     exercise);
         barrierOption.setPricingEngine(engine);
 
-        RcppResultSet rs;
-        rs.add("value", barrierOption.NPV());
-        rs.add("delta", R_NaN);
-        rs.add("gamma", R_NaN);
-        rs.add("vega", R_NaN);
-        rs.add("theta", R_NaN);
-        rs.add("rho", R_NaN);
-        rs.add("divRho", R_NaN);
-        rs.add("parameters", optionParameters, false);
-        rl = rs.getReturnList();
+        Rcpp::List rl = Rcpp::List::create(Rcpp::Named("value") = barrierOption.NPV(),
+                                           Rcpp::Named("delta") = R_NaN,
+                                           Rcpp::Named("gamma") = R_NaN,
+                                           Rcpp::Named("vega") = R_NaN,
+                                           Rcpp::Named("theta") = R_NaN,
+                                           Rcpp::Named("rho") = R_NaN,
+                                           Rcpp::Named("divRho") = R_NaN,
+                                           Rcpp::Named("parameters") = optionParameters);
+        return rl;
 
-    } catch(std::exception& ex) {
-        exceptionMesg = copyMessageToR(ex.what());
-    } catch(...) {
-        exceptionMesg = copyMessageToR("unknown reason");
+    } catch(std::exception &ex) { 
+        forward_exception_to_r(ex); 
+    } catch(...) { 
+        ::Rf_error("c++ exception (unknown reason)"); 
     }
-  
-    if(exceptionMesg != NULL)
-        Rf_error(exceptionMesg);
-    
-    return rl;
+
+    return R_NilValue;
 }
 

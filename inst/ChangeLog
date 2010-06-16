@@ -5,6 +5,8 @@
 	* src/*cpp: Use getOptionType()
 
 	* src/asian.cpp: Converted to new API
+	* src/barrier_binary.cpp: Converted to new API
+	* src/implieds.cpp: Converted to new API
 
 2010-06-15  Dirk Eddelbuettel  <edd@debian.org>
 

@@ -2,7 +2,7 @@
 //
 // RQuantLib -- R interface to the QuantLib libraries
 //
-// Copyright (C) 2002 - 2009 Dirk Eddelbuettel <edd@debian.org>
+// Copyright (C) 2002 - 2010 Dirk Eddelbuettel <edd@debian.org>
 //
 // $Id$
 //

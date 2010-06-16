@@ -243,10 +243,10 @@ RcppExport SEXP QL_advance1(SEXP calSexp, SEXP params, SEXP dateSexp){
     try {
         boost::shared_ptr<Calendar> pcal( getCalendar(Rcpp::as<std::string>(calSexp)) );
         Rcpp::List rparam(params);        
-        BusinessDayConvention bdc = getBusinessDayConvention(rparam["bdc"]);
-        double emr = rparam["emr"];
-        double amount = rparam["amount"];
-        double unit = rparam["unit"];
+        BusinessDayConvention bdc = getBusinessDayConvention( Rcpp::as<double>(rparam["bdc"]) );
+        double emr = Rcpp::as<double>(rparam["emr"]);
+        double amount = Rcpp::as<double>(rparam["amount"]);
+        double unit = Rcpp::as<double>(rparam["unit"]);
 
         RcppDateVector dates  = RcppDateVector(dateSexp);
         int n = dates.size();
@@ -276,9 +276,9 @@ RcppExport SEXP QL_advance2(SEXP calSexp, SEXP param, SEXP dateSexp){
     try {
         boost::shared_ptr<Calendar> pcal( getCalendar(Rcpp::as<std::string>(calSexp)) );
         Rcpp::List rparam(param);        
-        BusinessDayConvention bdc = getBusinessDayConvention(rparam["bdc"]);
-        double emr = rparam["emr"];
-        double period = rparam["period"];
+        BusinessDayConvention bdc = getBusinessDayConvention( Rcpp::as<double>(rparam["bdc"]) );
+        double emr = Rcpp::as<double>(rparam["emr"]);
+        double period = Rcpp::as<double>(rparam["period"]);
 
         RcppDateVector dates  = RcppDateVector(dateSexp);
         int n = dates.size();
@@ -310,8 +310,8 @@ RcppExport SEXP QL_businessDaysBetween(SEXP calSexp, SEXP params,
     try {
         boost::shared_ptr<Calendar> pcal( getCalendar(Rcpp::as<std::string>(calSexp)) );
         Rcpp::List rparam(params);
-        double ifirst = rparam["includeFirst"];
-        double ilast = rparam["includeLast"];
+        double ifirst = Rcpp::as<double>(rparam["includeFirst"]);
+        double ilast = Rcpp::as<double>(rparam["includeLast"]);
 
         RcppDateVector dates1  = RcppDateVector(from);
         RcppDateVector dates2  = RcppDateVector(to);
@@ -343,9 +343,9 @@ RcppExport SEXP QL_holidayList(SEXP calSexp, SEXP params) {
     try {
         boost::shared_ptr<Calendar> pcal( getCalendar(Rcpp::as<std::string>(calSexp)) );
         Rcpp::List rparam(params);
-        double iw = rparam["includeWeekends"];
-        RcppDate d1 = RcppDate( (int) rparam["from"] );
-        RcppDate d2 = RcppDate( (int) rparam["to"] );
+        double iw = Rcpp::as<double>(rparam["includeWeekends"]);
+        RcppDate d1 = RcppDate( Rcpp::as<int>( rparam["from"] ));
+        RcppDate d2 = RcppDate( Rcpp::as<int>( rparam["to"] ));
 
         std::vector<QuantLib::Date> 
             holidays = QuantLib::Calendar::holidayList(*pcal,

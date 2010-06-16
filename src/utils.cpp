@@ -4,7 +4,7 @@
 //
 // Copyright (C) 2002 - 2009  Dirk Eddelbuettel 
 // Copyright (C) 2005 - 2006  Dominick Samperi
-// Copyright (C) 2010         Dirk Eddelbuettel and Khanh Nguyen
+// Copyright (C) 2009 - 2010  Dirk Eddelbuettel and Khanh Nguyen
 //
 // $Id$
 //

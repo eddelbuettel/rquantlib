@@ -2,8 +2,8 @@
 //
 // RQuantLib -- R interface to the QuantLib libraries
 //
-// Copyright (C) 2002 - 2009 Dirk Eddelbuettel <edd@debian.org>
-// Copyright (C) 2009        Khanh Nguyen <knguyen@cs.umb.edu>
+// Copyright (C) 2002 - 2009  Dirk Eddelbuettel 
+// Copyright (C) 2009 - 2010  Dirk Eddelbuettel and Khanh Nguyen
 //
 // $Id$
 //
@@ -23,24 +23,22 @@
 // Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
 // MA 02111-1307, USA
 
-#include "rquantlib.hpp"
+#include <rquantlib.hpp>
 
 RcppExport SEXP QL_AsianOption(SEXP optionParameters){
-    SEXP rl=R_NilValue;
-    char* exceptionMesg=NULL;
 
     try{
-        RcppParams rparam(optionParameters);
+        Rcpp::List rparam(optionParameters);
 
-        std::string avgType = rparam.getStringValue("averageType");
-        std::string type = rparam.getStringValue("type");
-        double underlying = rparam.getDoubleValue("underlying");
-        double strike = rparam.getDoubleValue("strike");
-        Spread dividendYield = rparam.getDoubleValue("dividendYield");
-        Rate riskFreeRate = rparam.getDoubleValue("riskFreeRate");
-        Time maturity = rparam.getDoubleValue("maturity");
-        int length = int(maturity*360 + 0.5);
-        double volatility = rparam.getDoubleValue("volatility");
+        std::string avgType = Rcpp::as<std::string>(rparam["averageType"]);
+        std::string type = Rcpp::as<std::string>(rparam["type"]);
+        double underlying = Rcpp::as<double>(rparam["underlying"]);
+        double strike = Rcpp::as<double>(rparam["strike"]);
+        Spread dividendYield = Rcpp::as<double>(rparam["dividendYield"]);
+        Rate riskFreeRate = Rcpp::as<double>(rparam["riskFreeRate"]);
+        Time maturity = Rcpp::as<double>(rparam["maturity"]);
+        int length = int(maturity*360 + 0.5); // FIXME: this could be better
+        double volatility = Rcpp::as<double>(rparam["volatility"]);
 
         Option::Type optionType = Option::Call;
         if (type=="call") {
@@ -98,25 +96,22 @@ RcppExport SEXP QL_AsianOption(SEXP optionParameters){
         ContinuousAveragingAsianOption option(averageType, payoff, exercise);
         option.setPricingEngine(engine);
 
-        RcppResultSet rs;
-        rs.add("value", option.NPV());
-        rs.add("delta", option.delta());
-        rs.add("gamma", option.gamma());
-        rs.add("vega", option.vega());
-        rs.add("theta", option.theta());
-        rs.add("rho", option.rho());
-        rs.add("divRho", option.dividendRho());
-        rs.add("parameters", optionParameters, false);
-        rl = rs.getReturnList();
-    }catch(std::exception& ex) {
-        exceptionMesg = copyMessageToR(ex.what());
-    } catch(...) {
-        exceptionMesg = copyMessageToR("unknown reason");
+        Rcpp::List rl = Rcpp::List::create(Rcpp::Named("value") = option.NPV(),
+                                           Rcpp::Named("delta") = option.delta(),
+                                           Rcpp::Named("gamma") = option.gamma(),
+                                           Rcpp::Named("vega") = option.vega(),
+                                           Rcpp::Named("theta") = option.theta(),
+                                           Rcpp::Named("rho") = option.rho(),
+                                           Rcpp::Named("divRho") = option.dividendRho(),
+                                           Rcpp::Named("parameters") = optionParameters);
+        return rl;
+
+    } catch(std::exception &ex) { 
+        forward_exception_to_r(ex); 
+    } catch(...) { 
+        ::Rf_error("c++ exception (unknown reason)"); 
     }
-    
-    if(exceptionMesg != NULL)
-        Rf_error(exceptionMesg);
-    
-    return rl;
+
+    return R_NilValue;
 }
 

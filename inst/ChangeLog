@@ -1,3 +1,8 @@
+2010-06-17  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/curves.cpp: Converted to new API
+	* src/discount.cpp: Idem
+
 2010-06-16  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/utils.cpp: Added simple getOptionType() helper

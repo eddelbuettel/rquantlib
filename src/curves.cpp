@@ -2,8 +2,8 @@
 //
 // RQuantLib helper functions for term structure construction
 //
-// Copyright (C) 2005 - 2007 Dominick Samperi
-// Copyright (C) 2007 - 2009 Dirk Eddelbuettel <edd@debian.org>
+// Copyright (C) 2005 - 2007  Dominick Samperi
+// Copyright (C) 2007 - 2010  Dirk Eddelbuettel
 //
 // $Id$
 //
@@ -17,11 +17,11 @@
 // PURPOSE.  See the GNU General Public License for more
 // details.
 
-#ifndef _MSC_VER
-#include <stdexcept>
-#endif
+//#ifndef _MSC_VER
+//#include <stdexcept>
+//#endif
 
-#include "rquantlib.hpp"
+#include <rquantlib.hpp>
 
 // Database of interest rate instrument contract details.
 ObservableDB::ObservableDB() {

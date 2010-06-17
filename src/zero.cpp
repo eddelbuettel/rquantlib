@@ -30,8 +30,8 @@ RcppExport SEXP zeroprice(SEXP params) {
 		Rcpp::List rparam(params);
 
         double yield = Rcpp::as<double>(rparam["Yield"]);
-        QuantLib::Date maturity(dateFromR(Rcpp::as<RcppDate>(rparam["Maturity"])));
-        QuantLib::Date settle(dateFromR(Rcpp::as<RcppDate>(rparam["Settle"])));
+        QuantLib::Date maturity(dateFromR(Rcpp::as<int>(rparam["Maturity"])));
+        QuantLib::Date settle(dateFromR(Rcpp::as<int>(rparam["Settle"])));
 
         Calendar calendar=UnitedStates(UnitedStates::GovernmentBond);
         QuantLib::Integer fixingDays = 2;
@@ -68,8 +68,8 @@ RcppExport SEXP zeroyield(SEXP params){
 		Rcpp::List rparam(params);
 
         double price = Rcpp::as<double>(rparam["Price"]);
-        QuantLib::Date maturity(dateFromR(Rcpp::as<RcppDate>(rparam["Maturity"])));
-        QuantLib::Date settle(dateFromR(Rcpp::as<RcppDate>(rparam["Settle"])));
+        QuantLib::Date maturity(dateFromR(Rcpp::as<int>(rparam["Maturity"])));
+        QuantLib::Date settle(dateFromR(Rcpp::as<int>(rparam["Settle"])));
 
         Calendar calendar=UnitedStates(UnitedStates::GovernmentBond);
         QuantLib::Integer fixingDays = 2;

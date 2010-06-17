@@ -1,28 +1,49 @@
-#include "rquantlib.hpp"
+// -*- mode: c++; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- 
+//
+// RQuantLib -- R interface to the QuantLib libraries
+//
+// Copyright (C) 2009 - 2010  Dirk Eddelbuettel and Khanh Nguyen
+//
+// $Id$
+//
+// This file is part of the RQuantLib library for GNU R.
+// It is made available under the terms of the GNU General Public
+// License, version 2, or at your option, any later version,
+// incorporated herein by reference.
+//
+// This program is distributed in the hope that it will be
+// useful, but WITHOUT ANY WARRANTY; without even the implied
+// warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+// PURPOSE.  See the GNU General Public License for more
+// details.
+//
+// You should have received a copy of the GNU General Public
+// License along with this program; if not, write to the Free
+// Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
+// MA 02111-1307, USA
 
-RcppExport SEXP zeroprice(SEXP params){
-    SEXP rl = R_NilValue;
-    char* exceptionMesg = NULL;
+#include <rquantlib.hpp>
+
+RcppExport SEXP zeroprice(SEXP params) {
+
     try {
-        RcppParams rparam(params);
+		Rcpp::List rparam(params);
 
-        double yield = rparam.getDoubleValue("Yield");
-        QuantLib::Date maturity(dateFromR(rparam.getDateValue("Maturity")));
-        QuantLib::Date settle(dateFromR(rparam.getDateValue("Settle")));
+        double yield = Rcpp::as<double>(rparam["Yield"]);
+        QuantLib::Date maturity(dateFromR(Rcpp::as<RcppDate>(rparam["Maturity"])));
+        QuantLib::Date settle(dateFromR(Rcpp::as<RcppDate>(rparam["Settle"])));
 
         Calendar calendar=UnitedStates(UnitedStates::GovernmentBond);
         QuantLib::Integer fixingDays = 2;
         Date todaysDate = calendar.advance(settle, -fixingDays, Days);
         Settings::instance().evaluationDate() = todaysDate;
 
-
-        double period = rparam.getDoubleValue("Period");
-        double basis = rparam.getDoubleValue("Basis");
+        double period = Rcpp::as<double>(rparam["Period"]);
+        double basis = Rcpp::as<double>(rparam["Basis"]);
         DayCounter dayCounter = getDayCounter(basis);
         Frequency freq = getFrequency(period);
         Period p(freq);
-        //double EMR = rparam.getDoubleValue("EMR");
-
+        //double EMR = Rcpp::as<double>(rparam["EMR");
 
         ZeroCouponBond bond(1, calendar, 
                             100, maturity, Unadjusted, 
@@ -30,73 +51,61 @@ RcppExport SEXP zeroprice(SEXP params){
 
         double price = bond.cleanPrice(yield, dayCounter, Compounded, freq);
         
-        RcppResultSet rs;
-        rs.add("Price", price);
-        rl = rs.getReturnList();    
+        return Rcpp::wrap(price);
 
-    } catch(std::exception& ex) {
-        exceptionMesg = copyMessageToR(ex.what());
-    } catch(...) {
-        exceptionMesg = copyMessageToR("unknown reason");
+    } catch(std::exception &ex) { 
+        forward_exception_to_r(ex); 
+    } catch(...) { 
+        ::Rf_error("c++ exception (unknown reason)"); 
     }
-    if(exceptionMesg != NULL)
-        Rf_error(exceptionMesg);
-    
-    return rl;
+
+    return R_NilValue;
 }
 
 RcppExport SEXP zeroyield(SEXP params){
-    SEXP rl = R_NilValue;
-    char* exceptionMesg = NULL;
-    try {
-        RcppParams rparam(params);
 
-        double price = rparam.getDoubleValue("Price");
-        QuantLib::Date maturity(dateFromR(rparam.getDateValue("Maturity")));
-        QuantLib::Date settle(dateFromR(rparam.getDateValue("Settle")));
+    try {
+		Rcpp::List rparam(params);
+
+        double price = Rcpp::as<double>(rparam["Price"]);
+        QuantLib::Date maturity(dateFromR(Rcpp::as<RcppDate>(rparam["Maturity"])));
+        QuantLib::Date settle(dateFromR(Rcpp::as<RcppDate>(rparam["Settle"])));
 
         Calendar calendar=UnitedStates(UnitedStates::GovernmentBond);
         QuantLib::Integer fixingDays = 2;
         Date todaysDate = calendar.advance(settle, -fixingDays, Days);
         Settings::instance().evaluationDate() = todaysDate;
 
-        double period = rparam.getDoubleValue("Period");
-        double basis = rparam.getDoubleValue("Basis");
+        double period = Rcpp::as<double>(rparam["Period"]);
+        double basis = Rcpp::as<double>(rparam["Basis"]);
         DayCounter dayCounter = getDayCounter(basis);
         Frequency freq = getFrequency(period);
         Period p(freq);
-        //double EMR = rparam.getDoubleValue("EMR");
+        //double EMR = Rcpp::as<double>(rparam["EMR");
 
 
         ZeroCouponBond bond(1, calendar, 100, maturity, Unadjusted, 100.0, settle);
 
         double yield = bond.yield(price, dayCounter, Compounded, freq);
         
-        RcppResultSet rs;
-        rs.add("Yield", yield);
-        rl = rs.getReturnList();    
+        return Rcpp::wrap(yield);
 
-    } catch(std::exception& ex) {
-        exceptionMesg = copyMessageToR(ex.what());
-    } catch(...) {
-        exceptionMesg = copyMessageToR("unknown reason");
+    } catch(std::exception &ex) { 
+        forward_exception_to_r(ex); 
+    } catch(...) { 
+        ::Rf_error("c++ exception (unknown reason)"); 
     }
-    if(exceptionMesg != NULL)
-        Rf_error(exceptionMesg);
-    
-    return rl;
+
+    return R_NilValue;
 }
 
 RcppExport SEXP zbtyield(SEXP MatVec, SEXP BondMat, 
                          SEXP yieldVec, SEXP SettlVec,
-                         SEXP cpVec, SEXP param){
-    SEXP rl = R_NilValue;
-    char* exceptionMesg = NULL;
+                         SEXP cpVec, SEXP param) {
     try {   
 
-
         RcppParams rparam(param);
-        //double oc = rparam.getDoubleValue("OC");
+        //double oc = Rcpp::as<double>(rparam["OC");
 
         RcppDateVector rmat(MatVec);
         RcppDateVector rsettle(SettlVec);
@@ -124,8 +133,6 @@ RcppExport SEXP zbtyield(SEXP MatVec, SEXP BondMat,
 
         //setting up the bonds
         const Size numberOfBonds = n;
-
-
 
         std::vector<boost::shared_ptr<RateHelper> > instruments;
 
@@ -202,38 +209,26 @@ RcppExport SEXP zbtyield(SEXP MatVec, SEXP BondMat,
         colNames[0] = "date";
         colNames[1] = "zeroRates";
         
-        RcppFrame frame(colNames);
+		RcppDateVector dates(numberOfBonds);
+		Rcpp::NumericVector zeros(numberOfBonds);
+
         Date current = SettleDates[0];
         //int n1 = curve->maxDate() - SettleDates[0];
         for (unsigned int i = 0; i<numberOfBonds;i++){
-            std::vector<ColDatum> row(numCol);
             Date d = MatDates[i];
-            row[0].setDateValue(RcppDate(d.month(),
-                                         d.dayOfMonth(),
-                                         d.year()));
-            
-            double zrate = curve->zeroRate(d, ActualActual(),
-                                            Simple);
-            row[1].setDoubleValue(zrate);                        
-
-
-
-            frame.addRow(row);
-            current++;
+            dates(i) = RcppDate(d.month(), d.dayOfMonth(), d.year());
+			zeros[i] = curve->zeroRate(d, ActualActual(), Simple);
+            current++; // ?
         }
 
-	RcppResultSet rs;
-        rs.add("table", frame);
-	rl = rs.getReturnList();
+		return Rcpp::DataFrame::create(Rcpp::Named("date")=dates,
+									   Rcpp::Named("zeroRates")=zeros);
 
-        
-    } catch(std::exception& ex) {
-        exceptionMesg = copyMessageToR(ex.what());
-    } catch(...) {
-        exceptionMesg = copyMessageToR("unknown reason");
+    } catch(std::exception &ex) { 
+        forward_exception_to_r(ex); 
+    } catch(...) { 
+        ::Rf_error("c++ exception (unknown reason)"); 
     }
-    if(exceptionMesg != NULL)
-        Rf_error(exceptionMesg);
-    
-    return rl;
+
+    return R_NilValue;
 }

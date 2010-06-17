@@ -5,8 +5,11 @@
 	* src/*cpp: Use getOptionType()
 
 	* src/asian.cpp: Converted to new API
-	* src/barrier_binary.cpp: Converted to new API
-	* src/implieds.cpp: Converted to new API
+	* src/barrier_binary.cpp: Idem
+	* src/implieds.cpp: Idem
+	* src/cbond.cpp: Idem
+	* src/daycounter.cpp: Idem
+	* src/zero.cpp: Idem
 
 2010-06-15  Dirk Eddelbuettel  <edd@debian.org>
 

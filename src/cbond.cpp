@@ -1,32 +1,55 @@
-#include "rquantlib.hpp"
+// -*- mode: c++; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- 
+//
+// RQuantLib -- R interface to the QuantLib libraries
+//
+// Copyright (C) 2009 - 2010  Dirk Eddelbuettel and Khanh Nguyen
+//
+// $Id$
+//
+// This file is part of the RQuantLib library for GNU R.
+// It is made available under the terms of the GNU General Public
+// License, version 2, or at your option, any later version,
+// incorporated herein by reference.
+//
+// This program is distributed in the hope that it will be
+// useful, but WITHOUT ANY WARRANTY; without even the implied
+// warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+// PURPOSE.  See the GNU General Public License for more
+// details.
+//
+// You should have received a copy of the GNU General Public
+// License along with this program; if not, write to the Free
+// Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
+// MA 02111-1307, USA
+
+#include <rquantlib.hpp>
 
 using namespace boost;
-RcppExport SEXP cbprice(SEXP params, SEXP dividendFrame, SEXP callFrame){
-    
-    SEXP rl=R_NilValue;
-    char* exceptionMesg=NULL;
-    try{
-        RcppParams rparams(params);
 
-        double rff = rparams.getDoubleValue("rff");
-        double spread = rparams.getDoubleValue("spread");
-        double sigma = rparams.getDoubleValue("sigma");
-        double price = rparams.getDoubleValue("price");
-        double convRatio = rparams.getDoubleValue("convRatio");
-        double numSteps = rparams.getDoubleValue("numSteps");
-        QuantLib::Date maturity(dateFromR(rparams.getDateValue("maturity")));
-        QuantLib::Date settle(dateFromR(rparams.getDateValue("settle")));
-        QuantLib::Date issue(dateFromR(rparams.getDateValue("issue")));
-        double coupon = rparams.getDoubleValue("couponRate");
-        double p = rparams.getDoubleValue("period");
-        double basis = rparams.getDoubleValue("basis");
+RcppExport SEXP cbprice(SEXP params, SEXP dividendFrame, SEXP callFrame) {
+    
+    try {
+		Rcpp::List rparams(params);
+
+        double rff = Rcpp::as<double>(rparams["rff"]);
+        double spread = Rcpp::as<double>(rparams["spread"]);
+        double sigma = Rcpp::as<double>(rparams["sigma"]);
+        double price = Rcpp::as<double>(rparams["price"]);
+        double convRatio = Rcpp::as<double>(rparams["convRatio"]);
+        double numSteps = Rcpp::as<double>(rparams["numSteps"]);
+        QuantLib::Date maturity(dateFromR(Rcpp::as<RcppDate>(rparams["maturity"])));
+        QuantLib::Date settle(dateFromR(Rcpp::as<RcppDate>(rparams["settle"])));
+        QuantLib::Date issue(dateFromR(Rcpp::as<RcppDate>(rparams["issue"])));
+        double coupon = Rcpp::as<double>(rparams["couponRate"]);
+        double p = Rcpp::as<double>(rparams["period"]);
+        double basis = Rcpp::as<double>(rparams["basis"]);
         DayCounter dayCounter = getDayCounter(basis);
         Frequency freq = getFrequency(p);
         Period period(freq);
-        //double emr = rparams.getDoubleValue("emr");
-        double callType = rparams.getDoubleValue("calltype");
-        double dividendType = rparams.getDoubleValue("dividendtype");
-        //double treeType = rparams.getDoubleValue("treeType");        
+        //double emr = Rcpp::as<double>(rparams["emr"]);
+        double callType = Rcpp::as<double>(rparams["calltype"]);
+        double dividendType = Rcpp::as<double>(rparams["dividendtype"]);
+        //double treeType = Rcpp::as<double>(rparams["treeType"]);        
 
 
         DividendSchedule dividendSchedule;
@@ -49,7 +72,7 @@ RcppExport SEXP cbprice(SEXP params, SEXP dividendFrame, SEXP callFrame){
                 }
             }
         }
-        catch (std::exception& ex){}
+        catch (std::exception& ex) { }
 
         CallabilitySchedule callabilitySchedule;
         try {
@@ -76,7 +99,7 @@ RcppExport SEXP cbprice(SEXP params, SEXP dividendFrame, SEXP callFrame){
         }
         catch (std::exception& ex){}
 
-        Calendar calendar=UnitedStates(UnitedStates::GovernmentBond);        
+        Calendar calendar = UnitedStates(UnitedStates::GovernmentBond);	// FIXME
         QuantLib::Integer fixingDays = 1;
         Date todayDate = calendar.advance(settle, -fixingDays, Days);
         Settings::instance().evaluationDate() = todayDate;
@@ -123,16 +146,13 @@ RcppExport SEXP cbprice(SEXP params, SEXP dividendFrame, SEXP callFrame){
         
         bond.setPricingEngine(engine);
 
-        RcppResultSet rs;
-        rs.add("NPV", bond.NPV());
-        rl = rs.getReturnList();
+        return Rcpp::wrap(bond.NPV());
 
-    } catch(std::exception& ex) {
-        exceptionMesg = copyMessageToR(ex.what());
-    } catch(...) {
-        exceptionMesg = copyMessageToR("unknown reason");
-    }   
-    if(exceptionMesg != NULL)
-        Rf_error(exceptionMesg);    
-    return rl;
+    } catch(std::exception &ex) { 
+        forward_exception_to_r(ex); 
+    } catch(...) { 
+        ::Rf_error("c++ exception (unknown reason)"); 
+    }
+
+    return R_NilValue;
 }

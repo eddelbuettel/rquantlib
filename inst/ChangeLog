@@ -2,6 +2,7 @@
 
 	* src/curves.cpp: Converted to new API
 	* src/discount.cpp: Idem
+	* src/hullwhite.cpp: Idem
 
 2010-06-16  Dirk Eddelbuettel  <edd@debian.org>
 

@@ -162,4 +162,11 @@ Period periodByTimeUnit(int length, std::string unit);
 // simple option type creator based on string
 Option::Type getOptionType(const std::string &t);
 
+// create a data.frame with dates and amounts
+Rcpp::DataFrame getCashFlowDataFrame(const Leg &bondCashFlow);
+
+// fill QL data structures based on data.frames
+DividendSchedule getDividendSchedule(SEXP dividendScheduleFrame);
+CallabilitySchedule getCallabilitySchedule(SEXP callabilityScheduleFrame);
+
 #endif

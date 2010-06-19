@@ -1,3 +1,11 @@
+2010-06-19  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/bonds.cpp: Converted to new API
+
+	* src/utils.cpp: Factored-out utility functions from bonds.cpp
+	* src/rquantlib.hpp: Declarations for new utility functions
+	* src/bonds.cpp: Some refactoring
+
 2010-06-18  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/bonds.cpp: Converted to new API

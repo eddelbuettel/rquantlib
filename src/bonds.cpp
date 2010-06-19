@@ -44,7 +44,7 @@ RcppExport SEXP QL_ZeroPriceByYield(SEXP optionParameters) {
         QuantLib::Date issueDate(dateFromR(iDate));
         //setup bond
         QuantLib::Integer fixingDays = 2;
-        Calendar calendar=UnitedStates(UnitedStates::GovernmentBond);
+        Calendar calendar = UnitedStates(UnitedStates::GovernmentBond);
         Date todaysDate = calendar.advance(issueDate, -fixingDays, Days);
         Settings::instance().evaluationDate() = todaysDate;
         Natural settlementDays = 1;
@@ -71,7 +71,7 @@ RcppExport SEXP QL_ZeroPriceByYield(SEXP optionParameters) {
 }
 
 
-RcppExport  SEXP QL_ZeroYield(SEXP optionParameters) {
+RcppExport SEXP QL_ZeroYield(SEXP optionParameters) {
 
     try {
         Rcpp::List rparam(optionParameters);
@@ -114,9 +114,9 @@ RcppExport  SEXP QL_ZeroYield(SEXP optionParameters) {
 }
 
 
-SEXP ZeroBond(SEXP bondparam, 
-              Handle<YieldTermStructure> &discountCurve,
-              SEXP dateparams) {
+RcppExport SEXP QL_ZeroBond(SEXP bondparam, 
+                            Handle<YieldTermStructure> &discountCurve,
+                            SEXP dateparams) {
 
     try {
         Rcpp::List rparam(bondparam);
@@ -159,34 +159,12 @@ SEXP ZeroBond(SEXP bondparam,
         boost::shared_ptr<PricingEngine> bondEngine(new DiscountingBondEngine(discountCurve));
         bond.setPricingEngine(bondEngine);
 
-        //cashflow
-        //int numCol = 2;
-        //std::vector<std::string> colNames(numCol);
-        //colNames[0] = "Date";
-        //colNames[1] = "Amount";
-        //RcppFrame frame(colNames);
-        Leg bondCashFlow = bond.cashflows();
-        RcppDateVector dates(bondCashFlow.size());
-        Rcpp::NumericVector amount(bondCashFlow.size());
-
-        for (unsigned int i = 0; i< bondCashFlow.size(); i++){
-            //std::vector<ColDatum> row(numCol);
-            Date d = bondCashFlow[i]->date();
-            //row[0].setDateValue(RcppDate(d.month(), d.dayOfMonth(), d.year()));
-            //row[1].setDoubleValue(bondCashFlow[i]->amount());
-            //frame.addRow(row);
-            dates(i) = RcppDate(d.month(), d.dayOfMonth(), d.year());
-            amount[i] = bondCashFlow[i]->amount();
-        }
-        Rcpp::DataFrame df = Rcpp::DataFrame::create(Rcpp::Named("Date") = dates,
-                                                     Rcpp::Named("Amount") = amount);
-
         return Rcpp::List::create(Rcpp::Named("NPV") = bond.NPV(),
                                   Rcpp::Named("cleanPrice") = bond.cleanPrice(),
                                   Rcpp::Named("dirtyPrice") = bond.dirtyPrice(),
                                   Rcpp::Named("accruedCoupon") = bond.accruedAmount(),
                                   Rcpp::Named("yield") = bond.yield(Actual360(), Compounded, Annual),
-                                  Rcpp::Named("cashFlow") = df);
+                                  Rcpp::Named("cashFlow") = getCashFlowDataFrame(bond.cashflows()));
 
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
@@ -198,9 +176,9 @@ SEXP ZeroBond(SEXP bondparam,
 }
 
 
-SEXP FixedBond(SEXP bondparam, SEXP ratesVec,
-               Handle<YieldTermStructure> &discountCurve,
-               SEXP dateparams){
+RcppExport SEXP QL_FixedBond(SEXP bondparam, SEXP ratesVec,
+                             Handle<YieldTermStructure> &discountCurve,
+                             SEXP dateparams){
 
     try {
         Rcpp::List rparam(bondparam);
@@ -254,34 +232,12 @@ SEXP FixedBond(SEXP bondparam, SEXP ratesVec,
         boost::shared_ptr<PricingEngine> bondEngine(new DiscountingBondEngine(discountCurve));
         bond.setPricingEngine(bondEngine);   
         
-        //cashflow
-        //int numCol = 2;
-        //std::vector<std::string> colNames(numCol);
-        //colNames[0] = "Date";
-        //colNames[1] = "Amount";
-        //RcppFrame frame(colNames);
-        Leg bondCashFlow = bond.cashflows();
-        RcppDateVector dates(bondCashFlow.size());
-        Rcpp::NumericVector amount(bondCashFlow.size());
-        
-        for (unsigned int i = 0; i< bondCashFlow.size(); i++){
-            //std::vector<ColDatum> row(numCol);
-            Date d = bondCashFlow[i]->date();
-            //row[0].setDateValue(RcppDate(d.month(), d.dayOfMonth(), d.year()));
-            //row[1].setDoubleValue(bondCashFlow[i]->amount());
-            //frame.addRow(row);
-            dates(i) = RcppDate(d.month(), d.dayOfMonth(), d.year());
-            amount[i] = bondCashFlow[i]->amount();
-        }
-        Rcpp::DataFrame df = Rcpp::DataFrame::create(Rcpp::Named("Date") = dates,
-                                                     Rcpp::Named("Amount") = amount);
-
         return Rcpp::List::create(Rcpp::Named("NPV") = bond.NPV(),
                                   Rcpp::Named("cleanPrice") = bond.cleanPrice(),
                                   Rcpp::Named("dirtyPrice") = bond.dirtyPrice(),
                                   Rcpp::Named("accruedCoupon") = bond.accruedAmount(),
                                   Rcpp::Named("yield") = bond.yield(Actual360(), Compounded, Annual),
-                                  Rcpp::Named("cashFlow") = df);
+                                  Rcpp::Named("cashFlow") = getCashFlowDataFrame(bond.cashflows()));
 
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
@@ -351,7 +307,7 @@ RcppExport  SEXP QL_FixedRateBondYield(SEXP optionParameters, SEXP ratesVec) {
 }
 
  
-RcppExport  SEXP QL_FixedRateBondPriceByYield(SEXP optionParameters, SEXP ratesVec) {
+RcppExport SEXP QL_FixedRateBondPriceByYield(SEXP optionParameters, SEXP ratesVec) {
   
     try {
         Rcpp::List rparam(optionParameters);
@@ -409,12 +365,12 @@ RcppExport  SEXP QL_FixedRateBondPriceByYield(SEXP optionParameters, SEXP ratesV
 }
 
 
-SEXP FloatingBond(SEXP bondparam, SEXP gearingsVec, SEXP spreadsVec,
-                  SEXP capsVec, SEXP floorsVec, 
-                  Handle<YieldTermStructure> &index,
-                  SEXP indexparams,
-                  Handle<YieldTermStructure> &discountCurve,
-                  SEXP dateparams) 
+SEXP QL_FloatingBond(SEXP bondparam, SEXP gearingsVec, SEXP spreadsVec,
+                     SEXP capsVec, SEXP floorsVec, 
+                     Handle<YieldTermStructure> &index,
+                     SEXP indexparams,
+                     Handle<YieldTermStructure> &discountCurve,
+                     SEXP dateparams) 
 {
   
     try {
@@ -470,7 +426,7 @@ SEXP FloatingBond(SEXP bondparam, SEXP gearingsVec, SEXP spreadsVec,
 
         boost::shared_ptr<IborIndex> iborindex(new USDLibor(6 * Months, index));
         if (type=="USDLibor") {
-            if (inTermOf=="Months"){               
+            if (inTermOf=="Months") {               
                 boost::shared_ptr<IborIndex> temp(new USDLibor(length * Months, index));
                 iborindex = temp;
             } else if (inTermOf=="Years") {
@@ -492,33 +448,13 @@ SEXP FloatingBond(SEXP bondparam, SEXP gearingsVec, SEXP spreadsVec,
         boost::shared_ptr<IborCouponPricer> pricer(new BlackIborCouponPricer(Handle<OptionletVolatilityStructure>()));
         setCouponPricer(bond.cashflows(),pricer);
 
-        // int numCol = 2;
-        // std::vector<std::string> colNames(numCol);
-        // colNames[0] = "Date";
-        // colNames[1] = "Amount";
-        // RcppFrame frame(colNames);
-        Leg bondCashFlow = bond.cashflows();
-        RcppDateVector dates(bondCashFlow.size());
-        Rcpp::NumericVector amount(bondCashFlow.size());
-
-        for (unsigned int i = 0; i< bondCashFlow.size(); i++) {
-            //std::vector<ColDatum> row(numCol);
-            Date d = bondCashFlow[i]->date();
-            //row[0].setDateValue(RcppDate(d.month(), d.dayOfMonth(), d.year()));
-            //row[1].setDoubleValue(bondCashFlow[i]->amount());
-            //frame.addRow(row);
-            dates(i) = RcppDate(d.month(), d.dayOfMonth(), d.year());
-            amount[i] = bondCashFlow[i]->amount();
-        }
-        Rcpp::DataFrame df = Rcpp::DataFrame::create(Rcpp::Named("Date") = dates,
-                                                     Rcpp::Named("Amount") = amount);
-
         return Rcpp::List::create(Rcpp::Named("NPV") = bond.NPV(),
                                   Rcpp::Named("cleanPrice") = bond.cleanPrice(),
                                   Rcpp::Named("dirtyPrice") = bond.dirtyPrice(),
                                   Rcpp::Named("accruedCoupon") = bond.accruedAmount(),
                                   Rcpp::Named("yield") = bond.yield(Actual360(), Compounded, Annual),
-                                  Rcpp::Named("cashFlow") = df);
+                                  Rcpp::Named("cashFlow") = getCashFlowDataFrame(bond.cashflows()));
+
         
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
@@ -539,9 +475,9 @@ RcppExport SEXP QL_FloatBond1(SEXP bond, SEXP gearings, SEXP caps,
 
         Handle<YieldTermStructure> discount_curve(getFlatCurve(discountCurve));
         Handle<YieldTermStructure> ibor_curve(getFlatCurve(index));
-        return Rcpp::wrap(FloatingBond(bond, gearings, caps, spreads,
-                                       floors, ibor_curve, indexparams,
-                                       discount_curve, dateparams));       
+        return Rcpp::wrap(QL_FloatingBond(bond, gearings, caps, spreads,
+                                          floors, ibor_curve, indexparams,
+                                          discount_curve, dateparams));       
         
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
@@ -566,9 +502,9 @@ RcppExport SEXP QL_FloatBond2(SEXP bond, SEXP gearings, SEXP caps,
         Handle<YieldTermStructure> ibor_curve(buildTermStructure(index_params,
                                                                  index_tsQuotes,
                                                                  index_times));
-        return Rcpp::wrap(FloatingBond(bond, gearings, caps, spreads,
-                                       floors, ibor_curve, indexparams,
-                                       discount_curve, dateparams));       
+        return Rcpp::wrap(QL_FloatingBond(bond, gearings, caps, spreads,
+                                          floors, ibor_curve, indexparams,
+                                          discount_curve, dateparams));       
         
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
@@ -593,9 +529,9 @@ RcppExport SEXP QL_FloatBond3(SEXP bond, SEXP gearings, SEXP caps,
         Handle<YieldTermStructure> discount_curve(buildTermStructure(discount_params,
                                                                      discount_tsQuotes,
                                                                      discount_times));
-        return Rcpp::wrap(FloatingBond(bond, gearings, caps, spreads,
-                                       floors, ibor_curve, indexparams,
-                                       discount_curve, dateparams));       
+        return Rcpp::wrap(QL_FloatingBond(bond, gearings, caps, spreads,
+                                          floors, ibor_curve, indexparams,
+                                          discount_curve, dateparams));       
         
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
@@ -624,9 +560,9 @@ RcppExport SEXP QL_FloatBond4(SEXP bond, SEXP gearings, SEXP caps,
         Handle<YieldTermStructure> discount_curve(buildTermStructure(discount_params,
                                                                  discount_tsQuotes,
                                                                  discount_times));
-        return Rcpp::wrap(FloatingBond(bond, gearings, caps, spreads,
-                                       floors, ibor_curve, indexparams,
-                                       discount_curve, dateparams));       
+        return Rcpp::wrap(QL_FloatingBond(bond, gearings, caps, spreads,
+                                          floors, ibor_curve, indexparams,
+                                          discount_curve, dateparams));       
         
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
@@ -637,21 +573,21 @@ RcppExport SEXP QL_FloatBond4(SEXP bond, SEXP gearings, SEXP caps,
     return R_NilValue;
 }
 
-RcppExport SEXP QL_FloatingWithRebuiltCurve(SEXP bond, SEXP gearings,
+RcppExport SEXP QL_FloatingWithRebuiltCurve(SEXP bondparams, SEXP gearings,
                                             SEXP spreads, SEXP caps,
                                             SEXP floors, SEXP indexparams,
                                             SEXP iborDateSexp, SEXP iborzeroSexp,
                                             SEXP dateSexp, SEXP zeroSexp,
-                                            SEXP dateparams){
+                                            SEXP dateparams) {
 
     try {
-        
         Handle<YieldTermStructure> ibor_curve(rebuildCurveFromZeroRates(iborDateSexp, iborzeroSexp));       
         Handle<YieldTermStructure> curve(rebuildCurveFromZeroRates(dateSexp, zeroSexp));       
         
-        return Rcpp::wrap(FloatingBond(bond, gearings, caps, spreads,
-                                       floors, ibor_curve, indexparams,
-                                       curve, dateparams));
+        SEXP flrtbond = QL_FloatingBond(bondparams, gearings, caps, spreads,
+                                        floors, ibor_curve, indexparams,
+                                        curve, dateparams);
+        return flrtbond;
 
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
@@ -668,7 +604,7 @@ RcppExport SEXP QL_FixedRateWithRebuiltCurve(SEXP bondparam, SEXP ratesVec,
                                              SEXP dateparams){
     try {
         Handle<YieldTermStructure> curve(rebuildCurveFromZeroRates(dateSexp, zeroSexp));
-        return Rcpp::wrap(FixedBond(bondparam, ratesVec, curve, dateparams));
+        return Rcpp::wrap(QL_FixedBond(bondparam, ratesVec, curve, dateparams));
         
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
@@ -686,7 +622,7 @@ RcppExport SEXP QL_ZeroBondWithRebuiltCurve(SEXP bond,
     try {
 
         Handle<YieldTermStructure> curve(rebuildCurveFromZeroRates(dateSexp, zeroSexp));
-        return Rcpp::wrap(ZeroBond(bond, curve, dateparams));
+        return Rcpp::wrap(QL_ZeroBond(bond, curve, dateparams));
 
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
@@ -709,64 +645,8 @@ RcppExport SEXP QL_ConvertibleZeroBond(SEXP bondparams, SEXP process,
 
     try {
 
-        DividendSchedule dividendSchedule;
-        CallabilitySchedule callabilitySchedule;
-
-        try {
-            //RcppFrame rcppDividendSchedule(dividendScheduleFrame);        
-            //std::vector<std::vector<ColDatum> > table = rcppDividendSchedule.getTableData();
-            //int nrow = table.size();
-            //int ncol = table[0].size();
-            Rcpp::DataFrame divScheDF(dividendScheduleFrame);
-            Rcpp::CharacterVector s0v = divScheDF[0];
-            Rcpp::NumericVector n1v = divScheDF[1];
-            Rcpp::NumericVector n2v = divScheDF[2];
-            Rcpp::NumericVector n3v = divScheDF[3];
-            int nrow = s0v.size();
-
-            for (int row=0; row<nrow; row++){          
-                int type = (s0v[row] == "Fixed") ? 1 : 0; //  (table[row][0].getStringValue()=="Fixed") ? 1 : 0;
-                double amount = n1v[row]; // table[row][1].getDoubleValue();
-                double rate = n2v[row]; // table[row][2].getDoubleValue();
-                QuantLib::Date d(dateFromR(n3v[row])); //table[row][3].getDateValue()));            
-                if (type==1) {
-                    dividendSchedule.push_back(boost::shared_ptr<Dividend>(new FixedDividend(amount, d)));
-                } else {
-                    dividendSchedule.push_back(boost::shared_ptr<Dividend>(new FractionalDividend(rate, amount, d)));
-                }
-            }
-        } catch (std::exception& ex) { 
-            forward_exception_to_r(ex); 
-        }
-
-        try {
-            // RcppFrame rcppCallabilitySchedule(callabilityScheduleFrame);
-            // std::vector<std::vector<ColDatum> > table = rcppCallabilitySchedule.getTableData();
-            // int nrow = table.size();
-            Rcpp::DataFrame callScheDF(callabilityScheduleFrame);
-            Rcpp::NumericVector n0v = callScheDF[0];
-            Rcpp::CharacterVector s1v = callScheDF[1];
-            Rcpp::NumericVector n2v = callScheDF[2];
-            int nrow = n0v.size();
-            for (int row=0; row<nrow; row++) {
-                double price = n0v[row]; //table[row][0].getDoubleValue();
-                int type = (s1v[row]=="P") ? 1 : 0;
-                QuantLib::Date d(dateFromR(n2v[row]));
-                if (type==1){
-                    callabilitySchedule.push_back(boost::shared_ptr<Callability>
-                                                  (new Callability(Callability::Price(price, 
-                                                                                      Callability::Price::Clean),
-                                                                   Callability::Put,d )));
-            } else {
-                    callabilitySchedule.push_back(boost::shared_ptr<Callability>
-                                                  (new Callability(Callability::Price(price, 
-                                                                                      Callability::Price::Clean),
-                                                                   Callability::Call,d )));
-                }            
-            }
-        } catch (std::exception& ex){
-            forward_exception_to_r(ex); 
-        }
+        DividendSchedule dividendSchedule = getDividendSchedule(dividendScheduleFrame);
+        CallabilitySchedule callabilitySchedule = getCallabilitySchedule(callabilityScheduleFrame);
 
         Rcpp::List rparam(bondparams);
         
@@ -847,34 +727,12 @@ RcppExport SEXP QL_ConvertibleZeroBond(SEXP bondparams, SEXP process,
                                        redemption);
         bond.setPricingEngine(engine);
 
-        //cashflow
-        // int numCol = 2;
-        // std::vector<std::string> colNames(numCol);
-        // colNames[0] = "Date";
-        // colNames[1] = "Amount";
-        // RcppFrame frame(colNames);
-        Leg bondCashFlow = bond.cashflows();
-        RcppDateVector dates(bondCashFlow.size());
-        Rcpp::NumericVector amount(bondCashFlow.size());
-        
-        for (unsigned int i = 0; i< bondCashFlow.size(); i++){
-            //std::vector<ColDatum> row(numCol);
-            Date d = bondCashFlow[i]->date();
-            //row[0].setDateValue(RcppDate(d.month(), d.dayOfMonth(), d.year()));
-            //row[1].setDoubleValue(bondCashFlow[i]->amount());
-            //frame.addRow(row);
-            dates(i) = RcppDate(d.month(), d.dayOfMonth(), d.year());
-            amount[i] = bondCashFlow[i]->amount();
-        }
-        Rcpp::DataFrame df = Rcpp::DataFrame::create(Rcpp::Named("Date") = dates,
-                                                     Rcpp::Named("Amount") = amount);
-        
         return Rcpp::List::create(Rcpp::Named("NPV") = bond.NPV(),
                                   Rcpp::Named("cleanPrice") = bond.cleanPrice(),
                                   Rcpp::Named("dirtyPrice") = bond.dirtyPrice(),
                                   Rcpp::Named("accruedCoupon") = bond.accruedAmount(),
                                   Rcpp::Named("yield") = bond.yield(Actual360(), Compounded, Annual),
-                                  Rcpp::Named("cashFlow") = df);
+                                  Rcpp::Named("cashFlow") = getCashFlowDataFrame(bond.cashflows()));
 
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
@@ -896,64 +754,8 @@ RcppExport SEXP QL_ConvertibleFixedBond(SEXP bondparams, SEXP coupon, SEXP proce
 
     try {
 
-        DividendSchedule dividendSchedule;
-        CallabilitySchedule callabilitySchedule;
-
-        try {
-            //RcppFrame rcppDividendSchedule(dividendScheduleFrame);        
-            //std::vector<std::vector<ColDatum> > table = rcppDividendSchedule.getTableData();
-            //int nrow = table.size();
-            //int ncol = table[0].size();
-            Rcpp::DataFrame divScheDF(dividendScheduleFrame);
-            Rcpp::CharacterVector s0v = divScheDF[0];
-            Rcpp::NumericVector n1v = divScheDF[1];
-            Rcpp::NumericVector n2v = divScheDF[2];
-            Rcpp::NumericVector n3v = divScheDF[3];
-            int nrow = s0v.size();
-
-            for (int row=0; row<nrow; row++){          
-                int type = (s0v[row]=="Fixed") ? 1 : 0;
-                double amount = n1v[row];
-                double rate = n2v[row];
-                QuantLib::Date d(dateFromR(n3v[row]));            
-                if (type==1){
-                    dividendSchedule.push_back(boost::shared_ptr<Dividend>(new FixedDividend(amount, d)));
-                } else {
-                    dividendSchedule.push_back(boost::shared_ptr<Dividend>(new FractionalDividend(rate,amount,d)));
-                }
-            }
-        } catch (std::exception& ex) { 
-            forward_exception_to_r(ex); 
-        }
-
-        try {
-            // RcppFrame rcppCallabilitySchedule(callabilityScheduleFrame);
-            // std::vector<std::vector<ColDatum> > table = rcppCallabilitySchedule.getTableData();
-            // int nrow = table.size();
-            Rcpp::DataFrame callScheDF(callabilityScheduleFrame);
-            Rcpp::NumericVector n0v = callScheDF[0];
-            Rcpp::CharacterVector s1v = callScheDF[1];
-            Rcpp::NumericVector n2v = callScheDF[2];
-            int nrow = n0v.size();
-            for (int row=0; row<nrow; row++) {
-                double price = n0v[row]; //table[row][0].getDoubleValue();
-                int type = (s1v[row]=="P") ? 1 : 0;
-                QuantLib::Date d(dateFromR(n2v[row]));
-                if (type==1){
-                    callabilitySchedule.push_back(boost::shared_ptr<Callability>
-                                                  (new Callability(Callability::Price(price, 
-                                                                                      Callability::Price::Clean),
-                                                                   Callability::Put,d )));
-            } else {
-                    callabilitySchedule.push_back(boost::shared_ptr<Callability>
-                                                  (new Callability(Callability::Price(price, 
-                                                                                      Callability::Price::Clean),
-                                                                   Callability::Call,d )));
-                }            
-            }
-        } catch (std::exception& ex){
-            forward_exception_to_r(ex); 
-        }
+        DividendSchedule dividendSchedule = getDividendSchedule(dividendScheduleFrame);
+        CallabilitySchedule callabilitySchedule = getCallabilitySchedule(callabilityScheduleFrame);
 
         Rcpp::List rparam(bondparams);
         //double faceAmount = Rcpp::as<double>(rparam["faceAmount");        
@@ -1040,36 +842,13 @@ RcppExport SEXP QL_ConvertibleFixedBond(SEXP bondparams, SEXP coupon, SEXP proce
                                         Rcpp::as<std::vector <double> >(rates), 
                                         dc, sch, redemption);
         bond.setPricingEngine(engine);
-
-
-        //cashflow
-        // int numCol = 2;
-        // std::vector<std::string> colNames(numCol);
-        // colNames[0] = "Date";
-        // colNames[1] = "Amount";
-        // RcppFrame frame(colNames);
-        Leg bondCashFlow = bond.cashflows();
-        RcppDateVector dates(bondCashFlow.size());
-        Rcpp::NumericVector amount(bondCashFlow.size());
-        
-        for (unsigned int i = 0; i< bondCashFlow.size(); i++){
-            //std::vector<ColDatum> row(numCol);
-            Date d = bondCashFlow[i]->date();
-            //row[0].setDateValue(RcppDate(d.month(), d.dayOfMonth(), d.year()));
-            //row[1].setDoubleValue(bondCashFlow[i]->amount());
-            //frame.addRow(row);
-            dates(i) = RcppDate(d.month(), d.dayOfMonth(), d.year());
-            amount[i] = bondCashFlow[i]->amount();
-        }
-        Rcpp::DataFrame df = Rcpp::DataFrame::create(Rcpp::Named("Date") = dates,
-                                                     Rcpp::Named("Amount") = amount);
         
         return Rcpp::List::create(Rcpp::Named("NPV") = bond.NPV(),
                                   Rcpp::Named("cleanPrice") = bond.cleanPrice(),
                                   Rcpp::Named("dirtyPrice") = bond.dirtyPrice(),
                                   Rcpp::Named("accruedCoupon") = bond.accruedAmount(),
                                   Rcpp::Named("yield") = bond.yield(Actual360(), Compounded, Annual),
-                                  Rcpp::Named("cashFlow") = df);
+                                  Rcpp::Named("cashFlow") = getCashFlowDataFrame(bond.cashflows()));
 
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
@@ -1093,65 +872,8 @@ RcppExport SEXP QL_ConvertibleFloatingBond(SEXP bondparams,  SEXP process,
 
     try {
 
-        DividendSchedule dividendSchedule;
-        CallabilitySchedule callabilitySchedule;
-
-        try {
-            //RcppFrame rcppDividendSchedule(dividendScheduleFrame);        
-            //std::vector<std::vector<ColDatum> > table = rcppDividendSchedule.getTableData();
-            //int nrow = table.size();
-            //int ncol = table[0].size();
-            Rcpp::DataFrame divScheDF(dividendScheduleFrame);
-            Rcpp::CharacterVector s0v = divScheDF[0];
-            Rcpp::NumericVector n1v = divScheDF[1];
-            Rcpp::NumericVector n2v = divScheDF[2];
-            Rcpp::NumericVector n3v = divScheDF[3];
-            int nrow = s0v.size();
-
-            for (int row=0; row<nrow; row++){          
-                int type = (s0v[row]=="Fixed") ? 1 : 0;
-                double amount = n1v[row];
-                double rate = n2v[row];
-                QuantLib::Date d(dateFromR(n3v[row]));            
-                if (type==1){
-                    dividendSchedule.push_back(boost::shared_ptr<Dividend>(new FixedDividend(amount, d)));
-                } else {
-                    dividendSchedule.push_back(boost::shared_ptr<Dividend>(new FractionalDividend(rate,amount,d)));
-                }
-            }
-        } catch (std::exception& ex) { 
-            forward_exception_to_r(ex); 
-        }
-
-        try {
-            // RcppFrame rcppCallabilitySchedule(callabilityScheduleFrame);
-            // std::vector<std::vector<ColDatum> > table = rcppCallabilitySchedule.getTableData();
-            // int nrow = table.size();
-            Rcpp::DataFrame callScheDF(callabilityScheduleFrame);
-            Rcpp::NumericVector n0v = callScheDF[0];
-            Rcpp::CharacterVector s1v = callScheDF[1];
-            Rcpp::NumericVector n2v = callScheDF[2];
-            int nrow = n0v.size();
-            for (int row=0; row<nrow; row++) {
-                double price = n0v[row]; //table[row][0].getDoubleValue();
-                int type = (s1v[row]=="P") ? 1 : 0;
-                QuantLib::Date d(dateFromR(n2v[row]));
-                if (type==1){
-                    callabilitySchedule.push_back(boost::shared_ptr<Callability>
-                                                  (new Callability(Callability::Price(price, 
-                                                                                      Callability::Price::Clean),
-                                                                   Callability::Put,d )));
-            } else {
-                    callabilitySchedule.push_back(boost::shared_ptr<Callability>
-                                                  (new Callability(Callability::Price(price, 
-                                                                                      Callability::Price::Clean),
-                                                                   Callability::Call,d )));
-                }            
-            }
-        } catch (std::exception& ex){
-            forward_exception_to_r(ex); 
-        }
-
+        DividendSchedule dividendSchedule = getDividendSchedule(dividendScheduleFrame);
+        CallabilitySchedule callabilitySchedule = getCallabilitySchedule(callabilityScheduleFrame);
 
         Rcpp::List rparam(bondparams);
         
@@ -1255,34 +977,12 @@ RcppExport SEXP QL_ConvertibleFloatingBond(SEXP bondparams,  SEXP process,
                                          dc, sch, redemption);
         bond.setPricingEngine(engine);
 
-        //cashflow
-        // int numCol = 2;
-        // std::vector<std::string> colNames(numCol);
-        // colNames[0] = "Date";
-        // colNames[1] = "Amount";
-        // RcppFrame frame(colNames);
-        Leg bondCashFlow = bond.cashflows();
-        RcppDateVector dates(bondCashFlow.size());
-        Rcpp::NumericVector amount(bondCashFlow.size());
-        
-        for (unsigned int i = 0; i< bondCashFlow.size(); i++){
-            //std::vector<ColDatum> row(numCol);
-            Date d = bondCashFlow[i]->date();
-            //row[0].setDateValue(RcppDate(d.month(), d.dayOfMonth(), d.year()));
-            //row[1].setDoubleValue(bondCashFlow[i]->amount());
-            //frame.addRow(row);
-            dates(i) = RcppDate(d.month(), d.dayOfMonth(), d.year());
-            amount[i] = bondCashFlow[i]->amount();
-        }
-        Rcpp::DataFrame df = Rcpp::DataFrame::create(Rcpp::Named("Date") = dates,
-                                                     Rcpp::Named("Amount") = amount);
-   
         return Rcpp::List::create(Rcpp::Named("NPV") = bond.NPV(),
                                   Rcpp::Named("cleanPrice") = bond.cleanPrice(),
                                   Rcpp::Named("dirtyPrice") = bond.dirtyPrice(),
                                   Rcpp::Named("accruedCoupon") = bond.accruedAmount(),
                                   Rcpp::Named("yield") = bond.yield(Actual360(), Compounded, Annual),
-                                  Rcpp::Named("cashFlow") = df);
+                                  Rcpp::Named("cashFlow") = getCashFlowDataFrame(bond.cashflows()));
         
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
@@ -1298,37 +998,9 @@ RcppExport SEXP QL_CallableBond(SEXP bondparams, SEXP hw, SEXP coupon,
                                 SEXP callabilityScheduleFrame,
                                 SEXP dateparams) {
 
-    try{
+    try {
 
-        CallabilitySchedule callabilitySchedule;
-        try {
-            // RcppFrame rcppCallabilitySchedule(callabilityScheduleFrame);
-            // std::vector<std::vector<ColDatum> > table = rcppCallabilitySchedule.getTableData();
-            // int nrow = table.size();
-            Rcpp::DataFrame callScheDF(callabilityScheduleFrame);
-            Rcpp::NumericVector n0v = callScheDF[0];
-            Rcpp::CharacterVector s1v = callScheDF[1];
-            Rcpp::NumericVector n2v = callScheDF[2];
-            int nrow = n0v.size();
-            for (int row=0; row<nrow; row++) {
-                double price = n0v[row]; //table[row][0].getDoubleValue();
-                int type = (s1v[row]=="P") ? 1 : 0;
-                QuantLib::Date d(dateFromR(n2v[row]));
-                if (type==1){
-                    callabilitySchedule.push_back(boost::shared_ptr<Callability>
-                                                  (new Callability(Callability::Price(price, 
-                                                                                      Callability::Price::Clean),
-                                                                   Callability::Put,d )));
-            } else {
-                    callabilitySchedule.push_back(boost::shared_ptr<Callability>
-                                                  (new Callability(Callability::Price(price, 
-                                                                                      Callability::Price::Clean),
-                                                                   Callability::Call,d )));
-                }            
-            }
-        } catch (std::exception& ex){
-            forward_exception_to_r(ex); 
-        }
+        CallabilitySchedule callabilitySchedule = getCallabilitySchedule(callabilityScheduleFrame);
 
         Rcpp::List rparam(bondparams);
         
@@ -1380,45 +1052,21 @@ RcppExport SEXP QL_CallableBond(SEXP bondparams, SEXP hw, SEXP coupon,
             engine0(new TreeCallableFixedRateBondEngine(hw0,gridIntervals));
 
         Schedule sch(issueDate, maturityDate,
-                     Period(freq), calendar,
-                     bdc, bdc,
+                     Period(freq), calendar, bdc, bdc,
                      DateGeneration::Backward, false);        
 
         CallableFixedRateBond bond(settlementDays, faceAmount, sch,
                                    Rcpp::as<std::vector <double> >(rates), 
-                                   dc, bdc,
-                                   redemption, issueDate, 
+                                   dc, bdc, redemption, issueDate, 
                                    callabilitySchedule);
         bond.setPricingEngine(engine0);
-
-        //cashflow
-        // int numCol = 2;
-        // std::vector<std::string> colNames(numCol);
-        // colNames[0] = "Date";
-        // colNames[1] = "Amount";
-        // RcppFrame frame(colNames);
-        Leg bondCashFlow = bond.cashflows();
-        RcppDateVector dates(bondCashFlow.size());
-        Rcpp::NumericVector amount(bondCashFlow.size());
-
-        for (unsigned int i = 0; i< bondCashFlow.size(); i++){
-            //std::vector<ColDatum> row(numCol);
-            Date d = bondCashFlow[i]->date();
-            //row[0].setDateValue(RcppDate(d.month(), d.dayOfMonth(), d.year()));
-            //row[1].setDoubleValue(bondCashFlow[i]->amount());
-            //frame.addRow(row);
-            dates(i) = RcppDate(d.month(), d.dayOfMonth(), d.year());
-            amount[i] = bondCashFlow[i]->amount();
-        }
-        Rcpp::DataFrame df = Rcpp::DataFrame::create(Rcpp::Named("Date") = dates,
-                                                     Rcpp::Named("Amount") = amount);
 
         return Rcpp::List::create(Rcpp::Named("NPV") = bond.NPV(),
                                   Rcpp::Named("cleanPrice") = bond.cleanPrice(),
                                   Rcpp::Named("dirtyPrice") = bond.dirtyPrice(),
                                   Rcpp::Named("accruedCoupon") = bond.accruedAmount(),
                                   Rcpp::Named("yield") = bond.yield(dc, Compounded, freq),
-                                  Rcpp::Named("cashFlow") = df);
+                                  Rcpp::Named("cashFlow") = getCashFlowDataFrame(bond.cashflows()));
 
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
@@ -1640,8 +1288,6 @@ RcppExport SEXP QL_FittedBondCurve(SEXP curveparams, SEXP lengthVec,
             curve = ts3;
         }
         
-        
-
         // Return discount, forward rate, and zero coupon curves
         // int numCol = 3;
         // std::vector<std::string> colNames(numCol);

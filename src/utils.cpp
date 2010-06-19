@@ -49,39 +49,40 @@ makeOption(const boost::shared_ptr<StrikedTypePayoff>& payoff,
            EngineType engineType,
            Size binomialSteps,
            Size samples) {
-  
+
     boost::shared_ptr<GeneralizedBlackScholesProcess> stochProcess = makeProcess(u,q,r,vol);
     boost::shared_ptr<PricingEngine> engine;
+    typedef boost::shared_ptr<PricingEngine> spPE; // shorthand used below
 
     switch (engineType) {
     case Analytic:
-        engine = boost::shared_ptr<PricingEngine>(new AnalyticEuropeanEngine(stochProcess));
+        engine = spPE(new AnalyticEuropeanEngine(stochProcess));
         break;
     case JR:
-        engine = boost::shared_ptr<PricingEngine>(new BinomialVanillaEngine<JarrowRudd>(stochProcess, binomialSteps));
+        engine = spPE(new BinomialVanillaEngine<JarrowRudd>(stochProcess, binomialSteps));
         break;
     case CRR:
-        engine = boost::shared_ptr<PricingEngine>(new BinomialVanillaEngine<CoxRossRubinstein>(stochProcess, binomialSteps));
+        engine = spPE(new BinomialVanillaEngine<CoxRossRubinstein>(stochProcess, binomialSteps));
     case EQP:
-        engine = boost::shared_ptr<PricingEngine>(new BinomialVanillaEngine<AdditiveEQPBinomialTree>(stochProcess, binomialSteps));
+        engine = spPE(new BinomialVanillaEngine<AdditiveEQPBinomialTree>(stochProcess, binomialSteps));
         break;
     case TGEO:
-        engine = boost::shared_ptr<PricingEngine>(new BinomialVanillaEngine<Trigeorgis>(stochProcess, binomialSteps));
+        engine = spPE(new BinomialVanillaEngine<Trigeorgis>(stochProcess, binomialSteps));
         break;
     case TIAN:
-        engine = boost::shared_ptr<PricingEngine>(new BinomialVanillaEngine<Tian>(stochProcess, binomialSteps));
+        engine = spPE(new BinomialVanillaEngine<Tian>(stochProcess, binomialSteps));
         break;
     case LR:
-        engine = boost::shared_ptr<PricingEngine>(new BinomialVanillaEngine<LeisenReimer>(stochProcess, binomialSteps));
+        engine = spPE(new BinomialVanillaEngine<LeisenReimer>(stochProcess, binomialSteps));
         break;
     case JOSHI:
-        engine = boost::shared_ptr<PricingEngine>(new BinomialVanillaEngine<Joshi4>(stochProcess, binomialSteps));
+        engine = spPE(new BinomialVanillaEngine<Joshi4>(stochProcess, binomialSteps));
         break;
     case FiniteDifferences:
-        engine = boost::shared_ptr<PricingEngine>(new FDEuropeanEngine<CrankNicolson>(stochProcess, binomialSteps, samples));
+        engine = spPE(new FDEuropeanEngine<CrankNicolson>(stochProcess, binomialSteps, samples));
         break;
     case Integral:
-        engine = boost::shared_ptr<PricingEngine>(new IntegralEngine(stochProcess));
+        engine = spPE(new IntegralEngine(stochProcess));
         break;
     case PseudoMonteCarlo:
         engine = MakeMCEuropeanEngine<PseudoRandom>(stochProcess)
@@ -104,36 +105,30 @@ makeOption(const boost::shared_ptr<StrikedTypePayoff>& payoff,
 
 // QuantLib option setup utils, copied from the test-suite sources
 
-boost::shared_ptr<YieldTermStructure> buildTermStructure(SEXP params,
-                                                         SEXP tsQuotes,
-                                                         SEXP times){
-    char* exceptionMesg = NULL;
+boost::shared_ptr<YieldTermStructure> buildTermStructure(SEXP params, SEXP tsQuotes, SEXP times){
+
     boost::shared_ptr<YieldTermStructure> curve;
     try {
-        
-        // Parameter wrapper classes.
-        RcppParams rparam(params);
-        RcppNumList tslist(tsQuotes);
-        
-        int i;
-        
-        Date todaysDate( dateFromR(rparam.getDateValue("tradeDate") )); 
-        Date settlementDate( dateFromR(rparam.getDateValue("settleDate") )); 
+      
+        Rcpp::List rparam(params);
+        Rcpp::List tslist(tsQuotes);
+        Rcpp::CharacterVector tsnames = tslist.names();
+
+        Date todaysDate( dateFromR( Rcpp::as<int>(rparam["tradeDate"])) ); 
+        Date settlementDate( dateFromR( Rcpp::as<int>(rparam["settleDate"]) )); 
         // cout << "TradeDate: " << todaysDate << endl << "Settle: " << settlementDate << endl;
         
         RQLContext::instance().settleDate = settlementDate;
         Settings::instance().evaluationDate() = todaysDate;
-        std::string firstQuoteName = tslist.getName(0);
-        
+
+        std::string firstQuoteName = Rcpp::as<std::string>(tsnames[0]);
         //double dt = rparam.getDoubleValue("dt");
         
         std::string interpWhat, interpHow;
         bool flatQuotes = true;
-        if(firstQuoteName.compare("flat") != 0) {
-            
-            // Get interpolation method (not needed for "flat" case)
-            interpWhat = rparam.getStringValue("interpWhat");
-            interpHow  = rparam.getStringValue("interpHow");
+        if (firstQuoteName.compare("flat") != 0) { // Get interpolation method (not needed for "flat" case)
+            interpWhat = Rcpp::as<std::string>(rparam["interpWhat"]);
+            interpHow  = Rcpp::as<std::string>(rparam["interpHow"]);
             flatQuotes = false;
         }
         
@@ -141,31 +136,23 @@ boost::shared_ptr<YieldTermStructure> buildTermStructure(SEXP params,
         RQLContext::instance().calendar = calendar;
         Integer fixingDays = 2;
         RQLContext::instance().fixingDays = fixingDays;
-        
-        // Any DayCounter would be fine.
-        // ActualActual::ISDA ensures that 30 years is 30.0
-        DayCounter termStructureDayCounter =
-            ActualActual(ActualActual::ISDA);
+
+        // Any DayCounter would be fine;  ActualActual::ISDA ensures that 30 years is 30.0
+        DayCounter termStructureDayCounter = ActualActual(ActualActual::ISDA);
         double tolerance = 1.0e-15;
         
-
-        if(firstQuoteName.compare("flat") == 0) {
-            // Create a flat term structure.
-            double rateQuote = tslist.getValue(0);
+        if (firstQuoteName.compare("flat") == 0) {	// Create a flat term structure.
+            double rateQuote = tslist[0];
             boost::shared_ptr<Quote> flatRate(new SimpleQuote(rateQuote));
-            boost::shared_ptr<FlatForward> ts(new FlatForward(settlementDate,
-                                                              Handle<Quote>(flatRate),
-                                                              Actual365Fixed()));
+            boost::shared_ptr<FlatForward> 
+                ts(new FlatForward(settlementDate, Handle<Quote>(flatRate), Actual365Fixed()));
             curve =  ts;
-        }
-        else {
-            // Build curve based on a set of observed rates and/or prices.
+        } else {									// Build curve based on a set of observed rates and/or prices.
             std::vector<boost::shared_ptr<RateHelper> > curveInput;
-            for(i = 0; i < tslist.size(); i++) {
-                std::string name = tslist.getName(i);
-                double val = tslist.getValue(i);
-                boost::shared_ptr<RateHelper> rh = 
-                    ObservableDB::instance().getRateHelper(name, val);
+            for (int i = 0; i < tslist.size(); i++) {
+                std::string name = Rcpp::as<std::string>(tsnames[i]);
+                double val = tslist[i];
+                boost::shared_ptr<RateHelper> rh = ObservableDB::instance().getRateHelper(name, val);
                 // edd 2009-11-01 FIXME NULL_RateHelper no longer builds under 0.9.9
                 // if (rh == NULL_RateHelper)
                 if (rh.get() == NULL)
@@ -173,92 +160,79 @@ boost::shared_ptr<YieldTermStructure> buildTermStructure(SEXP params,
                 curveInput.push_back(rh);
             }
             boost::shared_ptr<YieldTermStructure> ts =
-                getTermStructure(interpWhat, interpHow, 
-                                 settlementDate, curveInput,
+                getTermStructure(interpWhat, interpHow, settlementDate, curveInput, 
                                  termStructureDayCounter, tolerance);
-            
             curve = ts;
         }
+        return curve;    
         
-    } catch(std::exception& ex) {
-        exceptionMesg = copyMessageToR(ex.what());
-    } catch(...) {
-        exceptionMesg = copyMessageToR("unknown reason");
+    } catch(std::exception &ex) { 
+        forward_exception_to_r(ex); 
+    } catch(...) { 
+        ::Rf_error("c++ exception (unknown reason)"); 
     }
-    return curve;    
+
+    return curve;
 }
 
-Schedule getSchedule(SEXP sch){
+Schedule getSchedule(SEXP sch) {
    
-    RcppParams rparam(sch);
-    RcppDate iDate = rparam.getDateValue("effectiveDate");
+    Rcpp::List rparam(sch);
+    RcppDate iDate = RcppDate(Rcpp::as<int>(rparam["effectiveDate"]));
     QuantLib::Date effectiveDate(dateFromR(iDate));
-    RcppDate mDate = rparam.getDateValue("maturityDate");
+    RcppDate mDate = RcppDate(Rcpp::as<int>(rparam["maturityDate"]));
     QuantLib::Date maturityDate(dateFromR(mDate));      
-    double frequency = rparam.getDoubleValue("period");
-    std::string cal = rparam.getStringValue("calendar");
-    double businessDayConvention = rparam.getDoubleValue("businessDayConvention");
-    double terminationDateConvention = rparam.getDoubleValue("terminationDateConvention");
+    double frequency = Rcpp::as<double>(rparam["period"]);
+    std::string cal = Rcpp::as<std::string>(rparam["calendar"]);
+    double businessDayConvention = Rcpp::as<double>(rparam["businessDayConvention"]);
+    double terminationDateConvention = Rcpp::as<double>(rparam["terminationDateConvention"]);
     Calendar calendar = UnitedStates(UnitedStates::GovernmentBond);
     if (cal == "us"){
         calendar = UnitedStates(UnitedStates::GovernmentBond);
-    }
-    else if (cal == "uk"){
+    } else if (cal == "uk"){
         calendar = UnitedKingdom(UnitedKingdom::Exchange);
     }
     BusinessDayConvention bdc = getBusinessDayConvention(businessDayConvention);   
     BusinessDayConvention t_bdc = getBusinessDayConvention(terminationDateConvention);
-    Schedule schedule(effectiveDate,
-                      maturityDate,
+    Schedule schedule(effectiveDate, maturityDate,
                       Period(getFrequency(frequency)),
                       calendar, bdc, t_bdc, 
                       DateGeneration::Backward, false);
     return schedule;
-    
 }
 
-boost::shared_ptr<YieldTermStructure> rebuildCurveFromZeroRates(
-                                                                SEXP dateSexp,
-                                                                SEXP zeroSexp){
+boost::shared_ptr<YieldTermStructure> rebuildCurveFromZeroRates(SEXP dateSexp, SEXP zeroSexp) {
     RcppDateVector rcppdates  = RcppDateVector(dateSexp);
     int n = rcppdates.size();
-    std::vector<QuantLib::Date> dates(rcppdates.size());
-    for (int i = 0;i<n;i++){
-        QuantLib::Date day(dateFromR(rcppdates(i)) );
-        dates[i] = day;
-        
+    std::vector<QuantLib::Date> dates(n);
+    for (int i = 0;i<n; i++) {
+        dates[i] = QuantLib::Date(dateFromR(rcppdates(i)));
     }
-    //extract coupon rates vector
-    RcppVector<double> RcppVec(zeroSexp); 
-    std::vector<double> zeros(RcppVec.stlVector());
-    
+    Rcpp::NumericVector zeros(zeroSexp);    //extract coupon rates vector
     boost::shared_ptr<YieldTermStructure>  
-        rebuilt_curve(new 
-                      InterpolatedZeroCurve<LogLinear>(                        
-                                                       dates,
-                                                       zeros,
-                                                       ActualActual()));
+        rebuilt_curve(new InterpolatedZeroCurve<LogLinear>(dates, 
+                                                           Rcpp::as< std::vector<double> >(zeros), 
+                                                           ActualActual()));
     return rebuilt_curve;
 }
 
 boost::shared_ptr<YieldTermStructure> getFlatCurve(SEXP flatcurve){
-    RcppParams curve(flatcurve);
-    Rate riskFreeRate = curve.getDoubleValue("riskFreeRate");
-    RcppDate today_Date = curve.getDateValue("todayDate");       
+    Rcpp::List curve(flatcurve);
+    Rate riskFreeRate = Rcpp::as<double>(curve["riskFreeRate"]);
+    RcppDate today_Date = RcppDate(Rcpp::as<int>(curve["todayDate"]));       
     QuantLib::Date today(dateFromR(today_Date));
     
     boost::shared_ptr<SimpleQuote> rRate(new SimpleQuote(riskFreeRate));
     Settings::instance().evaluationDate() = today;
-    return flatRate(today,rRate,Actual360());
+    return flatRate(today, rRate, Actual360());
 }
 
 boost::shared_ptr<IborIndex> getIborIndex(SEXP index, const Date today){
-    RcppParams rparam(index);
-    std::string type = rparam.getStringValue("type");
-
+    Rcpp::List rparam(index);
+    std::string type = Rcpp::as<std::string>(rparam["type"]);
     if (type == "USDLibor"){
-        double riskFreeRate = rparam.getDoubleValue("riskFreeRate");
-        double period = rparam.getDoubleValue("period");
+        double riskFreeRate = Rcpp::as<double>(rparam["riskFreeRate"]);
+        double period = Rcpp::as<double>(rparam["period"]);
         boost::shared_ptr<SimpleQuote> rRate(new SimpleQuote(riskFreeRate));
         Settings::instance().evaluationDate() = today;
         Handle<YieldTermStructure> curve(flatRate(today,rRate,Actual360()));
@@ -268,33 +242,26 @@ boost::shared_ptr<IborIndex> getIborIndex(SEXP index, const Date today){
     else return boost::shared_ptr<IborIndex>();
 }
 
-std::vector<double> getDoubleVector(SEXP vector){
-    try {
-        RcppVector<double> RcppVec(vector);
-        if (RcppVec.size() > 0){
-            return  std::vector<double>(RcppVec.stlVector());
-        }
-        else return std::vector<double>();
-    }
-    catch (std::exception& e){       
-        return std::vector<double>();
+std::vector<double> getDoubleVector(SEXP vecSexp) {
+    if (::Rf_length(vecSexp) == 0) {
+        return(std::vector<double>());
+    } else {
+        return std::vector<double>( Rcpp::as<std::vector< double> >( Rcpp::NumericVector(vecSexp) ) );
     }
 }
 
 boost::shared_ptr<YieldTermStructure>
 makeFlatCurve(const Date& today,
-	      const boost::shared_ptr<Quote>& forward,
-	      const DayCounter& dc) {
-    return boost::shared_ptr<YieldTermStructure>(
-	   new FlatForward(today, Handle<Quote>(forward), dc));
+              const boost::shared_ptr<Quote>& forward,
+              const DayCounter& dc) {
+    return boost::shared_ptr<YieldTermStructure>(new FlatForward(today, Handle<Quote>(forward), dc));
 }
 
 boost::shared_ptr<YieldTermStructure>
 flatRate(const Date& today,
-	 const boost::shared_ptr<Quote>& forward,
-	 const DayCounter& dc) {
-  return boost::shared_ptr<YieldTermStructure>(
-	       new FlatForward(today, Handle<Quote>(forward), dc));
+         const boost::shared_ptr<Quote>& forward,
+         const DayCounter& dc) {
+    return boost::shared_ptr<YieldTermStructure>(new FlatForward(today, Handle<Quote>(forward), dc));
 }
   
 boost::shared_ptr<BlackVolTermStructure> 
@@ -302,15 +269,19 @@ makeFlatVolatility(const Date& today,
                    const boost::shared_ptr<Quote>& vol,
                    const DayCounter dc) {
     return boost::shared_ptr<BlackVolTermStructure>(
-           new BlackConstantVol(today, NullCalendar(), Handle<Quote>(vol), dc));
+                                                    new BlackConstantVol(today, 
+                                                                         NullCalendar(), 
+                                                                         Handle<Quote>(vol), dc));
 }
 
 boost::shared_ptr<BlackVolTermStructure>
 flatVol(const Date& today,
-	const boost::shared_ptr<Quote>& vol,
-	const DayCounter& dc) {
-  return boost::shared_ptr<BlackVolTermStructure>(new
-            BlackConstantVol(today, NullCalendar(), Handle<Quote>(vol), dc));
+        const boost::shared_ptr<Quote>& vol,
+        const DayCounter& dc) {
+    return boost::shared_ptr<BlackVolTermStructure>(
+           new BlackConstantVol(today, 
+                                NullCalendar(), 
+                                Handle<Quote>(vol), dc));
 }
 
 boost::shared_ptr<GeneralizedBlackScholesProcess>
@@ -318,11 +289,10 @@ makeProcess(const boost::shared_ptr<Quote>& u,
             const boost::shared_ptr<YieldTermStructure>& q,
             const boost::shared_ptr<YieldTermStructure>& r,
             const boost::shared_ptr<BlackVolTermStructure>& vol) {
-    return boost::shared_ptr<BlackScholesMertonProcess>(
-           new BlackScholesMertonProcess(Handle<Quote>(u),
-                                         Handle<YieldTermStructure>(q),
-                                         Handle<YieldTermStructure>(r),
-                                         Handle<BlackVolTermStructure>(vol)));
+    return boost::shared_ptr<BlackScholesMertonProcess>(new BlackScholesMertonProcess(Handle<Quote>(u),
+                                                                                      Handle<YieldTermStructure>(q),
+                                                                                      Handle<YieldTermStructure>(r),
+                                                                                      Handle<BlackVolTermStructure>(vol)));
 }
 
 // R uses dates indexed to Jan 1, 1970. Rcpp uses an internal Julian Date representation,
@@ -332,75 +302,111 @@ int dateFromR(const RcppDate &d) {
 }
 
 DayCounter getDayCounter(const double n){
-    if (n==0) return Actual360();
-    else if (n==1) return Actual365Fixed();
-    else if (n==2) return ActualActual();
-    else if (n==3) return Business252();
-    else if (n==4) return OneDayCounter();
-    else if (n==5) return SimpleDayCounter();
-    else  return Thirty360();
+    if (n==0) 
+        return Actual360();
+    else if (n==1) 
+        return Actual365Fixed();
+    else if (n==2) 
+        return ActualActual();
+    else if (n==3) 
+        return Business252();
+    else if (n==4) 
+        return OneDayCounter();
+    else if (n==5) 
+        return SimpleDayCounter();
+    else  
+        return Thirty360();
 }
 
 BusinessDayConvention getBusinessDayConvention(const double n){
-    if (n==0) return Following;
-    else if (n==1) return ModifiedFollowing;
-    else if (n==2) return Preceding;
-    else if (n==3) return ModifiedPreceding;
-    else  return Unadjusted;
+    if (n==0) 
+        return Following;
+    else if (n==1) 
+        return ModifiedFollowing;
+    else if (n==2) 
+        return Preceding;
+    else if (n==3) 
+        return ModifiedPreceding;
+    else  
+        return Unadjusted;
 }
 
 Compounding getCompounding(const double n){
-    if (n==0) return Simple;
-    else if (n==1) return Compounded;
-    else if (n==2) return Continuous;
-    else return SimpleThenCompounded;
+    if (n==0) 
+        return Simple;
+    else if (n==1) 
+        return Compounded;
+    else if (n==2) 
+        return Continuous;
+    else 
+        return SimpleThenCompounded;
 }
 
 Frequency getFrequency(const double n){
 
-    Frequency f;
-
-    if (n==-1) f = NoFrequency;
-    else if (n==0) f = Once;
-    else if (n==1) f = Annual;
-    else if (n==2) f = Semiannual;
-    else if (n==3) f = EveryFourthMonth;
-    else if (n==4) f = Quarterly;
-    else if (n==6) f = Bimonthly;
-    else if (n==12) f = Monthly;
-    else if (n==13) f = EveryFourthWeek;
-    else if (n==26) f = Biweekly;
-    else if (n==52) f = Weekly;
-    else if (n==365) f = Daily;
-    else f = OtherFrequency;   
-
-    return f;
+    if (n==-1) 
+        return NoFrequency;
+    else if (n==0) 
+        return Once;
+    else if (n==1) 
+        return Annual;
+    else if (n==2) 
+        return Semiannual;
+    else if (n==3) 
+        return EveryFourthMonth;
+    else if (n==4) 
+        return Quarterly;
+    else if (n==6) 
+        return Bimonthly;
+    else if (n==12) 
+        return Monthly;
+    else if (n==13) 
+        return EveryFourthWeek;
+    else if (n==26) 
+        return Biweekly;
+    else if (n==52) 
+        return Weekly;
+    else if (n==365) 
+        return Daily;
+    else 
+        return OtherFrequency;   
 }
 
 Period periodByTimeUnit(int length, std::string unit){
     TimeUnit tu = Years;
-    if (unit=="Days") tu=Days;
-    if (unit=="Weeks") tu=Weeks;
-    if (unit=="Months") tu=Months;
-
+    if (unit=="Days") 
+        tu=Days;
+    if (unit=="Weeks") 
+        tu=Weeks;
+    if (unit=="Months") 
+        tu=Months;
     return Period(length, tu);
-
 }
 
 TimeUnit getTimeUnit(const double n){
-    if (n==0) return Days;
-    else if (n==1) return Weeks;
-    else if (n==2) return Months;
-    else return Years;
+    if (n==0) 
+        return Days;
+    else if (n==1) 
+        return Weeks;
+    else if (n==2) 
+        return Months;
+    else return 
+             Years;
 }
 
 DateGeneration::Rule getDateGenerationRule(const double n){
-    if (n==0) return DateGeneration::Backward;
-    else if (n==1) return DateGeneration::Forward;
-    else if (n==2) return DateGeneration::Zero;
-    else if (n==3) return DateGeneration::ThirdWednesday;
-    else if (n==4) return DateGeneration::Twentieth;
-    else return DateGeneration::TwentiethIMM;
+    if (n==0) 
+        return DateGeneration::Backward;
+    else if (n==1) 
+        return DateGeneration::Forward;
+    else if (n==2) 
+        return DateGeneration::Zero;
+    else if (n==3) 
+        return DateGeneration::ThirdWednesday;
+    else if (n==4) 
+        return DateGeneration::Twentieth;
+    else 
+        return DateGeneration::TwentiethIMM;
 }
 
 boost::shared_ptr<IborIndex> buildIborIndex(std::string type,
@@ -438,3 +444,94 @@ boost::shared_ptr<IborIndex> buildIborIndex(std::string type,
     return boost::shared_ptr<IborIndex>();   
 }
 
+Rcpp::DataFrame getCashFlowDataFrame(const Leg &bondCashFlow) {
+    //cashflow
+    //int numCol = 2;
+    //std::vector<std::string> colNames(numCol);
+    //colNames[0] = "Date";
+    //colNames[1] = "Amount";
+    //RcppFrame frame(colNames);
+    //Leg bondCashFlow = bond.cashflows();
+    RcppDateVector dates(bondCashFlow.size());
+    Rcpp::NumericVector amount(bondCashFlow.size());
+
+    for (unsigned int i = 0; i< bondCashFlow.size(); i++){
+        //std::vector<ColDatum> row(numCol);
+        Date d = bondCashFlow[i]->date();
+        //row[0].setDateValue(RcppDate(d.month(), d.dayOfMonth(), d.year()));
+        //row[1].setDoubleValue(bondCashFlow[i]->amount());
+        //frame.addRow(row);
+        dates(i) = RcppDate(d.month(), d.dayOfMonth(), d.year());
+        amount[i] = bondCashFlow[i]->amount();
+    }
+    return Rcpp::DataFrame::create(Rcpp::Named("Date") = dates,
+                                   Rcpp::Named("Amount") = amount);
+}
+
+
+DividendSchedule getDividendSchedule(SEXP dividendScheduleFrame) {
+
+    DividendSchedule dividendSchedule;
+    try {
+        //RcppFrame rcppDividendSchedule(dividendScheduleFrame);        
+        //std::vector<std::vector<ColDatum> > table = rcppDividendSchedule.getTableData();
+        //int nrow = table.size();
+        //int ncol = table[0].size();
+        Rcpp::DataFrame divScheDF(dividendScheduleFrame);
+        Rcpp::CharacterVector s0v = divScheDF[0];
+        Rcpp::NumericVector n1v = divScheDF[1];
+        Rcpp::NumericVector n2v = divScheDF[2];
+        Rcpp::NumericVector n3v = divScheDF[3];
+        int nrow = s0v.size();
+
+        for (int row=0; row<nrow; row++){          
+            int type = (s0v[row] == "Fixed") ? 1 : 0; //  (table[row][0].getStringValue()=="Fixed") ? 1 : 0;
+            double amount = n1v[row]; // table[row][1].getDoubleValue();
+            double rate = n2v[row]; // table[row][2].getDoubleValue();
+            QuantLib::Date d(dateFromR(n3v[row])); //table[row][3].getDateValue()));            
+            if (type==1) {
+                dividendSchedule.push_back(boost::shared_ptr<Dividend>(new FixedDividend(amount, d)));
+            } else {
+                dividendSchedule.push_back(boost::shared_ptr<Dividend>(new FractionalDividend(rate, amount, d)));
+            }
+        }
+    } catch (std::exception& ex) { 
+        forward_exception_to_r(ex); 
+    }
+    return dividendSchedule;
+}
+
+CallabilitySchedule getCallabilitySchedule(SEXP callabilityScheduleFrame) {
+
+    CallabilitySchedule callabilitySchedule;
+
+    try {
+        // RcppFrame rcppCallabilitySchedule(callabilityScheduleFrame);
+        // std::vector<std::vector<ColDatum> > table = rcppCallabilitySchedule.getTableData();
+        // int nrow = table.size();
+        Rcpp::DataFrame callScheDF(callabilityScheduleFrame);
+        Rcpp::NumericVector n0v = callScheDF[0];
+        Rcpp::CharacterVector s1v = callScheDF[1];
+        Rcpp::NumericVector n2v = callScheDF[2];
+        int nrow = n0v.size();
+        for (int row=0; row<nrow; row++) {
+            double price = n0v[row]; //table[row][0].getDoubleValue();
+            int type = (s1v[row]=="P") ? 1 : 0;
+            QuantLib::Date d(dateFromR(n2v[row]));
+            if (type==1){
+                callabilitySchedule.push_back(boost::shared_ptr<Callability>
+                                              (new Callability(Callability::Price(price, 
+                                                                                  Callability::Price::Clean),
+                                                               Callability::Put,d )));
+            } else {
+                callabilitySchedule.push_back(boost::shared_ptr<Callability>
+                                              (new Callability(Callability::Price(price, 
+                                                                                  Callability::Price::Clean),
+                                                               Callability::Call,d )));
+            }            
+        }
+    } catch (std::exception& ex){
+        forward_exception_to_r(ex); 
+    }
+    return callabilitySchedule;
+}

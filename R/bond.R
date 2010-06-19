@@ -239,18 +239,17 @@ FloatingRateBond.default <- function(bond,
                                      floors=c(),
                                      index,
                                      curve,
-                                     dateparams=list(
-                                       refDate=bond$issueDate-2,
-                                       settlementDays=1,
-                                       calendar='us',
-                                       businessDayConvention='Following',
-                                       terminationDateConvention='Following',
-                                       dayCounter='Thirty360',
-                                       period='Semiannual',
-                                       dateGeneration='Backward',
-                                       endOfMonth=0,
-                                       fixingDays=2)
-                                     ){
+                                     dateparams=list(refDate=bond$issueDate-2,
+                                                     settlementDays=1,
+                                                     calendar='us',
+                                                     businessDayConvention='Following',
+                                                     terminationDateConvention='Following',
+                                                     dayCounter='Thirty360',
+                                                     period='Semiannual',
+                                                     dateGeneration='Backward',
+                                                     endOfMonth=0,
+                                                     fixingDays=2)
+                                     ) {
     val <- 0
 
     if (is.null(bond$faceAmount)){bond$faceAmount=100}

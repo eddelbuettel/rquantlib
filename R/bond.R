@@ -49,7 +49,6 @@ ZeroCouponBond.default <- function(bond,
                  discountCurve$table$zeroRates, dateparams,
                  PACKAGE="RQuantLib")
 
-    val$cashFlow <- as.data.frame(val$cashFlow)
     class(val) <- c("ZeroCouponBond", "Bond")
     val
 }
@@ -157,7 +156,6 @@ FixedRateBond.default <- function(bond,
                  discountCurve$table$zeroRates, dateparams,
                  PACKAGE="RQuantLib")
 
-    val$cashFlow <- as.data.frame(val$cashFlow)
     class(val) <- c("FixedRateBond", "Bond")
     val
 }
@@ -287,7 +285,6 @@ FloatingRateBond.default <- function(bond,
                  dateparams,
                  PACKAGE="RQuantLib")
 
-    val$cashFlow <- as.data.frame(val$cashFlow)
     class(val) <- c("FloatingRateBond", "Bond")
     val
 
@@ -347,7 +344,6 @@ ConvertibleZeroCouponBond.default <- function(bondparams,
                     dividendSchedule, callabilitySchedule, dateparams,
                     PACKAGE="RQuantLib")
 
-    val$cashFlow <- as.data.frame(val$cashFlow)
     class(val) <- c("ConvertibleZeroCouponBond", "Bond")
     val
 }
@@ -406,7 +402,6 @@ ConvertibleFixedCouponBond.default <- function(bondparams,
                     dividendSchedule, callabilitySchedule, dateparams,
                     PACKAGE="RQuantLib")
 
-    val$cashFlow <- as.data.frame(val$cashFlow)
     class(val) <- c("ConvertibleFixedCouponBond", "Bond")
     val
 }
@@ -472,7 +467,6 @@ ConvertibleFloatingCouponBond.default <- function(bondparams,
                     dividendSchedule, callabilitySchedule, dateparams,
                     PACKAGE="RQuantLib")
 
-    val$cashFlow <- as.data.frame(val$cashFlow)
     class(val) <- c("ConvertibleFloatingCouponBond", "Bond")
     val
 }
@@ -520,7 +514,6 @@ CallableBond.default <- function(bondparams, hullWhite,
 #                hw.termStructure$table$zeroRates,
                 callSch, dateparams,
                 PACKAGE="RQuantLib")
-    val$cashFlow <- as.data.frame(val$cashFlow)
     class(val) <- c("CallableBond", "Bond")
     val
 }
@@ -544,7 +537,6 @@ FittedBondCurve.default <- function(curveparams,
                  lengths, coupons, marketQuotes, dateparams, PACKAGE="RQuantLib")
 
     class(val) <- c("DiscountCurve")
-    val$table <- as.data.frame(val$table)
     val
 }
 

@@ -1,8 +1,13 @@
+2010-06-18  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/bonds.cpp: Converted to new API
+
 2010-06-17  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/curves.cpp: Converted to new API
 	* src/discount.cpp: Idem
 	* src/hullwhite.cpp: Idem
+	* src/bermudan.cpp: Idem
 
 2010-06-16  Dirk Eddelbuettel  <edd@debian.org>
 

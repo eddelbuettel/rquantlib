@@ -268,8 +268,7 @@ boost::shared_ptr<BlackVolTermStructure>
 makeFlatVolatility(const Date& today,
                    const boost::shared_ptr<Quote>& vol,
                    const DayCounter dc) {
-    return boost::shared_ptr<BlackVolTermStructure>(
-                                                    new BlackConstantVol(today, 
+    return boost::shared_ptr<BlackVolTermStructure>(new BlackConstantVol(today, 
                                                                          NullCalendar(), 
                                                                          Handle<Quote>(vol), dc));
 }
@@ -284,15 +283,16 @@ flatVol(const Date& today,
                                 Handle<Quote>(vol), dc));
 }
 
+typedef BlackScholesMertonProcess BSMProcess; // shortcut
 boost::shared_ptr<GeneralizedBlackScholesProcess>
 makeProcess(const boost::shared_ptr<Quote>& u,
             const boost::shared_ptr<YieldTermStructure>& q,
             const boost::shared_ptr<YieldTermStructure>& r,
             const boost::shared_ptr<BlackVolTermStructure>& vol) {
-    return boost::shared_ptr<BlackScholesMertonProcess>(new BlackScholesMertonProcess(Handle<Quote>(u),
-                                                                                      Handle<YieldTermStructure>(q),
-                                                                                      Handle<YieldTermStructure>(r),
-                                                                                      Handle<BlackVolTermStructure>(vol)));
+    return boost::shared_ptr<BSMProcess>(new BSMProcess(Handle<Quote>(u),
+                                                        Handle<YieldTermStructure>(q),
+                                                        Handle<YieldTermStructure>(r),
+                                                        Handle<BlackVolTermStructure>(vol)));
 }
 
 // R uses dates indexed to Jan 1, 1970. Rcpp uses an internal Julian Date representation,

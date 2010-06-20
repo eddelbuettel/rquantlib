@@ -47,6 +47,8 @@ RcppExport  SEXP QL_BinaryOption(SEXP optionParameters) {
         // updated again for QuantLib 0.9.0, 
         // cf QuantLib-0.9.0/test-suite/digitaloption.cpp
         Date today = Date::todaysDate();
+        Settings::instance().evaluationDate() = today;
+
         DayCounter dc = Actual360();
         boost::shared_ptr<SimpleQuote> spot(new SimpleQuote(underlying));
         boost::shared_ptr<SimpleQuote> qRate(new SimpleQuote(dividendYield));
@@ -145,6 +147,7 @@ RcppExport  SEXP QL_BinaryOptionImpliedVolatility(SEXP optionParameters) {
         // updated again for QuantLib 0.9.0, 
         // cf QuantLib-0.9.0/test-suite/digitaloption.cpp
         Date today = Date::todaysDate();
+        Settings::instance().evaluationDate() = today;
         DayCounter dc = Actual360();
         boost::shared_ptr<SimpleQuote> spot(new SimpleQuote(underlying));
         boost::shared_ptr<SimpleQuote> qRate(new SimpleQuote(dividendYield));
@@ -220,6 +223,7 @@ RcppExport  SEXP QL_BarrierOption(SEXP optionParameters) {
         // updated again for QuantLib 0.9.0, 
         // cf QuantLib-0.9.0/test-suite/barrieroption.cpp
         Date today = Date::todaysDate();
+        Settings::instance().evaluationDate() = today;
         DayCounter dc = Actual360();
         boost::shared_ptr<SimpleQuote> spot(new SimpleQuote(underlying));
         boost::shared_ptr<SimpleQuote> qRate(new SimpleQuote(dividendYield));

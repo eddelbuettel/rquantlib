@@ -1,3 +1,8 @@
+2010-06-20  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/*.cpp: Some minor cleanup and reindentation,
+	  ensure Settings::instance().evaluationDate() is set
+
 2010-06-19  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/bonds.cpp: Converted to new API

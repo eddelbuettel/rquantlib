@@ -45,20 +45,18 @@ RcppExport SEXP QL_AsianOption(SEXP optionParameters){
         Average::Type averageType = Average::Geometric;
         if (avgType=="geometric"){
             averageType = Average::Geometric;
-        }
-        else if (avgType=="arithmetic"){
+        } else if (avgType=="arithmetic"){
             averageType = Average::Arithmetic;
-        }
-        else{
+        } else {
             throw std::range_error("Unknown average type " + type);
         }
         
 
         //from test-suite/asionoptions.cpp
-
         DayCounter dc = Actual360();
         Date today = Date::todaysDate();
-        
+        Settings::instance().evaluationDate() = today;
+
         boost::shared_ptr<SimpleQuote> spot(new SimpleQuote(underlying));
         boost::shared_ptr<SimpleQuote> qRate(new SimpleQuote(dividendYield));
         boost::shared_ptr<YieldTermStructure> qTS = flatRate(today, qRate, dc);

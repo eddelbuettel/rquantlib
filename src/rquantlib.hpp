@@ -35,10 +35,10 @@ using namespace QuantLib;
 //#define NULL_RateHelper (boost::shared_ptr<RateHelper>)Null<boost::shared_ptr<RateHelper> >()
 
 // Prototypes for convenience functions (some macros)
-void insertListElement(SEXP &list, SEXP &names,
-                       const int pos, const double value, 
-                       const char *label);
-SEXP getListElement(SEXP list, char *str);
+//void insertListElement(SEXP &list, SEXP &names,
+//                       const int pos, const double value, 
+//                       const char *label);
+//SEXP getListElement(SEXP list, char *str);
 
 // Used to maintain context while in an R function.
 class RQLContext : public Singleton<RQLContext> {
@@ -49,6 +49,7 @@ public:
         settleDate = Date::todaysDate()+2;
     }
     // The tradeDate (evaluation date) is maintained by Settings,
+    // (which is a singleton structure provided by QuantLib)
     // and used to translate between dates and real-valued times.
     Date settleDate;
     Calendar calendar;
@@ -151,9 +152,7 @@ Schedule getSchedule(SEXP sch);
 boost::shared_ptr<IborIndex> getIborIndex(SEXP index, const Date today);
 std::vector<double> getDoubleVector(SEXP vector);
 boost::shared_ptr<YieldTermStructure> getFlatCurve(SEXP flatcurve);
-boost::shared_ptr<YieldTermStructure> rebuildCurveFromZeroRates(
-                                                                SEXP dateSexp,
-                                                                SEXP zeroSexp);
+boost::shared_ptr<YieldTermStructure> rebuildCurveFromZeroRates(SEXP dateSexp, SEXP zeroSexp);
 boost::shared_ptr<IborIndex> buildIborIndex(std::string type,
                                             const Handle<YieldTermStructure>& iborStrc);
 Calendar* getCalendar(SEXP calParameters);

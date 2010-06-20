@@ -28,20 +28,21 @@ RcppExport  SEXP QL_EuropeanOption(SEXP optionParameters) {
 
     try {
 
-        Rcpp::List rparam(optionParameters);    	// Parameters via list
+        Rcpp::List rparam(optionParameters);    	// Parameters via R list object
 
-        std::string type = Rcpp::as<std::string>(rparam["type"]);
-        double underlying = Rcpp::as<double>(rparam["underlying"]);
-        double strike = Rcpp::as<double>(rparam["strike"]);
+        std::string type     = Rcpp::as<std::string>(rparam["type"]);
+        double underlying    = Rcpp::as<double>(rparam["underlying"]);
+        double strike        = Rcpp::as<double>(rparam["strike"]);
         Spread dividendYield = Rcpp::as<double>(rparam["dividendYield"]);
-        Rate riskFreeRate = Rcpp::as<double>(rparam["riskFreeRate"]);
-        Time maturity = Rcpp::as<double>(rparam["maturity"]);
-        int length = int(maturity*360 + 0.5); // FIXME: this could be better
-        double volatility = Rcpp::as<double>(rparam["volatility"]);
+        Rate riskFreeRate    = Rcpp::as<double>(rparam["riskFreeRate"]);
+        Time maturity        = Rcpp::as<double>(rparam["maturity"]);
+        int length           = int(maturity*360 + 0.5); // FIXME: this could be better
+        double volatility    = Rcpp::as<double>(rparam["volatility"]);
     
         Option::Type optionType = getOptionType(type);
 
         Date today = Date::todaysDate();
+        Settings::instance().evaluationDate() = today;
 
         // new framework as per QuantLib 0.3.5
         DayCounter dc = Actual360();
@@ -49,9 +50,9 @@ RcppExport  SEXP QL_EuropeanOption(SEXP optionParameters) {
         boost::shared_ptr<SimpleQuote> vol(new SimpleQuote( volatility ));
         boost::shared_ptr<BlackVolTermStructure> volTS = flatVol(today, vol, dc);
         boost::shared_ptr<SimpleQuote> qRate(new SimpleQuote( dividendYield ));
-        boost::shared_ptr<YieldTermStructure> qTS = flatRate(today,qRate,dc);
+        boost::shared_ptr<YieldTermStructure> qTS = flatRate(today, qRate, dc);
         boost::shared_ptr<SimpleQuote> rRate(new SimpleQuote( riskFreeRate ));
-        boost::shared_ptr<YieldTermStructure> rTS = flatRate(today,rRate,dc);
+        boost::shared_ptr<YieldTermStructure> rTS = flatRate(today, rRate, dc);
 
         Date exDate = today + length;
         boost::shared_ptr<Exercise> exercise(new EuropeanExercise(exDate));
@@ -97,6 +98,7 @@ RcppExport  SEXP QL_AmericanOption(SEXP optionParameters) {
         // new framework as per QuantLib 0.3.5, updated for 0.3.7
         // updated again for 0.9.0, see eg test-suite/americanoption.cpp
         Date today = Date::todaysDate();
+        Settings::instance().evaluationDate() = today;
         DayCounter dc = Actual360();
         boost::shared_ptr<SimpleQuote> spot(new SimpleQuote(underlying));
         boost::shared_ptr<SimpleQuote> qRate(new SimpleQuote(dividendYield));

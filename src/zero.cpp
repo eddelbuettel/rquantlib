@@ -149,7 +149,6 @@ RcppExport SEXP zbtyield(SEXP MatVec, SEXP BondMat,
 
         Calendar calendar = UnitedStates(UnitedStates::GovernmentBond);
         Date todaysDate = calendar.advance(SettleDates[0], -2, Days);
-        // nothing to do with Date::todaysDate
         Settings::instance().evaluationDate() = todaysDate;
         Period p(getFrequency(2));
         double faceAmount = 100;

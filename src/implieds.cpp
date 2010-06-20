@@ -47,6 +47,7 @@ RcppExport  SEXP QL_EuropeanOptionImpliedVolatility(SEXP optionParameters) {
         Option::Type optionType = getOptionType(type);
 
         Date today = Date::todaysDate();
+        Settings::instance().evaluationDate() = today;
 
         // new framework as per QuantLib 0.3.5
         // updated for 0.3.7
@@ -108,6 +109,7 @@ RcppExport  SEXP QL_AmericanOptionImpliedVolatility(SEXP optionParameters) {
         Option::Type optionType = getOptionType(type);
 
         Date today = Date::todaysDate();
+        Settings::instance().evaluationDate() = today;
 
         // new framework as per QuantLib 0.3.5
         DayCounter dc = Actual360();
@@ -120,6 +122,8 @@ RcppExport  SEXP QL_AmericanOptionImpliedVolatility(SEXP optionParameters) {
         boost::shared_ptr<YieldTermStructure> rTS = flatRate(today,rRate,dc);
 
         Date exDate = today + length;
+        Settings::instance().evaluationDate() = today;
+
         //boost::shared_ptr<Exercise> exercise(new EuropeanExercise(exDate));
         boost::shared_ptr<Exercise> exercise(new AmericanExercise(today, exDate));
         boost::shared_ptr<StrikedTypePayoff> payoff(new PlainVanillaPayoff(optionType, strike));

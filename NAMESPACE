@@ -37,6 +37,7 @@ export(
        "advance",
        "businessDaysBetween",
        "holidayList",
+       "setCalendarContext",
        ##--dayCounter.R
        "dayCount",
        "yearFraction",

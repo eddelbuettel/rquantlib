@@ -1,6 +1,6 @@
 ## RQuantLib -- R interface to the QuantLib libraries
 ##
-## Copyright (C) 2002 - 2009 Dirk Eddelbuettel <edd@debian.org>
+## Copyright (C) 2002 - 2010  Dirk Eddelbuettel <edd@debian.org>
 ##
 ## $Id: zzz.R,v 1.3 2005/10/05 03:03:54 edd Exp $
 ##
@@ -20,7 +20,7 @@
 ## Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
 ## MA 02111-1307, USA
 
-.First.lib <- function(lib, pkg) {
-  #cat("This is a pre-release. The interface might change...\n")
-  library.dynam("RQuantLib", pkg, lib )
-}
+#.First.lib <- function(lib, pkg) {
+#  #cat("This is a pre-release. The interface might change...\n")
+#  library.dynam("RQuantLib", pkg, lib )
+#}

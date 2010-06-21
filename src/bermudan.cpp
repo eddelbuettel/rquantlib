@@ -80,10 +80,9 @@ RcppExport SEXP QL_BermudanSwaption(SEXP params, SEXP tsQuotes,
             interpHow  = Rcpp::as<std::string>(rparam["interpHow"]);
         }
 
-        Calendar calendar = TARGET();
-        Integer fixingDays = 2;
-        RQLContext::instance().calendar = calendar;
-        RQLContext::instance().fixingDays = fixingDays;
+        // initialise from the singleton instance
+        Calendar calendar = RQLContext::instance().calendar;
+        //Integer fixingDays = RQLContext::instance().fixingDays;
 
         // Any DayCounter would be fine.
         // ActualActual::ISDA ensures that 30 years is 30.0

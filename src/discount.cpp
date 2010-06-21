@@ -50,10 +50,9 @@ RcppExport SEXP QL_DiscountCurve(SEXP params, SEXP tsQuotes, SEXP times) {
             flatQuotes = false;
         }
 
-        Calendar calendar = TARGET();
-        RQLContext::instance().calendar = calendar;
-        Integer fixingDays = 2;
-        RQLContext::instance().fixingDays = fixingDays;
+        // initialise from the singleton instance
+        Calendar calendar = RQLContext::instance().calendar;
+        //Integer fixingDays = RQLContext::instance().fixingDays;
 
         // Any DayCounter would be fine.
         // ActualActual::ISDA ensures that 30 years is 30.0

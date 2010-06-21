@@ -85,6 +85,28 @@ boost::shared_ptr<Calendar> getCalendar(const std::string &calstr) {
     return pcal;
 }
 
+RcppExport SEXP QL_setContext(SEXP parSEXP) {
+
+    try {
+        Rcpp::List par(parSEXP);        
+
+        // set fixingDays and settleDate
+        RQLContext::instance().fixingDays = Rcpp::as<int>(par["fixingDays"]);
+        RQLContext::instance().settleDate = 
+            Date(dateFromR( RcppDate(Rcpp::as<int>(par["settleDate"])) ));
+
+        boost::shared_ptr<Calendar> pcal( getCalendar(Rcpp::as<std::string>(par["calendar"])) );
+        RQLContext::instance().calendar = *pcal; // set calendar in global singleton
+
+
+    } catch(std::exception &ex) { 
+        forward_exception_to_r(ex); 
+    } catch(...) { 
+        ::Rf_error("c++ exception (unknown reason)"); 
+    }
+    return R_NilValue;
+}
+
 RcppExport SEXP QL_isBusinessDay(SEXP calSexp, SEXP dateSexp){
 
     try {

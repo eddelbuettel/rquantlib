@@ -1,5 +1,14 @@
 2010-06-20  Dirk Eddelbuettel  <edd@debian.org>
 
+	* R/calendar.R: New helper function setCalendarContext()
+	setting calendar, fixingDays and settleDate
+	* src/calendar.cpp: Implementation, setting RQLContext
+	* R/setCalendarContext.Rd: Documentation
+
+	* src/bermudan.cpp: take calendar info from RQLContext
+	* src/discount.cpp: idem
+	* src/utils.cpp: idem
+
 	* src/*.cpp: Some minor cleanup and reindentation,
 	  ensure Settings::instance().evaluationDate() is set
 

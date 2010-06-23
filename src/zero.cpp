@@ -30,8 +30,8 @@ RcppExport SEXP zeroprice(SEXP params) {
 		Rcpp::List rparam(params);
 
         double yield = Rcpp::as<double>(rparam["Yield"]);
-        QuantLib::Date maturity(dateFromR(Rcpp::as<int>(rparam["Maturity"])));
-        QuantLib::Date settle(dateFromR(Rcpp::as<int>(rparam["Settle"])));
+        QuantLib::Date maturity(dateFromR(Rcpp::Date(Rcpp::as<int>(rparam["Maturity"]))));
+        QuantLib::Date settle(dateFromR(Rcpp::Date(Rcpp::as<int>(rparam["Settle"]))));
 
         Calendar calendar=UnitedStates(UnitedStates::GovernmentBond);
         QuantLib::Integer fixingDays = 2;
@@ -68,8 +68,8 @@ RcppExport SEXP zeroyield(SEXP params){
 		Rcpp::List rparam(params);
 
         double price = Rcpp::as<double>(rparam["Price"]);
-        QuantLib::Date maturity(dateFromR(Rcpp::as<int>(rparam["Maturity"])));
-        QuantLib::Date settle(dateFromR(Rcpp::as<int>(rparam["Settle"])));
+        QuantLib::Date maturity(dateFromR(Rcpp::Date(Rcpp::as<int>(rparam["Maturity"]))));
+        QuantLib::Date settle(dateFromR(Rcpp::Date(Rcpp::as<int>(rparam["Settle"]))));
 
         Calendar calendar=UnitedStates(UnitedStates::GovernmentBond);
         QuantLib::Integer fixingDays = 2;
@@ -104,32 +104,32 @@ RcppExport SEXP zbtyield(SEXP MatVec, SEXP BondMat,
                          SEXP cpVec, SEXP param) {
     try {   
 
-        RcppParams rparam(param);
+        Rcpp::List par(param);
         //double oc = Rcpp::as<double>(rparam["OC");
 
-        RcppDateVector rmat(MatVec);
-        RcppDateVector rsettle(SettlVec);
-        RcppVector<double> ryields(yieldVec);
-        RcppVector<double> rcp(cpVec);
-        RcppMatrix<double> rbondmat(BondMat);
+        Rcpp::DateVector rmat(MatVec);
+        Rcpp::DateVector rsettle(SettlVec);
+        Rcpp::NumericVector yields(yieldVec);
+        Rcpp::NumericVector cleanPrice(cpVec);
+        Rcpp::NumericMatrix bondparam(BondMat);
+        //std::vector<double> cleanPrice(rcp.stlVector());        
+        //std::vector<double> yields(ryields.stlVector());
+        //std::vector<std::vector<double> > bondparam(rbondmat.stlMatrix());
+
         std::cout << "read done";
         int n = rmat.size();
         std::vector<QuantLib::Date> MatDates(rmat.size());
         for (int i = 0;i<n;i++){
-            QuantLib::Date day(dateFromR(rmat(i)));
+            QuantLib::Date day(dateFromR(rmat[i]));
             MatDates[i] = day;            
         }
 
         std::vector<QuantLib::Date> SettleDates(rsettle.size());
         for (int i = 0;i<n;i++){
-            QuantLib::Date day(dateFromR(rsettle(i)) );
+            QuantLib::Date day(dateFromR(rsettle[i]) );
             SettleDates[i] = day;            
         }
 
-        ;
-        std::vector<double> cleanPrice(rcp.stlVector());        
-        std::vector<double> yields(ryields.stlVector());
-        std::vector<std::vector<double> > bondparam(rbondmat.stlMatrix());
 
         //setting up the bonds
         const Size numberOfBonds = n;
@@ -156,26 +156,20 @@ RcppExport SEXP zbtyield(SEXP MatVec, SEXP BondMat,
         bool emr = true;
         for (Size  j = 0; j< numberOfBonds;j++){
 
-            if (rbondmat.getDim2() > 1){
-                p = Period(getFrequency(bondparam[j][2]));                           
-                faceAmount = bondparam[j][1];
+            if (bondparam.ncol() > 1) {
+                p = Period(getFrequency(bondparam(j,2)));                           
+                faceAmount = bondparam(j,1);
                 dayCounter = getDayCounter(3);
-                emr = (bondparam[j][4]==0) ? false : true;
+                emr = (bondparam(j,4)==0) ? false : true;
             }
             
             Schedule schedule(SettleDates[j], MatDates[j],p, calendar,
                               Unadjusted, Unadjusted,
                               DateGeneration::Backward, emr);
             boost::shared_ptr<FixedRateBondHelper> 
-                helper(
-                       new FixedRateBondHelper(quoteHandle[j],
-                                               1, faceAmount, 
-                                               schedule,
-                                               std::vector<Rate>(1,bondparam[j][0]),
-                                               dayCounter, 
-                                               Unadjusted, 100, SettleDates[j]
-                                               )
-                       );
+                helper(new FixedRateBondHelper(quoteHandle[j], 1, faceAmount, schedule,
+                                               std::vector<Rate>(1,bondparam(j,0)),
+                                               dayCounter, Unadjusted, 100, SettleDates[j]));
             instruments.push_back(helper);
         }
         
@@ -197,25 +191,22 @@ RcppExport SEXP zbtyield(SEXP MatVec, SEXP BondMat,
         curve = ts3;
         */
 
-        boost::shared_ptr<YieldTermStructure> curve (
-                                                     new PiecewiseYieldCurve<ZeroYield,Cubic>(1,
-                                                                                              calendar,
-                                                                                              instruments,                                                                                                                               
-                                                                                              dayCounter));
+        boost::shared_ptr<YieldTermStructure> 
+            curve(new PiecewiseYieldCurve<ZeroYield,Cubic>(1, calendar, instruments, dayCounter));
         std::cout << "here";
         int numCol = 2;
         std::vector<std::string> colNames(numCol);
         colNames[0] = "date";
         colNames[1] = "zeroRates";
         
-		RcppDateVector dates(numberOfBonds);
+        Rcpp::DateVector dates(numberOfBonds);
 		Rcpp::NumericVector zeros(numberOfBonds);
 
         Date current = SettleDates[0];
         //int n1 = curve->maxDate() - SettleDates[0];
         for (unsigned int i = 0; i<numberOfBonds;i++){
             Date d = MatDates[i];
-            dates(i) = RcppDate(d.month(), d.dayOfMonth(), d.year());
+            dates[i] = Rcpp::Date(d.month(), d.dayOfMonth(), d.year());
 			zeros[i] = curve->zeroRate(d, ActualActual(), Simple);
             current++; // ?
         }

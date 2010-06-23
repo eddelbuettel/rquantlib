@@ -128,23 +128,17 @@ RcppExport SEXP QL_BermudanSwaption(SEXP params, SEXP tsQuotes,
                                                                            Actual365Fixed())));
 
         // Get swaption vol matrix.
-        //RcppMatrix<double> myVols(vols);
         Rcpp::NumericMatrix swaptionVols(vols);
-        int dim1 = swaptionVols.nrow(); //myVols.getDim1();
-        int dim2 = swaptionVols.ncol(); //myVols.getDim2();
-        //swaptionVols = myVols.cMatrix();
+        int dim1 = swaptionVols.nrow(); 
+        int dim2 = swaptionVols.ncol(); 
 	
         // Get swaption maturities
-        //RcppVector<int> myMats(maturities);
         Rcpp::NumericVector swaptionMat(maturities);
-        int numRows = swaptionMat.size(); //myMats.size();
-        //swaptionMat = myMats.cVector();
+        int numRows = swaptionMat.size(); 
 
         // Get swap tenors
-        //RcppVector<int> myLengths(tenors);
         Rcpp::NumericVector swapLengths(tenors);
-        int numCols = swapLengths.size(); //myLengths.size();
-        //swapLengths = myLengths.cVector();
+        int numCols = swapLengths.size(); 
 
         if (numRows*numCols != dim1*dim2) {
             std::ostringstream oss;
@@ -235,8 +229,6 @@ RcppExport SEXP QL_BermudanSwaption(SEXP params, SEXP tsQuotes,
             bermudanDates.push_back(coupon->accrualStartDate());
         }
         boost::shared_ptr<Exercise> bermudaExercise(new BermudanExercise(bermudanDates));
-
-        //RcppResultSet rs;
 
         // Price based on method selected.
         if (method.compare("G2Analytic") == 0) {

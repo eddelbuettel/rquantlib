@@ -136,7 +136,8 @@ makeProcess(const boost::shared_ptr<Quote>& u,
             const boost::shared_ptr<YieldTermStructure>& r,
             const boost::shared_ptr<BlackVolTermStructure>& vol);
 
-int dateFromR(const RcppDate &d);
+// int dateFromR(const RcppDate &d); 	// using 'classic' API's RcppDate 
+int dateFromR(const Rcpp::Date &d); // using 'new' API's Rcpp::Date
 
 //utility functions for parameters of fixed-income instrument function
 Frequency getFrequency(const double n);

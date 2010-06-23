@@ -31,8 +31,8 @@ RcppExport SEXP QL_DiscountCurve(SEXP params, SEXP tsQuotes, SEXP times) {
 
         int i;
 
-        Date todaysDate( dateFromR( Rcpp::as<int>(rparam["tradeDate"]) )); 
-        Date settlementDate( dateFromR( Rcpp::as<int>(rparam["settleDate"]) ));
+        Date todaysDate( dateFromR( Rcpp::Date(Rcpp::as<int>(rparam["tradeDate"])))); 
+        Date settlementDate( dateFromR( Rcpp::Date(Rcpp::as<int>(rparam["settleDate"]))));
         //std::cout << "TradeDate: " << todaysDate << std::endl << "Settle: " << settlementDate << std::endl;
 
         RQLContext::instance().settleDate = settlementDate;
@@ -117,29 +117,14 @@ RcppExport SEXP QL_DiscountCurve(SEXP params, SEXP tsQuotes, SEXP times) {
         //std::cout << "Settle " << settlementDate << std::endl;
         //n = std::min(300, n);
 
-        RcppDateVector dates(n);
+        Rcpp::DateVector dates(n);
         Rcpp::NumericVector zeroRates(n);
         Date d = current; 
         for (int i = 0; i<n && d < curve->maxDate(); i++){
-            //std::vector<ColDatum> row(numCol);
-            //row[0].setDateValue(RcppDate(d.month(), d.dayOfMonth(), d.year()));
-            dates(i) = RcppDate(d.month(), d.dayOfMonth(), d.year());
-            double zrate = curve->zeroRate(current, ActualActual(), Continuous);
-            zeroRates[i] = zrate;
-            //row[1].setDoubleValue(zrate);                        
-            //frame.addRow(row);
+            dates[i] = Rcpp::Date(d.month(), d.dayOfMonth(), d.year());
+            zeroRates[i] = curve->zeroRate(current, ActualActual(), Continuous);
             d++;
         }
-
-        // RcppResultSet rs;
-        // rs.add("times", times, false);
-        // rs.add("discounts", disc, true);
-        // rs.add("forwards", fwds, true);
-        // rs.add("zerorates", zero, true);
-        // rs.add("flatQuotes", flatQuotes);
-        // rs.add("params", params, false);
-        // rs.add("table", frame);
-        // rl = rs.getReturnList();
         Rcpp::DataFrame frame = Rcpp::DataFrame::create(Rcpp::Named("date") = dates,
                                                         Rcpp::Named("zeroRates") = zeroRates);
 

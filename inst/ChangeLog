@@ -1,3 +1,7 @@
+2010-06-23  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/*: Converted remainder of code to new Rcpp API
+
 2010-06-20  Dirk Eddelbuettel  <edd@debian.org>
 
 	* R/calendar.R: New helper function setCalendarContext()

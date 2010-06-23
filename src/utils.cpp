@@ -114,8 +114,8 @@ boost::shared_ptr<YieldTermStructure> buildTermStructure(SEXP params, SEXP tsQuo
         Rcpp::List tslist(tsQuotes);
         Rcpp::CharacterVector tsnames = tslist.names();
 
-        Date todaysDate( dateFromR( Rcpp::as<int>(rparam["tradeDate"])) ); 
-        Date settlementDate( dateFromR( Rcpp::as<int>(rparam["settleDate"]) )); 
+        Date todaysDate( dateFromR( Rcpp::Date(Rcpp::as<int>(rparam["tradeDate"])))); 
+        Date settlementDate( dateFromR( Rcpp::Date(Rcpp::as<int>(rparam["settleDate"])))); 
         // cout << "TradeDate: " << todaysDate << endl << "Settle: " << settlementDate << endl;
         
         RQLContext::instance().settleDate = settlementDate;
@@ -177,9 +177,9 @@ boost::shared_ptr<YieldTermStructure> buildTermStructure(SEXP params, SEXP tsQuo
 Schedule getSchedule(SEXP sch) {
    
     Rcpp::List rparam(sch);
-    RcppDate iDate = RcppDate(Rcpp::as<int>(rparam["effectiveDate"]));
+    Rcpp::Date iDate = Rcpp::Date(Rcpp::as<int>(rparam["effectiveDate"]));
     QuantLib::Date effectiveDate(dateFromR(iDate));
-    RcppDate mDate = RcppDate(Rcpp::as<int>(rparam["maturityDate"]));
+    Rcpp::Date mDate = Rcpp::Date(Rcpp::as<int>(rparam["maturityDate"]));
     QuantLib::Date maturityDate(dateFromR(mDate));      
     double frequency = Rcpp::as<double>(rparam["period"]);
     std::string cal = Rcpp::as<std::string>(rparam["calendar"]);
@@ -201,11 +201,11 @@ Schedule getSchedule(SEXP sch) {
 }
 
 boost::shared_ptr<YieldTermStructure> rebuildCurveFromZeroRates(SEXP dateSexp, SEXP zeroSexp) {
-    RcppDateVector rcppdates  = RcppDateVector(dateSexp);
+    Rcpp::DateVector rcppdates  = Rcpp::DateVector(dateSexp);
     int n = rcppdates.size();
     std::vector<QuantLib::Date> dates(n);
     for (int i = 0;i<n; i++) {
-        dates[i] = QuantLib::Date(dateFromR(rcppdates(i)));
+        dates[i] = QuantLib::Date(dateFromR(rcppdates[i]));
     }
     Rcpp::NumericVector zeros(zeroSexp);    //extract coupon rates vector
     boost::shared_ptr<YieldTermStructure>  
@@ -218,7 +218,7 @@ boost::shared_ptr<YieldTermStructure> rebuildCurveFromZeroRates(SEXP dateSexp, S
 boost::shared_ptr<YieldTermStructure> getFlatCurve(SEXP flatcurve){
     Rcpp::List curve(flatcurve);
     Rate riskFreeRate = Rcpp::as<double>(curve["riskFreeRate"]);
-    RcppDate today_Date = RcppDate(Rcpp::as<int>(curve["todayDate"]));       
+    Rcpp::Date today_Date = Rcpp::Date(Rcpp::as<int>(curve["todayDate"]));       
     QuantLib::Date today(dateFromR(today_Date));
     
     boost::shared_ptr<SimpleQuote> rRate(new SimpleQuote(riskFreeRate));
@@ -294,10 +294,15 @@ makeProcess(const boost::shared_ptr<Quote>& u,
                                                         Handle<BlackVolTermStructure>(vol)));
 }
 
-// R uses dates indexed to Jan 1, 1970. Rcpp uses an internal Julian Date representation,
+// R uses dates indexed to Jan 1, 1970. RcppDate uses an internal Julian Date representation,
 // but Quantlib uses the 'spreadsheet' format indexed to 1905 so we need to adjust
-int dateFromR(const RcppDate &d) {
-    return(d.getJDN() - RcppDate::Jan1970Offset + RcppDate::QLtoJan1970Offset);
+// int dateFromR(const RcppDate &d) {
+//     return(d.getJDN() - RcppDate::Jan1970Offset + RcppDate::QLtoJan1970Offset);
+// }
+
+// R and Rcpp::Date use the same 'days since epoch' representation; QL uses Excel style
+int dateFromR(const Rcpp::Date &d) {
+    return(d.getDate() + Rcpp::Date::QLtoJan1970Offset);
 }
 
 DayCounter getDayCounter(const double n){
@@ -444,23 +449,12 @@ boost::shared_ptr<IborIndex> buildIborIndex(std::string type,
 }
 
 Rcpp::DataFrame getCashFlowDataFrame(const Leg &bondCashFlow) {
-    //cashflow
-    //int numCol = 2;
-    //std::vector<std::string> colNames(numCol);
-    //colNames[0] = "Date";
-    //colNames[1] = "Amount";
-    //RcppFrame frame(colNames);
-    //Leg bondCashFlow = bond.cashflows();
-    RcppDateVector dates(bondCashFlow.size());
+    Rcpp::DateVector dates(bondCashFlow.size());
     Rcpp::NumericVector amount(bondCashFlow.size());
 
     for (unsigned int i = 0; i< bondCashFlow.size(); i++){
-        //std::vector<ColDatum> row(numCol);
         Date d = bondCashFlow[i]->date();
-        //row[0].setDateValue(RcppDate(d.month(), d.dayOfMonth(), d.year()));
-        //row[1].setDoubleValue(bondCashFlow[i]->amount());
-        //frame.addRow(row);
-        dates(i) = RcppDate(d.month(), d.dayOfMonth(), d.year());
+        dates[i] = Rcpp::Date(d.month(), d.dayOfMonth(), d.year());
         amount[i] = bondCashFlow[i]->amount();
     }
     return Rcpp::DataFrame::create(Rcpp::Named("Date") = dates,
@@ -472,10 +466,6 @@ DividendSchedule getDividendSchedule(SEXP dividendScheduleFrame) {
 
     DividendSchedule dividendSchedule;
     try {
-        //RcppFrame rcppDividendSchedule(dividendScheduleFrame);        
-        //std::vector<std::vector<ColDatum> > table = rcppDividendSchedule.getTableData();
-        //int nrow = table.size();
-        //int ncol = table[0].size();
         Rcpp::DataFrame divScheDF(dividendScheduleFrame);
         Rcpp::CharacterVector s0v = divScheDF[0];
         Rcpp::NumericVector n1v = divScheDF[1];
@@ -487,7 +477,7 @@ DividendSchedule getDividendSchedule(SEXP dividendScheduleFrame) {
             int type = (s0v[row] == "Fixed") ? 1 : 0; //  (table[row][0].getStringValue()=="Fixed") ? 1 : 0;
             double amount = n1v[row]; // table[row][1].getDoubleValue();
             double rate = n2v[row]; // table[row][2].getDoubleValue();
-            QuantLib::Date d(dateFromR(n3v[row])); //table[row][3].getDateValue()));            
+            QuantLib::Date d(dateFromR(Rcpp::Date(n3v[row]))); //table[row][3].getDateValue()));            
             if (type==1) {
                 dividendSchedule.push_back(boost::shared_ptr<Dividend>(new FixedDividend(amount, d)));
             } else {
@@ -516,7 +506,7 @@ CallabilitySchedule getCallabilitySchedule(SEXP callabilityScheduleFrame) {
         for (int row=0; row<nrow; row++) {
             double price = n0v[row]; //table[row][0].getDoubleValue();
             int type = (s1v[row]=="P") ? 1 : 0;
-            QuantLib::Date d(dateFromR(n2v[row]));
+            QuantLib::Date d(dateFromR(Rcpp::Date(n2v[row])));
             if (type==1){
                 callabilitySchedule.push_back(boost::shared_ptr<Callability>
                                               (new Callability(Callability::Price(price, 

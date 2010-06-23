@@ -35,18 +35,16 @@ RcppExport SEXP QL_HullWhiteCalibrationUsingCap(SEXP termStrcDateVec,
 												SEXP evaluationDate) {
 	
     try {
-        RcppDateVector dv(evaluationDate);
-        QuantLib::Date evalDate(dateFromR(dv(0)));
+        Rcpp::DateVector dv(evaluationDate);
+        QuantLib::Date evalDate(dateFromR(dv[0]));
         Settings::instance().evaluationDate() = evalDate;
 
         Handle<YieldTermStructure> 
-			term(rebuildCurveFromZeroRates(termStrcDateVec,
-										   termStrcZeroVec));
+			term(rebuildCurveFromZeroRates(termStrcDateVec, termStrcZeroVec));
         
         //set up ibor index
         Handle<YieldTermStructure> 
-			indexStrc(rebuildCurveFromZeroRates(iborDateVec,
-												iborZeroVec));    
+			indexStrc(rebuildCurveFromZeroRates(iborDateVec, iborZeroVec));    
 		Rcpp::List param(iborparams);
         std::string iborType = Rcpp::as<std::string>(param["type"]);
         boost::shared_ptr<IborIndex> index = buildIborIndex(iborType, indexStrc);
@@ -126,21 +124,19 @@ RcppExport SEXP QL_HullWhiteCalibrationUsingSwap(SEXP termStrcDateVec,
 												 SEXP evaluationDate){
 
     try {
-        RcppDateVector dv(evaluationDate);
-        QuantLib::Date evalDate(dateFromR(dv(0)));
+        Rcpp::DateVector dv(evaluationDate);
+        QuantLib::Date evalDate(dateFromR(dv[0]));
         Settings::instance().evaluationDate() = evalDate;
 
         //set up the HullWhite model       
         Handle<YieldTermStructure> 
-			term(rebuildCurveFromZeroRates(termStrcDateVec,
-										   termStrcZeroVec));
+			term(rebuildCurveFromZeroRates(termStrcDateVec, termStrcZeroVec));
         
         boost::shared_ptr<HullWhite> model(new HullWhite(term));        
         
         //set up ibor index
         Handle<YieldTermStructure> 
-			indexStrc(rebuildCurveFromZeroRates(iborDateVec,
-												iborZeroVec));    
+			indexStrc(rebuildCurveFromZeroRates(iborDateVec, iborZeroVec));    
 		Rcpp::List param(iborparams);
         std::string iborType = Rcpp::as<std::string>(param["type"]);
         boost::shared_ptr<IborIndex> index = buildIborIndex(iborType, indexStrc);

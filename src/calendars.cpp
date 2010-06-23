@@ -93,7 +93,7 @@ RcppExport SEXP QL_setContext(SEXP parSEXP) {
         // set fixingDays and settleDate
         RQLContext::instance().fixingDays = Rcpp::as<int>(par["fixingDays"]);
         RQLContext::instance().settleDate = 
-            Date(dateFromR( RcppDate(Rcpp::as<int>(par["settleDate"])) ));
+            Date(dateFromR( Rcpp::Date(Rcpp::as<int>(par["settleDate"])) ));
 
         boost::shared_ptr<Calendar> pcal( getCalendar(Rcpp::as<std::string>(par["calendar"])) );
         RQLContext::instance().calendar = *pcal; // set calendar in global singleton
@@ -112,13 +112,13 @@ RcppExport SEXP QL_isBusinessDay(SEXP calSexp, SEXP dateSexp){
     try {
         boost::shared_ptr<Calendar> pcal( getCalendar(Rcpp::as<std::string>(calSexp)) );
 
-        RcppDateVector dates  = RcppDateVector(dateSexp);
+        Rcpp::DateVector dates  = Rcpp::DateVector(dateSexp);
 
         int n = dates.size();
         std::vector<int> bizdays(n);
 
         for (int i=0; i<n; i++) {
-            QuantLib::Date day( dateFromR(dates(i)) );
+            QuantLib::Date day( dateFromR(dates[i]) );
             bizdays[i] = pcal->isBusinessDay(day);
         }
 
@@ -137,12 +137,12 @@ RcppExport SEXP QL_isHoliday(SEXP calSexp, SEXP dateSexp){
     try {
         boost::shared_ptr<Calendar> pcal( getCalendar(Rcpp::as<std::string>(calSexp)) );
 
-        RcppDateVector dates  = RcppDateVector(dateSexp);
+        Rcpp::DateVector dates  = Rcpp::DateVector(dateSexp);
         int n = dates.size();
         std::vector<int> hdays(n);
 
         for (int i=0; i<n; i++) {
-            QuantLib::Date day( dateFromR(dates(i)) );
+            QuantLib::Date day( dateFromR(dates[i]) );
             hdays[i] = pcal->isHoliday(day);
         }
 
@@ -161,12 +161,12 @@ RcppExport SEXP QL_isWeekend(SEXP calSexp, SEXP dateSexp){
     try {
         boost::shared_ptr<Calendar> pcal( getCalendar(Rcpp::as<std::string>(calSexp)) );
 
-        RcppDateVector dates  = RcppDateVector(dateSexp);
+        Rcpp::DateVector dates  = Rcpp::DateVector(dateSexp);
         int n = dates.size();
         std::vector<int> weekends(n);
 
         for (int i=0; i<n; i++) {
-            QuantLib::Date day( dateFromR(dates(i)) );
+            QuantLib::Date day( dateFromR(dates[i]) );
             weekends[i] = pcal->isWeekend(day.weekday());
         }
 
@@ -186,12 +186,12 @@ RcppExport SEXP QL_isEndOfMonth(SEXP calSexp, SEXP dateSexp){
     try {
         boost::shared_ptr<Calendar> pcal( getCalendar(Rcpp::as<std::string>(calSexp)) );
 
-        RcppDateVector dates  = RcppDateVector(dateSexp);
+        Rcpp::DateVector dates  = Rcpp::DateVector(dateSexp);
         int n = dates.size();
         std::vector<int> eom(n);
 
         for (int i=0; i<n; i++) {
-            QuantLib::Date day( dateFromR(dates(i)) );
+            QuantLib::Date day( dateFromR(dates[i]) );
             eom[i] = pcal->isEndOfMonth(day);
         }
 
@@ -211,14 +211,14 @@ RcppExport SEXP QL_endOfMonth(SEXP calSexp, SEXP dateSexp){
     try {
         boost::shared_ptr<Calendar> pcal( getCalendar(Rcpp::as<std::string>(calSexp)) );
 
-        RcppDateVector dates  = RcppDateVector(dateSexp);
+        Rcpp::DateVector dates  = Rcpp::DateVector(dateSexp);
         int n = dates.size();
         std::vector<QuantLib::Date> eom(n);
 
         for (int i=0; i<n; i++) {
-            QuantLib::Date day( dateFromR(dates(i)) );
+            QuantLib::Date day( dateFromR(dates[i]) );
             eom[i] = pcal->endOfMonth(day);
-            dates(i) = RcppDate(eom[i].month(), eom[i].dayOfMonth(), eom[i].year());
+            dates[i] = Rcpp::Date(eom[i].month(), eom[i].dayOfMonth(), eom[i].year());
         }
        
         return Rcpp::wrap(dates);
@@ -237,16 +237,16 @@ RcppExport SEXP QL_adjust(SEXP calSexp, SEXP bdcSEXP, SEXP dateSexp){
     try {
         boost::shared_ptr<Calendar> pcal( getCalendar(Rcpp::as<std::string>(calSexp)) );
         BusinessDayConvention bdc = getBusinessDayConvention( Rcpp::as<double>(bdcSEXP) );
-        RcppDateVector dates  = RcppDateVector(dateSexp);
+        Rcpp::DateVector dates  = Rcpp::DateVector(dateSexp);
         int n = dates.size();
         std::vector<QuantLib::Date> adjusted(n);
 
         for (int i=0; i<n; i++) {
-            QuantLib::Date day( dateFromR(dates(i)) );
+            QuantLib::Date day( dateFromR(dates[i]) );
             adjusted[i] = pcal->adjust(day, bdc);
-            dates(i) =  RcppDate(adjusted[i].month(), 
-                                 adjusted[i].dayOfMonth(), 
-                                 adjusted[i].year());
+            dates[i] =  Rcpp::Date(adjusted[i].month(), 
+                                   adjusted[i].dayOfMonth(), 
+                                   adjusted[i].year());
         }
 
         return Rcpp::wrap(dates);
@@ -270,16 +270,16 @@ RcppExport SEXP QL_advance1(SEXP calSexp, SEXP params, SEXP dateSexp){
         double amount = Rcpp::as<double>(rparam["amount"]);
         double unit = Rcpp::as<double>(rparam["unit"]);
 
-        RcppDateVector dates  = RcppDateVector(dateSexp);
+        Rcpp::DateVector dates  = Rcpp::DateVector(dateSexp);
         int n = dates.size();
         std::vector<QuantLib::Date> advance(n);
 
         for (int i=0; i<n; i++) {
-            QuantLib::Date day( dateFromR(dates(i)) );
+            QuantLib::Date day( dateFromR(dates[i]) );
             advance[i] = pcal->advance(day, amount,getTimeUnit(unit), bdc, (emr == 1)?true:false );
-            dates(i) =  RcppDate(advance[i].month(), 
-                                 advance[i].dayOfMonth(), 
-                                 advance[i].year());
+            dates[i] =  Rcpp::Date(advance[i].month(), 
+                                   advance[i].dayOfMonth(), 
+                                   advance[i].year());
         }
         
         return Rcpp::wrap(dates);
@@ -302,17 +302,17 @@ RcppExport SEXP QL_advance2(SEXP calSexp, SEXP param, SEXP dateSexp){
         double emr = Rcpp::as<double>(rparam["emr"]);
         double period = Rcpp::as<double>(rparam["period"]);
 
-        RcppDateVector dates  = RcppDateVector(dateSexp);
+        Rcpp::DateVector dates  = Rcpp::DateVector(dateSexp);
         int n = dates.size();
         std::vector<QuantLib::Date> advance(n);
 
         for (int i=0; i<n; i++) {
-            QuantLib::Date day( dateFromR(dates(i)) );
+            QuantLib::Date day( dateFromR(dates[i]) );
             advance[i] = pcal->advance(day, Period(getFrequency(period)), 
                                        bdc, (emr == 1)?true:false );
-            dates(i) =  RcppDate(advance[i].month(), 
-                                 advance[i].dayOfMonth(), 
-                                 advance[i].year());
+            dates[i] =  Rcpp::Date(advance[i].month(), 
+                                   advance[i].dayOfMonth(), 
+                                   advance[i].year());
         }
 
         return Rcpp::wrap(dates);
@@ -335,15 +335,15 @@ RcppExport SEXP QL_businessDaysBetween(SEXP calSexp, SEXP params,
         double ifirst = Rcpp::as<double>(rparam["includeFirst"]);
         double ilast = Rcpp::as<double>(rparam["includeLast"]);
 
-        RcppDateVector dates1  = RcppDateVector(from);
-        RcppDateVector dates2  = RcppDateVector(to);
+        Rcpp::DateVector dates1  = Rcpp::DateVector(from);
+        Rcpp::DateVector dates2  = Rcpp::DateVector(to);
 
         int n = dates1.size();
         std::vector<double> between(n);
 
         for (int i=0; i<n; i++) {
-            QuantLib::Date day1( dateFromR(dates1(i)) );
-            QuantLib::Date day2( dateFromR(dates2(i)) );
+            QuantLib::Date day1( dateFromR(dates1[i]) );
+            QuantLib::Date day2( dateFromR(dates2[i]) );
             between[i] = pcal->businessDaysBetween(day1, day2,
                                                    (ifirst == 1) ? true: false,
                                                    (ilast == 1) ? true: false);
@@ -366,8 +366,8 @@ RcppExport SEXP QL_holidayList(SEXP calSexp, SEXP params) {
         boost::shared_ptr<Calendar> pcal( getCalendar(Rcpp::as<std::string>(calSexp)) );
         Rcpp::List rparam(params);
         double iw = Rcpp::as<double>(rparam["includeWeekends"]);
-        RcppDate d1 = RcppDate( Rcpp::as<int>( rparam["from"] ));
-        RcppDate d2 = RcppDate( Rcpp::as<int>( rparam["to"] ));
+        Rcpp::Date d1 = Rcpp::Date( Rcpp::as<int>( rparam["from"] ));
+        Rcpp::Date d2 = Rcpp::Date( Rcpp::as<int>( rparam["to"] ));
 
         std::vector<QuantLib::Date> 
             holidays = QuantLib::Calendar::holidayList(*pcal,
@@ -376,9 +376,9 @@ RcppExport SEXP QL_holidayList(SEXP calSexp, SEXP params) {
                                                        iw == 1 ? true : false);                
 
         if (holidays.size() > 0) {
-            RcppDateVector dv( holidays.size() );
+            Rcpp::DateVector dv( holidays.size() );
             for (unsigned int i = 0; i< holidays.size(); i++){
-                dv(i) = RcppDate(holidays[i].month(), holidays[i].dayOfMonth(), holidays[i].year());
+                dv[i] = Rcpp::Date(holidays[i].month(), holidays[i].dayOfMonth(), holidays[i].year());
             }
             return Rcpp::wrap(dv);
         } else {

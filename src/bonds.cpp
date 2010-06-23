@@ -38,8 +38,8 @@ RcppExport SEXP QL_ZeroPriceByYield(SEXP optionParameters) {
         double frequency = Rcpp::as<double>(rparam["frequency"]);
         double businessDayConvention = Rcpp::as<double>(rparam["businessDayConvention"]);
         double compound = Rcpp::as<double>(rparam["compound"]);
-        RcppDate mDate = RcppDate(Rcpp::as<int>(rparam["maturityDate"]));
-        RcppDate iDate = RcppDate(Rcpp::as<int>(rparam["issueDate"]));
+        Rcpp::Date mDate = Rcpp::Date(Rcpp::as<int>(rparam["maturityDate"]));
+        Rcpp::Date iDate = Rcpp::Date(Rcpp::as<int>(rparam["issueDate"]));
         QuantLib::Date maturityDate(dateFromR(mDate));
         QuantLib::Date issueDate(dateFromR(iDate));
         //setup bond
@@ -81,8 +81,8 @@ RcppExport SEXP QL_ZeroYield(SEXP optionParameters) {
         double frequency = Rcpp::as<double>(rparam["frequency"]);
         double businessDayConvention = Rcpp::as<double>(rparam["businessDayConvention"]);
         double compound = Rcpp::as<double>(rparam["compound"]);
-        RcppDate mDate = RcppDate(Rcpp::as<int>(rparam["maturityDate"]));
-        RcppDate iDate = RcppDate(Rcpp::as<int>(rparam["issueDate"]));
+        Rcpp::Date mDate = Rcpp::Date(Rcpp::as<int>(rparam["maturityDate"]));
+        Rcpp::Date iDate = Rcpp::Date(Rcpp::as<int>(rparam["issueDate"]));
         QuantLib::Date maturityDate(dateFromR(mDate));
         QuantLib::Date issueDate(dateFromR(iDate));
         //setup bond
@@ -121,8 +121,8 @@ RcppExport SEXP QL_ZeroBond(SEXP bondparam,
     try {
         Rcpp::List rparam(bondparam);
         double faceAmount = Rcpp::as<double>(rparam["faceAmount"]);
-        RcppDate mDate = RcppDate(Rcpp::as<int>(rparam["maturityDate"]));
-        RcppDate iDate = RcppDate(Rcpp::as<int>(rparam["issueDate"]));
+        Rcpp::Date mDate = Rcpp::Date(Rcpp::as<int>(rparam["maturityDate"]));
+        Rcpp::Date iDate = Rcpp::Date(Rcpp::as<int>(rparam["issueDate"]));
         QuantLib::Date maturityDate(dateFromR(mDate));
         QuantLib::Date issueDate(dateFromR(iDate));
         double redemption = Rcpp::as<double>(rparam["redemption"]);
@@ -131,7 +131,7 @@ RcppExport SEXP QL_ZeroBond(SEXP bondparam,
         double settlementDays = Rcpp::as<double>(misc["settlementDays"]);
         std::string cal = Rcpp::as<std::string>(misc["calendar"]);
         double businessDayConvention = Rcpp::as<double>(misc["businessDayConvention"]);
-        QuantLib::Date refDate(dateFromR(RcppDate(Rcpp::as<int>(misc["refDate"]))));      
+        QuantLib::Date refDate(dateFromR(Rcpp::Date(Rcpp::as<int>(misc["refDate"]))));      
         Settings::instance().evaluationDate() = refDate;                               
         
         /*
@@ -184,9 +184,9 @@ RcppExport SEXP QL_FixedBond(SEXP bondparam, SEXP ratesVec,
         Rcpp::List rparam(bondparam);
         
         double faceAmount = Rcpp::as<double>(rparam["faceAmount"]);
-        RcppDate mDate = RcppDate(Rcpp::as<int>(rparam["maturityDate"]));
-        RcppDate eDate = RcppDate(Rcpp::as<int>(rparam["effectiveDate"]));
-        RcppDate iDate = RcppDate(Rcpp::as<int>(rparam["issueDate"]));
+        Rcpp::Date mDate = Rcpp::Date(Rcpp::as<int>(rparam["maturityDate"]));
+        Rcpp::Date eDate = Rcpp::Date(Rcpp::as<int>(rparam["effectiveDate"]));
+        Rcpp::Date iDate = Rcpp::Date(Rcpp::as<int>(rparam["issueDate"]));
         QuantLib::Date maturityDate(dateFromR(mDate));
         QuantLib::Date effectiveDate(dateFromR(eDate));
         QuantLib::Date issueDate(dateFromR(iDate));
@@ -263,9 +263,9 @@ RcppExport  SEXP QL_FixedRateBondYield(SEXP optionParameters, SEXP ratesVec) {
         double dayCounter = Rcpp::as<double>(rparam["dayCounter"]);
         double frequency = Rcpp::as<double>(rparam["period"]);
         
-        RcppDate mDate = RcppDate(Rcpp::as<int>(rparam["maturityDate"]));
-        RcppDate eDate = RcppDate(Rcpp::as<int>(rparam["effectiveDate"]));
-        RcppDate iDate = RcppDate(Rcpp::as<int>(rparam["issueDate"]));
+        Rcpp::Date mDate = Rcpp::Date(Rcpp::as<int>(rparam["maturityDate"]));
+        Rcpp::Date eDate = Rcpp::Date(Rcpp::as<int>(rparam["effectiveDate"]));
+        Rcpp::Date iDate = Rcpp::Date(Rcpp::as<int>(rparam["issueDate"]));
         QuantLib::Date maturityDate(dateFromR(mDate));
         QuantLib::Date effectiveDate(dateFromR(eDate));
         QuantLib::Date issueDate(dateFromR(iDate));
@@ -321,9 +321,9 @@ RcppExport SEXP QL_FixedRateBondPriceByYield(SEXP optionParameters, SEXP ratesVe
         double dayCounter = Rcpp::as<double>(rparam["dayCounter"]);
         double frequency = Rcpp::as<double>(rparam["period"]);
         
-        RcppDate mDate = RcppDate(Rcpp::as<int>(rparam["maturityDate"]));
-        RcppDate eDate = RcppDate(Rcpp::as<int>(rparam["effectiveDate"]));
-        RcppDate iDate = RcppDate(Rcpp::as<int>(rparam["issueDate"]));
+        Rcpp::Date mDate = Rcpp::Date(Rcpp::as<int>(rparam["maturityDate"]));
+        Rcpp::Date eDate = Rcpp::Date(Rcpp::as<int>(rparam["effectiveDate"]));
+        Rcpp::Date iDate = Rcpp::Date(Rcpp::as<int>(rparam["issueDate"]));
         QuantLib::Date maturityDate(dateFromR(mDate));
         QuantLib::Date effectiveDate(dateFromR(eDate));
         QuantLib::Date issueDate(dateFromR(iDate));
@@ -376,9 +376,9 @@ SEXP QL_FloatingBond(SEXP bondparam, SEXP gearingsVec, SEXP spreadsVec,
     try {
         Rcpp::List rparam(bondparam);        
         double faceAmount = Rcpp::as<double>(rparam["faceAmount"]);     
-        RcppDate mDate = RcppDate(Rcpp::as<int>(rparam["maturityDate"]));
-        RcppDate eDate = RcppDate(Rcpp::as<int>(rparam["effectiveDate"]));
-        RcppDate iDate = RcppDate(Rcpp::as<int>(rparam["issueDate"]));
+        Rcpp::Date mDate = Rcpp::Date(Rcpp::as<int>(rparam["maturityDate"]));
+        Rcpp::Date eDate = Rcpp::Date(Rcpp::as<int>(rparam["effectiveDate"]));
+        Rcpp::Date iDate = Rcpp::Date(Rcpp::as<int>(rparam["issueDate"]));
         QuantLib::Date maturityDate(dateFromR(mDate));
         QuantLib::Date effectiveDate(dateFromR(eDate));
         QuantLib::Date issueDate(dateFromR(iDate));
@@ -651,8 +651,8 @@ RcppExport SEXP QL_ConvertibleZeroBond(SEXP bondparams, SEXP process,
         Rcpp::List rparam(bondparams);
         
         //double faceAmount = Rcpp::as<double>(rparam["faceAmount");        
-        RcppDate mDate = RcppDate(Rcpp::as<int>(rparam["maturityDate"]));
-        RcppDate iDate = RcppDate(Rcpp::as<int>(rparam["issueDate"]));
+        Rcpp::Date mDate = Rcpp::Date(Rcpp::as<int>(rparam["maturityDate"]));
+        Rcpp::Date iDate = Rcpp::Date(Rcpp::as<int>(rparam["issueDate"]));
         QuantLib::Date maturityDate(dateFromR(mDate));
         QuantLib::Date issueDate(dateFromR(iDate));
         double redemption = Rcpp::as<double>(rparam["redemption"]);
@@ -759,8 +759,8 @@ RcppExport SEXP QL_ConvertibleFixedBond(SEXP bondparams, SEXP coupon, SEXP proce
 
         Rcpp::List rparam(bondparams);
         //double faceAmount = Rcpp::as<double>(rparam["faceAmount");        
-        RcppDate mDate = RcppDate(Rcpp::as<int>(rparam["maturityDate"]));
-        RcppDate iDate = RcppDate(Rcpp::as<int>(rparam["issueDate"]));
+        Rcpp::Date mDate = Rcpp::Date(Rcpp::as<int>(rparam["maturityDate"]));
+        Rcpp::Date iDate = Rcpp::Date(Rcpp::as<int>(rparam["issueDate"]));
         QuantLib::Date maturityDate(dateFromR(mDate));
         QuantLib::Date issueDate(dateFromR(iDate));
         double redemption = Rcpp::as<double>(rparam["redemption"]);
@@ -878,8 +878,8 @@ RcppExport SEXP QL_ConvertibleFloatingBond(SEXP bondparams,  SEXP process,
         Rcpp::List rparam(bondparams);
         
         //double faceAmount = Rcpp::as<double>(rparam["faceAmount");        
-        RcppDate mDate = RcppDate(Rcpp::as<int>(rparam["maturityDate"]));
-        RcppDate iDate = RcppDate(Rcpp::as<int>(rparam["issueDate"]));
+        Rcpp::Date mDate = Rcpp::Date(Rcpp::as<int>(rparam["maturityDate"]));
+        Rcpp::Date iDate = Rcpp::Date(Rcpp::as<int>(rparam["issueDate"]));
         QuantLib::Date maturityDate(dateFromR(mDate));
         QuantLib::Date issueDate(dateFromR(iDate));
         double redemption = Rcpp::as<double>(rparam["redemption"]);
@@ -1005,8 +1005,8 @@ RcppExport SEXP QL_CallableBond(SEXP bondparams, SEXP hw, SEXP coupon,
         Rcpp::List rparam(bondparams);
         
         double faceAmount = Rcpp::as<double>(rparam["faceAmount"]);        
-        RcppDate mDate = RcppDate(Rcpp::as<int>(rparam["maturityDate"]));
-        RcppDate iDate = RcppDate(Rcpp::as<int>(rparam["issueDate"]));
+        Rcpp::Date mDate = Rcpp::Date(Rcpp::as<int>(rparam["maturityDate"]));
+        Rcpp::Date iDate = Rcpp::Date(Rcpp::as<int>(rparam["issueDate"]));
         QuantLib::Date maturityDate(dateFromR(mDate));
         QuantLib::Date issueDate(dateFromR(iDate));
         double redemption = Rcpp::as<double>(rparam["redemption"]);
@@ -1077,123 +1077,121 @@ RcppExport SEXP QL_CallableBond(SEXP bondparams, SEXP hw, SEXP coupon,
     return R_NilValue;
 }
 
-/*
-RcppExport SEXP QL_CMSBond(SEXP bondparams, SEXP iborIndex, SEXP swapIndexParam, 
-                           SEXP capsVec, SEXP floorsVec, SEXP gearingsVec, 
-                           SEXP spreadsVec, SEXP swaptionVolSEXP, SEXP atmOptionTenorsSEXP,
-                           SEXP atmSwapTenorsSEXP, SEXP volMatrixSEXP, SEXP pricer,
-                           SEXP iborIndexDate, SEXP iborIndexRates)
-{
-    SEXP rl=R_NilValue;
-    char* exceptionMesg=NULL;
-    try {
+// RcppExport SEXP QL_CMSBond(SEXP bondparams, SEXP iborIndex, SEXP swapIndexParam, 
+//                            SEXP capsVec, SEXP floorsVec, SEXP gearingsVec, 
+//                            SEXP spreadsVec, SEXP swaptionVolSEXP, SEXP atmOptionTenorsSEXP,
+//                            SEXP atmSwapTenorsSEXP, SEXP volMatrixSEXP, SEXP pricer,
+//                            SEXP iborIndexDate, SEXP iborIndexRates)
+// {
+//     SEXP rl=R_NilValue;
+//     char* exceptionMesg=NULL;
+//     try {
 
-        std::vector<double> gearings = getDoubleVector(gearingsVec);
-        std::vector<double> spreads = getDoubleVector(spreadsVec);
-        std::vector<double> caps = getDoubleVector(capsVec);
-        std::vector<double> floors = getDoubleVector(floorsVec);
+//         std::vector<double> gearings = getDoubleVector(gearingsVec);
+//         std::vector<double> spreads = getDoubleVector(spreadsVec);
+//         std::vector<double> caps = getDoubleVector(capsVec);
+//         std::vector<double> floors = getDoubleVector(floorsVec);
 
-        RcppStringVector strVec(atmOptionTenorsSEXP);
-        std::vector<string> atmOptionTenors(strVec.stlVector());
-        RcppStringVector strVec2(atmSwapTenorsSEXP);
-        std::vector<string> atmSwapTenors(strVec2.stlVector());
+//         RcppStringVector strVec(atmOptionTenorsSEXP);
+//         std::vector<string> atmOptionTenors(strVec.stlVector());
+//         RcppStringVector strVec2(atmSwapTenorsSEXP);
+//         std::vector<string> atmSwapTenors(strVec2.stlVector());
 
-        RcppMatrix<double> m(volMatrixSEXP);
+//         RcppMatrix<double> m(volMatrixSEXP);
         
-        Handle<YieldTermStructure> termStructure(rebuildCurveFromZeroRates(
-                                                                           iborIndexDate,iborIndexRates));
-        Rcppparams iborparams(iborIndex);
-        std::string ibortype = iborparams.getStringValue("type");
-        std::string iborlength = iborparams.getStringValue("length");
-        boost::shared_ptr<IborIndex> ibor = getIborIndex(termStructure, ibortype, 
-                                                         iborlength);
-        //fix tenor to make sure it is converted by matchparam
-        Rcppparams swapparams(swapIndexParam);
-        std::string familyName = swapparams.getStringValue("familyName");
-        std::double tenor = swapparams.getDoubleValue("tenor");
-        std::double settlementDays = swapparams.getDoubleValue("settlementDays");
-        std::string currency = swapparams.getStringValue("currency");
-        std::string fixedLegTenor = swapparams.getDoubleValue("fixedLegTenor");
-        std::string fixedLegConvention = swapparams.getDoubleValue("fixedLegConvention");
-        std::string fixedLegDayCounter = swapparams.getDoubleValue("fixedLegDayCounter");
-        std::string cal = swapparams.getStringValue("calendar");
-        Calendar calendar = UnitedStates(UnitedStates::GovernmentBond);
-        if (cal == "us"){
-            calendar = UnitedStates(UnitedStates::GovernmentBond);
-        }
-        else if (cal == "uk"){
-            calendar = UnitedKingdom(UnitedKingdom::Exchange);
-        }
-        BusinessDayConvention fixedLegBDC = getBusinessDayConvention(fixedLegConvention);
-        DayCounter fixedLedDC = getDayCounter(fixedLegDayCounter);
+//         Handle<YieldTermStructure> termStructure(rebuildCurveFromZeroRates(
+//                                                                            iborIndexDate,iborIndexRates));
+//         Rcppparams iborparams(iborIndex);
+//         std::string ibortype = iborparams.getStringValue("type");
+//         std::string iborlength = iborparams.getStringValue("length");
+//         boost::shared_ptr<IborIndex> ibor = getIborIndex(termStructure, ibortype, 
+//                                                          iborlength);
+//         //fix tenor to make sure it is converted by matchparam
+//         Rcppparams swapparams(swapIndexParam);
+//         std::string familyName = swapparams.getStringValue("familyName");
+//         std::double tenor = swapparams.getDoubleValue("tenor");
+//         std::double settlementDays = swapparams.getDoubleValue("settlementDays");
+//         std::string currency = swapparams.getStringValue("currency");
+//         std::string fixedLegTenor = swapparams.getDoubleValue("fixedLegTenor");
+//         std::string fixedLegConvention = swapparams.getDoubleValue("fixedLegConvention");
+//         std::string fixedLegDayCounter = swapparams.getDoubleValue("fixedLegDayCounter");
+//         std::string cal = swapparams.getStringValue("calendar");
+//         Calendar calendar = UnitedStates(UnitedStates::GovernmentBond);
+//         if (cal == "us"){
+//             calendar = UnitedStates(UnitedStates::GovernmentBond);
+//         }
+//         else if (cal == "uk"){
+//             calendar = UnitedKingdom(UnitedKingdom::Exchange);
+//         }
+//         BusinessDayConvention fixedLegBDC = getBusinessDayConvention(fixedLegConvention);
+//         DayCounter fixedLedDC = getDayCounter(fixedLegDayCounter);
 
-        boost::shared_ptr<SwapIndex> swapIndex(new SwapIndex(familiName, 
-                                                             getPeriodFromString(fixedLegTenor),
-                                                             settlemenDays, 
-                                                             currency, 
-                                                             calendar,
-                                                             getPeriodFromString(fixedLegTenor), 
-                                                             fixedLegBDC, 
-                                                             fixedLegDC, 
-                                                             ibor));
+//         boost::shared_ptr<SwapIndex> swapIndex(new SwapIndex(familiName, 
+//                                                              getPeriodFromString(fixedLegTenor),
+//                                                              settlemenDays, 
+//                                                              currency, 
+//                                                              calendar,
+//                                                              getPeriodFromString(fixedLegTenor), 
+//                                                              fixedLegBDC, 
+//                                                              fixedLegDC, 
+//                                                              ibor));
 
-        Rcppparams pricerparams(pricer);
-        std::string pricerType = pricerparams.getStringValue("type");
-        std::double zeroMeanRev = pricerparams.getDoubleValue("zeroMeanRev");
+//         Rcppparams pricerparams(pricer);
+//         std::string pricerType = pricerparams.getStringValue("type");
+//         std::double zeroMeanRev = pricerparams.getDoubleValue("zeroMeanRev");
         
-        Rcppparams swaptionVolParams(swaptionVolSEXP);
-        std::string swaptionCal = swaptionVolParams.getStringValue("calendar");
-        std::double swaptionBDC = swaptionVolParams.getDoubleValue("businessDayConvention");
-        std::double swaptionDC = swaptionVolParams.getDoubleValue("dayCounter");
-        Handle<SwaptionVolatilityStructure> atmVol;
-        atmVol = Handle<SwaptionVolatilityStructure>(
-                                                     boost::shared_ptr<SwaptionVolatilityStructure>
-                                                     new SwaptionVolatilityMatrix(swapCal,
-                                                                                  swaptionBDC,
-                                                                                  atmOptionTenors,
-                                                                                  atmSwapTenors,
-                                                                                  m,
-                                                                                  swaptionDC));
+//         Rcppparams swaptionVolParams(swaptionVolSEXP);
+//         std::string swaptionCal = swaptionVolParams.getStringValue("calendar");
+//         std::double swaptionBDC = swaptionVolParams.getDoubleValue("businessDayConvention");
+//         std::double swaptionDC = swaptionVolParams.getDoubleValue("dayCounter");
+//         Handle<SwaptionVolatilityStructure> atmVol;
+//         atmVol = Handle<SwaptionVolatilityStructure>(
+//                                                      boost::shared_ptr<SwaptionVolatilityStructure>
+//                                                      new SwaptionVolatilityMatrix(swapCal,
+//                                                                                   swaptionBDC,
+//                                                                                   atmOptionTenors,
+//                                                                                   atmSwapTenors,
+//                                                                                   m,
+//                                                                                   swaptionDC));
 
 
-        boost::shared_ptr<CmsCouponPricer> pricer(new NumericHaganPricer(atmVol, yieldCurveModel,
-                                                                         zeroMeanRev));
-        
-
-        Rcppparams rparams(bondparams);        
-        RcppDate mDate = RcppDate(Rcpp::as<int>(rparam["maturityDate"]));
-        RcppDate iDate = RcppDate(Rcpp::as<int>(rparam["issueDate"]));
-        RcppDate pDate = RcppDate(Rcpp::as<int>(rparam["paymentDate"]));
-        QuantLib::Date maturityDate(dateFromR(mDate));
-        QuantLib::Date issueDate(dateFromR(iDate));
-        QuantLib::Date paymentDate(dateFromR(pDate));
-        std::double nomial = rparams.getDoubleValue("nomial");
-        
-        CappedFlooredCmsCoupon coupon(paymentDate, nomial,
-                                      issueDate, maturityDate, 
-                                      settlementDays, swapIndex,
-                                      gearings, spreads, 
-                                      caps, floors,
-                                      issueDate, maturityDate,
-                                      dayCounter);
-
-        pricer->setSwaptionVolatility(atmVol);
-        coupon.setPricer(pricer);
+//         boost::shared_ptr<CmsCouponPricer> pricer(new NumericHaganPricer(atmVol, yieldCurveModel,
+//                                                                          zeroMeanRev));
         
 
+//         Rcppparams rparams(bondparams);        
+//         Rcpp::Date mDate = Rcpp::Date(Rcpp::as<int>(rparam["maturityDate"]));
+//         Rcpp::Date iDate = Rcpp::Date(Rcpp::as<int>(rparam["issueDate"]));
+//         Rcpp::Date pDate = Rcpp::Date(Rcpp::as<int>(rparam["paymentDate"]));
+//         QuantLib::Date maturityDate(dateFromR(mDate));
+//         QuantLib::Date issueDate(dateFromR(iDate));
+//         QuantLib::Date paymentDate(dateFromR(pDate));
+//         std::double nomial = rparams.getDoubleValue("nomial");
         
-    } catch(std::exception& ex) {
-        exceptionMesg = copyMessageToR(ex.what());
-    } catch(...) {
-        exceptionMesg = copyMessageToR("unknown reason");
-    }
+//         CappedFlooredCmsCoupon coupon(paymentDate, nomial,
+//                                       issueDate, maturityDate, 
+//                                       settlementDays, swapIndex,
+//                                       gearings, spreads, 
+//                                       caps, floors,
+//                                       issueDate, maturityDate,
+//                                       dayCounter);
+
+//         pricer->setSwaptionVolatility(atmVol);
+//         coupon.setPricer(pricer);
+        
+
+        
+//     } catch(std::exception& ex) {
+//         exceptionMesg = copyMessageToR(ex.what());
+//     } catch(...) {
+//         exceptionMesg = copyMessageToR("unknown reason");
+//     }
     
-    if(exceptionMesg != NULL)
-        Rf_error(exceptionMesg);
+//     if(exceptionMesg != NULL)
+//         Rf_error(exceptionMesg);
     
-    return rl;
-}
-*/
+//     return rl;
+// }
 
 RcppExport SEXP QL_FittedBondCurve(SEXP curveparams, SEXP lengthVec,
                                    SEXP couponVec,SEXP marketVec,
@@ -1213,7 +1211,7 @@ RcppExport SEXP QL_FittedBondCurve(SEXP curveparams, SEXP lengthVec,
     
         Rcpp::List curvepam(curveparams);
         std::string method = Rcpp::as<std::string>(curvepam["method"]);
-        RcppDate oDate = RcppDate(Rcpp::as<int>(curvepam["origDate"]));
+        Rcpp::Date oDate = Rcpp::Date(Rcpp::as<int>(curvepam["origDate"]));
         QuantLib::Date origDate(dateFromR(oDate));
         Settings::instance().evaluationDate() = origDate;
 
@@ -1299,13 +1297,13 @@ RcppExport SEXP QL_FittedBondCurve(SEXP curveparams, SEXP lengthVec,
         int n = curve->maxDate() - curve->referenceDate();
         std::cout << curve->maxDate() << " " << curve->referenceDate() << " " << n << std::endl;
 
-        RcppDateVector dates(n);
+        Rcpp::DateVector dates(n);
         Rcpp::NumericVector zr(n);
         Rcpp::NumericVector di(n);
 
         for (int i = 0; i < n; i++) {
             Date d = current; 
-            dates(i) =  RcppDate(d.month(), d.dayOfMonth(), d.year());
+            dates[i] =  Rcpp::Date(d.month(), d.dayOfMonth(), d.year());
             zr[i] = curve->zeroRate(current, ActualActual(), Continuous);
             di[i] = curve->discount(current);
             current++;

@@ -8,5 +8,5 @@ test.isHoliday <- function() {
 }
 
 test.isBusinessDay <- function() {
-    checkEquals(businessDay("UnitedStates", as.Date("2004-04-26")), c("2004-04-26"=TRUE), msg="isBusinessDay.US")
+    checkEquals(isBusinessDay("UnitedStates", as.Date("2004-04-26")), c("2004-04-26"=TRUE), msg="isBusinessDay.US")
 }

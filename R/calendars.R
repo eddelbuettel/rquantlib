@@ -21,7 +21,7 @@
 ## Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
 ## MA 02111-1307, USA
 
-businessDay <- function(calendar="TARGET", dates=Sys.Date()) {
+isBusinessDay <- function(calendar="TARGET", dates=Sys.Date()) {
     stopifnot(is.character(calendar))
     stopifnot(class(dates)=="Date")
     val <- .Call("QL_isBusinessDay", calendar, dates, PACKAGE="RQuantLib")
@@ -29,6 +29,7 @@ businessDay <- function(calendar="TARGET", dates=Sys.Date()) {
     names(val) <- dates
     val
 }
+businessDay <- function(...) isBusinessDay(...)  ## may get deprecated one day
 
 isHoliday <- function(calendar="TARGET", dates=Sys.Date()) {
     stopifnot(is.character(calendar))

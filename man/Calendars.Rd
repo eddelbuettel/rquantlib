@@ -1,12 +1,16 @@
 % $Id$
 \name{Calendars}
+\alias{isBusinessDay}
 \alias{businessDay}
 \title{Calendar functions from QuantLib}
 \description{
-The \code{businessDay} function evaluates the given dates in the context
+The \code{isBusinessDay} function evaluates the given dates in the context
 of the given calendar, and returns a vector of booleans indicating
-business day status.}
+business day status.
+
+The form \code{BusinessDay} is also recognised (but may be deprecated one day).}
 \usage{
+isBusinessDay(calendar="TARGET", dates=Sys.Date())
 businessDay(calendar="TARGET", dates=Sys.Date())
 }
 \arguments{
@@ -42,11 +46,11 @@ businessDay(calendar="TARGET", dates=Sys.Date())
   stabilises its own API.}
 \examples{
   dates <- seq(from=as.Date("2009-04-07"), to=as.Date("2009-04-14"), by=1)
-  businessDay("UnitedStates", dates)
-  businessDay("UnitedStates/Settlement", dates)      ## same as previous
-  businessDay("UnitedStates/NYSE", dates)            ## stocks
-  businessDay("UnitedStates/GovernmentBond", dates)  ## bonds
-  businessDay("UnitedStates/NERC", dates)            ## energy
+  isBusinessDay("UnitedStates", dates)
+  isBusinessDay("UnitedStates/Settlement", dates)      ## same as previous
+  isBusinessDay("UnitedStates/NYSE", dates)            ## stocks
+  isBusinessDay("UnitedStates/GovernmentBond", dates)  ## bonds
+  isBusinessDay("UnitedStates/NERC", dates)            ## energy
 }
 \keyword{misc}
 

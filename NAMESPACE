@@ -28,7 +28,7 @@ export(
        "CallableBond",
        "FittedBondCurve",
        ##--calendars.R
-       "businessDay",
+       "isBusinessDay", "businessDay",
        "isHoliday",
        "isWeekend",
        "isEndOfMonth",

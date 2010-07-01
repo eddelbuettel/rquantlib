@@ -151,7 +151,7 @@
 	* man/endOfMonth.Rd: idem
 	* man/isHoliday.Rd: idem
 	* man/holidayList.Rd: idem
-	* man/businessDaysBetwee.Rd: idem
+	* man/businessDaysBetween.Rd: idem
 	* man/adjust.Rd: idem
 	* man/isEndOfMonth.Rd: idem
 	* man/isWeekend.Rd: idem

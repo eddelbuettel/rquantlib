@@ -23,14 +23,16 @@
 ## MA 02111-1307, USA
 
 AsianOption <- function(averageType, type, underlying, strike, dividendYield,
-                           riskFreeRate, maturity, volatility,
-                           timeSteps=150, gridPoints=151) {
+                        riskFreeRate, maturity, volatility,
+                        first, length, fixings,
+                        timeSteps=150, gridPoints=151) {
     UseMethod("AsianOption")
 }
 
 AsianOption.default <- function(averageType, type, underlying, strike, dividendYield,
-                                   riskFreeRate, maturity, volatility,
-                                   timeSteps=150, gridPoints=151) {
+                                riskFreeRate, maturity, volatility,
+                                first=0, length=0, fixings=0,
+                                timeSteps=150, gridPoints=151) {
     averageType <- match.arg(averageType, c("geometric", "arithmetic"))
     type <- match.arg(type, c("call", "put"))
     val <- .Call("QL_AsianOption",
@@ -42,6 +44,9 @@ AsianOption.default <- function(averageType, type, underlying, strike, dividendY
                       riskFreeRate=as.double(riskFreeRate),
                       maturity=as.double(maturity),
                       volatility=as.double(volatility),
+                      first=as.double(first),
+                      length=as.double(length),
+                      fixings=as.double(fixings),
                       timeSteps=as.integer(timeSteps),
                       gridPoints=as.integer(gridPoints)),
                  PACKAGE="RQuantLib")

@@ -12,7 +12,7 @@
 \usage{
 \method{AsianOption}{default}(averageType, type, underlying, strike,
 			                  dividendYield, riskFreeRate, maturity, 
-			                  volatility, timeSteps=150, gridPoints=151)
+			                  volatility, first=0, length=0, fixings=0, timeSteps=150, gridPoints=151)
 \method{plot}{Option}
 \method{print}{Option}
 \method{summary}{Option}
@@ -26,6 +26,9 @@
   \item{riskFreeRate}{Risk-free rate}
   \item{maturity}{Time to maturity (in fractional years)}
   \item{volatility}{Volatility of the underlying stock}
+  \item{first}{to be written}
+  \item{length}{to be written}
+  \item{fixings}{to be written}
   \item{timeSteps}{Time steps for the Finite Differences method, default value is 150}
   \item{gridPoints}{Grid points for the Finite Differences method, default value is 151}
 }
@@ -48,6 +51,9 @@
   \item{parameters}{List with parameters with which object was created}
 }
 \details{
+  
+  When "arithmetic" evaluation is used, only the NPV() is returned.
+  
   The well-known closed-form solution derived by Black, Scholes and
   Merton is used for valuation. Implied volatilities are calculated
   numerically.

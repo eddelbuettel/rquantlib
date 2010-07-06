@@ -37,19 +37,12 @@ RcppExport SEXP QL_AsianOption(SEXP optionParameters){
         Spread dividendYield = Rcpp::as<double>(rparam["dividendYield"]);
         Rate riskFreeRate = Rcpp::as<double>(rparam["riskFreeRate"]);
         Time maturity = Rcpp::as<double>(rparam["maturity"]);
-        int length = int(maturity*360 + 0.5); // FIXME: this could be better
+        //        int length = int(maturity*360 + 0.5); // FIXME: this could be better
         double volatility = Rcpp::as<double>(rparam["volatility"]);
 
         Option::Type optionType = getOptionType(type);
 
-        Average::Type averageType = Average::Geometric;
-        if (avgType=="geometric"){
-            averageType = Average::Geometric;
-        } else if (avgType=="arithmetic"){
-            averageType = Average::Arithmetic;
-        } else {
-            throw std::range_error("Unknown average type " + type);
-        }
+    
         
 
         //from test-suite/asionoptions.cpp
@@ -71,28 +64,74 @@ RcppExport SEXP QL_AsianOption(SEXP optionParameters){
                                                    Handle<YieldTermStructure>(qTS),
                                                    Handle<YieldTermStructure>(rTS),
                                                    Handle<BlackVolTermStructure>(volTS)));
-        
-        boost::shared_ptr<PricingEngine> 
-            engine(new
-                   AnalyticContinuousGeometricAveragePriceAsianEngine(stochProcess));
-
 
         boost::shared_ptr<StrikedTypePayoff> payoff(new PlainVanillaPayoff(optionType,strike));
 
-        Date exDate = today + length;
+        Date exDate = today + int(maturity * 360 + 0.5);
         boost::shared_ptr<Exercise> exercise(new EuropeanExercise(exDate));
         
-        ContinuousAveragingAsianOption option(averageType, payoff, exercise);
-        option.setPricingEngine(engine);
 
-        Rcpp::List rl = Rcpp::List::create(Rcpp::Named("value") = option.NPV(),
-                                           Rcpp::Named("delta") = option.delta(),
-                                           Rcpp::Named("gamma") = option.gamma(),
-                                           Rcpp::Named("vega") = option.vega(),
-                                           Rcpp::Named("theta") = option.theta(),
-                                           Rcpp::Named("rho") = option.rho(),
-                                           Rcpp::Named("divRho") = option.dividendRho(),
-                                           Rcpp::Named("parameters") = optionParameters);
+        Average::Type averageType = Average::Geometric;
+        Rcpp::List rl = NULL;
+   
+        if (avgType=="geometric"){
+            averageType = Average::Geometric;
+            boost::shared_ptr<PricingEngine> 
+                engine(new
+                       AnalyticContinuousGeometricAveragePriceAsianEngine(stochProcess));        
+            ContinuousAveragingAsianOption option(averageType, payoff, exercise);
+            option.setPricingEngine(engine);
+            
+            rl = Rcpp::List::create(Rcpp::Named("value") = option.NPV(),
+                                    Rcpp::Named("delta") = option.delta(),
+                                    Rcpp::Named("gamma") = option.gamma(),
+                                    Rcpp::Named("vega") = option.vega(),
+                                    Rcpp::Named("theta") = option.theta(),
+                                    Rcpp::Named("rho") = option.rho(),
+                                    Rcpp::Named("divRho") = option.dividendRho(),
+                                    Rcpp::Named("parameters") = optionParameters);
+            
+        } else if (avgType=="arithmetic"){
+            averageType = Average::Arithmetic;
+            boost::shared_ptr<PricingEngine> engine =
+                MakeMCDiscreteArithmeticASEngine<LowDiscrepancy>(stochProcess)
+                .withSeed(3456789)
+                .withSamples(1023);
+            
+            Size fixings = Rcpp::as<double>(rparam["fixings"]);
+            Time length = Rcpp::as<double>(rparam["length"]);
+            Time first = Rcpp::as<double>(rparam["first"]);
+            Time dt = length / (fixings - 1);
+
+            std::vector<Time> timeIncrements(fixings);
+            std::vector<Date> fixingDates(fixings);
+            timeIncrements[0] = first;
+            fixingDates[0] = today + Integer(timeIncrements[0] * 360 + 0.5);
+            for (Size i=1; i<fixings; i++) {
+                timeIncrements[i] = i*dt + first;
+                fixingDates[i] = today + Integer(timeIncrements[i]*360+0.5);
+            }
+            Real runningSum = 0.0;
+            Size pastFixing = 0;
+
+            DiscreteAveragingAsianOption option(Average::Arithmetic, 
+                                                runningSum,
+                                                pastFixing, 
+                                                fixingDates,
+                                                payoff, exercise);
+            option.setPricingEngine(engine);
+            rl = Rcpp::List::create(Rcpp::Named("value") = option.NPV(),
+                                    Rcpp::Named("delta") = 0,
+                                    Rcpp::Named("gamma") = 0,
+                                    Rcpp::Named("vega") = 0,
+                                    Rcpp::Named("theta") = 0 ,
+                                    Rcpp::Named("rho") = 0,
+                                    Rcpp::Named("divRho") = 0,
+                                    Rcpp::Named("parameters") = optionParameters);
+        } else {
+            throw std::range_error("Unknown average type " + type);
+        }      
+    
         return rl;
 
     } catch(std::exception &ex) { 

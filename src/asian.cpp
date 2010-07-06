@@ -42,9 +42,6 @@ RcppExport SEXP QL_AsianOption(SEXP optionParameters){
 
         Option::Type optionType = getOptionType(type);
 
-    
-        
-
         //from test-suite/asionoptions.cpp
         DayCounter dc = Actual360();
         Date today = Date::todaysDate();
@@ -121,12 +118,12 @@ RcppExport SEXP QL_AsianOption(SEXP optionParameters){
                                                 payoff, exercise);
             option.setPricingEngine(engine);
             rl = Rcpp::List::create(Rcpp::Named("value") = option.NPV(),
-                                    Rcpp::Named("delta") = 0,
-                                    Rcpp::Named("gamma") = 0,
-                                    Rcpp::Named("vega") = 0,
-                                    Rcpp::Named("theta") = 0 ,
-                                    Rcpp::Named("rho") = 0,
-                                    Rcpp::Named("divRho") = 0,
+                                    Rcpp::Named("delta") = R_NaN,
+                                    Rcpp::Named("gamma") = R_NaN,
+                                    Rcpp::Named("vega") = R_NaN,
+                                    Rcpp::Named("theta") = R_NaN,
+                                    Rcpp::Named("rho") = R_NaN,
+                                    Rcpp::Named("divRho") = R_NaN,
                                     Rcpp::Named("parameters") = optionParameters);
         } else {
             throw std::range_error("Unknown average type " + type);

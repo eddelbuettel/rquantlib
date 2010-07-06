@@ -1,3 +1,9 @@
+2010-07-05  Khanh Nguyen  <knguyen@cs.umb.edu>
+
+	* src/asian.cpp: Added arithmetic average case
+	* R/asian.R: Idem
+	* man/asian.Rd: Idem
+
 2010-06-23  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/*: Converted remainder of code to new Rcpp API
@@ -7,7 +13,7 @@
 	* R/calendar.R: New helper function setCalendarContext()
 	setting calendar, fixingDays and settleDate
 	* src/calendar.cpp: Implementation, setting RQLContext
-	* R/setCalendarContext.Rd: Documentation
+	* man/setCalendarContext.Rd: Documentation
 
 	* src/bermudan.cpp: take calendar info from RQLContext
 	* src/discount.cpp: idem

@@ -69,7 +69,7 @@ RcppExport SEXP QL_AsianOption(SEXP optionParameters){
         
 
         Average::Type averageType = Average::Geometric;
-        Rcpp::List rl = NULL;
+        Rcpp::List rl = R_NilValue;
    
         if (avgType=="geometric"){
             averageType = Average::Geometric;

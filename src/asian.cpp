@@ -64,9 +64,7 @@ RcppExport SEXP QL_AsianOption(SEXP optionParameters){
 
         boost::shared_ptr<StrikedTypePayoff> payoff(new PlainVanillaPayoff(optionType,strike));
 
-        Date exDate = today + int(maturity * 360 + 0.5);
-        boost::shared_ptr<Exercise> exercise(new EuropeanExercise(exDate));
-        
+      
 
         Average::Type averageType = Average::Geometric;
         Rcpp::List rl = R_NilValue;
@@ -76,6 +74,9 @@ RcppExport SEXP QL_AsianOption(SEXP optionParameters){
             boost::shared_ptr<PricingEngine> 
                 engine(new
                        AnalyticContinuousGeometricAveragePriceAsianEngine(stochProcess));        
+            
+            Date exDate = today + int(maturity * 360 + 0.5);
+            boost::shared_ptr<Exercise> exercise(new EuropeanExercise(exDate));        
             ContinuousAveragingAsianOption option(averageType, payoff, exercise);
             option.setPricingEngine(engine);
             
@@ -111,11 +112,15 @@ RcppExport SEXP QL_AsianOption(SEXP optionParameters){
             Real runningSum = 0.0;
             Size pastFixing = 0;
 
+            boost::shared_ptr<Exercise> exercise(new
+                                                 EuropeanExercise(fixingDates[fixings-1]));
+
             DiscreteAveragingAsianOption option(Average::Arithmetic, 
                                                 runningSum,
                                                 pastFixing, 
                                                 fixingDates,
-                                                payoff, exercise);
+                                                payoff, 
+                                                exercise);
             option.setPricingEngine(engine);
             rl = Rcpp::List::create(Rcpp::Named("value") = option.NPV(),
                                     Rcpp::Named("delta") = R_NaN,

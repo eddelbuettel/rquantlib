@@ -91,10 +91,16 @@ RcppExport SEXP QL_AsianOption(SEXP optionParameters){
             
         } else if (avgType=="arithmetic"){
             averageType = Average::Arithmetic;
+
             boost::shared_ptr<PricingEngine> engine =
-                MakeMCDiscreteArithmeticASEngine<LowDiscrepancy>(stochProcess)
-                .withSeed(3456789)
-                .withSamples(1023);
+                MakeMCDiscreteArithmeticAPEngine<LowDiscrepancy>(stochProcess)
+                .withSamples(2047)
+                .withControlVariate();
+            
+            //boost::shared_ptr<PricingEngine> engine =
+            //    MakeMCDiscreteArithmeticASEngine<LowDiscrepancy>(stochProcess)
+            //    .withSeed(3456789)
+            //    .withSamples(1023);
             
             Size fixings = Rcpp::as<double>(rparam["fixings"]);
             Time length = Rcpp::as<double>(rparam["length"]);

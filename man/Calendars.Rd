@@ -119,11 +119,11 @@ setCalendarContext(calendar, fixingDays, settleDate)
   isEndOfMonth("UnitedStates/GovernmentBond", dates)  ## bonds
   isEndOfMonth("UnitedStates/NERC", dates)            ## energy
 
-  getEndMonth("UnitedStates", dates)
-  getEndMonth("UnitedStates/Settlement", dates)      ## same as previous
-  getEndMonth("UnitedStates/NYSE", dates)            ## stocks
-  getEndMonth("UnitedStates/GovernmentBond", dates)  ## bonds
-  getEndMonth("UnitedStates/NERC", dates)            ## energy
+  getEndOfMonth("UnitedStates", dates)
+  getEndOfMonth("UnitedStates/Settlement", dates)      ## same as previous
+  getEndOfMonth("UnitedStates/NYSE", dates)            ## stocks
+  getEndOfMonth("UnitedStates/GovernmentBond", dates)  ## bonds
+  getEndOfMonth("UnitedStates/NERC", dates)            ## energy
 
   from <- as.Date("2009-04-07")
   to<-as.Date("2009-04-14")

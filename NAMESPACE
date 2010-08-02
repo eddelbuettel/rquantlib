@@ -32,11 +32,11 @@ export(
        "isHoliday",
        "isWeekend",
        "isEndOfMonth",
-       "endOfMonth",
+       "getEndOfMonth", "endOfMonth",
        "adjust",
        "advance",
        "businessDaysBetween",
-       "holidayList",
+       "getHolidayList", "holidayList",
        "setCalendarContext",
        ##--dayCounter.R
        "dayCount",

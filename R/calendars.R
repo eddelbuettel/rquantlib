@@ -130,10 +130,10 @@ businessDaysBetween  <- function(calendar="TARGET",
     val
 }
 
-holidayList <- function(calendar="TARGET",
-                        from=Sys.Date(),
-                        to=Sys.Date() + 5,
-                        includeWeekends=0) {
+getHolidayList <- function(calendar="TARGET",
+                           from=Sys.Date(),
+                           to=Sys.Date() + 5,
+                           includeWeekends=0) {
     stopifnot(is.character(calendar))
     stopifnot(class(from)=="Date")
     stopifnot(class(to)=="Date")
@@ -142,6 +142,10 @@ holidayList <- function(calendar="TARGET",
                  list(includeWeekends=as.double(includeWeekends), from=from, to=to),
                  PACKAGE="RQuantLib")
     val
+}
+
+holidayList <- function(calendar="TARGET", from=Sys.Date(), to=Sys.Date() + 5, includeWeekends=0) {
+    getHolidayList(calendar, from, to, includeWeekends)
 }
 
 setCalendarContext <- function(calendar="TARGET",

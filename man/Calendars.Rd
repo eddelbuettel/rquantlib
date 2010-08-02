@@ -7,6 +7,8 @@
 \alias{isEndOfMonth}
 \alias{getEndOfMonth}
 \alias{endOfMonth}
+\alias{getHolidayList}
+\alias{holidayList}
 \title{Calendar functions from QuantLib}
 \description{
 The \code{isBusinessDay} function evaluates the given dates in the context
@@ -41,15 +43,22 @@ isWeekend(calendar="TARGET", dates=Sys.Date())
 isEndOfMonth(calendar="TARGET", dates=Sys.Date())
 getEndOfMonth(calendar="TARGET", dates=Sys.Date())
 endOfMonth(calendar="TARGET", dates=Sys.Date())
+getHolidayList(calendar="TARGET", from=Sys.Date(), to = Sys.Date() + 5, includeWeekends = 0) 
+holidayList(calendar="TARGET", from=Sys.Date(), to = Sys.Date() + 5, includeWeekends = 0) 
 }
 \arguments{
   \item{calendar}{A string identifying one of the supported QuantLib
     calendars, see Details for more}
   \item{dates}{A vector (or scalar) of \code{Date} types.}
+  \item{from}{A vector (or scalar) of \code{Date} types.}
+  \item{to}{A vector (or scalar) of \code{Date} types.}
+  \item{includeWeekends}{boolean that indicates whether the calculation
+    should include the weekends. Default = false}
 }
 \value{
-  An named vector of booleans each of which is true if the corresponding
-  date is a business day in the given calendar.  The element names are
+  A named vector of booleans each of which is true if the corresponding
+  date is a business day (or holiday or weekend) in the given calendar.
+  The element names are
   the dates (formatted as text in yyyy-mm-dd format).
 }
 \details{
@@ -104,6 +113,12 @@ endOfMonth(calendar="TARGET", dates=Sys.Date())
   getEndMonth("UnitedStates/NYSE", dates)            ## stocks
   getEndMonth("UnitedStates/GovernmentBond", dates)  ## bonds
   getEndMonth("UnitedStates/NERC", dates)            ## energy
+
+  from <- as.Date("2009-04-07")
+  to<-as.Date("2009-04-14")
+  getHolidayList("UnitedStates", from, to)
+  to <- as.Date("2009-10-7")
+  getHolidayList("UnitedStates", from, to)
 }
 \keyword{misc}
 

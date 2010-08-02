@@ -13,7 +13,8 @@
 \description{
 The \code{isBusinessDay} function evaluates the given dates in the context
 of the given calendar, and returns a vector of booleans indicating
-business day status.
+business day status. \code{BusinessDay} is also
+recognised (but may be deprecated one day).
 
 The \code{isHoliday} function evaluates the given dates in the context
 of the given calendar, and returns a vector of booleans indicating
@@ -31,8 +32,9 @@ The \code{getEndOfMonth} function evaluates the given dates in the context
 of the given calendar, and returns a vector that corresponds to the end
 of month. \code{endOfMonth} is a deprecated form for this function.
 
-The variants \code{BusinessDay} is are also
-recognised (but may be deprecated one day).
+The \code{getHolidayList} function returns the holidays between the
+given dates, with an option to exclude weekends.  \code{holidayList} is
+a deprecated form for this function.
 
 }
 \usage{

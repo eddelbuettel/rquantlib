@@ -1,16 +1,23 @@
 2010-08-02  Dirk Eddelbuettel  <edd@debian.org>
 
-	* inst/unitTests/runitOptions.R: Updated asian option test for
+	* inst/unitTests/runit.options.R: Updated asian option test for
 	arithmetic averaging based on QuantLib's test-suite code
 	* R/asian.R: Removed two unused parameters, updated use of maturity
 	used only for geometric averaging
 	* man/asian.Rd: Corresponding manual page update
+
+        * src/Makevars.win: Simplified Makefile.win into Makevars.win and
+	updated to e.g. the new sub-arch path for Rscript.exe
 
 2010-07-05  Khanh Nguyen  <knguyen@cs.umb.edu>
 
 	* src/asian.cpp: Added arithmetic average case
 	* R/asian.R: Idem
 	* man/asian.Rd: Idem
+
+2010-06-30  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/unitTests/runit.calendar.R: Beginnings of calendar unit tests
 
 2010-06-23  Dirk Eddelbuettel  <edd@debian.org>
 

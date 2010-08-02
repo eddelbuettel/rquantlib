@@ -29,7 +29,9 @@ isBusinessDay <- function(calendar="TARGET", dates=Sys.Date()) {
     names(val) <- dates
     val
 }
-businessDay <- function(...) isBusinessDay(...)  ## may get deprecated one day
+businessDay <- function(calendar="TARGET", dates=Sys.Date()) {  ## may get deprecated one day
+    isBusinessDay(calendar, dates)
+}
 
 isHoliday <- function(calendar="TARGET", dates=Sys.Date()) {
     stopifnot(is.character(calendar))

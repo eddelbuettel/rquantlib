@@ -151,33 +151,25 @@ Concise summary of valuation for ZeroCouponBond
 > 
 > ## bond.cpp: examples from Fixed Income page of Matlab
 > ZeroYield(95, 100, as.Date("1993-6-24"), as.Date("1993-11-1"))
-$yield
 [1] 0.1477733
-
 attr(,"class")
 [1] "ZeroYield"
 > 
 > ## bond.cpp: test theoretical price of bond by its yield
 > ZeroPriceByYield(0.1478, 100, as.Date("1993-6-24"), as.Date("1993-11-1"))
-$cleanPrice
 [1] 94.99914
-
 attr(,"class")
 [1] "ZeroPriceByYield"
 > 
 > ## bond.cpp: test theoretical yield of a fixed rate bond, = 0.0307
 > FixedRateBondYield(,99.282, 100000, as.Date("2004-11-30"), as.Date("2008-11-30"), 3, , c(0.02875), , , , ,as.Date("2004-11-30"))
-$yield
 [1] 0.03066526
-
 attr(,"class")
 [1] "FixedRateBondYield"
 > 
 > ## bond.cpp: test theoretical price of a fixed rate bond  = 99.2708
 > FixedRateBondPriceByYield(,0.0307, 100000, as.Date("2004-11-30"), as.Date("2008-11-30"), 3, , c(0.02875), , , , ,as.Date("2004-11-30"))
-$cleanPrice
 [1] 99.26903
-
 attr(,"class")
 [1] "FixedRateBondPriceByYield"
 > 

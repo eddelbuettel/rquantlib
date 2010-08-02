@@ -24,17 +24,23 @@
 
 AsianOption <- function(averageType, type, underlying, strike, dividendYield,
                         riskFreeRate, maturity, volatility,
-                        first, length, fixings,
-                        timeSteps=150, gridPoints=151) {
+                        first, length, fixings) {
     UseMethod("AsianOption")
 }
 
 AsianOption.default <- function(averageType, type, underlying, strike, dividendYield,
                                 riskFreeRate, maturity, volatility,
-                                first=0, length=0, fixings=0,
-                                timeSteps=150, gridPoints=151) {
+                                first=0, length=0, fixings=0) {
     averageType <- match.arg(averageType, c("geometric", "arithmetic"))
     type <- match.arg(type, c("call", "put"))
+    if (missing(maturity)) {
+        if (averageType=="geometric") {
+            warning("Geometric Asian Option requires maturity argument")
+            return(NULL)
+        } else {
+            maturity <- 1.0             # actually unused for arithmetic option case
+        }
+    }
     val <- .Call("QL_AsianOption",
                  list(averageType=as.character(averageType),
                       type=as.character(type),
@@ -46,14 +52,11 @@ AsianOption.default <- function(averageType, type, underlying, strike, dividendY
                       volatility=as.double(volatility),
                       first=as.double(first),
                       length=as.double(length),
-                      fixings=as.double(fixings),
-                      timeSteps=as.integer(timeSteps),
-                      gridPoints=as.integer(gridPoints)),
+                      fixings=as.double(fixings)),
                  PACKAGE="RQuantLib")
     class(val) <- c("AsianOption","Option")
     val
 }
-
 
 plot.Option <- function(x, ...) {
     warning("No plotting available for class", class(x)[1],"\n")

@@ -1,3 +1,11 @@
+2010-08-02  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/unitTests/runitOptions.R: Updated asian option test for
+	arithmetic averaging based on QuantLib's test-suite code
+	* R/asian.R: Removed two unused parameters, updated use of maturity
+	used only for geometric averaging
+	* man/asian.Rd: Corresponding manual page update
+
 2010-07-05  Khanh Nguyen  <knguyen@cs.umb.edu>
 
 	* src/asian.cpp: Added arithmetic average case

@@ -11,8 +11,8 @@
 }
 \usage{
 \method{AsianOption}{default}(averageType, type, underlying, strike,
-			                  dividendYield, riskFreeRate, maturity, 
-			                  volatility, first=0, length=0, fixings=0, timeSteps=150, gridPoints=151)
+	                  dividendYield, riskFreeRate, maturity, 
+	                  volatility, first=0, length=0, fixings=0)
 \method{plot}{Option}
 \method{print}{Option}
 \method{summary}{Option}
@@ -29,8 +29,6 @@
   \item{first}{to be written}
   \item{length}{to be written}
   \item{fixings}{to be written}
-  \item{timeSteps}{Time steps for the Finite Differences method, default value is 150}
-  \item{gridPoints}{Grid points for the Finite Differences method, default value is 151}
 }
 \value{
   The \code{AsianOption} function returns an object of class

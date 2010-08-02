@@ -55,39 +55,44 @@ test.american.Haug <- function() {
 test.asian <- function() {
     ## see QuantLib's test-suite/asianoptions.cpp
 
-    AO <- AsianOption   	             # shorthand
-    checkEquals(AO(averageType="geometric", typ="put", strike=85, underl=80, div=-0.03, riskF=0.05, mat=0.25, vol=0.20)$value, 4.6922, tol=1.0e-4)
+   AO <- AsianOption   	             # shorthand
 
-    ## data from "Implementing Derivatives Model",
-    ## Clewlow, Strickland, p.118-123
-    ## ?? checkEquals(AO(averageType="geometric", typ="put", strike=85, underl=100, div=0.03, riskF=0.06, mat=1.0, vol=0.20)$value, 4.6922, tol=1.0e-4)
+   checkEquals(AO(averageType="geometric", typ="put", strike=85, underl=80, div=-0.03, riskF=0.05, mat=0.25, vol=0.20)$value, 4.6922, tol=1.0e-4)
 
-    ##
     ## data from "Asian Option", Levy, 1997
     ## in "Exotic Options: The State of the Art",
     ## edited by Clewlow, Strickland
-
-    #checkEquals(
-    #AO("arithmetic", "put", underl=87, strike=90, div=0.06, riskF=0.025, first=0, length=11/12, mat=0.15,  fixi=2, vol=0.13)
-
-    #AsianOption(Option::Put, 90.0, 87.0, 0.06, 0.025, 0.0, 11.0/12.0, 2,
-    #      0.13, true, 1.3942835683 ,
-    #
-    ## struct DiscreteAverageData {
-    ##     Option::Type type;
-    ##     Real underlying;
-    ##     Real strike;
-    ##     Rate dividendYield;
-    ##     Rate riskFreeRate;
-    ##     Time first;
-    ##     Time length;
-    ##     Size fixings;
-    ##     Volatility volatility;
-    ##     bool controlVariate;
-    ##     Real result;
-    ## };
-
-#}
+    checkEquals(AO("arithmetic", "put", underl=90.0, strike=87.0, div=0.06, riskF=0.025, first=0.0, length=11.0/12.0, fixings=2, vol=0.13)$value, 1.3942835683, tol=1.0e-2)
+    checkEquals(AO("arithmetic", "put", underl=90.0, strike=87.0, div=0.06, riskF=0.025, first=0.0, length=11.0/12.0, fixings=4, vol=0.13)$value, 1.5852442983, tol=1.0e-2)
+    checkEquals(AO("arithmetic", "put", underl=90.0, strike=87.0, div=0.06, riskF=0.025, first=0.0, length=11.0/12.0, fixings=8, vol=0.13)$value, 1.66970673, tol=1.0e-2)
+    checkEquals(AO("arithmetic", "put", underl=90.0, strike=87.0, div=0.06, riskF=0.025, first=0.0, length=11.0/12.0, fixings=12, vol=0.13)$value, 1.6980019214, tol=1.0e-2)
+    checkEquals(AO("arithmetic", "put", underl=90.0, strike=87.0, div=0.06, riskF=0.025, first=0.0, length=11.0/12.0, fixings=26, vol=0.13)$value, 1.7255070456, tol=1.0e-2)
+    checkEquals(AO("arithmetic", "put", underl=90.0, strike=87.0, div=0.06, riskF=0.025, first=0.0, length=11.0/12.0, fixings=52, vol=0.13)$value, 1.7401553533, tol=1.0e-2)
+    checkEquals(AO("arithmetic", "put", underl=90.0, strike=87.0, div=0.06, riskF=0.025, first=0.0, length=11.0/12.0, fixings=100, vol=0.13)$value, 1.7478303712, tol=1.0e-2)
+    checkEquals(AO("arithmetic", "put", underl=90.0, strike=87.0, div=0.06, riskF=0.025, first=0.0, length=11.0/12.0, fixings=250, vol=0.13)$value, 1.7490291943, tol=1.0e-2)
+    checkEquals(AO("arithmetic", "put", underl=90.0, strike=87.0, div=0.06, riskF=0.025, first=0.0, length=11.0/12.0, fixings=500, vol=0.13)$value, 1.7515113291, tol=1.0e-2)
+    checkEquals(AO("arithmetic", "put", underl=90.0, strike=87.0, div=0.06, riskF=0.025, first=0.0, length=11.0/12.0, fixings=1000, vol=0.13)$value, 1.7537344885, tol=1.0e-2)
+    checkEquals(AO("arithmetic", "put", underl=90.0, strike=87.0, div=0.06, riskF=0.025, first=1.0/12.0, length=11.0/12.0, fixings=2, vol=0.13)$value, 1.8496053697, tol=1.0e-2)
+    checkEquals(AO("arithmetic", "put", underl=90.0, strike=87.0, div=0.06, riskF=0.025, first=1.0/12.0, length=11.0/12.0, fixings=4, vol=0.13)$value, 2.0111495205, tol=1.0e-2)
+    checkEquals(AO("arithmetic", "put", underl=90.0, strike=87.0, div=0.06, riskF=0.025, first=1.0/12.0, length=11.0/12.0, fixings=8, vol=0.13)$value, 2.0852138818, tol=1.0e-2)
+    checkEquals(AO("arithmetic", "put", underl=90.0, strike=87.0, div=0.06, riskF=0.025, first=1.0/12.0, length=11.0/12.0, fixings=12, vol=0.13)$value, 2.1105094397, tol=1.0e-2)
+    checkEquals(AO("arithmetic", "put", underl=90.0, strike=87.0, div=0.06, riskF=0.025, first=1.0/12.0, length=11.0/12.0, fixings=26, vol=0.13)$value, 2.1346526695, tol=1.0e-2)
+    checkEquals(AO("arithmetic", "put", underl=90.0, strike=87.0, div=0.06, riskF=0.025, first=1.0/12.0, length=11.0/12.0, fixings=52, vol=0.13)$value, 2.147489651, tol=1.0e-2)
+    checkEquals(AO("arithmetic", "put", underl=90.0, strike=87.0, div=0.06, riskF=0.025, first=1.0/12.0, length=11.0/12.0, fixings=100, vol=0.13)$value, 2.154728109, tol=1.0e-2)
+    checkEquals(AO("arithmetic", "put", underl=90.0, strike=87.0, div=0.06, riskF=0.025, first=1.0/12.0, length=11.0/12.0, fixings=250, vol=0.13)$value, 2.1564276565, tol=1.0e-2)
+    checkEquals(AO("arithmetic", "put", underl=90.0, strike=87.0, div=0.06, riskF=0.025, first=1.0/12.0, length=11.0/12.0, fixings=500, vol=0.13)$value, 2.1594238588, tol=1.0e-2)
+    checkEquals(AO("arithmetic", "put", underl=90.0, strike=87.0, div=0.06, riskF=0.025, first=1.0/12.0, length=11.0/12.0, fixings=1000, vol=0.13)$value, 2.1595367326, tol=1.0e-2)
+    checkEquals(AO("arithmetic", "put", underl=90.0, strike=87.0, div=0.06, riskF=0.025, first=3.0/12.0, length=11.0/12.0, fixings=2, vol=0.13)$value, 2.63315092584, tol=1.0e-2)
+    checkEquals(AO("arithmetic", "put", underl=90.0, strike=87.0, div=0.06, riskF=0.025, first=3.0/12.0, length=11.0/12.0, fixings=4, vol=0.13)$value, 2.76723962361, tol=1.0e-2)
+    checkEquals(AO("arithmetic", "put", underl=90.0, strike=87.0, div=0.06, riskF=0.025, first=3.0/12.0, length=11.0/12.0, fixings=8, vol=0.13)$value, 2.83124836881, tol=1.0e-2)
+    checkEquals(AO("arithmetic", "put", underl=90.0, strike=87.0, div=0.06, riskF=0.025, first=3.0/12.0, length=11.0/12.0, fixings=12, vol=0.13)$value, 2.84290301412, tol=1.0e-2)
+    checkEquals(AO("arithmetic", "put", underl=90.0, strike=87.0, div=0.06, riskF=0.025, first=3.0/12.0, length=11.0/12.0, fixings=26, vol=0.13)$value, 2.88179560417, tol=1.0e-2)
+    checkEquals(AO("arithmetic", "put", underl=90.0, strike=87.0, div=0.06, riskF=0.025, first=3.0/12.0, length=11.0/12.0, fixings=52, vol=0.13)$value, 2.88447044543, tol=1.0e-2)
+    checkEquals(AO("arithmetic", "put", underl=90.0, strike=87.0, div=0.06, riskF=0.025, first=3.0/12.0, length=11.0/12.0, fixings=100, vol=0.13)$value, 2.89985329603, tol=1.0e-2)
+    checkEquals(AO("arithmetic", "put", underl=90.0, strike=87.0, div=0.06, riskF=0.025, first=3.0/12.0, length=11.0/12.0, fixings=250, vol=0.13)$value, 2.90047296063, tol=1.0e-2)
+    checkEquals(AO("arithmetic", "put", underl=90.0, strike=87.0, div=0.06, riskF=0.025, first=3.0/12.0, length=11.0/12.0, fixings=500, vol=0.13)$value, 2.89813412160, tol=1.0e-2)
+    checkEquals(AO("arithmetic", "put", underl=90.0, strike=87.0, div=0.06, riskF=0.025, first=3.0/12.0, length=11.0/12.0, fixings=1000, vol=0.13)$value, 2.8970336243, tol=1.0e-2)
+}
 
 ## Barrier Options
 test.barrier <- function() {

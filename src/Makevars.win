@@ -1,0 +1,14 @@
+# -*- mode: Makefile -*-
+#
+# Copyright 2005 - 2006 Dominick Samperi
+# Copyright 2005        Uwe Ligges
+# Copyright 2008 - 2010 Dirk Eddelbuettel
+
+## This assume that we can call Rscript to ask Rcpp about its locations
+## Use the R_HOME indirection to support installations of multiple R version
+RCPP_LDFLAGS = $(shell "${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" -e "Rcpp:::LdFlags()")
+
+## The environment variable QUANTLIB_ROOT has to point to an existing build of QuantLib
+PKG_CXXFLAGS=-I$(QUANTLIB_ROOT) -I. 
+PKG_LIBS=$(RCPP_LDFLAGS) -L$(QUANTLIB_ROOT)/lib -lQuantLib-mgw-0_9_9
+

@@ -9,6 +9,7 @@
 \alias{endOfMonth}
 \alias{getHolidayList}
 \alias{holidayList}
+\alias{setCalendarContext}
 \title{Calendar functions from QuantLib}
 \description{
 The \code{isBusinessDay} function evaluates the given dates in the context
@@ -36,6 +37,8 @@ The \code{getHolidayList} function returns the holidays between the
 given dates, with an option to exclude weekends.  \code{holidayList} is
 a deprecated form for this function.
 
+The \code{setCalendarContext} function sets three values to a singleton
+instance at the C++ layer.}
 }
 \usage{
 isBusinessDay(calendar="TARGET", dates=Sys.Date())
@@ -47,6 +50,7 @@ getEndOfMonth(calendar="TARGET", dates=Sys.Date())
 endOfMonth(calendar="TARGET", dates=Sys.Date())
 getHolidayList(calendar="TARGET", from=Sys.Date(), to = Sys.Date() + 5, includeWeekends = 0) 
 holidayList(calendar="TARGET", from=Sys.Date(), to = Sys.Date() + 5, includeWeekends = 0) 
+setCalendarContext(calendar, fixingDays, settleDate)
 }
 \arguments{
   \item{calendar}{A string identifying one of the supported QuantLib
@@ -56,12 +60,17 @@ holidayList(calendar="TARGET", from=Sys.Date(), to = Sys.Date() + 5, includeWeek
   \item{to}{A vector (or scalar) of \code{Date} types.}
   \item{includeWeekends}{boolean that indicates whether the calculation
     should include the weekends. Default = false}
+  \item{fixingDays}{An integer for the fixing day period, defaults to 2.}
+  \item{settleDate}{A date on which trades settles, defaults to two days
+    after the current day.}
 }
 \value{
   A named vector of booleans each of which is true if the corresponding
   date is a business day (or holiday or weekend) in the given calendar.
   The element names are
   the dates (formatted as text in yyyy-mm-dd format).
+
+  For \code{setCalendarContext}, a boolean or NULL in case of error.
 }
 \details{
   The calendars are coming from QuantLib, and the QuantLib documentation

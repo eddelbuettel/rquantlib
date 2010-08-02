@@ -4,22 +4,33 @@
 \alias{businessDay}
 \alias{isHoliday}
 \alias{isWeekend}
+\alias{isEndOfMonth}
+\alias{getEndOfMonth}
+\alias{endOfMonth}
 \title{Calendar functions from QuantLib}
 \description{
 The \code{isBusinessDay} function evaluates the given dates in the context
 of the given calendar, and returns a vector of booleans indicating
 business day status.
 
-The form \code{BusinessDay} is also recognised (but may be deprecated
-one day).
-
 The \code{isHoliday} function evaluates the given dates in the context
 of the given calendar, and returns a vector of booleans indicating
-holiday day status.}
+holiday day status.
 
 The \code{isWeekend} function evaluates the given dates in the context
 of the given calendar, and returns a vector of booleans indicating
-weekend status.}
+weekend status.
+
+The \code{isEndOfMonth} function evaluates the given dates in the context
+of the given calendar, and returns a vector of booleans indicating
+end of month status.
+
+The \code{getEndOfMonth} function evaluates the given dates in the context
+of the given calendar, and returns a vector that corresponds to the end
+of month. \code{endOfMonth} is a deprecated form for this function.
+
+The variants \code{BusinessDay} is are also
+recognised (but may be deprecated one day).
 
 }
 \usage{
@@ -27,6 +38,9 @@ isBusinessDay(calendar="TARGET", dates=Sys.Date())
 businessDay(calendar="TARGET", dates=Sys.Date())  # deprecated form
 isHoliday(calendar="TARGET", dates=Sys.Date())
 isWeekend(calendar="TARGET", dates=Sys.Date())
+isEndOfMonth(calendar="TARGET", dates=Sys.Date())
+getEndOfMonth(calendar="TARGET", dates=Sys.Date())
+endOfMonth(calendar="TARGET", dates=Sys.Date())
 }
 \arguments{
   \item{calendar}{A string identifying one of the supported QuantLib
@@ -78,6 +92,18 @@ isWeekend(calendar="TARGET", dates=Sys.Date())
   isWeekend("UnitedStates/NYSE", dates)            ## stocks
   isWeekend("UnitedStates/GovernmentBond", dates)  ## bonds
   isWeekend("UnitedStates/NERC", dates)            ## energy
+
+  isEndOfMonth("UnitedStates", dates)
+  isEndOfMonth("UnitedStates/Settlement", dates)      ## same as previous
+  isEndOfMonth("UnitedStates/NYSE", dates)            ## stocks
+  isEndOfMonth("UnitedStates/GovernmentBond", dates)  ## bonds
+  isEndOfMonth("UnitedStates/NERC", dates)            ## energy
+
+  getEndMonth("UnitedStates", dates)
+  getEndMonth("UnitedStates/Settlement", dates)      ## same as previous
+  getEndMonth("UnitedStates/NYSE", dates)            ## stocks
+  getEndMonth("UnitedStates/GovernmentBond", dates)  ## bonds
+  getEndMonth("UnitedStates/NERC", dates)            ## energy
 }
 \keyword{misc}
 

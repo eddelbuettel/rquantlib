@@ -60,12 +60,16 @@ isEndOfMonth <- function(calendar="TARGET", dates=Sys.Date()) {
     val
 }
 
-endOfMonth <- function(calendar="TARGET", dates=Sys.Date()) {
+getEndOfMonth <- function(calendar="TARGET", dates=Sys.Date()) {
     stopifnot(is.character(calendar))
     stopifnot(class(dates)=="Date")
     val <- .Call("QL_endOfMonth", calendar, dates, PACKAGE="RQuantLib")
     names(val) <- dates
     val
+}
+
+endOfMonth <- function(calendar="TARGET", dates=Sys.Date()) {
+    getEndOfMonth(calendar, dates)
 }
 
 adjust <- function(calendar="TARGET", dates=Sys.Date(), bdc = 0 ) {

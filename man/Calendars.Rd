@@ -2,16 +2,31 @@
 \name{Calendars}
 \alias{isBusinessDay}
 \alias{businessDay}
+\alias{isHoliday}
+\alias{isWeekend}
 \title{Calendar functions from QuantLib}
 \description{
 The \code{isBusinessDay} function evaluates the given dates in the context
 of the given calendar, and returns a vector of booleans indicating
 business day status.
 
-The form \code{BusinessDay} is also recognised (but may be deprecated one day).}
+The form \code{BusinessDay} is also recognised (but may be deprecated
+one day).
+
+The \code{isHoliday} function evaluates the given dates in the context
+of the given calendar, and returns a vector of booleans indicating
+holiday day status.}
+
+The \code{isWeekend} function evaluates the given dates in the context
+of the given calendar, and returns a vector of booleans indicating
+weekend status.}
+
+}
 \usage{
 isBusinessDay(calendar="TARGET", dates=Sys.Date())
-businessDay(calendar="TARGET", dates=Sys.Date())
+businessDay(calendar="TARGET", dates=Sys.Date())  # deprecated form
+isHoliday(calendar="TARGET", dates=Sys.Date())
+isWeekend(calendar="TARGET", dates=Sys.Date())
 }
 \arguments{
   \item{calendar}{A string identifying one of the supported QuantLib
@@ -51,6 +66,18 @@ businessDay(calendar="TARGET", dates=Sys.Date())
   isBusinessDay("UnitedStates/NYSE", dates)            ## stocks
   isBusinessDay("UnitedStates/GovernmentBond", dates)  ## bonds
   isBusinessDay("UnitedStates/NERC", dates)            ## energy
+
+  isHoliday("UnitedStates", dates)
+  isHoliday("UnitedStates/Settlement", dates)      ## same as previous
+  isHoliday("UnitedStates/NYSE", dates)            ## stocks
+  isHoliday("UnitedStates/GovernmentBond", dates)  ## bonds
+  isHoliday("UnitedStates/NERC", dates)            ## energy
+
+  isWeekend("UnitedStates", dates)
+  isWeekend("UnitedStates/Settlement", dates)      ## same as previous
+  isWeekend("UnitedStates/NYSE", dates)            ## stocks
+  isWeekend("UnitedStates/GovernmentBond", dates)  ## bonds
+  isWeekend("UnitedStates/NERC", dates)            ## energy
 }
 \keyword{misc}
 

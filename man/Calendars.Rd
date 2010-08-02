@@ -38,7 +38,7 @@ given dates, with an option to exclude weekends.  \code{holidayList} is
 a deprecated form for this function.
 
 The \code{setCalendarContext} function sets three values to a singleton
-instance at the C++ layer.}
+instance at the C++ layer.
 }
 \usage{
 isBusinessDay(calendar="TARGET", dates=Sys.Date())

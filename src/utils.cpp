@@ -24,7 +24,7 @@
 // Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
 // MA 02111-1307, USA
 
-#include <rquantlib.hpp>
+#include <rquantlib.h>
 
 Option::Type getOptionType(const std::string &type) {
     Option::Type optionType;

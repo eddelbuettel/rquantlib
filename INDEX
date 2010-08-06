@@ -17,7 +17,6 @@ BinaryOptionImpliedVolatility
                         Implied Volatility calculation for Binary
                         Option
 Bond                    Base class for Bond price evalution
-businessDay             Calendar functions from QuantLib
 businessDaysBetween     Calendar functions from QuantLib
 CallableBond            CallableBond evaluation
 ConvertibleFixedCouponBond
@@ -29,7 +28,6 @@ ConvertibleZeroCouponBond
 dayCount                DayCounter functions from QuantLib
 DiscountCurve           Returns the discount curve (with zero rates and
                         forwards) given times
-endOfMonth              Calendar functions from QuantLib
 Enum                    Documentation for parameters
 EuropeanOption          European Option evaluation using Closed-Form
                         solution
@@ -39,24 +37,18 @@ EuropeanOptionImpliedVolatility
                         Implied Volatility calculation for European
                         Option
 FittedBondCurve         Returns the discount curve (with zero rates and
-                        forwards) given times
-FixedRateBond           Fixed rate bond evaluation using discount curve
-                        solution
+                        forwards) given set of bonds
+FixedRateBond           Fixed-Rate bond pricing
 FixedRateBondPriceByYield
                         Zero Coupon Bond Yield evaluation
 FixedRateBondYield      Fixed Rate Bond Yield Yield evaluation
-FloatingRateBond        Fixed rate bond evaluation using discount curve
-                        solution
-holidayList             Calendar functions from QuantLib
+FloatingRateBond        Floating rate bond pricing
 ImpliedVolatility       Base class for option-price implied volatility
                         evalution
-isEndOfMonth            Calendar functions from QuantLib
-isHoliday               Calendar functions from QuantLib
-isWeekend               Calendar functions from QuantLib
+isBusinessDay           Calendar functions from QuantLib
 matchBDC                Bond parameter conversion utilities
 Option                  Base class for option price evalution
 yearFraction            DayCounter functions from QuantLib
-ZeroCouponBond          Zero-oupon bond evaluation using discount curve
-                        solution
+ZeroCouponBond          Zerocoupon bond pricing
 ZeroPriceByYield        Zero Coupon Bond Theoretical Price evaluation
 ZeroYield               Zero Coupon Bond Yield evaluation

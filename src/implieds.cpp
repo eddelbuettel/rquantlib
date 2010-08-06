@@ -24,7 +24,7 @@
 
 // NB can be build standalone as   PKG_LIBS=-lQuantLib R CMD SHLIB implieds.cc
 
-#include "rquantlib.hpp"
+#include "rquantlib.h"
 
 RcppExport  SEXP QL_EuropeanOptionImpliedVolatility(SEXP optionParameters) {
     const Size maxEvaluations = 100;

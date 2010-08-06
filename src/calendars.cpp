@@ -23,7 +23,7 @@
 // Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
 // MA 02111-1307, USA
 
-#include <rquantlib.hpp>
+#include <rquantlib.h>
 
 // returns a reference-counted pointer to a matching Calendar object
 boost::shared_ptr<Calendar> getCalendar(const std::string &calstr) {

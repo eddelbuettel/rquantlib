@@ -17,7 +17,7 @@
 // PURPOSE.  See the GNU General Public License for more
 // details.
 
-#include "rquantlib.hpp"
+#include "rquantlib.h"
 
 // Calibrates underlying swaptions to the input volatility matrix.
 void calibrateModel(const boost::shared_ptr<ShortRateModel>& model,

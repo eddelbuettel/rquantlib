@@ -21,7 +21,7 @@
 //#include <stdexcept>
 //#endif
 
-#include <rquantlib.hpp>
+#include <rquantlib.h>
 
 // Database of interest rate instrument contract details.
 ObservableDB::ObservableDB() {

@@ -1,3 +1,9 @@
+2010-08-06  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/rquantlib.hpp: Renamed to rquantlib.h to suppress a warning
+	in the upcoming R release (as requested by Kurt Hornik)
+	* src/*.cpp: Adjust to '#include <rquantlib.h>' instead
+
 2010-08-03  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION: Release 0.3.3

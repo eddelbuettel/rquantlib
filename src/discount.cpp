@@ -18,7 +18,7 @@
 // PURPOSE.  See the GNU General Public License for more
 // details.
 
-#include "rquantlib.hpp"
+#include "rquantlib.h"
 
 RcppExport SEXP QL_DiscountCurve(SEXP params, SEXP tsQuotes, SEXP times) {
 

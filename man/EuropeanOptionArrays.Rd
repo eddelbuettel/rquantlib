@@ -35,7 +35,7 @@ oldEuropeanOptionArrays(type, underlying, strike, dividendYield, riskFreeRate, m
   \item{gamma}{(matrix) change in value for a change in delta}
   \item{vega}{(matrix) change in value for a change in the underlying's volatility}
   \item{theta}{(matrix) change in value for a change in delta}
-  \item{rho}{(matrix) change in value for a change in time to maturity
+  \item{rho}{(matrix) change in value for a change in time to maturity}
   \item{dividendRho}{(matrix) change in value for a change in delta}
   \item{parameters}{List with parameters with which object was created}
 

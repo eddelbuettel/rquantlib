@@ -85,7 +85,7 @@ boost::shared_ptr<Calendar> getCalendar(const std::string &calstr) {
     return pcal;
 }
 
-RcppExport SEXP QL_setContext(SEXP parSEXP) {
+RcppExport SEXP setContext(SEXP parSEXP) {
 
     try {
         Rcpp::List par(parSEXP);        
@@ -107,7 +107,7 @@ RcppExport SEXP QL_setContext(SEXP parSEXP) {
     return R_NilValue;
 }
 
-RcppExport SEXP QL_isBusinessDay(SEXP calSexp, SEXP dateSexp){
+RcppExport SEXP isBusinessDay(SEXP calSexp, SEXP dateSexp){
 
     try {
         boost::shared_ptr<Calendar> pcal( getCalendar(Rcpp::as<std::string>(calSexp)) );
@@ -132,7 +132,7 @@ RcppExport SEXP QL_isBusinessDay(SEXP calSexp, SEXP dateSexp){
     return R_NilValue;
 }
 
-RcppExport SEXP QL_isHoliday(SEXP calSexp, SEXP dateSexp){
+RcppExport SEXP isHoliday(SEXP calSexp, SEXP dateSexp){
 
     try {
         boost::shared_ptr<Calendar> pcal( getCalendar(Rcpp::as<std::string>(calSexp)) );
@@ -156,7 +156,7 @@ RcppExport SEXP QL_isHoliday(SEXP calSexp, SEXP dateSexp){
     return R_NilValue;
 }
 
-RcppExport SEXP QL_isWeekend(SEXP calSexp, SEXP dateSexp){
+RcppExport SEXP isWeekend(SEXP calSexp, SEXP dateSexp){
 
     try {
         boost::shared_ptr<Calendar> pcal( getCalendar(Rcpp::as<std::string>(calSexp)) );
@@ -181,7 +181,7 @@ RcppExport SEXP QL_isWeekend(SEXP calSexp, SEXP dateSexp){
     return R_NilValue;
 }
 
-RcppExport SEXP QL_isEndOfMonth(SEXP calSexp, SEXP dateSexp){
+RcppExport SEXP isEndOfMonth(SEXP calSexp, SEXP dateSexp){
 
     try {
         boost::shared_ptr<Calendar> pcal( getCalendar(Rcpp::as<std::string>(calSexp)) );
@@ -206,7 +206,7 @@ RcppExport SEXP QL_isEndOfMonth(SEXP calSexp, SEXP dateSexp){
     return R_NilValue;
 }
 
-RcppExport SEXP QL_endOfMonth(SEXP calSexp, SEXP dateSexp){
+RcppExport SEXP endOfMonth(SEXP calSexp, SEXP dateSexp){
 
     try {
         boost::shared_ptr<Calendar> pcal( getCalendar(Rcpp::as<std::string>(calSexp)) );
@@ -232,7 +232,7 @@ RcppExport SEXP QL_endOfMonth(SEXP calSexp, SEXP dateSexp){
     return R_NilValue;
 }
 
-RcppExport SEXP QL_adjust(SEXP calSexp, SEXP bdcSEXP, SEXP dateSexp){
+RcppExport SEXP adjust(SEXP calSexp, SEXP bdcSEXP, SEXP dateSexp){
 
     try {
         boost::shared_ptr<Calendar> pcal( getCalendar(Rcpp::as<std::string>(calSexp)) );
@@ -260,7 +260,7 @@ RcppExport SEXP QL_adjust(SEXP calSexp, SEXP bdcSEXP, SEXP dateSexp){
     return R_NilValue;
 }
 
-RcppExport SEXP QL_advance1(SEXP calSexp, SEXP params, SEXP dateSexp){
+RcppExport SEXP advance1(SEXP calSexp, SEXP params, SEXP dateSexp){
 
     try {
         boost::shared_ptr<Calendar> pcal( getCalendar(Rcpp::as<std::string>(calSexp)) );
@@ -293,7 +293,7 @@ RcppExport SEXP QL_advance1(SEXP calSexp, SEXP params, SEXP dateSexp){
     return R_NilValue;
 }
 
-RcppExport SEXP QL_advance2(SEXP calSexp, SEXP param, SEXP dateSexp){
+RcppExport SEXP advance2(SEXP calSexp, SEXP param, SEXP dateSexp){
 
     try {
         boost::shared_ptr<Calendar> pcal( getCalendar(Rcpp::as<std::string>(calSexp)) );
@@ -326,7 +326,7 @@ RcppExport SEXP QL_advance2(SEXP calSexp, SEXP param, SEXP dateSexp){
     return R_NilValue;
 }
 
-RcppExport SEXP QL_businessDaysBetween(SEXP calSexp, SEXP params,
+RcppExport SEXP businessDaysBetween(SEXP calSexp, SEXP params,
                                        SEXP from, SEXP to){
 
     try {
@@ -360,7 +360,7 @@ RcppExport SEXP QL_businessDaysBetween(SEXP calSexp, SEXP params,
     return R_NilValue;
 }
 
-RcppExport SEXP QL_holidayList(SEXP calSexp, SEXP params) {
+RcppExport SEXP holidayList(SEXP calSexp, SEXP params) {
 
     try {
         boost::shared_ptr<Calendar> pcal( getCalendar(Rcpp::as<std::string>(calSexp)) );

@@ -1,3 +1,8 @@
+2010-08-07  Dirk Eddelbuettel  <edd@dexter>
+
+	* src/*cpp: Drop QL_ prefix from functions called from R
+	* R/*: Drop QL_ prefix in functions called by .Call()
+
 2010-08-06  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/rquantlib.hpp: Renamed to rquantlib.h to suppress a warning

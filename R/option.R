@@ -29,7 +29,7 @@ EuropeanOption.default <- function(type, underlying, strike, dividendYield,
                                    riskFreeRate, maturity, volatility) {
 
     type <- match.arg(type, c("call", "put"))
-    val <- .Call("QL_EuropeanOption",
+    val <- .Call("EuropeanOption",
                  list(type=as.character(type),
                       underlying=as.double(underlying),
                       strike=as.double(strike),
@@ -52,7 +52,7 @@ AmericanOption.default <- function(type, underlying, strike, dividendYield,
                                    riskFreeRate, maturity, volatility,
                                    timeSteps=150, gridPoints=151) {
     type <- match.arg(type, c("call", "put"))
-    val <- .Call("QL_AmericanOption",
+    val <- .Call("AmericanOption",
                  list(type=as.character(type),
                       underlying=as.double(underlying),
                       strike=as.double(strike),
@@ -85,7 +85,7 @@ BinaryOption.default <- function(binType, type, excType, underlying, strike, div
     type <- match.arg(type, c("call", "put"))
     binType <- match.arg(binType, c("cash", "asset", "gap"))
     excType <- match.arg(excType, c("american", "european"))
-    val <- .Call("QL_BinaryOption",
+    val <- .Call("BinaryOption",
                  list(binType=as.character(binType),
                       type=as.character(type),
                       excType=as.character(excType),
@@ -112,7 +112,7 @@ BarrierOption.default <- function(barrType, type, underlying, strike,
                                   volatility, barrier, rebate=0.0) {
     type <- match.arg(type, c("call", "put"))
     barrType <- match.arg(barrType, c("downin", "upin", "downout", "upout"))
-    val <- .Call("QL_BarrierOption",
+    val <- .Call("BarrierOption",
                  list(barrType=as.character(barrType),
                       type=as.character(type),
                       underlying=as.double(underlying),

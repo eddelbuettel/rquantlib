@@ -26,7 +26,7 @@
 
 #include "rquantlib.h"
 
-RcppExport  SEXP QL_EuropeanOptionImpliedVolatility(SEXP optionParameters) {
+RcppExport  SEXP EuropeanOptionImpliedVolatility(SEXP optionParameters) {
     const Size maxEvaluations = 100;
     const double tolerance = 1.0e-6;
   
@@ -88,7 +88,7 @@ RcppExport  SEXP QL_EuropeanOptionImpliedVolatility(SEXP optionParameters) {
     return R_NilValue;
 }
 
-RcppExport  SEXP QL_AmericanOptionImpliedVolatility(SEXP optionParameters) {
+RcppExport  SEXP AmericanOptionImpliedVolatility(SEXP optionParameters) {
     const Size maxEvaluations = 100;
     const double tolerance = 1.0e-6;
   

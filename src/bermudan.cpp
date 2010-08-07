@@ -45,9 +45,9 @@ void calibrateModel(const boost::shared_ptr<ShortRateModel>& model,
     }	
 }	
 
-RcppExport SEXP QL_BermudanSwaption(SEXP params, SEXP tsQuotes, 
-                                    SEXP maturities, SEXP tenors, 
-                                    SEXP vols) {
+RcppExport SEXP BermudanSwaption(SEXP params, SEXP tsQuotes, 
+                                 SEXP maturities, SEXP tenors, 
+                                 SEXP vols) {
 
     try {
 

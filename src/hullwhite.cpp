@@ -26,13 +26,13 @@
 
 using namespace boost;
 
-RcppExport SEXP QL_HullWhiteCalibrationUsingCap(SEXP termStrcDateVec,
-												SEXP termStrcZeroVec,
-												SEXP capDataDF,
-												SEXP iborDateVec,
-												SEXP iborZeroVec,
-												SEXP iborparams,
-												SEXP evaluationDate) {
+RcppExport SEXP HullWhiteCalibrationUsingCap(SEXP termStrcDateVec,
+                                             SEXP termStrcZeroVec,
+                                             SEXP capDataDF,
+                                             SEXP iborDateVec,
+                                             SEXP iborZeroVec,
+                                             SEXP iborparams,
+                                             SEXP evaluationDate) {
 	
     try {
         Rcpp::DateVector dv(evaluationDate);
@@ -115,13 +115,13 @@ RcppExport SEXP QL_HullWhiteCalibrationUsingCap(SEXP termStrcDateVec,
 }
 
 
-RcppExport SEXP QL_HullWhiteCalibrationUsingSwap(SEXP termStrcDateVec,
-												 SEXP termStrcZeroVec,
-												 SEXP swapDataDF,
-												 SEXP iborDateVec,
-												 SEXP iborZeroVec,
-												 SEXP iborparams,
-												 SEXP evaluationDate){
+RcppExport SEXP HullWhiteCalibrationUsingSwap(SEXP termStrcDateVec,
+                                              SEXP termStrcZeroVec,
+                                              SEXP swapDataDF,
+                                              SEXP iborDateVec,
+                                              SEXP iborZeroVec,
+                                              SEXP iborparams,
+                                              SEXP evaluationDate){
 
     try {
         Rcpp::DateVector dv(evaluationDate);

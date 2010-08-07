@@ -27,7 +27,7 @@ hullWhiteCalibrateUsingCap <- function(termStrc, capHelpers,
   indexparams <- list(type=index$type);
   ibor <- index$term
 
-  val <- .Call("QL_HullWhiteCalibrationUsingCap",
+  val <- .Call("HullWhiteCalibrationUsingCap",
                termStrc$table$date,
                termStrc$table$zeroRates,
                capData,
@@ -44,7 +44,7 @@ hullWhiteCalibrateUsingSwap <- function(termStrc, swapHelpers,
   indexparams <- list(type=index$type);
   ibor <- index$term
 
-  val <- .Call("QL_HullWhiteCalibrationUsingSwap",
+  val <- .Call("HullWhiteCalibrationUsingSwap",
                termStrc$table$date,
                termStrc$table$zeroRates,
                swapData,

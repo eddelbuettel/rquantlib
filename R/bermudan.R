@@ -37,7 +37,7 @@ BermudanSwaption.default <- function(params, tsQuotes, swaptionMaturities,
   if(!is.numeric(unlist(tsQuotes))) {
     stop("Term structure quotes must have numeric values")
   }
-  
+
   # Check for correct matrix/vector types
   if(!is.matrix(volMatrix)
      || !is.vector(swaptionMaturities)
@@ -54,7 +54,7 @@ BermudanSwaption.default <- function(params, tsQuotes, swaptionMaturities,
   # We could coerce types here and pass as.integer(round(swapTenors)),
   # temp <- as.double(volMatrix), dim(temp) < dim(a) [and pass temp instead
   # of volMatrix]. But this is taken care of in the C/C++ code.
-  val <- .Call("QL_BermudanSwaption",
+  val <- .Call("BermudanSwaption",
                params, tsQuotes,
                swaptionMaturities,
                swapTenors,

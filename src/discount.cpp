@@ -20,7 +20,7 @@
 
 #include "rquantlib.h"
 
-RcppExport SEXP QL_DiscountCurve(SEXP params, SEXP tsQuotes, SEXP times) {
+RcppExport SEXP DiscountCurve(SEXP params, SEXP tsQuotes, SEXP times) {
 
     try {
 

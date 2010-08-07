@@ -31,7 +31,7 @@ EuropeanOptionImpliedVolatility <-
 EuropeanOptionImpliedVolatility.default <-
   function(type, value, underlying, strike, dividendYield,
             riskFreeRate, maturity, volatility) {
-  val <- .Call("QL_EuropeanOptionImpliedVolatility",
+  val <- .Call("EuropeanOptionImpliedVolatility",
                list(type=as.character(type),
 		    value=as.double(value),
                     underlying=as.double(underlying),
@@ -56,7 +56,7 @@ AmericanOptionImpliedVolatility <-
 AmericanOptionImpliedVolatility.default <-
   function(type, value, underlying, strike, dividendYield, riskFreeRate,
             maturity, volatility, timeSteps=150, gridPoints=151) {
-  val <- .Call("QL_AmericanOptionImpliedVolatility",
+  val <- .Call("AmericanOptionImpliedVolatility",
                list(type=as.character(type),
 		    value=as.double(value),
                     underlying=as.double(underlying),
@@ -84,7 +84,7 @@ BinaryOptionImpliedVolatility <-
 BinaryOptionImpliedVolatility.default <-
   function(type, value, underlying, strike, dividendYield, riskFreeRate,
             maturity, volatility, cashPayoff=1) {
-  val <- .Call("QL_BinaryOptionImpliedVolatility",
+  val <- .Call("BinaryOptionImpliedVolatility",
                list(type=as.character(type),
 		    value=as.double(value),
                     underlying=as.double(underlying),

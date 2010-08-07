@@ -25,7 +25,7 @@
 
 #include <rquantlib.h>
 
-RcppExport SEXP QL_AsianOption(SEXP optionParameters){
+RcppExport SEXP AsianOption(SEXP optionParameters){
 
     try{
         Rcpp::List rparam(optionParameters);

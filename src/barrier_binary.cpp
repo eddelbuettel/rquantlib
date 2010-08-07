@@ -24,7 +24,7 @@
 
 #include "rquantlib.h"
 
-RcppExport  SEXP QL_BinaryOption(SEXP optionParameters) {
+RcppExport SEXP BinaryOption(SEXP optionParameters) {
 
     try {
         Rcpp::List rparam(optionParameters);
@@ -125,7 +125,7 @@ RcppExport  SEXP QL_BinaryOption(SEXP optionParameters) {
 
 // dumped core when we tried last
 // no longer under 0.3.10 and g++ 4.0.1 (Aug 2005)
-RcppExport  SEXP QL_BinaryOptionImpliedVolatility(SEXP optionParameters) {
+RcppExport SEXP BinaryOptionImpliedVolatility(SEXP optionParameters) {
 
     try {
 
@@ -186,7 +186,7 @@ RcppExport  SEXP QL_BinaryOptionImpliedVolatility(SEXP optionParameters) {
     return R_NilValue;
 }
 
-RcppExport  SEXP QL_BarrierOption(SEXP optionParameters) {
+RcppExport SEXP BarrierOption(SEXP optionParameters) {
 
     try {
 
@@ -255,11 +255,12 @@ RcppExport  SEXP QL_BarrierOption(SEXP optionParameters) {
 
         boost::shared_ptr<PricingEngine> engine(new AnalyticBarrierEngine(stochProcess));
 
-        BarrierOption barrierOption(barrierType,
-                                    barrier,
-                                    rebate,
-                                    payoff,
-                                    exercise);
+        // need to explicitly reference BarrierOption from QuantLib here
+        QuantLib::BarrierOption barrierOption(barrierType,
+                                              barrier,
+                                              rebate,
+                                              payoff,
+                                              exercise);
         barrierOption.setPricingEngine(engine);
 
         Rcpp::List rl = Rcpp::List::create(Rcpp::Named("value") = barrierOption.NPV(),

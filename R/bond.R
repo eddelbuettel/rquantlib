@@ -44,7 +44,7 @@ ZeroCouponBond.default <- function(bond,
     dateparams <- matchParams(dateparams)
 
 
-    val <- .Call("QL_ZeroBondWithRebuiltCurve",
+    val <- .Call("ZeroBondWithRebuiltCurve",
                  bond, c(discountCurve$table$date),
                  discountCurve$table$zeroRates, dateparams,
                  PACKAGE="RQuantLib")
@@ -67,17 +67,17 @@ ZeroPriceByYield.default <- function(yield, faceAmount=100,
                               dayCounter=2, frequency=2,
                               compound=0, businessDayConvention=4){
 
-     val <- .Call("QL_ZeroPriceByYield",
-                     list(
-   		          yield=as.double(yield),
-	                  faceAmount = as.double(faceAmount),
-	                  dayCounter = as.double(dayCounter),
-                          compound = as.double(compound),
-                          businessDayConvention = as.double(businessDayConvention),
-	                  frequency = as.double(frequency),
-	                  maturityDate = maturityDate,
-	                  issueDate = issueDate),
-                 PACKAGE="RQuantLib")
+     val <- .Call("ZeroPriceByYield",
+                  list(
+                       yield=as.double(yield),
+                       faceAmount = as.double(faceAmount),
+                       dayCounter = as.double(dayCounter),
+                       compound = as.double(compound),
+                       businessDayConvention = as.double(businessDayConvention),
+                       frequency = as.double(frequency),
+                       maturityDate = maturityDate,
+                       issueDate = issueDate),
+                  PACKAGE="RQuantLib")
      class(val) <- c("ZeroPriceByYield")
      val
 }
@@ -93,17 +93,17 @@ ZeroYield.default <- function(price, faceAmount=100,
                               dayCounter=2, frequency=2,
                               compound=0, businessDayConvention=4){
 
-     val <- .Call("QL_ZeroYield",
-                     list(
-   		          price=as.double(price),
-	                  faceAmount = as.double(faceAmount),
-	                  dayCounter = as.double(dayCounter),
-                          compound = as.double(compound),
-                          businessDayConvention = as.double(businessDayConvention),
-	                  frequency = as.double(frequency),
-	                  maturityDate = maturityDate,
-	                  issueDate = issueDate),
-                 PACKAGE="RQuantLib")
+     val <- .Call("ZeroYield",
+                  list(
+                       price=as.double(price),
+                       faceAmount = as.double(faceAmount),
+                       dayCounter = as.double(dayCounter),
+                       compound = as.double(compound),
+                       businessDayConvention = as.double(businessDayConvention),
+                       frequency = as.double(frequency),
+                       maturityDate = maturityDate,
+                       issueDate = issueDate),
+                  PACKAGE="RQuantLib")
      class(val) <- c("ZeroYield")
      val
 }
@@ -151,7 +151,7 @@ FixedRateBond.default <- function(bond,
 
     dateparams <- matchParams(dateparams)
 
-    val <- .Call("QL_FixedRateWithRebuiltCurve",
+    val <- .Call("FixedRateWithRebuiltCurve",
                  bond, rates, c(discountCurve$table$date),
                  discountCurve$table$zeroRates, dateparams,
                  PACKAGE="RQuantLib")
@@ -173,7 +173,7 @@ FixedRateBondYield.default <- function(settlementDays = 1,price, faceAmount=100,
                                 period, calendar = "us", rates,
                                 dayCounter=2, businessDayConvention=0,
                                 compound = 0, redemption = 100, issueDate) {
-     val <- .Call("QL_FixedRateBondYield",
+     val <- .Call("FixedRateBondYield",
                     list(
                          settlementDays=as.double(settlementDays),
                          price = as.double(price),
@@ -206,7 +206,7 @@ FixedRateBondPriceByYield.default <- function(settlementDays = 1, yield, faceAmo
                                 period, calendar = "us", rates,
                                 dayCounter=2, businessDayConvention=0,
                                 compound = 0, redemption = 100, issueDate) {
-     val <- .Call("QL_FixedRateBondPriceByYield",
+     val <- .Call("FixedRateBondPriceByYield",
                     list(
                          settlementDays=as.double(settlementDays),
                          yield = as.double(yield),
@@ -277,7 +277,7 @@ FloatingRateBond.default <- function(bond,
     indexparams <- list(type=index$type, length=index$length,
                         inTermOf=index$inTermOf)
     ibor <- index$term
-    val <- .Call("QL_FloatingWithRebuiltCurve",
+    val <- .Call("FloatingWithRebuiltCurve",
                  bond, gearings, spreads, caps, floors, indexparams,
                  c(ibor$table$date), ibor$table$zeroRates,
                  c(curve$table$date), curve$table$zeroRates,
@@ -334,7 +334,7 @@ ConvertibleZeroCouponBond.default <- function(bondparams,
     dividendSchedule <- bondparams$divSch
     dividendYield <- process$divYield
     riskFreeRate <- process$rff
-    val <- .Call("QL_ConvertibleZeroBond",
+    val <- .Call("ConvertibleZeroBond",
                     bondparams, process,
                     c(dividendYield$table$date),
                     dividendYield$table$zeroRates,
@@ -392,7 +392,7 @@ ConvertibleFixedCouponBond.default <- function(bondparams,
     dividendSchedule <- bondparams$divSch
     dividendYield <- process$divYield
     riskFreeRate <- process$rff
-    val <- .Call("QL_ConvertibleFixedBond",
+    val <- .Call("ConvertibleFixedBond",
                     bondparams, coupon, process,
                     c(dividendYield$table$date),
                     dividendYield$table$zeroRates,
@@ -454,7 +454,7 @@ ConvertibleFloatingCouponBond.default <- function(bondparams,
                         inTermOf=iborindex$inTermOf)
     ibor <- iborindex$term
 
-    val <- .Call("QL_ConvertibleFloatingBond",
+    val <- .Call("ConvertibleFloatingBond",
                     bondparams,  process,
                     c(dividendYield$table$date),
                     dividendYield$table$zeroRates,
@@ -508,7 +508,7 @@ CallableBond.default <- function(bondparams, hullWhite,
     callSch <- bondparams$callSch
 #    hw.termStructure <- hullWhite$term
 
-    val <- .Call("QL_CallableBond", bondparams, hullWhite,coupon,
+    val <- .Call("CallableBond", bondparams, hullWhite,coupon,
 #                c(hw.termStructure$table$date),
 #                hw.termStructure$table$zeroRates,
                 callSch, dateparams,
@@ -532,7 +532,7 @@ FittedBondCurve.default <- function(curveparams,
                                     dateparams){
     val <- 0
     dateparams <- matchParams(dateparams)
-    val <- .Call("QL_FittedBondCurve", curveparams,
+    val <- .Call("FittedBondCurve", curveparams,
                  lengths, coupons, marketQuotes, dateparams, PACKAGE="RQuantLib")
 
     class(val) <- c("DiscountCurve")
@@ -554,7 +554,7 @@ FittedBondCurve.default <- function(curveparams,
 #   volMatrix <- swaptionVol$volatilityMatrix
 #   swapIndex <- matchParams(swapIndex)
 #   ibor <- iborIndex$term
-#   val <- .Call("QL_CMSBond", bondparams, iborIndex, swapIndex, cap, floor, gearings, spreads,
+#   val <- .Call("CMSBond", bondparams, iborIndex, swapIndex, cap, floor, gearings, spreads,
 #                swaptionVol, atmOptionTenors, atmSwapTenors, volMatrix, pricer
 #                ibor$table$dates, ibor$table$zeroRates)
 #}

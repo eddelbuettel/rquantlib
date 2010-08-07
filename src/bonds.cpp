@@ -28,7 +28,7 @@
 using namespace boost;
 
 
-RcppExport SEXP QL_ZeroPriceByYield(SEXP optionParameters) {
+RcppExport SEXP ZeroPriceByYield(SEXP optionParameters) {
 
     try {
         Rcpp::List rparam(optionParameters);
@@ -71,7 +71,7 @@ RcppExport SEXP QL_ZeroPriceByYield(SEXP optionParameters) {
 }
 
 
-RcppExport SEXP QL_ZeroYield(SEXP optionParameters) {
+RcppExport SEXP ZeroYield(SEXP optionParameters) {
 
     try {
         Rcpp::List rparam(optionParameters);
@@ -114,9 +114,9 @@ RcppExport SEXP QL_ZeroYield(SEXP optionParameters) {
 }
 
 
-RcppExport SEXP QL_ZeroBond(SEXP bondparam, 
-                            Handle<YieldTermStructure> &discountCurve,
-                            SEXP dateparams) {
+RcppExport SEXP ZeroBond(SEXP bondparam, 
+                         Handle<YieldTermStructure> &discountCurve,
+                         SEXP dateparams) {
 
     try {
         Rcpp::List rparam(bondparam);
@@ -176,9 +176,9 @@ RcppExport SEXP QL_ZeroBond(SEXP bondparam,
 }
 
 
-RcppExport SEXP QL_FixedBond(SEXP bondparam, SEXP ratesVec,
-                             Handle<YieldTermStructure> &discountCurve,
-                             SEXP dateparams){
+RcppExport SEXP FixedBond(SEXP bondparam, SEXP ratesVec,
+                          Handle<YieldTermStructure> &discountCurve,
+                          SEXP dateparams){
 
     try {
         Rcpp::List rparam(bondparam);
@@ -249,7 +249,7 @@ RcppExport SEXP QL_FixedBond(SEXP bondparam, SEXP ratesVec,
 }
    
 
-RcppExport  SEXP QL_FixedRateBondYield(SEXP optionParameters, SEXP ratesVec) {
+RcppExport SEXP FixedRateBondYield(SEXP optionParameters, SEXP ratesVec) {
   
     try {
         Rcpp::List rparam(optionParameters);
@@ -307,7 +307,7 @@ RcppExport  SEXP QL_FixedRateBondYield(SEXP optionParameters, SEXP ratesVec) {
 }
 
  
-RcppExport SEXP QL_FixedRateBondPriceByYield(SEXP optionParameters, SEXP ratesVec) {
+RcppExport SEXP FixedRateBondPriceByYield(SEXP optionParameters, SEXP ratesVec) {
   
     try {
         Rcpp::List rparam(optionParameters);
@@ -365,12 +365,12 @@ RcppExport SEXP QL_FixedRateBondPriceByYield(SEXP optionParameters, SEXP ratesVe
 }
 
 
-SEXP QL_FloatingBond(SEXP bondparam, SEXP gearingsVec, SEXP spreadsVec,
-                     SEXP capsVec, SEXP floorsVec, 
-                     Handle<YieldTermStructure> &index,
-                     SEXP indexparams,
-                     Handle<YieldTermStructure> &discountCurve,
-                     SEXP dateparams) 
+SEXP FloatingBond(SEXP bondparam, SEXP gearingsVec, SEXP spreadsVec,
+                  SEXP capsVec, SEXP floorsVec, 
+                  Handle<YieldTermStructure> &index,
+                  SEXP indexparams,
+                  Handle<YieldTermStructure> &discountCurve,
+                  SEXP dateparams) 
 {
   
     try {
@@ -465,19 +465,18 @@ SEXP QL_FloatingBond(SEXP bondparam, SEXP gearingsVec, SEXP spreadsVec,
     return R_NilValue;
 }
 
-RcppExport SEXP QL_FloatBond1(SEXP bond, SEXP gearings, SEXP caps,
-                              SEXP spreads,
-                              SEXP floors, SEXP indexparams, SEXP index, 
-                              SEXP discountCurve, SEXP dateparams)
+RcppExport SEXP FloatBond1(SEXP bond, SEXP gearings, SEXP caps, SEXP spreads,
+                           SEXP floors, SEXP indexparams, SEXP index, 
+                           SEXP discountCurve, SEXP dateparams)
 {
     
     try{
 
         Handle<YieldTermStructure> discount_curve(getFlatCurve(discountCurve));
         Handle<YieldTermStructure> ibor_curve(getFlatCurve(index));
-        return Rcpp::wrap(QL_FloatingBond(bond, gearings, caps, spreads,
-                                          floors, ibor_curve, indexparams,
-                                          discount_curve, dateparams));       
+        return Rcpp::wrap(FloatingBond(bond, gearings, caps, spreads,
+                                       floors, ibor_curve, indexparams,
+                                       discount_curve, dateparams));       
         
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
@@ -489,11 +488,10 @@ RcppExport SEXP QL_FloatBond1(SEXP bond, SEXP gearings, SEXP caps,
 }
 
 
-RcppExport SEXP QL_FloatBond2(SEXP bond, SEXP gearings, SEXP caps,
-                              SEXP spreads,
-                              SEXP floors, SEXP indexparams, SEXP index_params, 
-                              SEXP index_tsQuotes, SEXP index_times,
-                              SEXP discountCurve, SEXP dateparams)
+RcppExport SEXP FloatBond2(SEXP bond, SEXP gearings, SEXP caps, SEXP spreads,
+                           SEXP floors, SEXP indexparams, SEXP index_params, 
+                           SEXP index_tsQuotes, SEXP index_times,
+                           SEXP discountCurve, SEXP dateparams)
 {
     
     try{
@@ -502,9 +500,9 @@ RcppExport SEXP QL_FloatBond2(SEXP bond, SEXP gearings, SEXP caps,
         Handle<YieldTermStructure> ibor_curve(buildTermStructure(index_params,
                                                                  index_tsQuotes,
                                                                  index_times));
-        return Rcpp::wrap(QL_FloatingBond(bond, gearings, caps, spreads,
-                                          floors, ibor_curve, indexparams,
-                                          discount_curve, dateparams));       
+        return Rcpp::wrap(FloatingBond(bond, gearings, caps, spreads,
+                                       floors, ibor_curve, indexparams,
+                                       discount_curve, dateparams));       
         
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
@@ -516,11 +514,11 @@ RcppExport SEXP QL_FloatBond2(SEXP bond, SEXP gearings, SEXP caps,
 }
 
 
-RcppExport SEXP QL_FloatBond3(SEXP bond, SEXP gearings, SEXP caps,
-                              SEXP spreads, SEXP floors, 
-                              SEXP indexparams, SEXP index, 
-                              SEXP discount_params, SEXP discount_tsQuotes,
-                              SEXP discount_times, SEXP dateparams)
+RcppExport SEXP FloatBond3(SEXP bond, SEXP gearings, SEXP caps,
+                           SEXP spreads, SEXP floors, 
+                           SEXP indexparams, SEXP index, 
+                           SEXP discount_params, SEXP discount_tsQuotes,
+                           SEXP discount_times, SEXP dateparams)
 {
     
     try {
@@ -529,9 +527,9 @@ RcppExport SEXP QL_FloatBond3(SEXP bond, SEXP gearings, SEXP caps,
         Handle<YieldTermStructure> discount_curve(buildTermStructure(discount_params,
                                                                      discount_tsQuotes,
                                                                      discount_times));
-        return Rcpp::wrap(QL_FloatingBond(bond, gearings, caps, spreads,
-                                          floors, ibor_curve, indexparams,
-                                          discount_curve, dateparams));       
+        return Rcpp::wrap(FloatingBond(bond, gearings, caps, spreads,
+                                       floors, ibor_curve, indexparams,
+                                       discount_curve, dateparams));       
         
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
@@ -543,12 +541,12 @@ RcppExport SEXP QL_FloatBond3(SEXP bond, SEXP gearings, SEXP caps,
 }
 
 
-RcppExport SEXP QL_FloatBond4(SEXP bond, SEXP gearings, SEXP caps,
-                              SEXP spreads, SEXP floors, 
-                              SEXP indexparams, SEXP index_params, 
-                              SEXP index_tsQuotes, SEXP index_times,
-                              SEXP discount_params, SEXP discount_tsQuotes,
-                              SEXP discount_times, SEXP dateparams)
+RcppExport SEXP FloatBond4(SEXP bond, SEXP gearings, SEXP caps,
+                           SEXP spreads, SEXP floors, 
+                           SEXP indexparams, SEXP index_params, 
+                           SEXP index_tsQuotes, SEXP index_times,
+                           SEXP discount_params, SEXP discount_tsQuotes,
+                           SEXP discount_times, SEXP dateparams)
 {
     
     try {
@@ -560,9 +558,9 @@ RcppExport SEXP QL_FloatBond4(SEXP bond, SEXP gearings, SEXP caps,
         Handle<YieldTermStructure> discount_curve(buildTermStructure(discount_params,
                                                                  discount_tsQuotes,
                                                                  discount_times));
-        return Rcpp::wrap(QL_FloatingBond(bond, gearings, caps, spreads,
-                                          floors, ibor_curve, indexparams,
-                                          discount_curve, dateparams));       
+        return Rcpp::wrap(FloatingBond(bond, gearings, caps, spreads,
+                                       floors, ibor_curve, indexparams,
+                                       discount_curve, dateparams));       
         
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
@@ -573,20 +571,20 @@ RcppExport SEXP QL_FloatBond4(SEXP bond, SEXP gearings, SEXP caps,
     return R_NilValue;
 }
 
-RcppExport SEXP QL_FloatingWithRebuiltCurve(SEXP bondparams, SEXP gearings,
-                                            SEXP spreads, SEXP caps,
-                                            SEXP floors, SEXP indexparams,
-                                            SEXP iborDateSexp, SEXP iborzeroSexp,
-                                            SEXP dateSexp, SEXP zeroSexp,
-                                            SEXP dateparams) {
+RcppExport SEXP FloatingWithRebuiltCurve(SEXP bondparams, SEXP gearings,
+                                         SEXP spreads, SEXP caps,
+                                         SEXP floors, SEXP indexparams,
+                                         SEXP iborDateSexp, SEXP iborzeroSexp,
+                                         SEXP dateSexp, SEXP zeroSexp,
+                                         SEXP dateparams) {
 
     try {
         Handle<YieldTermStructure> ibor_curve(rebuildCurveFromZeroRates(iborDateSexp, iborzeroSexp));       
         Handle<YieldTermStructure> curve(rebuildCurveFromZeroRates(dateSexp, zeroSexp));       
         
-        SEXP flrtbond = QL_FloatingBond(bondparams, gearings, caps, spreads,
-                                        floors, ibor_curve, indexparams,
-                                        curve, dateparams);
+        SEXP flrtbond = FloatingBond(bondparams, gearings, caps, spreads,
+                                     floors, ibor_curve, indexparams,
+                                     curve, dateparams);
         return flrtbond;
 
     } catch(std::exception &ex) { 
@@ -599,12 +597,12 @@ RcppExport SEXP QL_FloatingWithRebuiltCurve(SEXP bondparams, SEXP gearings,
 }
 
 
-RcppExport SEXP QL_FixedRateWithRebuiltCurve(SEXP bondparam, SEXP ratesVec,
-                                             SEXP dateSexp, SEXP zeroSexp,
-                                             SEXP dateparams){
+RcppExport SEXP FixedRateWithRebuiltCurve(SEXP bondparam, SEXP ratesVec,
+                                          SEXP dateSexp, SEXP zeroSexp,
+                                          SEXP dateparams){
     try {
         Handle<YieldTermStructure> curve(rebuildCurveFromZeroRates(dateSexp, zeroSexp));
-        return Rcpp::wrap(QL_FixedBond(bondparam, ratesVec, curve, dateparams));
+        return Rcpp::wrap(FixedBond(bondparam, ratesVec, curve, dateparams));
         
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
@@ -616,13 +614,13 @@ RcppExport SEXP QL_FixedRateWithRebuiltCurve(SEXP bondparam, SEXP ratesVec,
 }
 
 
-RcppExport SEXP QL_ZeroBondWithRebuiltCurve(SEXP bond,
-                                            SEXP dateSexp, SEXP zeroSexp,
-                                            SEXP dateparams){
+RcppExport SEXP ZeroBondWithRebuiltCurve(SEXP bond,
+                                         SEXP dateSexp, SEXP zeroSexp,
+                                         SEXP dateparams){
     try {
 
         Handle<YieldTermStructure> curve(rebuildCurveFromZeroRates(dateSexp, zeroSexp));
-        return Rcpp::wrap(QL_ZeroBond(bond, curve, dateparams));
+        return Rcpp::wrap(ZeroBond(bond, curve, dateparams));
 
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
@@ -634,13 +632,13 @@ RcppExport SEXP QL_ZeroBondWithRebuiltCurve(SEXP bond,
 }
 
 
-RcppExport SEXP QL_ConvertibleZeroBond(SEXP bondparams, SEXP process,
-                                       SEXP dividendYieldDateSexp,
-                                       SEXP dividendYieldZeroSexp,
-                                       SEXP rffDateSexp, SEXP rffZeroSexp,
-                                       SEXP dividendScheduleFrame,
-                                       SEXP callabilityScheduleFrame,
-                                       SEXP dateparams) 
+RcppExport SEXP ConvertibleZeroBond(SEXP bondparams, SEXP process,
+                                    SEXP dividendYieldDateSexp,
+                                    SEXP dividendYieldZeroSexp,
+                                    SEXP rffDateSexp, SEXP rffZeroSexp,
+                                    SEXP dividendScheduleFrame,
+                                    SEXP callabilityScheduleFrame,
+                                    SEXP dateparams) 
 {
 
     try {
@@ -744,13 +742,13 @@ RcppExport SEXP QL_ConvertibleZeroBond(SEXP bondparams, SEXP process,
 }
 
 
-RcppExport SEXP QL_ConvertibleFixedBond(SEXP bondparams, SEXP coupon, SEXP process,
-                                        SEXP dividendYieldDateSexp,
-                                        SEXP dividendYieldZeroSexp,
-                                        SEXP rffDateSexp, SEXP rffZeroSexp,
-                                        SEXP dividendScheduleFrame,
-                                        SEXP callabilityScheduleFrame,
-                                        SEXP dateparams) {
+RcppExport SEXP ConvertibleFixedBond(SEXP bondparams, SEXP coupon, SEXP process,
+                                     SEXP dividendYieldDateSexp,
+                                     SEXP dividendYieldZeroSexp,
+                                     SEXP rffDateSexp, SEXP rffZeroSexp,
+                                     SEXP dividendScheduleFrame,
+                                     SEXP callabilityScheduleFrame,
+                                     SEXP dateparams) {
 
     try {
 
@@ -860,15 +858,15 @@ RcppExport SEXP QL_ConvertibleFixedBond(SEXP bondparams, SEXP coupon, SEXP proce
 }
 
 
-RcppExport SEXP QL_ConvertibleFloatingBond(SEXP bondparams,  SEXP process,
-                                           SEXP dividendYieldDateSexp,
-                                           SEXP dividendYieldZeroSexp,
-                                           SEXP rffDateSexp, SEXP rffZeroSexp,
-                                           SEXP iborIndexDateSexp, SEXP iborIndexZeroSexp,
-                                           SEXP indexparams, SEXP spreadVec,
-                                           SEXP dividendScheduleFrame,
-                                           SEXP callabilityScheduleFrame,
-                                           SEXP dateparams) {
+RcppExport SEXP ConvertibleFloatingBond(SEXP bondparams,  SEXP process,
+                                        SEXP dividendYieldDateSexp,
+                                        SEXP dividendYieldZeroSexp,
+                                        SEXP rffDateSexp, SEXP rffZeroSexp,
+                                        SEXP iborIndexDateSexp, SEXP iborIndexZeroSexp,
+                                        SEXP indexparams, SEXP spreadVec,
+                                        SEXP dividendScheduleFrame,
+                                        SEXP callabilityScheduleFrame,
+                                        SEXP dateparams) {
 
     try {
 
@@ -994,9 +992,9 @@ RcppExport SEXP QL_ConvertibleFloatingBond(SEXP bondparams,  SEXP process,
 }
 
 
-RcppExport SEXP QL_CallableBond(SEXP bondparams, SEXP hw, SEXP coupon,
-                                SEXP callabilityScheduleFrame,
-                                SEXP dateparams) {
+RcppExport SEXP CallableBond(SEXP bondparams, SEXP hw, SEXP coupon,
+                             SEXP callabilityScheduleFrame,
+                             SEXP dateparams) {
 
     try {
 
@@ -1077,7 +1075,7 @@ RcppExport SEXP QL_CallableBond(SEXP bondparams, SEXP hw, SEXP coupon,
     return R_NilValue;
 }
 
-// RcppExport SEXP QL_CMSBond(SEXP bondparams, SEXP iborIndex, SEXP swapIndexParam, 
+// RcppExport SEXP CMSBond(SEXP bondparams, SEXP iborIndex, SEXP swapIndexParam, 
 //                            SEXP capsVec, SEXP floorsVec, SEXP gearingsVec, 
 //                            SEXP spreadsVec, SEXP swaptionVolSEXP, SEXP atmOptionTenorsSEXP,
 //                            SEXP atmSwapTenorsSEXP, SEXP volMatrixSEXP, SEXP pricer,
@@ -1193,9 +1191,9 @@ RcppExport SEXP QL_CallableBond(SEXP bondparams, SEXP hw, SEXP coupon,
 //     return rl;
 // }
 
-RcppExport SEXP QL_FittedBondCurve(SEXP curveparams, SEXP lengthVec,
-                                   SEXP couponVec,SEXP marketVec,
-                                   SEXP dateparams){
+RcppExport SEXP FittedBondCurve(SEXP curveparams, SEXP lengthVec,
+                                SEXP couponVec,SEXP marketVec,
+                                SEXP dateparams){
     try {
 
         //extract length, coupon and market prices vector

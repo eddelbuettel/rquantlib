@@ -46,7 +46,7 @@ EuropeanOptionArrays <- function(type, underlying, strike, dividendYield,
         for (r in 1:n.riskFreeRate)
           for (t in 1:n.maturity)
             for (v in 1:n.volatility) {
-              val <- .Call("QL_EuropeanOption",
+              val <- .Call("EuropeanOption",
                            list(type=as.character(type),
                                 underlying=as.double(underlying[s]),
                                 strike=as.double(strike[k]),
@@ -77,4 +77,30 @@ EuropeanOptionArrays <- function(type, underlying, strike, dividendYield,
                    riskFreeRate=riskFreeRate, maturity=maturity,
                    volatility=volatility)))
 }
+
+newEuropeanOptionArrays <- function(type, underlying, strike, dividendYield,
+                                    riskFreeRate, maturity, volatility) {
+    lv <- c(length(underlying) > 1,
+           length(strike) > 1,
+           length(dividendYield) > 1,
+           length(riskFreeRate) > 1, +
+           length(maturity) > 1, +
+           length(volatility) > 1)
+    if (sum(lv) != 2) {
+        warning("Need exactly two arguments as vectors")
+        return(NULL)
+    }
+    type <- match.arg(type, c("call", "put"))
+    pars <- expand.grid(underlying, strike, dividendYield,
+                        riskFreeRate, maturity, volatility)
+    nonconst <- which( apply(pars, 2, sd) != 0)
+    colnames <- c("spot", "strike", "div", "rfrate", "mat", "vol")
+
+    #val <- .Call("EuropeanOptionArray", type, pars, PACKAGE="RQuantLib")
+
+
+}
+
+
+
 

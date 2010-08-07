@@ -44,7 +44,7 @@ DiscountCurve.default <- function(params, tsQuotes, times=seq(0,10,.1)) {
     }
 
     ## Finally ready to make the call...
-    val <- .Call("QL_DiscountCurve", params, tsQuotes, times, PACKAGE="RQuantLib")
+    val <- .Call("DiscountCurve", params, tsQuotes, times, PACKAGE="RQuantLib")
     class(val) <- c("DiscountCurve")
     val
 }

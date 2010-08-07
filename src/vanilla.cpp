@@ -24,7 +24,7 @@
 
 #include <rquantlib.h>
 
-RcppExport  SEXP QL_EuropeanOption(SEXP optionParameters) {
+RcppExport SEXP EuropeanOption(SEXP optionParameters) {
 
     try {
 
@@ -79,7 +79,7 @@ RcppExport  SEXP QL_EuropeanOption(SEXP optionParameters) {
     return R_NilValue;
 }
 
-RcppExport  SEXP QL_AmericanOption(SEXP optionParameters) {
+RcppExport SEXP AmericanOption(SEXP optionParameters) {
 
     try {
         Rcpp::List rparam(optionParameters);

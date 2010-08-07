@@ -41,7 +41,7 @@ AsianOption.default <- function(averageType, type, underlying, strike, dividendY
             maturity <- 1.0             # actually unused for arithmetic option case
         }
     }
-    val <- .Call("QL_AsianOption",
+    val <- .Call("AsianOption",
                  list(averageType=as.character(averageType),
                       type=as.character(type),
                       underlying=as.double(underlying),

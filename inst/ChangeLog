@@ -1,5 +1,12 @@
-2010-08-07  Dirk Eddelbuettel  <edd@dexter>
+2010-08-07  Dirk Eddelbuettel  <edd@debian.org>
 
+	* R/arrays.R: Rewrote EuropeanOptionArrays() to have vectorisation on
+	the C++ side rather than in R; external interface unchanged and the
+	old implementation is still available just in case
+	* src/vanilla.cpp: New function EuropeanOptionArrays() looping over a
+	grid defined by vectors of any two of the six possible numeric inputs
+	* man/EuropeanOptionArrays.Rd: Updated accordingly
+	
 	* src/*cpp: Drop QL_ prefix from functions called from R
 	* R/*: Drop QL_ prefix in functions called by .Call()
 

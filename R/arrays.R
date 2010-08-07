@@ -1,6 +1,6 @@
 ## RQuantLib -- R interface to the QuantLib libraries
 ##
-## Copyright (C) 2002 - 2009 Dirk Eddelbuettel <edd@debian.org>
+## Copyright (C) 2002 - 2010 Dirk Eddelbuettel <edd@debian.org>
 ##
 ## $Id: arrays.R,v 1.2 2002/11/15 01:49:28 edd Exp $
 ##
@@ -20,8 +20,8 @@
 ## Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
 ## MA 02111-1307, USA
 
-EuropeanOptionArrays <- function(type, underlying, strike, dividendYield,
-                                 riskFreeRate, maturity, volatility) {
+oldEuropeanOptionArrays <- function(type, underlying, strike, dividendYield,
+                                    riskFreeRate, maturity, volatility) {
   n.underlying <- length(underlying)
   n.strike <- length(strike)
   n.dividendYield <- length(dividendYield)
@@ -78,8 +78,9 @@ EuropeanOptionArrays <- function(type, underlying, strike, dividendYield,
                    volatility=volatility)))
 }
 
-newEuropeanOptionArrays <- function(type, underlying, strike, dividendYield,
-                                    riskFreeRate, maturity, volatility) {
+EuropeanOptionArrays <- function(type, underlying, strike, dividendYield,
+                                 riskFreeRate, maturity, volatility) {
+    ## check that we have two vectors
     lv <- c(length(underlying) > 1,
            length(strike) > 1,
            length(dividendYield) > 1,
@@ -91,16 +92,19 @@ newEuropeanOptionArrays <- function(type, underlying, strike, dividendYield,
         return(NULL)
     }
     type <- match.arg(type, c("call", "put"))
+
+    ## expand parameters
     pars <- expand.grid(underlying, strike, dividendYield,
                         riskFreeRate, maturity, volatility)
     nonconst <- which( apply(pars, 2, sd) != 0)
     colnames <- c("spot", "strike", "div", "rfrate", "mat", "vol")
 
-    #val <- .Call("EuropeanOptionArray", type, pars, PACKAGE="RQuantLib")
+    val <- .Call("EuropeanOptionArrays", type, as.matrix(pars), PACKAGE="RQuantLib")
 
-
+    ## turn list of vectors in to list of matrices
+    par1 <- unique(pars[, nonconst[1]])
+    par2 <- unique(pars[, nonconst[2]])
+    len1 <- length(par1)
+    len2 <- length(par2)
+    ml <- lapply(val, function(x) matrix(x, len1, len2, dimnames=list(par1,par2)))
 }
-
-
-
-

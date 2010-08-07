@@ -5,6 +5,7 @@ exportPattern("*.default")
 
 export(
        ##--arrays.R
+       "oldEuropeanOptionArrays",
        "EuropeanOptionArrays",
        ##--asian.R
        "AsianOption",

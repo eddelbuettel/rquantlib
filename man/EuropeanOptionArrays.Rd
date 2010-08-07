@@ -1,6 +1,7 @@
 % $Id: EuropeanOptionArrays.Rd,v 1.4 2004/12/28 03:20:07 edd Exp $
 \name{EuropeanOptionArrays}
 \alias{EuropeanOptionArrays}
+\alias{oldEuropeanOptionArrays}
 \title{European Option evaluation using Closed-Form solution}
 \description{
   The \code{EuropeanOptionArrays} function allows any of the numerical
@@ -11,6 +12,7 @@
 }
 \usage{
 EuropeanOptionArrays(type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility)
+oldEuropeanOptionArrays(type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility)
 }
 \arguments{
   \item{type}{A string with one of the values \code{call} or \code{put}}
@@ -22,20 +24,25 @@ EuropeanOptionArrays(type, underlying, strike, dividendYield, riskFreeRate, matu
   \item{volatility}{(Scalar or list) volatilit(y|ies) of the underlying stock}
 }
 \value{
-  The \code{EuropeanOptionArrays} function allows each of the numerical
-  input parameters to be a list (or vector, or sequence). A list of
-  multi-dimensional arrays is returned. Each array point corresponds to
+  The \code{EuropeanOptionArrays} function allows any two of the numerical
+  input parameters to be a vector or sequence. A list of
+  two-dimensional matrices is returned. Each cell corresponds to
   an evaluation under the given set of parameters. 
 
   For these functions, the following components are returned:
-  \item{value}{(Scalar or array) value of option}
-  \item{delta}{(Scalar or array) change in value for a change in the underlying}
-  \item{gamma}{(Scalar or array) change in value for a change in delta}
-  \item{vega}{(Scalar or array) change in value for a change in the underlying's volatility}
-  \item{theta}{(Scalar or array) change in value for a change in delta}
-  \item{rho}{(Scalar or array) change in value for a change in time to maturity}
-  \item{dividendRho}{(Scalar or array) change in value for a change in delta}
+  \item{value}{(matrix) value of option}
+  \item{delta}{(matrix) change in value for a change in the underlying}
+  \item{gamma}{(matrix) change in value for a change in delta}
+  \item{vega}{(matrix) change in value for a change in the underlying's volatility}
+  \item{theta}{(matrix) change in value for a change in delta}
+  \item{rho}{(matrix) change in value for a change in time to maturity
+  \item{dividendRho}{(matrix) change in value for a change in delta}
   \item{parameters}{List with parameters with which object was created}
+
+  The \code{oldEuropeanOptionArrays} function is an older implementation
+  which vectorises this at the R level instead but allows more general
+  multidimensional arrays.
+  
 }
 \details{
   The well-known closed-form solution derived by Black, Scholes and

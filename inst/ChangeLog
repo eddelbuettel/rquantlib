@@ -6,7 +6,10 @@
 	* src/vanilla.cpp: New function EuropeanOptionArrays() looping over a
 	grid defined by vectors of any two of the six possible numeric inputs
 	* man/EuropeanOptionArrays.Rd: Updated accordingly
-	
+
+	* R/arrays.R: New function plotOptionSurface() (from existing demo)
+	* man/EuropeanOptionArrays.Rd: Added documentation
+
 	* src/*cpp: Drop QL_ prefix from functions called from R
 	* R/*: Drop QL_ prefix in functions called by .Call()
 

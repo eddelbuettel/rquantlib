@@ -7,6 +7,7 @@ export(
        ##--arrays.R
        "oldEuropeanOptionArrays",
        "EuropeanOptionArrays",
+       "plotOptionSurface",
        ##--asian.R
        "AsianOption",
        ##--bermudan.R

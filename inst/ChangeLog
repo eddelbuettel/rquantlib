@@ -1,5 +1,7 @@
 2010-08-09  Dirk Eddelbuettel  <edd@debian.org>
 
+	* DESCRIPTION: Release 0.3.4
+
 	* src/rquantlib.h: No longer use 'using namespace QuantLib'
 	* src/asian.cpp: Switch to explicitly reference all QuantLib objects
 	* src/barrier_binary.cpp: Idem

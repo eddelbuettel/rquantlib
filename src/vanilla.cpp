@@ -33,32 +33,32 @@ RcppExport SEXP EuropeanOption(SEXP optionParameters) {
         std::string type     = Rcpp::as<std::string>(rparam["type"]);
         double underlying    = Rcpp::as<double>(rparam["underlying"]);
         double strike        = Rcpp::as<double>(rparam["strike"]);
-        Spread dividendYield = Rcpp::as<double>(rparam["dividendYield"]);
-        Rate riskFreeRate    = Rcpp::as<double>(rparam["riskFreeRate"]);
-        Time maturity        = Rcpp::as<double>(rparam["maturity"]);
+        QuantLib::Spread dividendYield = Rcpp::as<double>(rparam["dividendYield"]);
+        QuantLib::Rate riskFreeRate    = Rcpp::as<double>(rparam["riskFreeRate"]);
+        QuantLib::Time maturity        = Rcpp::as<double>(rparam["maturity"]);
         int length           = int(maturity*360 + 0.5); // FIXME: this could be better
         double volatility    = Rcpp::as<double>(rparam["volatility"]);
     
-        Option::Type optionType = getOptionType(type);
+        QuantLib::Option::Type optionType = getOptionType(type);
 
-        Date today = Date::todaysDate();
-        Settings::instance().evaluationDate() = today;
+        QuantLib::Date today = QuantLib::Date::todaysDate();
+        QuantLib::Settings::instance().evaluationDate() = today;
 
         // new framework as per QuantLib 0.3.5
-        DayCounter dc = Actual360();
-        boost::shared_ptr<SimpleQuote> spot(new SimpleQuote( underlying ));
-        boost::shared_ptr<SimpleQuote> vol(new SimpleQuote( volatility ));
-        boost::shared_ptr<BlackVolTermStructure> volTS = flatVol(today, vol, dc);
-        boost::shared_ptr<SimpleQuote> qRate(new SimpleQuote( dividendYield ));
-        boost::shared_ptr<YieldTermStructure> qTS = flatRate(today, qRate, dc);
-        boost::shared_ptr<SimpleQuote> rRate(new SimpleQuote( riskFreeRate ));
-        boost::shared_ptr<YieldTermStructure> rTS = flatRate(today, rRate, dc);
+        QuantLib::DayCounter dc = QuantLib::Actual360();
+        boost::shared_ptr<QuantLib::SimpleQuote> spot(new QuantLib::SimpleQuote( underlying ));
+        boost::shared_ptr<QuantLib::SimpleQuote> vol(new QuantLib::SimpleQuote( volatility ));
+        boost::shared_ptr<QuantLib::BlackVolTermStructure> volTS = flatVol(today, vol, dc);
+        boost::shared_ptr<QuantLib::SimpleQuote> qRate(new QuantLib::SimpleQuote( dividendYield ));
+        boost::shared_ptr<QuantLib::YieldTermStructure> qTS = flatRate(today, qRate, dc);
+        boost::shared_ptr<QuantLib::SimpleQuote> rRate(new QuantLib::SimpleQuote( riskFreeRate ));
+        boost::shared_ptr<QuantLib::YieldTermStructure> rTS = flatRate(today, rRate, dc);
 
-        Date exDate = today + length;
-        boost::shared_ptr<Exercise> exercise(new EuropeanExercise(exDate));
+        QuantLib::Date exDate = today + length;
+        boost::shared_ptr<QuantLib::Exercise> exercise(new QuantLib::EuropeanExercise(exDate));
 	
-        boost::shared_ptr<StrikedTypePayoff> payoff(new PlainVanillaPayoff(optionType, strike));
-        boost::shared_ptr<VanillaOption> option = makeOption(payoff, exercise, spot, qTS, rTS, volTS);
+        boost::shared_ptr<QuantLib::StrikedTypePayoff> payoff(new QuantLib::PlainVanillaPayoff(optionType, strike));
+        boost::shared_ptr<QuantLib::VanillaOption> option = makeOption(payoff, exercise, spot, qTS, rTS, volTS);
 
         Rcpp::List rl = Rcpp::List::create(Rcpp::Named("value") = option->NPV(),
                                            Rcpp::Named("delta") = option->delta(),
@@ -87,41 +87,41 @@ RcppExport SEXP AmericanOption(SEXP optionParameters) {
         std::string type = Rcpp::as<std::string>(rparam["type"]);
         double underlying = Rcpp::as<double>(rparam["underlying"]);
         double strike = Rcpp::as<double>(rparam["strike"]);
-        Spread dividendYield = Rcpp::as<double>(rparam["dividendYield"]);
-        Rate riskFreeRate = Rcpp::as<double>(rparam["riskFreeRate"]);
-        Time maturity = Rcpp::as<double>(rparam["maturity"]);
+        QuantLib::Spread dividendYield = Rcpp::as<double>(rparam["dividendYield"]);
+        QuantLib::Rate riskFreeRate = Rcpp::as<double>(rparam["riskFreeRate"]);
+        QuantLib::Time maturity = Rcpp::as<double>(rparam["maturity"]);
         int length = int(maturity*360 + 0.5); // FIXME: this could be better
         double volatility = Rcpp::as<double>(rparam["volatility"]);
         
-        Option::Type optionType = getOptionType(type);
+        QuantLib::Option::Type optionType = getOptionType(type);
 
         // new framework as per QuantLib 0.3.5, updated for 0.3.7
         // updated again for 0.9.0, see eg test-suite/americanoption.cpp
-        Date today = Date::todaysDate();
-        Settings::instance().evaluationDate() = today;
-        DayCounter dc = Actual360();
-        boost::shared_ptr<SimpleQuote> spot(new SimpleQuote(underlying));
-        boost::shared_ptr<SimpleQuote> qRate(new SimpleQuote(dividendYield));
-        boost::shared_ptr<YieldTermStructure> qTS = flatRate(today,qRate,dc);
-        boost::shared_ptr<SimpleQuote> rRate(new SimpleQuote(riskFreeRate));
-        boost::shared_ptr<YieldTermStructure> rTS = flatRate(today,rRate,dc);
-        boost::shared_ptr<SimpleQuote> vol(new SimpleQuote(volatility));
-        boost::shared_ptr<BlackVolTermStructure> volTS = flatVol(today, vol, dc);
+        QuantLib::Date today = QuantLib::Date::todaysDate();
+        QuantLib::Settings::instance().evaluationDate() = today;
+        QuantLib::DayCounter dc = QuantLib::Actual360();
+        boost::shared_ptr<QuantLib::SimpleQuote> spot(new QuantLib::SimpleQuote(underlying));
+        boost::shared_ptr<QuantLib::SimpleQuote> qRate(new QuantLib::SimpleQuote(dividendYield));
+        boost::shared_ptr<QuantLib::YieldTermStructure> qTS = flatRate(today,qRate,dc);
+        boost::shared_ptr<QuantLib::SimpleQuote> rRate(new QuantLib::SimpleQuote(riskFreeRate));
+        boost::shared_ptr<QuantLib::YieldTermStructure> rTS = flatRate(today,rRate,dc);
+        boost::shared_ptr<QuantLib::SimpleQuote> vol(new QuantLib::SimpleQuote(volatility));
+        boost::shared_ptr<QuantLib::BlackVolTermStructure> volTS = flatVol(today, vol, dc);
 
-        boost::shared_ptr<StrikedTypePayoff> payoff(new PlainVanillaPayoff(optionType, strike));
+        boost::shared_ptr<QuantLib::StrikedTypePayoff> payoff(new QuantLib::PlainVanillaPayoff(optionType, strike));
 
-        Date exDate = today + length;
-        boost::shared_ptr<Exercise> exercise(new AmericanExercise(today, exDate));
+        QuantLib::Date exDate = today + length;
+        boost::shared_ptr<QuantLib::Exercise> exercise(new QuantLib::AmericanExercise(today, exDate));
 
-        boost::shared_ptr<BlackScholesMertonProcess> 
-            stochProcess(new BlackScholesMertonProcess(Handle<Quote>(spot),
-                                                       Handle<YieldTermStructure>(qTS),
-                                                       Handle<YieldTermStructure>(rTS),
-                                                       Handle<BlackVolTermStructure>(volTS)));
+        boost::shared_ptr<QuantLib::BlackScholesMertonProcess> 
+            stochProcess(new QuantLib::BlackScholesMertonProcess(QuantLib::Handle<QuantLib::Quote>(spot),
+                                                                 QuantLib::Handle<QuantLib::YieldTermStructure>(qTS),
+                                                                 QuantLib::Handle<QuantLib::YieldTermStructure>(rTS),
+                                                                 QuantLib::Handle<QuantLib::BlackVolTermStructure>(volTS)));
         // new from 0.3.7 BaroneAdesiWhaley
-        boost::shared_ptr<PricingEngine> engine(new BaroneAdesiWhaleyApproximationEngine(stochProcess));
+        boost::shared_ptr<QuantLib::PricingEngine> engine(new QuantLib::BaroneAdesiWhaleyApproximationEngine(stochProcess));
 
-        VanillaOption option(payoff, exercise);
+        QuantLib::VanillaOption option(payoff, exercise);
         option.setPricingEngine(engine);
                                                 
         Rcpp::List rl = Rcpp::List::create(Rcpp::Named("value") = option.NPV(),
@@ -146,41 +146,39 @@ RcppExport SEXP AmericanOption(SEXP optionParameters) {
 RcppExport SEXP EuropeanOptionArrays(SEXP typesexp, SEXP parsexp) {
 
     try {
-        Option::Type optionType = getOptionType( Rcpp::as<std::string>(typesexp) );
+        QuantLib::Option::Type optionType = getOptionType( Rcpp::as<std::string>(typesexp) );
         Rcpp::NumericMatrix par(parsexp); // matrix of parameters as per expand.grid() in R
         int n = par.nrow();
         Rcpp::NumericVector value(n), delta(n), gamma(n), vega(n), theta(n), rho(n), divrho(n);
 
-        Date today = Date::todaysDate();
-        Settings::instance().evaluationDate() = today;
+        QuantLib::Date today = QuantLib::Date::todaysDate();
+        QuantLib::Settings::instance().evaluationDate() = today;
 
-        DayCounter dc = Actual360();
+        QuantLib::DayCounter dc = QuantLib::Actual360();
 
         for (int i=0; i<n; i++) {
 
-            // pars <- expand.grid(underlying, strike, dividendYield, riskFreeRate, maturity, volatility)
-
             double underlying    = par(i, 0);    // first column
             double strike        = par(i, 1);    // second column
-            Spread dividendYield = par(i, 2);    // third column
-            Rate riskFreeRate    = par(i, 3);    // fourth column
-            Time maturity        = par(i, 4);    // fifth column
+            QuantLib::Spread dividendYield = par(i, 2);    // third column
+            QuantLib::Rate riskFreeRate    = par(i, 3);    // fourth column
+            QuantLib::Time maturity        = par(i, 4);    // fifth column
             int length           = int(maturity*360 + 0.5); // FIXME: this could be better
             double volatility    = par(i, 5);    // sixth column
     
-            boost::shared_ptr<SimpleQuote> spot(new SimpleQuote( underlying ));
-            boost::shared_ptr<SimpleQuote> vol(new SimpleQuote( volatility ));
-            boost::shared_ptr<BlackVolTermStructure> volTS = flatVol(today, vol, dc);
-            boost::shared_ptr<SimpleQuote> qRate(new SimpleQuote( dividendYield ));
-            boost::shared_ptr<YieldTermStructure> qTS = flatRate(today, qRate, dc);
-            boost::shared_ptr<SimpleQuote> rRate(new SimpleQuote( riskFreeRate ));
-            boost::shared_ptr<YieldTermStructure> rTS = flatRate(today, rRate, dc);
+            boost::shared_ptr<QuantLib::SimpleQuote> spot(new QuantLib::SimpleQuote( underlying ));
+            boost::shared_ptr<QuantLib::SimpleQuote> vol(new QuantLib::SimpleQuote( volatility ));
+            boost::shared_ptr<QuantLib::BlackVolTermStructure> volTS = flatVol(today, vol, dc);
+            boost::shared_ptr<QuantLib::SimpleQuote> qRate(new QuantLib::SimpleQuote( dividendYield ));
+            boost::shared_ptr<QuantLib::YieldTermStructure> qTS = flatRate(today, qRate, dc);
+            boost::shared_ptr<QuantLib::SimpleQuote> rRate(new QuantLib::SimpleQuote( riskFreeRate ));
+            boost::shared_ptr<QuantLib::YieldTermStructure> rTS = flatRate(today, rRate, dc);
 
-            Date exDate = today + length;
-            boost::shared_ptr<Exercise> exercise(new EuropeanExercise(exDate));
+            QuantLib::Date exDate = today + length;
+            boost::shared_ptr<QuantLib::Exercise> exercise(new QuantLib::EuropeanExercise(exDate));
 	
-            boost::shared_ptr<StrikedTypePayoff> payoff(new PlainVanillaPayoff(optionType, strike));
-            boost::shared_ptr<VanillaOption> option = makeOption(payoff, exercise, spot, qTS, rTS, volTS);
+            boost::shared_ptr<QuantLib::StrikedTypePayoff> payoff(new QuantLib::PlainVanillaPayoff(optionType, strike));
+            boost::shared_ptr<QuantLib::VanillaOption> option = makeOption(payoff, exercise, spot, qTS, rTS, volTS);
 
             value[i]  = option->NPV();
             delta[i]  = option->delta();

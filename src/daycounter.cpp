@@ -24,8 +24,6 @@
 
 #include "rquantlib.h"
 
-using namespace boost;
-
 RcppExport SEXP dayCount(SEXP startDates, SEXP endDates, SEXP dayCounter){
 
     try {
@@ -40,7 +38,7 @@ RcppExport SEXP dayCount(SEXP startDates, SEXP endDates, SEXP dayCounter){
         for (int i=0; i< n; i++){
             QuantLib::Date d1( dateFromR(s[i]) );
             QuantLib::Date d2( dateFromR(e[i]) );
-            DayCounter counter = getDayCounter(dc[i]);
+            QuantLib::DayCounter counter = getDayCounter(dc[i]);
             result[i] = static_cast<double>(counter.dayCount(d1, d2));            
         }
         return Rcpp::wrap(result);
@@ -68,7 +66,7 @@ RcppExport SEXP yearFraction(SEXP startDates, SEXP endDates, SEXP dayCounter){
         for (int i=0; i< n; i++){
             QuantLib::Date d1( dateFromR(s[i]) );
             QuantLib::Date d2( dateFromR(e[i]) );            
-            DayCounter counter = getDayCounter(dc[i]);
+            QuantLib::DayCounter counter = getDayCounter(dc[i]);
             result[i] = (double)counter.yearFraction(d1, d2);            
         }        
         return Rcpp::wrap(result);

@@ -30,13 +30,12 @@ RcppExport SEXP DiscountCurve(SEXP params, SEXP tsQuotes, SEXP times) {
         Rcpp::NumericVector tvec(times);
 
         int i;
-
-        Date todaysDate( dateFromR( Rcpp::Date(Rcpp::as<int>(rparam["tradeDate"])))); 
-        Date settlementDate( dateFromR( Rcpp::Date(Rcpp::as<int>(rparam["settleDate"]))));
+        QuantLib::Date todaysDate( dateFromR( Rcpp::as<Rcpp::Date>(rparam["tradeDate"]))); 
+        QuantLib::Date settlementDate( dateFromR( Rcpp::as<Rcpp::Date>(rparam["settleDate"])));
         //std::cout << "TradeDate: " << todaysDate << std::endl << "Settle: " << settlementDate << std::endl;
 
         RQLContext::instance().settleDate = settlementDate;
-        Settings::instance().evaluationDate() = todaysDate;
+        QuantLib::Settings::instance().evaluationDate() = todaysDate;
         std::string firstQuoteName = tsNames[0];
 
         double dt = Rcpp::as<double>(rparam["dt"]);
@@ -51,15 +50,15 @@ RcppExport SEXP DiscountCurve(SEXP params, SEXP tsQuotes, SEXP times) {
         }
 
         // initialise from the singleton instance
-        Calendar calendar = RQLContext::instance().calendar;
+        QuantLib::Calendar calendar = RQLContext::instance().calendar;
         //Integer fixingDays = RQLContext::instance().fixingDays;
 
         // Any DayCounter would be fine.
         // ActualActual::ISDA ensures that 30 years is 30.0
-        DayCounter termStructureDayCounter = ActualActual(ActualActual::ISDA);
+        QuantLib::DayCounter termStructureDayCounter = QuantLib::ActualActual(QuantLib::ActualActual::ISDA);
         double tolerance = 1.0e-8;
 
-        boost::shared_ptr<YieldTermStructure> curve;
+        boost::shared_ptr<QuantLib::YieldTermStructure> curve;
 
         if (firstQuoteName.compare("flat") == 0) {            // Create a flat term structure.
             double rateQuote = Rcpp::as<double>(tslist[0]);
@@ -67,22 +66,22 @@ RcppExport SEXP DiscountCurve(SEXP params, SEXP tsQuotes, SEXP times) {
             //boost::shared_ptr<FlatForward> ts(new FlatForward(settlementDate,
             //			      Handle<Quote>(flatRate),
             //			      ActualActual()));
-            boost::shared_ptr<SimpleQuote> rRate(new SimpleQuote(rateQuote));
-            curve = flatRate(settlementDate,rRate,ActualActual());
+            boost::shared_ptr<QuantLib::SimpleQuote> rRate(new QuantLib::SimpleQuote(rateQuote));
+            curve = flatRate(settlementDate,rRate,QuantLib::ActualActual());
 
     	} else {             // Build curve based on a set of observed rates and/or prices.
-            std::vector<boost::shared_ptr<RateHelper> > curveInput;
+            std::vector<boost::shared_ptr<QuantLib::RateHelper> > curveInput;
             for(i = 0; i < tslist.size(); i++) {
                 std::string name = tsNames[i];
                 double val = Rcpp::as<double>(tslist[i]);
-                boost::shared_ptr<RateHelper> rh = ObservableDB::instance().getRateHelper(name, val);
+                boost::shared_ptr<QuantLib::RateHelper> rh = ObservableDB::instance().getRateHelper(name, val);
                 // edd 2009-11-01 FIXME NULL_RateHelper no longer builds under 0.9.9
                 // if (rh == NULL_RateHelper)
                 if (rh.get() == NULL)
                     throw std::range_error("Unknown rate in getRateHelper");
                 curveInput.push_back(rh);
             }
-            boost::shared_ptr<YieldTermStructure> ts =
+            boost::shared_ptr<QuantLib::YieldTermStructure> ts =
                 getTermStructure(interpWhat, interpHow, settlementDate, curveInput, termStructureDayCounter, tolerance);
             curve = ts;
         }
@@ -100,7 +99,7 @@ RcppExport SEXP DiscountCurve(SEXP params, SEXP tsQuotes, SEXP times) {
         //SEXP zero  = PROTECT(Rf_allocVector(REALSXP, ntimes));
         Rcpp::NumericVector disc(ntimes), fwds(ntimes), zero(ntimes);
         
-        Date current = settlementDate;
+        QuantLib::Date current = settlementDate;
         for (i = 0; i < ntimes; i++) {          
             //t = REAL(times)[i];                                                    
             //REAL(disc)[i] = curve->discount(t);
@@ -108,8 +107,8 @@ RcppExport SEXP DiscountCurve(SEXP params, SEXP tsQuotes, SEXP times) {
             //REAL(zero)[i] = curve->zeroRate(t, Continuous);
             double t = tvec[i];
             disc[i] = curve->discount(t);
-            fwds[i] = curve->forwardRate(t, t+dt, Continuous);
-            zero[i] = curve->zeroRate(t, Continuous);
+            fwds[i] = curve->forwardRate(t, t+dt, QuantLib::Continuous);
+            zero[i] = curve->zeroRate(t, QuantLib::Continuous);
         }
 
         int n = curve->maxDate() - settlementDate;
@@ -119,10 +118,10 @@ RcppExport SEXP DiscountCurve(SEXP params, SEXP tsQuotes, SEXP times) {
 
         Rcpp::DateVector dates(n);
         Rcpp::NumericVector zeroRates(n);
-        Date d = current; 
+        QuantLib::Date d = current; 
         for (int i = 0; i<n && d < curve->maxDate(); i++){
             dates[i] = Rcpp::Date(d.month(), d.dayOfMonth(), d.year());
-            zeroRates[i] = curve->zeroRate(current, ActualActual(), Continuous);
+            zeroRates[i] = curve->zeroRate(current, QuantLib::ActualActual(), QuantLib::Continuous);
             d++;
         }
         Rcpp::DataFrame frame = Rcpp::DataFrame::create(Rcpp::Named("date") = dates,

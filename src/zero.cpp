@@ -30,26 +30,26 @@ RcppExport SEXP zeroprice(SEXP params) {
 		Rcpp::List rparam(params);
 
         double yield = Rcpp::as<double>(rparam["Yield"]);
-        QuantLib::Date maturity(dateFromR(Rcpp::Date(Rcpp::as<int>(rparam["Maturity"]))));
-        QuantLib::Date settle(dateFromR(Rcpp::Date(Rcpp::as<int>(rparam["Settle"]))));
+        QuantLib::Date maturity(dateFromR(Rcpp::as<Rcpp::Date>(rparam["Maturity"])));
+        QuantLib::Date settle(dateFromR(Rcpp::as<Rcpp::Date>(rparam["Settle"])));
 
-        Calendar calendar=UnitedStates(UnitedStates::GovernmentBond);
+        QuantLib::Calendar calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
         QuantLib::Integer fixingDays = 2;
-        Date todaysDate = calendar.advance(settle, -fixingDays, Days);
-        Settings::instance().evaluationDate() = todaysDate;
+        QuantLib::Date todaysDate = calendar.advance(settle, -fixingDays, QuantLib::Days);
+        QuantLib::Settings::instance().evaluationDate() = todaysDate;
 
         double period = Rcpp::as<double>(rparam["Period"]);
         double basis = Rcpp::as<double>(rparam["Basis"]);
-        DayCounter dayCounter = getDayCounter(basis);
-        Frequency freq = getFrequency(period);
-        Period p(freq);
+        QuantLib::DayCounter dayCounter = getDayCounter(basis);
+        QuantLib::Frequency freq = getFrequency(period);
+        QuantLib::Period p(freq);
         //double EMR = Rcpp::as<double>(rparam["EMR");
 
-        ZeroCouponBond bond(1, calendar, 
-                            100, maturity, Unadjusted, 
-                            100.0, settle);
+        QuantLib::ZeroCouponBond bond(1, calendar, 
+                                      100, maturity, QuantLib::Unadjusted, 
+                                      100.0, settle);
 
-        double price = bond.cleanPrice(yield, dayCounter, Compounded, freq);
+        double price = bond.cleanPrice(yield, dayCounter, QuantLib::Compounded, freq);
         
         return Rcpp::wrap(price);
 
@@ -68,25 +68,24 @@ RcppExport SEXP zeroyield(SEXP params){
 		Rcpp::List rparam(params);
 
         double price = Rcpp::as<double>(rparam["Price"]);
-        QuantLib::Date maturity(dateFromR(Rcpp::Date(Rcpp::as<int>(rparam["Maturity"]))));
-        QuantLib::Date settle(dateFromR(Rcpp::Date(Rcpp::as<int>(rparam["Settle"]))));
+        QuantLib::Date maturity(dateFromR(Rcpp::as<Rcpp::Date>(rparam["Maturity"])));
+        QuantLib::Date settle(dateFromR(Rcpp::as<Rcpp::Date>(rparam["Settle"])));
 
-        Calendar calendar=UnitedStates(UnitedStates::GovernmentBond);
+        QuantLib::Calendar calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
         QuantLib::Integer fixingDays = 2;
-        Date todaysDate = calendar.advance(settle, -fixingDays, Days);
-        Settings::instance().evaluationDate() = todaysDate;
+        QuantLib::Date todaysDate = calendar.advance(settle, -fixingDays, QuantLib::Days);
+        QuantLib::Settings::instance().evaluationDate() = todaysDate;
 
         double period = Rcpp::as<double>(rparam["Period"]);
         double basis = Rcpp::as<double>(rparam["Basis"]);
-        DayCounter dayCounter = getDayCounter(basis);
-        Frequency freq = getFrequency(period);
-        Period p(freq);
+        QuantLib::DayCounter dayCounter = getDayCounter(basis);
+        QuantLib::Frequency freq = getFrequency(period);
+        QuantLib::Period p(freq);
         //double EMR = Rcpp::as<double>(rparam["EMR");
 
+        QuantLib::ZeroCouponBond bond(1, calendar, 100, maturity, QuantLib::Unadjusted, 100.0, settle);
 
-        ZeroCouponBond bond(1, calendar, 100, maturity, Unadjusted, 100.0, settle);
-
-        double yield = bond.yield(price, dayCounter, Compounded, freq);
+        double yield = bond.yield(price, dayCounter, QuantLib::Compounded, freq);
         
         return Rcpp::wrap(yield);
 
@@ -132,44 +131,44 @@ RcppExport SEXP zbtyield(SEXP MatVec, SEXP BondMat,
 
 
         //setting up the bonds
-        const Size numberOfBonds = n;
+        const QuantLib::Size numberOfBonds = n;
 
-        std::vector<boost::shared_ptr<RateHelper> > instruments;
+        std::vector<boost::shared_ptr<QuantLib::RateHelper> > instruments;
 
-        std::vector< boost::shared_ptr<SimpleQuote> > quote;
-        for (Size i=0; i<numberOfBonds; i++) {
-            boost::shared_ptr<SimpleQuote> cp(new SimpleQuote(cleanPrice[i]));
+        std::vector< boost::shared_ptr<QuantLib::SimpleQuote> > quote;
+        for (QuantLib::Size i=0; i<numberOfBonds; i++) {
+            boost::shared_ptr<QuantLib::SimpleQuote> cp(new QuantLib::SimpleQuote(cleanPrice[i]));
             quote.push_back(cp);
         }
 
-        RelinkableHandle<Quote> quoteHandle[numberOfBonds];
-        for (Size i=0; i<numberOfBonds; i++) {
+        QuantLib::RelinkableHandle<QuantLib::Quote> quoteHandle[numberOfBonds];
+        for (QuantLib::Size i=0; i<numberOfBonds; i++) {
             quoteHandle[i].linkTo(quote[i]);
         }
 
-        Calendar calendar = UnitedStates(UnitedStates::GovernmentBond);
-        Date todaysDate = calendar.advance(SettleDates[0], -2, Days);
-        Settings::instance().evaluationDate() = todaysDate;
-        Period p(getFrequency(2));
+        QuantLib::Calendar calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
+        QuantLib::Date todaysDate = calendar.advance(SettleDates[0], -2, QuantLib::Days);
+        QuantLib::Settings::instance().evaluationDate() = todaysDate;
+        QuantLib::Period p(getFrequency(2));
         double faceAmount = 100;
-        DayCounter dayCounter = getDayCounter(2);
+        QuantLib::DayCounter dayCounter = getDayCounter(2);
         bool emr = true;
-        for (Size  j = 0; j< numberOfBonds;j++){
+        for (QuantLib::Size  j = 0; j< numberOfBonds;j++){
 
             if (bondparam.ncol() > 1) {
-                p = Period(getFrequency(bondparam(j,2)));                           
+                p = QuantLib::Period(getFrequency(bondparam(j,2)));                           
                 faceAmount = bondparam(j,1);
                 dayCounter = getDayCounter(3);
                 emr = (bondparam(j,4)==0) ? false : true;
             }
             
-            Schedule schedule(SettleDates[j], MatDates[j],p, calendar,
-                              Unadjusted, Unadjusted,
-                              DateGeneration::Backward, emr);
-            boost::shared_ptr<FixedRateBondHelper> 
-                helper(new FixedRateBondHelper(quoteHandle[j], 1, faceAmount, schedule,
-                                               std::vector<Rate>(1,bondparam(j,0)),
-                                               dayCounter, Unadjusted, 100, SettleDates[j]));
+            QuantLib::Schedule schedule(SettleDates[j], MatDates[j],p, calendar,
+                                        QuantLib::Unadjusted, QuantLib::Unadjusted,
+                                        QuantLib::DateGeneration::Backward, emr);
+            boost::shared_ptr<QuantLib::FixedRateBondHelper> 
+                helper(new QuantLib::FixedRateBondHelper(quoteHandle[j], 1, faceAmount, schedule,
+                                                         std::vector<QuantLib::Rate>(1,bondparam(j,0)),
+                                                         dayCounter, QuantLib::Unadjusted, 100, SettleDates[j]));
             instruments.push_back(helper);
         }
         
@@ -191,8 +190,8 @@ RcppExport SEXP zbtyield(SEXP MatVec, SEXP BondMat,
         curve = ts3;
         */
 
-        boost::shared_ptr<YieldTermStructure> 
-            curve(new PiecewiseYieldCurve<ZeroYield,Cubic>(1, calendar, instruments, dayCounter));
+        boost::shared_ptr<QuantLib::YieldTermStructure> 
+            curve(new QuantLib::PiecewiseYieldCurve<QuantLib::ZeroYield, QuantLib::Cubic>(1, calendar, instruments, dayCounter));
         std::cout << "here";
         int numCol = 2;
         std::vector<std::string> colNames(numCol);
@@ -202,12 +201,12 @@ RcppExport SEXP zbtyield(SEXP MatVec, SEXP BondMat,
         Rcpp::DateVector dates(numberOfBonds);
 		Rcpp::NumericVector zeros(numberOfBonds);
 
-        Date current = SettleDates[0];
+        QuantLib::Date current = SettleDates[0];
         //int n1 = curve->maxDate() - SettleDates[0];
         for (unsigned int i = 0; i<numberOfBonds;i++){
-            Date d = MatDates[i];
+            QuantLib::Date d = MatDates[i];
             dates[i] = Rcpp::Date(d.month(), d.dayOfMonth(), d.year());
-			zeros[i] = curve->zeroRate(d, ActualActual(), Simple);
+			zeros[i] = curve->zeroRate(d, QuantLib::ActualActual(), QuantLib::Simple);
             current++; // ?
         }
 

@@ -34,50 +34,50 @@ RcppExport SEXP AsianOption(SEXP optionParameters){
         std::string type = Rcpp::as<std::string>(rparam["type"]);
         double underlying = Rcpp::as<double>(rparam["underlying"]);
         double strike = Rcpp::as<double>(rparam["strike"]);
-        Spread dividendYield = Rcpp::as<double>(rparam["dividendYield"]);
-        Rate riskFreeRate = Rcpp::as<double>(rparam["riskFreeRate"]);
-        Time maturity = Rcpp::as<double>(rparam["maturity"]);
+        QuantLib::Spread dividendYield = Rcpp::as<double>(rparam["dividendYield"]);
+        QuantLib::Rate riskFreeRate = Rcpp::as<double>(rparam["riskFreeRate"]);
+        QuantLib::Time maturity = Rcpp::as<double>(rparam["maturity"]);
         //        int length = int(maturity*360 + 0.5); // FIXME: this could be better
         double volatility = Rcpp::as<double>(rparam["volatility"]);
 
-        Option::Type optionType = getOptionType(type);
+        QuantLib::Option::Type optionType = getOptionType(type);
 
         //from test-suite/asionoptions.cpp
-        DayCounter dc = Actual360();
-        Date today = Date::todaysDate();
-        Settings::instance().evaluationDate() = today;
+        QuantLib::DayCounter dc = QuantLib::Actual360();
+        QuantLib::Date today = QuantLib::Date::todaysDate();
+        QuantLib::Settings::instance().evaluationDate() = today;
 
-        boost::shared_ptr<SimpleQuote> spot(new SimpleQuote(underlying));
-        boost::shared_ptr<SimpleQuote> qRate(new SimpleQuote(dividendYield));
-        boost::shared_ptr<YieldTermStructure> qTS = flatRate(today, qRate, dc);
-        boost::shared_ptr<SimpleQuote> rRate(new SimpleQuote(riskFreeRate));
-        boost::shared_ptr<YieldTermStructure> rTS = flatRate(today, rRate, dc);
-        boost::shared_ptr<SimpleQuote> vol(new SimpleQuote(volatility));
-        boost::shared_ptr<BlackVolTermStructure> volTS = flatVol(today, vol, dc);
+        boost::shared_ptr<QuantLib::SimpleQuote> spot(new QuantLib::SimpleQuote(underlying));
+        boost::shared_ptr<QuantLib::SimpleQuote> qRate(new QuantLib::SimpleQuote(dividendYield));
+        boost::shared_ptr<QuantLib::YieldTermStructure> qTS = flatRate(today, qRate, dc);
+        boost::shared_ptr<QuantLib::SimpleQuote> rRate(new QuantLib::SimpleQuote(riskFreeRate));
+        boost::shared_ptr<QuantLib::YieldTermStructure> rTS = flatRate(today, rRate, dc);
+        boost::shared_ptr<QuantLib::SimpleQuote> vol(new QuantLib::SimpleQuote(volatility));
+        boost::shared_ptr<QuantLib::BlackVolTermStructure> volTS = flatVol(today, vol, dc);
         
-        boost::shared_ptr<BlackScholesMertonProcess>
+        boost::shared_ptr<QuantLib::BlackScholesMertonProcess>
             stochProcess(new
-                         BlackScholesMertonProcess(Handle<Quote>(spot),
-                                                   Handle<YieldTermStructure>(qTS),
-                                                   Handle<YieldTermStructure>(rTS),
-                                                   Handle<BlackVolTermStructure>(volTS)));
+                         QuantLib::BlackScholesMertonProcess(QuantLib::Handle<QuantLib::Quote>(spot),
+                                                             QuantLib::Handle<QuantLib::YieldTermStructure>(qTS),
+                                                             QuantLib::Handle<QuantLib::YieldTermStructure>(rTS),
+                                                             QuantLib::Handle<QuantLib::BlackVolTermStructure>(volTS)));
 
-        boost::shared_ptr<StrikedTypePayoff> payoff(new PlainVanillaPayoff(optionType,strike));
+        boost::shared_ptr<QuantLib::StrikedTypePayoff> payoff(new QuantLib::PlainVanillaPayoff(optionType,strike));
 
       
 
-        Average::Type averageType = Average::Geometric;
+        QuantLib::Average::Type averageType = QuantLib::Average::Geometric;
         Rcpp::List rl = R_NilValue;
    
         if (avgType=="geometric"){
-            averageType = Average::Geometric;
-            boost::shared_ptr<PricingEngine> 
+            averageType = QuantLib::Average::Geometric;
+            boost::shared_ptr<QuantLib::PricingEngine> 
                 engine(new
-                       AnalyticContinuousGeometricAveragePriceAsianEngine(stochProcess));        
+                       QuantLib::AnalyticContinuousGeometricAveragePriceAsianEngine(stochProcess));
             
-            Date exDate = today + int(maturity * 360 + 0.5);
-            boost::shared_ptr<Exercise> exercise(new EuropeanExercise(exDate));        
-            ContinuousAveragingAsianOption option(averageType, payoff, exercise);
+            QuantLib::Date exDate = today + int(maturity * 360 + 0.5);
+            boost::shared_ptr<QuantLib::Exercise> exercise(new QuantLib::EuropeanExercise(exDate));
+            QuantLib::ContinuousAveragingAsianOption option(averageType, payoff, exercise);
             option.setPricingEngine(engine);
             
             rl = Rcpp::List::create(Rcpp::Named("value") = option.NPV(),
@@ -90,10 +90,10 @@ RcppExport SEXP AsianOption(SEXP optionParameters){
                                     Rcpp::Named("parameters") = optionParameters);
             
         } else if (avgType=="arithmetic"){
-            averageType = Average::Arithmetic;
+            averageType = QuantLib::Average::Arithmetic;
 
-            boost::shared_ptr<PricingEngine> engine =
-                MakeMCDiscreteArithmeticAPEngine<LowDiscrepancy>(stochProcess)
+            boost::shared_ptr<QuantLib::PricingEngine> engine =
+                QuantLib::MakeMCDiscreteArithmeticAPEngine<QuantLib::LowDiscrepancy>(stochProcess)
                 .withSamples(2047)
                 .withControlVariate();
             
@@ -102,31 +102,31 @@ RcppExport SEXP AsianOption(SEXP optionParameters){
             //    .withSeed(3456789)
             //    .withSamples(1023);
             
-            Size fixings = Rcpp::as<double>(rparam["fixings"]);
-            Time length = Rcpp::as<double>(rparam["length"]);
-            Time first = Rcpp::as<double>(rparam["first"]);
-            Time dt = length / (fixings - 1);
+            QuantLib::Size fixings = Rcpp::as<double>(rparam["fixings"]);
+            QuantLib::Time length = Rcpp::as<double>(rparam["length"]);
+            QuantLib::Time first = Rcpp::as<double>(rparam["first"]);
+            QuantLib::Time dt = length / (fixings - 1);
 
-            std::vector<Time> timeIncrements(fixings);
-            std::vector<Date> fixingDates(fixings);
+            std::vector<QuantLib::Time> timeIncrements(fixings);
+            std::vector<QuantLib::Date> fixingDates(fixings);
             timeIncrements[0] = first;
-            fixingDates[0] = today + Integer(timeIncrements[0] * 360 + 0.5);
-            for (Size i=1; i<fixings; i++) {
+            fixingDates[0] = today + QuantLib::Integer(timeIncrements[0] * 360 + 0.5);
+            for (QuantLib::Size i=1; i<fixings; i++) {
                 timeIncrements[i] = i*dt + first;
-                fixingDates[i] = today + Integer(timeIncrements[i]*360+0.5);
+                fixingDates[i] = today + QuantLib::Integer(timeIncrements[i]*360+0.5);
             }
-            Real runningSum = 0.0;
-            Size pastFixing = 0;
+            QuantLib::Real runningSum = 0.0;
+            QuantLib::Size pastFixing = 0;
 
-            boost::shared_ptr<Exercise> exercise(new
-                                                 EuropeanExercise(fixingDates[fixings-1]));
+            boost::shared_ptr<QuantLib::Exercise> 
+                exercise(new QuantLib::EuropeanExercise(fixingDates[fixings-1]));
 
-            DiscreteAveragingAsianOption option(Average::Arithmetic, 
-                                                runningSum,
-                                                pastFixing, 
-                                                fixingDates,
-                                                payoff, 
-                                                exercise);
+            QuantLib::DiscreteAveragingAsianOption option(QuantLib::Average::Arithmetic, 
+                                                          runningSum,
+                                                          pastFixing, 
+                                                          fixingDates,
+                                                          payoff, 
+                                                          exercise);
             option.setPricingEngine(engine);
             rl = Rcpp::List::create(Rcpp::Named("value") = option.NPV(),
                                     Rcpp::Named("delta") = R_NaN,

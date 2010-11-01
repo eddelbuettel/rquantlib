@@ -8,9 +8,6 @@ The \code{ConvertibleFixedCouponBond} function setups and evaluates a Convertibl
 }
 \usage{
 \method{ConvertibleFixedCouponBond}{default}(bondparams, coupon, process, dateparams)
-\method{plot}{Bond}
-\method{print}{Bond}
-\method{summary}{Bond}
 }
 \arguments{
 

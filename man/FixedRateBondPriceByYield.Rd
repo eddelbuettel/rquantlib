@@ -13,10 +13,6 @@
                                  rates, dayCounter=2,
                                  businessDayConvention=0, compound = 0, redemption=100, 
                                  issueDate)
-
-\method{plot}{Bond}
-\method{print}{Bond}
-\method{summary}{Bond}
 }
 \arguments{
   \item{settlementDays}{an integer, 1 for T+1, 2 for T+2, etc...}

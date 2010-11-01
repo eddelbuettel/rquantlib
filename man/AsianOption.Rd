@@ -13,9 +13,6 @@
 \method{AsianOption}{default}(averageType, type, underlying, strike,
 	                  dividendYield, riskFreeRate, maturity, 
 	                  volatility, first=0, length=0, fixings=0)
-\method{plot}{Option}
-\method{print}{Option}
-\method{summary}{Option}
 }
 \arguments{
   \item{averageType}{Specifiy averaging type, either "geometric" or "arithmetic" }

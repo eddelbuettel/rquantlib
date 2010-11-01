@@ -9,12 +9,15 @@
   This class forms the basis from which the more specific classes are
   derived. }
 \usage{
-\method{print}{Option}
-\method{plot}{Option}
-\method{summary}{Option}
+\method{print}{Option}(x, digits=4, ...)
+\method{plot}{Option}(x, ...)
+\method{summary}{Option}(object, digits=4, ...)
 }
 \arguments{
-  \item{Option}{Any option object derived from this base class} 
+  \item{x}{Any option object derived from this base class} 
+  \item{object}{Any option object derived from this base class} 
+  \item{digits}{Number of digits of precision shown} 
+  \item{...}{Further arguments} 
 }
 \value{
   None, but side effects of displaying content.

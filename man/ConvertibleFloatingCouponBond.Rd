@@ -9,9 +9,6 @@ The \code{ConvertibleFloatingCouponBond} function setups and evaluates a Convert
 \usage{
 \method{ConvertibleFloatingCouponBond}{default}(bondparams, iborindex, 
                                       spread, process, dateparams)
-\method{plot}{Bond}
-\method{print}{Bond}
-\method{summary}{Bond}
 }
 \arguments{
 

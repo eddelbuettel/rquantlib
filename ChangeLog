@@ -1,3 +1,32 @@
+2010-11-01  Dirk Eddelbuettel  <edd@debian.org>
+
+
+	* man/AmericanOption.Rd: Correction to how generics are documented
+	* man/AmericanOptionImpliedVolatility.Rd: Idem
+	* man/BarrierOption.Rd: Idem
+	* man/BinaryOptionImpliedVolatility.Rd: Idem
+	* man/BinaryOption.Rd: Idem
+	* man/EuropeanOptionImpliedVolatility.Rd: Idem
+	* man/EuropeanOption.Rd: Idem
+	* man/Bond.Rd: Idem
+	* man/CallableBond.Rd: Idem
+	* man/ConvertibleFixedCouponBond.Rd: Idem
+	* man/ConvertibleFloatingCouponBond.Rd: Idem
+	* man/ConvertibleZeroCouponBond.Rd: Idem
+	* man/FixedRateBondPriceByYield.Rd: Idem
+	* man/FixedRateBond.Rd: Idem
+	* man/FixedRateBondYield.Rd: Idem
+	* man/FloatingRateBond.Rd: Idem
+	* man.ImpliedVolatility.Rd: Idem
+	* man/Option.Rd: Idem
+	* man/ZeroCouponBond.Rd: Idem
+	* man/ZeroPriceByYield.Rd: Idem
+	* man/ZeroYield.Rd: Idem
+
+	* R/bond.R: Standardised generics
+
+	* DESCRIPTION: Added Suggests: zoo
+
 2010-08-09  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION: Release 0.3.4

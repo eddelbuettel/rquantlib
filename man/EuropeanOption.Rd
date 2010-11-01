@@ -12,10 +12,6 @@
 \usage{
 \method{EuropeanOption}{default}(type, underlying, strike,
 	dividendYield, riskFreeRate, maturity, volatility)
-
-\method{plot}{Option}
-\method{print}{Option}
-\method{summary}{Option}
 }
 \arguments{
   \item{type}{A string with one of the values \code{call} or \code{put}}

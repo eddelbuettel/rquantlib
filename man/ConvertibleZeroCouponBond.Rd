@@ -9,9 +9,6 @@ The \code{ConvertibleZeroCouponBond} function setups and evaluates a Convertible
 }
 \usage{
 \method{ConvertibleZeroCouponBond}{default}(bondparams, process, dateparams)
-\method{plot}{Bond}
-\method{print}{Bond}
-\method{summary}{Bond}
 }
 \arguments{
 

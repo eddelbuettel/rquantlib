@@ -11,8 +11,6 @@ derivatives ("Greeks") are returned.}
 \method{BarrierOption}{default}(barrType, type, underlying, strike, 
                                 dividendYield, riskFreeRate, maturity, 
                                 volatility, barrier, rebate=0.0)
-\method{print}{Option}
-\method{summary}{Option}
 }
 \arguments{
   \item{barrType}{A string with one of the values \code{downin},

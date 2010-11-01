@@ -11,9 +11,6 @@ derivatives ("Greeks") are returned.}
 \method{BinaryOption}{default}(binType, type, excType, underlying,
         strike, dividendYield,
 	riskFreeRate, maturity, volatility, cashPayoff)
-
-\method{print}{Option}
-\method{summary}{Option}
 }
 \arguments{
   \item{binType}{A string with one of the values \code{cash},

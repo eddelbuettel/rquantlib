@@ -10,9 +10,6 @@
 \usage{
 \method{EuropeanOptionImpliedVolatility}{default}(type, value,
 	underlying, strike, dividendYield, riskFreeRate, maturity, volatility)
-
-\method{print}{ImpliedVolatility}
-\method{summary}{ImpliedVolatility}
 }
 \arguments{
   \item{type}{A string with one of the values \code{call} or \code{put}}

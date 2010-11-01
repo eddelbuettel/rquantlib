@@ -12,9 +12,6 @@
 }
 \usage{
 \method{FixedRateBond}{default}(bond, rates, discountCurve, dateparams )
-\method{plot}{Bond}
-\method{print}{Bond}
-\method{summary}{Bond}
 }
 \arguments{
 \item{bond}{bond parameters, a named list whose elements are: 

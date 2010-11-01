@@ -9,9 +9,6 @@
 }
 \usage{
 \method{CallableBond}{default}(bondparams, hullWhite, coupon, dateparams)
-\method{plot}{Bond}
-\method{print}{Bond}
-\method{summary}{Bond}
 }
 \arguments{
 \item{bondparams}{a named list whose elements are: 

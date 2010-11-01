@@ -10,10 +10,7 @@
 \usage{
 \method{AmericanOptionImpliedVolatility}{default}(type, value,
 		underlying, strike,dividendYield, riskFreeRate, maturity, volatility,
-        timeSteps=150, gridPoints=151)
-
-\method{print}{ImpliedVolatility}
-\method{summary}{ImpliedVolatility}
+	        timeSteps=150, gridPoints=151)
 }
 \arguments{
   \item{type}{A string with one of the values \code{call} or \code{put}}

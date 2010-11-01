@@ -11,9 +11,6 @@
 \method{BinaryOptionImpliedVolatility}{default}(type, value, underlying,
 		strike, dividendYield, riskFreeRate, maturity, volatility,
 		cashPayoff=1)
-
-\method{print}{ImpliedVolatility}
-\method{summary}{ImpliedVolatility}
 }
 \arguments{
   \item{type}{A string with one of the values \code{call}, \code{put} or

@@ -8,12 +8,16 @@
   This class forms the basis from which the more specific classes are
   derived. }
 \usage{
-\method{print}{ImpliedVolatility}
-\method{summary}{ImpliedVolatility}
+\method{print}{ImpliedVolatility}(x, digits=3, ...)
+\method{summary}{ImpliedVolatility}(object, digits=3, ...)
 }
 \arguments{
-  \item{}{Any option-price implied volatility object derived
+  \item{x}{Any option-price implied volatility object derived
     from this base class} 
+  \item{object}{Any option-price implied volatility object derived
+    from this base class} 
+  \item{digits}{Number of digits of precision shown} 
+  \item{...}{Further arguments} 
 }
 \value{
   None, but side effects of displaying content.

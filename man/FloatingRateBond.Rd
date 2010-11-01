@@ -13,9 +13,6 @@
 \method{FloatingRateBond}{default}(bond, gearings, spreads,
                                    caps, floors, index, 
                                    curve, dateparams )
-\method{plot}{Bond}
-\method{print}{Bond}
-\method{summary}{Bond}
 }
 \arguments{
 

@@ -9,15 +9,18 @@
   This class forms the basis from which the more specific classes are
   derived. }
 \usage{
-\method{print}{Bond}
-\method{plot}{Bond}
-\method{summary}{Bond}
+\method{print}{Bond}(x, digits=5, ...)
+\method{plot}{Bond}(x, ...)
+\method{summary}{Bond}(object, digits=5, ...)
 }
 \arguments{
-        \item{Bond}{Any Bond object derived from this base class} 
+  \item{x}{Any Bond object derived from this base class} 
+  \item{object}{Any Bond object derived from this base class} 
+  \item{digits}{Number of digits of precision shown} 
+  \item{...}{Further arguments} 
 }
 \value{
-         None, but side effects of displaying content.
+  None, but side effects of displaying content.
 }
 \details{
          Please see any decent Finance textbook for background reading, and the

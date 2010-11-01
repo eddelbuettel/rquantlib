@@ -12,10 +12,6 @@
 }
 \usage{
 \method{ZeroCouponBond}{default}(bond, discountCurve, dateparams)
-
-\method{plot}{Bond}
-\method{print}{Bond}
-\method{summary}{Bond}
 }
 \arguments{
 

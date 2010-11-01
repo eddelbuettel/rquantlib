@@ -11,9 +11,6 @@
                             issueDate, maturityDate, 
                             dayCounter=2, frequency=2, 
                             compound=0, businessDayConvention=4)
-\method{plot}{Bond}
-\method{print}{Bond}
-\method{summary}{Bond}
 }
 \arguments{
   \item{price}{price of the bond}

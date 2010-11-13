@@ -1,13 +1,12 @@
 
-R version 2.10.1 (2009-12-14)
-Copyright (C) 2009 The R Foundation for Statistical Computing
+R version 2.12.0 (2010-10-15)
+Copyright (C) 2010 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
+Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
 Type 'license()' or 'licence()' for distribution details.
-
-  Natural language support but running in an English locale
 
 R is a collaborative project with many contributors.
 Type 'contributors()' for more information and
@@ -19,6 +18,8 @@ Type 'q()' to quit R.
 
 > 
 > stopifnot(require(RQuantLib))
+Loading required package: RQuantLib
+Loading required package: Rcpp
 > 
 > ## values from Quantlib's test-suite
 > ## Reference: Haug, Option Pricing Formulas, McGraw-Hill, 1998
@@ -196,7 +197,7 @@ attr(,"class")
 > discountCurve.flat <- DiscountCurve(params, list(flat=0.05))
 > FixedRateBond(bond, coupon.rate, discountCurve.flat, dateparams)
 Concise summary of valuation for FixedRateBond 
- Net present value :  80.2129 
+ Net present value :  80.21276 
        clean price :  92.167 
        dirty price :  92.167 
     accrued coupon :  0 
@@ -209,7 +210,7 @@ Concise summary of valuation for FixedRateBond
  2006-11-30   1.4375
  2007-05-31   1.4375
  2007-11-30   1.4375
- 2008-05-30   1.4375
+ 2008-05-31   1.4375
  2008-11-30   1.4375
  2008-11-30 100.0000
 > ## bond.cpp FloatingRateBond, following test-suite/bonds.cpp

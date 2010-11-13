@@ -1,5 +1,14 @@
-2010-11-01  Dirk Eddelbuettel  <edd@debian.org>
+2010-11-12  Dirk Eddelbuettel  <edd@debian.org>
 
+	* DESCRIPTION: Release 0.3.5
+
+	* DESCRIPTION: Added RUnit to Suggests:
+
+	* tests/RQuantlib.Rout.save: Updated to results from running against
+	QuantLib 1.0.1 which affected one yield computation at the third
+	decimal, as well as one date calculation.
+
+2010-11-01  Dirk Eddelbuettel  <edd@debian.org>
 
 	* man/AmericanOption.Rd: Correction to how generics are documented
 	* man/AmericanOptionImpliedVolatility.Rd: Idem

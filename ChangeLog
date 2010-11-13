@@ -1,8 +1,13 @@
-2010-11-12  Dirk Eddelbuettel  <edd@debian.org>
+2010-11-13  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION: Release 0.3.5
 
 	* DESCRIPTION: Added RUnit to Suggests:
+
+	* src/bonds.cpp: Use std::vector< RelinkableHandle < Quote > > to
+	store a vector of quotes, rather than a variable length array which
+	g++ -pedantic and the ISO C++ standard both dislike
+	* src/zero.cpp: Idem
 
 	* tests/RQuantlib.Rout.save: Updated to results from running against
 	QuantLib 1.0.1 which affected one yield computation at the third

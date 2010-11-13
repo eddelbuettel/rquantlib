@@ -141,7 +141,7 @@ RcppExport SEXP zbtyield(SEXP MatVec, SEXP BondMat,
             quote.push_back(cp);
         }
 
-        QuantLib::RelinkableHandle<QuantLib::Quote> quoteHandle[numberOfBonds];
+        std::vector< QuantLib::RelinkableHandle<QuantLib::Quote> > quoteHandle(numberOfBonds);
         for (QuantLib::Size i=0; i<numberOfBonds; i++) {
             quoteHandle[i].linkTo(quote[i]);
         }

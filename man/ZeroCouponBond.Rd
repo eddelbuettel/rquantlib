@@ -2,16 +2,34 @@
 \name{ZeroCouponBond}
 \alias{ZeroCouponBond}
 \alias{ZeroCouponBond.default}
-\title{Zerocoupon bond pricing}
+\alias{ZeroPriceByYield}
+\alias{ZeroPriceByYield.default}
+\alias{ZeroYield}
+\alias{ZeroYield.default}
+\title{Zero-Coupon bond pricing}
 \description{
   The \code{ZeroCouponBond} function evaluates a zero-coupon plainly using discount curve. 
   More specificly, the calculation is done by DiscountingBondEngine from QuantLib.
   The NPV, clean price, dirty price, accrued interest, yield and cash flows of the bond is returned. 
-  For more detail, see the source codes in quantlib's test-suite. test-suite/bond.cpp
+  For more detail, see the source code in the QuantLib file \code{test-suite/bond.cpp}.
 
+  The \code{ZeroPriceYield} function evaluates a zero-coupon clean price based on its yield. 
+
+  The \code{ZeroYield} function evaluations a zero-coupon yield based.
+  See also http://www.mathworks.com/access/helpdesk/help/toolbox/finfixed/zeroyield.html
 }
 \usage{
 \method{ZeroCouponBond}{default}(bond, discountCurve, dateparams)
+
+\method{ZeroPriceByYield}{default}(yield, faceAmount, 
+                            issueDate, maturityDate, 
+                            dayCounter=2, frequency=2, 
+                            compound=0, businessDayConvention=4)
+
+\method{ZeroYield}{default}(price, faceAmount, 
+                            issueDate, maturityDate, 
+                            dayCounter=2, frequency=2, 
+                            compound=0, businessDayConvention=4)
 }
 \arguments{
 
@@ -41,8 +59,6 @@
   }
 }
 
-
-
 \item{dateparams}{(Optional) a named list, QuantLib's date parameters of the bond. 
   \tabular{ll}{
     \code{settlementDays} \tab (Optional) a double, settlement days. \cr 
@@ -57,6 +73,16 @@
   }
   See example below.
 }
+\item{yield}{yield of the bond}
+\item{price}{price of the bond}
+\item{faceAmount}{face amount of the bond}
+\item{issueDate}{date the bond is issued}
+\item{maturityDate}{maturity date, an R's date type}
+\item{dayCounter}{day count convention. 0 = Actual360(), 1 = Actual365Fixed(), 2 = ActualActual(), 3 = Business252(), 4 = OneDayCounter(), 5 = SimpleDayCounter(), all other = Thirty360(). For more information, see QuantLib's DayCounter class}
+\item{frequency}{frequency of events,0=NoFrequency, 1=Once, 2=Annual, 3=Semiannual, 4=EveryFourthMonth, 5=Quarterly, 6=Bimonthly ,7=Monthly ,8=EveryFourthWeely,9=Biweekly, 10=Weekly, 11=Daily. For more information, see QuantLib's Frequency class }
+\item{compound}{compounding type. 0=Simple, 1=Compounded, 2=Continuous, all other=SimpleThenCompounded. See QuantLib's Compound class}
+\item{businessDayConvention}{convention used to adjust a date in case it is not a valid business day. See quantlib for more detail. 0 = Following, 1 = ModifiedFollowing, 2 = Preceding, 3 = ModifiedPreceding, other = Unadjusted}
+
 }
 \value{
   The \code{ZeroCouponBond} function returns an object of class
@@ -69,6 +95,18 @@
   \item{accruedAmount}{accrued amount of the bond}
   \item{yield}{yield of the bond}
   \item{cashFlows}{cash flows of the bond}
+
+  The \code{ZeroPriceByYield} function returns an object of class
+  \code{ZeroPriceByYield} (which inherits from class 
+  \code{Bond}). It contains a list with the following
+  components:
+  \item{price}{price of the bond}
+
+  The \code{ZeroYield} function returns an object of class
+  \code{ZeroYield} (which inherits from class 
+  \code{Bond}). It contains a list with the following
+  components:
+  \item{yield}{yield of the bond}
 }
 \details{
   A discount curve is built to calculate the bond value. 
@@ -129,6 +167,10 @@ bond <- list(issueDate=as.Date("2004-11-30"),
 dateparams <-list(settlementDays=1)
 ZeroCouponBond(bond, discountCurve, dateparams)
 
+
+ZeroPriceByYield(0.1478, 100, as.Date("1993-6-24"), as.Date("1993-11-1"))
+
+ZeroYield(90, 100, as.Date("1993-6-24"), as.Date("1993-11-1"))
 }
 \keyword{misc}
 

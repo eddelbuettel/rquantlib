@@ -1,14 +1,41 @@
 % $Id: ConvertibleFloatingCouponBond 84 2009-06-19 knguyen $
-\name{ConvertibleFloatingCouponBond}
+\name{ConvertibleBond}
+\alias{ConvertibleFixedCouponBond}
+\alias{ConvertibleFixedCouponBond.default}
 \alias{ConvertibleFloatingCouponBond}
 \alias{ConvertibleFloatingCouponBond.default}
-\title{Convertible Floating Coupon Bond evaluation}
+\alias{ConvertibleZeroCouponBond}
+\alias{ConvertibleZeroCouponBond.default}
+\title{Convertible Bond evaluation for Fixed, Floating and Zero Coupon}
 \description{
-The \code{ConvertibleFloatingCouponBond} function setups and evaluates a ConvertibleFixedCouponBond using QuantLib's BinomialConvertibleEngine \url{http://quantlib.org/reference/class_quant_lib_1_1_binomial_convertible_engine.html} and BlackScholesMertonProcess \url{http://quantlib.org/reference/class_quant_lib_1_1_black_scholes_merton_process.html}. The NPV, clean price, dirty price, accrued interest, yield and cash flows of the bond is returned. For detail, see test-suite/convertiblebond.cpp
+The \code{ConvertibleFixedCouponBond} function setups and evaluates a
+ConvertibleFixedCouponBond using QuantLib's BinomialConvertibleEngine
+\url{http://quantlib.org/reference/class_quant_lib_1_1_binomial_convertible_engine.html}
+and BlackScholesMertonProcess
+\url{http://quantlib.org/reference/class_quant_lib_1_1_black_scholes_merton_process.html}. The
+NPV, clean price, dirty price, accrued interest, yield and cash flows of
+the bond is returned. For detail, see test-suite/convertiblebond.cpp 
+
+The \code{ConvertibleFloatingCouponBond} function setups and evaluates a
+ConvertibleFixedCouponBond using QuantLib's BinomialConvertibleEngine
+\url{http://quantlib.org/reference/class_quant_lib_1_1_binomial_convertible_engine.html}
+and BlackScholesMertonProcess
+\url{http://quantlib.org/reference/class_quant_lib_1_1_black_scholes_merton_process.html}. The
+NPV, clean price, dirty price, accrued interest, yield and cash flows of
+the bond is returned. For detail, see test-suite/convertiblebond.cpp 
+
+The \code{ConvertibleZeroCouponBond} function setups and evaluates a
+ConvertibleFixedCouponBond using QuantLib's BinomialConvertibleEngine
+\url{http://quantlib.org/reference/class_quant_lib_1_1_binomial_convertible_engine.html}
+and BlackScholesMertonProcess
+\url{http://quantlib.org/reference/class_quant_lib_1_1_black_scholes_merton_process.html}. The
+NPV, clean price, dirty price, accrued interest, yield and cash flows of
+the bond is returned. For detail, see test-suite/convertiblebond.cpp. 
 }
 \usage{
-\method{ConvertibleFloatingCouponBond}{default}(bondparams, iborindex, 
-                                      spread, process, dateparams)
+\method{ConvertibleFloatingCouponBond}{default}(bondparams, iborindex, spread, process, dateparams)
+\method{ConvertibleFixedCouponBond}{default}(bondparams, coupon, process, dateparams)
+\method{ConvertibleZeroCouponBond}{default}(bondparams, process, dateparams)
 }
 \arguments{
 
@@ -41,6 +68,7 @@ The \code{ConvertibleFloatingCouponBond} function setups and evaluates a Convert
    
 \item{iborindex}{a DiscountCurve object, represents an IborIndex}
 \item{spread}{ a double vector, represents paramter 'spreads' in ConvertibleFloatingBond's constructor. }
+\item{coupon}{a double vector of coupon rate}
 \item{process}{arguments to construct a BlackScholes process and set up the binomial pricing engine for this bond. 
   \tabular{ll}{
     \code{underlying} \tab a double, flat underlying term structure \cr
@@ -49,6 +77,7 @@ The \code{ConvertibleFloatingCouponBond} function setups and evaluates a Convert
     \code{riskFreeRate} \tab a DiscountCurve object \cr
   }
 }
+
 \item{dateparams}{(Optional) a named list, QuantLib's date parameters of the bond. 
   \tabular{ll}{
     \code{settlementDays} \tab (Optional) a double, settlement days. \cr 
@@ -67,7 +96,7 @@ The \code{ConvertibleFloatingCouponBond} function setups and evaluates a Convert
     \code{}                 \tab business day convention. \cr 
     \tab See \link{Enum}. Default value is 'Following'. \cr
   }
-  See example below.
+  See the examples below.
 }
 }
 \value{
@@ -81,6 +110,29 @@ The \code{ConvertibleFloatingCouponBond} function setups and evaluates a Convert
   \item{accruedAmount}{accrued amount of the bond}
   \item{yield}{yield of the bond}
   \item{cashFlows}{cash flows of the bond}
+
+  The \code{ConvertibleFixedCouponBond} function returns an object of class
+  \code{ConvertibleFixedCouponBond} (which inherits from class 
+  \code{Bond}). It contains a list with the following
+  components:
+  \item{NPV}{net present value of the bond}
+  \item{cleanPrice}{price price of the bond}
+  \item{dirtyPrice}{dirty price of the bond}
+  \item{accruedAmount}{accrued amount of the bond}
+  \item{yield}{yield of the bond}
+  \item{cashFlows}{cash flows of the bond}
+
+  The \code{ConvertibleZeroCouponBond} function returns an object of class
+  \code{ConvertibleZeroCouponBond} (which inherits from class 
+  \code{Bond}). It contains a list with the following
+  components:
+  \item{NPV}{net present value of the bond}
+  \item{cleanPrice}{price price of the bond}
+  \item{dirtyPrice}{dirty price of the bond}
+  \item{accruedAmount}{accrued amount of the bond}
+  \item{yield}{yield of the bond}
+  \item{cashFlows}{cash flows of the bond}
+ 
 }
 \details{
  Please see any decent Finance textbook for background reading, and the
@@ -157,5 +209,104 @@ bondparams <- list(
                    maturityDate=as.Date(today+3650))
 #ConvertibleFloatingCouponBond(bondparams, iborindex,
 #spreads, process, dateparams)
+
+
+
+#this follow an example in test-suite/convertiblebond.cpp 
+#for ConvertibleFixedCouponBond
+
+#set up arguments to build a pricing engine.
+params <- list(tradeDate=Sys.Date()-2,
+               settleDate=Sys.Date(),
+               dt=.25,
+               interpWhat="discount",
+               interpHow="loglinear")
+times <- seq(0,10,.1)
+
+dividendYield <- DiscountCurve(params, list(flat=0.02), times)
+riskFreeRate <- DiscountCurve(params, list(flat=0.05), times)
+
+dividendSchedule <- data.frame(Type=character(0), Amount=numeric(0),
+                            Rate = numeric(0), Date = as.Date(character(0)))
+callabilitySchedule <- data.frame(Price = numeric(0), Type=character(0),
+                          Date = as.Date(character(0)))
+
+process <- list(underlying=50, divYield = dividendYield,
+                rff = riskFreeRate, volatility=0.15)
+
+today <- Sys.Date()
+bondparams <- list(exercise="am", faceAmount=100, divSch = dividendSchedule, 
+                   callSch = callabilitySchedule, redemption=100, 
+                   creditSpread=0.005, conversionRatio = 0.0000000001, 
+                   issueDate=as.Date(today+2), 
+                   maturityDate=as.Date(today+3650))
+dateparams <- list(settlementDays=3, 
+                   dayCounter="Actual360", 
+                   period = "Once", calendar = "us", 
+                   businessDayConvention="Following"
+                   )
+coupon <- c(0.05)
+ConvertibleFixedCouponBond(bondparams, coupon, process, dateparams)
+
+#example with default value
+ConvertibleFixedCouponBond(bondparams, coupon, process)
+
+dateparams <- list(settlementDays=3, 
+                   dayCounter="Actual360")
+ConvertibleFixedCouponBond(bondparams, coupon, process, dateparams)
+
+bondparams <- list(creditSpread=0.005, conversionRatio = 0.0000000001, 
+                   issueDate=as.Date(today+2), 
+                   maturityDate=as.Date(today+3650))
+ConvertibleFixedCouponBond(bondparams, coupon, process, dateparams)
+
+
+
+#this follow an example in test-suite/convertiblebond.cpp 
+params <- list(tradeDate=Sys.Date()-2,
+               settleDate=Sys.Date(),
+               dt=.25,
+               interpWhat="discount",
+               interpHow="loglinear")
+times <- seq(0,10,.1)
+
+
+dividendYield <- DiscountCurve(params, list(flat=0.02), times)
+riskFreeRate <- DiscountCurve(params, list(flat=0.05), times)
+
+dividendSchedule <- data.frame(Type=character(0), Amount=numeric(0),
+                            Rate = numeric(0), Date = as.Date(character(0)))
+callabilitySchedule <- data.frame(Price = numeric(0), Type=character(0),
+                          Date = as.Date(character(0)))
+
+process <- list(underlying=50, divYield = dividendYield,
+                rff = riskFreeRate, volatility=0.15)
+
+today <- Sys.Date()
+bondparams <- list(exercise="am", faceAmount=100, divSch = dividendSchedule, 
+                   callSch = callabilitySchedule, redemption=100, 
+                   creditSpread=0.005, conversionRatio = 0.0000000001, 
+                   issueDate=as.Date(today+2), 
+                   maturityDate=as.Date(today+3650))
+dateparams <- list(settlementDays=3, 
+                   dayCounter="Actual360", 
+                   period = "Once", calendar = "us", 
+                   businessDayConvention="Following"
+                   )
+
+ConvertibleZeroCouponBond(bondparams, process, dateparams)
+
+#example with default values
+ConvertibleZeroCouponBond(bondparams, process)
+
+
+bondparams <- list(creditSpread=0.005,
+                   conversionRatio=0.0000000001, 
+                   issueDate=as.Date(today+2),
+                   maturityDate=as.Date(today+3650))
+
+dateparams <- list(settlementDays=3, dayCounter='Actual360')                   
+ConvertibleZeroCouponBond(bondparams, process, dateparams)
+ConvertibleZeroCouponBond(bondparams, process)
 
 }

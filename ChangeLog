@@ -1,4 +1,4 @@
-2010-11-13  Dirk Eddelbuettel  <edd@debian.org>
+2010-11-14  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION: Release 0.3.5
 
@@ -8,6 +8,19 @@
 	store a vector of quotes, rather than a variable length array which
 	g++ -pedantic and the ISO C++ standard both dislike
 	* src/zero.cpp: Idem
+
+	* man/Calendars.Rd: Folded manual pages adjust.Rd, advance.Rd,
+	businessDaysBetween.Rd, dayCount.Rd, yearFraction into this.
+
+	* man/ConvertibleBond.Rd: Folded manual pages
+	ConvertibleFixedCouponBond.Rd, ConvertibleFloatingCouponBond.Rd, and
+	ConvertibleZeroCouponBond.Rd into this one.
+
+	* man/FixedRateBond.Rd: Folded manual pages FixedRateBondYield.Rd
+	FixedRateBondPriceByYield.Rd into this one.
+
+	* man/ZeroCouponBond.Rd: Folded manual pages ZeroPriceByYield.Rd
+	and ZeroYield.Rd into this one.
 
 	* tests/RQuantlib.Rout.save: Updated to results from running against
 	QuantLib 1.0.1 which affected one yield computation at the third

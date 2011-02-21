@@ -3,7 +3,7 @@
 // RQuantLib function BermudanSwaption
 //
 // Copyright (C) 2005 - 2007 Dominick Samperi
-// Copyright (C) 2007 - 2010 Dirk Eddelbuettel
+// Copyright (C) 2007 - 2011 Dirk Eddelbuettel
 //
 // $Id$
 //
@@ -92,7 +92,7 @@ RcppExport SEXP BermudanSwaption(SEXP params, SEXP tsQuotes,
         boost::shared_ptr<QuantLib::YieldTermStructure> curve;
         if(firstQuoteName.compare("flat") == 0) {
             // Get flat yield curve
-            double rateQuote = tslist[0]; //tslist.getValue(0);
+            double rateQuote = Rcpp::as<double>(tslist[0]); //tslist.getValue(0);
             boost::shared_ptr<QuantLib::Quote> flatRate(new QuantLib::SimpleQuote(rateQuote));
             boost::shared_ptr<QuantLib::FlatForward> ts(new QuantLib::FlatForward(settlementDate,
                                                                                   QuantLib::Handle<QuantLib::Quote>(flatRate),
@@ -104,7 +104,7 @@ RcppExport SEXP BermudanSwaption(SEXP params, SEXP tsQuotes,
             std::vector<boost::shared_ptr<QuantLib::RateHelper> > curveInput;
             for(i = 0; i < (QuantLib::Size)tslist.size(); i++) {
                 std::string name = tsnames[i]; //tslist.getName(i);
-                double val = tslist[i]; //tslist.getValue(i);
+                double val = Rcpp::as<double>(tslist[i]); //tslist.getValue(i);
                 boost::shared_ptr<QuantLib::RateHelper> rh = 
                     ObservableDB::instance().getRateHelper(name, val);
                 // edd 2009-11-01 FIXME NULL_RateHelper no longer builds under 0.9.9

@@ -1,3 +1,10 @@
+2011-02-21  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION: Release 0.3.6
+
+	* src/bermudan.cpp: Added two explicit casts to double scalar
+	* src/utils.cpp: Idem
+
 2010-11-15  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION: Release 0.3.5

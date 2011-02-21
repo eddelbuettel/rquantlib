@@ -2,7 +2,7 @@
 //
 // RQuantLib -- R interface to the QuantLib libraries
 //
-// Copyright (C) 2002 - 2009  Dirk Eddelbuettel 
+// Copyright (C) 2002 - 2011  Dirk Eddelbuettel 
 // Copyright (C) 2005 - 2006  Dominick Samperi
 // Copyright (C) 2009 - 2010  Dirk Eddelbuettel and Khanh Nguyen
 //
@@ -142,7 +142,7 @@ boost::shared_ptr<QuantLib::YieldTermStructure> buildTermStructure(SEXP params, 
         double tolerance = 1.0e-15;
         
         if (firstQuoteName.compare("flat") == 0) {	// Create a flat term structure.
-            double rateQuote = tslist[0];
+            double rateQuote = Rcpp::as<double>(tslist[0]);
             boost::shared_ptr<QuantLib::Quote> flatRate(new QuantLib::SimpleQuote(rateQuote));
             boost::shared_ptr<QuantLib::FlatForward> 
                 ts(new QuantLib::FlatForward(settlementDate, QuantLib::Handle<QuantLib::Quote>(flatRate), QuantLib::Actual365Fixed()));
@@ -151,7 +151,7 @@ boost::shared_ptr<QuantLib::YieldTermStructure> buildTermStructure(SEXP params, 
             std::vector<boost::shared_ptr<QuantLib::RateHelper> > curveInput;
             for (int i = 0; i < tslist.size(); i++) {
                 std::string name = Rcpp::as<std::string>(tsnames[i]);
-                double val = tslist[i];
+                double val = Rcpp::as<double>(tslist[i]);
                 boost::shared_ptr<QuantLib::RateHelper> rh = ObservableDB::instance().getRateHelper(name, val);
                 // edd 2009-11-01 FIXME NULL_RateHelper no longer builds under 0.9.9
                 // if (rh == NULL_RateHelper)

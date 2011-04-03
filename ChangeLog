@@ -6,6 +6,9 @@
 	* man/Enum.Rd: Idem
 	* man/FittedBondCurve.Rd: Idem
 
+	* src/Makevars.win: Adjust link command to '-lQuantLib', and support
+	32 and 64 bit builds of the QuantLib library
+
 2011-02-21  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION: Release 0.3.6

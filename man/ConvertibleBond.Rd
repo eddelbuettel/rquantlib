@@ -10,27 +10,27 @@
 \description{
 The \code{ConvertibleFixedCouponBond} function setups and evaluates a
 ConvertibleFixedCouponBond using QuantLib's BinomialConvertibleEngine
-\url{http://quantlib.org/reference/class_quant_lib_1_1_binomial_convertible_engine.html}
+%\url{http://quantlib.org/reference/class_quant_lib_1_1_binomial_convertible_engine.html}
 and BlackScholesMertonProcess
-\url{http://quantlib.org/reference/class_quant_lib_1_1_black_scholes_merton_process.html}. The
-NPV, clean price, dirty price, accrued interest, yield and cash flows of
+%\url{http://quantlib.org/reference/class_quant_lib_1_1_black_scholes_merton_process.html}.
+The NPV, clean price, dirty price, accrued interest, yield and cash flows of
 the bond is returned. For detail, see test-suite/convertiblebond.cpp 
 
 The \code{ConvertibleFloatingCouponBond} function setups and evaluates a
 ConvertibleFixedCouponBond using QuantLib's BinomialConvertibleEngine
-\url{http://quantlib.org/reference/class_quant_lib_1_1_binomial_convertible_engine.html}
+% \url{http://quantlib.org/reference/class_quant_lib_1_1_binomial_convertible_engine.html}
 and BlackScholesMertonProcess
-\url{http://quantlib.org/reference/class_quant_lib_1_1_black_scholes_merton_process.html}. The
-NPV, clean price, dirty price, accrued interest, yield and cash flows of
+% \url{http://quantlib.org/reference/class_quant_lib_1_1_black_scholes_merton_process.html}.
+The NPV, clean price, dirty price, accrued interest, yield and cash flows of
 the bond is returned. For detail, see test-suite/convertiblebond.cpp 
 
 The \code{ConvertibleZeroCouponBond} function setups and evaluates a
 ConvertibleFixedCouponBond using QuantLib's BinomialConvertibleEngine
-\url{http://quantlib.org/reference/class_quant_lib_1_1_binomial_convertible_engine.html}
+% \url{http://quantlib.org/reference/class_quant_lib_1_1_binomial_convertible_engine.html}
 and BlackScholesMertonProcess
-\url{http://quantlib.org/reference/class_quant_lib_1_1_black_scholes_merton_process.html}. The
-NPV, clean price, dirty price, accrued interest, yield and cash flows of
-the bond is returned. For detail, see test-suite/convertiblebond.cpp. 
+% \url{http://quantlib.org/reference/class_quant_lib_1_1_black_scholes_merton_process.html}.
+The NPV, clean price, dirty price, accrued interest, yield and cash flows of
+the bond is returned. For detail, see \code{test-suite/convertiblebond.cpp}. 
 }
 \usage{
 \method{ConvertibleFloatingCouponBond}{default}(bondparams, iborindex, spread, process, dateparams)
@@ -140,7 +140,7 @@ the bond is returned. For detail, see test-suite/convertiblebond.cpp.
   implementation.
 }
 \references{ 
-\url{http://quantlib.org/reference/class_quant_lib_1_1_convertible_zero_coupon_bond.html}
+  \url{http://quantlib.org/} for details on \code{QuantLib}.}
 }
 \author{Khanh Nguyen \email{knguyen@cs.umb.edu} for the inplementation; Dirk Eddelbuettel \email{edd@debian.org} for the \R interface;
   the QuantLib Group for \code{QuantLib}

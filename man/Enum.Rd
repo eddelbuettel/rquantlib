@@ -72,9 +72,9 @@ Reference for parameters when constructing a bond
 None
 }
 \details{
-\url{http://quantlib.org/reference/class_quant_lib_1_1_day_counter.html}
-\url{http://quantlib.org/reference/group__datetime.html}
-
+ Please see any decent Finance textbook for background reading, and the
+  \code{QuantLib} documentation for details on the \code{QuantLib}
+  implementation, particularly the datetime classes.
 }
 \references{\url{http://quantlib.org} for details on \code{QuantLib}.}
 \author{Khanh Nguyen \email{knguyen@cs.umb.edu}}

@@ -260,8 +260,8 @@ Concise summary of valuation for FixedRateBond
 +                  iborIndex.params, discountCurve.flat, dateparams)
 Concise summary of valuation for FloatingRateBond 
  Net present value :  80.54557 
-       clean price :  92.55 
-       dirty price :  92.55 
+       clean price :  92.549 
+       dirty price :  92.549
     accrued coupon :  0 
              yield :  0.050517 
         cash flows : 

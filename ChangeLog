@@ -1,7 +1,11 @@
+2011-04-04  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/Makevars.win: Simplied using lib${R_ARCH}
+
 2011-04-03  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION: Release 0.3.7
-	
+
 	* man/ConvertibleBond.Rd: Commented-out URLs with 70+ character
 	length as they trigger a bug when the corresponding latex manual is
 	typeset with the a4 style file. Thanks to Uwe Ligges for spotting this.

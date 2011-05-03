@@ -10,7 +10,7 @@
 AC_PREREQ(2.50)
 
 # Process this file with autoconf to produce a configure script.
-AC_INIT(RQuantlib, 0.3.1)
+AC_INIT(RQuantlib, 0.3.8)
 
 # We are using C++
 AC_LANG(C++)
@@ -25,6 +25,9 @@ if test "${GXX}" = yes; then
 	     AC_MSG_WARN([Only g++ version 3.0 or greater can be used with RQuantib.])
 	     AC_MSG_ERROR([Please use a different compiler.])   
         ;;
+	4.6.*|4.7.*|4.8.*)
+	     gxx_newer_than_45="-fpermissive"
+	;;
     esac
 fi
 
@@ -81,7 +84,7 @@ if test x"${QUANTLIB}" == x"yes" ; then
 
     # now use all these
     AC_SUBST([CXXFLAGS],["${CXXFLAGS} "])
-    AC_SUBST([CXXFLAGS],["${CXXFLAGS} $pkg_cxxflags"])
+    AC_SUBST([CXXFLAGS],["${CXXFLAGS} ${pkg_cxxflags} ${gxx_newer_than_45}"])
     AC_SUBST([LDFLAGS],["${LDFLAGS} $pkg_libs"])
 else
     AC_MSG_ERROR([Please install QuantLib before trying to build RQuantLib.])

@@ -1,3 +1,9 @@
+2011-09-09  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/discount.cpp (DiscountCurve): Cache the (global) value of
+	QuantLib::Settings::instance().evaluationDate() and reset it at end,
+	with thanks to Helmut Heiming for the bug report.
+
 2011-05-02  Dirk Eddelbuettel  <edd@debian.org>
 
 	* configure.in: If g++ version 4.6 or newer is detected, add the

@@ -35,6 +35,7 @@ RcppExport SEXP DiscountCurve(SEXP params, SEXP tsQuotes, SEXP times) {
         //std::cout << "TradeDate: " << todaysDate << std::endl << "Settle: " << settlementDate << std::endl;
 
         RQLContext::instance().settleDate = settlementDate;
+        QuantLib::Date evalDate = QuantLib::Settings::instance().evaluationDate();
         QuantLib::Settings::instance().evaluationDate() = todaysDate;
         std::string firstQuoteName = tsNames[0];
 
@@ -115,6 +116,8 @@ RcppExport SEXP DiscountCurve(SEXP params, SEXP tsQuotes, SEXP times) {
         //std::cout << "MaxDate " << curve->maxDate() << std::endl;
         //std::cout << "Settle " << settlementDate << std::endl;
         //n = std::min(300, n);
+
+        QuantLib::Settings::instance().evaluationDate() = evalDate;
 
         Rcpp::DateVector dates(n);
         Rcpp::NumericVector zeroRates(n);

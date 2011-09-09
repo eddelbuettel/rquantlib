@@ -982,6 +982,7 @@ RcppExport SEXP CallableBond(SEXP bondparams, SEXP hw, SEXP coupon,
 
         Rcpp::List misc(dateparams);      
         double settlementDays = Rcpp::as<double>(misc["settlementDays"]);
+
         std::string cal = Rcpp::as<std::string>(misc["calendar"]);
         double dayCounter = Rcpp::as<double>(misc["dayCounter"]);
         double frequency = Rcpp::as<double>(misc["period"]);
@@ -993,7 +994,7 @@ RcppExport SEXP CallableBond(SEXP bondparams, SEXP hw, SEXP coupon,
         } else if (cal == "uk"){
             calendar = QuantLib::UnitedKingdom(QuantLib::UnitedKingdom::Exchange);
         }
- 
+
         QuantLib::BusinessDayConvention bdc = getBusinessDayConvention(businessDayConvention);
         QuantLib::DayCounter dc = getDayCounter(dayCounter);
         QuantLib::Frequency freq = getFrequency(frequency);
@@ -1023,6 +1024,10 @@ RcppExport SEXP CallableBond(SEXP bondparams, SEXP hw, SEXP coupon,
         QuantLib::Schedule sch(issueDate, maturityDate,
                                QuantLib::Period(freq), calendar, bdc, bdc,
                                QuantLib::DateGeneration::Backward, false);        
+
+        //std::cout << "RQL SettleDate    : " << RQLContext::instance().settleDate << std::endl;
+        //std::cout << "RQL calendar      : " << RQLContext::instance().calendar << std::endl;
+        //std::cout << "RQL fixingDays    : " << RQLContext::instance().fixingDays << std::endl;
 
         QuantLib::CallableFixedRateBond bond(settlementDays, faceAmount, sch,
                                              Rcpp::as<std::vector <double> >(rates), 

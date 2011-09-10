@@ -1,8 +1,15 @@
+2011-09-10  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/dayCounter.R: Added new function 'setEvaluationDate' as a simple
+	pass-through function to set a date as the QuantLib evaluation date
+	* src/daycounter.cpp: C++ part of setEvaluationDate()
+	* man/Calendars.Rd: Documentation for setEvaluationDate()
+
 2011-09-09  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/discount.cpp (DiscountCurve): Cache the (global) value of
-	QuantLib::Settings::instance().evaluationDate() and reset it at end,
-	with thanks to Helmut Heiming for the bug report.
+	  QuantLib::Settings::instance().evaluationDate() and reset it at end,
+	  with thanks to Helmut Heiming for the bug report.
 
 2011-05-02  Dirk Eddelbuettel  <edd@debian.org>
 
@@ -12,7 +19,7 @@
 
 2011-04-04  Dirk Eddelbuettel  <edd@debian.org>
 
-	* src/Makevars.win: Simplied using lib${R_ARCH}
+	* src/Makevars.win: Simplified using lib${R_ARCH}
 
 2011-04-03  Dirk Eddelbuettel  <edd@debian.org>
 

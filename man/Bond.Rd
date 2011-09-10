@@ -42,6 +42,7 @@ params <- list(tradeDate=as.Date('2004-09-20'),
                dt=.25,
                interpWhat="discount",
                interpHow="loglinear")
+setEvaluationDate(as.Date("2004-11-22"))
 
 ## We got numerical issues for the spline interpolation if we add
 ## any on of these three extra futures, at least with QuantLib 0.9.7
@@ -86,7 +87,7 @@ FixedRateBond(bondparams, rates, discountCurve, dateparams)
 # price a floating rate bond
 bondparams <- list(faceAmount=100, issueDate=as.Date("2004-11-30"),
              maturityDate=as.Date("2008-11-30"), redemption=100, 
-             effectiveDate=as.Date("2004-11-30"))
+             effectiveDate=as.Date("2004-12-01"))
 
 dateparams <- list(settlementDays=1, calendar="us", dayCounter = 1, period=3, 
                    businessDayConvention = 1, terminationDateConvention=1,

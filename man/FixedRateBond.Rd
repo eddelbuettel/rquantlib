@@ -166,6 +166,7 @@ params <- list(tradeDate=as.Date('2002-2-15'),
                dt=.25,
                interpWhat="discount",
                interpHow="loglinear")
+setEvaluationDate(as.Date("2004-11-22"))
 
 discountCurve.flat <- DiscountCurve(params, list(flat=0.05))
 FixedRateBond(bond, coupon.rate, discountCurve.flat, dateparams)

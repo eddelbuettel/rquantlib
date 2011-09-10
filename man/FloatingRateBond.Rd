@@ -136,6 +136,7 @@ params <- list(tradeDate=as.Date('2002-2-15'),
                dt=.25,
                interpWhat="discount",
                interpHow="loglinear")
+setEvaluationDate(as.Date("2004-11-22"))
 
 tsQuotes <- list(d1w  =0.0382,
                  d1m  =0.0372,

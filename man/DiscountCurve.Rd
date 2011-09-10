@@ -118,6 +118,7 @@ params <- list(tradeDate=as.Date('2004-09-20'),
                dt=.25,
                interpWhat="discount",
                interpHow="loglinear")
+setEvaluationDate(as.Date("2004-11-22"))
 
 ## We get numerical issue for the spline interpolation if we add
 ## any on of these three extra futures -- the original example
@@ -156,7 +157,8 @@ plot(curves,setpar=FALSE)
 
 # Spline interpolation of discount factors
 params$interpHow="spline"
-curves <- DiscountCurve(params, tsQuotes, times)
+## NB Commented out for numerical issues under current parameterisation
+#curves <- DiscountCurve(params, tsQuotes, times)
 plot(curves,setpar=FALSE)
 
 par(savepar)

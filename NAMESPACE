@@ -43,6 +43,7 @@ export(
        ##--dayCounter.R
        "dayCount",
        "yearFraction",
+       "setEvaluationDate",
        ##--discount.R
        "DiscountCurve",
        "plot.DiscountCurve",

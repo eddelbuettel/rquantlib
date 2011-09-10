@@ -79,3 +79,19 @@ RcppExport SEXP yearFraction(SEXP startDates, SEXP endDates, SEXP dayCounter){
 
     return R_NilValue;
 }
+
+// this could go into another file too... maybe regroup all calendar / date functions?
+RcppExport SEXP setEvaluationDate(SEXP evalDateSEXP) {
+
+    try {
+
+        // set the date
+        QuantLib::Settings::instance().evaluationDate() = QuantLib::Date(dateFromR(Rcpp::as<Rcpp::Date>(evalDateSEXP)));
+
+    } catch(std::exception &ex) { 
+        forward_exception_to_r(ex); 
+    } catch(...) { 
+        ::Rf_error("c++ exception (unknown reason)"); 
+    }
+    return R_NilValue;
+}

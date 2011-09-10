@@ -2,6 +2,7 @@
 ##
 ## Copyright (C) 2002 - 2009 Dirk Eddelbuettel <edd@debian.org>
 ## Copyright (C) 2009        Khanh Nguyen <knguyen@cs.umb.edu>
+## Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Khanh Nguyen
 ##
 ## $Id$
 ##

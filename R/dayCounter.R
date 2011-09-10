@@ -1,6 +1,6 @@
 ## RQuantLib -- R interface to the QuantLib libraries
 ##
-## Copyright (C) 2010        Dirk Eddelbuettel and Khanh Nguyen
+## Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Khanh Nguyen
 ##
 ## $Id: calendars.R 293 2010-08-07 15:56:13Z edd $
 ##
@@ -20,20 +20,17 @@
 ## Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
 ## MA 02111-1307, USA
 
-dayCount <- function(startDates, endDates, dayCounters){
-
-  val <- .Call('dayCount', startDates, endDates, dayCounters,
-               PACKAGE="RQuantLib")
-  val
+dayCount <- function(startDates, endDates, dayCounters) {
+    val <- .Call('dayCount', startDates, endDates, dayCounters, PACKAGE="RQuantLib")
+    invisible(val)
 }
 
-yearFraction <- function(startDates, endDates, dayCounters){
-  val <- .Call('yearFraction', startDates, endDates, dayCounters,
-               PACKAGE="RQuantLib")
-  val
+yearFraction <- function(startDates, endDates, dayCounters) {
+    val <- .Call('yearFraction', startDates, endDates, dayCounters, PACKAGE="RQuantLib")
+    invisible(val)
 }
 
 setEvaluationDate <- function(evalDate) {
     val <- .Call("setEvaluationDate", evalDate, PACKAGE="RQuantLib")
-    val
+    invisible(val)
 }

@@ -3,7 +3,7 @@
 // RQuantLib -- R interface to the QuantLib libraries
 //
 // Copyright (C) 2002 - 2009 Dirk Eddelbuettel 
-// Copyright (C) 2009 - 2010 Khanh Nguyen and Dirk Eddelbuettel
+// Copyright (C) 2009 - 2011 Khanh Nguyen and Dirk Eddelbuettel
 //
 // $Id$
 //

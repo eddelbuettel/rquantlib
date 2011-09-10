@@ -15,6 +15,7 @@
 \alias{businessDaysBetween}
 \alias{dayCount}
 \alias{yearFraction}
+\alias{setEvaluationDate}
 \title{Calendar functions from QuantLib}
 \description{
 The \code{isBusinessDay} function evaluates the given dates in the context
@@ -64,6 +65,10 @@ given a day counter, see \link{Enum}.
 
 The \code{setCalendarContext} function sets three values to a singleton
 instance at the C++ layer.
+
+The \code{setEvaluationDate} function sets the evaluation date used by
+the QuantLib pricing engines.
+
 }
 \usage{
 isBusinessDay(calendar="TARGET", dates=Sys.Date())
@@ -84,6 +89,7 @@ to = Sys.Date() + 5, includeFirst = 1, includeLast = 0)
 dayCount(startDates, endDates, dayCounters)
 yearFraction(startDates, endDates, dayCounters)
 setCalendarContext(calendar, fixingDays, settleDate)
+setEvaluationDate(evalDate)
 }
 \arguments{
   \item{calendar}{A string identifying one of the supported QuantLib
@@ -109,6 +115,7 @@ setCalendarContext(calendar, fixingDays, settleDate)
   \item{startDates}{A vector of \code{Date} type.}
   \item{endDates}{A vector of \code{Date} type.}
   \item{dayCounters}{A vector of numeric type. See \link{Enum}}
+  \item{evalDate}{A single date used for the pricing valuations.}
 }
 \value{
   A named vector of booleans each of which is true if the corresponding

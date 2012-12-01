@@ -92,7 +92,10 @@ RcppExport SEXP AmericanOption(SEXP optionParameters) {
         QuantLib::Time maturity = Rcpp::as<double>(rparam["maturity"]);
         int length = int(maturity*360 + 0.5); // FIXME: this could be better
         double volatility = Rcpp::as<double>(rparam["volatility"]);
-        
+        int timeSteps = Rcpp::as<int>(rparam["timeSteps"]);
+        int gridPoints = Rcpp::as<int>(rparam["gridPoints"]);
+        std::string engine = Rcpp::as<std::string>(rparam["engine"]);
+
         QuantLib::Option::Type optionType = getOptionType(type);
 
         // new framework as per QuantLib 0.3.5, updated for 0.3.7
@@ -118,22 +121,38 @@ RcppExport SEXP AmericanOption(SEXP optionParameters) {
                                                                  QuantLib::Handle<QuantLib::YieldTermStructure>(qTS),
                                                                  QuantLib::Handle<QuantLib::YieldTermStructure>(rTS),
                                                                  QuantLib::Handle<QuantLib::BlackVolTermStructure>(volTS)));
-        // new from 0.3.7 BaroneAdesiWhaley
-        boost::shared_ptr<QuantLib::PricingEngine> engine(new QuantLib::BaroneAdesiWhaleyApproximationEngine(stochProcess));
 
         QuantLib::VanillaOption option(payoff, exercise);
-        option.setPricingEngine(engine);
-                                                
-        Rcpp::List rl = Rcpp::List::create(Rcpp::Named("value") = option.NPV(),
-                                           Rcpp::Named("delta") = R_NaN,
-                                           Rcpp::Named("gamma") = R_NaN,
-                                           Rcpp::Named("vega") = R_NaN,
-                                           Rcpp::Named("theta") = R_NaN,
-                                           Rcpp::Named("rho") = R_NaN,
-                                           Rcpp::Named("divRho") = R_NaN,
-                                           Rcpp::Named("parameters") = optionParameters);
-        return rl;
-
+        if (engine=="BaroneAdesiWhaley") {
+            // new from 0.3.7 BaroneAdesiWhaley
+            boost::shared_ptr<QuantLib::PricingEngine> engine(new QuantLib::BaroneAdesiWhaleyApproximationEngine(stochProcess));
+            option.setPricingEngine(engine);
+            Rcpp::List rl = Rcpp::List::create(Rcpp::Named("value") = option.NPV(),
+                                               Rcpp::Named("delta") = R_NaReal,
+                                               Rcpp::Named("gamma") = R_NaReal,
+                                               Rcpp::Named("vega") = R_NaReal,
+                                               Rcpp::Named("theta") = R_NaReal,
+                                               Rcpp::Named("rho") = R_NaReal,
+                                               Rcpp::Named("divRho") = R_NaReal,
+                                               Rcpp::Named("parameters") = optionParameters);
+            return rl;
+        } else if (engine=="CrankNicolson") {
+            // suggestion by Bryan Lewis: use CrankNicolson for greeks
+            boost::shared_ptr<QuantLib::PricingEngine> 
+                fdcnengine(new QuantLib::FDAmericanEngine<QuantLib::CrankNicolson>(stochProcess, timeSteps, gridPoints));
+            option.setPricingEngine(fdcnengine);
+            Rcpp::List rl = Rcpp::List::create(Rcpp::Named("value") = option.NPV(),
+                                               Rcpp::Named("delta") = option.delta(),
+                                               Rcpp::Named("gamma") = option.gamma(),
+                                               Rcpp::Named("vega") = R_NaReal,
+                                               Rcpp::Named("theta") = R_NaReal,
+                                               Rcpp::Named("rho") = R_NaReal,
+                                               Rcpp::Named("divRho") = R_NaReal,
+                                               Rcpp::Named("parameters") = optionParameters);
+            return rl;
+        } else {
+            throw std::range_error("Unknown engine " + engine);
+        }
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 
     } catch(...) { 

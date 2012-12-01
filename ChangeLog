@@ -1,3 +1,23 @@
+2012-12-01  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION: Release 0.3.9
+
+	* src/vanilla.cpp (AmericanOption): Support engine choice, adding
+	"CrankNicolson" to the default "BaroneAdesiWhaley" as the former adds
+	delta, gamma and vega greeks -- thanks to Bryan Lewis for the
+	suggestion
+	* R/option.R: Support new the new 'engine' option
+	* man/AmericanOption.Rd: Document new 'engine' option
+
+	* src/bonds.cpp: Remove remaining std::cout use
+	* src/curve.cpp: Idem
+	* src/zero.cpp: Idem
+
+2011-12-27  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/Makevars.win: Add -I"$(BOOSTLIB)" which is what other CRAN
+	packages depending on Boost do
+
 2011-09-11  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION: Release 0.3.8

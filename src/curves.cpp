@@ -3,7 +3,7 @@
 // RQuantLib helper functions for term structure construction
 //
 // Copyright (C) 2005 - 2007  Dominick Samperi
-// Copyright (C) 2007 - 2010  Dirk Eddelbuettel
+// Copyright (C) 2007 - 2012  Dirk Eddelbuettel
 //
 // $Id$
 //
@@ -101,7 +101,7 @@ boost::shared_ptr<QuantLib::RateHelper> ObservableDB::getRateHelper(std::string&
         QuantLib::Date imm = QuantLib::IMM::nextDate(settlementDate);
         for(int i = 1; i < n1; i++)
             imm = QuantLib::IMM::nextDate(imm+1);
-        std::cout << "Curves: IMM Date is " << imm << std::endl;
+        //Rcpp::Rcout << "Curves: IMM Date is " << imm << std::endl;
         boost::shared_ptr<QuantLib::Quote> quote(new QuantLib::SimpleQuote(r));
         boost::shared_ptr<QuantLib::RateHelper> future(new QuantLib::FuturesRateHelper(
 	    	QuantLib::Handle<QuantLib::Quote>(quote),

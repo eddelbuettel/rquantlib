@@ -2,7 +2,7 @@
 //
 // RQuantLib -- R interface to the QuantLib libraries
 //
-// Copyright (C) 2009 - 2010  Dirk Eddelbuettel and Khanh Nguyen
+// Copyright (C) 2009 - 2012  Dirk Eddelbuettel and Khanh Nguyen
 //
 // $Id$
 //
@@ -115,7 +115,6 @@ RcppExport SEXP zbtyield(SEXP MatVec, SEXP BondMat,
         //std::vector<double> yields(ryields.stlVector());
         //std::vector<std::vector<double> > bondparam(rbondmat.stlMatrix());
 
-        std::cout << "read done";
         int n = rmat.size();
         std::vector<QuantLib::Date> MatDates(rmat.size());
         for (int i = 0;i<n;i++){
@@ -192,7 +191,6 @@ RcppExport SEXP zbtyield(SEXP MatVec, SEXP BondMat,
 
         boost::shared_ptr<QuantLib::YieldTermStructure> 
             curve(new QuantLib::PiecewiseYieldCurve<QuantLib::ZeroYield, QuantLib::Cubic>(1, calendar, instruments, dayCounter));
-        std::cout << "here";
         int numCol = 2;
         std::vector<std::string> colNames(numCol);
         colNames[0] = "date";

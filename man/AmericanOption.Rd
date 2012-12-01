@@ -10,7 +10,7 @@ derivatives ("Greeks") are returned.}
 \usage{
 \method{AmericanOption}{default}(type, underlying, strike,
 		dividendYield, riskFreeRate, maturity, volatility, 
-		timeSteps=150, gridPoints=151)
+		timeSteps=150, gridPoints=149, engine="BaroneAdesiWhaley")
 }
 \arguments{
   \item{type}{A string with one of the values \code{call} or \code{put}}
@@ -20,10 +20,12 @@ derivatives ("Greeks") are returned.}
   \item{riskFreeRate}{Risk-free rate}
   \item{maturity}{Time to maturity (in fractional years)}
   \item{volatility}{Volatility of the underlying stock}
-  \item{timeSteps}{Time steps for the Finite Differences method, default
-  value is 150}
-  \item{gridPoints}{Grid points for the Finite Differences method,
-    default value is 151}
+  \item{timeSteps}{Time steps for the \dQuote{CrankNicolson} finite
+    differences method engine, default value is 150}
+  \item{gridPoints}{Grid points for the \dQuote{CrankNicolson} finite differences method,
+    default value is 149}
+  \item{engine}{String selecting pricing engine, currently supported are
+    \dQuote{BaroneAdesiWhaley} and \dQuote{CrankNicolson}}
 }
 \value{
   An object of class \code{AmericanOption} (which inherits from class
@@ -42,9 +44,11 @@ derivatives ("Greeks") are returned.}
     dividend yield}
   \item{parameters}{List with parameters with which object was created}
 
-  Note that under the new pricing framework used in QuantLib, binary
-  pricers do not provide analytics for 'Greeks'. This is expected to be
-  addressed in future releases of QuantLib.
+  Note that under the new pricing framework used in QuantLib,
+  pricers do not provide analytics for all 'Greeks'. When
+  \dQuote{CrankNicolson} is selected, then at least delta, gamma and
+  vega are available. With the default pricing engine of
+  \dQuote{BaroneAdesiWhaley}, no greeks are returned.
 }
 \details{
   The Finite Differences method is used to value the American Option.
@@ -65,6 +69,8 @@ derivatives ("Greeks") are returned.}
 AmericanOption("call", 100, 100, 0.02, 0.03, 0.5, 0.4)
 # simple call with some explicit parameters
 AmericanOption("put", strike=100, volatility=0.4, 100, 0.02, 0.03, 0.5)
+# simple call with unnamed parameters, using Crank-Nicolons
+AmericanOption("put", strike=100, volatility=0.4, 100, 0.02, 0.03, 0.5, engine="CrankNicolson")
 }
 \keyword{misc}
 

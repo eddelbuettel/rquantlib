@@ -44,14 +44,17 @@ EuropeanOption.default <- function(type, underlying, strike, dividendYield,
 
 AmericanOption <- function(type, underlying, strike, dividendYield,
                            riskFreeRate, maturity, volatility,
-                           timeSteps=150, gridPoints=151) {
+                           timeSteps=150, gridPoints=149,
+                           engine="BaroneAdesiWhaley") {
     UseMethod("AmericanOption")
 }
 
 AmericanOption.default <- function(type, underlying, strike, dividendYield,
                                    riskFreeRate, maturity, volatility,
-                                   timeSteps=150, gridPoints=151) {
+                                   timeSteps=150, gridPoints=149,
+                                   engine="BaroneAdesiWhaley") {
     type <- match.arg(type, c("call", "put"))
+    engine <- match.arg(engine, c("BaroneAdesiWhaley", "CrankNicolson"))
     val <- .Call("AmericanOption",
                  list(type=as.character(type),
                       underlying=as.double(underlying),
@@ -61,15 +64,10 @@ AmericanOption.default <- function(type, underlying, strike, dividendYield,
                       maturity=as.double(maturity),
                       volatility=as.double(volatility),
                       timeSteps=as.integer(timeSteps),
-                      gridPoints=as.integer(gridPoints)),
+                      gridPoints=as.integer(gridPoints),
+                      engine=as.character(engine)),
                  PACKAGE="RQuantLib")
     class(val) <- c("AmericanOption","Option")
-    val[[2]] <- NA
-    val[[3]] <- NA
-    val[[4]] <- NA
-    val[[5]] <- NA
-    val[[6]] <- NA
-    val[[7]] <- NA
     val
 }
 

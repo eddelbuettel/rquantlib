@@ -2,8 +2,8 @@
 //
 // RQuantLib -- R interface to the QuantLib libraries
 //
-// Copyright (C) 2002 - 2009 Dirk Eddelbuettel 
-// Copyright (C) 2009 - 2011 Khanh Nguyen and Dirk Eddelbuettel
+// Copyright (C) 2002 - 2012 Dirk Eddelbuettel 
+// Copyright (C) 2009 - 2012 Khanh Nguyen and Dirk Eddelbuettel
 //
 // $Id$
 //
@@ -1269,7 +1269,7 @@ RcppExport SEXP FittedBondCurve(SEXP curveparams, SEXP lengthVec,
         // RcppFrame frame(colNames);
         QuantLib::Date current = curve->referenceDate();;
         int n = curve->maxDate() - curve->referenceDate();
-        std::cout << curve->maxDate() << " " << curve->referenceDate() << " " << n << std::endl;
+        //std::cout << curve->maxDate() << " " << curve->referenceDate() << " " << n << std::endl;
 
         Rcpp::DateVector dates(n);
         Rcpp::NumericVector zr(n);

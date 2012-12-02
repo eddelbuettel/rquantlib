@@ -1,3 +1,9 @@
+2012-12-02  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/discount.cpp (DiscountCurve): R-devel on Windows now longer
+	likes a data.frame instantiation here, so passing back as list and ...
+	* R/discount.R (DiscountCurve.default): ... making it a data.frame here.
+
 2012-12-01  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION: Release 0.3.9

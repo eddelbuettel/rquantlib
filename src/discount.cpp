@@ -127,8 +127,10 @@ RcppExport SEXP DiscountCurve(SEXP params, SEXP tsQuotes, SEXP times) {
             zeroRates[i] = curve->zeroRate(current, QuantLib::ActualActual(), QuantLib::Continuous);
             d++;
         }
-        Rcpp::DataFrame frame = Rcpp::DataFrame::create(Rcpp::Named("date") = dates,
-                                                        Rcpp::Named("zeroRates") = zeroRates);
+        //Rcpp::DataFrame frame = Rcpp::DataFrame::create(Rcpp::Named("date") = dates,
+        //                                                Rcpp::Named("zeroRates") = zeroRates);
+        Rcpp::List frame = Rcpp::List::create(Rcpp::Named("date") = dates,
+                                              Rcpp::Named("zeroRates") = zeroRates);
 
         Rcpp::List rl = Rcpp::List::create(Rcpp::Named("times") = tvec,
                                            Rcpp::Named("discounts") = disc,

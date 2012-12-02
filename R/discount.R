@@ -45,6 +45,7 @@ DiscountCurve.default <- function(params, tsQuotes, times=seq(0,10,.1)) {
 
     ## Finally ready to make the call...
     val <- .Call("DiscountCurve", params, tsQuotes, times, PACKAGE="RQuantLib")
+    val[["table"]] <- as.data.frame(val[["table"]])  ## Windows all of a sudden needs this
     class(val) <- c("DiscountCurve")
     val
 }

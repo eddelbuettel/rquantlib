@@ -1,3 +1,20 @@
+2013-02-17  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION: Release 0.3.10
+
+	* man/Bond.Rd: Use a flat discount curve in example
+	* man/DiscountCurve.Rd: Idem
+	* man/FixedRateBond.Rd: Idem
+	* man/FLoatingRateBond.Rd: Idem
+	* man/ZeroCouponBond.Rd: Idem
+
+	* R/arrays.R (plotOptionSurface): Use explicit `rgl::' prefix for all
+	function from the rgl package to suppress spurious codetools warning
+
+	* demo/OptionSurfaces.R: Reindented
+
+	* cleanup: Simplified and updated
+
 2012-12-02  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/discount.cpp (DiscountCurve): R-devel on Windows now longer
@@ -10,8 +27,7 @@
 
 	* src/vanilla.cpp (AmericanOption): Support engine choice, adding
 	"CrankNicolson" to the default "BaroneAdesiWhaley" as the former adds
-	delta, gamma and vega greeks -- thanks to Bryan Lewis for the
-	suggestion
+	delta + gamma -- thanks to Bryan Lewis for the suggestion
 	* R/option.R: Support new the new 'engine' option
 	* man/AmericanOption.Rd: Document new 'engine' option
 

@@ -5,6 +5,7 @@
 // Copyright (C) 2005 - 2007  Dominick Samperi
 // Copyright (C) 2007 - 2009  Dirk Eddelbuettel 
 // Copyright (C) 2009 - 2011  Dirk Eddelbuettel and Khanh Nguyen
+// Copyright (C) 2012 - 2013  Dirk Eddelbuettel
 //
 // $Id$
 //
@@ -99,7 +100,7 @@ RcppExport SEXP DiscountCurve(SEXP params, SEXP tsQuotes, SEXP times) {
         //SEXP fwds  = PROTECT(Rf_allocVector(REALSXP, ntimes));
         //SEXP zero  = PROTECT(Rf_allocVector(REALSXP, ntimes));
         Rcpp::NumericVector disc(ntimes), fwds(ntimes), zero(ntimes);
-        
+
         QuantLib::Date current = settlementDate;
         for (i = 0; i < ntimes; i++) {          
             //t = REAL(times)[i];                                                    

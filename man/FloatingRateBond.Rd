@@ -152,7 +152,7 @@ tsQuotes <- list(d1w  =0.0382,
                  s5y  =0.0443,
                  s10y =0.05165,
                  s15y =0.055175)
-
+tsQuotes <- list("flat" = 0.02)		## While discount curve code is buggy
 
 ## when both discount and libor curves are flat.
 

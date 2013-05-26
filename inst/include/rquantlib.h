@@ -2,7 +2,7 @@
 //
 // RQuantLib function prototypes and macros
 //
-// Copyright 2002 - 2009  Dirk Eddelbuettel <edd@debian.org>
+// Copyright 2002 - 2013  Dirk Eddelbuettel <edd@debian.org>
 // Copyright 2005 - 2006  Dominick Samperi
 //
 // $Id$
@@ -18,8 +18,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+// along with RcppArmadillo.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef rquantlib_h
 #define rquantlib_h

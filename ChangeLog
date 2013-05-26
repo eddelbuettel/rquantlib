@@ -1,3 +1,14 @@
+2013-05-26  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/inline.R: Adding a plugin for use by Rcpp attribute or inline
+
+	* inst/include/rquantlib.h: Moved from src/ to expose the RQuantLib
+	API for use by the plugin (and the header file / API needs to be
+	properly defined; this file is probably too large)
+
+	* src/Makevars.in: Adjust for header file move
+	* src/Makevars.win: Idem
+
 2013-02-17  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION: Release 0.3.10
@@ -9,7 +20,7 @@
 	* man/ZeroCouponBond.Rd: Idem
 
 	* R/arrays.R (plotOptionSurface): Use explicit `rgl::' prefix for all
-	function from the rgl package to suppress spurious codetools warning
+	functions from the rgl package to suppress spurious codetools warning
 
 	* demo/OptionSurfaces.R: Reindented
 

@@ -24,8 +24,9 @@ Description: The RQuantLib package makes parts of QuantLib visible to the R
  Note that while RQuantLib's code is licensed under the GPL (v2 or later),
  QuantLib itself is released under a somewhat less restrictive Open Source
  license (see QuantLib-License.txt).
-Depends: R (>= 2.10.0), Rcpp (>= 0.8.7)
+Depends: R (>= 2.10.0), Rcpp (>= 0.8.7), methods
 Suggests: rgl, zoo, RUnit
+Imports: methods, Rcpp
 LinkingTo: Rcpp
 SystemRequirements: QuantLib library (>= 0.9.9) from http://quantlib.org, 
  Boost library from http://www.boost.org

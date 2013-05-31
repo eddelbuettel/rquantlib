@@ -1,4 +1,5 @@
-import("Rcpp")
+
+import(Rcpp,methods)
 useDynLib(RQuantLib)
 
 exportPattern("*.default")

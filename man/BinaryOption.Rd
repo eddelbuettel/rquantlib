@@ -59,7 +59,8 @@ derivatives ("Greeks") are returned.}
 \seealso{\code{\link{AmericanOption}},\code{\link{EuropeanOption}}}
 
 \examples{
-BinaryOption(binType="asset", type="call", excType="european", underlying=100, strike=100, dividendYield=0.02,
+BinaryOption(binType="asset", type="call", excType="european",
+             underlying=100, strike=100, dividendYield=0.02,
              riskFreeRate=0.03, maturity=0.5, volatility=0.4, cashPayoff=10)
 }
 \keyword{misc}

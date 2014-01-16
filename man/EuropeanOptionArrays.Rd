@@ -12,8 +12,10 @@
   corresponds to an evaluation under the given set of parameters.
 }
 \usage{
-EuropeanOptionArrays(type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility)
-oldEuropeanOptionArrays(type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility)
+EuropeanOptionArrays(type, underlying, strike, dividendYield,
+                     riskFreeRate, maturity, volatility)
+oldEuropeanOptionArrays(type, underlying, strike, dividendYield,
+                        riskFreeRate, maturity, volatility)
 plotOptionSurface(EOres, ylabel="", xlabel="", zlabel="", fov=60) 
 }
 \arguments{

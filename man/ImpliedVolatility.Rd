@@ -39,7 +39,8 @@
   \code{\link{BinaryOption}}}
 
 \examples{
-impVol<-EuropeanOptionImpliedVolatility("call", value=11.10, strike=100, volatility=0.4, 100, 0.01, 0.03, 0.5)
+impVol<-EuropeanOptionImpliedVolatility("call", value=11.10, strike=100,
+                                        volatility=0.4, 100, 0.01, 0.03, 0.5)
 print(impVol)
 summary(impVol)
 }

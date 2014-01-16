@@ -13,11 +13,16 @@ the R level to the \code{enum} types used at the C++ level. They are
 documented here mostly to provide a means to look up some of the
 possible values---the user is not expected to call these functions directly..}
 \usage{
-matchBDC(bdc = c("Following", "ModifiedFollowing", "Preceding", "ModifiedPreceding", "Unadjusted")) 
+matchBDC(bdc = c("Following", "ModifiedFollowing", "Preceding",
+                 "ModifiedPreceding", "Unadjusted")) 
 matchCompounding(cp = c("Simple", "Compounded", "Continuous", "SimpleThenCompounded")) 
-matchDayCounter(daycounter = c("Actual360", "ActualFixed", "ActualActual", "Business252", "OneDayCounter", "SimpleDayCounter", "Thirty360"))
-matchDateGen(dg = c("Backward", "Forward", "Zero", "ThirdWednesday", "Twentieth", "TwentiethIMM"))
-matchFrequency(freq = c("NoFrequency","Once", "Annual", "Semiannual", "EveryFourthMonth", "Quarterly", "Bimonthly", "EveryFourthWeek", "Biweekly", "Weekly", "Daily"))
+matchDayCounter(daycounter = c("Actual360", "ActualFixed", "ActualActual", "Business252",
+                              "OneDayCounter", "SimpleDayCounter", "Thirty360"))
+matchDateGen(dg = c("Backward", "Forward", "Zero", "ThirdWednesday",
+                    "Twentieth", "TwentiethIMM"))
+matchFrequency(freq = c("NoFrequency","Once", "Annual", "Semiannual",
+                        "EveryFourthMonth", "Quarterly", "Bimonthly",
+                        "EveryFourthWeek", "Biweekly", "Weekly", "Daily"))
 matchParams(params) 
 }
 \arguments{

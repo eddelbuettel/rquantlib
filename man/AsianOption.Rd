@@ -64,7 +64,8 @@
   stabilises its own API.}
 \examples{
 # simple call with some explicit parameters, and slightly increased vol:
-AsianOption("geometric", "put", underlying=80, strike=85, div=-0.03, riskFree=0.05, maturity=0.25, vol=0.2)
+AsianOption("geometric", "put", underlying=80, strike=85, div=-0.03,
+            riskFree=0.05, maturity=0.25, vol=0.2)
 }
 \keyword{misc}
 

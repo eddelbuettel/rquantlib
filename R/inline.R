@@ -29,7 +29,7 @@
         boostlib <- Sys.getenv("BOOSTLIB")
         rarch    <- Sys.getenv("R_ARCH")
         qlcflags <- sprintf("-I%s -I. -I\"%s\"", qlroot, boostlib)
-        qllibs   <- sprintf("%s -L%s/lib%s -lQuantLib", Rcpp:::LdFlags(), rarch)
+        qllibs   <- sprintf("%s -L%s/lib%s -lQuantLib", Rcpp::LdFlags(), rarch)
     } else {
         qlcflags <- system( "quantlib-config --cflags", intern = TRUE)
         qllibs   <- system( "quantlib-config --libs",   intern = TRUE)

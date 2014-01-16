@@ -8,6 +8,7 @@
 	* DESCRIPTION: Update Depends and Imports relationships
 
 	* R/inline.R: Call Rcpp::LdFlags() now that it is exported
+	* R/inline.R: Idem for Rcpp::Rcpp.plugin.maker()
 
 	* man/AsianOption.Rd: Indent to less that 90 columns
 	* man/BinaryOption.Rd: Idem
@@ -16,6 +17,8 @@
 	* man/EuropeanOptionArrays.Rd: Idem
 	* man/FixedRateBond.Rd: Idem
 	* man/ImpliedVolatility.Rd: Idem
+
+	* R/mod.R: Do not attempt to load modules for now
 
 2013-05-26  Dirk Eddelbuettel  <edd@debian.org>
 

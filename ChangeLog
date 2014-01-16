@@ -1,3 +1,22 @@
+2014-01-15  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION: Release 0.3.11 (??)
+
+	* src/utils.cpp: Make the epoch-offset between QL and R an internal
+	const here, rather than accessing it from R's Date class
+
+	* DESCRIPTION: Update Depends and Imports relationships
+
+	* R/inline.R: Call Rcpp::LdFlags() now that it is exported
+
+	* man/AsianOption.Rd: Indent to less that 90 columns
+	* man/BinaryOption.Rd: Idem
+	* man/BondUtilities.Rd: Idem
+ 	* man/Calendars.Rd: Idem
+	* man/EuropeanOptionArrays.Rd: Idem
+	* man/FixedRateBond.Rd: Idem
+	* man/ImpliedVolatility.Rd: Idem
+
 2013-05-26  Dirk Eddelbuettel  <edd@debian.org>
 
 	* R/inline.R: Adding a plugin for use by Rcpp attribute or inline

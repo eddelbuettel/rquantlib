@@ -295,9 +295,11 @@ makeProcess(const boost::shared_ptr<QuantLib::Quote>& u,
 //     return(d.getJDN() - RcppDate::Jan1970Offset + RcppDate::QLtoJan1970Offset);
 // }
 
+static const unsigned int QLtoJan1970Offset = 25569;  	// Offset between R / Unix epoch 
+
 // R and Rcpp::Date use the same 'days since epoch' representation; QL uses Excel style
 int dateFromR(const Rcpp::Date &d) {
-    return(d.getDate() + Rcpp::Date::QLtoJan1970Offset);
+    return(d.getDate() + QLtoJan1970Offset);
 }
 
 QuantLib::DayCounter getDayCounter(const double n){

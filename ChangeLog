@@ -1,6 +1,11 @@
-2014-01-15  Dirk Eddelbuettel  <edd@debian.org>
+2014-01-26  Dirk Eddelbuettel  <edd@debian.org>
 
-	* DESCRIPTION: Release 0.3.11 (??)
+	* DESCRIPTION: Release 0.3.12
+
+	* R/inline.R: For now, revert to using Rcpp:::Rcpp.plugin.maker() as
+	only unreleased Rcpp exports this right now; will use '::' later
+
+2014-01-15  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/utils.cpp: Make the epoch-offset between QL and R an internal
 	const here, rather than accessing it from R's Date class

@@ -29,7 +29,7 @@
         boostlib <- Sys.getenv("BOOSTLIB")
         rarch    <- Sys.getenv("R_ARCH")
         qlcflags <- sprintf("-I%s -I. -I\"%s\"", qlroot, boostlib)
-        qllibs   <- sprintf("%s -L%s/lib%s -lQuantLib", Rcpp::LdFlags(), rarch)
+        qllibs   <- sprintf("-L%s/lib%s -lQuantLib", rarch)
     } else {
         qlcflags <- system( "quantlib-config --cflags", intern = TRUE)
         qllibs   <- system( "quantlib-config --libs",   intern = TRUE)
@@ -48,10 +48,12 @@ CFlags <- function(print = TRUE) {
 }
 
 inlineCxxPlugin <- function(...) {
-    ## this cannot be fixed til the next Rcpp is release as only it properly exports Rcpp.plugin.maker
-    plugin <- Rcpp:::Rcpp.plugin.maker(include.before = "#include <rquantlib.h>",
-                                       libs = sprintf("%s $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)", LdFlags(FALSE)),
-                                       package = "RQuantLib", Makevars = NULL, Makevars.win = NULL)
+    plugin <- Rcpp.plugin.maker(include.before = "#include <rquantlib.h>",
+                                libs = sprintf("%s $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)",
+                                               LdFlags(FALSE)),
+                                package = "RQuantLib",
+                                Makevars = NULL,
+                                Makevars.win = NULL)
     settings <- plugin()
     settings$env$PKG_CPPFLAGS <- CFlags(FALSE)
     settings

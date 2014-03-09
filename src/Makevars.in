@@ -1,2 +1,7 @@
+# -*- mode: Makefile -*-
+#
+# Copyright 2008 - 2014 Dirk Eddelbuettel
+
+# See configure.in for how these variables are computed
 PKG_CXXFLAGS=@CXXFLAGS@ -I../inst/include -I.
 PKG_LIBS=@LDFLAGS@ 

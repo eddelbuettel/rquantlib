@@ -1,3 +1,19 @@
+2014-03-08  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION: Release 0.3.12
+
+	* configure: Updated for Rcpp 0.11.0 and later
+	* configure.in: Idem
+
+	* src/Makevars.win: Updated for Rcpp 0.11.0 and later
+
+	* R/inline.R (.onLoad): Set a default value of NULL for the QL libs
+	and headers, and only override if either the corresponding env.vars
+	are set are the quantlib-config script can be found
+
+	* R/inline.R: Only supply LdFlags() and CFlags() results if stored
+	values are non-null
+
 2014-02-05  Dirk Eddelbuettel  <edd@debian.org>
 
 	* R/inline.R (.onLoad): No longer need to add LdFlags() from Rcpp to

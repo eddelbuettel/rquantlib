@@ -10,7 +10,7 @@
 AC_PREREQ(2.50)
 
 # Process this file with autoconf to produce a configure script.
-AC_INIT(RQuantlib, 0.3.8)
+AC_INIT(RQuantlib, 0.3.12)
 
 # We are using C++
 AC_LANG(C++)
@@ -42,28 +42,31 @@ fi
 CXX=`${R_HOME}/bin/R CMD config CXX`
 CXXFLAGS=`"${R_HOME}/bin/R" CMD config CXXFLAGS`
 
-## look for Rscript, but use the one found via R_HOME to allow for multiple installations
-AC_DEFUN(AC_PROG_RSCRIPT, [AC_CHECK_PROG(RSCRIPT,Rscript,yes)])
-AC_PROG_RSCRIPT
-#AC_MSG_CHECKING([for Rscript])
-if test x"${RSCRIPT}" == x"yes" ; then
-#     AC_MSG_RESULT([yes])    
-     ## Rcpp compile flag providing header directory containing Rcpp.h
-     #rcpp_cxxflags=`${R_HOME}/bin/Rscript -e 'Rcpp:::CxxFlags()'`
-     ## link flag providing libary as well as path to library, and optionally rpath
-     rcpp_ldflags=`${R_HOME}/bin/Rscript -e 'Rcpp:::LdFlags()'`
-     ## now use all these
-     #AC_SUBST([CXXFLAGS],["${CXXFLAGS} $rcpp_cxxflags"])
-     AC_SUBST([LDFLAGS],["${LDFLAGS} $rcpp_ldflags"])
-else
-#    AC_MSG_RESULT([no])    
-    echo "
-  Your installation does not appear to have Rscript installed.
-
-  Please make sure that you have a working and complete R installation.
-"
-    exit 1
-fi
+## We no longer need to set LDFLAGS for Rcpp 0.11.0 or later, 
+## and hence no longer need to check for Rscipt
+##
+## ## look for Rscript, but use the one found via R_HOME to allow for multiple installations
+## AC_DEFUN(AC_PROG_RSCRIPT, [AC_CHECK_PROG(RSCRIPT,Rscript,yes)])
+## AC_PROG_RSCRIPT
+## #AC_MSG_CHECKING([for Rscript])
+## if test x"${RSCRIPT}" == x"yes" ; then
+## #     AC_MSG_RESULT([yes])    
+##      ## Rcpp compile flag providing header directory containing Rcpp.h
+##      #rcpp_cxxflags=`${R_HOME}/bin/Rscript -e 'Rcpp:::CxxFlags()'`
+##      ## link flag providing libary as well as path to library, and optionally rpath
+##      rcpp_ldflags=`${R_HOME}/bin/Rscript -e 'Rcpp:::LdFlags()'`
+##      ## now use all these
+##      #AC_SUBST([CXXFLAGS],["${CXXFLAGS} $rcpp_cxxflags"])
+##      AC_SUBST([LDFLAGS],["${LDFLAGS} $rcpp_ldflags"])
+## else
+## #    AC_MSG_RESULT([no])    
+##     echo "
+##   Your installation does not appear to have Rscript installed.
+## 
+##   Please make sure that you have a working and complete R installation.
+## "
+##     exit 1
+## fi
 
 # borrowed from a check for gnome in GNU gretl: define a check for quantlib-config
 AC_DEFUN(AC_PROG_QUANTLIB, [AC_CHECK_PROG(QUANTLIB,quantlib-config,yes)])

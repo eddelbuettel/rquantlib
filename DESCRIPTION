@@ -26,6 +26,7 @@ Description: The RQuantLib package makes parts of QuantLib visible to the R
  license (see QuantLib-License.txt).
 Depends: R (>= 2.10.0)
 Suggests: rgl, zoo, RUnit
+Imports: methods, Rcpp (>= 0.11.0)
 Imports: methods, Rcpp (>= 0.10.6)
 LinkingTo: Rcpp
 SystemRequirements: QuantLib library (>= 0.9.9) from http://quantlib.org, 

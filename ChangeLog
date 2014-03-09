@@ -1,3 +1,14 @@
+2014-02-05  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/inline.R (.onLoad): No longer need to add LdFlags() from Rcpp to
+	PKG_LIBS when preparing ql_libs.
+	* R/inline.R (inlineCxxPlugin): Rcpp.plugin.maker() can now be called
+	directly as it is imported from Rcpp
+
+	* DESCRIPTION: Add a requirement for Rcpp 0.11.0 or later
+
+	* NAMESPACE: Import Rcpp.plugin.maker from Rcpp
+
 2014-01-26  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION: Release 0.3.11

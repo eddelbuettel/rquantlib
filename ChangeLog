@@ -1,6 +1,18 @@
-2014-03-08  Dirk Eddelbuettel  <edd@debian.org>
+2014-03-16  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/calendars.cpp: Applied patch by Danilo Dias da Silva to support
+	more calendars by adding more than two dozen new identifiers
+
+	* man/Calendars.Rd: Updated accordingly
+
+
+2014-03-09  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION: Release 0.3.12
+
+	* man/FittedBondCurve.Rd: Test for suggested package zoo before use
+
+2014-03-08  Dirk Eddelbuettel  <edd@debian.org>
 
 	* configure: Updated for Rcpp 0.11.0 and later
 	* configure.in: Idem

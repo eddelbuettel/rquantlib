@@ -131,12 +131,17 @@ setEvaluationDate(evalDate)
   should be consulted for details.
 
   Currently, the following strings are recognised: TARGET (a default
-  calendar), Canada and Canada/Settlement, Canada/TSX, Germany and
+  calendar), Argentina, Australia, Brazil, Canada and Canada/Settlement,
+  Canada/TSX, China, CzechRepublic, Denmark, Finland, Germany and
   Germany/FrankfurtStockExchange, Germany/Settlement, Germany/Xetra,
-  Germany/Eurex, Italy and Italy/Settlement, Italy/Exchange, Japan,
-  UnitedKingdom and UnitedKingdom/Settlement, UnitedKingdom/Exchange,
-  UnitedKingdom/Metals, UnitedStates and UnitedStates/Settlement,
-  UnitedStates/NYSE, UnitedStates/GovernmentBond, UnitedStates/NERC.
+  Germany/Eurex, HongKong, Hungary, Iceland, India, Indonesia, Italy and
+  Italy/Settlement, Italy/Exchange, Japan, Mexico, NewZealand, Norway,
+  Poland, Russia, SaudiArabia, Singapore, Slovakia, SouthAfrica,
+  SouthKorea, SouthKorea/KRX, Sweden, Switzerland, Taiwan, Turkey,
+  Ukraine, UnitedKingdom and UnitedKingdom/Settlement,
+  UnitedKingdom/Exchange, UnitedKingdom/Metals, UnitedStates and
+  UnitedStates/Settlement, UnitedStates/NYSE,
+  UnitedStates/GovernmentBond, UnitedStates/NERC and WeekendsOnly.
 
   (In case of multiples entries per country, the country default is listed
   right after the country itself. Using the shorter form is equivalent.)

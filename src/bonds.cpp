@@ -1167,6 +1167,8 @@ RcppExport SEXP CallableBond(SEXP bondparams, SEXP hw, SEXP coupon,
 //     return rl;
 // }
 
+// TODO: get rid of FixedRateBondHelper, switch to BondHelper
+
 RcppExport SEXP FittedBondCurve(SEXP curveparams, SEXP lengthVec,
                                 SEXP couponVec,SEXP marketVec,
                                 SEXP dateparams){
@@ -1209,7 +1211,7 @@ RcppExport SEXP FittedBondCurve(SEXP curveparams, SEXP lengthVec,
         QuantLib::Real redemption = 100;
 
         std::vector<boost::shared_ptr<QuantLib::FixedRateBondHelper> > instrumentsA;
-        
+
         for (QuantLib::Size j=0; j < static_cast<QuantLib::Size>(length.size()); j++) {
 
             QuantLib::Date dated = origDate;
@@ -1220,10 +1222,10 @@ RcppExport SEXP FittedBondCurve(SEXP curveparams, SEXP lengthVec,
                                         bdc, bdc,
                                         QuantLib::DateGeneration::Backward, false);
 
-            boost::shared_ptr<QuantLib::FixedRateBondHelper> helperA(
-                     new QuantLib::FixedRateBondHelper(quoteHandle[j], settlementDays, 100.0, schedule,
-                                                       std::vector<QuantLib::Rate>(1,coupons[j]),
-                                                       dc, bdc, redemption, issue));
+            boost::shared_ptr<QuantLib::FixedRateBondHelper> 
+                helperA(new QuantLib::FixedRateBondHelper(quoteHandle[j], settlementDays, 100.0, schedule,
+                                                          std::vector<QuantLib::Rate>(1,coupons[j]),
+                                                          dc, bdc, redemption, issue));
             instrumentsA.push_back(helperA);
 
         }
@@ -1234,12 +1236,13 @@ RcppExport SEXP FittedBondCurve(SEXP curveparams, SEXP lengthVec,
 
         boost::shared_ptr<QuantLib::YieldTermStructure> curve;
 
+       
         if (method=="ExponentialSplinesFitting") {
             QuantLib::ExponentialSplinesFitting exponentialSplines(constrainAtZero);
 
             boost::shared_ptr<QuantLib::FittedBondDiscountCurve> 
                 ts1 (new QuantLib::FittedBondDiscountCurve(settlementDays, calendar, instrumentsA,
-                                                 dc, exponentialSplines, tolerance, max));
+                                                           dc, exponentialSplines, tolerance, max));
             curve = ts1;
 
         } else if (method == "SimplePolynomialFitting"){

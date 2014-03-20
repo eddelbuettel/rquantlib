@@ -1,11 +1,9 @@
-// -*- mode: c++; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- 
+// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; indent-tabs-mode: nil; -*-
 //
 // RQuantLib -- R interface to the QuantLib libraries
 //
-// Copyright (C) 2002 - 2012 Dirk Eddelbuettel 
-// Copyright (C) 2009 - 2012 Khanh Nguyen and Dirk Eddelbuettel
-//
-// $Id$
+// Copyright (C) 2002 - 2014  Dirk Eddelbuettel 
+// Copyright (C) 2009 - 2012  Khanh Nguyen and Dirk Eddelbuettel
 //
 // This file is part of the RQuantLib library for GNU R.
 // It is made available under the terms of the GNU General Public
@@ -1167,8 +1165,6 @@ RcppExport SEXP CallableBond(SEXP bondparams, SEXP hw, SEXP coupon,
 //     return rl;
 // }
 
-// TODO: get rid of FixedRateBondHelper, switch to BondHelper
-
 RcppExport SEXP FittedBondCurve(SEXP curveparams, SEXP lengthVec,
                                 SEXP couponVec,SEXP marketVec,
                                 SEXP dateparams){
@@ -1210,7 +1206,7 @@ RcppExport SEXP FittedBondCurve(SEXP curveparams, SEXP lengthVec,
         QuantLib::Frequency freq = getFrequency(frequency);
         QuantLib::Real redemption = 100;
 
-        std::vector<boost::shared_ptr<QuantLib::FixedRateBondHelper> > instrumentsA;
+        std::vector<boost::shared_ptr<QuantLib::BondHelper> > instrumentsA;
 
         for (QuantLib::Size j=0; j < static_cast<QuantLib::Size>(length.size()); j++) {
 
@@ -1222,10 +1218,11 @@ RcppExport SEXP FittedBondCurve(SEXP curveparams, SEXP lengthVec,
                                         bdc, bdc,
                                         QuantLib::DateGeneration::Backward, false);
 
-            boost::shared_ptr<QuantLib::FixedRateBondHelper> 
-                helperA(new QuantLib::FixedRateBondHelper(quoteHandle[j], settlementDays, 100.0, schedule,
-                                                          std::vector<QuantLib::Rate>(1,coupons[j]),
-                                                          dc, bdc, redemption, issue));
+            boost::shared_ptr<QuantLib::FixedRateBond> 
+                bond(new QuantLib::FixedRateBond(settlementDays, 100.0, schedule,
+                                                 std::vector<QuantLib::Rate>(1,coupons[j]),
+                                                 dc, bdc, redemption, issue, calendar));
+            boost::shared_ptr<QuantLib::BondHelper> helperA(new QuantLib::BondHelper(quoteHandle[j], bond));
             instrumentsA.push_back(helperA);
 
         }

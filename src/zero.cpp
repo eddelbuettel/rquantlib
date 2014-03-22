@@ -118,7 +118,7 @@ RcppExport SEXP zbtyield(SEXP MatVec, SEXP BondMat,
         std::vector<QuantLib::Date> SettleDates = Rcpp::as<std::vector<QuantLib::Date> >(SettlVec);
 
         //setting up the bonds
-        const QuantLib::Size numberOfBonds = n;
+        const QuantLib::Size numberOfBonds = MatDates.size();
 
         std::vector<boost::shared_ptr<QuantLib::RateHelper> > instruments;
 

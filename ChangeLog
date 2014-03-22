@@ -10,6 +10,7 @@
 	definitions for vector of dates
 
 	* src/zero.cpp: Use as<> and wrap converters for Date and DateVector
+	* src/hullwhite.cpp: Idem
 
 	* inst/include/RQuantLib.h: Also include 'wrapper' header for converters
 

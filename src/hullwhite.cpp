@@ -1,10 +1,9 @@
-// -*- mode: c++; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- 
+// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; indent-tabs-mode: nil; -*-
 //
 // RQuantLib -- R interface to the QuantLib libraries
 //
 // Copyright (C) 2010         Dirk Eddelbuettel and Khanh Nguyen
-//
-// $Id$
+// Copyright (C) 2011 - 2014  Dirk Eddelbuettel and Khanh Nguyen
 //
 // This file is part of the RQuantLib library for GNU R.
 // It is made available under the terms of the GNU General Public
@@ -33,8 +32,7 @@ RcppExport SEXP HullWhiteCalibrationUsingCap(SEXP termStrcDateVec,
                                              SEXP evaluationDate) {
 	
     try {
-        Rcpp::DateVector dv(evaluationDate);
-        QuantLib::Date evalDate(dateFromR(dv[0]));
+        QuantLib::Date evalDate(Rcpp::as<QuantLib::Date>(evaluationDate));
         QuantLib::Settings::instance().evaluationDate() = evalDate;
 
         QuantLib::Handle<QuantLib::YieldTermStructure> 
@@ -111,8 +109,7 @@ RcppExport SEXP HullWhiteCalibrationUsingSwap(SEXP termStrcDateVec,
                                               SEXP evaluationDate){
 
     try {
-        Rcpp::DateVector dv(evaluationDate);
-        QuantLib::Date evalDate(dateFromR(dv[0]));
+        QuantLib::Date evalDate(Rcpp::as<QuantLib::Date>(evaluationDate));
         QuantLib::Settings::instance().evaluationDate() = evalDate;
 
         //set up the HullWhite model       

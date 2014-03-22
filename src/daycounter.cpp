@@ -23,6 +23,8 @@
 
 #include "rquantlib.h"
 
+// [[Rcpp::interfaces(r, cpp)]]
+
 // [[Rcpp::export]]
 std::vector<double> dayCount(std::vector<QuantLib::Date> startDates, 
                              std::vector<QuantLib::Date> endDates, 

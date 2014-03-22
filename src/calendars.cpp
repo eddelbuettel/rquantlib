@@ -161,24 +161,27 @@ boost::shared_ptr<QuantLib::Calendar> getCalendar(const std::string &calstr) {
     return pcal;
 }
 
-RcppExport SEXP setContext(SEXP parSEXP) {
+//setCalendarContext <- function(calendar="TARGET",
+//                               fixingDays = 2,
+//                               settleDate = Sys.Date() + 2) {
 
-    try {
-        Rcpp::List par(parSEXP);        
+// [[Rcpp::export]]
+bool setContext(std::string calendar, int fixingDays, QuantLib::Date settleDate) {
 
-        // set fixingDays and settleDate
-        RQLContext::instance().fixingDays = Rcpp::as<int>(par["fixingDays"]);
-        RQLContext::instance().settleDate = QuantLib::Date(Rcpp::as<QuantLib::Date>(par["settleDate"]));
-
-        boost::shared_ptr<QuantLib::Calendar> pcal( getCalendar(Rcpp::as<std::string>(par["calendar"])) );
-        RQLContext::instance().calendar = *pcal; // set calendar in global singleton
-
-    } catch(std::exception &ex) { 
-        forward_exception_to_r(ex); 
-    } catch(...) { 
-        ::Rf_error("c++ exception (unknown reason)"); 
+    // Rcpp Attribute cannot reflect complicated default arguments
+    if (settleDate.serialNumber() == 0) {
+        calendar = "TARGET";
+        fixingDays = 2;
+        settleDate = QuantLib::Date::todaysDate() + 2; 
     }
-    return R_NilValue;
+    // set fixingDays and settleDate
+    RQLContext::instance().fixingDays = fixingDays;
+    RQLContext::instance().settleDate = settleDate;
+
+    boost::shared_ptr<QuantLib::Calendar> pcal(getCalendar(calendar));
+    RQLContext::instance().calendar = *pcal; // set calendar in global singleton
+    
+    return true;
 }
 
 RcppExport SEXP isBusinessDay(SEXP calSexp, SEXP dateSexp){

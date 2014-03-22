@@ -20,7 +20,7 @@
 #ifndef _rquantlib_wrappers_h_
 #define _rquantlib_wrappers_h_
 
-#include "rquantlib.h"
+#include "rquantlib_internal.h"
 
 // define template specialisations for as and wrap
 namespace Rcpp {

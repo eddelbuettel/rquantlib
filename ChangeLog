@@ -5,13 +5,15 @@
 	* R/dayCounter.R: Commented as RcppExports.R takes over its functionality
 
 	* src/rquantlib.h: Moved from inst/include to avoid lower / uppercase
-	clash; this header really is an internal definition header
-
-	* src/rquantlib: New as<> and wrap converters for DateVector
+	clash; this header really is an internal definition header; sources
+	the content formerly in quantlib.h
+	* inst/include/rquantlib_internal.h: Formerly known as rquantlib.h
 
 	* inst/include/rquantlib_wrappers.h (Rcpp): Moved definition of as<>
 	and wrap for Date and DateVector here to be read by plugin; added
 	definitions for vector of dates
+
+	* src/rquantlib: New as<> and wrap converters for DateVector
 
 	* src/bermudan.cpp: Use as<> and wrap converters for Date and DateVector
 	* src/bonds.cpp: Idem
@@ -22,8 +24,7 @@
 	* src/utils.cpp: Idem
 	* src/zero.cpp: Idem
 
-	* src/utils.cpp: Retire old dateFromR converter
-
+	* src/utils.cpp: Retire old dateFromR() converter replaces by as<>
 
 	* inst/include/RQuantLib.h: Also include 'wrapper' header for converters
 

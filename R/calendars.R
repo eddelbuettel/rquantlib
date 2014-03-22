@@ -148,12 +148,12 @@ holidayList <- function(calendar="TARGET", from=Sys.Date(), to=Sys.Date() + 5, i
     getHolidayList(calendar, from, to, includeWeekends)
 }
 
-setCalendarContext <- function(calendar="TARGET",
-                               fixingDays = 2,
-                               settleDate = Sys.Date() + 2) {
-    val <- .Call("setContext",
-                 list(calendar = calendar,
-                      fixingDays = fixingDays,
-                      settleDate = settleDate),
-                 PACKAGE="RQuantLib")
-}
+#setCalendarContext <- function(calendar="TARGET",
+#                               fixingDays = 2,
+#                               settleDate = Sys.Date() + 2) {
+#    val <- .Call("setContext",
+#                 list(calendar = calendar,
+#                      fixingDays = fixingDays,
+#                      settleDate = settleDate),
+#                 PACKAGE="RQuantLib")
+#}

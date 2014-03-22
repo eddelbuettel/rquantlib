@@ -43,6 +43,63 @@ namespace RQuantLib {
         return Rcpp::as<QuantLib::Date >(__result);
     }
 
+    inline std::vector<double> dayCount(std::vector<QuantLib::Date> startDates, std::vector<QuantLib::Date> endDates, std::vector<double> dayCounters) {
+        typedef SEXP(*Ptr_dayCount)(SEXP,SEXP,SEXP);
+        static Ptr_dayCount p_dayCount = NULL;
+        if (p_dayCount == NULL) {
+            validateSignature("std::vector<double>(*dayCount)(std::vector<QuantLib::Date>,std::vector<QuantLib::Date>,std::vector<double>)");
+            p_dayCount = (Ptr_dayCount)R_GetCCallable("RQuantLib", "RQuantLib_dayCount");
+        }
+        RObject __result;
+        {
+            RNGScope __rngScope;
+            __result = p_dayCount(Rcpp::wrap(startDates), Rcpp::wrap(endDates), Rcpp::wrap(dayCounters));
+        }
+        if (__result.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (__result.inherits("try-error"))
+            throw Rcpp::exception(as<std::string>(__result).c_str());
+        return Rcpp::as<std::vector<double> >(__result);
+    }
+
+    inline std::vector<double> yearFraction(std::vector<QuantLib::Date> startDates, std::vector<QuantLib::Date> endDates, std::vector<double> dayCounters) {
+        typedef SEXP(*Ptr_yearFraction)(SEXP,SEXP,SEXP);
+        static Ptr_yearFraction p_yearFraction = NULL;
+        if (p_yearFraction == NULL) {
+            validateSignature("std::vector<double>(*yearFraction)(std::vector<QuantLib::Date>,std::vector<QuantLib::Date>,std::vector<double>)");
+            p_yearFraction = (Ptr_yearFraction)R_GetCCallable("RQuantLib", "RQuantLib_yearFraction");
+        }
+        RObject __result;
+        {
+            RNGScope __rngScope;
+            __result = p_yearFraction(Rcpp::wrap(startDates), Rcpp::wrap(endDates), Rcpp::wrap(dayCounters));
+        }
+        if (__result.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (__result.inherits("try-error"))
+            throw Rcpp::exception(as<std::string>(__result).c_str());
+        return Rcpp::as<std::vector<double> >(__result);
+    }
+
+    inline bool setEvaluationDate(QuantLib::Date evalDate) {
+        typedef SEXP(*Ptr_setEvaluationDate)(SEXP);
+        static Ptr_setEvaluationDate p_setEvaluationDate = NULL;
+        if (p_setEvaluationDate == NULL) {
+            validateSignature("bool(*setEvaluationDate)(QuantLib::Date)");
+            p_setEvaluationDate = (Ptr_setEvaluationDate)R_GetCCallable("RQuantLib", "RQuantLib_setEvaluationDate");
+        }
+        RObject __result;
+        {
+            RNGScope __rngScope;
+            __result = p_setEvaluationDate(Rcpp::wrap(evalDate));
+        }
+        if (__result.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (__result.inherits("try-error"))
+            throw Rcpp::exception(as<std::string>(__result).c_str());
+        return Rcpp::as<bool >(__result);
+    }
+
 }
 
 #endif // __RQuantLib_RcppExports_h__

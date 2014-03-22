@@ -8,6 +8,23 @@
 
 using namespace Rcpp;
 
+// setContext
+bool setContext(std::string calendar, int fixingDays, QuantLib::Date settleDate);
+RcppExport SEXP RQuantLib_setContext(SEXP calendarSEXP, SEXP fixingDaysSEXP, SEXP settleDateSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< std::string >::type calendar(calendarSEXP );
+        Rcpp::traits::input_parameter< int >::type fixingDays(fixingDaysSEXP );
+        Rcpp::traits::input_parameter< QuantLib::Date >::type settleDate(settleDateSEXP );
+        bool __result = setContext(calendar, fixingDays, settleDate);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // advanceDate
 QuantLib::Date advanceDate(QuantLib::Date issueDate, int days);
 static SEXP RQuantLib_advanceDate_try(SEXP issueDateSEXP, SEXP daysSEXP) {
@@ -45,11 +62,10 @@ RcppExport SEXP RQuantLib_advanceDate(SEXP issueDateSEXP, SEXP daysSEXP) {
 }
 // dayCount
 std::vector<double> dayCount(std::vector<QuantLib::Date> startDates, std::vector<QuantLib::Date> endDates, std::vector<double> dayCounters);
-RcppExport SEXP RQuantLib_dayCount(SEXP startDatesSEXP, SEXP endDatesSEXP, SEXP dayCountersSEXP) {
+static SEXP RQuantLib_dayCount_try(SEXP startDatesSEXP, SEXP endDatesSEXP, SEXP dayCountersSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
-        Rcpp::RNGScope __rngScope;
         Rcpp::traits::input_parameter< std::vector<QuantLib::Date> >::type startDates(startDatesSEXP );
         Rcpp::traits::input_parameter< std::vector<QuantLib::Date> >::type endDates(endDatesSEXP );
         Rcpp::traits::input_parameter< std::vector<double> >::type dayCounters(dayCountersSEXP );
@@ -58,15 +74,34 @@ BEGIN_RCPP
     }
     UNPROTECT(1);
     return __sexp_result;
-END_RCPP
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP RQuantLib_dayCount(SEXP startDatesSEXP, SEXP endDatesSEXP, SEXP dayCountersSEXP) {
+    SEXP __result;
+    {
+        Rcpp::RNGScope __rngScope;
+        __result = PROTECT(RQuantLib_dayCount_try(startDatesSEXP, endDatesSEXP, dayCountersSEXP));
+    }
+    Rboolean __isInterrupt = Rf_inherits(__result, "interrupted-error");
+    if (__isInterrupt) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    Rboolean __isError = Rf_inherits(__result, "try-error");
+    if (__isError) {
+        SEXP __msgSEXP = Rf_asChar(__result);
+        UNPROTECT(1);
+        Rf_error(CHAR(__msgSEXP));
+    }
+    UNPROTECT(1);
+    return __result;
 }
 // yearFraction
 std::vector<double> yearFraction(std::vector<QuantLib::Date> startDates, std::vector<QuantLib::Date> endDates, std::vector<double> dayCounters);
-RcppExport SEXP RQuantLib_yearFraction(SEXP startDatesSEXP, SEXP endDatesSEXP, SEXP dayCountersSEXP) {
+static SEXP RQuantLib_yearFraction_try(SEXP startDatesSEXP, SEXP endDatesSEXP, SEXP dayCountersSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
-        Rcpp::RNGScope __rngScope;
         Rcpp::traits::input_parameter< std::vector<QuantLib::Date> >::type startDates(startDatesSEXP );
         Rcpp::traits::input_parameter< std::vector<QuantLib::Date> >::type endDates(endDatesSEXP );
         Rcpp::traits::input_parameter< std::vector<double> >::type dayCounters(dayCountersSEXP );
@@ -75,22 +110,61 @@ BEGIN_RCPP
     }
     UNPROTECT(1);
     return __sexp_result;
-END_RCPP
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP RQuantLib_yearFraction(SEXP startDatesSEXP, SEXP endDatesSEXP, SEXP dayCountersSEXP) {
+    SEXP __result;
+    {
+        Rcpp::RNGScope __rngScope;
+        __result = PROTECT(RQuantLib_yearFraction_try(startDatesSEXP, endDatesSEXP, dayCountersSEXP));
+    }
+    Rboolean __isInterrupt = Rf_inherits(__result, "interrupted-error");
+    if (__isInterrupt) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    Rboolean __isError = Rf_inherits(__result, "try-error");
+    if (__isError) {
+        SEXP __msgSEXP = Rf_asChar(__result);
+        UNPROTECT(1);
+        Rf_error(CHAR(__msgSEXP));
+    }
+    UNPROTECT(1);
+    return __result;
 }
 // setEvaluationDate
 bool setEvaluationDate(QuantLib::Date evalDate);
-RcppExport SEXP RQuantLib_setEvaluationDate(SEXP evalDateSEXP) {
+static SEXP RQuantLib_setEvaluationDate_try(SEXP evalDateSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
-        Rcpp::RNGScope __rngScope;
         Rcpp::traits::input_parameter< QuantLib::Date >::type evalDate(evalDateSEXP );
         bool __result = setEvaluationDate(evalDate);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
     return __sexp_result;
-END_RCPP
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP RQuantLib_setEvaluationDate(SEXP evalDateSEXP) {
+    SEXP __result;
+    {
+        Rcpp::RNGScope __rngScope;
+        __result = PROTECT(RQuantLib_setEvaluationDate_try(evalDateSEXP));
+    }
+    Rboolean __isInterrupt = Rf_inherits(__result, "interrupted-error");
+    if (__isInterrupt) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    Rboolean __isError = Rf_inherits(__result, "try-error");
+    if (__isError) {
+        SEXP __msgSEXP = Rf_asChar(__result);
+        UNPROTECT(1);
+        Rf_error(CHAR(__msgSEXP));
+    }
+    UNPROTECT(1);
+    return __result;
 }
 
 // validate (ensure exported C++ functions exist before calling them)
@@ -98,6 +172,9 @@ static int RQuantLib_RcppExport_validate(const char* sig) {
     static std::set<std::string> signatures;
     if (signatures.empty()) {
         signatures.insert("QuantLib::Date(*advanceDate)(QuantLib::Date,int)");
+        signatures.insert("std::vector<double>(*dayCount)(std::vector<QuantLib::Date>,std::vector<QuantLib::Date>,std::vector<double>)");
+        signatures.insert("std::vector<double>(*yearFraction)(std::vector<QuantLib::Date>,std::vector<QuantLib::Date>,std::vector<double>)");
+        signatures.insert("bool(*setEvaluationDate)(QuantLib::Date)");
     }
     return signatures.find(sig) != signatures.end();
 }
@@ -105,6 +182,9 @@ static int RQuantLib_RcppExport_validate(const char* sig) {
 // registerCCallable (register entry points for exported C++ functions)
 RcppExport SEXP RQuantLib_RcppExport_registerCCallable() { 
     R_RegisterCCallable("RQuantLib", "RQuantLib_advanceDate", (DL_FUNC)RQuantLib_advanceDate_try);
+    R_RegisterCCallable("RQuantLib", "RQuantLib_dayCount", (DL_FUNC)RQuantLib_dayCount_try);
+    R_RegisterCCallable("RQuantLib", "RQuantLib_yearFraction", (DL_FUNC)RQuantLib_yearFraction_try);
+    R_RegisterCCallable("RQuantLib", "RQuantLib_setEvaluationDate", (DL_FUNC)RQuantLib_setEvaluationDate_try);
     R_RegisterCCallable("RQuantLib", "RQuantLib_RcppExport_validate", (DL_FUNC)RQuantLib_RcppExport_validate);
     return R_NilValue;
 }

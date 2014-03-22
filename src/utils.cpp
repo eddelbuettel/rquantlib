@@ -2,11 +2,9 @@
 //
 // RQuantLib -- R interface to the QuantLib libraries
 //
-// Copyright (C) 2002 - 2012  Dirk Eddelbuettel 
+// Copyright (C) 2002 - 2014  Dirk Eddelbuettel 
 // Copyright (C) 2005 - 2006  Dominick Samperi
 // Copyright (C) 2009 - 2012  Dirk Eddelbuettel and Khanh Nguyen
-//
-// $Id$
 //
 // This file is part of the RQuantLib library for GNU R.
 // It is made available under the terms of the GNU General Public
@@ -25,6 +23,22 @@
 // MA 02111-1307, USA
 
 #include <rquantlib.h>
+
+// define template specialisations for as and wrap
+namespace Rcpp {
+    static const unsigned int QLtoJan1970Offset = 25569;  	// Offset to R / Unix epoch 
+
+    template <> QuantLib::Date as(SEXP dtsexp) {
+        Rcpp::Date dt(dtsexp);
+        return QuantLib::Date(static_cast<int>(dt.getDate()) + QLtoJan1970Offset);
+    }
+
+    template <> SEXP wrap(const QuantLib::Date &d) {
+        double dt = static_cast<double>(d.serialNumber()); // QL::BigInteger can cast to double
+        return Rcpp::wrap(Rcpp::Date(dt - QLtoJan1970Offset));
+    }
+}
+
 
 QuantLib::Option::Type getOptionType(const std::string &type) {
     QuantLib::Option::Type optionType;

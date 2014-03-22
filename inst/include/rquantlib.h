@@ -1,11 +1,9 @@
-// -*- mode: c++; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- 
+// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; indent-tabs-mode: nil; -*-
 //
 // RQuantLib function prototypes and macros
 //
-// Copyright 2002 - 2013  Dirk Eddelbuettel <edd@debian.org>
+// Copyright 2002 - 2014  Dirk Eddelbuettel <edd@debian.org>
 // Copyright 2005 - 2006  Dominick Samperi
-//
-// $Id$
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -28,6 +26,17 @@
 #include <boost/lexical_cast.hpp>
 
 //using namespace QuantLib;
+
+#include <RcppCommon.h>
+
+namespace Rcpp {
+
+    // non-intrusive extension via template specialisation
+    template <> QuantLib::Date as(SEXP dt);
+
+    // non-intrusive extension via template specialisation
+    template <> SEXP wrap(const QuantLib::Date &d);
+}
 
 #include <Rcpp.h>
 

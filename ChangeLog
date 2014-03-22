@@ -1,3 +1,13 @@
+2014-03-21  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/utils.cpp: Added as<> and wrap conversion for QuantLib::Date
+
+	* src/dates.cpp (advanceDate): Added simple test date function, also
+	uses Rcpp Attributes as a first test case
+
+	* inst/include/RQuantLib.h: Added and edited to allow inclusion of 
+	actual rquantlib.h header via RcppExports
+
 2014-03-20  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/bonds.cpp (FittedBondCurve): Converted from deprecated

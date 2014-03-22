@@ -80,7 +80,7 @@ RcppExport SEXP setEvaluationDate(SEXP evalDateSEXP) {
     try {
 
         // set the date
-        QuantLib::Settings::instance().evaluationDate() = QuantLib::Date(Rcpp::as<QuantLib::Date>(evalDateSEXP)));
+        QuantLib::Settings::instance().evaluationDate() = QuantLib::Date(Rcpp::as<QuantLib::Date>(evalDateSEXP));
 
     } catch(std::exception &ex) { 
         forward_exception_to_r(ex); 

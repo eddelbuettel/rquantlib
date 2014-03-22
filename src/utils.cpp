@@ -290,11 +290,11 @@ makeProcess(const boost::shared_ptr<QuantLib::Quote>& u,
 
 //static const unsigned int QLtoJan1970Offset = 25569;  	// Offset between R / Unix epoch 
 
-// R and Rcpp::Date use the same 'days since epoch' representation; QL uses Excel style
-int dateFromR(const Rcpp::Date &d) {
-    static const unsigned int QLtoJan1970Offset = 25569;  	// Offset to R / Unix epoch 
-    return(d.getDate() + QLtoJan1970Offset);
-}
+// // R and Rcpp::Date use the same 'days since epoch' representation; QL uses Excel style
+// int dateFromR(const Rcpp::Date &d) {
+//     static const unsigned int QLtoJan1970Offset = 25569;  	// Offset to R / Unix epoch 
+//     return(d.getDate() + QLtoJan1970Offset);
+// }
 
 QuantLib::DayCounter getDayCounter(const double n){
     if (n==0) 
@@ -468,7 +468,8 @@ QuantLib::DividendSchedule getDividendSchedule(SEXP dividendScheduleFrame) {
             int type = (s0v[row] == "Fixed") ? 1 : 0; //  (table[row][0].getStringValue()=="Fixed") ? 1 : 0;
             double amount = n1v[row]; // table[row][1].getDoubleValue();
             double rate = n2v[row]; // table[row][2].getDoubleValue();
-            QuantLib::Date d(dateFromR(Rcpp::Date(n3v[row]))); //table[row][3].getDateValue()));            
+            Rcpp::Date rd = Rcpp::Date(n3v[row]);
+            QuantLib::Date d(Rcpp::as<QuantLib::Date>(Rcpp::wrap(rd))); //table[row][3].getDateValue()));            
             if (type==1) {
                 dividendSchedule.push_back(boost::shared_ptr<QuantLib::Dividend>(new QuantLib::FixedDividend(amount, d)));
             } else {
@@ -497,7 +498,8 @@ QuantLib::CallabilitySchedule getCallabilitySchedule(SEXP callabilityScheduleFra
         for (int row=0; row<nrow; row++) {
             double price = n0v[row]; //table[row][0].getDoubleValue();
             int type = (s1v[row]=="P") ? 1 : 0;
-            QuantLib::Date d(dateFromR(Rcpp::Date(n2v[row])));
+            Rcpp::Date rd = Rcpp::Date(n2v[row]);
+            QuantLib::Date d(Rcpp::as<QuantLib::Date>(Rcpp::wrap(rd)));
             if (type==1){
                 callabilitySchedule.push_back(boost::shared_ptr<QuantLib::Callability>
                                               (new QuantLib::Callability(QuantLib::Callability::Price(price, 

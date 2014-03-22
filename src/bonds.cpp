@@ -33,8 +33,8 @@ RcppExport SEXP ZeroPriceByYield(SEXP optionParameters) {
         double frequency = Rcpp::as<double>(rparam["frequency"]);
         double businessDayConvention = Rcpp::as<double>(rparam["businessDayConvention"]);
         double compound = Rcpp::as<double>(rparam["compound"]);
-        QuantLib::Date maturityDate(dateFromR(Rcpp::as<Rcpp::Date>(rparam["maturityDate"])));
-        QuantLib::Date issueDate(dateFromR(Rcpp::as<Rcpp::Date>(rparam["issueDate"])));
+        QuantLib::Date maturityDate(Rcpp::as<QuantLib::Date>(rparam["maturityDate"]));
+        QuantLib::Date issueDate(Rcpp::as<QuantLib::Date>(rparam["issueDate"]));
         //setup bond
         QuantLib::Integer fixingDays = 2;
         QuantLib::Calendar calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
@@ -74,8 +74,8 @@ RcppExport SEXP ZeroYield(SEXP optionParameters) {
         double frequency = Rcpp::as<double>(rparam["frequency"]);
         double businessDayConvention = Rcpp::as<double>(rparam["businessDayConvention"]);
         double compound = Rcpp::as<double>(rparam["compound"]);
-        QuantLib::Date maturityDate(dateFromR(Rcpp::as<Rcpp::Date>(rparam["maturityDate"])));
-        QuantLib::Date issueDate(dateFromR(Rcpp::as<Rcpp::Date>(rparam["issueDate"])));
+        QuantLib::Date maturityDate(Rcpp::as<QuantLib::Date>(rparam["maturityDate"]));
+        QuantLib::Date issueDate(Rcpp::as<QuantLib::Date>(rparam["issueDate"]));
         //setup bond
         QuantLib::Integer fixingDays = 2;
         QuantLib::Calendar calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
@@ -112,15 +112,15 @@ RcppExport SEXP ZeroBond(SEXP bondparam,
     try {
         Rcpp::List rparam(bondparam);
         double faceAmount = Rcpp::as<double>(rparam["faceAmount"]);
-        QuantLib::Date maturityDate(dateFromR(Rcpp::as<Rcpp::Date>(rparam["maturityDate"])));
-        QuantLib::Date issueDate(dateFromR(Rcpp::as<Rcpp::Date>(rparam["issueDate"])));
+        QuantLib::Date maturityDate(Rcpp::as<QuantLib::Date>(rparam["maturityDate"]));
+        QuantLib::Date issueDate(Rcpp::as<QuantLib::Date>(rparam["issueDate"]));
         double redemption = Rcpp::as<double>(rparam["redemption"]);
 
         Rcpp::List misc(dateparams);
         double settlementDays = Rcpp::as<double>(misc["settlementDays"]);
         std::string cal = Rcpp::as<std::string>(misc["calendar"]);
         double businessDayConvention = Rcpp::as<double>(misc["businessDayConvention"]);
-        QuantLib::Date refDate(dateFromR(Rcpp::as<Rcpp::Date>(misc["refDate"])));      
+        QuantLib::Date refDate(Rcpp::as<QuantLib::Date>(misc["refDate"]));      
         QuantLib::Settings::instance().evaluationDate() = refDate;                               
         
         /*
@@ -173,9 +173,9 @@ RcppExport SEXP FixedBond(SEXP bondparam, SEXP ratesVec,
         Rcpp::List rparam(bondparam);
         
         double faceAmount = Rcpp::as<double>(rparam["faceAmount"]);
-        QuantLib::Date maturityDate(dateFromR(Rcpp::as<Rcpp::Date>(rparam["maturityDate"])));
-        QuantLib::Date issueDate(dateFromR(Rcpp::as<Rcpp::Date>(rparam["issueDate"])));
-        QuantLib::Date effectiveDate(dateFromR(Rcpp::as<Rcpp::Date>(rparam["effectiveDate"])));
+        QuantLib::Date maturityDate(Rcpp::as<QuantLib::Date>(rparam["maturityDate"]));
+        QuantLib::Date issueDate(Rcpp::as<QuantLib::Date>(rparam["issueDate"]));
+        QuantLib::Date effectiveDate(Rcpp::as<QuantLib::Date>(rparam["effectiveDate"]));
         double redemption = Rcpp::as<double>(rparam["redemption"]);
 
         Rcpp::List misc(dateparams);      
@@ -249,9 +249,9 @@ RcppExport SEXP FixedRateBondYield(SEXP optionParameters, SEXP ratesVec) {
         double dayCounter = Rcpp::as<double>(rparam["dayCounter"]);
         double frequency = Rcpp::as<double>(rparam["period"]);
         
-        QuantLib::Date maturityDate(dateFromR(Rcpp::as<Rcpp::Date>(rparam["maturityDate"])));
-        QuantLib::Date issueDate(dateFromR(Rcpp::as<Rcpp::Date>(rparam["issueDate"])));
-        QuantLib::Date effectiveDate(dateFromR(Rcpp::as<Rcpp::Date>(rparam["effectiveDate"])));
+        QuantLib::Date maturityDate(Rcpp::as<QuantLib::Date>(rparam["maturityDate"]));
+        QuantLib::Date issueDate(Rcpp::as<QuantLib::Date>(rparam["issueDate"]));
+        QuantLib::Date effectiveDate(Rcpp::as<QuantLib::Date>(rparam["effectiveDate"]));
         
         //extract coupon rates vector
         Rcpp::NumericVector rates(ratesVec); 
@@ -304,9 +304,9 @@ RcppExport SEXP FixedRateBondPriceByYield(SEXP optionParameters, SEXP ratesVec) 
         double dayCounter = Rcpp::as<double>(rparam["dayCounter"]);
         double frequency = Rcpp::as<double>(rparam["period"]);
         
-        QuantLib::Date maturityDate(dateFromR(Rcpp::as<Rcpp::Date>(rparam["maturityDate"])));
-        QuantLib::Date issueDate(dateFromR(Rcpp::as<Rcpp::Date>(rparam["issueDate"])));
-        QuantLib::Date effectiveDate(dateFromR(Rcpp::as<Rcpp::Date>(rparam["effectiveDate"])));
+        QuantLib::Date maturityDate(Rcpp::as<QuantLib::Date>(rparam["maturityDate"]));
+        QuantLib::Date issueDate(Rcpp::as<QuantLib::Date>(rparam["issueDate"]));
+        QuantLib::Date effectiveDate(Rcpp::as<QuantLib::Date>(rparam["effectiveDate"]));
         
         //extract coupon rates vector
         Rcpp::NumericVector rates(ratesVec); 
@@ -356,9 +356,9 @@ SEXP FloatingBond(SEXP bondparam, SEXP gearingsVec, SEXP spreadsVec,
     try {
         Rcpp::List rparam(bondparam);        
         double faceAmount = Rcpp::as<double>(rparam["faceAmount"]);
-        QuantLib::Date maturityDate(dateFromR(Rcpp::as<Rcpp::Date>(rparam["maturityDate"])));
-        QuantLib::Date issueDate(dateFromR(Rcpp::as<Rcpp::Date>(rparam["issueDate"])));
-        QuantLib::Date effectiveDate(dateFromR(Rcpp::as<Rcpp::Date>(rparam["effectiveDate"])));
+        QuantLib::Date maturityDate(Rcpp::as<QuantLib::Date>(rparam["maturityDate"]));
+        QuantLib::Date issueDate(Rcpp::as<QuantLib::Date>(rparam["issueDate"]));
+        QuantLib::Date effectiveDate(Rcpp::as<QuantLib::Date>(rparam["effectiveDate"]));
         double redemption = Rcpp::as<double>(rparam["redemption"]);
 
         Rcpp::List misc(dateparams);      
@@ -626,8 +626,8 @@ RcppExport SEXP ConvertibleZeroBond(SEXP bondparams, SEXP process,
         Rcpp::List rparam(bondparams);
         
         //double faceAmount = Rcpp::as<double>(rparam["faceAmount");        
-        QuantLib::Date maturityDate(dateFromR(Rcpp::as<Rcpp::Date>(rparam["maturityDate"])));
-        QuantLib::Date issueDate(dateFromR(Rcpp::as<Rcpp::Date>(rparam["issueDate"])));
+        QuantLib::Date maturityDate(Rcpp::as<QuantLib::Date>(rparam["maturityDate"]));
+        QuantLib::Date issueDate(Rcpp::as<QuantLib::Date>(rparam["issueDate"]));
         double redemption = Rcpp::as<double>(rparam["redemption"]);
         std::string exercise = Rcpp::as<std::string>(rparam["exercise"]);
         double creditSpreadQuote = Rcpp::as<double>(rparam["creditSpread"]);
@@ -732,8 +732,8 @@ RcppExport SEXP ConvertibleFixedBond(SEXP bondparams, SEXP coupon, SEXP process,
 
         Rcpp::List rparam(bondparams);
         //double faceAmount = Rcpp::as<double>(rparam["faceAmount");
-        QuantLib::Date maturityDate(dateFromR(Rcpp::as<Rcpp::Date>(rparam["maturityDate"])));
-        QuantLib::Date issueDate(dateFromR(Rcpp::as<Rcpp::Date>(rparam["issueDate"])));
+        QuantLib::Date maturityDate(Rcpp::as<QuantLib::Date>(rparam["maturityDate"]));
+        QuantLib::Date issueDate(Rcpp::as<QuantLib::Date>(rparam["issueDate"]));
         double redemption = Rcpp::as<double>(rparam["redemption"]);
         std::string exercise = Rcpp::as<std::string>(rparam["exercise"]);
         double creditSpreadQuote = Rcpp::as<double>(rparam["creditSpread"]);
@@ -849,8 +849,8 @@ RcppExport SEXP ConvertibleFloatingBond(SEXP bondparams,  SEXP process,
         Rcpp::List rparam(bondparams);
         
         //double faceAmount = Rcpp::as<double>(rparam["faceAmount");        
-        QuantLib::Date maturityDate(dateFromR(Rcpp::as<Rcpp::Date>(rparam["maturityDate"])));
-        QuantLib::Date issueDate(dateFromR(Rcpp::as<Rcpp::Date>(rparam["issueDate"])));
+        QuantLib::Date maturityDate(Rcpp::as<QuantLib::Date>(rparam["maturityDate"]));
+        QuantLib::Date issueDate(Rcpp::as<QuantLib::Date>(rparam["issueDate"]));
         double redemption = Rcpp::as<double>(rparam["redemption"]);
         std::string exercise = Rcpp::as<std::string>(rparam["exercise"]);
         double creditSpreadQuote = Rcpp::as<double>(rparam["creditSpread"]);
@@ -974,8 +974,8 @@ RcppExport SEXP CallableBond(SEXP bondparams, SEXP hw, SEXP coupon,
         Rcpp::List rparam(bondparams);
         
         double faceAmount = Rcpp::as<double>(rparam["faceAmount"]);        
-        QuantLib::Date maturityDate(dateFromR(Rcpp::as<Rcpp::Date>(rparam["maturityDate"])));
-        QuantLib::Date issueDate(dateFromR(Rcpp::as<Rcpp::Date>(rparam["issueDate"])));
+        QuantLib::Date maturityDate(Rcpp::as<QuantLib::Date>(rparam["maturityDate"]));
+        QuantLib::Date issueDate(Rcpp::as<QuantLib::Date>(rparam["issueDate"]));
         double redemption = Rcpp::as<double>(rparam["redemption"]);
 
         Rcpp::List misc(dateparams);      
@@ -1183,8 +1183,7 @@ RcppExport SEXP FittedBondCurve(SEXP curveparams, SEXP lengthVec,
     
         Rcpp::List curvepam(curveparams);
         std::string method = Rcpp::as<std::string>(curvepam["method"]);
-        Rcpp::Date oDate = Rcpp::as<Rcpp::Date>(curvepam["origDate"]);
-        QuantLib::Date origDate(dateFromR(oDate));
+        QuantLib::Date origDate(Rcpp::as<QuantLib::Date>(curvepam["origDate"]));;
         QuantLib::Settings::instance().evaluationDate() = origDate;
 
         const QuantLib::Size numberOfBonds = length.size();

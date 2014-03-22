@@ -9,13 +9,17 @@
 	and wrap for Date and DateVector here to be read by plugin; added
 	definitions for vector of dates
 
-	* src/zero.cpp: Use as<> and wrap converters for Date and DateVector
-	* src/hullwhite.cpp: Idem
-	* src/bermudan.cpp: Idem
-	* src/discount.cpp: Idem
-	* src/utils.cpp: Idem
+	* src/bermudan.cpp: Use as<> and wrap converters for Date and DateVector
+	* src/bonds.cpp: Idem
 	* src/calendars.cpp: Idem
 	* src/daycounter.cpp: Idem
+	* src/discount.cpp: Idem
+	* src/hullwhite.cpp: Idem
+	* src/utils.cpp: Idem
+	* src/zero.cpp: Idem
+
+	* src/utils.cpp: Retire old dateFromR converter
+
 
 	* inst/include/RQuantLib.h: Also include 'wrapper' header for converters
 

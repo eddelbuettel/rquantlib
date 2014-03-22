@@ -1,5 +1,8 @@
 2014-03-22  Dirk Eddelbuettel  <edd@debian.org>
 
+	* src/rquantlib.h: Moved from inst/include to avoid lower / uppercase
+	clash; this header really is an internal definition header
+
 	* inst/include/rquantlib_wrappers.h (Rcpp): Add new headers
 	definition of as<> and wrap here to be read by inline / attributes plugin
 

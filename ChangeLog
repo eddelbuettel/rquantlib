@@ -11,6 +11,8 @@
 
 	* src/zero.cpp: Use as<> and wrap converters for Date and DateVector
 	* src/hullwhite.cpp: Idem
+	* src/bermudan.cpp: Idem
+	* src/discount.cpp: Idem 
 
 	* inst/include/RQuantLib.h: Also include 'wrapper' header for converters
 

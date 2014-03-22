@@ -61,8 +61,8 @@ RcppExport SEXP BermudanSwaption(SEXP params, SEXP tsQuotes,
 
         double notional = 10000; // prices in basis points
 
-        QuantLib::Date todaysDate(dateFromR(Rcpp::as<Rcpp::Date>(rparam["tradeDate"]))); 
-        QuantLib::Date settlementDate(dateFromR(Rcpp::as<Rcpp::Date>(rparam["settleDate"]))); 
+        QuantLib::Date todaysDate(Rcpp::as<QuantLib::Date>(rparam["tradeDate"])); 
+        QuantLib::Date settlementDate(Rcpp::as<QuantLib::Date>(rparam["settleDate"])); 
         //cout << "TradeDate: " << todaysDate << endl << "Settle: " << settlementDate << endl;
 
         RQLContext::instance().settleDate = settlementDate;

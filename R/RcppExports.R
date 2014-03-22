@@ -5,6 +5,18 @@ advanceDate <- function(issueDate, days) {
     .Call('RQuantLib_advanceDate', PACKAGE = 'RQuantLib', issueDate, days)
 }
 
+dayCount <- function(startDates, endDates, dayCounters) {
+    .Call('RQuantLib_dayCount', PACKAGE = 'RQuantLib', startDates, endDates, dayCounters)
+}
+
+yearFraction <- function(startDates, endDates, dayCounters) {
+    .Call('RQuantLib_yearFraction', PACKAGE = 'RQuantLib', startDates, endDates, dayCounters)
+}
+
+setEvaluationDate <- function(evalDate) {
+    .Call('RQuantLib_setEvaluationDate', PACKAGE = 'RQuantLib', evalDate)
+}
+
 # Register entry points for exported C++ functions
 methods::setLoadAction(function(ns) {
     .Call('RQuantLib_RcppExport_registerCCallable', PACKAGE = 'RQuantLib')

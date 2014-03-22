@@ -23,69 +23,38 @@
 
 #include "rquantlib.h"
 
-RcppExport SEXP dayCount(SEXP startDates, SEXP endDates, SEXP dayCounter){
-
-    try {
+// [[Rcpp::export]]
+std::vector<double> dayCount(std::vector<QuantLib::Date> startDates, 
+                             std::vector<QuantLib::Date> endDates, 
+                             std::vector<double> dayCounters) {
         
-        std::vector<QuantLib::Date> s = Rcpp::as<std::vector<QuantLib::Date> >(startDates);
-        std::vector<QuantLib::Date> e = Rcpp::as<std::vector<QuantLib::Date> >(endDates);
-		Rcpp::NumericVector dc(dayCounter);
-        
-        int n = dc.size();
-        std::vector<double> result(n);
-        for (int i=0; i< n; i++){
-            QuantLib::DayCounter counter = getDayCounter(dc[i]);
-            result[i] = static_cast<double>(counter.dayCount(s[i], e[i]));            
-        }
-        return Rcpp::wrap(result);
-        
-    } catch(std::exception &ex) { 
-        forward_exception_to_r(ex); 
-    } catch(...) { 
-        ::Rf_error("c++ exception (unknown reason)"); 
+    int n = dayCounters.size();
+    std::vector<double> result(n);
+    for (int i=0; i< n; i++){
+        QuantLib::DayCounter counter = getDayCounter(dayCounters[i]);
+        result[i] = static_cast<double>(counter.dayCount(startDates[i], endDates[i]));            
     }
-
-    return R_NilValue;
+    return result;
 }
 
 
-RcppExport SEXP yearFraction(SEXP startDates, SEXP endDates, SEXP dayCounter){
+// [[Rcpp::export]]
+std::vector<double> yearFraction(std::vector<QuantLib::Date> startDates, 
+                                 std::vector<QuantLib::Date> endDates, 
+                                 std::vector<double> dayCounters) {
 
-    try {
-        
-        std::vector<QuantLib::Date> s = Rcpp::as<std::vector<QuantLib::Date> >(startDates);
-        std::vector<QuantLib::Date> e = Rcpp::as<std::vector<QuantLib::Date> >(endDates);
-        
-		Rcpp::NumericVector dc(dayCounter);
-        int n = dc.size();
-        std::vector<double> result(n);
-        for (int i=0; i< n; i++){
-            QuantLib::DayCounter counter = getDayCounter(dc[i]);
-            result[i] = (double)counter.yearFraction(s[i], e[i]);            
-        }        
-        return Rcpp::wrap(result);
-
-    } catch(std::exception &ex) { 
-        forward_exception_to_r(ex); 
-    } catch(...) { 
-        ::Rf_error("c++ exception (unknown reason)"); 
-    }
-
-    return R_NilValue;
+    int n = dayCounters.size();
+    std::vector<double> result(n);
+    for (int i=0; i< n; i++){
+        QuantLib::DayCounter counter = getDayCounter(dayCounters[i]);
+        result[i] = (double)counter.yearFraction(startDates[i], endDates[i]);            
+    }        
+    return result;
 }
 
 // this could go into another file too... maybe regroup all calendar / date functions?
-RcppExport SEXP setEvaluationDate(SEXP evalDateSEXP) {
-
-    try {
-
-        // set the date
-        QuantLib::Settings::instance().evaluationDate() = QuantLib::Date(Rcpp::as<QuantLib::Date>(evalDateSEXP));
-
-    } catch(std::exception &ex) { 
-        forward_exception_to_r(ex); 
-    } catch(...) { 
-        ::Rf_error("c++ exception (unknown reason)"); 
-    }
-    return R_NilValue;
+// [[Rcpp::export]]
+bool setEvaluationDate(QuantLib::Date evalDate) {
+    QuantLib::Settings::instance().evaluationDate() = evalDate;
+    return true;
 }

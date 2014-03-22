@@ -43,6 +43,55 @@ RcppExport SEXP RQuantLib_advanceDate(SEXP issueDateSEXP, SEXP daysSEXP) {
     UNPROTECT(1);
     return __result;
 }
+// dayCount
+std::vector<double> dayCount(std::vector<QuantLib::Date> startDates, std::vector<QuantLib::Date> endDates, std::vector<double> dayCounters);
+RcppExport SEXP RQuantLib_dayCount(SEXP startDatesSEXP, SEXP endDatesSEXP, SEXP dayCountersSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< std::vector<QuantLib::Date> >::type startDates(startDatesSEXP );
+        Rcpp::traits::input_parameter< std::vector<QuantLib::Date> >::type endDates(endDatesSEXP );
+        Rcpp::traits::input_parameter< std::vector<double> >::type dayCounters(dayCountersSEXP );
+        std::vector<double> __result = dayCount(startDates, endDates, dayCounters);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// yearFraction
+std::vector<double> yearFraction(std::vector<QuantLib::Date> startDates, std::vector<QuantLib::Date> endDates, std::vector<double> dayCounters);
+RcppExport SEXP RQuantLib_yearFraction(SEXP startDatesSEXP, SEXP endDatesSEXP, SEXP dayCountersSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< std::vector<QuantLib::Date> >::type startDates(startDatesSEXP );
+        Rcpp::traits::input_parameter< std::vector<QuantLib::Date> >::type endDates(endDatesSEXP );
+        Rcpp::traits::input_parameter< std::vector<double> >::type dayCounters(dayCountersSEXP );
+        std::vector<double> __result = yearFraction(startDates, endDates, dayCounters);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// setEvaluationDate
+bool setEvaluationDate(QuantLib::Date evalDate);
+RcppExport SEXP RQuantLib_setEvaluationDate(SEXP evalDateSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< QuantLib::Date >::type evalDate(evalDateSEXP );
+        bool __result = setEvaluationDate(evalDate);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 
 // validate (ensure exported C++ functions exist before calling them)
 static int RQuantLib_RcppExport_validate(const char* sig) { 

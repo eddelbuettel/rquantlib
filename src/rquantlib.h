@@ -36,9 +36,16 @@ namespace Rcpp {
 
     // non-intrusive extension via template specialisation
     template <> SEXP wrap(const QuantLib::Date &d);
+
+    // non-intrusive extension via template specialisation
+    template <> std::vector<QuantLib::Date> as(SEXP dtvecsexp);
+
+    // non-intrusive extension via template specialisation
+    template <> SEXP wrap(const std::vector<QuantLib::Date> &dvec);
 }
 
 #include <Rcpp.h>
+
 
 //#define NULL_RateHelper (boost::shared_ptr<RateHelper>)Null<boost::shared_ptr<RateHelper> >()
 

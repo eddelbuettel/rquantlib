@@ -1,10 +1,9 @@
-// -*- mode: c++; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- 
+// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; indent-tabs-mode: nil; -*-
 //
 // RQuantLib -- R interface to the QuantLib libraries
 //
 // Copyright (C) 2009 - 2012  Dirk Eddelbuettel and Khanh Nguyen
-//
-// $Id$
+// Copyright (C) 2013 - 2014  Dirk Eddelbuettel 
 //
 // This file is part of the RQuantLib library for GNU R.
 // It is made available under the terms of the GNU General Public
@@ -30,8 +29,8 @@ RcppExport SEXP zeroprice(SEXP params) {
 		Rcpp::List rparam(params);
 
         double yield = Rcpp::as<double>(rparam["Yield"]);
-        QuantLib::Date maturity(dateFromR(Rcpp::as<Rcpp::Date>(rparam["Maturity"])));
-        QuantLib::Date settle(dateFromR(Rcpp::as<Rcpp::Date>(rparam["Settle"])));
+        QuantLib::Date maturity(Rcpp::as<QuantLib::Date>(rparam["Maturity"]));
+        QuantLib::Date settle(Rcpp::as<QuantLib::Date>(rparam["Settle"]));
 
         QuantLib::Calendar calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
         QuantLib::Integer fixingDays = 2;
@@ -68,8 +67,8 @@ RcppExport SEXP zeroyield(SEXP params){
 		Rcpp::List rparam(params);
 
         double price = Rcpp::as<double>(rparam["Price"]);
-        QuantLib::Date maturity(dateFromR(Rcpp::as<Rcpp::Date>(rparam["Maturity"])));
-        QuantLib::Date settle(dateFromR(Rcpp::as<Rcpp::Date>(rparam["Settle"])));
+        QuantLib::Date maturity(Rcpp::as<QuantLib::Date>(rparam["Maturity"]));
+        QuantLib::Date settle(Rcpp::as<QuantLib::Date>(rparam["Settle"]));
 
         QuantLib::Calendar calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
         QuantLib::Integer fixingDays = 2;
@@ -115,19 +114,8 @@ RcppExport SEXP zbtyield(SEXP MatVec, SEXP BondMat,
         //std::vector<double> yields(ryields.stlVector());
         //std::vector<std::vector<double> > bondparam(rbondmat.stlMatrix());
 
-        int n = rmat.size();
-        std::vector<QuantLib::Date> MatDates(rmat.size());
-        for (int i = 0;i<n;i++){
-            QuantLib::Date day(dateFromR(rmat[i]));
-            MatDates[i] = day;            
-        }
-
-        std::vector<QuantLib::Date> SettleDates(rsettle.size());
-        for (int i = 0;i<n;i++){
-            QuantLib::Date day(dateFromR(rsettle[i]) );
-            SettleDates[i] = day;            
-        }
-
+        std::vector<QuantLib::Date> MatDates = Rcpp::as<std::vector<QuantLib::Date> >(MatVec);
+        std::vector<QuantLib::Date> SettleDates = Rcpp::as<std::vector<QuantLib::Date> >(SettlVec);
 
         //setting up the bonds
         const QuantLib::Size numberOfBonds = n;

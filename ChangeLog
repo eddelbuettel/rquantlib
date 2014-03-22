@@ -1,3 +1,12 @@
+2014-03-22  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/include/rquantlib_wrappers.h (Rcpp): Add new headers
+	definition of as<> and wrap here to be read by inline / attributes plugin
+
+	* inst/include/RQuantLib.h: Also include 'wrapper' header for converters
+
+	* R/inline.R (inlineCxxPlugin): Plugin reads header RQuantLib.h
+
 2014-03-21  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/utils.cpp: Added as<> and wrap conversion for QuantLib::Date

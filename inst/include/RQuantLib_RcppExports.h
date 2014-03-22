@@ -24,36 +24,17 @@ namespace RQuantLib {
         }
     }
 
-    inline QuantLib::Date tryDateTest(Rcpp::Date issueDateArg, int days) {
-        typedef SEXP(*Ptr_tryDateTest)(SEXP,SEXP);
-        static Ptr_tryDateTest p_tryDateTest = NULL;
-        if (p_tryDateTest == NULL) {
-            validateSignature("QuantLib::Date(*tryDateTest)(Rcpp::Date,int)");
-            p_tryDateTest = (Ptr_tryDateTest)R_GetCCallable("RQuantLib", "RQuantLib_tryDateTest");
+    inline QuantLib::Date advanceDate(QuantLib::Date issueDate, int days) {
+        typedef SEXP(*Ptr_advanceDate)(SEXP,SEXP);
+        static Ptr_advanceDate p_advanceDate = NULL;
+        if (p_advanceDate == NULL) {
+            validateSignature("QuantLib::Date(*advanceDate)(QuantLib::Date,int)");
+            p_advanceDate = (Ptr_advanceDate)R_GetCCallable("RQuantLib", "RQuantLib_advanceDate");
         }
         RObject __result;
         {
             RNGScope __rngScope;
-            __result = p_tryDateTest(Rcpp::wrap(issueDateArg), Rcpp::wrap(days));
-        }
-        if (__result.inherits("interrupted-error"))
-            throw Rcpp::internal::InterruptedException();
-        if (__result.inherits("try-error"))
-            throw Rcpp::exception(as<std::string>(__result).c_str());
-        return Rcpp::as<QuantLib::Date >(__result);
-    }
-
-    inline QuantLib::Date tryDate(QuantLib::Date issueDate, int days) {
-        typedef SEXP(*Ptr_tryDate)(SEXP,SEXP);
-        static Ptr_tryDate p_tryDate = NULL;
-        if (p_tryDate == NULL) {
-            validateSignature("QuantLib::Date(*tryDate)(QuantLib::Date,int)");
-            p_tryDate = (Ptr_tryDate)R_GetCCallable("RQuantLib", "RQuantLib_tryDate");
-        }
-        RObject __result;
-        {
-            RNGScope __rngScope;
-            __result = p_tryDate(Rcpp::wrap(issueDate), Rcpp::wrap(days));
+            __result = p_advanceDate(Rcpp::wrap(issueDate), Rcpp::wrap(days));
         }
         if (__result.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();

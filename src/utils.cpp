@@ -24,22 +24,6 @@
 
 #include <rquantlib.h>
 
-// define template specialisations for as and wrap
-namespace Rcpp {
-    static const unsigned int QLtoJan1970Offset = 25569;  	// Offset to R / Unix epoch 
-
-    template <> QuantLib::Date as(SEXP dtsexp) {
-        Rcpp::Date dt(dtsexp);
-        return QuantLib::Date(static_cast<int>(dt.getDate()) + QLtoJan1970Offset);
-    }
-
-    template <> SEXP wrap(const QuantLib::Date &d) {
-        double dt = static_cast<double>(d.serialNumber()); // QL::BigInteger can cast to double
-        return Rcpp::wrap(Rcpp::Date(dt - QLtoJan1970Offset));
-    }
-}
-
-
 QuantLib::Option::Type getOptionType(const std::string &type) {
     QuantLib::Option::Type optionType;
     if (type=="call") {
@@ -309,10 +293,11 @@ makeProcess(const boost::shared_ptr<QuantLib::Quote>& u,
 //     return(d.getJDN() - RcppDate::Jan1970Offset + RcppDate::QLtoJan1970Offset);
 // }
 
-static const unsigned int QLtoJan1970Offset = 25569;  	// Offset between R / Unix epoch 
+//static const unsigned int QLtoJan1970Offset = 25569;  	// Offset between R / Unix epoch 
 
 // R and Rcpp::Date use the same 'days since epoch' representation; QL uses Excel style
 int dateFromR(const Rcpp::Date &d) {
+    static const unsigned int QLtoJan1970Offset = 25569;  	// Offset to R / Unix epoch 
     return(d.getDate() + QLtoJan1970Offset);
 }
 

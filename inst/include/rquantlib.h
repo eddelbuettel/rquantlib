@@ -32,7 +32,7 @@
 namespace Rcpp {
 
     // non-intrusive extension via template specialisation
-    template <> QuantLib::Date as(SEXP dt);
+    template <> QuantLib::Date as(SEXP dtsexp);
 
     // non-intrusive extension via template specialisation
     template <> SEXP wrap(const QuantLib::Date &d);

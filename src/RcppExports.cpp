@@ -8,61 +8,26 @@
 
 using namespace Rcpp;
 
-// tryDateTest
-QuantLib::Date tryDateTest(Rcpp::Date issueDateArg, int days);
-static SEXP RQuantLib_tryDateTest_try(SEXP issueDateArgSEXP, SEXP daysSEXP) {
-BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::traits::input_parameter< Rcpp::Date >::type issueDateArg(issueDateArgSEXP );
-        Rcpp::traits::input_parameter< int >::type days(daysSEXP );
-        QuantLib::Date __result = tryDateTest(issueDateArg, days);
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
-END_RCPP_RETURN_ERROR
-}
-RcppExport SEXP RQuantLib_tryDateTest(SEXP issueDateArgSEXP, SEXP daysSEXP) {
-    SEXP __result;
-    {
-        Rcpp::RNGScope __rngScope;
-        __result = PROTECT(RQuantLib_tryDateTest_try(issueDateArgSEXP, daysSEXP));
-    }
-    Rboolean __isInterrupt = Rf_inherits(__result, "interrupted-error");
-    if (__isInterrupt) {
-        UNPROTECT(1);
-        Rf_onintr();
-    }
-    Rboolean __isError = Rf_inherits(__result, "try-error");
-    if (__isError) {
-        SEXP __msgSEXP = Rf_asChar(__result);
-        UNPROTECT(1);
-        Rf_error(CHAR(__msgSEXP));
-    }
-    UNPROTECT(1);
-    return __result;
-}
-// tryDate
-QuantLib::Date tryDate(QuantLib::Date issueDate, int days);
-static SEXP RQuantLib_tryDate_try(SEXP issueDateSEXP, SEXP daysSEXP) {
+// advanceDate
+QuantLib::Date advanceDate(QuantLib::Date issueDate, int days);
+static SEXP RQuantLib_advanceDate_try(SEXP issueDateSEXP, SEXP daysSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::traits::input_parameter< QuantLib::Date >::type issueDate(issueDateSEXP );
         Rcpp::traits::input_parameter< int >::type days(daysSEXP );
-        QuantLib::Date __result = tryDate(issueDate, days);
+        QuantLib::Date __result = advanceDate(issueDate, days);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
     return __sexp_result;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP RQuantLib_tryDate(SEXP issueDateSEXP, SEXP daysSEXP) {
+RcppExport SEXP RQuantLib_advanceDate(SEXP issueDateSEXP, SEXP daysSEXP) {
     SEXP __result;
     {
         Rcpp::RNGScope __rngScope;
-        __result = PROTECT(RQuantLib_tryDate_try(issueDateSEXP, daysSEXP));
+        __result = PROTECT(RQuantLib_advanceDate_try(issueDateSEXP, daysSEXP));
     }
     Rboolean __isInterrupt = Rf_inherits(__result, "interrupted-error");
     if (__isInterrupt) {
@@ -83,16 +48,14 @@ RcppExport SEXP RQuantLib_tryDate(SEXP issueDateSEXP, SEXP daysSEXP) {
 static int RQuantLib_RcppExport_validate(const char* sig) { 
     static std::set<std::string> signatures;
     if (signatures.empty()) {
-        signatures.insert("QuantLib::Date(*tryDateTest)(Rcpp::Date,int)");
-        signatures.insert("QuantLib::Date(*tryDate)(QuantLib::Date,int)");
+        signatures.insert("QuantLib::Date(*advanceDate)(QuantLib::Date,int)");
     }
     return signatures.find(sig) != signatures.end();
 }
 
 // registerCCallable (register entry points for exported C++ functions)
 RcppExport SEXP RQuantLib_RcppExport_registerCCallable() { 
-    R_RegisterCCallable("RQuantLib", "RQuantLib_tryDateTest", (DL_FUNC)RQuantLib_tryDateTest_try);
-    R_RegisterCCallable("RQuantLib", "RQuantLib_tryDate", (DL_FUNC)RQuantLib_tryDate_try);
+    R_RegisterCCallable("RQuantLib", "RQuantLib_advanceDate", (DL_FUNC)RQuantLib_advanceDate_try);
     R_RegisterCCallable("RQuantLib", "RQuantLib_RcppExport_validate", (DL_FUNC)RQuantLib_RcppExport_validate);
     return R_NilValue;
 }

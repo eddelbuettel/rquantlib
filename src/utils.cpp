@@ -113,8 +113,8 @@ boost::shared_ptr<QuantLib::YieldTermStructure> buildTermStructure(SEXP params, 
         Rcpp::List tslist(tsQuotes);
         Rcpp::CharacterVector tsnames = tslist.names();
 
-        QuantLib::Date todaysDate( dateFromR( Rcpp::as<Rcpp::Date>(rparam["tradeDate"]))); 
-        QuantLib::Date settlementDate( dateFromR( Rcpp::as<Rcpp::Date>(rparam["settleDate"]))); 
+        QuantLib::Date todaysDate(Rcpp::as<QuantLib::Date>(rparam["tradeDate"])); 
+        QuantLib::Date settlementDate(Rcpp::as<QuantLib::Date>(rparam["settleDate"])); 
         // cout << "TradeDate: " << todaysDate << endl << "Settle: " << settlementDate << endl;
         
         RQLContext::instance().settleDate = settlementDate;
@@ -174,8 +174,8 @@ boost::shared_ptr<QuantLib::YieldTermStructure> buildTermStructure(SEXP params, 
 QuantLib::Schedule getSchedule(SEXP sch) {
    
     Rcpp::List rparam(sch);
-    QuantLib::Date effectiveDate(dateFromR( Rcpp::as<Rcpp::Date>(rparam["effectiveDate"]) ));
-    QuantLib::Date maturityDate(dateFromR( Rcpp::as<Rcpp::Date>(rparam["maturityDate"]) ));      
+    QuantLib::Date effectiveDate(Rcpp::as<QuantLib::Date>(rparam["effectiveDate"]));
+    QuantLib::Date maturityDate(Rcpp::as<QuantLib::Date>(rparam["maturityDate"]));      
     double frequency = Rcpp::as<double>(rparam["period"]);
     std::string cal = Rcpp::as<std::string>(rparam["calendar"]);
     double businessDayConvention = Rcpp::as<double>(rparam["businessDayConvention"]);
@@ -196,12 +196,7 @@ QuantLib::Schedule getSchedule(SEXP sch) {
 }
 
 boost::shared_ptr<QuantLib::YieldTermStructure> rebuildCurveFromZeroRates(SEXP dateSexp, SEXP zeroSexp) {
-    Rcpp::DateVector rcppdates  = Rcpp::DateVector(dateSexp);
-    int n = rcppdates.size();
-    std::vector<QuantLib::Date> dates(n);
-    for (int i = 0;i<n; i++) {
-        dates[i] = QuantLib::Date(dateFromR(rcppdates[i]));
-    }
+    std::vector<QuantLib::Date> dates(Rcpp::as<std::vector<QuantLib::Date> >(dateSexp));
     Rcpp::NumericVector zeros(zeroSexp);    //extract coupon rates vector
     boost::shared_ptr<QuantLib::YieldTermStructure>  
         rebuilt_curve(new QuantLib::InterpolatedZeroCurve<QuantLib::LogLinear>(dates, 
@@ -213,7 +208,7 @@ boost::shared_ptr<QuantLib::YieldTermStructure> rebuildCurveFromZeroRates(SEXP d
 boost::shared_ptr<QuantLib::YieldTermStructure> getFlatCurve(SEXP flatcurve){
     Rcpp::List curve(flatcurve);
     QuantLib::Rate riskFreeRate = Rcpp::as<double>(curve["riskFreeRate"]);
-    QuantLib::Date today(dateFromR( Rcpp::as<Rcpp::Date>(curve["todayDate"])));       
+    QuantLib::Date today(Rcpp::as<QuantLib::Date>(curve["todayDate"]));       
     boost::shared_ptr<QuantLib::SimpleQuote> rRate(new QuantLib::SimpleQuote(riskFreeRate));
     QuantLib::Settings::instance().evaluationDate() = today;
     return flatRate(today, rRate, QuantLib::Actual360());

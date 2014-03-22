@@ -15,6 +15,7 @@
 	* src/discount.cpp: Idem
 	* src/utils.cpp: Idem
 	* src/calendars.cpp: Idem
+	* src/daycounter.cpp: Idem
 
 	* inst/include/RQuantLib.h: Also include 'wrapper' header for converters
 

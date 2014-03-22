@@ -1,13 +1,11 @@
-// -*- mode: c++; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- 
+// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; indent-tabs-mode: nil; -*-
 //
 // RQuantLib function DiscountCurve
 //
 // Copyright (C) 2005 - 2007  Dominick Samperi
 // Copyright (C) 2007 - 2009  Dirk Eddelbuettel 
 // Copyright (C) 2009 - 2011  Dirk Eddelbuettel and Khanh Nguyen
-// Copyright (C) 2012 - 2013  Dirk Eddelbuettel
-//
-// $Id$
+// Copyright (C) 2012 - 2014  Dirk Eddelbuettel
 //
 // This program is part of the RQuantLib library for R (GNU S).
 // It is made available under the terms of the GNU General Public

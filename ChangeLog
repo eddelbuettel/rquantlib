@@ -1,8 +1,10 @@
 2014-03-22  Dirk Eddelbuettel  <edd@debian.org>
 
-	* src/daycounter.cpp: Changed to use Rcpp Attributes
+	* src/calendars.cpp: Changed to use Rcpp Attributes
+	* src/daycounter.cpp: Idem
 
-	* R/dayCounter.R: Commented as RcppExports.R takes over its functionality
+	* R/calendars.R: Commented-out / adapted now that RcppExports.R takes over 
+	* R/dayCounter.R: Commented-out as RcppExports.R takes over its functionality
 
 	* src/rquantlib.h: Moved from inst/include to avoid lower / uppercase
 	clash; this header really is an internal definition header; sources

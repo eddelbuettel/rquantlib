@@ -8,9 +8,9 @@
 
 using namespace Rcpp;
 
-// setContext
-bool setContext(std::string calendar, int fixingDays, QuantLib::Date settleDate);
-RcppExport SEXP RQuantLib_setContext(SEXP calendarSEXP, SEXP fixingDaysSEXP, SEXP settleDateSEXP) {
+// setCalendarContext
+bool setCalendarContext(std::string calendar, int fixingDays, QuantLib::Date settleDate);
+RcppExport SEXP RQuantLib_setCalendarContext(SEXP calendarSEXP, SEXP fixingDaysSEXP, SEXP settleDateSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
@@ -18,7 +18,180 @@ BEGIN_RCPP
         Rcpp::traits::input_parameter< std::string >::type calendar(calendarSEXP );
         Rcpp::traits::input_parameter< int >::type fixingDays(fixingDaysSEXP );
         Rcpp::traits::input_parameter< QuantLib::Date >::type settleDate(settleDateSEXP );
-        bool __result = setContext(calendar, fixingDays, settleDate);
+        bool __result = setCalendarContext(calendar, fixingDays, settleDate);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// isBusinessDay
+std::vector<bool> isBusinessDay(std::string calendar, std::vector<QuantLib::Date> dates);
+RcppExport SEXP RQuantLib_isBusinessDay(SEXP calendarSEXP, SEXP datesSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< std::string >::type calendar(calendarSEXP );
+        Rcpp::traits::input_parameter< std::vector<QuantLib::Date> >::type dates(datesSEXP );
+        std::vector<bool> __result = isBusinessDay(calendar, dates);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// isHoliday
+std::vector<bool> isHoliday(std::string calendar, std::vector<QuantLib::Date> dates);
+RcppExport SEXP RQuantLib_isHoliday(SEXP calendarSEXP, SEXP datesSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< std::string >::type calendar(calendarSEXP );
+        Rcpp::traits::input_parameter< std::vector<QuantLib::Date> >::type dates(datesSEXP );
+        std::vector<bool> __result = isHoliday(calendar, dates);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// isWeekend
+std::vector<bool> isWeekend(std::string calendar, std::vector<QuantLib::Date> dates);
+RcppExport SEXP RQuantLib_isWeekend(SEXP calendarSEXP, SEXP datesSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< std::string >::type calendar(calendarSEXP );
+        Rcpp::traits::input_parameter< std::vector<QuantLib::Date> >::type dates(datesSEXP );
+        std::vector<bool> __result = isWeekend(calendar, dates);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// isEndOfMonth
+std::vector<bool> isEndOfMonth(std::string calendar, std::vector<QuantLib::Date> dates);
+RcppExport SEXP RQuantLib_isEndOfMonth(SEXP calendarSEXP, SEXP datesSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< std::string >::type calendar(calendarSEXP );
+        Rcpp::traits::input_parameter< std::vector<QuantLib::Date> >::type dates(datesSEXP );
+        std::vector<bool> __result = isEndOfMonth(calendar, dates);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// getEndOfMonth
+std::vector<QuantLib::Date> getEndOfMonth(std::string calendar, std::vector<QuantLib::Date> dates);
+RcppExport SEXP RQuantLib_getEndOfMonth(SEXP calendarSEXP, SEXP datesSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< std::string >::type calendar(calendarSEXP );
+        Rcpp::traits::input_parameter< std::vector<QuantLib::Date> >::type dates(datesSEXP );
+        std::vector<QuantLib::Date> __result = getEndOfMonth(calendar, dates);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// adjust
+std::vector<QuantLib::Date> adjust(std::string calendar, std::vector<QuantLib::Date> dates, int bdcVal = 0);
+RcppExport SEXP RQuantLib_adjust(SEXP calendarSEXP, SEXP datesSEXP, SEXP bdcValSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< std::string >::type calendar(calendarSEXP );
+        Rcpp::traits::input_parameter< std::vector<QuantLib::Date> >::type dates(datesSEXP );
+        Rcpp::traits::input_parameter< int >::type bdcVal(bdcValSEXP );
+        std::vector<QuantLib::Date> __result = adjust(calendar, dates, bdcVal);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// advance1
+std::vector<QuantLib::Date> advance1(std::string calendar, double amount, double unit, int bdcVal, double emr, std::vector<QuantLib::Date> dates);
+RcppExport SEXP RQuantLib_advance1(SEXP calendarSEXP, SEXP amountSEXP, SEXP unitSEXP, SEXP bdcValSEXP, SEXP emrSEXP, SEXP datesSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< std::string >::type calendar(calendarSEXP );
+        Rcpp::traits::input_parameter< double >::type amount(amountSEXP );
+        Rcpp::traits::input_parameter< double >::type unit(unitSEXP );
+        Rcpp::traits::input_parameter< int >::type bdcVal(bdcValSEXP );
+        Rcpp::traits::input_parameter< double >::type emr(emrSEXP );
+        Rcpp::traits::input_parameter< std::vector<QuantLib::Date> >::type dates(datesSEXP );
+        std::vector<QuantLib::Date> __result = advance1(calendar, amount, unit, bdcVal, emr, dates);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// advance2
+std::vector<QuantLib::Date> advance2(std::string calendar, double period, int bdcVal, double emr, std::vector<QuantLib::Date> dates);
+RcppExport SEXP RQuantLib_advance2(SEXP calendarSEXP, SEXP periodSEXP, SEXP bdcValSEXP, SEXP emrSEXP, SEXP datesSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< std::string >::type calendar(calendarSEXP );
+        Rcpp::traits::input_parameter< double >::type period(periodSEXP );
+        Rcpp::traits::input_parameter< int >::type bdcVal(bdcValSEXP );
+        Rcpp::traits::input_parameter< double >::type emr(emrSEXP );
+        Rcpp::traits::input_parameter< std::vector<QuantLib::Date> >::type dates(datesSEXP );
+        std::vector<QuantLib::Date> __result = advance2(calendar, period, bdcVal, emr, dates);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// businessDaysBetween
+std::vector<double> businessDaysBetween(std::string calendar, std::vector<QuantLib::Date> from, std::vector<QuantLib::Date> to, bool includeFirst = true, bool includeLast = false);
+RcppExport SEXP RQuantLib_businessDaysBetween(SEXP calendarSEXP, SEXP fromSEXP, SEXP toSEXP, SEXP includeFirstSEXP, SEXP includeLastSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< std::string >::type calendar(calendarSEXP );
+        Rcpp::traits::input_parameter< std::vector<QuantLib::Date> >::type from(fromSEXP );
+        Rcpp::traits::input_parameter< std::vector<QuantLib::Date> >::type to(toSEXP );
+        Rcpp::traits::input_parameter< bool >::type includeFirst(includeFirstSEXP );
+        Rcpp::traits::input_parameter< bool >::type includeLast(includeLastSEXP );
+        std::vector<double> __result = businessDaysBetween(calendar, from, to, includeFirst, includeLast);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// getHolidayList
+std::vector<QuantLib::Date> getHolidayList(std::string calendar, QuantLib::Date from, QuantLib::Date to, bool includeWeekends = false);
+RcppExport SEXP RQuantLib_getHolidayList(SEXP calendarSEXP, SEXP fromSEXP, SEXP toSEXP, SEXP includeWeekendsSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< std::string >::type calendar(calendarSEXP );
+        Rcpp::traits::input_parameter< QuantLib::Date >::type from(fromSEXP );
+        Rcpp::traits::input_parameter< QuantLib::Date >::type to(toSEXP );
+        Rcpp::traits::input_parameter< bool >::type includeWeekends(includeWeekendsSEXP );
+        std::vector<QuantLib::Date> __result = getHolidayList(calendar, from, to, includeWeekends);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);

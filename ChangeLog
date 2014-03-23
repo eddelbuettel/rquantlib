@@ -1,3 +1,7 @@
+2014-03-23  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/zero.cpp: Changed to use Rcpp Attributes
+
 2014-03-22  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/calendars.cpp: Changed to use Rcpp Attributes

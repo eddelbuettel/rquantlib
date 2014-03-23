@@ -61,6 +61,14 @@ setEvaluationDate <- function(evalDate) {
     .Call('RQuantLib_setEvaluationDate', PACKAGE = 'RQuantLib', evalDate)
 }
 
+zeroprice <- function(yield, maturity, settle, period, basis) {
+    .Call('RQuantLib_zeroprice', PACKAGE = 'RQuantLib', yield, maturity, settle, period, basis)
+}
+
+zeroyield <- function(price, maturity, settle, period, basis) {
+    .Call('RQuantLib_zeroyield', PACKAGE = 'RQuantLib', price, maturity, settle, period, basis)
+}
+
 # Register entry points for exported C++ functions
 methods::setLoadAction(function(ns) {
     .Call('RQuantLib_RcppExport_registerCCallable', PACKAGE = 'RQuantLib')

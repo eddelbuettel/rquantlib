@@ -339,6 +339,44 @@ RcppExport SEXP RQuantLib_setEvaluationDate(SEXP evalDateSEXP) {
     UNPROTECT(1);
     return __result;
 }
+// zeroprice
+double zeroprice(double yield, QuantLib::Date maturity, QuantLib::Date settle, int period, int basis);
+RcppExport SEXP RQuantLib_zeroprice(SEXP yieldSEXP, SEXP maturitySEXP, SEXP settleSEXP, SEXP periodSEXP, SEXP basisSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< double >::type yield(yieldSEXP );
+        Rcpp::traits::input_parameter< QuantLib::Date >::type maturity(maturitySEXP );
+        Rcpp::traits::input_parameter< QuantLib::Date >::type settle(settleSEXP );
+        Rcpp::traits::input_parameter< int >::type period(periodSEXP );
+        Rcpp::traits::input_parameter< int >::type basis(basisSEXP );
+        double __result = zeroprice(yield, maturity, settle, period, basis);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// zeroyield
+double zeroyield(double price, QuantLib::Date maturity, QuantLib::Date settle, int period, int basis);
+RcppExport SEXP RQuantLib_zeroyield(SEXP priceSEXP, SEXP maturitySEXP, SEXP settleSEXP, SEXP periodSEXP, SEXP basisSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< double >::type price(priceSEXP );
+        Rcpp::traits::input_parameter< QuantLib::Date >::type maturity(maturitySEXP );
+        Rcpp::traits::input_parameter< QuantLib::Date >::type settle(settleSEXP );
+        Rcpp::traits::input_parameter< int >::type period(periodSEXP );
+        Rcpp::traits::input_parameter< int >::type basis(basisSEXP );
+        double __result = zeroyield(price, maturity, settle, period, basis);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 
 // validate (ensure exported C++ functions exist before calling them)
 static int RQuantLib_RcppExport_validate(const char* sig) { 

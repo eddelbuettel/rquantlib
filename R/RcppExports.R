@@ -25,8 +25,8 @@ getEndOfMonth <- function(calendar, dates) {
     .Call('RQuantLib_getEndOfMonth', PACKAGE = 'RQuantLib', calendar, dates)
 }
 
-adjust <- function(calendar, dates, bdcVal = 0L) {
-    .Call('RQuantLib_adjust', PACKAGE = 'RQuantLib', calendar, dates, bdcVal)
+adjust <- function(calendar, dates, bdc = 0L) {
+    .Call('RQuantLib_adjust', PACKAGE = 'RQuantLib', calendar, dates, bdc)
 }
 
 advance1 <- function(calendar, amount, unit, bdcVal, emr, dates) {

@@ -3,8 +3,10 @@
 	* src/calendars.cpp: Changed to use Rcpp Attributes
 	* src/daycounter.cpp: Idem
 
-	* R/calendars.R: Commented-out / adapted now that RcppExports.R takes over 
+	* R/calendars.R: Commented-out / adapted now that RcppExports.R takes over
 	* R/dayCounter.R: Commented-out as RcppExports.R takes over its functionality
+
+	* man/Calendars.Rd: Minor adjustments to documentation of default argument
 
 	* src/rquantlib.h: Moved from inst/include to avoid lower / uppercase
 	clash; this header really is an internal definition header; sources

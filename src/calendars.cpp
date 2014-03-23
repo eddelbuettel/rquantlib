@@ -241,13 +241,13 @@ std::vector<QuantLib::Date> getEndOfMonth(std::string calendar, std::vector<Quan
 }
 
 // [[Rcpp::export]]
-std::vector<QuantLib::Date> adjust(std::string calendar, std::vector<QuantLib::Date> dates, int bdcVal=0) {
+std::vector<QuantLib::Date> adjust(std::string calendar, std::vector<QuantLib::Date> dates, int bdc=0) {
     boost::shared_ptr<QuantLib::Calendar> pcal(getCalendar(calendar));
-    QuantLib::BusinessDayConvention bdc = getBusinessDayConvention(bdcVal);
+    QuantLib::BusinessDayConvention bdcval = getBusinessDayConvention(bdc);
     int n = dates.size();
     std::vector<QuantLib::Date> adjusted(n);
     for (int i=0; i<n; i++) {
-        adjusted[i] = pcal->adjust(dates[i], bdc);
+        adjusted[i] = pcal->adjust(dates[i], bdcval);
     }
     return adjusted;
 }

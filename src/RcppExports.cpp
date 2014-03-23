@@ -106,16 +106,16 @@ BEGIN_RCPP
 END_RCPP
 }
 // adjust
-std::vector<QuantLib::Date> adjust(std::string calendar, std::vector<QuantLib::Date> dates, int bdcVal = 0);
-RcppExport SEXP RQuantLib_adjust(SEXP calendarSEXP, SEXP datesSEXP, SEXP bdcValSEXP) {
+std::vector<QuantLib::Date> adjust(std::string calendar, std::vector<QuantLib::Date> dates, int bdc = 0);
+RcppExport SEXP RQuantLib_adjust(SEXP calendarSEXP, SEXP datesSEXP, SEXP bdcSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
         Rcpp::traits::input_parameter< std::string >::type calendar(calendarSEXP );
         Rcpp::traits::input_parameter< std::vector<QuantLib::Date> >::type dates(datesSEXP );
-        Rcpp::traits::input_parameter< int >::type bdcVal(bdcValSEXP );
-        std::vector<QuantLib::Date> __result = adjust(calendar, dates, bdcVal);
+        Rcpp::traits::input_parameter< int >::type bdc(bdcSEXP );
+        std::vector<QuantLib::Date> __result = adjust(calendar, dates, bdc);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);

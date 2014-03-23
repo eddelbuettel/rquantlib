@@ -1,4 +1,3 @@
-% $Id$
 \name{Calendars}
 \alias{isBusinessDay}
 \alias{businessDay}
@@ -71,22 +70,20 @@ the QuantLib pricing engines.
 
 }
 \usage{
-isBusinessDay(calendar="TARGET", dates=Sys.Date())
+isBusinessDay(calendar, dates)
 businessDay(calendar="TARGET", dates=Sys.Date())  # deprecated form
-isHoliday(calendar="TARGET", dates=Sys.Date())
-isWeekend(calendar="TARGET", dates=Sys.Date())
-isEndOfMonth(calendar="TARGET", dates=Sys.Date())
-getEndOfMonth(calendar="TARGET", dates=Sys.Date())
+isHoliday(calendar, dates)
+isWeekend(calendar, dates)
+isEndOfMonth(calendar, dates)
+getEndOfMonth(calendar, dates)
 endOfMonth(calendar="TARGET", dates=Sys.Date())
-getHolidayList(calendar="TARGET", from=Sys.Date(), to = Sys.Date() + 5,
-               includeWeekends = 0) 
+getHolidayList(calendar, from, to, includeWeekends=FALSE) 
 holidayList(calendar="TARGET", from=Sys.Date(), to = Sys.Date() + 5,
-includeWeekends = 0)
-adjust(calendar="TARGET", dates=Sys.Date(), bdc = 0)
+includeWeekends = FALSE)
+adjust(calendar, dates, bdc = 0L)
 advance(calendar="TARGET", dates=Sys.Date(), n, timeUnit, period, bdc = 0, emr =0)
 %advance(calendar="TARGET", dates=Sys.Date(), period, bdc = 0, emr =0)
-businessDaysBetween(calendar="TARGET", from=Sys.Date(),
-to = Sys.Date() + 5, includeFirst = 1, includeLast = 0) 
+businessDaysBetween(calendar, from, to, includeFirst = TRUE, includeLast = FALSE) 
 dayCount(startDates, endDates, dayCounters)
 yearFraction(startDates, endDates, dayCounters)
 setCalendarContext(calendar, fixingDays, settleDate)

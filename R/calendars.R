@@ -149,7 +149,7 @@ advance <- function(calendar="TARGET", dates=Sys.Date(),
 ##     val
 ## }
  
-holidayList <- function(calendar="TARGET", from=Sys.Date(), to=Sys.Date() + 5, includeWeekends=0) {
+holidayList <- function(calendar="TARGET", from=Sys.Date(), to=Sys.Date() + 5, includeWeekends=FALSE) {
     getHolidayList(calendar, from, to, includeWeekends)
 }
 

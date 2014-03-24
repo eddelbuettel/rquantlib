@@ -1,26 +1,23 @@
 
-## RQuantLib -- R interface to the QuantLib libraries
+##  RQuantLib -- R interface to the QuantLib libraries
 ##
-## Copyright (C) 2002 - 2009 Dirk Eddelbuettel <edd@debian.org>
-## Copyright (C) 2009        Khanh Nguyen <knguyen@cs.umb.edu>
+##  Copyright (C) 2002 - 2014  Dirk Eddelbuettel <edd@debian.org>
+##  Copyright (C) 2009         Khanh Nguyen <knguyen@cs.umb.edu>
 ##
-## $Id$
+##  This file is part of RQuantLib.
 ##
-## This file is part of the RQuantLib library for GNU R.
-## It is made available under the terms of the GNU General Public
-## License, version 2, or at your option, any later version,
-## incorporated herein by reference.
+##  RQuantLib is free software: you can redistribute it and/or modify
+##  it under the terms of the GNU General Public License as published by
+##  the Free Software Foundation, either version 2 of the License, or
+##  (at your option) any later version.
 ##
-## This program is distributed in the hope that it will be
-## useful, but WITHOUT ANY WARRANTY; without even the implied
-## warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-## PURPOSE.  See the GNU General Public License for more
-## details.
+##  RQuantLib is distributed in the hope that it will be useful,
+##  but WITHOUT ANY WARRANTY; without even the implied warranty of
+##  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+##  GNU General Public License for more details.
 ##
-## You should have received a copy of the GNU General Public
-## License along with this program; if not, write to the Free
-## Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-## MA 02111-1307, USA
+##  You should have received a copy of the GNU General Public License
+##  along with RQuantLib.  If not, see <http://www.gnu.org/licenses/>.
 
 AsianOption <- function(averageType, type, underlying, strike, dividendYield,
                         riskFreeRate, maturity, volatility,
@@ -41,19 +38,10 @@ AsianOption.default <- function(averageType, type, underlying, strike, dividendY
             maturity <- 1.0             # actually unused for arithmetic option case
         }
     }
-    val <- .Call("AsianOption",
-                 list(averageType=as.character(averageType),
-                      type=as.character(type),
-                      underlying=as.double(underlying),
-                      strike=as.double(strike),
-                      dividendYield=as.double(dividendYield),
-                      riskFreeRate=as.double(riskFreeRate),
-                      maturity=as.double(maturity),
-                      volatility=as.double(volatility),
-                      first=as.double(first),
-                      length=as.double(length),
-                      fixings=as.double(fixings)),
-                 PACKAGE="RQuantLib")
+    val <- asianOptionEngine(averageType, type, underlying,
+                             strike, dividendYield, riskFreeRate,
+                             maturity, volatility,
+                             first, length, fixings)
     class(val) <- c("AsianOption","Option")
     val
 }

@@ -1,3 +1,14 @@
+2014-03-24  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/asian.cpp: Changed to use Rcpp Attributes
+	* R/asian.R: Changed call in default method accordingly
+	* man/asian.Rd: Updated as parameter list no longer returned
+
+	* src/asian.cpp: Updated copyright header with gnu.org URL
+	* R/asian.R: Idem
+
+	* inst/unitTests/runit.calendar.R: Corrected mode
+
 2014-03-23  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/zero.cpp: Changed to use Rcpp Attributes
@@ -7,8 +18,8 @@
 	* src/calendars.cpp: Changed to use Rcpp Attributes
 	* src/daycounter.cpp: Idem
 
-	* R/calendars.R: Commented-out / adapted now that RcppExports.R takes over
-	* R/dayCounter.R: Commented-out as RcppExports.R takes over its functionality
+	* R/calendars.R: Commented-out / adapted as RcppExports.R takes over
+	* R/dayCounter.R: Commented-out as RcppExports.R takes over
 
 	* man/Calendars.Rd: Minor adjustments to documentation of default argument
 

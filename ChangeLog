@@ -45,7 +45,7 @@
 	* src/dates.cpp (advanceDate): Added simple test date function, also
 	uses Rcpp Attributes as a first test case
 
-	* inst/include/RQuantLib.h: Added and edited to allow inclusion of 
+	* inst/include/RQuantLib.h: Added and edited to allow inclusion of
 	actual rquantlib.h header via RcppExports
 
 2014-03-20  Dirk Eddelbuettel  <edd@debian.org>

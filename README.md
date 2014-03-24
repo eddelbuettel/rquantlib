@@ -1,5 +1,7 @@
 # RQuantLib
 
+[![Build Status](https://travis-ci.org/eddelbuettel/rquantlib.png)](https://travis-ci.org/eddelbuettel/rquantlib)
+
 The RQuantLib package makes parts of [QuantLib](https://github.com/lballabio/quantlib) visible to the R
 user. Currently a number option pricing functions are included, both vanilla
 and exotic, as well as a broad range of fixed-income functions. Also included

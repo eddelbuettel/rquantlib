@@ -21,7 +21,7 @@ before_install:
   - curl -OL http://dirk.eddelbuettel.com/code/ubuntu/12.04/amd64/libquantlib0-dev.deb
 
 install:
-  - ./travis-tool.sh install_aptget r-cran-runit r-cran-rgl r-cran-zoo
+  - ./travis-tool.sh install_aptget r-cran-runit r-cran-rgl r-cran-zoo libboost-dev libboost-test-dev
   - ./travis-tool.sh install_r Rcpp
   # install two locally built packages / backports of current QuantLib
   - sudo dpkg -i libquantlib0.deb libquantlib0-dev.deb

@@ -25,6 +25,8 @@ install:
   - ./travis-tool.sh install_r Rcpp
   # install two locally built packages / backports of current QuantLib
   - sudo dpkg -i libquantlib0.deb libquantlib0-dev.deb
+  # and remove from build directory
+  - rm -v libquantlib0.deb libquantlib0-dev.deb
 
 script: 
   - ./travis-tool.sh run_tests

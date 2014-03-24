@@ -8,6 +8,31 @@
 
 using namespace Rcpp;
 
+// asianOptionEngine
+Rcpp::List asianOptionEngine(std::string averageType, std::string type, double underlying, double strike, double dividendYield, double riskFreeRate, double maturity, double volatility, double first, double length, size_t fixings);
+RcppExport SEXP RQuantLib_asianOptionEngine(SEXP averageTypeSEXP, SEXP typeSEXP, SEXP underlyingSEXP, SEXP strikeSEXP, SEXP dividendYieldSEXP, SEXP riskFreeRateSEXP, SEXP maturitySEXP, SEXP volatilitySEXP, SEXP firstSEXP, SEXP lengthSEXP, SEXP fixingsSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< std::string >::type averageType(averageTypeSEXP );
+        Rcpp::traits::input_parameter< std::string >::type type(typeSEXP );
+        Rcpp::traits::input_parameter< double >::type underlying(underlyingSEXP );
+        Rcpp::traits::input_parameter< double >::type strike(strikeSEXP );
+        Rcpp::traits::input_parameter< double >::type dividendYield(dividendYieldSEXP );
+        Rcpp::traits::input_parameter< double >::type riskFreeRate(riskFreeRateSEXP );
+        Rcpp::traits::input_parameter< double >::type maturity(maturitySEXP );
+        Rcpp::traits::input_parameter< double >::type volatility(volatilitySEXP );
+        Rcpp::traits::input_parameter< double >::type first(firstSEXP );
+        Rcpp::traits::input_parameter< double >::type length(lengthSEXP );
+        Rcpp::traits::input_parameter< size_t >::type fixings(fixingsSEXP );
+        Rcpp::List __result = asianOptionEngine(averageType, type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, first, length, fixings);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // setCalendarContext
 bool setCalendarContext(std::string calendar, int fixingDays, QuantLib::Date settleDate);
 RcppExport SEXP RQuantLib_setCalendarContext(SEXP calendarSEXP, SEXP fixingDaysSEXP, SEXP settleDateSEXP) {

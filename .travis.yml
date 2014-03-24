@@ -23,7 +23,7 @@ before_install:
 install:
   - ./travis-tool.sh install_aptget r-cran-runit r-cran-rgl r-cran-zoo
   - ./travis-tool.sh install_r Rcpp
-  - dpkg -i libquantlib0.deb libquantlib-dev.deb
+  - sudo dpkg -i libquantlib0.deb libquantlib-dev.deb
 
 script: 
   - ./travis-tool.sh run_tests

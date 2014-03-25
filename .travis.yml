@@ -23,7 +23,7 @@ install:
   # get two locally built packages / backports of current QuantLib
   - ./travis-tool.sh install_dpkgcurl http://dirk.eddelbuettel.com/code/ubuntu/12.04/amd64/libquantlib0.deb 
   - ./travis-tool.sh install_dpkgcurl http://dirk.eddelbuettel.com/code/ubuntu/12.04/amd64/libquantlib0-dev.deb
-  - ./travis-tool.sh install_r Rcpp
+  - ./travis-tool.sh install_dpkgcurl http://dirk.eddelbuettel.com/code/ubuntu/12.04/amd64/r-cran-rcpp.deb
 
 script: 
   - ./travis-tool.sh run_tests

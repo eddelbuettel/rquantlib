@@ -13,20 +13,17 @@ env:
     - R_CHECK_ARGS="--no-build-vignettes --no-manual --as-cran"
 
 before_install:
-  - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
+  #- curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
+  - curl -OL http://raw.github.com/eddelbuettel/r-travis/master/scripts/travis-tool.sh
   - chmod 755 ./travis-tool.sh
   - ./travis-tool.sh bootstrap
-  # get two locally built packages / backports of current QuantLib
-  - curl -OL http://dirk.eddelbuettel.com/code/ubuntu/12.04/amd64/libquantlib0.deb
-  - curl -OL http://dirk.eddelbuettel.com/code/ubuntu/12.04/amd64/libquantlib0-dev.deb
 
 install:
   - ./travis-tool.sh install_aptget r-cran-runit r-cran-rgl r-cran-zoo libboost-dev libboost-test-dev
+  # get two locally built packages / backports of current QuantLib
+  - ./travis-tool.sh install_dpkgcurl http://dirk.eddelbuettel.com/code/ubuntu/12.04/amd64/libquantlib0.deb 
+  - ./travis-tool.sh install_dpkgcurl http://dirk.eddelbuettel.com/code/ubuntu/12.04/amd64/libquantlib0-dev.deb
   - ./travis-tool.sh install_r Rcpp
-  # install two locally built packages / backports of current QuantLib
-  - sudo dpkg -i libquantlib0.deb libquantlib0-dev.deb
-  # and remove from build directory
-  - rm -v libquantlib0.deb libquantlib0-dev.deb
 
 script: 
   - ./travis-tool.sh run_tests

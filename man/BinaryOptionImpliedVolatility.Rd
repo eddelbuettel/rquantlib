@@ -27,11 +27,8 @@
 }
 \value{
 
-  The \code{BinaryOptionImpliedVolatility} function returns an object
-  of class \code{\link{ImpliedVolatility}}. It contains a list with the
-  following elements:
-  \item{impliedVol}{The volatility implied by the given market prices}
-  \item{parameters}{List with the option parameters used}
+  The \code{BinaryOptionImpliedVolatility} function returns an numeric
+  variable with volatility implied by the given market prices.
 
 }
 \details{

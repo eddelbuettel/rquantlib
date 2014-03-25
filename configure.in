@@ -3,14 +3,12 @@
 # Using pieces borrowed from RPgSQL, GNU Gretl, GNU R and QuantLib
 # Greatly simplified thanks to quantlib-config
 # Another contribution by Kurt Hornik gratefully acknowledged
-#
-# $Id$
 
 # require at least autoconf 2.50
 AC_PREREQ(2.50)
 
 # Process this file with autoconf to produce a configure script.
-AC_INIT(RQuantlib, 0.3.12)
+AC_INIT(RQuantlib, 0.3.13)
 
 # We are using C++
 AC_LANG(C++)

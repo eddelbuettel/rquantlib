@@ -5,6 +5,18 @@ asianOptionEngine <- function(averageType, type, underlying, strike, dividendYie
     .Call('RQuantLib_asianOptionEngine', PACKAGE = 'RQuantLib', averageType, type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, first, length, fixings)
 }
 
+binaryOptionEngine <- function(binType, type, excType, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, cashPayoff) {
+    .Call('RQuantLib_binaryOptionEngine', PACKAGE = 'RQuantLib', binType, type, excType, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, cashPayoff)
+}
+
+binaryOptionImpliedVolatilityEngine <- function(type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, cashPayoff) {
+    .Call('RQuantLib_binaryOptionImpliedVolatilityEngine', PACKAGE = 'RQuantLib', type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, cashPayoff)
+}
+
+barrierOptionEngine <- function(barrType, type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, barrier, rebate) {
+    .Call('RQuantLib_barrierOptionEngine', PACKAGE = 'RQuantLib', barrType, type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, barrier, rebate)
+}
+
 setCalendarContext <- function(calendar, fixingDays, settleDate) {
     .Call('RQuantLib_setCalendarContext', PACKAGE = 'RQuantLib', calendar, fixingDays, settleDate)
 }

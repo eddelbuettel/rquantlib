@@ -33,6 +33,77 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// binaryOptionEngine
+Rcpp::List binaryOptionEngine(std::string binType, std::string type, std::string excType, double underlying, double strike, double dividendYield, double riskFreeRate, double maturity, double volatility, double cashPayoff);
+RcppExport SEXP RQuantLib_binaryOptionEngine(SEXP binTypeSEXP, SEXP typeSEXP, SEXP excTypeSEXP, SEXP underlyingSEXP, SEXP strikeSEXP, SEXP dividendYieldSEXP, SEXP riskFreeRateSEXP, SEXP maturitySEXP, SEXP volatilitySEXP, SEXP cashPayoffSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< std::string >::type binType(binTypeSEXP );
+        Rcpp::traits::input_parameter< std::string >::type type(typeSEXP );
+        Rcpp::traits::input_parameter< std::string >::type excType(excTypeSEXP );
+        Rcpp::traits::input_parameter< double >::type underlying(underlyingSEXP );
+        Rcpp::traits::input_parameter< double >::type strike(strikeSEXP );
+        Rcpp::traits::input_parameter< double >::type dividendYield(dividendYieldSEXP );
+        Rcpp::traits::input_parameter< double >::type riskFreeRate(riskFreeRateSEXP );
+        Rcpp::traits::input_parameter< double >::type maturity(maturitySEXP );
+        Rcpp::traits::input_parameter< double >::type volatility(volatilitySEXP );
+        Rcpp::traits::input_parameter< double >::type cashPayoff(cashPayoffSEXP );
+        Rcpp::List __result = binaryOptionEngine(binType, type, excType, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, cashPayoff);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// binaryOptionImpliedVolatilityEngine
+double binaryOptionImpliedVolatilityEngine(std::string type, double value, double underlying, double strike, double dividendYield, double riskFreeRate, double maturity, double volatility, double cashPayoff);
+RcppExport SEXP RQuantLib_binaryOptionImpliedVolatilityEngine(SEXP typeSEXP, SEXP valueSEXP, SEXP underlyingSEXP, SEXP strikeSEXP, SEXP dividendYieldSEXP, SEXP riskFreeRateSEXP, SEXP maturitySEXP, SEXP volatilitySEXP, SEXP cashPayoffSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< std::string >::type type(typeSEXP );
+        Rcpp::traits::input_parameter< double >::type value(valueSEXP );
+        Rcpp::traits::input_parameter< double >::type underlying(underlyingSEXP );
+        Rcpp::traits::input_parameter< double >::type strike(strikeSEXP );
+        Rcpp::traits::input_parameter< double >::type dividendYield(dividendYieldSEXP );
+        Rcpp::traits::input_parameter< double >::type riskFreeRate(riskFreeRateSEXP );
+        Rcpp::traits::input_parameter< double >::type maturity(maturitySEXP );
+        Rcpp::traits::input_parameter< double >::type volatility(volatilitySEXP );
+        Rcpp::traits::input_parameter< double >::type cashPayoff(cashPayoffSEXP );
+        double __result = binaryOptionImpliedVolatilityEngine(type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, cashPayoff);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// barrierOptionEngine
+Rcpp::List barrierOptionEngine(std::string barrType, std::string type, double underlying, double strike, double dividendYield, double riskFreeRate, double maturity, double volatility, double barrier, double rebate);
+RcppExport SEXP RQuantLib_barrierOptionEngine(SEXP barrTypeSEXP, SEXP typeSEXP, SEXP underlyingSEXP, SEXP strikeSEXP, SEXP dividendYieldSEXP, SEXP riskFreeRateSEXP, SEXP maturitySEXP, SEXP volatilitySEXP, SEXP barrierSEXP, SEXP rebateSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< std::string >::type barrType(barrTypeSEXP );
+        Rcpp::traits::input_parameter< std::string >::type type(typeSEXP );
+        Rcpp::traits::input_parameter< double >::type underlying(underlyingSEXP );
+        Rcpp::traits::input_parameter< double >::type strike(strikeSEXP );
+        Rcpp::traits::input_parameter< double >::type dividendYield(dividendYieldSEXP );
+        Rcpp::traits::input_parameter< double >::type riskFreeRate(riskFreeRateSEXP );
+        Rcpp::traits::input_parameter< double >::type maturity(maturitySEXP );
+        Rcpp::traits::input_parameter< double >::type volatility(volatilitySEXP );
+        Rcpp::traits::input_parameter< double >::type barrier(barrierSEXP );
+        Rcpp::traits::input_parameter< double >::type rebate(rebateSEXP );
+        Rcpp::List __result = barrierOptionEngine(barrType, type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, barrier, rebate);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // setCalendarContext
 bool setCalendarContext(std::string calendar, int fixingDays, QuantLib::Date settleDate);
 RcppExport SEXP RQuantLib_setCalendarContext(SEXP calendarSEXP, SEXP fixingDaysSEXP, SEXP settleDateSEXP) {

@@ -39,8 +39,7 @@ derivatives ("Greeks") are returned.}
   \item{rho}{Sensitivity of the option value for a change in the
     risk-free interest rate}
   \item{dividendRho}{Sensitivity of the option value for a change in the
-    dividend yield}
-  \item{parameters}{List with parameters with which object was created}.
+    dividend yield}.
 
   Note that under the new pricing framework used in QuantLib, binary
   pricers do not provide analytics for 'Greeks'. This is expected to be

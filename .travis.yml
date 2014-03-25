@@ -19,7 +19,7 @@ before_install:
   - ./travis-tool.sh bootstrap
 
 install:
-  - ./travis-tool.sh install_aptget r-cran-runit r-cran-rgl r-cran-zoo libboost-dev libboost-test-dev
+  - ./travis-tool.sh install_aptget r-cran-runit r-cran-rgl r-cran-zoo libboost-dev libboost-test-dev littler
   # get two locally built packages / backports of current QuantLib
   - ./travis-tool.sh install_dpkgcurl http://dirk.eddelbuettel.com/code/ubuntu/12.04/amd64/libquantlib0.deb 
   - ./travis-tool.sh install_dpkgcurl http://dirk.eddelbuettel.com/code/ubuntu/12.04/amd64/libquantlib0-dev.deb

@@ -77,8 +77,16 @@ setEvaluationDate <- function(evalDate) {
     .Call('RQuantLib_setEvaluationDate', PACKAGE = 'RQuantLib', evalDate)
 }
 
-discountCurveEngine <- function(rparam, tslist, times) {
-    .Call('RQuantLib_discountCurveEngine', PACKAGE = 'RQuantLib', rparam, tslist, times)
+discountCurveEngine <- function(rparams, tslist, times) {
+    .Call('RQuantLib_discountCurveEngine', PACKAGE = 'RQuantLib', rparams, tslist, times)
+}
+
+calibrateHullWhiteUsingCapsEngine <- function(termStrcDateVec, termStrcZeroVec, capDataDF, iborDateVec, iborZeroVec, iborType, evalDate) {
+    .Call('RQuantLib_calibrateHullWhiteUsingCapsEngine', PACKAGE = 'RQuantLib', termStrcDateVec, termStrcZeroVec, capDataDF, iborDateVec, iborZeroVec, iborType, evalDate)
+}
+
+calibrateHullWhiteUsingSwapsEngine <- function(termStrcDateVec, termStrcZeroVec, swapDataDF, iborDateVec, iborZeroVec, iborType, evalDate) {
+    .Call('RQuantLib_calibrateHullWhiteUsingSwapsEngine', PACKAGE = 'RQuantLib', termStrcDateVec, termStrcZeroVec, swapDataDF, iborDateVec, iborZeroVec, iborType, evalDate)
 }
 
 zeroprice <- function(yield, maturity, settle, period, basis) {

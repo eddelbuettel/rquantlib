@@ -436,16 +436,58 @@ RcppExport SEXP RQuantLib_setEvaluationDate(SEXP evalDateSEXP) {
     return __result;
 }
 // discountCurveEngine
-Rcpp::List discountCurveEngine(Rcpp::List rparam, Rcpp::List tslist, Rcpp::NumericVector times);
-RcppExport SEXP RQuantLib_discountCurveEngine(SEXP rparamSEXP, SEXP tslistSEXP, SEXP timesSEXP) {
+Rcpp::List discountCurveEngine(Rcpp::List rparams, Rcpp::List tslist, Rcpp::NumericVector times);
+RcppExport SEXP RQuantLib_discountCurveEngine(SEXP rparamsSEXP, SEXP tslistSEXP, SEXP timesSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< Rcpp::List >::type rparam(rparamSEXP );
+        Rcpp::traits::input_parameter< Rcpp::List >::type rparams(rparamsSEXP );
         Rcpp::traits::input_parameter< Rcpp::List >::type tslist(tslistSEXP );
         Rcpp::traits::input_parameter< Rcpp::NumericVector >::type times(timesSEXP );
-        Rcpp::List __result = discountCurveEngine(rparam, tslist, times);
+        Rcpp::List __result = discountCurveEngine(rparams, tslist, times);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// calibrateHullWhiteUsingCapsEngine
+Rcpp::List calibrateHullWhiteUsingCapsEngine(SEXP termStrcDateVec, SEXP termStrcZeroVec, SEXP capDataDF, SEXP iborDateVec, SEXP iborZeroVec, std::string iborType, QuantLib::Date evalDate);
+RcppExport SEXP RQuantLib_calibrateHullWhiteUsingCapsEngine(SEXP termStrcDateVecSEXP, SEXP termStrcZeroVecSEXP, SEXP capDataDFSEXP, SEXP iborDateVecSEXP, SEXP iborZeroVecSEXP, SEXP iborTypeSEXP, SEXP evalDateSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< SEXP >::type termStrcDateVec(termStrcDateVecSEXP );
+        Rcpp::traits::input_parameter< SEXP >::type termStrcZeroVec(termStrcZeroVecSEXP );
+        Rcpp::traits::input_parameter< SEXP >::type capDataDF(capDataDFSEXP );
+        Rcpp::traits::input_parameter< SEXP >::type iborDateVec(iborDateVecSEXP );
+        Rcpp::traits::input_parameter< SEXP >::type iborZeroVec(iborZeroVecSEXP );
+        Rcpp::traits::input_parameter< std::string >::type iborType(iborTypeSEXP );
+        Rcpp::traits::input_parameter< QuantLib::Date >::type evalDate(evalDateSEXP );
+        Rcpp::List __result = calibrateHullWhiteUsingCapsEngine(termStrcDateVec, termStrcZeroVec, capDataDF, iborDateVec, iborZeroVec, iborType, evalDate);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// calibrateHullWhiteUsingSwapsEngine
+Rcpp::List calibrateHullWhiteUsingSwapsEngine(SEXP termStrcDateVec, SEXP termStrcZeroVec, SEXP swapDataDF, SEXP iborDateVec, SEXP iborZeroVec, std::string iborType, QuantLib::Date evalDate);
+RcppExport SEXP RQuantLib_calibrateHullWhiteUsingSwapsEngine(SEXP termStrcDateVecSEXP, SEXP termStrcZeroVecSEXP, SEXP swapDataDFSEXP, SEXP iborDateVecSEXP, SEXP iborZeroVecSEXP, SEXP iborTypeSEXP, SEXP evalDateSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< SEXP >::type termStrcDateVec(termStrcDateVecSEXP );
+        Rcpp::traits::input_parameter< SEXP >::type termStrcZeroVec(termStrcZeroVecSEXP );
+        Rcpp::traits::input_parameter< SEXP >::type swapDataDF(swapDataDFSEXP );
+        Rcpp::traits::input_parameter< SEXP >::type iborDateVec(iborDateVecSEXP );
+        Rcpp::traits::input_parameter< SEXP >::type iborZeroVec(iborZeroVecSEXP );
+        Rcpp::traits::input_parameter< std::string >::type iborType(iborTypeSEXP );
+        Rcpp::traits::input_parameter< QuantLib::Date >::type evalDate(evalDateSEXP );
+        Rcpp::List __result = calibrateHullWhiteUsingSwapsEngine(termStrcDateVec, termStrcZeroVec, swapDataDF, iborDateVec, iborZeroVec, iborType, evalDate);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);

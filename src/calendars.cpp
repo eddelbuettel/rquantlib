@@ -234,7 +234,6 @@ std::vector<QuantLib::Date> getEndOfMonth(std::string calendar, std::vector<Quan
     int n = dates.size();
     std::vector<QuantLib::Date> ndates(n);
     for (int i=0; i<n; i++) {
-        QuantLib::Date eom = 
         ndates[i] = pcal->endOfMonth(dates[i]);
     }
     return ndates;

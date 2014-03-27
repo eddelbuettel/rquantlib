@@ -435,6 +435,23 @@ RcppExport SEXP RQuantLib_setEvaluationDate(SEXP evalDateSEXP) {
     UNPROTECT(1);
     return __result;
 }
+// discountCurveEngine
+Rcpp::List discountCurveEngine(Rcpp::List rparam, Rcpp::List tslist, Rcpp::NumericVector times);
+RcppExport SEXP RQuantLib_discountCurveEngine(SEXP rparamSEXP, SEXP tslistSEXP, SEXP timesSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< Rcpp::List >::type rparam(rparamSEXP );
+        Rcpp::traits::input_parameter< Rcpp::List >::type tslist(tslistSEXP );
+        Rcpp::traits::input_parameter< Rcpp::NumericVector >::type times(timesSEXP );
+        Rcpp::List __result = discountCurveEngine(rparam, tslist, times);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // zeroprice
 double zeroprice(double yield, QuantLib::Date maturity, QuantLib::Date settle, int period, int basis);
 RcppExport SEXP RQuantLib_zeroprice(SEXP yieldSEXP, SEXP maturitySEXP, SEXP settleSEXP, SEXP periodSEXP, SEXP basisSEXP) {

@@ -77,6 +77,10 @@ setEvaluationDate <- function(evalDate) {
     .Call('RQuantLib_setEvaluationDate', PACKAGE = 'RQuantLib', evalDate)
 }
 
+discountCurveEngine <- function(rparam, tslist, times) {
+    .Call('RQuantLib_discountCurveEngine', PACKAGE = 'RQuantLib', rparam, tslist, times)
+}
+
 zeroprice <- function(yield, maturity, settle, period, basis) {
     .Call('RQuantLib_zeroprice', PACKAGE = 'RQuantLib', yield, maturity, settle, period, basis)
 }

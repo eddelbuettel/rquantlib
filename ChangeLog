@@ -1,3 +1,11 @@
+2014-03-26  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/discount.cpp: Changed to use Rcpp Attributes
+	* R/discount.R: Changed call in default methods accordingly
+
+	* src/discount.cpp: Updated copyright header with gnu.org URL
+	* R/discount.R: Idem
+
 2014-03-25  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/barrier_binary.cpp: Changed to use Rcpp Attributes

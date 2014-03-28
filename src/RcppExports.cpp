@@ -104,6 +104,25 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// bermudanSwaptionEngine
+Rcpp::List bermudanSwaptionEngine(Rcpp::List rparam, Rcpp::List tslist, Rcpp::NumericVector swaptionMat, Rcpp::NumericVector swapLengths, Rcpp::NumericMatrix swaptionVols);
+RcppExport SEXP RQuantLib_bermudanSwaptionEngine(SEXP rparamSEXP, SEXP tslistSEXP, SEXP swaptionMatSEXP, SEXP swapLengthsSEXP, SEXP swaptionVolsSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< Rcpp::List >::type rparam(rparamSEXP );
+        Rcpp::traits::input_parameter< Rcpp::List >::type tslist(tslistSEXP );
+        Rcpp::traits::input_parameter< Rcpp::NumericVector >::type swaptionMat(swaptionMatSEXP );
+        Rcpp::traits::input_parameter< Rcpp::NumericVector >::type swapLengths(swapLengthsSEXP );
+        Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type swaptionVols(swaptionVolsSEXP );
+        Rcpp::List __result = bermudanSwaptionEngine(rparam, tslist, swaptionMat, swapLengths, swaptionVols);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // setCalendarContext
 bool setCalendarContext(std::string calendar, int fixingDays, QuantLib::Date settleDate);
 RcppExport SEXP RQuantLib_setCalendarContext(SEXP calendarSEXP, SEXP fixingDaysSEXP, SEXP settleDateSEXP) {

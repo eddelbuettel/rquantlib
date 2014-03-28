@@ -1,18 +1,22 @@
-## RQuantLib function DiscountCurve
+##  RQuantLib function BermudanSwaption
 ##
-## Copyright (C) 2005  Dominick Samperi
+##  Copyright (C) 2005         Dominick Samperi
+##  Copyright (C) 2007 - 2014  Dirk Eddelbuettel
 ##
-## $Id: bermudan.R,v 1.1 2005/10/12 03:42:03 edd Exp $
+##  This file is part of RQuantLib.
 ##
-## This program is part of the RQuantLib library for R (GNU S).
-## It is made available under the terms of the GNU General Public
-## License, version 2, or at your option, any later version.
+##  RQuantLib is free software: you can redistribute it and/or modify
+##  it under the terms of the GNU General Public License as published by
+##  the Free Software Foundation, either version 2 of the License, or
+##  (at your option) any later version.
 ##
-## This program is distributed in the hope that it will be
-## useful, but WITHOUT ANY WARRANTY; without even the implied
-## warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-## PURPOSE.  See the GNU General Public License for more
-## details.
+##  RQuantLib is distributed in the hope that it will be useful,
+##  but WITHOUT ANY WARRANTY; without even the implied warranty of
+##  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+##  GNU General Public License for more details.
+##
+##  You should have received a copy of the GNU General Public License
+##  along with RQuantLib.  If not, see <http://www.gnu.org/licenses/>.
 
 BermudanSwaption <- function(params, tsQuotes, swaptionMaturities,
                              swapTenors, volMatrix) {
@@ -23,43 +27,42 @@ BermudanSwaption.default <- function(params, tsQuotes, swaptionMaturities,
                                      swapTenors, volMatrix) {
 
   # Check that params list names
-  if(!is.list(params) || length(params) == 0) {
-    stop("The params parameter must be a non-empty list");
+  if (!is.list(params) || length(params) == 0) {
+      stop("The params parameter must be a non-empty list", call.=FALSE)
   }
 
   # Check that the term structure quotes are properly formatted.
-  if(!is.list(tsQuotes) || length(tsQuotes) == 0) {
-    stop("Term structure quotes must be a non-empty list");
+  if (!is.list(tsQuotes) || length(tsQuotes) == 0) {
+    stop("Term structure quotes must be a non-empty list", call.=FALSE)
   }
-  if(length(tsQuotes) != length(names(tsQuotes))) {
-    stop("Term structure quotes must include labels");
+  if (length(tsQuotes) != length(names(tsQuotes))) {
+    stop("Term structure quotes must include labels", call.=FALSE)
   }
-  if(!is.numeric(unlist(tsQuotes))) {
-    stop("Term structure quotes must have numeric values")
+  if (!is.numeric(unlist(tsQuotes))) {
+    stop("Term structure quotes must have numeric values", call.=FALSE)
   }
 
   # Check for correct matrix/vector types
-  if(!is.matrix(volMatrix)
-     || !is.vector(swaptionMaturities)
-     || !is.vector(swapTenors)) {
-    stop("Swaption vol must be a matrix, maturities/tenors must be vectors")
+  if (!is.matrix(volMatrix)
+      || !is.vector(swaptionMaturities)
+      || !is.vector(swapTenors)) {
+    stop("Swaption vol must be a matrix, maturities/tenors must be vectors",
+         call.=FALSE)
   }
 
   # Check that matrix/vectors have compatible dimensions
-  if(prod(dim(volMatrix)) != length(swaptionMaturities)*length(swapTenors)) {
-    stop("Dimensions of swaption vol matrix not compatible with maturity/tenor vectors")
+  if (prod(dim(volMatrix)) != length(swaptionMaturities)*length(swapTenors)) {
+    stop("Dimensions of swaption vol matrix not compatible with maturity/tenor vectors",
+         call.=FALSE)
   }
 
   # Finally ready to make the call...
   # We could coerce types here and pass as.integer(round(swapTenors)),
   # temp <- as.double(volMatrix), dim(temp) < dim(a) [and pass temp instead
   # of volMatrix]. But this is taken care of in the C/C++ code.
-  val <- .Call("BermudanSwaption",
-               params, tsQuotes,
-               swaptionMaturities,
-               swapTenors,
-               volMatrix,
-               PACKAGE="RQuantLib")
+  val <- bermudanSwaptionEngine(params, tsQuotes,
+                                swaptionMaturities,
+                                swapTenors, volMatrix)
   class(val) <- c(params$method, "BermudanSwaption")
   val
 }

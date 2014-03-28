@@ -17,6 +17,10 @@ barrierOptionEngine <- function(barrType, type, underlying, strike, dividendYiel
     .Call('RQuantLib_barrierOptionEngine', PACKAGE = 'RQuantLib', barrType, type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, barrier, rebate)
 }
 
+bermudanSwaptionEngine <- function(rparam, tslist, swaptionMat, swapLengths, swaptionVols) {
+    .Call('RQuantLib_bermudanSwaptionEngine', PACKAGE = 'RQuantLib', rparam, tslist, swaptionMat, swapLengths, swaptionVols)
+}
+
 setCalendarContext <- function(calendar, fixingDays, settleDate) {
     .Call('RQuantLib_setCalendarContext', PACKAGE = 'RQuantLib', calendar, fixingDays, settleDate)
 }

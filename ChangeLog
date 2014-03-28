@@ -6,6 +6,8 @@
 	* src/hullwhite.cpp:  Updated copyright header with gnu.org URL
 	* R/hullWhiteCalibration.R: Idem
 
+	* .travis.yml: Revert to main repo now that pull request is in
+
 2014-03-26  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/discount.cpp: Changed to use Rcpp Attributes

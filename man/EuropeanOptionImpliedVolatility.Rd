@@ -22,13 +22,8 @@
   \item{volatility}{Initial guess for the volatility of the underlying stock}
 }
 \value{
-
-  The \code{EuropeanOptionImpliedVolatility} function returns an object
-  of class \code{\link{ImpliedVolatility}}. It contains a list with the
-  following elements:
-  \item{impliedVol}{The volatility implied by the given market prices}
-  \item{parameters}{List with the option parameters used}
-
+  The \code{EuropeanOptionImpliedVolatility} function returns an numeric
+  variable with volatility implied by the given market prices and given parameters.
 }
 \details{
   The well-known closed-form solution derived by Black, Scholes and

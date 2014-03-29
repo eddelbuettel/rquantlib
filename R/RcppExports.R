@@ -93,6 +93,14 @@ calibrateHullWhiteUsingSwapsEngine <- function(termStrcDateVec, termStrcZeroVec,
     .Call('RQuantLib_calibrateHullWhiteUsingSwapsEngine', PACKAGE = 'RQuantLib', termStrcDateVec, termStrcZeroVec, swapDataDF, iborDateVec, iborZeroVec, iborType, evalDate)
 }
 
+europeanOptionImpliedVolatilityEngine <- function(type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volatility) {
+    .Call('RQuantLib_europeanOptionImpliedVolatilityEngine', PACKAGE = 'RQuantLib', type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volatility)
+}
+
+americanOptionImpliedVolatilityEngine <- function(type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volguess, timesteps, gridpoints) {
+    .Call('RQuantLib_americanOptionImpliedVolatilityEngine', PACKAGE = 'RQuantLib', type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volguess, timesteps, gridpoints)
+}
+
 zeroprice <- function(yield, maturity, settle, period, basis) {
     .Call('RQuantLib_zeroprice', PACKAGE = 'RQuantLib', yield, maturity, settle, period, basis)
 }

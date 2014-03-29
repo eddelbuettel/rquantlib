@@ -1,3 +1,10 @@
+2014-03-29  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/implieds.cpp: Changed to use Rcpp Attributes
+	* R/implieds.R: Changed calls accordingly
+	* man/AmericanOptionImpliedVolatility.Rd: Updated
+	* man/EuropeanOptionImpliedVolatility.Rd: Updated
+
 2014-03-28  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/bermudan.cpp: Changed to use Rcpp Attributes

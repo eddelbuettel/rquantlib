@@ -100,6 +100,44 @@ namespace RQuantLib {
         return Rcpp::as<bool >(__result);
     }
 
+    inline double europeanOptionImpliedVolatilityEngine(std::string type, double value, double underlying, double strike, double dividendYield, double riskFreeRate, double maturity, double volatility) {
+        typedef SEXP(*Ptr_europeanOptionImpliedVolatilityEngine)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
+        static Ptr_europeanOptionImpliedVolatilityEngine p_europeanOptionImpliedVolatilityEngine = NULL;
+        if (p_europeanOptionImpliedVolatilityEngine == NULL) {
+            validateSignature("double(*europeanOptionImpliedVolatilityEngine)(std::string,double,double,double,double,double,double,double)");
+            p_europeanOptionImpliedVolatilityEngine = (Ptr_europeanOptionImpliedVolatilityEngine)R_GetCCallable("RQuantLib", "RQuantLib_europeanOptionImpliedVolatilityEngine");
+        }
+        RObject __result;
+        {
+            RNGScope __rngScope;
+            __result = p_europeanOptionImpliedVolatilityEngine(Rcpp::wrap(type), Rcpp::wrap(value), Rcpp::wrap(underlying), Rcpp::wrap(strike), Rcpp::wrap(dividendYield), Rcpp::wrap(riskFreeRate), Rcpp::wrap(maturity), Rcpp::wrap(volatility));
+        }
+        if (__result.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (__result.inherits("try-error"))
+            throw Rcpp::exception(as<std::string>(__result).c_str());
+        return Rcpp::as<double >(__result);
+    }
+
+    inline double americanOptionImpliedVolatilityEngine(std::string type, double value, double underlying, double strike, double dividendYield, double riskFreeRate, double maturity, double volguess, int timesteps, int gridpoints) {
+        typedef SEXP(*Ptr_americanOptionImpliedVolatilityEngine)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
+        static Ptr_americanOptionImpliedVolatilityEngine p_americanOptionImpliedVolatilityEngine = NULL;
+        if (p_americanOptionImpliedVolatilityEngine == NULL) {
+            validateSignature("double(*americanOptionImpliedVolatilityEngine)(std::string,double,double,double,double,double,double,double,int,int)");
+            p_americanOptionImpliedVolatilityEngine = (Ptr_americanOptionImpliedVolatilityEngine)R_GetCCallable("RQuantLib", "RQuantLib_americanOptionImpliedVolatilityEngine");
+        }
+        RObject __result;
+        {
+            RNGScope __rngScope;
+            __result = p_americanOptionImpliedVolatilityEngine(Rcpp::wrap(type), Rcpp::wrap(value), Rcpp::wrap(underlying), Rcpp::wrap(strike), Rcpp::wrap(dividendYield), Rcpp::wrap(riskFreeRate), Rcpp::wrap(maturity), Rcpp::wrap(volguess), Rcpp::wrap(timesteps), Rcpp::wrap(gridpoints));
+        }
+        if (__result.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (__result.inherits("try-error"))
+            throw Rcpp::exception(as<std::string>(__result).c_str());
+        return Rcpp::as<double >(__result);
+    }
+
 }
 
 #endif // __RQuantLib_RcppExports_h__

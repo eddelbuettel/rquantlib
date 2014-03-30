@@ -176,6 +176,25 @@ namespace RQuantLib {
         return Rcpp::as<Rcpp::List >(__result);
     }
 
+    inline Rcpp::List europeanOptionArraysEngine(std::string type, Rcpp::NumericMatrix par) {
+        typedef SEXP(*Ptr_europeanOptionArraysEngine)(SEXP,SEXP);
+        static Ptr_europeanOptionArraysEngine p_europeanOptionArraysEngine = NULL;
+        if (p_europeanOptionArraysEngine == NULL) {
+            validateSignature("Rcpp::List(*europeanOptionArraysEngine)(std::string,Rcpp::NumericMatrix)");
+            p_europeanOptionArraysEngine = (Ptr_europeanOptionArraysEngine)R_GetCCallable("RQuantLib", "RQuantLib_europeanOptionArraysEngine");
+        }
+        RObject __result;
+        {
+            RNGScope __rngScope;
+            __result = p_europeanOptionArraysEngine(Rcpp::wrap(type), Rcpp::wrap(par));
+        }
+        if (__result.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (__result.inherits("try-error"))
+            throw Rcpp::exception(as<std::string>(__result).c_str());
+        return Rcpp::as<Rcpp::List >(__result);
+    }
+
 }
 
 #endif // __RQuantLib_RcppExports_h__

@@ -680,6 +680,41 @@ RcppExport SEXP RQuantLib_americanOptionEngine(SEXP typeSEXP, SEXP underlyingSEX
     UNPROTECT(1);
     return __result;
 }
+// europeanOptionArraysEngine
+Rcpp::List europeanOptionArraysEngine(std::string type, Rcpp::NumericMatrix par);
+static SEXP RQuantLib_europeanOptionArraysEngine_try(SEXP typeSEXP, SEXP parSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::traits::input_parameter< std::string >::type type(typeSEXP );
+        Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type par(parSEXP );
+        Rcpp::List __result = europeanOptionArraysEngine(type, par);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP RQuantLib_europeanOptionArraysEngine(SEXP typeSEXP, SEXP parSEXP) {
+    SEXP __result;
+    {
+        Rcpp::RNGScope __rngScope;
+        __result = PROTECT(RQuantLib_europeanOptionArraysEngine_try(typeSEXP, parSEXP));
+    }
+    Rboolean __isInterrupt = Rf_inherits(__result, "interrupted-error");
+    if (__isInterrupt) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    Rboolean __isError = Rf_inherits(__result, "try-error");
+    if (__isError) {
+        SEXP __msgSEXP = Rf_asChar(__result);
+        UNPROTECT(1);
+        Rf_error(CHAR(__msgSEXP));
+    }
+    UNPROTECT(1);
+    return __result;
+}
 // zeroprice
 double zeroprice(double yield, QuantLib::Date maturity, QuantLib::Date settle, int period, int basis);
 RcppExport SEXP RQuantLib_zeroprice(SEXP yieldSEXP, SEXP maturitySEXP, SEXP settleSEXP, SEXP periodSEXP, SEXP basisSEXP) {
@@ -731,6 +766,7 @@ static int RQuantLib_RcppExport_validate(const char* sig) {
         signatures.insert("double(*americanOptionImpliedVolatilityEngine)(std::string,double,double,double,double,double,double,double,int,int)");
         signatures.insert("Rcpp::List(*europeanOptionEngine)(std::string,double,double,double,double,double,double)");
         signatures.insert("Rcpp::List(*americanOptionEngine)(std::string,double,double,double,double,double,double,int,int,std::string)");
+        signatures.insert("Rcpp::List(*europeanOptionArraysEngine)(std::string,Rcpp::NumericMatrix)");
     }
     return signatures.find(sig) != signatures.end();
 }
@@ -745,6 +781,7 @@ RcppExport SEXP RQuantLib_RcppExport_registerCCallable() {
     R_RegisterCCallable("RQuantLib", "RQuantLib_americanOptionImpliedVolatilityEngine", (DL_FUNC)RQuantLib_americanOptionImpliedVolatilityEngine_try);
     R_RegisterCCallable("RQuantLib", "RQuantLib_europeanOptionEngine", (DL_FUNC)RQuantLib_europeanOptionEngine_try);
     R_RegisterCCallable("RQuantLib", "RQuantLib_americanOptionEngine", (DL_FUNC)RQuantLib_americanOptionEngine_try);
+    R_RegisterCCallable("RQuantLib", "RQuantLib_europeanOptionArraysEngine", (DL_FUNC)RQuantLib_europeanOptionArraysEngine_try);
     R_RegisterCCallable("RQuantLib", "RQuantLib_RcppExport_validate", (DL_FUNC)RQuantLib_RcppExport_validate);
     return R_NilValue;
 }

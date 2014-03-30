@@ -2,6 +2,7 @@
 
 	* src/vanilla.cpp: Changed to use Rcpp Attributes
 	* R/option.R: Changed calls accordingly
+	* R/arrays.R: Idem
 	* man/AmericanOption.Rd: Updated as param. list no longer returned
 	* man/EuropeanOption.Rd: Idem
 

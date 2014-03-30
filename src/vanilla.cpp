@@ -131,64 +131,55 @@ Rcpp::List americanOptionEngine(std::string type,
     }
 }
 
-RcppExport SEXP EuropeanOptionArrays(SEXP typesexp, SEXP parsexp) {
+// [[Rcpp::export]]
+Rcpp::List europeanOptionArraysEngine(std::string type, Rcpp::NumericMatrix par) {
 
-    try {
-        QuantLib::Option::Type optionType = getOptionType( Rcpp::as<std::string>(typesexp) );
-        Rcpp::NumericMatrix par(parsexp); // matrix of parameters as per expand.grid() in R
-        int n = par.nrow();
-        Rcpp::NumericVector value(n), delta(n), gamma(n), vega(n), theta(n), rho(n), divrho(n);
+    QuantLib::Option::Type optionType = getOptionType(type);
+    int n = par.nrow();
+    Rcpp::NumericVector value(n), delta(n), gamma(n), vega(n), theta(n), rho(n), divrho(n);
 
-        QuantLib::Date today = QuantLib::Date::todaysDate();
-        QuantLib::Settings::instance().evaluationDate() = today;
+    QuantLib::Date today = QuantLib::Date::todaysDate();
+    QuantLib::Settings::instance().evaluationDate() = today;
 
-        QuantLib::DayCounter dc = QuantLib::Actual360();
+    QuantLib::DayCounter dc = QuantLib::Actual360();
 
-        for (int i=0; i<n; i++) {
+    for (int i=0; i<n; i++) {
 
-            double underlying    = par(i, 0);    // first column
-            double strike        = par(i, 1);    // second column
-            QuantLib::Spread dividendYield = par(i, 2);    // third column
-            QuantLib::Rate riskFreeRate    = par(i, 3);    // fourth column
-            QuantLib::Time maturity        = par(i, 4);    // fifth column
-            int length           = int(maturity*360 + 0.5); // FIXME: this could be better
-            double volatility    = par(i, 5);    // sixth column
+        double underlying    = par(i, 0);    // first column
+        double strike        = par(i, 1);    // second column
+        QuantLib::Spread dividendYield = par(i, 2);    // third column
+        QuantLib::Rate riskFreeRate    = par(i, 3);    // fourth column
+        QuantLib::Time maturity        = par(i, 4);    // fifth column
+        int length           = int(maturity*360 + 0.5); // FIXME: this could be better
+        double volatility    = par(i, 5);    // sixth column
     
-            boost::shared_ptr<QuantLib::SimpleQuote> spot(new QuantLib::SimpleQuote( underlying ));
-            boost::shared_ptr<QuantLib::SimpleQuote> vol(new QuantLib::SimpleQuote( volatility ));
-            boost::shared_ptr<QuantLib::BlackVolTermStructure> volTS = flatVol(today, vol, dc);
-            boost::shared_ptr<QuantLib::SimpleQuote> qRate(new QuantLib::SimpleQuote( dividendYield ));
-            boost::shared_ptr<QuantLib::YieldTermStructure> qTS = flatRate(today, qRate, dc);
-            boost::shared_ptr<QuantLib::SimpleQuote> rRate(new QuantLib::SimpleQuote( riskFreeRate ));
-            boost::shared_ptr<QuantLib::YieldTermStructure> rTS = flatRate(today, rRate, dc);
-
-            QuantLib::Date exDate = today + length;
-            boost::shared_ptr<QuantLib::Exercise> exercise(new QuantLib::EuropeanExercise(exDate));
+        boost::shared_ptr<QuantLib::SimpleQuote> spot(new QuantLib::SimpleQuote( underlying ));
+        boost::shared_ptr<QuantLib::SimpleQuote> vol(new QuantLib::SimpleQuote( volatility ));
+        boost::shared_ptr<QuantLib::BlackVolTermStructure> volTS = flatVol(today, vol, dc);
+        boost::shared_ptr<QuantLib::SimpleQuote> qRate(new QuantLib::SimpleQuote( dividendYield ));
+        boost::shared_ptr<QuantLib::YieldTermStructure> qTS = flatRate(today, qRate, dc);
+        boost::shared_ptr<QuantLib::SimpleQuote> rRate(new QuantLib::SimpleQuote( riskFreeRate ));
+        boost::shared_ptr<QuantLib::YieldTermStructure> rTS = flatRate(today, rRate, dc);
+        
+        QuantLib::Date exDate = today + length;
+        boost::shared_ptr<QuantLib::Exercise> exercise(new QuantLib::EuropeanExercise(exDate));
 	
-            boost::shared_ptr<QuantLib::StrikedTypePayoff> payoff(new QuantLib::PlainVanillaPayoff(optionType, strike));
-            boost::shared_ptr<QuantLib::VanillaOption> option = makeOption(payoff, exercise, spot, qTS, rTS, volTS);
-
-            value[i]  = option->NPV();
-            delta[i]  = option->delta();
-            gamma[i]  = option->gamma();
-            vega[i]   = option->vega();
-            theta[i]  = option->theta();
-            rho[i]    = option->rho();
-            divrho[i] = option->dividendRho();
-        }
-        return Rcpp::List::create(Rcpp::Named("value")  = value,
-                                  Rcpp::Named("delta")  = delta,
-                                  Rcpp::Named("gamma")  = gamma,
-                                  Rcpp::Named("vega")   = vega,
-                                  Rcpp::Named("theta")  = theta,
-                                  Rcpp::Named("rho")    = rho,
-                                  Rcpp::Named("divRho") = divrho);
-
-    } catch(std::exception &ex) { 
-        forward_exception_to_r(ex); 
-    } catch(...) { 
-        ::Rf_error("c++ exception (unknown reason)"); 
+        boost::shared_ptr<QuantLib::StrikedTypePayoff> payoff(new QuantLib::PlainVanillaPayoff(optionType, strike));
+        boost::shared_ptr<QuantLib::VanillaOption> option = makeOption(payoff, exercise, spot, qTS, rTS, volTS);
+        
+        value[i]  = option->NPV();
+        delta[i]  = option->delta();
+        gamma[i]  = option->gamma();
+        vega[i]   = option->vega();
+        theta[i]  = option->theta();
+        rho[i]    = option->rho();
+        divrho[i] = option->dividendRho();
     }
-
-    return R_NilValue;
+    return Rcpp::List::create(Rcpp::Named("value")  = value,
+                              Rcpp::Named("delta")  = delta,
+                              Rcpp::Named("gamma")  = gamma,
+                              Rcpp::Named("vega")   = vega,
+                              Rcpp::Named("theta")  = theta,
+                              Rcpp::Named("rho")    = rho,
+                              Rcpp::Named("divRho") = divrho);
 }

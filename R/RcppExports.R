@@ -109,6 +109,10 @@ americanOptionEngine <- function(type, underlying, strike, dividendYield, riskFr
     .Call('RQuantLib_americanOptionEngine', PACKAGE = 'RQuantLib', type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, timeSteps, gridPoints, engine)
 }
 
+europeanOptionArraysEngine <- function(type, par) {
+    .Call('RQuantLib_europeanOptionArraysEngine', PACKAGE = 'RQuantLib', type, par)
+}
+
 zeroprice <- function(yield, maturity, settle, period, basis) {
     .Call('RQuantLib_zeroprice', PACKAGE = 'RQuantLib', yield, maturity, settle, period, basis)
 }

@@ -24,17 +24,9 @@ EuropeanOption <- function(type, underlying, strike, dividendYield,
 
 EuropeanOption.default <- function(type, underlying, strike, dividendYield,
                                    riskFreeRate, maturity, volatility) {
-
     type <- match.arg(type, c("call", "put"))
-    val <- .Call("EuropeanOption",
-                 list(type=as.character(type),
-                      underlying=as.double(underlying),
-                      strike=as.double(strike),
-                      dividendYield=as.double(dividendYield),
-                      riskFreeRate=as.double(riskFreeRate),
-                      maturity=as.double(maturity),
-                      volatility=as.double(volatility)),
-                 PACKAGE="RQuantLib")
+    val <- europeanOptionEngine(type, underlying, strike, dividendYield,
+                                riskFreeRate, maturity, volatility)
     class(val) <- c("EuropeanOption", "Option")
     val
 }
@@ -52,18 +44,9 @@ AmericanOption.default <- function(type, underlying, strike, dividendYield,
                                    engine="BaroneAdesiWhaley") {
     type <- match.arg(type, c("call", "put"))
     engine <- match.arg(engine, c("BaroneAdesiWhaley", "CrankNicolson"))
-    val <- .Call("AmericanOption",
-                 list(type=as.character(type),
-                      underlying=as.double(underlying),
-                      strike=as.double(strike),
-                      dividendYield=as.double(dividendYield),
-                      riskFreeRate=as.double(riskFreeRate),
-                      maturity=as.double(maturity),
-                      volatility=as.double(volatility),
-                      timeSteps=as.integer(timeSteps),
-                      gridPoints=as.integer(gridPoints),
-                      engine=as.character(engine)),
-                 PACKAGE="RQuantLib")
+    val <- americanOptionEngine(type, underlying, strike, dividendYield,
+                                riskFreeRate, maturity, volatility,
+                                timeSteps, gridPoints, engine)
     class(val) <- c("AmericanOption","Option")
     val
 }
@@ -80,18 +63,6 @@ BinaryOption.default <- function(binType, type, excType, underlying, strike, div
     type <- match.arg(type, c("call", "put"))
     binType <- match.arg(binType, c("cash", "asset", "gap"))
     excType <- match.arg(excType, c("american", "european"))
-    ## val <- .Call("BinaryOption",
-    ##              list(binType=as.character(binType),
-    ##                   type=as.character(type),
-    ##                   excType=as.character(excType),
-    ##                   underlying=as.double(underlying),
-    ##                   strike=as.double(strike),
-    ##                   dividendYield=as.double(dividendYield),
-    ##                   riskFreeRate=as.double(riskFreeRate),
-    ##                   maturity=as.double(maturity),
-    ##                   volatility=as.double(volatility),
-    ##                   cashPayoff=as.double(cashPayoff)),
-    ##              PACKAGE="RQuantLib")
     val <- binaryOptionEngine(binType, type, excType, underlying,
                               strike, dividendYield, riskFreeRate,
                               maturity, volatility, cashPayoff) 

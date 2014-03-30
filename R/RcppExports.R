@@ -101,6 +101,14 @@ americanOptionImpliedVolatilityEngine <- function(type, value, underlying, strik
     .Call('RQuantLib_americanOptionImpliedVolatilityEngine', PACKAGE = 'RQuantLib', type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volguess, timesteps, gridpoints)
 }
 
+europeanOptionEngine <- function(type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility) {
+    .Call('RQuantLib_europeanOptionEngine', PACKAGE = 'RQuantLib', type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility)
+}
+
+americanOptionEngine <- function(type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, timeSteps, gridPoints, engine) {
+    .Call('RQuantLib_americanOptionEngine', PACKAGE = 'RQuantLib', type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, timeSteps, gridPoints, engine)
+}
+
 zeroprice <- function(yield, maturity, settle, period, basis) {
     .Call('RQuantLib_zeroprice', PACKAGE = 'RQuantLib', yield, maturity, settle, period, basis)
 }

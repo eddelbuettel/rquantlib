@@ -1,3 +1,7 @@
+2014-03-31  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/curves.cpp: Some updates reflecting newer Rcpp 
+
 2014-03-30  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/vanilla.cpp: Changed to use Rcpp Attributes

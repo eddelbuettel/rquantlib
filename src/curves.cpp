@@ -1,25 +1,26 @@
-// -*- mode: c++; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- 
+// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; indent-tabs-mode: nil; -*-
 //
-// RQuantLib helper functions for term structure construction
+//  RQuantLib -- R interface to the QuantLib libraries
 //
-// Copyright (C) 2005 - 2007  Dominick Samperi
-// Copyright (C) 2007 - 2012  Dirk Eddelbuettel
+//  Copyright (C) 2005 - 2007  Dominick Samperi
+//  Copyright (C) 2007 - 2014  Dirk Eddelbuettel
 //
-// $Id$
+//  This file is part of RQuantLib.
 //
-// This program is part of the RQuantLib library for R (GNU S).
-// It is made available under the terms of the GNU General Public
-// License, version 2, or at your option, any later version.
+//  RQuantLib is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 2 of the License, or
+//  (at your option) any later version.
 //
-// This program is distributed in the hope that it will be
-// useful, but WITHOUT ANY WARRANTY; without even the implied
-// warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-// PURPOSE.  See the GNU General Public License for more
-// details.
+//  RQuantLib is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with RQuantLib.  If not, see <http://www.gnu.org/licenses/>.
 
-//#ifndef _MSC_VER
-//#include <stdexcept>
-//#endif
+//  [[Rcpp::interfaces(r, cpp)]]
 
 #include <rquantlib.h>
 
@@ -55,18 +56,18 @@ ObservableDB::ObservableDB() {
 
 // Get RateHelper used to build the yield curve corresponding to a
 // database key ('ticker') and observed rate/price.
-boost::shared_ptr<QuantLib::RateHelper> ObservableDB::getRateHelper(std::string& ticker, QuantLib::Rate r) {
+boost::shared_ptr<QuantLib::RateHelper> 
+ObservableDB::getRateHelper(std::string& ticker, QuantLib::Rate r) {
     RQLMapIterator iter = db_.find(ticker);
-    if(iter == db_.end()) {
-        std::ostringstream oss;
-        oss << "Unknown curve construction instrument: " << ticker;
-        throw std::range_error(oss.str());
+    if (iter == db_.end()) {
+        std::string errortxt = "Unknown curve construction instrument: " + ticker;
+        Rcpp::stop(errortxt);
     }
     RQLObservable *p = iter->second;
     RQLObservableType type = p->getType();
     int n1 = p->getN1(), n2 = p->getN2();
     QuantLib::TimeUnit units = p->getUnits();
-
+    
     QuantLib::Date settlementDate = RQLContext::instance().settleDate;
     QuantLib::Calendar calendar = RQLContext::instance().calendar;
     QuantLib::Integer fixingDays = RQLContext::instance().fixingDays;
@@ -74,13 +75,13 @@ boost::shared_ptr<QuantLib::RateHelper> ObservableDB::getRateHelper(std::string&
 
     // Tried to use a switch statement here, but there was an
     // internal compiler error using g++ Version 3.2.2.
-    if(type == RQLDeposit) {
+    if (type == RQLDeposit) {
         boost::shared_ptr<QuantLib::Quote> quote(new QuantLib::SimpleQuote(r));
-        boost::shared_ptr<QuantLib::RateHelper> depo(new QuantLib::DepositRateHelper(
-	        QuantLib::Handle<QuantLib::Quote>(quote),
-            n1*units, fixingDays,	
-            calendar, QuantLib::ModifiedFollowing, 
-            true, /*fixingDays,*/ depositDayCounter));
+        boost::shared_ptr<QuantLib::RateHelper> 
+            depo(new QuantLib::DepositRateHelper(QuantLib::Handle<QuantLib::Quote>(quote),
+                                                 n1*units, fixingDays,	
+                                                 calendar, QuantLib::ModifiedFollowing, 
+                                                 true, /*fixingDays,*/ depositDayCounter));
         return depo;
     } else if (type == RQLSwap) {
         QuantLib::Frequency swFixedLegFrequency = QuantLib::Annual;
@@ -88,130 +89,135 @@ boost::shared_ptr<QuantLib::RateHelper> ObservableDB::getRateHelper(std::string&
         QuantLib::DayCounter swFixedLegDayCounter = QuantLib::Thirty360(QuantLib::Thirty360::European);
         boost::shared_ptr<QuantLib::IborIndex> swFloatingLegIndex(new QuantLib::Euribor6M);
         boost::shared_ptr<QuantLib::Quote> quote(new QuantLib::SimpleQuote(r));
-        boost::shared_ptr<QuantLib::RateHelper> swap(new QuantLib::SwapRateHelper(
-            QuantLib::Handle<QuantLib::Quote>(quote),
-            n1*QuantLib::Years, /*fixingDays,*/
-            calendar, swFixedLegFrequency,
-            swFixedLegConvention, swFixedLegDayCounter,
-            swFloatingLegIndex));
+        boost::shared_ptr<QuantLib::RateHelper> 
+            swap(new QuantLib::SwapRateHelper(QuantLib::Handle<QuantLib::Quote>(quote),
+                                              n1*QuantLib::Years, /*fixingDays,*/
+                                              calendar, swFixedLegFrequency,
+                                              swFixedLegConvention, swFixedLegDayCounter,
+                                              swFloatingLegIndex));
         return swap;
-    }
-    else if(type == RQLFuture) {
+    } else if (type == RQLFuture) {
         QuantLib::Integer futMonths = 3;
         QuantLib::Date imm = QuantLib::IMM::nextDate(settlementDate);
-        for(int i = 1; i < n1; i++)
+        for (int i = 1; i < n1; i++)
             imm = QuantLib::IMM::nextDate(imm+1);
         //Rcpp::Rcout << "Curves: IMM Date is " << imm << std::endl;
         boost::shared_ptr<QuantLib::Quote> quote(new QuantLib::SimpleQuote(r));
-        boost::shared_ptr<QuantLib::RateHelper> future(new QuantLib::FuturesRateHelper(
-	    	QuantLib::Handle<QuantLib::Quote>(quote),
-            imm,
-            futMonths, calendar, QuantLib::ModifiedFollowing,
-            true, // added bool endOfMonth variable
-            depositDayCounter));
+        boost::shared_ptr<QuantLib::RateHelper> 
+            future(new QuantLib::FuturesRateHelper(QuantLib::Handle<QuantLib::Quote>(quote),
+                                                   imm, futMonths, calendar, 
+                                                   QuantLib::ModifiedFollowing,
+                                                   true, // added bool endOfMonth variable
+                                                   depositDayCounter));
         return future;
-    } else if(type == RQLFRA) {
+    } else if (type == RQLFRA) {
         boost::shared_ptr<QuantLib::Quote> quote(new QuantLib::SimpleQuote(r));
-        boost::shared_ptr<QuantLib::RateHelper> FRA(new QuantLib::FraRateHelper(
-            QuantLib::Handle<QuantLib::Quote>(quote),
-            n1, n2, fixingDays, calendar, QuantLib::ModifiedFollowing,
-            true, /*fixingDays,*/ depositDayCounter));
+        boost::shared_ptr<QuantLib::RateHelper> 
+            FRA(new QuantLib::FraRateHelper(QuantLib::Handle<QuantLib::Quote>(quote),
+                                            n1, n2, fixingDays, calendar, 
+                                            QuantLib::ModifiedFollowing,
+                                            true, /*fixingDays,*/ depositDayCounter));
         return FRA;
     } else {
-      throw std::range_error("Bad type in curve construction");
+        Rcpp::stop("Bad type in curve construction");
     }
 }
 
 // Return the term structure built using a set of RateHelpers (curveInput)
 // employing the specified interpolation method and day counter.
 boost::shared_ptr<QuantLib::YieldTermStructure> 
-getTermStructure (std::string& interpWhat, std::string& interpHow, const QuantLib::Date& settlementDate,
+getTermStructure (std::string& interpWhat, std::string& interpHow, 
+                  const QuantLib::Date& settlementDate,
                   const std::vector<boost::shared_ptr<QuantLib::RateHelper> >& curveInput,
                   QuantLib::DayCounter& dayCounter, QuantLib::Real tolerance) {
-    if(interpWhat.compare("discount") == 0 &&
-       interpHow.compare("linear") == 0) {
-        boost::shared_ptr<QuantLib::YieldTermStructure> ts(new
-	       QuantLib::PiecewiseYieldCurve<QuantLib::Discount,QuantLib::Linear>(settlementDate, 
-	       curveInput, dayCounter, 
-  	       std::vector<QuantLib::Handle<QuantLib::Quote> >(),
-  	       std::vector<QuantLib::Date>(),
-  	       tolerance));
+
+    // the identifiers are just too bloody long so this functions like a 120 col or so display
+    
+    if (interpWhat.compare("discount") == 0 && interpHow.compare("linear") == 0) {
+        boost::shared_ptr<QuantLib::YieldTermStructure> 
+            ts(new QuantLib::PiecewiseYieldCurve<QuantLib::Discount, 
+                                                 QuantLib::Linear>(settlementDate, 
+                                                                   curveInput, dayCounter, 
+                                                                   std::vector<QuantLib::Handle<QuantLib::Quote> >(),
+                                                                   std::vector<QuantLib::Date>(),
+                                                                   tolerance));
         return ts;
-    } else if(interpWhat.compare("discount") == 0 &&
-              interpHow.compare("loglinear") == 0) {
-        boost::shared_ptr<QuantLib::YieldTermStructure> ts(new
-	       QuantLib::PiecewiseYieldCurve<QuantLib::Discount,QuantLib::LogLinear>(settlementDate, 
-	       curveInput, dayCounter, 
-  	       std::vector<QuantLib::Handle<QuantLib::Quote> >(),
-  	       std::vector<QuantLib::Date>(),
-  	       tolerance));
+    } else if (interpWhat.compare("discount") == 0 && interpHow.compare("loglinear") == 0) {
+        boost::shared_ptr<QuantLib::YieldTermStructure> 
+            ts(new QuantLib::PiecewiseYieldCurve<QuantLib::Discount,
+                                                 QuantLib::LogLinear>(settlementDate, 
+                                                                      curveInput, dayCounter, 
+                                                                      std::vector<QuantLib::Handle<QuantLib::Quote> >(),
+                                                                      std::vector<QuantLib::Date>(),
+                                                                      tolerance));
         return ts;
-    } else if(interpWhat.compare("discount") == 0 &&
-              interpHow.compare("spline") == 0) {
-        boost::shared_ptr<QuantLib::YieldTermStructure> ts(new
-  	       QuantLib::PiecewiseYieldCurve<QuantLib::Discount, QuantLib::Cubic>(settlementDate, 
-	       curveInput, dayCounter, 
-  	       std::vector<QuantLib::Handle<QuantLib::Quote> >(),
-  	       std::vector<QuantLib::Date>(),
-  	       tolerance));
+    } else if (interpWhat.compare("discount") == 0 && interpHow.compare("spline") == 0) {
+        boost::shared_ptr<QuantLib::YieldTermStructure> 
+            ts(new QuantLib::PiecewiseYieldCurve<QuantLib::Discount, 
+                                                 QuantLib::Cubic>(settlementDate, 
+                                                                  curveInput, dayCounter, 
+                                                                  std::vector<QuantLib::Handle<QuantLib::Quote> >(),
+                                                                  std::vector<QuantLib::Date>(),
+                                                                  tolerance));
         return ts;
-    } else if(interpWhat.compare("forward") == 0 &&
+    } else if (interpWhat.compare("forward") == 0 &&
               interpHow.compare("linear") == 0) {
-        boost::shared_ptr<QuantLib::YieldTermStructure> ts(new
-	       QuantLib::PiecewiseYieldCurve<QuantLib::ForwardRate,QuantLib::Linear>(settlementDate, 
-	       curveInput, dayCounter, 
-  	       std::vector<QuantLib::Handle<QuantLib::Quote> >(),
-  	       std::vector<QuantLib::Date>(),
-  	       tolerance));
+        boost::shared_ptr<QuantLib::YieldTermStructure> 
+            ts(new QuantLib::PiecewiseYieldCurve<QuantLib::ForwardRate, 
+                                                 QuantLib::Linear>(settlementDate, 
+                                                                   curveInput, dayCounter, 
+                                                                   std::vector<QuantLib::Handle<QuantLib::Quote> >(),
+                                                                   std::vector<QuantLib::Date>(),
+                                                                   tolerance));
         return ts;
-    } else if(interpWhat.compare("forward") == 0 &&
-            interpHow.compare("loglinear") == 0) {
-        boost::shared_ptr<QuantLib::YieldTermStructure> ts(new
-	       QuantLib::PiecewiseYieldCurve<QuantLib::ForwardRate,QuantLib::LogLinear>(settlementDate, 
-	       curveInput, dayCounter, 
-  	       std::vector<QuantLib::Handle<QuantLib::Quote> >(),
-  	       std::vector<QuantLib::Date>(),
-  	       tolerance));
+    } else if (interpWhat.compare("forward") == 0 && interpHow.compare("loglinear") == 0) {
+        boost::shared_ptr<QuantLib::YieldTermStructure> 
+            ts(new QuantLib::PiecewiseYieldCurve<QuantLib::ForwardRate,
+                                                 QuantLib::LogLinear>(settlementDate, 
+                                                                      curveInput, dayCounter, 
+                                                                      std::vector<QuantLib::Handle<QuantLib::Quote> >(),
+                                                                      std::vector<QuantLib::Date>(),
+                                                                      tolerance));
         return ts;
-    } else if(interpWhat.compare("forward") == 0 &&
-              interpHow.compare("spline") == 0) {
-        boost::shared_ptr<QuantLib::YieldTermStructure> ts(new
-	       QuantLib::PiecewiseYieldCurve<QuantLib::ForwardRate,QuantLib::Cubic>(settlementDate, 
-	       curveInput, dayCounter, 
-  	       std::vector<QuantLib::Handle<QuantLib::Quote> >(),
-  	       std::vector<QuantLib::Date>(),
-  	       tolerance));
+    } else if (interpWhat.compare("forward") == 0 && interpHow.compare("spline") == 0) {
+        boost::shared_ptr<QuantLib::YieldTermStructure> 
+            ts(new QuantLib::PiecewiseYieldCurve<QuantLib::ForwardRate,
+                                                 QuantLib::Cubic>(settlementDate, 
+                                                                  curveInput, dayCounter, 
+                                                                  std::vector<QuantLib::Handle<QuantLib::Quote> >(),
+                                                                  std::vector<QuantLib::Date>(),
+                                                                  tolerance));
         return ts;
-    } else if(interpWhat.compare("zero") == 0 &&
-              interpHow.compare("linear") == 0) {
-        boost::shared_ptr<QuantLib::YieldTermStructure> ts(new
-	       QuantLib::PiecewiseYieldCurve<QuantLib::ZeroYield,QuantLib::Linear>(settlementDate, 
-	       curveInput, dayCounter, 
-  	       std::vector<QuantLib::Handle<QuantLib::Quote> >(),
-  	       std::vector<QuantLib::Date>(),
-	       tolerance));
+    } else if (interpWhat.compare("zero") == 0 && interpHow.compare("linear") == 0) {
+        boost::shared_ptr<QuantLib::YieldTermStructure> 
+            ts(new QuantLib::PiecewiseYieldCurve<QuantLib::ZeroYield,
+                                                 QuantLib::Linear>(settlementDate, 
+                                                                   curveInput, dayCounter, 
+                                                                   std::vector<QuantLib::Handle<QuantLib::Quote> >(),
+                                                                   std::vector<QuantLib::Date>(),
+                                                                   tolerance));
         return ts;
-    } else if(interpWhat.compare("zero") == 0 &&
-              interpHow.compare("loglinear") == 0) {
-        boost::shared_ptr<QuantLib::YieldTermStructure> ts(new
-	       QuantLib::PiecewiseYieldCurve<QuantLib::ZeroYield,QuantLib::LogLinear>(settlementDate, 
-	       curveInput, dayCounter, 
-  	       std::vector<QuantLib::Handle<QuantLib::Quote> >(),
-  	       std::vector<QuantLib::Date>(),
-  	       tolerance));
+    } else if (interpWhat.compare("zero") == 0 && interpHow.compare("loglinear") == 0) {
+        boost::shared_ptr<QuantLib::YieldTermStructure> 
+            ts(new QuantLib::PiecewiseYieldCurve<QuantLib::ZeroYield,
+                                                 QuantLib::LogLinear>(settlementDate, 
+                                                                      curveInput, dayCounter, 
+                                                                      std::vector<QuantLib::Handle<QuantLib::Quote> >(),
+                                                                      std::vector<QuantLib::Date>(),
+                                                                      tolerance));
         return ts;
-    } else if(interpWhat.compare("zero") == 0 &&
-              interpHow.compare("spline") == 0) {
-        boost::shared_ptr<QuantLib::YieldTermStructure> ts(new
-	       QuantLib::PiecewiseYieldCurve<QuantLib::ZeroYield,QuantLib::Cubic>(settlementDate, 
-	       curveInput, dayCounter, 
-  	       std::vector<QuantLib::Handle<QuantLib::Quote> >(),
-  	       std::vector<QuantLib::Date>(),
-  	       tolerance));
+    } else if (interpWhat.compare("zero") == 0 && interpHow.compare("spline") == 0) {
+        boost::shared_ptr<QuantLib::YieldTermStructure> 
+            ts(new QuantLib::PiecewiseYieldCurve<QuantLib::ZeroYield,
+                                                 QuantLib::Cubic>(settlementDate, 
+                                                                  curveInput, dayCounter, 
+                                                                  std::vector<QuantLib::Handle<QuantLib::Quote> >(),
+                                                                  std::vector<QuantLib::Date>(),
+                                                                  tolerance));
         return ts;
     } else {
-        Rprintf((char*)"interpWhat = %s\n", interpWhat.c_str());
-        Rprintf((char*)"interpHow  = %s\n", interpHow.c_str());
-        throw std::range_error("What/How term structure options not recognized");
+        Rcpp::Rcout << "interpWhat = " << interpWhat << std::endl;
+        Rcpp::Rcout << "interpHow  = " << interpHow << std::endl;
+        Rcpp::stop("What/How term structure options not recognized");
     }
 }

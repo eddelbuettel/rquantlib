@@ -122,7 +122,7 @@ ObservableDB::getRateHelper(std::string& ticker, QuantLib::Rate r) {
         Rcpp::stop("Bad type in curve construction");
     }
     // not reached
-    boost::shared_ptr<QuantLib::YieldTermStructure> tmp;
+    boost::shared_ptr<QuantLib::RateHelper> tmp;
     return tmp;
 }
 

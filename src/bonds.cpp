@@ -84,8 +84,8 @@ double zeroYieldByPriceEngine(double price,
     return zbond.yield(price, dc, cp, freq);
 }
 
-// TODO: R interface ?
-// currently NOT exported
+// TODO: R interface -- cannot use Attribute with converter for Handle<>
+// currently NOT exported but called below
 Rcpp::List zeroBondEngine(Rcpp::List bondparam, 
                           QuantLib::Handle<QuantLib::YieldTermStructure> &discountCurve,
                           Rcpp::List dateparams) {
@@ -133,7 +133,8 @@ Rcpp::List zeroBondEngine(Rcpp::List bondparam,
                               Rcpp::Named("cashFlow") = getCashFlowDataFrame(bond.cashflows()));
 }
 
-// called below
+// TODO: R interface -- cannot use Attribute with converter for Handle<>
+// currently NOT exported but called below
 Rcpp::List fixedBondEngine(Rcpp::List bondparam, 
                            Rcpp::NumericVector rates,//extract coupon rates vector
                            QuantLib::Handle<QuantLib::YieldTermStructure> &discountCurve,
@@ -183,7 +184,8 @@ Rcpp::List fixedBondEngine(Rcpp::List bondparam,
                                  dc, bdc, redemption, issueDate);
     
     //bond price
-    boost::shared_ptr<QuantLib::PricingEngine> bondEngine(new QuantLib::DiscountingBondEngine(discountCurve));
+    boost::shared_ptr<QuantLib::PricingEngine> 
+        bondEngine(new QuantLib::DiscountingBondEngine(discountCurve));
     bond.setPricingEngine(bondEngine);   
         
     return Rcpp::List::create(Rcpp::Named("NPV") = bond.NPV(),
@@ -195,59 +197,44 @@ Rcpp::List fixedBondEngine(Rcpp::List bondparam,
                               Rcpp::Named("cashFlow") = getCashFlowDataFrame(bond.cashflows()));
 }
    
+// [[Rcpp::export]]
+double fixedRateBondYieldByPriceEngine(double settlementDays,
+                                       double price,
+                                       std::string cal,
+                                       double faceAmount,
+                                       double businessDayConvention,
+                                       double compound,
+                                       double redemption,
+                                       double dayCounter,
+                                       double frequency, 
+                                       QuantLib::Date maturityDate,
+                                       QuantLib::Date issueDate,
+                                       QuantLib::Date effectiveDate,
+                                       std::vector<double> rates) {
 
-RcppExport SEXP FixedRateBondYield(SEXP optionParameters, SEXP ratesVec) {
-  
-    try {
-        Rcpp::List rparam(optionParameters);
-        double settlementDays = Rcpp::as<double>(rparam["settlementDays"]);
-        std::string cal = Rcpp::as<std::string>(rparam["calendar"]);
-        double price = Rcpp::as<double>(rparam["price"]);
-        double faceAmount = Rcpp::as<double>(rparam["faceAmount"]);
-        double businessDayConvention = Rcpp::as<double>(rparam["businessDayConvention"]);
-        double compound = Rcpp::as<double>(rparam["compound"]);
-        double redemption = Rcpp::as<double>(rparam["redemption"]);
-        double dayCounter = Rcpp::as<double>(rparam["dayCounter"]);
-        double frequency = Rcpp::as<double>(rparam["period"]);
-        
-        QuantLib::Date maturityDate(Rcpp::as<QuantLib::Date>(rparam["maturityDate"]));
-        QuantLib::Date issueDate(Rcpp::as<QuantLib::Date>(rparam["issueDate"]));
-        QuantLib::Date effectiveDate(Rcpp::as<QuantLib::Date>(rparam["effectiveDate"]));
-        
-        //extract coupon rates vector
-        Rcpp::NumericVector rates(ratesVec); 
-        
-        //set up BusinessDayConvetion
-        QuantLib::BusinessDayConvention bdc = getBusinessDayConvention(businessDayConvention);
-        QuantLib::DayCounter dc = getDayCounter(dayCounter);
-        QuantLib::Frequency freq = getFrequency(frequency);
-        QuantLib::Compounding cp = getCompounding(compound);
- 
-        //set up calendar
-        QuantLib::Calendar calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-        if (cal == "us"){
-            calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-        } else if (cal == "uk"){
-            calendar = QuantLib::UnitedKingdom(QuantLib::UnitedKingdom::Exchange);
-        }
-        
-        //build the bond
-        QuantLib::Schedule sch(effectiveDate, maturityDate, QuantLib::Period(freq), calendar,
-                               bdc, bdc, QuantLib::DateGeneration::Backward, false);
-        
-        QuantLib::FixedRateBond bond(settlementDays, faceAmount, sch,
-                                     Rcpp::as<std::vector <double> >(rates), 
-                                     dc, bdc, redemption, issueDate);
-
-        return Rcpp::wrap(bond.yield(price, dc, cp, freq));
-        
-    } catch(std::exception &ex) { 
-        forward_exception_to_r(ex); 
-    } catch(...) { 
-        ::Rf_error("c++ exception (unknown reason)"); 
+    //set up BusinessDayConvetion
+    QuantLib::BusinessDayConvention bdc = getBusinessDayConvention(businessDayConvention);
+    QuantLib::DayCounter dc = getDayCounter(dayCounter);
+    QuantLib::Frequency freq = getFrequency(frequency);
+    QuantLib::Compounding cp = getCompounding(compound);
+    
+    //set up calendar
+    QuantLib::Calendar 
+        calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
+    if (cal == "us"){
+        calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
+    } else if (cal == "uk"){
+        calendar = QuantLib::UnitedKingdom(QuantLib::UnitedKingdom::Exchange);
     }
+        
+    //build the bond
+    QuantLib::Schedule sch(effectiveDate, maturityDate, QuantLib::Period(freq), calendar,
+                           bdc, bdc, QuantLib::DateGeneration::Backward, false);
+        
+    QuantLib::FixedRateBond bond(settlementDays, faceAmount, sch,
+                                 rates, dc, bdc, redemption, issueDate);
 
-    return R_NilValue;
+    return bond.yield(price, dc, cp, freq);
 }
 
  

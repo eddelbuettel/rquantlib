@@ -29,6 +29,10 @@ zeroYieldByPriceEngine <- function(price, faceAmount, dayCounter, frequency, bus
     .Call('RQuantLib_zeroYieldByPriceEngine', PACKAGE = 'RQuantLib', price, faceAmount, dayCounter, frequency, businessDayConvention, compound, maturityDate, issueDate)
 }
 
+fixedRateBondYieldByPriceEngine <- function(settlementDays, price, cal, faceAmount, businessDayConvention, compound, redemption, dayCounter, frequency, maturityDate, issueDate, effectiveDate, rates) {
+    .Call('RQuantLib_fixedRateBondYieldByPriceEngine', PACKAGE = 'RQuantLib', settlementDays, price, cal, faceAmount, businessDayConvention, compound, redemption, dayCounter, frequency, maturityDate, issueDate, effectiveDate, rates)
+}
+
 FixedRateWithRebuiltCurve <- function(bondparam, ratesVec, dateSexp, zeroSexp, dateparams) {
     .Call('RQuantLib_FixedRateWithRebuiltCurve', PACKAGE = 'RQuantLib', bondparam, ratesVec, dateSexp, zeroSexp, dateparams)
 }

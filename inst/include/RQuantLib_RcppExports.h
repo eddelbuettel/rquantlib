@@ -62,6 +62,25 @@ namespace RQuantLib {
         return Rcpp::as<double >(__result);
     }
 
+    inline double fixedRateBondYieldByPriceEngine(double settlementDays, double price, std::string cal, double faceAmount, double businessDayConvention, double compound, double redemption, double dayCounter, double frequency, QuantLib::Date maturityDate, QuantLib::Date issueDate, QuantLib::Date effectiveDate, std::vector<double> rates) {
+        typedef SEXP(*Ptr_fixedRateBondYieldByPriceEngine)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
+        static Ptr_fixedRateBondYieldByPriceEngine p_fixedRateBondYieldByPriceEngine = NULL;
+        if (p_fixedRateBondYieldByPriceEngine == NULL) {
+            validateSignature("double(*fixedRateBondYieldByPriceEngine)(double,double,std::string,double,double,double,double,double,double,QuantLib::Date,QuantLib::Date,QuantLib::Date,std::vector<double>)");
+            p_fixedRateBondYieldByPriceEngine = (Ptr_fixedRateBondYieldByPriceEngine)R_GetCCallable("RQuantLib", "RQuantLib_fixedRateBondYieldByPriceEngine");
+        }
+        RObject __result;
+        {
+            RNGScope __rngScope;
+            __result = p_fixedRateBondYieldByPriceEngine(Rcpp::wrap(settlementDays), Rcpp::wrap(price), Rcpp::wrap(cal), Rcpp::wrap(faceAmount), Rcpp::wrap(businessDayConvention), Rcpp::wrap(compound), Rcpp::wrap(redemption), Rcpp::wrap(dayCounter), Rcpp::wrap(frequency), Rcpp::wrap(maturityDate), Rcpp::wrap(issueDate), Rcpp::wrap(effectiveDate), Rcpp::wrap(rates));
+        }
+        if (__result.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (__result.inherits("try-error"))
+            throw Rcpp::exception(as<std::string>(__result).c_str());
+        return Rcpp::as<double >(__result);
+    }
+
     inline Rcpp::List FixedRateWithRebuiltCurve(Rcpp::List bondparam, Rcpp::NumericVector ratesVec, SEXP dateSexp, SEXP zeroSexp, Rcpp::List dateparams) {
         typedef SEXP(*Ptr_FixedRateWithRebuiltCurve)(SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_FixedRateWithRebuiltCurve p_FixedRateWithRebuiltCurve = NULL;

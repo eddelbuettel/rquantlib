@@ -89,13 +89,12 @@ ZeroYield.default <- function(price, faceAmount=100,
 
 
 FixedRateBond <- function(bond, rates, discountCurve, dateparams){
-     UseMethod("FixedRateBond")
+    UseMethod("FixedRateBond")
 }
 FixedRateBond.default <- function(bond,
                                   rates,
                                   discountCurve,
                                   dateparams=list(
-
                                     settlementDays=1,
                                     calendar='us',
                                     businessDayConvention='Following',
@@ -108,24 +107,23 @@ FixedRateBond.default <- function(bond,
                                     )){
     val <- 0
 
-    if (is.null(bond$faceAmount)){bond$faceAmount=100}
-    if (is.null(bond$redemption)){bond$redemption=100}
-    if (is.null(bond$effectiveDate)){bond$effectiveDate=bond$issueDate}
+    if (is.null(bond$faceAmount))  bond$faceAmount <- 100
+    if (is.null(bond$redemption))  bond$redemption <- 100
+    if (is.null(bond$effectiveDate)) bond$effectiveDate <- bond$issueDate
 
+    if (is.null(dateparams$settlementDays)) dateparams$settlementDays <- 1
+    if (is.null(dateparams$calendar)) dateparams$calendar <- 'us'
+    if (is.null(dateparams$businessDayConvention))
+        dateparams$businessDayConvention <- 'Following'
 
-    if (is.null(dateparams$settlementDays)){dateparams$settlementDays=1}
-    if (is.null(dateparams$calendar)){dateparams$calendar='us'}
-    if (is.null(dateparams$businessDayConvention)){
-      dateparams$businessDayConvention='Following'
-    }
-    if (is.null(dateparams$terminationDateConvention)){
-      dateparams$terminationDateConvention='Following'
-    }
-    if (is.null(dateparams$dayCounter)){dateparams$dayCounter='Thirty360'}
-    if (is.null(dateparams$period)){dateparams$period='Semiannual'}
-    if (is.null(dateparams$dateGeneration)){dateparams$dateGeneration='Backward'}
-    if (is.null(dateparams$endOfMonth)){dateparams$endOfMonth=0}
-    if (is.null(dateparams$fixingDays)){dateparams$fixingDays=2}
+    if (is.null(dateparams$terminationDateConvention))
+        dateparams$terminationDateConvention <- 'Following'
+
+    if (is.null(dateparams$dayCounter)) dateparams$dayCounter <- 'Thirty360'
+    if (is.null(dateparams$period)) dateparams$period <- 'Semiannual'
+    if (is.null(dateparams$dateGeneration)) dateparams$dateGeneration <- 'Backward'
+    if (is.null(dateparams$endOfMonth)) dateparams$endOfMonth <- 0
+    if (is.null(dateparams$fixingDays)) dateparams$fixingDays <- 2
 
     dateparams <- matchParams(dateparams)
 
@@ -136,34 +134,25 @@ FixedRateBond.default <- function(bond,
 }
 
 
-FixedRateBondYield <- function( settlementDays, price, faceAmount,
-                           effectiveDate, maturityDate,
-                           period, calendar, rates,
-                           dayCounter, businessDayConvention,
-                           compound, redemption, issueDate) {
+FixedRateBondYield <- function(settlementDays, price, faceAmount,
+                               effectiveDate, maturityDate,
+                               period, calendar, rates,
+                               dayCounter, businessDayConvention,
+                               compound, redemption, issueDate) {
      UseMethod("FixedRateBondYield")
 }
-FixedRateBondYield.default <- function(settlementDays = 1,price, faceAmount=100,
-                                effectiveDate, maturityDate,
-                                period, calendar = "us", rates,
-                                dayCounter=2, businessDayConvention=0,
-                                compound = 0, redemption = 100, issueDate) {
-     val <- .Call("FixedRateBondYield",
-                    list(
-                         settlementDays=as.double(settlementDays),
-                         price = as.double(price),
-                         calendar=as.character(calendar),
-		         faceAmount = as.double(faceAmount),
-                         period = as.double(period),
-		         businessDayConvention=as.double(businessDayConvention),
-                         compound = as.double(compound),
-		         redemption= as.double(redemption),
-                         dayCounter = as.double(dayCounter),
-		         maturityDate = maturityDate,
-                         effectiveDate = effectiveDate,
-		         issueDate = issueDate
-		         ), rates,
-                 PACKAGE="RQuantLib")
+FixedRateBondYield.default <- function(settlementDays = 1, price, faceAmount=100,
+                                       effectiveDate, maturityDate,
+                                       period, calendar = "us", rates,
+                                       dayCounter=2, businessDayConvention=0,
+                                       compound = 0, redemption = 100, issueDate) {
+
+    val <- fixedRateBondYieldByPriceEngine(settlementDays, price, calendar, faceAmount,
+                                           businessDayConvention,
+                                           compound, redemption, dayCounter,
+                                           period, 	## aka frequency
+                                           maturityDate, issueDate, effectiveDate,
+                                           rates)
     class(val) <- c("FixedRateBondYield")
     val
 }

@@ -122,14 +122,8 @@ ObservableDB::getRateHelper(std::string& ticker, QuantLib::Rate r) {
         Rcpp::stop("Bad type in curve construction");
     }
     // not reached
-    boost::shared_ptr<QuantLib::Quote> quote(new QuantLib::SimpleQuote(r));
-    boost::shared_ptr<QuantLib::RateHelper> 
-        FRA(new QuantLib::FraRateHelper(QuantLib::Handle<QuantLib::Quote>(quote),
-                                        n1, n2, fixingDays, calendar, 
-                                        QuantLib::ModifiedFollowing,
-                                        true, /*fixingDays,*/ depositDayCounter));
-    return FRA;
-
+    boost::shared_ptr<QuantLib::YieldTermStructure> tmp;
+    return tmp;
 }
 
 // Return the term structure built using a set of RateHelpers (curveInput)
@@ -230,12 +224,6 @@ getTermStructure (std::string& interpWhat, std::string& interpHow,
         Rcpp::stop("What/How term structure options not recognized");
     }
     // not reached -- just here to make g++ -pendantic happy
-    boost::shared_ptr<QuantLib::YieldTermStructure> 
-        ts(new QuantLib::PiecewiseYieldCurve<QuantLib::ZeroYield,
-                                             QuantLib::Cubic>(settlementDate, 
-                                                              curveInput, dayCounter, 
-                                                              std::vector<QuantLib::Handle<QuantLib::Quote> >(),
-                                                              std::vector<QuantLib::Date>(),
-                                                              tolerance));
-    return ts;
+    boost::shared_ptr<QuantLib::YieldTermStructure> tmp;
+    return tmp;
 }

@@ -158,34 +158,24 @@ FixedRateBondYield.default <- function(settlementDays = 1, price, faceAmount=100
 }
 
 
-FixedRateBondPriceByYield <- function( settlementDays, yield, faceAmount,
-                           effectiveDate, maturityDate,
-                           period, calendar, rates,
-                           dayCounter, businessDayConvention,
-                           compound, redemption, issueDate) {
-     UseMethod("FixedRateBondPriceByYield")
+FixedRateBondPriceByYield <- function(settlementDays, yield, faceAmount,
+                                      effectiveDate, maturityDate,
+                                      period, calendar, rates,
+                                      dayCounter, businessDayConvention,
+                                      compound, redemption, issueDate) {
+    UseMethod("FixedRateBondPriceByYield")
 }
+
 FixedRateBondPriceByYield.default <- function(settlementDays = 1, yield, faceAmount=100,
-                                effectiveDate=issueDate, maturityDate,
-                                period, calendar = "us", rates,
-                                dayCounter=2, businessDayConvention=0,
-                                compound = 0, redemption = 100, issueDate) {
-     val <- .Call("FixedRateBondPriceByYield",
-                    list(
-                         settlementDays=as.double(settlementDays),
-                         yield = as.double(yield),
-                         calendar=as.character(calendar),
-		         faceAmount = as.double(faceAmount),
-                         period = as.double(period),
-		         businessDayConvention=as.double(businessDayConvention),
-                         compound = as.double(compound),
-		         redemption= as.double(redemption),
-                         dayCounter = as.double(dayCounter),
-		         maturityDate = maturityDate,
-                         effectiveDate = effectiveDate,
-		         issueDate = issueDate
-		         ), rates,
-                 PACKAGE="RQuantLib")
+                                              effectiveDate=issueDate, maturityDate,
+                                              period, calendar = "us", rates,
+                                              dayCounter=2, businessDayConvention=0,
+                                              compound = 0, redemption = 100, issueDate) {
+    val <- fixedRateBondPriceByYieldEngine(settlementDays, yield, calendar, faceAmount,
+                                           businessDayConvention,
+                                           compound, redemption, dayCounter, period,
+                                           maturityDate, issueDate, effectiveDate,
+                                           rates)
     class(val) <- c("FixedRateBondPriceByYield")
     val
 }

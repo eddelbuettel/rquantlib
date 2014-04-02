@@ -57,13 +57,14 @@ double europeanOptionImpliedVolatilityEngine(std::string type,
     QuantLib::Date exDate = today + length;
     boost::shared_ptr<QuantLib::Exercise> exercise(new QuantLib::EuropeanExercise(exDate));
     boost::shared_ptr<QuantLib::StrikedTypePayoff> payoff(new QuantLib::PlainVanillaPayoff(optionType, strike));
-    double implVol = 0.0; // just to remove a warning...
-    boost::shared_ptr<QuantLib::VanillaOption> option = makeOption(payoff, exercise, spot, qTS, rTS, 
-                                                                   volTS, Analytic, 
-                                                                   QuantLib::Null<QuantLib::Size>(), 
-                                                                   QuantLib::Null<QuantLib::Size>());
+    boost::shared_ptr<QuantLib::VanillaOption> 
+        option = makeOption(payoff, exercise, spot, qTS, rTS, 
+                            volTS, Analytic, 
+                            QuantLib::Null<QuantLib::Size>(), 
+                            QuantLib::Null<QuantLib::Size>());
 
-    boost::shared_ptr<QuantLib::GeneralizedBlackScholesProcess> process = makeProcess(spot, qTS, rTS,volTS);
+    boost::shared_ptr<QuantLib::GeneralizedBlackScholesProcess> 
+        process = makeProcess(spot, qTS, rTS,volTS);
 
     double volguess = volatility;
     vol->setValue(volguess);

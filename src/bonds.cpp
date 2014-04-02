@@ -135,8 +135,7 @@ Rcpp::List zeroBondEngine(Rcpp::List bondparam,
 
 // TODO: R interface -- cannot use Attribute with converter for Handle<>
 // currently NOT exported but called below
-Rcpp::List fixedBondEngine(Rcpp::List bondparam, 
-                           Rcpp::NumericVector rates,//extract coupon rates vector
+Rcpp::List fixedBondEngine(Rcpp::List bondparam, std::vector<double> rates,
                            QuantLib::Handle<QuantLib::YieldTermStructure> &discountCurve,
                            Rcpp::List dateparams) {
 
@@ -179,8 +178,7 @@ Rcpp::List fixedBondEngine(Rcpp::List bondparam,
     QuantLib::Schedule sch(effectiveDate, maturityDate, QuantLib::Period(freq), calendar,
                            bdc, tbdc, rule, endOfMonth);
         
-    QuantLib::FixedRateBond bond(settlementDays, faceAmount, sch,
-                                 Rcpp::as<std::vector <double> >(rates), 
+    QuantLib::FixedRateBond bond(settlementDays, faceAmount, sch, rates, 
                                  dc, bdc, redemption, issueDate);
     
     //bond price
@@ -237,59 +235,44 @@ double fixedRateBondYieldByPriceEngine(double settlementDays,
     return bond.yield(price, dc, cp, freq);
 }
 
+// [[Rcpp::export]]
+double fixedRateBondPriceByYieldEngine(double settlementDays,
+                                       double yield,
+                                       std::string cal,
+                                       double faceAmount,
+                                       double businessDayConvention,
+                                       double compound,
+                                       double redemption,
+                                       double dayCounter,
+                                       double frequency, 
+                                       QuantLib::Date maturityDate,
+                                       QuantLib::Date issueDate,
+                                       QuantLib::Date effectiveDate,
+                                       std::vector<double> rates) {
  
-RcppExport SEXP FixedRateBondPriceByYield(SEXP optionParameters, SEXP ratesVec) {
-  
-    try {
-        Rcpp::List rparam(optionParameters);
-        double settlementDays = Rcpp::as<double>(rparam["settlementDays"]);
-        std::string cal = Rcpp::as<std::string>(rparam["calendar"]);
-        double yield = Rcpp::as<double>(rparam["yield"]);
-        double faceAmount = Rcpp::as<double>(rparam["faceAmount"]);
-        double businessDayConvention = Rcpp::as<double>(rparam["businessDayConvention"]);
-        double compound = Rcpp::as<double>(rparam["compound"]);
-        double redemption = Rcpp::as<double>(rparam["redemption"]);
-        double dayCounter = Rcpp::as<double>(rparam["dayCounter"]);
-        double frequency = Rcpp::as<double>(rparam["period"]);
-        
-        QuantLib::Date maturityDate(Rcpp::as<QuantLib::Date>(rparam["maturityDate"]));
-        QuantLib::Date issueDate(Rcpp::as<QuantLib::Date>(rparam["issueDate"]));
-        QuantLib::Date effectiveDate(Rcpp::as<QuantLib::Date>(rparam["effectiveDate"]));
-        
-        //extract coupon rates vector
-        Rcpp::NumericVector rates(ratesVec); 
-        
-        //set up BusinessDayConvetion
-        QuantLib::BusinessDayConvention bdc = getBusinessDayConvention(businessDayConvention);
-        QuantLib::DayCounter dc = getDayCounter(dayCounter);
-        QuantLib::Frequency freq = getFrequency(frequency);
-        QuantLib::Compounding cp = getCompounding(compound);
+    //set up BusinessDayConvetion
+    QuantLib::BusinessDayConvention bdc = getBusinessDayConvention(businessDayConvention);
+    QuantLib::DayCounter dc = getDayCounter(dayCounter);
+    QuantLib::Frequency freq = getFrequency(frequency);
+    QuantLib::Compounding cp = getCompounding(compound);
  
-        //set up calendar
-        QuantLib::Calendar calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-        if (cal == "us"){
-            calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-        } else if (cal == "uk"){
-            calendar = QuantLib::UnitedKingdom(QuantLib::UnitedKingdom::Exchange);
-        }
-        
-        //build the bond
-        QuantLib::Schedule sch(effectiveDate, maturityDate, QuantLib::Period(freq), calendar,
-                               bdc, bdc, QuantLib::DateGeneration::Backward, false);
-        
-        QuantLib::FixedRateBond bond(settlementDays, faceAmount, sch,
-                                     Rcpp::as<std::vector <double> >(rates), 
-                                     dc, bdc, redemption, issueDate);
-        
-        return Rcpp::wrap(bond.cleanPrice(yield, dc, cp, freq));
-        
-    } catch(std::exception &ex) { 
-        forward_exception_to_r(ex); 
-    } catch(...) { 
-        ::Rf_error("c++ exception (unknown reason)"); 
+    //set up calendar
+    QuantLib::Calendar 
+        calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
+    if (cal == "us"){
+        calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
+    } else if (cal == "uk"){
+        calendar = QuantLib::UnitedKingdom(QuantLib::UnitedKingdom::Exchange);
     }
+        
+    //build the bond
+    QuantLib::Schedule sch(effectiveDate, maturityDate, QuantLib::Period(freq), calendar,
+                           bdc, bdc, QuantLib::DateGeneration::Backward, false);
+        
+    QuantLib::FixedRateBond bond(settlementDays, faceAmount, sch, rates, 
+                                 dc, bdc, redemption, issueDate);
     
-    return R_NilValue;
+    return bond.cleanPrice(yield, dc, cp, freq);
 }
 
 
@@ -524,7 +507,7 @@ RcppExport SEXP FloatingWithRebuiltCurve(SEXP bondparams, SEXP gearings,
 
 // [[Rcpp::export]]
 Rcpp::List FixedRateWithRebuiltCurve(Rcpp::List bondparam, 
-                                     Rcpp::NumericVector ratesVec,
+                                     std::vector<double> ratesVec,
                                      SEXP dateSexp, 
                                      SEXP zeroSexp,
                                      Rcpp::List dateparams) {

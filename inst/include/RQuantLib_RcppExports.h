@@ -81,11 +81,30 @@ namespace RQuantLib {
         return Rcpp::as<double >(__result);
     }
 
-    inline Rcpp::List FixedRateWithRebuiltCurve(Rcpp::List bondparam, Rcpp::NumericVector ratesVec, SEXP dateSexp, SEXP zeroSexp, Rcpp::List dateparams) {
+    inline double fixedRateBondPriceByYieldEngine(double settlementDays, double yield, std::string cal, double faceAmount, double businessDayConvention, double compound, double redemption, double dayCounter, double frequency, QuantLib::Date maturityDate, QuantLib::Date issueDate, QuantLib::Date effectiveDate, std::vector<double> rates) {
+        typedef SEXP(*Ptr_fixedRateBondPriceByYieldEngine)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
+        static Ptr_fixedRateBondPriceByYieldEngine p_fixedRateBondPriceByYieldEngine = NULL;
+        if (p_fixedRateBondPriceByYieldEngine == NULL) {
+            validateSignature("double(*fixedRateBondPriceByYieldEngine)(double,double,std::string,double,double,double,double,double,double,QuantLib::Date,QuantLib::Date,QuantLib::Date,std::vector<double>)");
+            p_fixedRateBondPriceByYieldEngine = (Ptr_fixedRateBondPriceByYieldEngine)R_GetCCallable("RQuantLib", "RQuantLib_fixedRateBondPriceByYieldEngine");
+        }
+        RObject __result;
+        {
+            RNGScope __rngScope;
+            __result = p_fixedRateBondPriceByYieldEngine(Rcpp::wrap(settlementDays), Rcpp::wrap(yield), Rcpp::wrap(cal), Rcpp::wrap(faceAmount), Rcpp::wrap(businessDayConvention), Rcpp::wrap(compound), Rcpp::wrap(redemption), Rcpp::wrap(dayCounter), Rcpp::wrap(frequency), Rcpp::wrap(maturityDate), Rcpp::wrap(issueDate), Rcpp::wrap(effectiveDate), Rcpp::wrap(rates));
+        }
+        if (__result.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (__result.inherits("try-error"))
+            throw Rcpp::exception(as<std::string>(__result).c_str());
+        return Rcpp::as<double >(__result);
+    }
+
+    inline Rcpp::List FixedRateWithRebuiltCurve(Rcpp::List bondparam, std::vector<double> ratesVec, SEXP dateSexp, SEXP zeroSexp, Rcpp::List dateparams) {
         typedef SEXP(*Ptr_FixedRateWithRebuiltCurve)(SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_FixedRateWithRebuiltCurve p_FixedRateWithRebuiltCurve = NULL;
         if (p_FixedRateWithRebuiltCurve == NULL) {
-            validateSignature("Rcpp::List(*FixedRateWithRebuiltCurve)(Rcpp::List,Rcpp::NumericVector,SEXP,SEXP,Rcpp::List)");
+            validateSignature("Rcpp::List(*FixedRateWithRebuiltCurve)(Rcpp::List,std::vector<double>,SEXP,SEXP,Rcpp::List)");
             p_FixedRateWithRebuiltCurve = (Ptr_FixedRateWithRebuiltCurve)R_GetCCallable("RQuantLib", "RQuantLib_FixedRateWithRebuiltCurve");
         }
         RObject __result;

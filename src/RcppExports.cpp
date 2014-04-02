@@ -123,6 +123,163 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// zeroPriceByYieldEngine
+double zeroPriceByYieldEngine(double yield, double faceAmount, double dayCounter, double frequency, double businessDayConvention, double compound, QuantLib::Date maturityDate, QuantLib::Date issueDate);
+static SEXP RQuantLib_zeroPriceByYieldEngine_try(SEXP yieldSEXP, SEXP faceAmountSEXP, SEXP dayCounterSEXP, SEXP frequencySEXP, SEXP businessDayConventionSEXP, SEXP compoundSEXP, SEXP maturityDateSEXP, SEXP issueDateSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::traits::input_parameter< double >::type yield(yieldSEXP );
+        Rcpp::traits::input_parameter< double >::type faceAmount(faceAmountSEXP );
+        Rcpp::traits::input_parameter< double >::type dayCounter(dayCounterSEXP );
+        Rcpp::traits::input_parameter< double >::type frequency(frequencySEXP );
+        Rcpp::traits::input_parameter< double >::type businessDayConvention(businessDayConventionSEXP );
+        Rcpp::traits::input_parameter< double >::type compound(compoundSEXP );
+        Rcpp::traits::input_parameter< QuantLib::Date >::type maturityDate(maturityDateSEXP );
+        Rcpp::traits::input_parameter< QuantLib::Date >::type issueDate(issueDateSEXP );
+        double __result = zeroPriceByYieldEngine(yield, faceAmount, dayCounter, frequency, businessDayConvention, compound, maturityDate, issueDate);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP RQuantLib_zeroPriceByYieldEngine(SEXP yieldSEXP, SEXP faceAmountSEXP, SEXP dayCounterSEXP, SEXP frequencySEXP, SEXP businessDayConventionSEXP, SEXP compoundSEXP, SEXP maturityDateSEXP, SEXP issueDateSEXP) {
+    SEXP __result;
+    {
+        Rcpp::RNGScope __rngScope;
+        __result = PROTECT(RQuantLib_zeroPriceByYieldEngine_try(yieldSEXP, faceAmountSEXP, dayCounterSEXP, frequencySEXP, businessDayConventionSEXP, compoundSEXP, maturityDateSEXP, issueDateSEXP));
+    }
+    Rboolean __isInterrupt = Rf_inherits(__result, "interrupted-error");
+    if (__isInterrupt) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    Rboolean __isError = Rf_inherits(__result, "try-error");
+    if (__isError) {
+        SEXP __msgSEXP = Rf_asChar(__result);
+        UNPROTECT(1);
+        Rf_error(CHAR(__msgSEXP));
+    }
+    UNPROTECT(1);
+    return __result;
+}
+// zeroYieldByPriceEngine
+double zeroYieldByPriceEngine(double price, double faceAmount, double dayCounter, double frequency, double businessDayConvention, double compound, QuantLib::Date maturityDate, QuantLib::Date issueDate);
+static SEXP RQuantLib_zeroYieldByPriceEngine_try(SEXP priceSEXP, SEXP faceAmountSEXP, SEXP dayCounterSEXP, SEXP frequencySEXP, SEXP businessDayConventionSEXP, SEXP compoundSEXP, SEXP maturityDateSEXP, SEXP issueDateSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::traits::input_parameter< double >::type price(priceSEXP );
+        Rcpp::traits::input_parameter< double >::type faceAmount(faceAmountSEXP );
+        Rcpp::traits::input_parameter< double >::type dayCounter(dayCounterSEXP );
+        Rcpp::traits::input_parameter< double >::type frequency(frequencySEXP );
+        Rcpp::traits::input_parameter< double >::type businessDayConvention(businessDayConventionSEXP );
+        Rcpp::traits::input_parameter< double >::type compound(compoundSEXP );
+        Rcpp::traits::input_parameter< QuantLib::Date >::type maturityDate(maturityDateSEXP );
+        Rcpp::traits::input_parameter< QuantLib::Date >::type issueDate(issueDateSEXP );
+        double __result = zeroYieldByPriceEngine(price, faceAmount, dayCounter, frequency, businessDayConvention, compound, maturityDate, issueDate);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP RQuantLib_zeroYieldByPriceEngine(SEXP priceSEXP, SEXP faceAmountSEXP, SEXP dayCounterSEXP, SEXP frequencySEXP, SEXP businessDayConventionSEXP, SEXP compoundSEXP, SEXP maturityDateSEXP, SEXP issueDateSEXP) {
+    SEXP __result;
+    {
+        Rcpp::RNGScope __rngScope;
+        __result = PROTECT(RQuantLib_zeroYieldByPriceEngine_try(priceSEXP, faceAmountSEXP, dayCounterSEXP, frequencySEXP, businessDayConventionSEXP, compoundSEXP, maturityDateSEXP, issueDateSEXP));
+    }
+    Rboolean __isInterrupt = Rf_inherits(__result, "interrupted-error");
+    if (__isInterrupt) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    Rboolean __isError = Rf_inherits(__result, "try-error");
+    if (__isError) {
+        SEXP __msgSEXP = Rf_asChar(__result);
+        UNPROTECT(1);
+        Rf_error(CHAR(__msgSEXP));
+    }
+    UNPROTECT(1);
+    return __result;
+}
+// FixedRateWithRebuiltCurve
+Rcpp::List FixedRateWithRebuiltCurve(Rcpp::List bondparam, Rcpp::NumericVector ratesVec, SEXP dateSexp, SEXP zeroSexp, Rcpp::List dateparams);
+static SEXP RQuantLib_FixedRateWithRebuiltCurve_try(SEXP bondparamSEXP, SEXP ratesVecSEXP, SEXP dateSexpSEXP, SEXP zeroSexpSEXP, SEXP dateparamsSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::traits::input_parameter< Rcpp::List >::type bondparam(bondparamSEXP );
+        Rcpp::traits::input_parameter< Rcpp::NumericVector >::type ratesVec(ratesVecSEXP );
+        Rcpp::traits::input_parameter< SEXP >::type dateSexp(dateSexpSEXP );
+        Rcpp::traits::input_parameter< SEXP >::type zeroSexp(zeroSexpSEXP );
+        Rcpp::traits::input_parameter< Rcpp::List >::type dateparams(dateparamsSEXP );
+        Rcpp::List __result = FixedRateWithRebuiltCurve(bondparam, ratesVec, dateSexp, zeroSexp, dateparams);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP RQuantLib_FixedRateWithRebuiltCurve(SEXP bondparamSEXP, SEXP ratesVecSEXP, SEXP dateSexpSEXP, SEXP zeroSexpSEXP, SEXP dateparamsSEXP) {
+    SEXP __result;
+    {
+        Rcpp::RNGScope __rngScope;
+        __result = PROTECT(RQuantLib_FixedRateWithRebuiltCurve_try(bondparamSEXP, ratesVecSEXP, dateSexpSEXP, zeroSexpSEXP, dateparamsSEXP));
+    }
+    Rboolean __isInterrupt = Rf_inherits(__result, "interrupted-error");
+    if (__isInterrupt) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    Rboolean __isError = Rf_inherits(__result, "try-error");
+    if (__isError) {
+        SEXP __msgSEXP = Rf_asChar(__result);
+        UNPROTECT(1);
+        Rf_error(CHAR(__msgSEXP));
+    }
+    UNPROTECT(1);
+    return __result;
+}
+// ZeroBondWithRebuiltCurve
+Rcpp::List ZeroBondWithRebuiltCurve(SEXP bond, SEXP dateSexp, SEXP zeroSexp, SEXP dateparams);
+static SEXP RQuantLib_ZeroBondWithRebuiltCurve_try(SEXP bondSEXP, SEXP dateSexpSEXP, SEXP zeroSexpSEXP, SEXP dateparamsSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::traits::input_parameter< SEXP >::type bond(bondSEXP );
+        Rcpp::traits::input_parameter< SEXP >::type dateSexp(dateSexpSEXP );
+        Rcpp::traits::input_parameter< SEXP >::type zeroSexp(zeroSexpSEXP );
+        Rcpp::traits::input_parameter< SEXP >::type dateparams(dateparamsSEXP );
+        Rcpp::List __result = ZeroBondWithRebuiltCurve(bond, dateSexp, zeroSexp, dateparams);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP RQuantLib_ZeroBondWithRebuiltCurve(SEXP bondSEXP, SEXP dateSexpSEXP, SEXP zeroSexpSEXP, SEXP dateparamsSEXP) {
+    SEXP __result;
+    {
+        Rcpp::RNGScope __rngScope;
+        __result = PROTECT(RQuantLib_ZeroBondWithRebuiltCurve_try(bondSEXP, dateSexpSEXP, zeroSexpSEXP, dateparamsSEXP));
+    }
+    Rboolean __isInterrupt = Rf_inherits(__result, "interrupted-error");
+    if (__isInterrupt) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    Rboolean __isError = Rf_inherits(__result, "try-error");
+    if (__isError) {
+        SEXP __msgSEXP = Rf_asChar(__result);
+        UNPROTECT(1);
+        Rf_error(CHAR(__msgSEXP));
+    }
+    UNPROTECT(1);
+    return __result;
+}
 // setCalendarContext
 bool setCalendarContext(std::string calendar, int fixingDays, QuantLib::Date settleDate);
 RcppExport SEXP RQuantLib_setCalendarContext(SEXP calendarSEXP, SEXP fixingDaysSEXP, SEXP settleDateSEXP) {
@@ -758,6 +915,10 @@ END_RCPP
 static int RQuantLib_RcppExport_validate(const char* sig) { 
     static std::set<std::string> signatures;
     if (signatures.empty()) {
+        signatures.insert("double(*zeroPriceByYieldEngine)(double,double,double,double,double,double,QuantLib::Date,QuantLib::Date)");
+        signatures.insert("double(*zeroYieldByPriceEngine)(double,double,double,double,double,double,QuantLib::Date,QuantLib::Date)");
+        signatures.insert("Rcpp::List(*FixedRateWithRebuiltCurve)(Rcpp::List,Rcpp::NumericVector,SEXP,SEXP,Rcpp::List)");
+        signatures.insert("Rcpp::List(*ZeroBondWithRebuiltCurve)(SEXP,SEXP,SEXP,SEXP)");
         signatures.insert("QuantLib::Date(*advanceDate)(QuantLib::Date,int)");
         signatures.insert("std::vector<double>(*dayCount)(std::vector<QuantLib::Date>,std::vector<QuantLib::Date>,std::vector<double>)");
         signatures.insert("std::vector<double>(*yearFraction)(std::vector<QuantLib::Date>,std::vector<QuantLib::Date>,std::vector<double>)");
@@ -773,6 +934,10 @@ static int RQuantLib_RcppExport_validate(const char* sig) {
 
 // registerCCallable (register entry points for exported C++ functions)
 RcppExport SEXP RQuantLib_RcppExport_registerCCallable() { 
+    R_RegisterCCallable("RQuantLib", "RQuantLib_zeroPriceByYieldEngine", (DL_FUNC)RQuantLib_zeroPriceByYieldEngine_try);
+    R_RegisterCCallable("RQuantLib", "RQuantLib_zeroYieldByPriceEngine", (DL_FUNC)RQuantLib_zeroYieldByPriceEngine_try);
+    R_RegisterCCallable("RQuantLib", "RQuantLib_FixedRateWithRebuiltCurve", (DL_FUNC)RQuantLib_FixedRateWithRebuiltCurve_try);
+    R_RegisterCCallable("RQuantLib", "RQuantLib_ZeroBondWithRebuiltCurve", (DL_FUNC)RQuantLib_ZeroBondWithRebuiltCurve_try);
     R_RegisterCCallable("RQuantLib", "RQuantLib_advanceDate", (DL_FUNC)RQuantLib_advanceDate_try);
     R_RegisterCCallable("RQuantLib", "RQuantLib_dayCount", (DL_FUNC)RQuantLib_dayCount_try);
     R_RegisterCCallable("RQuantLib", "RQuantLib_yearFraction", (DL_FUNC)RQuantLib_yearFraction_try);

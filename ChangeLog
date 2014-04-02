@@ -1,6 +1,11 @@
+2014-04-01  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/bonds.cpp: Partially changed to use Rcpp Attributes
+	* R/bond.R: Corresponding changes
+
 2014-03-31  Dirk Eddelbuettel  <edd@debian.org>
 
-	* src/curves.cpp: Some updates reflecting newer Rcpp 
+	* src/curves.cpp: Some updates reflecting newer Rcpp
 
 2014-03-30  Dirk Eddelbuettel  <edd@debian.org>
 

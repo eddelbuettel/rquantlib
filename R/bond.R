@@ -1,38 +1,35 @@
 ## RQuantLib -- R interface to the QuantLib libraries
 ##
-## Copyright (C) 2002 - 2009 Dirk Eddelbuettel <edd@debian.org>
-## Copyright (C) 2009        Khanh Nguyen <knguyen@cs.umb.edu>
-## Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Khanh Nguyen
+##  Copyright (C) 2002 - 2014  Dirk Eddelbuettel <edd@debian.org>
+##  Copyright (C) 2009         Khanh Nguyen <knguyen@cs.umb.edu>
+##  Copyright (C) 2010 - 2011  Dirk Eddelbuettel and Khanh Nguyen
 ##
-## $Id$
+##  This file is part of RQuantLib.
 ##
-## This file is part of the RQuantLib library for GNU R.
-## It is made available under the terms of the GNU General Public
-## License, version 2, or at your option, any later version,
-## incorporated herein by reference.
+##  RQuantLib is free software: you can redistribute it and/or modify
+##  it under the terms of the GNU General Public License as published by
+##  the Free Software Foundation, either version 2 of the License, or
+##  (at your option) any later version.
 ##
-## This program is distributed in the hope that it will be
-## useful, but WITHOUT ANY WARRANTY; without even the implied
-## warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-## PURPOSE.  See the GNU General Public License for more
-## details.
+##  RQuantLib is distributed in the hope that it will be useful,
+##  but WITHOUT ANY WARRANTY; without even the implied warranty of
+##  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+##  GNU General Public License for more details.
 ##
-## You should have received a copy of the GNU General Public
-## License along with this program; if not, write to the Free
-## Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-## MA 02111-1307, USA
+##  You should have received a copy of the GNU General Public License
+##  along with RQuantLib.  If not, see <http://www.gnu.org/licenses/>.
 
 ZeroCouponBond <- function(bond, discountCurve, dateparams ) {
     UseMethod("ZeroCouponBond")
 }
 
+## TODO: redo interface here
 ZeroCouponBond.default <- function(bond,
                                    discountCurve,
-                                   dateparams=list(
-                                     refDate=bond$issueDate,
-                                     settlementDays=1,
-                                     calendar='us',
-                                     businessDayConvention='Following')) {
+                                   dateparams=list(refDate=bond$issueDate,
+                                   settlementDays=1,
+                                   calendar='us',
+                                   businessDayConvention='Following')) {
     val <- 0
 
     if (is.null(bond$faceAmount)) {bond$faceAmount=100}
@@ -45,11 +42,8 @@ ZeroCouponBond.default <- function(bond,
     dateparams <- matchParams(dateparams)
 
 
-    val <- .Call("ZeroBondWithRebuiltCurve",
-                 bond, c(discountCurve$table$date),
-                 discountCurve$table$zeroRates, dateparams,
-                 PACKAGE="RQuantLib")
-
+    val <- ZeroBondWithRebuiltCurve(bond, c(discountCurve$table$date),
+                                    discountCurve$table$zeroRates, dateparams)
     class(val) <- c("ZeroCouponBond", "Bond")
     val
 }
@@ -57,56 +51,39 @@ ZeroCouponBond.default <- function(bond,
 
 
 ZeroPriceByYield <- function(yield, faceAmount,
-                      issueDate, maturityDate,
-                      dayCounter, frequency,
-                      compound, businessDayConvention){
-          UseMethod("ZeroPriceByYield")
+                             issueDate, maturityDate,
+                             dayCounter, frequency,
+                             compound, businessDayConvention){
+    UseMethod("ZeroPriceByYield")
 }
 
 ZeroPriceByYield.default <- function(yield, faceAmount=100,
-                              issueDate, maturityDate,
-                              dayCounter=2, frequency=2,
-                              compound=0, businessDayConvention=4){
+                                     issueDate, maturityDate,
+                                     dayCounter=2, frequency=2,
+                                     compound=0, businessDayConvention=4) {
 
-     val <- .Call("ZeroPriceByYield",
-                  list(
-                       yield=as.double(yield),
-                       faceAmount = as.double(faceAmount),
-                       dayCounter = as.double(dayCounter),
-                       compound = as.double(compound),
-                       businessDayConvention = as.double(businessDayConvention),
-                       frequency = as.double(frequency),
-                       maturityDate = maturityDate,
-                       issueDate = issueDate),
-                  PACKAGE="RQuantLib")
-     class(val) <- c("ZeroPriceByYield")
-     val
+    val <- zeroPriceByYieldEngine(yield, faceAmount, dayCounter,
+                                  compound, businessDayConvention,
+                                  frequency, maturityDate, issueDate)
+    class(val) <- c("ZeroPriceByYield")
+    val
 }
 
-ZeroYield <- function(price, faceAmount,
-                      issueDate, maturityDate,
-                      dayCounter, frequency,
-                      compound,	businessDayConvention){
-	  UseMethod("ZeroYield")
+ZeroYield <- function(price, faceAmount, issueDate, maturityDate,
+                      dayCounter, frequency, compound,	businessDayConvention) {
+    UseMethod("ZeroYield")
 }
+
 ZeroYield.default <- function(price, faceAmount=100,
                               issueDate, maturityDate,
                               dayCounter=2, frequency=2,
-                              compound=0, businessDayConvention=4){
+                              compound=0, businessDayConvention=4) {
 
-     val <- .Call("ZeroYield",
-                  list(
-                       price=as.double(price),
-                       faceAmount = as.double(faceAmount),
-                       dayCounter = as.double(dayCounter),
-                       compound = as.double(compound),
-                       businessDayConvention = as.double(businessDayConvention),
-                       frequency = as.double(frequency),
-                       maturityDate = maturityDate,
-                       issueDate = issueDate),
-                  PACKAGE="RQuantLib")
-     class(val) <- c("ZeroYield")
-     val
+    val <- zeroYieldByPriceEngine(price, faceAmount, dayCounter, compound,
+                                  businessDayConvention, frequency,
+                                  maturityDate, issueDate)
+    class(val) <- c("ZeroYield")
+    val
 }
 
 
@@ -152,11 +129,8 @@ FixedRateBond.default <- function(bond,
 
     dateparams <- matchParams(dateparams)
 
-    val <- .Call("FixedRateWithRebuiltCurve",
-                 bond, rates, c(discountCurve$table$date),
-                 discountCurve$table$zeroRates, dateparams,
-                 PACKAGE="RQuantLib")
-
+    val <- FixedRateWithRebuiltCurve(bond, rates, c(discountCurve$table$date),
+                                     discountCurve$table$zeroRates, dateparams)
     class(val) <- c("FixedRateBond", "Bond")
     val
 }

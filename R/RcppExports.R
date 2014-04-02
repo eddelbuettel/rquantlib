@@ -21,6 +21,22 @@ bermudanSwaptionEngine <- function(rparam, tslist, swaptionMat, swapLengths, swa
     .Call('RQuantLib_bermudanSwaptionEngine', PACKAGE = 'RQuantLib', rparam, tslist, swaptionMat, swapLengths, swaptionVols)
 }
 
+zeroPriceByYieldEngine <- function(yield, faceAmount, dayCounter, frequency, businessDayConvention, compound, maturityDate, issueDate) {
+    .Call('RQuantLib_zeroPriceByYieldEngine', PACKAGE = 'RQuantLib', yield, faceAmount, dayCounter, frequency, businessDayConvention, compound, maturityDate, issueDate)
+}
+
+zeroYieldByPriceEngine <- function(price, faceAmount, dayCounter, frequency, businessDayConvention, compound, maturityDate, issueDate) {
+    .Call('RQuantLib_zeroYieldByPriceEngine', PACKAGE = 'RQuantLib', price, faceAmount, dayCounter, frequency, businessDayConvention, compound, maturityDate, issueDate)
+}
+
+FixedRateWithRebuiltCurve <- function(bondparam, ratesVec, dateSexp, zeroSexp, dateparams) {
+    .Call('RQuantLib_FixedRateWithRebuiltCurve', PACKAGE = 'RQuantLib', bondparam, ratesVec, dateSexp, zeroSexp, dateparams)
+}
+
+ZeroBondWithRebuiltCurve <- function(bond, dateSexp, zeroSexp, dateparams) {
+    .Call('RQuantLib_ZeroBondWithRebuiltCurve', PACKAGE = 'RQuantLib', bond, dateSexp, zeroSexp, dateparams)
+}
+
 setCalendarContext <- function(calendar, fixingDays, settleDate) {
     .Call('RQuantLib_setCalendarContext', PACKAGE = 'RQuantLib', calendar, fixingDays, settleDate)
 }

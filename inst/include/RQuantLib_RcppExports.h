@@ -24,6 +24,82 @@ namespace RQuantLib {
         }
     }
 
+    inline double zeroPriceByYieldEngine(double yield, double faceAmount, double dayCounter, double frequency, double businessDayConvention, double compound, QuantLib::Date maturityDate, QuantLib::Date issueDate) {
+        typedef SEXP(*Ptr_zeroPriceByYieldEngine)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
+        static Ptr_zeroPriceByYieldEngine p_zeroPriceByYieldEngine = NULL;
+        if (p_zeroPriceByYieldEngine == NULL) {
+            validateSignature("double(*zeroPriceByYieldEngine)(double,double,double,double,double,double,QuantLib::Date,QuantLib::Date)");
+            p_zeroPriceByYieldEngine = (Ptr_zeroPriceByYieldEngine)R_GetCCallable("RQuantLib", "RQuantLib_zeroPriceByYieldEngine");
+        }
+        RObject __result;
+        {
+            RNGScope __rngScope;
+            __result = p_zeroPriceByYieldEngine(Rcpp::wrap(yield), Rcpp::wrap(faceAmount), Rcpp::wrap(dayCounter), Rcpp::wrap(frequency), Rcpp::wrap(businessDayConvention), Rcpp::wrap(compound), Rcpp::wrap(maturityDate), Rcpp::wrap(issueDate));
+        }
+        if (__result.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (__result.inherits("try-error"))
+            throw Rcpp::exception(as<std::string>(__result).c_str());
+        return Rcpp::as<double >(__result);
+    }
+
+    inline double zeroYieldByPriceEngine(double price, double faceAmount, double dayCounter, double frequency, double businessDayConvention, double compound, QuantLib::Date maturityDate, QuantLib::Date issueDate) {
+        typedef SEXP(*Ptr_zeroYieldByPriceEngine)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
+        static Ptr_zeroYieldByPriceEngine p_zeroYieldByPriceEngine = NULL;
+        if (p_zeroYieldByPriceEngine == NULL) {
+            validateSignature("double(*zeroYieldByPriceEngine)(double,double,double,double,double,double,QuantLib::Date,QuantLib::Date)");
+            p_zeroYieldByPriceEngine = (Ptr_zeroYieldByPriceEngine)R_GetCCallable("RQuantLib", "RQuantLib_zeroYieldByPriceEngine");
+        }
+        RObject __result;
+        {
+            RNGScope __rngScope;
+            __result = p_zeroYieldByPriceEngine(Rcpp::wrap(price), Rcpp::wrap(faceAmount), Rcpp::wrap(dayCounter), Rcpp::wrap(frequency), Rcpp::wrap(businessDayConvention), Rcpp::wrap(compound), Rcpp::wrap(maturityDate), Rcpp::wrap(issueDate));
+        }
+        if (__result.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (__result.inherits("try-error"))
+            throw Rcpp::exception(as<std::string>(__result).c_str());
+        return Rcpp::as<double >(__result);
+    }
+
+    inline Rcpp::List FixedRateWithRebuiltCurve(Rcpp::List bondparam, Rcpp::NumericVector ratesVec, SEXP dateSexp, SEXP zeroSexp, Rcpp::List dateparams) {
+        typedef SEXP(*Ptr_FixedRateWithRebuiltCurve)(SEXP,SEXP,SEXP,SEXP,SEXP);
+        static Ptr_FixedRateWithRebuiltCurve p_FixedRateWithRebuiltCurve = NULL;
+        if (p_FixedRateWithRebuiltCurve == NULL) {
+            validateSignature("Rcpp::List(*FixedRateWithRebuiltCurve)(Rcpp::List,Rcpp::NumericVector,SEXP,SEXP,Rcpp::List)");
+            p_FixedRateWithRebuiltCurve = (Ptr_FixedRateWithRebuiltCurve)R_GetCCallable("RQuantLib", "RQuantLib_FixedRateWithRebuiltCurve");
+        }
+        RObject __result;
+        {
+            RNGScope __rngScope;
+            __result = p_FixedRateWithRebuiltCurve(Rcpp::wrap(bondparam), Rcpp::wrap(ratesVec), Rcpp::wrap(dateSexp), Rcpp::wrap(zeroSexp), Rcpp::wrap(dateparams));
+        }
+        if (__result.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (__result.inherits("try-error"))
+            throw Rcpp::exception(as<std::string>(__result).c_str());
+        return Rcpp::as<Rcpp::List >(__result);
+    }
+
+    inline Rcpp::List ZeroBondWithRebuiltCurve(SEXP bond, SEXP dateSexp, SEXP zeroSexp, SEXP dateparams) {
+        typedef SEXP(*Ptr_ZeroBondWithRebuiltCurve)(SEXP,SEXP,SEXP,SEXP);
+        static Ptr_ZeroBondWithRebuiltCurve p_ZeroBondWithRebuiltCurve = NULL;
+        if (p_ZeroBondWithRebuiltCurve == NULL) {
+            validateSignature("Rcpp::List(*ZeroBondWithRebuiltCurve)(SEXP,SEXP,SEXP,SEXP)");
+            p_ZeroBondWithRebuiltCurve = (Ptr_ZeroBondWithRebuiltCurve)R_GetCCallable("RQuantLib", "RQuantLib_ZeroBondWithRebuiltCurve");
+        }
+        RObject __result;
+        {
+            RNGScope __rngScope;
+            __result = p_ZeroBondWithRebuiltCurve(Rcpp::wrap(bond), Rcpp::wrap(dateSexp), Rcpp::wrap(zeroSexp), Rcpp::wrap(dateparams));
+        }
+        if (__result.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (__result.inherits("try-error"))
+            throw Rcpp::exception(as<std::string>(__result).c_str());
+        return Rcpp::as<Rcpp::List >(__result);
+    }
+
     inline QuantLib::Date advanceDate(QuantLib::Date issueDate, int days) {
         typedef SEXP(*Ptr_advanceDate)(SEXP,SEXP);
         static Ptr_advanceDate p_advanceDate = NULL;

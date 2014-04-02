@@ -63,8 +63,8 @@ ZeroPriceByYield.default <- function(yield, faceAmount=100,
                                      compound=0, businessDayConvention=4) {
 
     val <- zeroPriceByYieldEngine(yield, faceAmount, dayCounter,
-                                  compound, businessDayConvention,
-                                  frequency, maturityDate, issueDate)
+                                  frequency, businessDayConvention,
+                                  compound, maturityDate, issueDate)
     class(val) <- c("ZeroPriceByYield")
     val
 }
@@ -79,8 +79,8 @@ ZeroYield.default <- function(price, faceAmount=100,
                               dayCounter=2, frequency=2,
                               compound=0, businessDayConvention=4) {
 
-    val <- zeroYieldByPriceEngine(price, faceAmount, dayCounter, compound,
-                                  businessDayConvention, frequency,
+    val <- zeroYieldByPriceEngine(price, faceAmount, dayCounter, frequency,
+                                  businessDayConvention, compound,
                                   maturityDate, issueDate)
     class(val) <- c("ZeroYield")
     val

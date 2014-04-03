@@ -37,6 +37,22 @@ fixedRateBondPriceByYieldEngine <- function(settlementDays, yield, cal, faceAmou
     .Call('RQuantLib_fixedRateBondPriceByYieldEngine', PACKAGE = 'RQuantLib', settlementDays, yield, cal, faceAmount, businessDayConvention, compound, redemption, dayCounter, frequency, maturityDate, issueDate, effectiveDate, rates)
 }
 
+FloatBond1 <- function(bond, gearings, caps, spreads, floors, indexparams, index, discountCurve, dateparams) {
+    .Call('RQuantLib_FloatBond1', PACKAGE = 'RQuantLib', bond, gearings, caps, spreads, floors, indexparams, index, discountCurve, dateparams)
+}
+
+FloatBond2 <- function(bond, gearings, caps, spreads, floors, indexparams, index_params, index_tsQuotes, index_times, discountCurve, dateparams) {
+    .Call('RQuantLib_FloatBond2', PACKAGE = 'RQuantLib', bond, gearings, caps, spreads, floors, indexparams, index_params, index_tsQuotes, index_times, discountCurve, dateparams)
+}
+
+FloatBond3 <- function(bond, gearings, caps, spreads, floors, indexparams, index, discount_params, discount_tsQuotes, discount_times, dateparams) {
+    .Call('RQuantLib_FloatBond3', PACKAGE = 'RQuantLib', bond, gearings, caps, spreads, floors, indexparams, index, discount_params, discount_tsQuotes, discount_times, dateparams)
+}
+
+FloatBond4 <- function(bond, gearings, caps, spreads, floors, indexparams, index_params, index_tsQuotes, index_times, discount_params, discount_tsQuotes, discount_times, dateparams) {
+    .Call('RQuantLib_FloatBond4', PACKAGE = 'RQuantLib', bond, gearings, caps, spreads, floors, indexparams, index_params, index_tsQuotes, index_times, discount_params, discount_tsQuotes, discount_times, dateparams)
+}
+
 FixedRateWithRebuiltCurve <- function(bondparam, ratesVec, dateSexp, zeroSexp, dateparams) {
     .Call('RQuantLib_FixedRateWithRebuiltCurve', PACKAGE = 'RQuantLib', bondparam, ratesVec, dateSexp, zeroSexp, dateparams)
 }

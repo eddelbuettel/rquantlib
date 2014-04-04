@@ -53,12 +53,24 @@ FloatBond4 <- function(bond, gearings, caps, spreads, floors, indexparams, index
     .Call('RQuantLib_FloatBond4', PACKAGE = 'RQuantLib', bond, gearings, caps, spreads, floors, indexparams, index_params, index_tsQuotes, index_times, discount_params, discount_tsQuotes, discount_times, dateparams)
 }
 
+floatingWithRebuiltCurveEngine <- function(bondparams, gearings, spreads, caps, floors, indexparams, iborDateSexp, iborzeroSexp, dateSexp, zeroSexp, dateparams) {
+    .Call('RQuantLib_floatingWithRebuiltCurveEngine', PACKAGE = 'RQuantLib', bondparams, gearings, spreads, caps, floors, indexparams, iborDateSexp, iborzeroSexp, dateSexp, zeroSexp, dateparams)
+}
+
 FixedRateWithRebuiltCurve <- function(bondparam, ratesVec, dateSexp, zeroSexp, dateparams) {
     .Call('RQuantLib_FixedRateWithRebuiltCurve', PACKAGE = 'RQuantLib', bondparam, ratesVec, dateSexp, zeroSexp, dateparams)
 }
 
 ZeroBondWithRebuiltCurve <- function(bond, dateSexp, zeroSexp, dateparams) {
     .Call('RQuantLib_ZeroBondWithRebuiltCurve', PACKAGE = 'RQuantLib', bond, dateSexp, zeroSexp, dateparams)
+}
+
+convertibleZeroBondEngine <- function(rparam, processParam, dividendYieldDateSexp, dividendYieldZeroSexp, rffDateSexp, rffZeroSexp, dividendScheduleFrame, callabilityScheduleFrame, dateparams) {
+    .Call('RQuantLib_convertibleZeroBondEngine', PACKAGE = 'RQuantLib', rparam, processParam, dividendYieldDateSexp, dividendYieldZeroSexp, rffDateSexp, rffZeroSexp, dividendScheduleFrame, callabilityScheduleFrame, dateparams)
+}
+
+convertibleFixedBondEngine <- function(rparam, rates, processParam, dividendYieldDateSexp, dividendYieldZeroSexp, rffDateSexp, rffZeroSexp, dividendScheduleFrame, callabilityScheduleFrame, dateparams) {
+    .Call('RQuantLib_convertibleFixedBondEngine', PACKAGE = 'RQuantLib', rparam, rates, processParam, dividendYieldDateSexp, dividendYieldZeroSexp, rffDateSexp, rffZeroSexp, dividendScheduleFrame, callabilityScheduleFrame, dateparams)
 }
 
 setCalendarContext <- function(calendar, fixingDays, settleDate) {

@@ -231,13 +231,10 @@ FloatingRateBond.default <- function(bond,
     indexparams <- list(type=index$type, length=index$length,
                         inTermOf=index$inTermOf)
     ibor <- index$term
-    val <- .Call("FloatingWithRebuiltCurve",
-                 bond, gearings, spreads, caps, floors, indexparams,
-                 c(ibor$table$date), ibor$table$zeroRates,
-                 c(curve$table$date), curve$table$zeroRates,
-                 dateparams,
-                 PACKAGE="RQuantLib")
-
+    val <- floatingWithRebuiltCurveEngine(bond, gearings, spreads, caps, floors, indexparams,
+                                          c(ibor$table$date), ibor$table$zeroRates,
+                                          c(curve$table$date), curve$table$zeroRates,
+                                          dateparams)
     class(val) <- c("FloatingRateBond", "Bond")
     val
 
@@ -288,15 +285,12 @@ ConvertibleZeroCouponBond.default <- function(bondparams,
     dividendSchedule <- bondparams$divSch
     dividendYield <- process$divYield
     riskFreeRate <- process$rff
-    val <- .Call("ConvertibleZeroBond",
-                    bondparams, process,
-                    c(dividendYield$table$date),
-                    dividendYield$table$zeroRates,
-                    c(riskFreeRate$table$date),
-                    riskFreeRate$table$zeroRates,
-                    dividendSchedule, callabilitySchedule, dateparams,
-                    PACKAGE="RQuantLib")
-
+    val <- convertibleZeroBondEngine(bondparams, process,
+                                     c(dividendYield$table$date),
+                                     dividendYield$table$zeroRates,
+                                     c(riskFreeRate$table$date),
+                                     riskFreeRate$table$zeroRates,
+                                     dividendSchedule, callabilitySchedule, dateparams)
     class(val) <- c("ConvertibleZeroCouponBond", "Bond")
     val
 }
@@ -346,15 +340,12 @@ ConvertibleFixedCouponBond.default <- function(bondparams,
     dividendSchedule <- bondparams$divSch
     dividendYield <- process$divYield
     riskFreeRate <- process$rff
-    val <- .Call("ConvertibleFixedBond",
-                    bondparams, coupon, process,
-                    c(dividendYield$table$date),
-                    dividendYield$table$zeroRates,
-                    c(riskFreeRate$table$date),
-                    riskFreeRate$table$zeroRates,
-                    dividendSchedule, callabilitySchedule, dateparams,
-                    PACKAGE="RQuantLib")
-
+    val <- convertibleFixedBondEngine(bondparams, coupon, process,
+                                      c(dividendYield$table$date),
+                                      dividendYield$table$zeroRates,
+                                      c(riskFreeRate$table$date),
+                                      riskFreeRate$table$zeroRates,
+                                      dividendSchedule, callabilitySchedule, dateparams)
     class(val) <- c("ConvertibleFixedCouponBond", "Bond")
     val
 }

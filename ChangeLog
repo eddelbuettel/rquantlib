@@ -1,6 +1,12 @@
+2014-04-04  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/bonds.cpp: More Rcpp Attributes
+	* R/bond.R: More corresponding changes
+
 2014-04-03  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/bonds.cpp: More Rcpp Attributes
+	* R/bond.R: More corresponding changes
 
 2014-04-02  Dirk Eddelbuettel  <edd@debian.org>
 

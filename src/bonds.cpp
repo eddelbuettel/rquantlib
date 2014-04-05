@@ -86,21 +86,19 @@ double zeroYieldByPriceEngine(double price,
 
 // TODO: R interface -- cannot use Attribute with converter for Handle<>
 // currently NOT exported but called below
-Rcpp::List zeroBondEngine(Rcpp::List bondparam, 
+Rcpp::List zeroBondEngine(Rcpp::List rparam, 
                           QuantLib::Handle<QuantLib::YieldTermStructure> &discountCurve,
-                          Rcpp::List dateparams) {
+                          Rcpp::List datemisc) {
     
-    Rcpp::List rparam(bondparam);
     double faceAmount = Rcpp::as<double>(rparam["faceAmount"]);
     QuantLib::Date maturityDate(Rcpp::as<QuantLib::Date>(rparam["maturityDate"]));
     QuantLib::Date issueDate(Rcpp::as<QuantLib::Date>(rparam["issueDate"]));
     double redemption = Rcpp::as<double>(rparam["redemption"]);
 
-    Rcpp::List misc(dateparams);
-    double settlementDays = Rcpp::as<double>(misc["settlementDays"]);
-    std::string cal = Rcpp::as<std::string>(misc["calendar"]);
-    double businessDayConvention = Rcpp::as<double>(misc["businessDayConvention"]);
-    QuantLib::Date refDate(Rcpp::as<QuantLib::Date>(misc["refDate"]));      
+    double settlementDays = Rcpp::as<double>(datemisc["settlementDays"]);
+    std::string cal = Rcpp::as<std::string>(datemisc["calendar"]);
+    double businessDayConvention = Rcpp::as<double>(datemisc["businessDayConvention"]);
+    QuantLib::Date refDate(Rcpp::as<QuantLib::Date>(datemisc["refDate"]));      
     QuantLib::Settings::instance().evaluationDate() = refDate;                               
         
     /*
@@ -135,27 +133,24 @@ Rcpp::List zeroBondEngine(Rcpp::List bondparam,
 
 // TODO: R interface -- cannot use Attribute with converter for Handle<>
 // currently NOT exported but called below
-Rcpp::List fixedBondEngine(Rcpp::List bondparam, std::vector<double> rates,
+Rcpp::List fixedBondEngine(Rcpp::List rparam, std::vector<double> rates,
                            QuantLib::Handle<QuantLib::YieldTermStructure> &discountCurve,
-                           Rcpp::List dateparams) {
+                           Rcpp::List datemisc) {
 
-    Rcpp::List rparam(bondparam);
-        
     double faceAmount = Rcpp::as<double>(rparam["faceAmount"]);
     QuantLib::Date maturityDate(Rcpp::as<QuantLib::Date>(rparam["maturityDate"]));
     QuantLib::Date issueDate(Rcpp::as<QuantLib::Date>(rparam["issueDate"]));
     QuantLib::Date effectiveDate(Rcpp::as<QuantLib::Date>(rparam["effectiveDate"]));
     double redemption = Rcpp::as<double>(rparam["redemption"]);
 
-    Rcpp::List misc(dateparams);      
-    double settlementDays = Rcpp::as<double>(misc["settlementDays"]);
-    std::string cal = Rcpp::as<std::string>(misc["calendar"]);
-    double dayCounter = Rcpp::as<double>(misc["dayCounter"]);
-    double frequency = Rcpp::as<double>(misc["period"]);
-    double businessDayConvention = Rcpp::as<double>(misc["businessDayConvention"]);
-    double terminationDateConvention = Rcpp::as<double>(misc["terminationDateConvention"]);
-    double dateGeneration = Rcpp::as<double>(misc["dateGeneration"]);
-    double endOfMonthRule = Rcpp::as<double>(misc["endOfMonth"]);
+    double settlementDays = Rcpp::as<double>(datemisc["settlementDays"]);
+    std::string cal = Rcpp::as<std::string>(datemisc["calendar"]);
+    double dayCounter = Rcpp::as<double>(datemisc["dayCounter"]);
+    double frequency = Rcpp::as<double>(datemisc["period"]);
+    double businessDayConvention = Rcpp::as<double>(datemisc["businessDayConvention"]);
+    double terminationDateConvention = Rcpp::as<double>(datemisc["terminationDateConvention"]);
+    double dateGeneration = Rcpp::as<double>(datemisc["dateGeneration"]);
+    double endOfMonthRule = Rcpp::as<double>(datemisc["endOfMonth"]);
 
     
 
@@ -279,9 +274,9 @@ double fixedRateBondPriceByYieldEngine(double settlementDays,
 Rcpp::List FloatingBond(Rcpp::List rparam, SEXP gearingsVec, SEXP spreadsVec,
                         SEXP capsVec, SEXP floorsVec, 
                         QuantLib::Handle<QuantLib::YieldTermStructure> &index,
-                        SEXP indexparams,
+                        Rcpp::List iborparams,
                         QuantLib::Handle<QuantLib::YieldTermStructure> &discountCurve,
-                        SEXP dateparams) 
+                        Rcpp::List datemisc) 
 {
   
     double faceAmount = Rcpp::as<double>(rparam["faceAmount"]);
@@ -290,16 +285,15 @@ Rcpp::List FloatingBond(Rcpp::List rparam, SEXP gearingsVec, SEXP spreadsVec,
     QuantLib::Date effectiveDate(Rcpp::as<QuantLib::Date>(rparam["effectiveDate"]));
     double redemption = Rcpp::as<double>(rparam["redemption"]);
 
-    Rcpp::List misc(dateparams);      
-    double settlementDays = Rcpp::as<double>(misc["settlementDays"]);
-    std::string cal = Rcpp::as<std::string>(misc["calendar"]);
-    double dayCounter = Rcpp::as<double>(misc["dayCounter"]);
-    double frequency = Rcpp::as<double>(misc["period"]);
-    double businessDayConvention = Rcpp::as<double>(misc["businessDayConvention"]);
-    double terminationDateConvention = Rcpp::as<double>(misc["terminationDateConvention"]);
-    double dateGeneration = Rcpp::as<double>(misc["dateGeneration"]);
-    double endOfMonthRule = Rcpp::as<double>(misc["endOfMonth"]);
-    double fixingDays = Rcpp::as<double>(misc["fixingDays"]);
+    double settlementDays = Rcpp::as<double>(datemisc["settlementDays"]);
+    std::string cal = Rcpp::as<std::string>(datemisc["calendar"]);
+    double dayCounter = Rcpp::as<double>(datemisc["dayCounter"]);
+    double frequency = Rcpp::as<double>(datemisc["period"]);
+    double businessDayConvention = Rcpp::as<double>(datemisc["businessDayConvention"]);
+    double terminationDateConvention = Rcpp::as<double>(datemisc["terminationDateConvention"]);
+    double dateGeneration = Rcpp::as<double>(datemisc["dateGeneration"]);
+    double endOfMonthRule = Rcpp::as<double>(datemisc["endOfMonth"]);
+    double fixingDays = Rcpp::as<double>(datemisc["fixingDays"]);
 
     //build schedule
     QuantLib::BusinessDayConvention bdc = getBusinessDayConvention(businessDayConvention);
@@ -326,7 +320,6 @@ Rcpp::List FloatingBond(Rcpp::List rparam, SEXP gearingsVec, SEXP spreadsVec,
     std::vector<double> caps = getDoubleVector(capsVec);
     std::vector<double> floors = getDoubleVector(floorsVec);
 
-    Rcpp::List iborparams(indexparams);      
     std::string type = Rcpp::as<std::string>(iborparams["type"]);
     double length = Rcpp::as<double>(iborparams["length"]);
     std::string inTermOf = Rcpp::as<std::string>(iborparams["inTermOf"]);
@@ -490,7 +483,7 @@ Rcpp::List convertibleZeroBondEngine(Rcpp::List rparam,
                                      SEXP rffDateSexp, SEXP rffZeroSexp,
                                      SEXP dividendScheduleFrame,
                                      SEXP callabilityScheduleFrame,
-                                     SEXP dateparams) {
+                                     Rcpp::List datemisc) {
 
     QuantLib::DividendSchedule dividendSchedule = getDividendSchedule(dividendScheduleFrame);
     QuantLib::CallabilitySchedule 
@@ -504,12 +497,11 @@ Rcpp::List convertibleZeroBondEngine(Rcpp::List rparam,
     double creditSpreadQuote = Rcpp::as<double>(rparam["creditSpread"]);
     double conversionRatio = Rcpp::as<double>(rparam["conversionRatio"]);
 
-    Rcpp::List misc(dateparams);      
-    double settlementDays = Rcpp::as<double>(misc["settlementDays"]);
-    std::string cal = Rcpp::as<std::string>(misc["calendar"]);
-    double dayCounter = Rcpp::as<double>(misc["dayCounter"]);
-    double frequency = Rcpp::as<double>(misc["period"]);
-    double businessDayConvention = Rcpp::as<double>(misc["businessDayConvention"]);
+    double settlementDays = Rcpp::as<double>(datemisc["settlementDays"]);
+    std::string cal = Rcpp::as<std::string>(datemisc["calendar"]);
+    double dayCounter = Rcpp::as<double>(datemisc["dayCounter"]);
+    double frequency = Rcpp::as<double>(datemisc["period"]);
+    double businessDayConvention = Rcpp::as<double>(datemisc["businessDayConvention"]);
         
     QuantLib::Date todayDate = issueDate;
         
@@ -589,7 +581,7 @@ Rcpp::List convertibleFixedBondEngine(Rcpp::List rparam,
                                       SEXP rffDateSexp, SEXP rffZeroSexp,
                                       SEXP dividendScheduleFrame,
                                       SEXP callabilityScheduleFrame,
-                                      SEXP dateparams) {
+                                      Rcpp::List datemisc) {
 
     QuantLib::DividendSchedule dividendSchedule = getDividendSchedule(dividendScheduleFrame);
     QuantLib::CallabilitySchedule callabilitySchedule = getCallabilitySchedule(callabilityScheduleFrame);
@@ -602,12 +594,11 @@ Rcpp::List convertibleFixedBondEngine(Rcpp::List rparam,
     double creditSpreadQuote = Rcpp::as<double>(rparam["creditSpread"]);
     double conversionRatio = Rcpp::as<double>(rparam["conversionRatio"]);
 
-    Rcpp::List misc(dateparams);      
-    double settlementDays = Rcpp::as<double>(misc["settlementDays"]);
-    std::string cal = Rcpp::as<std::string>(misc["calendar"]);
-    double dayCounter = Rcpp::as<double>(misc["dayCounter"]);
-    double frequency = Rcpp::as<double>(misc["period"]);
-    double businessDayConvention = Rcpp::as<double>(misc["businessDayConvention"]);
+    double settlementDays = Rcpp::as<double>(datemisc["settlementDays"]);
+    std::string cal = Rcpp::as<std::string>(datemisc["calendar"]);
+    double dayCounter = Rcpp::as<double>(datemisc["dayCounter"]);
+    double frequency = Rcpp::as<double>(datemisc["period"]);
+    double businessDayConvention = Rcpp::as<double>(datemisc["businessDayConvention"]);
        
     QuantLib::Date todayDate = issueDate;
     QuantLib::Settings::instance().evaluationDate() = todayDate;

@@ -593,8 +593,8 @@ RcppExport SEXP RQuantLib_ZeroBondWithRebuiltCurve(SEXP bondSEXP, SEXP dateSexpS
     return __result;
 }
 // convertibleZeroBondEngine
-Rcpp::List convertibleZeroBondEngine(Rcpp::List rparam, Rcpp::List processParam, SEXP dividendYieldDateSexp, SEXP dividendYieldZeroSexp, SEXP rffDateSexp, SEXP rffZeroSexp, SEXP dividendScheduleFrame, SEXP callabilityScheduleFrame, SEXP dateparams);
-static SEXP RQuantLib_convertibleZeroBondEngine_try(SEXP rparamSEXP, SEXP processParamSEXP, SEXP dividendYieldDateSexpSEXP, SEXP dividendYieldZeroSexpSEXP, SEXP rffDateSexpSEXP, SEXP rffZeroSexpSEXP, SEXP dividendScheduleFrameSEXP, SEXP callabilityScheduleFrameSEXP, SEXP dateparamsSEXP) {
+Rcpp::List convertibleZeroBondEngine(Rcpp::List rparam, Rcpp::List processParam, SEXP dividendYieldDateSexp, SEXP dividendYieldZeroSexp, SEXP rffDateSexp, SEXP rffZeroSexp, SEXP dividendScheduleFrame, SEXP callabilityScheduleFrame, Rcpp::List datemisc);
+static SEXP RQuantLib_convertibleZeroBondEngine_try(SEXP rparamSEXP, SEXP processParamSEXP, SEXP dividendYieldDateSexpSEXP, SEXP dividendYieldZeroSexpSEXP, SEXP rffDateSexpSEXP, SEXP rffZeroSexpSEXP, SEXP dividendScheduleFrameSEXP, SEXP callabilityScheduleFrameSEXP, SEXP datemiscSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
@@ -606,19 +606,19 @@ BEGIN_RCPP
         Rcpp::traits::input_parameter< SEXP >::type rffZeroSexp(rffZeroSexpSEXP );
         Rcpp::traits::input_parameter< SEXP >::type dividendScheduleFrame(dividendScheduleFrameSEXP );
         Rcpp::traits::input_parameter< SEXP >::type callabilityScheduleFrame(callabilityScheduleFrameSEXP );
-        Rcpp::traits::input_parameter< SEXP >::type dateparams(dateparamsSEXP );
-        Rcpp::List __result = convertibleZeroBondEngine(rparam, processParam, dividendYieldDateSexp, dividendYieldZeroSexp, rffDateSexp, rffZeroSexp, dividendScheduleFrame, callabilityScheduleFrame, dateparams);
+        Rcpp::traits::input_parameter< Rcpp::List >::type datemisc(datemiscSEXP );
+        Rcpp::List __result = convertibleZeroBondEngine(rparam, processParam, dividendYieldDateSexp, dividendYieldZeroSexp, rffDateSexp, rffZeroSexp, dividendScheduleFrame, callabilityScheduleFrame, datemisc);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
     return __sexp_result;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP RQuantLib_convertibleZeroBondEngine(SEXP rparamSEXP, SEXP processParamSEXP, SEXP dividendYieldDateSexpSEXP, SEXP dividendYieldZeroSexpSEXP, SEXP rffDateSexpSEXP, SEXP rffZeroSexpSEXP, SEXP dividendScheduleFrameSEXP, SEXP callabilityScheduleFrameSEXP, SEXP dateparamsSEXP) {
+RcppExport SEXP RQuantLib_convertibleZeroBondEngine(SEXP rparamSEXP, SEXP processParamSEXP, SEXP dividendYieldDateSexpSEXP, SEXP dividendYieldZeroSexpSEXP, SEXP rffDateSexpSEXP, SEXP rffZeroSexpSEXP, SEXP dividendScheduleFrameSEXP, SEXP callabilityScheduleFrameSEXP, SEXP datemiscSEXP) {
     SEXP __result;
     {
         Rcpp::RNGScope __rngScope;
-        __result = PROTECT(RQuantLib_convertibleZeroBondEngine_try(rparamSEXP, processParamSEXP, dividendYieldDateSexpSEXP, dividendYieldZeroSexpSEXP, rffDateSexpSEXP, rffZeroSexpSEXP, dividendScheduleFrameSEXP, callabilityScheduleFrameSEXP, dateparamsSEXP));
+        __result = PROTECT(RQuantLib_convertibleZeroBondEngine_try(rparamSEXP, processParamSEXP, dividendYieldDateSexpSEXP, dividendYieldZeroSexpSEXP, rffDateSexpSEXP, rffZeroSexpSEXP, dividendScheduleFrameSEXP, callabilityScheduleFrameSEXP, datemiscSEXP));
     }
     Rboolean __isInterrupt = Rf_inherits(__result, "interrupted-error");
     if (__isInterrupt) {
@@ -635,8 +635,8 @@ RcppExport SEXP RQuantLib_convertibleZeroBondEngine(SEXP rparamSEXP, SEXP proces
     return __result;
 }
 // convertibleFixedBondEngine
-Rcpp::List convertibleFixedBondEngine(Rcpp::List rparam, Rcpp::NumericVector rates, Rcpp::List processParam, SEXP dividendYieldDateSexp, SEXP dividendYieldZeroSexp, SEXP rffDateSexp, SEXP rffZeroSexp, SEXP dividendScheduleFrame, SEXP callabilityScheduleFrame, SEXP dateparams);
-static SEXP RQuantLib_convertibleFixedBondEngine_try(SEXP rparamSEXP, SEXP ratesSEXP, SEXP processParamSEXP, SEXP dividendYieldDateSexpSEXP, SEXP dividendYieldZeroSexpSEXP, SEXP rffDateSexpSEXP, SEXP rffZeroSexpSEXP, SEXP dividendScheduleFrameSEXP, SEXP callabilityScheduleFrameSEXP, SEXP dateparamsSEXP) {
+Rcpp::List convertibleFixedBondEngine(Rcpp::List rparam, Rcpp::NumericVector rates, Rcpp::List processParam, SEXP dividendYieldDateSexp, SEXP dividendYieldZeroSexp, SEXP rffDateSexp, SEXP rffZeroSexp, SEXP dividendScheduleFrame, SEXP callabilityScheduleFrame, Rcpp::List datemisc);
+static SEXP RQuantLib_convertibleFixedBondEngine_try(SEXP rparamSEXP, SEXP ratesSEXP, SEXP processParamSEXP, SEXP dividendYieldDateSexpSEXP, SEXP dividendYieldZeroSexpSEXP, SEXP rffDateSexpSEXP, SEXP rffZeroSexpSEXP, SEXP dividendScheduleFrameSEXP, SEXP callabilityScheduleFrameSEXP, SEXP datemiscSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
@@ -649,19 +649,19 @@ BEGIN_RCPP
         Rcpp::traits::input_parameter< SEXP >::type rffZeroSexp(rffZeroSexpSEXP );
         Rcpp::traits::input_parameter< SEXP >::type dividendScheduleFrame(dividendScheduleFrameSEXP );
         Rcpp::traits::input_parameter< SEXP >::type callabilityScheduleFrame(callabilityScheduleFrameSEXP );
-        Rcpp::traits::input_parameter< SEXP >::type dateparams(dateparamsSEXP );
-        Rcpp::List __result = convertibleFixedBondEngine(rparam, rates, processParam, dividendYieldDateSexp, dividendYieldZeroSexp, rffDateSexp, rffZeroSexp, dividendScheduleFrame, callabilityScheduleFrame, dateparams);
+        Rcpp::traits::input_parameter< Rcpp::List >::type datemisc(datemiscSEXP );
+        Rcpp::List __result = convertibleFixedBondEngine(rparam, rates, processParam, dividendYieldDateSexp, dividendYieldZeroSexp, rffDateSexp, rffZeroSexp, dividendScheduleFrame, callabilityScheduleFrame, datemisc);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
     return __sexp_result;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP RQuantLib_convertibleFixedBondEngine(SEXP rparamSEXP, SEXP ratesSEXP, SEXP processParamSEXP, SEXP dividendYieldDateSexpSEXP, SEXP dividendYieldZeroSexpSEXP, SEXP rffDateSexpSEXP, SEXP rffZeroSexpSEXP, SEXP dividendScheduleFrameSEXP, SEXP callabilityScheduleFrameSEXP, SEXP dateparamsSEXP) {
+RcppExport SEXP RQuantLib_convertibleFixedBondEngine(SEXP rparamSEXP, SEXP ratesSEXP, SEXP processParamSEXP, SEXP dividendYieldDateSexpSEXP, SEXP dividendYieldZeroSexpSEXP, SEXP rffDateSexpSEXP, SEXP rffZeroSexpSEXP, SEXP dividendScheduleFrameSEXP, SEXP callabilityScheduleFrameSEXP, SEXP datemiscSEXP) {
     SEXP __result;
     {
         Rcpp::RNGScope __rngScope;
-        __result = PROTECT(RQuantLib_convertibleFixedBondEngine_try(rparamSEXP, ratesSEXP, processParamSEXP, dividendYieldDateSexpSEXP, dividendYieldZeroSexpSEXP, rffDateSexpSEXP, rffZeroSexpSEXP, dividendScheduleFrameSEXP, callabilityScheduleFrameSEXP, dateparamsSEXP));
+        __result = PROTECT(RQuantLib_convertibleFixedBondEngine_try(rparamSEXP, ratesSEXP, processParamSEXP, dividendYieldDateSexpSEXP, dividendYieldZeroSexpSEXP, rffDateSexpSEXP, rffZeroSexpSEXP, dividendScheduleFrameSEXP, callabilityScheduleFrameSEXP, datemiscSEXP));
     }
     Rboolean __isInterrupt = Rf_inherits(__result, "interrupted-error");
     if (__isInterrupt) {
@@ -1445,8 +1445,8 @@ static int RQuantLib_RcppExport_validate(const char* sig) {
         signatures.insert("Rcpp::List(*floatingWithRebuiltCurveEngine)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP)");
         signatures.insert("Rcpp::List(*FixedRateWithRebuiltCurve)(Rcpp::List,std::vector<double>,SEXP,SEXP,Rcpp::List)");
         signatures.insert("Rcpp::List(*ZeroBondWithRebuiltCurve)(SEXP,SEXP,SEXP,SEXP)");
-        signatures.insert("Rcpp::List(*convertibleZeroBondEngine)(Rcpp::List,Rcpp::List,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP)");
-        signatures.insert("Rcpp::List(*convertibleFixedBondEngine)(Rcpp::List,Rcpp::NumericVector,Rcpp::List,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP)");
+        signatures.insert("Rcpp::List(*convertibleZeroBondEngine)(Rcpp::List,Rcpp::List,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,Rcpp::List)");
+        signatures.insert("Rcpp::List(*convertibleFixedBondEngine)(Rcpp::List,Rcpp::NumericVector,Rcpp::List,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,Rcpp::List)");
         signatures.insert("Rcpp::List(*convertibleFloatingBondEngine)(Rcpp::List,Rcpp::List,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,Rcpp::List,std::vector<double>,SEXP,SEXP,Rcpp::List)");
         signatures.insert("Rcpp::List(*callableBondEngine)(Rcpp::List,Rcpp::List,Rcpp::NumericVector,SEXP,Rcpp::List)");
         signatures.insert("Rcpp::List(*fittedBondCurveEngine)(Rcpp::List,Rcpp::NumericVector,Rcpp::NumericVector,Rcpp::NumericVector,Rcpp::List)");

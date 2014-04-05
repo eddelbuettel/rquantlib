@@ -65,12 +65,12 @@ ZeroBondWithRebuiltCurve <- function(bond, dateSexp, zeroSexp, dateparams) {
     .Call('RQuantLib_ZeroBondWithRebuiltCurve', PACKAGE = 'RQuantLib', bond, dateSexp, zeroSexp, dateparams)
 }
 
-convertibleZeroBondEngine <- function(rparam, processParam, dividendYieldDateSexp, dividendYieldZeroSexp, rffDateSexp, rffZeroSexp, dividendScheduleFrame, callabilityScheduleFrame, dateparams) {
-    .Call('RQuantLib_convertibleZeroBondEngine', PACKAGE = 'RQuantLib', rparam, processParam, dividendYieldDateSexp, dividendYieldZeroSexp, rffDateSexp, rffZeroSexp, dividendScheduleFrame, callabilityScheduleFrame, dateparams)
+convertibleZeroBondEngine <- function(rparam, processParam, dividendYieldDateSexp, dividendYieldZeroSexp, rffDateSexp, rffZeroSexp, dividendScheduleFrame, callabilityScheduleFrame, datemisc) {
+    .Call('RQuantLib_convertibleZeroBondEngine', PACKAGE = 'RQuantLib', rparam, processParam, dividendYieldDateSexp, dividendYieldZeroSexp, rffDateSexp, rffZeroSexp, dividendScheduleFrame, callabilityScheduleFrame, datemisc)
 }
 
-convertibleFixedBondEngine <- function(rparam, rates, processParam, dividendYieldDateSexp, dividendYieldZeroSexp, rffDateSexp, rffZeroSexp, dividendScheduleFrame, callabilityScheduleFrame, dateparams) {
-    .Call('RQuantLib_convertibleFixedBondEngine', PACKAGE = 'RQuantLib', rparam, rates, processParam, dividendYieldDateSexp, dividendYieldZeroSexp, rffDateSexp, rffZeroSexp, dividendScheduleFrame, callabilityScheduleFrame, dateparams)
+convertibleFixedBondEngine <- function(rparam, rates, processParam, dividendYieldDateSexp, dividendYieldZeroSexp, rffDateSexp, rffZeroSexp, dividendScheduleFrame, callabilityScheduleFrame, datemisc) {
+    .Call('RQuantLib_convertibleFixedBondEngine', PACKAGE = 'RQuantLib', rparam, rates, processParam, dividendYieldDateSexp, dividendYieldZeroSexp, rffDateSexp, rffZeroSexp, dividendScheduleFrame, callabilityScheduleFrame, datemisc)
 }
 
 convertibleFloatingBondEngine <- function(rparam, processParam, dividendYieldDateSexp, dividendYieldZeroSexp, rffDateSexp, rffZeroSexp, iborIndexDateSexp, iborIndexZeroSexp, iborparams, spreads, dividendScheduleFrame, callabilityScheduleFrame, datemisc) {

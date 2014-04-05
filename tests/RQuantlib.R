@@ -123,10 +123,7 @@ dateparams <- list(settlementDays=1, calendar="us",
                    businessDayConvention = 1, terminationDateConvention=1,
                    dateGeneration=0, endOfMonth=0, fixingDays = 1)
 
-gearings <- c()
-spreads <- c()
-caps <- c()
-floors <- c()
+gearings <- spreads <- caps <- floors <- vector()
 
 params <- list(tradeDate=as.Date('2002-2-15'),
                settleDate=as.Date('2002-2-19'),

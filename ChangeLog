@@ -3,6 +3,13 @@
 	* src/bonds.cpp: Finishing conversion to Rcpp Attributes
 	* R/bond.R: More corresponding changes
 
+	* src/utils.cpp: Retire getDoubleVector() helper
+	* src/bonds.cpp: Corresponding adjustments
+	* R/bond.R: Idem
+	* man/bond.Rd: Use vector() for empty vector
+	* man/FloatingRateBond.Rd: Idem
+	* tests/RQuantLib.R*: Idem
+
 2014-04-04  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/bonds.cpp: More Rcpp Attributes

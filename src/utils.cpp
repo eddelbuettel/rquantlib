@@ -229,13 +229,13 @@ boost::shared_ptr<QuantLib::IborIndex> getIborIndex(SEXP index, const QuantLib::
     else return boost::shared_ptr<QuantLib::IborIndex>();
 }
 
-std::vector<double> getDoubleVector(SEXP vecSexp) {
-    if (::Rf_length(vecSexp) == 0) {
-        return(std::vector<double>());
-    } else {
-        return std::vector<double>( Rcpp::as<std::vector< double> >( Rcpp::NumericVector(vecSexp) ) );
-    }
-}
+// std::vector<double> getDoubleVector(SEXP vecSexp) {
+//     if (::Rf_length(vecSexp) == 0) {
+//         return(std::vector<double>());
+//     } else {
+//         return std::vector<double>( Rcpp::as<std::vector< double> >( Rcpp::NumericVector(vecSexp) ) );
+//     }
+// }
 
 boost::shared_ptr<QuantLib::YieldTermStructure>
 makeFlatCurve(const QuantLib::Date& today,

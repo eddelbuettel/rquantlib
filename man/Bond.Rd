@@ -93,10 +93,7 @@ dateparams <- list(settlementDays=1, calendar="us", dayCounter = 1, period=3,
                    businessDayConvention = 1, terminationDateConvention=1,
                    dateGeneration=0, endOfMonth=0, fixingDays = 1)
 
-gearings <- c()
-spreads <- c()
-caps <- c()
-floors <- c()
+gearings <- spreads <- caps <- floors <- vector()
 
 iborCurve <- DiscountCurve(params,list(flat=0.05), times)
 ibor <- list(type="USDLibor", length=6, inTermOf="Month", 

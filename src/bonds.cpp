@@ -271,8 +271,11 @@ double fixedRateBondPriceByYieldEngine(double settlementDays,
 }
 
 // not exported to R but called below
-Rcpp::List FloatingBond(Rcpp::List rparam, SEXP gearingsVec, SEXP spreadsVec,
-                        SEXP capsVec, SEXP floorsVec, 
+Rcpp::List FloatingBond(Rcpp::List rparam, 
+                        std::vector<double> gearings, 
+                        std::vector<double> spreads,
+                        std::vector<double> caps, 
+                        std::vector<double> floors, 
                         QuantLib::Handle<QuantLib::YieldTermStructure> &index,
                         Rcpp::List iborparams,
                         QuantLib::Handle<QuantLib::YieldTermStructure> &discountCurve,
@@ -314,11 +317,11 @@ Rcpp::List FloatingBond(Rcpp::List rparam, SEXP gearingsVec, SEXP spreadsVec,
     QuantLib::Schedule sch(effectiveDate, maturityDate, QuantLib::Period(freq), calendar,
                            bdc, tbdc, rule, endOfMonth);
 
-    //extract gearings, spreads, caps, and floors
-    std::vector<double> gearings = getDoubleVector(gearingsVec);
-    std::vector<double> spreads = getDoubleVector(spreadsVec);
-    std::vector<double> caps = getDoubleVector(capsVec);
-    std::vector<double> floors = getDoubleVector(floorsVec);
+    // //extract gearings, spreads, caps, and floors
+    // std::vector<double> gearings = getDoubleVector(gearingsVec);
+    // std::vector<double> spreads = getDoubleVector(spreadsVec);
+    // std::vector<double> caps = getDoubleVector(capsVec);
+    // std::vector<double> floors = getDoubleVector(floorsVec);
 
     std::string type = Rcpp::as<std::string>(iborparams["type"]);
     double length = Rcpp::as<double>(iborparams["length"]);
@@ -366,8 +369,8 @@ Rcpp::List FloatingBond(Rcpp::List rparam, SEXP gearingsVec, SEXP spreadsVec,
 }
 
 // [[Rcpp::export]]
-Rcpp::List FloatBond1(SEXP bond, SEXP gearings, SEXP caps, SEXP spreads,
-                      SEXP floors, SEXP indexparams, SEXP index, 
+Rcpp::List FloatBond1(SEXP bond, std::vector<double> gearings, std::vector<double> caps, 
+                      std::vector<double> spreads, std::vector<double> floors, SEXP indexparams, SEXP index, 
                       SEXP discountCurve, SEXP dateparams) {
     
     QuantLib::Handle<QuantLib::YieldTermStructure> discount_curve(getFlatCurve(discountCurve));
@@ -379,8 +382,9 @@ Rcpp::List FloatBond1(SEXP bond, SEXP gearings, SEXP caps, SEXP spreads,
 
 
 // [[Rcpp::export]]
-Rcpp::List FloatBond2(SEXP bond, SEXP gearings, SEXP caps, SEXP spreads,
-                      SEXP floors, SEXP indexparams, SEXP index_params, 
+Rcpp::List FloatBond2(SEXP bond, std::vector<double> gearings, std::vector<double> caps, 
+                      std::vector<double> spreads, std::vector<double> floors, 
+                      SEXP indexparams, SEXP index_params, 
                       SEXP index_tsQuotes, SEXP index_times,
                       SEXP discountCurve, SEXP dateparams) {
     
@@ -396,8 +400,8 @@ Rcpp::List FloatBond2(SEXP bond, SEXP gearings, SEXP caps, SEXP spreads,
 
 
 // [[Rcpp::export]]
-Rcpp::List FloatBond3(SEXP bond, SEXP gearings, SEXP caps,
-                      SEXP spreads, SEXP floors, 
+Rcpp::List FloatBond3(SEXP bond, std::vector<double> gearings, std::vector<double> caps,
+                      std::vector<double> spreads, std::vector<double> floors, 
                       SEXP indexparams, SEXP index, 
                       SEXP discount_params, SEXP discount_tsQuotes,
                       SEXP discount_times, SEXP dateparams) {
@@ -414,8 +418,8 @@ Rcpp::List FloatBond3(SEXP bond, SEXP gearings, SEXP caps,
 
 
 // [[Rcpp::export]]
-Rcpp::List FloatBond4(SEXP bond, SEXP gearings, SEXP caps,
-                      SEXP spreads, SEXP floors, 
+Rcpp::List FloatBond4(SEXP bond, std::vector<double> gearings, std::vector<double> caps,
+                      std::vector<double> spreads, std::vector<double> floors, 
                       SEXP indexparams, SEXP index_params, 
                       SEXP index_tsQuotes, SEXP index_times,
                       SEXP discount_params, SEXP discount_tsQuotes,
@@ -435,9 +439,9 @@ Rcpp::List FloatBond4(SEXP bond, SEXP gearings, SEXP caps,
 }
 
 // [[Rcpp::export]]
-Rcpp::List floatingWithRebuiltCurveEngine(SEXP bondparams, SEXP gearings,
-                                          SEXP spreads, SEXP caps,
-                                          SEXP floors, SEXP indexparams,
+Rcpp::List floatingWithRebuiltCurveEngine(SEXP bondparams, std::vector<double> gearings,
+                                          std::vector<double> spreads, std::vector<double> caps,
+                                          std::vector<double> floors, SEXP indexparams,
                                           SEXP iborDateSexp, SEXP iborzeroSexp,
                                           SEXP dateSexp, SEXP zeroSexp,
                                           SEXP dateparams) {

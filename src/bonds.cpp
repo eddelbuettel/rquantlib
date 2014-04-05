@@ -491,6 +491,7 @@ Rcpp::List convertibleZeroBondEngine(Rcpp::List rparam,
                                      SEXP dividendScheduleFrame,
                                      SEXP callabilityScheduleFrame,
                                      SEXP dateparams) {
+
     QuantLib::DividendSchedule dividendSchedule = getDividendSchedule(dividendScheduleFrame);
     QuantLib::CallabilitySchedule 
         callabilitySchedule = getCallabilitySchedule(callabilityScheduleFrame);
@@ -683,220 +684,192 @@ Rcpp::List convertibleFixedBondEngine(Rcpp::List rparam,
 }
 
 
-RcppExport SEXP ConvertibleFloatingBond(SEXP bondparams,  SEXP process,
-                                        SEXP dividendYieldDateSexp,
-                                        SEXP dividendYieldZeroSexp,
-                                        SEXP rffDateSexp, SEXP rffZeroSexp,
-                                        SEXP iborIndexDateSexp, SEXP iborIndexZeroSexp,
-                                        SEXP indexparams, SEXP spreadVec,
-                                        SEXP dividendScheduleFrame,
-                                        SEXP callabilityScheduleFrame,
-                                        SEXP dateparams) {
+// [[Rcpp::export]]
+Rcpp::List convertibleFloatingBondEngine(Rcpp::List rparam,  
+                                         Rcpp::List processParam,
+                                         SEXP dividendYieldDateSexp,
+                                         SEXP dividendYieldZeroSexp,
+                                         SEXP rffDateSexp, SEXP rffZeroSexp,
+                                         SEXP iborIndexDateSexp, SEXP iborIndexZeroSexp,
+                                         Rcpp::List iborparams, 
+                                         std::vector<double> spreads,
+                                         SEXP dividendScheduleFrame,
+                                         SEXP callabilityScheduleFrame,
+                                         Rcpp::List datemisc) {
 
-    try {
+    QuantLib::DividendSchedule dividendSchedule = getDividendSchedule(dividendScheduleFrame);
+    QuantLib::CallabilitySchedule callabilitySchedule = getCallabilitySchedule(callabilityScheduleFrame);
+    
+    //double faceAmount = Rcpp::as<double>(rparam["faceAmount");        
+    QuantLib::Date maturityDate(Rcpp::as<QuantLib::Date>(rparam["maturityDate"]));
+    QuantLib::Date issueDate(Rcpp::as<QuantLib::Date>(rparam["issueDate"]));
+    double redemption = Rcpp::as<double>(rparam["redemption"]);
+    std::string exercise = Rcpp::as<std::string>(rparam["exercise"]);
+    double creditSpreadQuote = Rcpp::as<double>(rparam["creditSpread"]);
+    double conversionRatio = Rcpp::as<double>(rparam["conversionRatio"]);
 
-        QuantLib::DividendSchedule dividendSchedule = getDividendSchedule(dividendScheduleFrame);
-        QuantLib::CallabilitySchedule callabilitySchedule = getCallabilitySchedule(callabilityScheduleFrame);
+    //extract iborindex curve
+    QuantLib::Handle<QuantLib::YieldTermStructure> index(rebuildCurveFromZeroRates(iborIndexDateSexp, iborIndexZeroSexp));
 
-        Rcpp::List rparam(bondparams);
-        
-        //double faceAmount = Rcpp::as<double>(rparam["faceAmount");        
-        QuantLib::Date maturityDate(Rcpp::as<QuantLib::Date>(rparam["maturityDate"]));
-        QuantLib::Date issueDate(Rcpp::as<QuantLib::Date>(rparam["issueDate"]));
-        double redemption = Rcpp::as<double>(rparam["redemption"]);
-        std::string exercise = Rcpp::as<std::string>(rparam["exercise"]);
-        double creditSpreadQuote = Rcpp::as<double>(rparam["creditSpread"]);
-        double conversionRatio = Rcpp::as<double>(rparam["conversionRatio"]);
+    std::string type = Rcpp::as<std::string>(iborparams["type"]);
+    double length = Rcpp::as<double>(iborparams["length"]);
+    std::string inTermOf = Rcpp::as<std::string>(iborparams["inTermOf"]);
 
-        std::vector<double> spreads = getDoubleVector(spreadVec);
-
-        //extract iborindex curve
-        QuantLib::Handle<QuantLib::YieldTermStructure> index(rebuildCurveFromZeroRates(iborIndexDateSexp, iborIndexZeroSexp));
-
-        Rcpp::List iborparams(indexparams);      
-        std::string type = Rcpp::as<std::string>(iborparams["type"]);
-        double length = Rcpp::as<double>(iborparams["length"]);
-        std::string inTermOf = Rcpp::as<std::string>(iborparams["inTermOf"]);
-
-        boost::shared_ptr<QuantLib::IborIndex> iborindex(new QuantLib::USDLibor(6 * QuantLib::Months, index));
-        if (type=="USDLibor") {
-            if (inTermOf=="Months") {               
-                boost::shared_ptr<QuantLib::IborIndex> temp(new QuantLib::USDLibor(length * QuantLib::Months, index));
-                iborindex = temp;
-            } else if (inTermOf=="Years") {
-                boost::shared_ptr<QuantLib::IborIndex> temp(new QuantLib::USDLibor(length * QuantLib::Years, index));
-                iborindex = temp;
-            }
+    boost::shared_ptr<QuantLib::IborIndex> iborindex(new QuantLib::USDLibor(6 * QuantLib::Months, index));
+    if (type=="USDLibor") {
+        if (inTermOf=="Months") {               
+            boost::shared_ptr<QuantLib::IborIndex> temp(new QuantLib::USDLibor(length * QuantLib::Months, index));
+            iborindex = temp;
+        } else if (inTermOf=="Years") {
+            boost::shared_ptr<QuantLib::IborIndex> temp(new QuantLib::USDLibor(length * QuantLib::Years, index));
+            iborindex = temp;
         }
-
-        Rcpp::List misc(dateparams);      
-        double settlementDays = Rcpp::as<double>(misc["settlementDays"]);
-        std::string cal = Rcpp::as<std::string>(misc["calendar"]);
-        double dayCounter = Rcpp::as<double>(misc["dayCounter"]);
-        double frequency = Rcpp::as<double>(misc["period"]);
-        double businessDayConvention = Rcpp::as<double>(misc["businessDayConvention"]);
-
-        QuantLib::Date todayDate = issueDate;
-        
-        QuantLib::Calendar calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-        if (cal == "us") {
-            calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-        } else if (cal == "uk") {
-            calendar = QuantLib::UnitedKingdom(QuantLib::UnitedKingdom::Exchange);
-        }
- 
-        QuantLib::BusinessDayConvention bdc = getBusinessDayConvention(businessDayConvention);
-        QuantLib::DayCounter dc = getDayCounter(dayCounter);
-        QuantLib::Frequency freq = getFrequency(frequency);
-        
-        QuantLib::RelinkableHandle<QuantLib::Quote> underlying;
-        QuantLib::RelinkableHandle<QuantLib::BlackVolTermStructure> volatility;
-        boost::shared_ptr<QuantLib::BlackScholesMertonProcess> blackProcess;
-
-        QuantLib::Handle<QuantLib::YieldTermStructure> dividendYield(rebuildCurveFromZeroRates(dividendYieldDateSexp,
-                                                                           dividendYieldZeroSexp));
-
-        QuantLib::Handle<QuantLib::YieldTermStructure> rff(rebuildCurveFromZeroRates(rffDateSexp,
-                                                                 rffZeroSexp));
-
-        Rcpp::List processParam(process);
-        double underlyingQuote = Rcpp::as<double>(processParam["underlying"]);
-        double volatilityQuote = Rcpp::as<double>(processParam["volatility"]);
-        underlying.linkTo(boost::shared_ptr<QuantLib::Quote>(new QuantLib::SimpleQuote(underlyingQuote)));
-        boost::shared_ptr<QuantLib::SimpleQuote> vol(new QuantLib::SimpleQuote( volatilityQuote ));
-        volatility.linkTo(flatVol(todayDate, vol, dc));
-
-        blackProcess = 
-            boost::shared_ptr<QuantLib::BlackScholesMertonProcess>(new QuantLib::BlackScholesMertonProcess(underlying, dividendYield,
-                                                                                       rff, volatility));
-
-        QuantLib::RelinkableHandle<QuantLib::Quote> creditSpread;
-        creditSpread.linkTo(boost::shared_ptr<QuantLib::Quote>(new QuantLib::SimpleQuote(creditSpreadQuote)));
-
-        boost::shared_ptr<QuantLib::Exercise> euExercise(new QuantLib::EuropeanExercise(maturityDate));
-        boost::shared_ptr<QuantLib::Exercise> amExercise(new QuantLib::AmericanExercise(issueDate, maturityDate));
-        
-        boost::shared_ptr<QuantLib::Exercise> ex = (exercise == "eu") ? euExercise : amExercise;
-        
-        
-        QuantLib::Size timeSteps = 1001;
-        boost::shared_ptr<QuantLib::PricingEngine> engine(new QuantLib::BinomialConvertibleEngine<QuantLib::CoxRossRubinstein>(blackProcess,
-                                                                                                 timeSteps));
-        
-        QuantLib::Handle<QuantLib::YieldTermStructure> 
-            discountCurve(boost::shared_ptr<QuantLib::YieldTermStructure>(new QuantLib::ForwardSpreadedTermStructure(rff,
-                                                                                                 creditSpread)));
-        QuantLib::Natural fixingDays = 2;
-        QuantLib::Schedule sch(issueDate, maturityDate,
-                               QuantLib::Period(freq), calendar,
-                               bdc, bdc,
-                               QuantLib::DateGeneration::Backward, false);        
-        QuantLib::ConvertibleFloatingRateBond bond(ex, conversionRatio,
-                                                   dividendSchedule, callabilitySchedule,
-                                                   creditSpread,issueDate, 
-                                                   settlementDays,iborindex,fixingDays, spreads,
-                                                   dc, sch, redemption);
-        bond.setPricingEngine(engine);
-
-        return Rcpp::List::create(Rcpp::Named("NPV") = bond.NPV(),
-                                  Rcpp::Named("cleanPrice") = bond.cleanPrice(),
-                                  Rcpp::Named("dirtyPrice") = bond.dirtyPrice(),
-                                  Rcpp::Named("accruedCoupon") = bond.accruedAmount(),
-                                  Rcpp::Named("yield") = bond.yield(QuantLib::Actual360(), QuantLib::Compounded, QuantLib::Annual),
-                                  Rcpp::Named("cashFlow") = getCashFlowDataFrame(bond.cashflows()));
-        
-    } catch(std::exception &ex) { 
-        forward_exception_to_r(ex); 
-    } catch(...) { 
-        ::Rf_error("c++ exception (unknown reason)"); 
     }
 
-    return R_NilValue;
+    double settlementDays = Rcpp::as<double>(datemisc["settlementDays"]);
+    std::string cal = Rcpp::as<std::string>(datemisc["calendar"]);
+    double dayCounter = Rcpp::as<double>(datemisc["dayCounter"]);
+    double frequency = Rcpp::as<double>(datemisc["period"]);
+    double businessDayConvention = Rcpp::as<double>(datemisc["businessDayConvention"]);
+
+    QuantLib::Date todayDate = issueDate;
+        
+    QuantLib::Calendar calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
+    if (cal == "us") {
+        calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
+    } else if (cal == "uk") {
+        calendar = QuantLib::UnitedKingdom(QuantLib::UnitedKingdom::Exchange);
+    }
+ 
+    QuantLib::BusinessDayConvention bdc = getBusinessDayConvention(businessDayConvention);
+    QuantLib::DayCounter dc = getDayCounter(dayCounter);
+    QuantLib::Frequency freq = getFrequency(frequency);
+        
+    QuantLib::RelinkableHandle<QuantLib::Quote> underlying;
+    QuantLib::RelinkableHandle<QuantLib::BlackVolTermStructure> volatility;
+    boost::shared_ptr<QuantLib::BlackScholesMertonProcess> blackProcess;
+
+    QuantLib::Handle<QuantLib::YieldTermStructure> dividendYield(rebuildCurveFromZeroRates(dividendYieldDateSexp,
+                                                                                           dividendYieldZeroSexp));
+
+    QuantLib::Handle<QuantLib::YieldTermStructure> rff(rebuildCurveFromZeroRates(rffDateSexp,
+                                                                                 rffZeroSexp));
+
+    double underlyingQuote = Rcpp::as<double>(processParam["underlying"]);
+    double volatilityQuote = Rcpp::as<double>(processParam["volatility"]);
+    underlying.linkTo(boost::shared_ptr<QuantLib::Quote>(new QuantLib::SimpleQuote(underlyingQuote)));
+    boost::shared_ptr<QuantLib::SimpleQuote> vol(new QuantLib::SimpleQuote( volatilityQuote ));
+    volatility.linkTo(flatVol(todayDate, vol, dc));
+
+    blackProcess = 
+        boost::shared_ptr<QuantLib::BlackScholesMertonProcess>(new QuantLib::BlackScholesMertonProcess(underlying, dividendYield, rff, volatility));
+
+    QuantLib::RelinkableHandle<QuantLib::Quote> creditSpread;
+    creditSpread.linkTo(boost::shared_ptr<QuantLib::Quote>(new QuantLib::SimpleQuote(creditSpreadQuote)));
+    
+    boost::shared_ptr<QuantLib::Exercise> euExercise(new QuantLib::EuropeanExercise(maturityDate));
+    boost::shared_ptr<QuantLib::Exercise> amExercise(new QuantLib::AmericanExercise(issueDate, maturityDate));
+        
+    boost::shared_ptr<QuantLib::Exercise> ex = (exercise == "eu") ? euExercise : amExercise;
+        
+        
+    QuantLib::Size timeSteps = 1001;
+    boost::shared_ptr<QuantLib::PricingEngine> engine(new QuantLib::BinomialConvertibleEngine<QuantLib::CoxRossRubinstein>(blackProcess, timeSteps));
+        
+    QuantLib::Handle<QuantLib::YieldTermStructure> 
+        discountCurve(boost::shared_ptr<QuantLib::YieldTermStructure>(new QuantLib::ForwardSpreadedTermStructure(rff,
+                                                                                                                 creditSpread)));
+    QuantLib::Natural fixingDays = 2;
+    QuantLib::Schedule sch(issueDate, maturityDate, QuantLib::Period(freq), 
+                           calendar, bdc, bdc, QuantLib::DateGeneration::Backward, false);        
+    QuantLib::ConvertibleFloatingRateBond bond(ex, conversionRatio, dividendSchedule, callabilitySchedule,
+                                               creditSpread,issueDate, 
+                                               settlementDays,iborindex,fixingDays, spreads,
+                                               dc, sch, redemption);
+    bond.setPricingEngine(engine);
+
+    return Rcpp::List::create(Rcpp::Named("NPV") = bond.NPV(),
+                              Rcpp::Named("cleanPrice") = bond.cleanPrice(),
+                              Rcpp::Named("dirtyPrice") = bond.dirtyPrice(),
+                              Rcpp::Named("accruedCoupon") = bond.accruedAmount(),
+                              Rcpp::Named("yield") = bond.yield(QuantLib::Actual360(), QuantLib::Compounded, QuantLib::Annual),
+                              Rcpp::Named("cashFlow") = getCashFlowDataFrame(bond.cashflows()));
 }
 
 
-RcppExport SEXP CallableBond(SEXP bondparams, SEXP hw, SEXP coupon,
-                             SEXP callabilityScheduleFrame,
-                             SEXP dateparams) {
+// [[Rcpp::export]]
+Rcpp::List callableBondEngine(Rcpp::List rparam, 
+                              Rcpp::List hwparam, 
+                              Rcpp::NumericVector coupon,
+                              SEXP callabilityScheduleFrame,
+                              Rcpp::List datemisc) {
 
-    try {
+    QuantLib::CallabilitySchedule callabilitySchedule = getCallabilitySchedule(callabilityScheduleFrame);
 
-        QuantLib::CallabilitySchedule callabilitySchedule = getCallabilitySchedule(callabilityScheduleFrame);
+    double faceAmount = Rcpp::as<double>(rparam["faceAmount"]);        
+    QuantLib::Date maturityDate(Rcpp::as<QuantLib::Date>(rparam["maturityDate"]));
+    QuantLib::Date issueDate(Rcpp::as<QuantLib::Date>(rparam["issueDate"]));
+    double redemption = Rcpp::as<double>(rparam["redemption"]);
 
-        Rcpp::List rparam(bondparams);
+    double settlementDays = Rcpp::as<double>(datemisc["settlementDays"]);
+
+    std::string cal = Rcpp::as<std::string>(datemisc["calendar"]);
+    double dayCounter = Rcpp::as<double>(datemisc["dayCounter"]);
+    double frequency = Rcpp::as<double>(datemisc["period"]);
+    double businessDayConvention = Rcpp::as<double>(datemisc["businessDayConvention"]);
         
-        double faceAmount = Rcpp::as<double>(rparam["faceAmount"]);        
-        QuantLib::Date maturityDate(Rcpp::as<QuantLib::Date>(rparam["maturityDate"]));
-        QuantLib::Date issueDate(Rcpp::as<QuantLib::Date>(rparam["issueDate"]));
-        double redemption = Rcpp::as<double>(rparam["redemption"]);
-
-        Rcpp::List misc(dateparams);      
-        double settlementDays = Rcpp::as<double>(misc["settlementDays"]);
-
-        std::string cal = Rcpp::as<std::string>(misc["calendar"]);
-        double dayCounter = Rcpp::as<double>(misc["dayCounter"]);
-        double frequency = Rcpp::as<double>(misc["period"]);
-        double businessDayConvention = Rcpp::as<double>(misc["businessDayConvention"]);
-        
-        QuantLib::Calendar calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-        if (cal == "us") {
-            calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-        } else if (cal == "uk") {
-            calendar = QuantLib::UnitedKingdom(QuantLib::UnitedKingdom::Exchange);
-        }
-
-        QuantLib::BusinessDayConvention bdc = getBusinessDayConvention(businessDayConvention);
-        QuantLib::DayCounter dc = getDayCounter(dayCounter);
-        QuantLib::Frequency freq = getFrequency(frequency);
-        
-        //extract coupon rates vector
-        Rcpp::NumericVector rates(coupon); 
-        
-        Rcpp::List hwparam(hw);
-        double alpha = Rcpp::as<double>(hwparam["alpha"]);
-        double sigma = Rcpp::as<double>(hwparam["sigma"]);
-        double gridIntervals = Rcpp::as<double>(hwparam["gridIntervals"]);
-        double rate = Rcpp::as<double>(hwparam["term"]);
-        
-        boost::shared_ptr<QuantLib::SimpleQuote> rRate(new QuantLib::SimpleQuote(rate));
-        QuantLib::Handle<QuantLib::YieldTermStructure> termStructure(flatRate(issueDate,rRate,QuantLib::Actual360()));
-
-        //QuantLib::Handle<QuantLib::YieldTermStructure> termStructure(rebuildCurveFromZeroRates(
-        //                                                               hwTermDateSexp,
-        //                                                               hwTermZeroSexp));
-      
-        boost::shared_ptr<QuantLib::ShortRateModel> 
-            hw0(new QuantLib::HullWhite(termStructure,alpha,sigma));
-
-        boost::shared_ptr<QuantLib::PricingEngine> 
-            engine0(new QuantLib::TreeCallableFixedRateBondEngine(hw0,gridIntervals));
-
-        QuantLib::Schedule sch(issueDate, maturityDate,
-                               QuantLib::Period(freq), calendar, bdc, bdc,
-                               QuantLib::DateGeneration::Backward, false);        
-
-        //std::cout << "RQL SettleDate    : " << RQLContext::instance().settleDate << std::endl;
-        //std::cout << "RQL calendar      : " << RQLContext::instance().calendar << std::endl;
-        //std::cout << "RQL fixingDays    : " << RQLContext::instance().fixingDays << std::endl;
-
-        QuantLib::CallableFixedRateBond bond(settlementDays, faceAmount, sch,
-                                             Rcpp::as<std::vector <double> >(rates), 
-                                             dc, bdc, redemption, issueDate, 
-                                             callabilitySchedule);
-        bond.setPricingEngine(engine0);
-
-        return Rcpp::List::create(Rcpp::Named("NPV") = bond.NPV(),
-                                  Rcpp::Named("cleanPrice") = bond.cleanPrice(),
-                                  Rcpp::Named("dirtyPrice") = bond.dirtyPrice(),
-                                  Rcpp::Named("accruedCoupon") = bond.accruedAmount(),
-                                  Rcpp::Named("yield") = bond.yield(dc, QuantLib::Compounded, freq),
-                                  Rcpp::Named("cashFlow") = getCashFlowDataFrame(bond.cashflows()));
-
-    } catch(std::exception &ex) { 
-        forward_exception_to_r(ex); 
-    } catch(...) { 
-        ::Rf_error("c++ exception (unknown reason)"); 
+    QuantLib::Calendar calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
+    if (cal == "us") {
+        calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
+    } else if (cal == "uk") {
+        calendar = QuantLib::UnitedKingdom(QuantLib::UnitedKingdom::Exchange);
     }
+
+    QuantLib::BusinessDayConvention bdc = getBusinessDayConvention(businessDayConvention);
+    QuantLib::DayCounter dc = getDayCounter(dayCounter);
+    QuantLib::Frequency freq = getFrequency(frequency);
+        
+    //extract coupon rates vector
+    Rcpp::NumericVector rates(coupon); 
+        
+    double alpha = Rcpp::as<double>(hwparam["alpha"]);
+    double sigma = Rcpp::as<double>(hwparam["sigma"]);
+    double gridIntervals = Rcpp::as<double>(hwparam["gridIntervals"]);
+    double rate = Rcpp::as<double>(hwparam["term"]);
+        
+    boost::shared_ptr<QuantLib::SimpleQuote> rRate(new QuantLib::SimpleQuote(rate));
+    QuantLib::Handle<QuantLib::YieldTermStructure> termStructure(flatRate(issueDate,rRate,QuantLib::Actual360()));
+
+    //QuantLib::Handle<QuantLib::YieldTermStructure> termStructure(rebuildCurveFromZeroRates(
+    //                                                               hwTermDateSexp,
+    //                                                               hwTermZeroSexp));
+      
+    boost::shared_ptr<QuantLib::ShortRateModel> 
+        hw0(new QuantLib::HullWhite(termStructure,alpha,sigma));
+
+    boost::shared_ptr<QuantLib::PricingEngine> 
+        engine0(new QuantLib::TreeCallableFixedRateBondEngine(hw0,gridIntervals));
+
+    QuantLib::Schedule sch(issueDate, maturityDate,
+                           QuantLib::Period(freq), calendar, bdc, bdc,
+                           QuantLib::DateGeneration::Backward, false);        
+
+    //std::cout << "RQL SettleDate    : " << RQLContext::instance().settleDate << std::endl;
+    //std::cout << "RQL calendar      : " << RQLContext::instance().calendar << std::endl;
+    //std::cout << "RQL fixingDays    : " << RQLContext::instance().fixingDays << std::endl;
+
+    QuantLib::CallableFixedRateBond bond(settlementDays, faceAmount, sch,
+                                         Rcpp::as<std::vector <double> >(rates), 
+                                         dc, bdc, redemption, issueDate, 
+                                         callabilitySchedule);
+    bond.setPricingEngine(engine0);
+
+    return Rcpp::List::create(Rcpp::Named("NPV") = bond.NPV(),
+                              Rcpp::Named("cleanPrice") = bond.cleanPrice(),
+                              Rcpp::Named("dirtyPrice") = bond.dirtyPrice(),
+                              Rcpp::Named("accruedCoupon") = bond.accruedAmount(),
+                              Rcpp::Named("yield") = bond.yield(dc, QuantLib::Compounded, freq),
+                              Rcpp::Named("cashFlow") = getCashFlowDataFrame(bond.cashflows()));
 
     return R_NilValue;
 }
@@ -1017,132 +990,120 @@ RcppExport SEXP CallableBond(SEXP bondparams, SEXP hw, SEXP coupon,
 //     return rl;
 // }
 
-RcppExport SEXP FittedBondCurve(SEXP curveparams, SEXP lengthVec,
-                                SEXP couponVec,SEXP marketVec,
-                                SEXP dateparams) {
-    try {
+// [[Rcpp::export]]
+Rcpp::List fittedBondCurveEngine(Rcpp::List curveparam, 
+                                 Rcpp::NumericVector length,
+                                 Rcpp::NumericVector coupons,
+                                 Rcpp::NumericVector marketQuotes,
+                                 Rcpp::List datemisc) {
 
-        //extract length, coupon and market prices vector
-        Rcpp::NumericVector length(lengthVec); 
-        Rcpp::NumericVector coupons(couponVec); 
-        Rcpp::NumericVector marketQuotes(marketVec); 
-
-        Rcpp::List misc(dateparams);      
-        double settlementDays = Rcpp::as<double>(misc["settlementDays"]);
-        double dayCounter = Rcpp::as<double>(misc["dayCounter"]);
-        double frequency = Rcpp::as<double>(misc["period"]);
-        double businessDayConvention = Rcpp::as<double>(misc["businessDayConvention"]);
+    double settlementDays = Rcpp::as<double>(datemisc["settlementDays"]);
+    double dayCounter = Rcpp::as<double>(datemisc["dayCounter"]);
+    double frequency = Rcpp::as<double>(datemisc["period"]);
+    double businessDayConvention = Rcpp::as<double>(datemisc["businessDayConvention"]);
     
-        Rcpp::List curvepam(curveparams);
-        std::string method = Rcpp::as<std::string>(curvepam["method"]);
-        QuantLib::Date origDate(Rcpp::as<QuantLib::Date>(curvepam["origDate"]));;
-        QuantLib::Settings::instance().evaluationDate() = origDate;
+    std::string method = Rcpp::as<std::string>(curveparam["method"]);
+    QuantLib::Date origDate(Rcpp::as<QuantLib::Date>(curveparam["origDate"]));;
+    QuantLib::Settings::instance().evaluationDate() = origDate;
 
-        const QuantLib::Size numberOfBonds = length.size();
+    const QuantLib::Size numberOfBonds = length.size();
 
-        std::vector< boost::shared_ptr<QuantLib::SimpleQuote> > quote;
-        for (QuantLib::Size i=0; i<numberOfBonds; i++) {            
-            boost::shared_ptr<QuantLib::SimpleQuote> cp(new QuantLib::SimpleQuote(marketQuotes[i]));
-            quote.push_back(cp);
-        }
-
-        std::vector< QuantLib::RelinkableHandle<QuantLib::Quote> > quoteHandle(numberOfBonds);
-        for (QuantLib::Size i=0; i<numberOfBonds; i++) {
-            quoteHandle[i].linkTo(quote[i]);
-        }
-
-        QuantLib::Calendar calendar =  QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-        QuantLib::BusinessDayConvention bdc = getBusinessDayConvention(businessDayConvention);
-        QuantLib::DayCounter dc = getDayCounter(dayCounter);
-        QuantLib::Frequency freq = getFrequency(frequency);
-        QuantLib::Real redemption = 100;
-
-        std::vector<boost::shared_ptr<QuantLib::BondHelper> > instrumentsA;
-
-        for (QuantLib::Size j=0; j < static_cast<QuantLib::Size>(length.size()); j++) {
-
-            QuantLib::Date dated = origDate;
-            QuantLib::Date issue = origDate;
-            QuantLib::Date maturity = calendar.advance(issue, length[j], QuantLib::Years);
-            
-            QuantLib::Schedule schedule(dated, maturity, QuantLib::Period(freq), calendar,
-                                        bdc, bdc,
-                                        QuantLib::DateGeneration::Backward, false);
-
-            boost::shared_ptr<QuantLib::FixedRateBond> 
-                bond(new QuantLib::FixedRateBond(settlementDays, 100.0, schedule,
-                                                 std::vector<QuantLib::Rate>(1,coupons[j]),
-                                                 dc, bdc, redemption, issue, calendar));
-            boost::shared_ptr<QuantLib::BondHelper> helperA(new QuantLib::BondHelper(quoteHandle[j], bond));
-            instrumentsA.push_back(helperA);
-
-        }
-
-        bool constrainAtZero = true;
-        QuantLib::Real tolerance = 1.0e-10;
-        QuantLib::Size max = 5000;
-
-        boost::shared_ptr<QuantLib::YieldTermStructure> curve;
-
-       
-        if (method=="ExponentialSplinesFitting") {
-            QuantLib::ExponentialSplinesFitting exponentialSplines(constrainAtZero);
-
-            boost::shared_ptr<QuantLib::FittedBondDiscountCurve> 
-                ts1 (new QuantLib::FittedBondDiscountCurve(settlementDays, calendar, instrumentsA,
-                                                           dc, exponentialSplines, tolerance, max));
-            curve = ts1;
-
-        } else if (method == "SimplePolynomialFitting") {
-            double degree = Rcpp::as<double>(curvepam["degree"]);
-            QuantLib::SimplePolynomialFitting simplePolynomial(degree, constrainAtZero);
-
-            boost::shared_ptr<QuantLib::FittedBondDiscountCurve> 
-                ts2 (new QuantLib::FittedBondDiscountCurve(settlementDays, calendar, instrumentsA, dc,
-                                                           simplePolynomial, tolerance, max));
-            curve = ts2;
-
-        } else if (method == "NelsonSiegelFitting") {
-            QuantLib::NelsonSiegelFitting nelsonSiegel;
-
-            boost::shared_ptr<QuantLib::FittedBondDiscountCurve> 
-                ts3 (new QuantLib::FittedBondDiscountCurve(settlementDays, calendar, instrumentsA, dc,
-                                                           nelsonSiegel, tolerance, max));
-            curve = ts3;
-        }
-        
-        // Return discount, forward rate, and zero coupon curves
-        // int numCol = 3;
-        // std::vector<std::string> colNames(numCol);
-        // colNames[0] = "date";
-        // colNames[1] = "zeroRates";
-        // colNames[2] = "discount";
-        // RcppFrame frame(colNames);
-        QuantLib::Date current = curve->referenceDate();;
-        int n = curve->maxDate() - curve->referenceDate();
-        //std::cout << curve->maxDate() << " " << curve->referenceDate() << " " << n << std::endl;
-
-        Rcpp::DateVector dates(n);
-        Rcpp::NumericVector zr(n);
-        Rcpp::NumericVector di(n);
-
-        for (int i = 0; i < n; i++) {
-            QuantLib::Date d = current; 
-            dates[i] =  Rcpp::Date(d.month(), d.dayOfMonth(), d.year());
-            zr[i] = curve->zeroRate(current, QuantLib::ActualActual(), QuantLib::Continuous);
-            di[i] = curve->discount(current);
-            current++;
-        }
-        Rcpp::DataFrame frame = Rcpp::DataFrame::create(Rcpp::Named("date") = dates,
-                                                        Rcpp::Named("zeroRates") = zr,
-                                                        Rcpp::Named("discount") = di);
-        return Rcpp::List::create(Rcpp::Named("table") = frame);
-
-    } catch(std::exception &ex) { 
-        forward_exception_to_r(ex); 
-    } catch(...) { 
-        ::Rf_error("c++ exception (unknown reason)"); 
+    std::vector< boost::shared_ptr<QuantLib::SimpleQuote> > quote;
+    for (QuantLib::Size i=0; i<numberOfBonds; i++) {            
+        boost::shared_ptr<QuantLib::SimpleQuote> cp(new QuantLib::SimpleQuote(marketQuotes[i]));
+        quote.push_back(cp);
     }
 
-    return R_NilValue;
+    std::vector< QuantLib::RelinkableHandle<QuantLib::Quote> > quoteHandle(numberOfBonds);
+    for (QuantLib::Size i=0; i<numberOfBonds; i++) {
+        quoteHandle[i].linkTo(quote[i]);
+    }
+        
+    QuantLib::Calendar calendar =  QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
+    QuantLib::BusinessDayConvention bdc = getBusinessDayConvention(businessDayConvention);
+    QuantLib::DayCounter dc = getDayCounter(dayCounter);
+    QuantLib::Frequency freq = getFrequency(frequency);
+    QuantLib::Real redemption = 100;
+        
+    std::vector<boost::shared_ptr<QuantLib::BondHelper> > instrumentsA;
+        
+    for (QuantLib::Size j=0; j < static_cast<QuantLib::Size>(length.size()); j++) {
+
+        QuantLib::Date dated = origDate;
+        QuantLib::Date issue = origDate;
+        QuantLib::Date maturity = calendar.advance(issue, length[j], QuantLib::Years);
+            
+        QuantLib::Schedule schedule(dated, maturity, QuantLib::Period(freq), calendar,
+                                    bdc, bdc,
+                                    QuantLib::DateGeneration::Backward, false);
+
+        boost::shared_ptr<QuantLib::FixedRateBond> 
+            bond(new QuantLib::FixedRateBond(settlementDays, 100.0, schedule,
+                                             std::vector<QuantLib::Rate>(1,coupons[j]),
+                                             dc, bdc, redemption, issue, calendar));
+        boost::shared_ptr<QuantLib::BondHelper> helperA(new QuantLib::BondHelper(quoteHandle[j], bond));
+        instrumentsA.push_back(helperA);
+
+    }
+
+    bool constrainAtZero = true;
+    QuantLib::Real tolerance = 1.0e-10;
+    QuantLib::Size max = 5000;
+
+    boost::shared_ptr<QuantLib::YieldTermStructure> curve;
+
+       
+    if (method=="ExponentialSplinesFitting") {
+        QuantLib::ExponentialSplinesFitting exponentialSplines(constrainAtZero);
+
+        boost::shared_ptr<QuantLib::FittedBondDiscountCurve> 
+            ts1 (new QuantLib::FittedBondDiscountCurve(settlementDays, calendar, instrumentsA,
+                                                       dc, exponentialSplines, tolerance, max));
+        curve = ts1;
+
+    } else if (method == "SimplePolynomialFitting") {
+        double degree = Rcpp::as<double>(curveparam["degree"]);
+        QuantLib::SimplePolynomialFitting simplePolynomial(degree, constrainAtZero);
+
+        boost::shared_ptr<QuantLib::FittedBondDiscountCurve> 
+            ts2 (new QuantLib::FittedBondDiscountCurve(settlementDays, calendar, instrumentsA, dc,
+                                                       simplePolynomial, tolerance, max));
+        curve = ts2;
+
+    } else if (method == "NelsonSiegelFitting") {
+        QuantLib::NelsonSiegelFitting nelsonSiegel;
+
+        boost::shared_ptr<QuantLib::FittedBondDiscountCurve> 
+            ts3 (new QuantLib::FittedBondDiscountCurve(settlementDays, calendar, instrumentsA, dc,
+                                                       nelsonSiegel, tolerance, max));
+        curve = ts3;
+    }
+        
+    // Return discount, forward rate, and zero coupon curves
+    // int numCol = 3;
+    // std::vector<std::string> colNames(numCol);
+    // colNames[0] = "date";
+    // colNames[1] = "zeroRates";
+    // colNames[2] = "discount";
+    // RcppFrame frame(colNames);
+    QuantLib::Date current = curve->referenceDate();;
+    int n = curve->maxDate() - curve->referenceDate();
+    //std::cout << curve->maxDate() << " " << curve->referenceDate() << " " << n << std::endl;
+
+    Rcpp::DateVector dates(n);
+    Rcpp::NumericVector zr(n);
+    Rcpp::NumericVector di(n);
+
+    for (int i = 0; i < n; i++) {
+        QuantLib::Date d = current; 
+        dates[i] =  Rcpp::Date(d.month(), d.dayOfMonth(), d.year());
+        zr[i] = curve->zeroRate(current, QuantLib::ActualActual(), QuantLib::Continuous);
+        di[i] = curve->discount(current);
+        current++;
+    }
+    Rcpp::DataFrame frame = Rcpp::DataFrame::create(Rcpp::Named("date") = dates,
+                                                    Rcpp::Named("zeroRates") = zr,
+                                                    Rcpp::Named("discount") = di);
+    return Rcpp::List::create(Rcpp::Named("table") = frame);
+
 }

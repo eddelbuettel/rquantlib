@@ -73,6 +73,18 @@ convertibleFixedBondEngine <- function(rparam, rates, processParam, dividendYiel
     .Call('RQuantLib_convertibleFixedBondEngine', PACKAGE = 'RQuantLib', rparam, rates, processParam, dividendYieldDateSexp, dividendYieldZeroSexp, rffDateSexp, rffZeroSexp, dividendScheduleFrame, callabilityScheduleFrame, dateparams)
 }
 
+convertibleFloatingBondEngine <- function(rparam, processParam, dividendYieldDateSexp, dividendYieldZeroSexp, rffDateSexp, rffZeroSexp, iborIndexDateSexp, iborIndexZeroSexp, iborparams, spreads, dividendScheduleFrame, callabilityScheduleFrame, datemisc) {
+    .Call('RQuantLib_convertibleFloatingBondEngine', PACKAGE = 'RQuantLib', rparam, processParam, dividendYieldDateSexp, dividendYieldZeroSexp, rffDateSexp, rffZeroSexp, iborIndexDateSexp, iborIndexZeroSexp, iborparams, spreads, dividendScheduleFrame, callabilityScheduleFrame, datemisc)
+}
+
+callableBondEngine <- function(rparam, hwparam, coupon, callabilityScheduleFrame, datemisc) {
+    .Call('RQuantLib_callableBondEngine', PACKAGE = 'RQuantLib', rparam, hwparam, coupon, callabilityScheduleFrame, datemisc)
+}
+
+fittedBondCurveEngine <- function(curveparam, length, coupons, marketQuotes, datemisc) {
+    .Call('RQuantLib_fittedBondCurveEngine', PACKAGE = 'RQuantLib', curveparam, length, coupons, marketQuotes, datemisc)
+}
+
 setCalendarContext <- function(calendar, fixingDays, settleDate) {
     .Call('RQuantLib_setCalendarContext', PACKAGE = 'RQuantLib', calendar, fixingDays, settleDate)
 }

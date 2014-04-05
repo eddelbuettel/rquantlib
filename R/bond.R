@@ -32,13 +32,13 @@ ZeroCouponBond.default <- function(bond,
                                    businessDayConvention='Following')) {
     val <- 0
 
-    if (is.null(bond$faceAmount)) {bond$faceAmount=100}
-    if (is.null(bond$redemption)) {bond$redemption=100}
+    if (is.null(bond$faceAmount)) bond$faceAmount <- 100
+    if (is.null(bond$redemption)) bond$redemption <- 100
 
-    if (is.null(dateparams$settlementDays)) {dateparams$settlementDays=1}
-    if (is.null(dateparams$calendar)) {dateparams$calendar='us'}
-    if (is.null(dateparams$businessDayConvention)) {dateparams$businessDayConvention='Following'}
-    if (is.null(dateparams$refDate)) {dateparams$refDate=bond$issueDate}
+    if (is.null(dateparams$settlementDays)) dateparams$settlementDays <- 1
+    if (is.null(dateparams$calendar)) dateparams$calendar <- 'us'
+    if (is.null(dateparams$businessDayConvention)) dateparams$businessDayConvention <- 'Following'
+    if (is.null(dateparams$refDate)) dateparams$refDate <- bond$issueDate
     dateparams <- matchParams(dateparams)
 
 
@@ -206,30 +206,25 @@ FloatingRateBond.default <- function(bond,
                                      ) {
     val <- 0
 
-    if (is.null(bond$faceAmount)){bond$faceAmount=100}
-    if (is.null(bond$redemption)){bond$redemption=100}
-    if (is.null(bond$effectiveDate)){bond$effectiveDate=bond$issueDate}
+    if (is.null(bond$faceAmount)) bond$faceAmount <- 100
+    if (is.null(bond$redemption)) bond$redemption <- 100
+    if (is.null(bond$effectiveDate)) bond$effectiveDate <- bond$issueDate
 
 
-    if (is.null(dateparams$settlementDays)){dateparams$settlementDays=1}
-    if (is.null(dateparams$calendar)){dateparams$calendar='us'}
-    if (is.null(dateparams$businessDayConvention)){
-      dateparams$businessDayConvention='Following'
-    }
-    if (is.null(dateparams$terminationDateConvention)){
-      dateparams$terminationDateConvention='Following'
-    }
-    if (is.null(dateparams$dayCounter)){dateparams$dayCounter='Thirty360'}
-    if (is.null(dateparams$period)){dateparams$period='Semiannual'}
-    if (is.null(dateparams$dateGeneration)){dateparams$dateGeneration='Backward'}
-    if (is.null(dateparams$endOfMonth)){dateparams$endOfMonth=0}
-    if (is.null(dateparams$fixingDays)){dateparams$fixingDays=2}
-    if (is.null(dateparams$refDate)) {dateparams$refDate=bond$issueDate-2}
+    if (is.null(dateparams$settlementDays)) dateparams$settlementDays <- 1
+    if (is.null(dateparams$calendar)) dateparams$calendar <- 'us'
+    if (is.null(dateparams$businessDayConvention)) dateparams$businessDayConvention <- 'Following'
+    if (is.null(dateparams$terminationDateConvention)) dateparams$terminationDateConvention <- 'Following'
+    if (is.null(dateparams$dayCounter)) dateparams$dayCounter <- 'Thirty360'
+    if (is.null(dateparams$period)) dateparams$period <- 'Semiannual'
+    if (is.null(dateparams$dateGeneration)) dateparams$dateGeneration <- 'Backward'
+    if (is.null(dateparams$endOfMonth)) dateparams$endOfMonth <- 0
+    if (is.null(dateparams$fixingDays)) dateparams$fixingDays <- 2
+    if (is.null(dateparams$refDate))  dateparams$refDate <- bond$issueDate-2
 
     dateparams <- matchParams(dateparams)
 
-    indexparams <- list(type=index$type, length=index$length,
-                        inTermOf=index$inTermOf)
+    indexparams <- list(type=index$type, length=index$length, inTermOf=index$inTermOf)
     ibor <- index$term
     val <- floatingWithRebuiltCurveEngine(bond, gearings, spreads, caps, floors, indexparams,
                                           c(ibor$table$date), ibor$table$zeroRates,
@@ -248,37 +243,33 @@ ConvertibleZeroCouponBond <- function(bondparams, process, dateparams){
 ConvertibleZeroCouponBond.default <- function(bondparams,
                                               process,
                                               dateparams=list(
-                                                settlementDays=1,
-                                                calendar='us',
-                                                dayCounter='Thirty360',
+                                              settlementDays=1,
+                                              calendar='us',
+                                              dayCounter='Thirty360',
                                                 period='Semiannual',
                                                 businessDayConvention='Following'
-                                                )
                                               )
-{
+                                              ) {
     val <- 0
 
-
-    if (is.null(bondparams$exercise)){bondparams$exercise='am'}
-    if (is.null(bondparams$faceAmount)){bondparams$faceAmount=100}
-    if (is.null(bondparams$redemption)){bondparams$redemption=100}
-    if (is.null(bondparams$divSch)){
-      bondparams$divSch = data.frame(Type=character(0), Amount=numeric(0),
-        Rate = numeric(0), Date = as.Date(character(0)))
+    if (is.null(bondparams$exercise)) bondparams$exercise <- 'am'
+    if (is.null(bondparams$faceAmount)) bondparams$faceAmount <- 100
+    if (is.null(bondparams$redemption)) bondparams$redemption <- 100
+    if (is.null(bondparams$divSch)) {
+        bondparams$divSch <- data.frame(Type=character(0), Amount=numeric(0),
+        Rate <- numeric(0), Date = as.Date(character(0)))
     }
     if (is.null(bondparams$callSch)){
-      bondparams$callSch = data.frame(Price=numeric(0), Type=character(0),
-        Date=as.Date(character(0)))
+        bondparams$callSch <- data.frame(Price=numeric(0), Type=character(0),
+        Date <- as.Date(character(0)))
     }
 
 
-    if (is.null(dateparams$settlementDays)){dateparams$settlementDays=1}
-    if (is.null(dateparams$calendar)){dateparams$calendar='us'}
-    if (is.null(dateparams$businessDayConvention)){
-      dateparams$businessDayConvention='Following'
-    }
-    if (is.null(dateparams$dayCounter)){dateparams$dayCounter='Thirty360'}
-    if (is.null(dateparams$period)){dateparams$period='Semiannual'}
+    if (is.null(dateparams$settlementDays)) dateparams$settlementDays <- 1
+    if (is.null(dateparams$calendar)) dateparams$calendar <- 'us'
+    if (is.null(dateparams$businessDayConvention)) dateparams$businessDayConvention <- 'Following'
+    if (is.null(dateparams$dayCounter)) dateparams$dayCounter <- 'Thirty360'
+    if (is.null(dateparams$period)) dateparams$period <- 'Semiannual'
 
     dateparams <- matchParams(dateparams)
     callabilitySchedule <- bondparams$callSch
@@ -314,26 +305,23 @@ ConvertibleFixedCouponBond.default <- function(bondparams,
 
     val <- 0
 
-    if (is.null(bondparams$exercise)){bondparams$exercise='am'}
-    if (is.null(bondparams$faceAmount)){bondparams$faceAmount=100}
-    if (is.null(bondparams$redemption)){bondparams$redemption=100}
-    if (is.null(bondparams$divSch)){
-      bondparams$divSch = data.frame(Type=character(0), Amount=numeric(0),
-        Rate = numeric(0), Date = as.Date(character(0)))
+    if (is.null(bondparams$exercise)) bondparams$exercise <- 'am'
+    if (is.null(bondparams$faceAmount)) bondparams$faceAmount <- 100
+    if (is.null(bondparams$redemption)) bondparams$redemption <- 100
+    if (is.null(bondparams$divSch)) {
+      bondparams$divSch <- data.frame(Type=character(0), Amount=numeric(0),
+                                      Rate = numeric(0), Date = as.Date(character(0)))
     }
-    if (is.null(bondparams$callSch)){
-      bondparams$callSch = data.frame(Price=numeric(0), Type=character(0),
-        Date=as.Date(character(0)))
+    if (is.null(bondparams$callSch)) {
+      bondparams$callSch <- data.frame(Price=numeric(0), Type=character(0),
+                                       Date=as.Date(character(0)))
     }
 
-
-    if (is.null(dateparams$settlementDays)){dateparams$settlementDays=1}
-    if (is.null(dateparams$calendar)){dateparams$calendar='us'}
-    if (is.null(dateparams$businessDayConvention)){
-      dateparams$businessDayConvention='Following'
-    }
-    if (is.null(dateparams$dayCounter)){dateparams$dayCounter='Thirty360'}
-    if (is.null(dateparams$period)){dateparams$period='Semiannual'}
+    if (is.null(dateparams$settlementDays)) dateparams$settlementDays <- 1
+    if (is.null(dateparams$calendar)) dateparams$calendar <- 'us'
+    if (is.null(dateparams$businessDayConvention)) dateparams$businessDayConvention <- 'Following'
+    if (is.null(dateparams$dayCounter)) dateparams$dayCounter <- 'Thirty360'
+    if (is.null(dateparams$period)) dateparams$period <- 'Semiannual'
 
     dateparams <- matchParams(dateparams)
     callabilitySchedule <- bondparams$callSch
@@ -367,26 +355,24 @@ ConvertibleFloatingCouponBond.default <- function(bondparams,
                                                     )){
     val <- 0
 
-    if (is.null(bondparams$exercise)){bondparams$exercise='am'}
-    if (is.null(bondparams$faceAmount)){bondparams$faceAmount=100}
-    if (is.null(bondparams$redemption)){bondparams$redemption=100}
-    if (is.null(bondparams$divSch)){
-      bondparams$divSch = data.frame(Type=character(0), Amount=numeric(0),
-        Rate = numeric(0), Date = as.Date(character(0)))
+    if (is.null(bondparams$exercise)) bondparams$exercise <- 'am'
+    if (is.null(bondparams$faceAmount)) bondparams$faceAmount <- 100
+    if (is.null(bondparams$redemption)) bondparams$redemption <- 100
+    if (is.null(bondparams$divSch)) {
+      bondparams$divSch <- data.frame(Type=character(0), Amount=numeric(0),
+                                      Rate = numeric(0), Date = as.Date(character(0)))
     }
-    if (is.null(bondparams$callSch)){
-      bondparams$callSch = data.frame(Price=numeric(0), Type=character(0),
-        Date=as.Date(character(0)))
+    if (is.null(bondparams$callSch)) {
+        bondparams$callSch <- data.frame(Price=numeric(0), Type=character(0),
+                                         Date=as.Date(character(0)))
     }
 
 
-    if (is.null(dateparams$settlementDays)){dateparams$settlementDays=1}
-    if (is.null(dateparams$calendar)){dateparams$calendar='us'}
-    if (is.null(dateparams$businessDayConvention)){
-      dateparams$businessDayConvention='Following'
-    }
-    if (is.null(dateparams$dayCounter)){dateparams$dayCounter='Thirty360'}
-    if (is.null(dateparams$period)){dateparams$period='Semiannual'}
+    if (is.null(dateparams$settlementDays)) dateparams$settlementDays <- 1
+    if (is.null(dateparams$calendar)) dateparams$calendar <- 'us'
+    if (is.null(dateparams$businessDayConvention)) dateparams$businessDayConvention <- 'Following'
+    if (is.null(dateparams$dayCounter)) dateparams$dayCounter <- 'Thirty360'
+    if (is.null(dateparams$period)) dateparams$period <- 'Semiannual'
 
 
     dateparams <- matchParams(dateparams)
@@ -399,18 +385,16 @@ ConvertibleFloatingCouponBond.default <- function(bondparams,
                         inTermOf=iborindex$inTermOf)
     ibor <- iborindex$term
 
-    val <- .Call("ConvertibleFloatingBond",
-                    bondparams,  process,
-                    c(dividendYield$table$date),
-                    dividendYield$table$zeroRates,
-                    c(riskFreeRate$table$date),
-                    riskFreeRate$table$zeroRates,
-                    c(ibor$table$date),
-                    ibor$table$zeroRates,
-                    indexparams,spread,
-                    dividendSchedule, callabilitySchedule, dateparams,
-                    PACKAGE="RQuantLib")
-
+    val <- convertibleFloatingBondEngine(bondparams,  process,
+                                         c(dividendYield$table$date),
+                                         dividendYield$table$zeroRates,
+                                         c(riskFreeRate$table$date),
+                                         riskFreeRate$table$zeroRates,
+                                         c(ibor$table$date),
+                                         ibor$table$zeroRates,
+                                         indexparams,spread,
+                                         dividendSchedule, callabilitySchedule,
+                                         dateparams)
     class(val) <- c("ConvertibleFloatingCouponBond", "Bond")
     val
 }
@@ -431,33 +415,28 @@ CallableBond.default <- function(bondparams, hullWhite,
                                  )){
     val <- 0
 
-    if (is.null(bondparams$faceAmount)){bondparams$faceAmount=100}
-    if (is.null(bondparams$redemption)){bondparams$redemption=100}
-    if (is.null(bondparams$callSch)){
-      bondparams$callSch = data.frame(Price=numeric(0), Type=character(0),
-        Date=as.Date(character(0)))
+    if (is.null(bondparams$faceAmount)) bondparams$faceAmount <- 100
+    if (is.null(bondparams$redemption)) bondparams$redemption <- 100
+    if (is.null(bondparams$callSch)) {
+        bondparams$callSch <- data.frame(Price=numeric(0), Type=character(0),
+                                         Date=as.Date(character(0)))
     }
 
-    if (is.null(dateparams$settlementDays)){dateparams$settlementDays=1}
-    if (is.null(dateparams$calendar)){dateparams$calendar='us'}
-    if (is.null(dateparams$businessDayConvention)){
-      dateparams$businessDayConvention='Following'
-    }
-    if (is.null(dateparams$terminationDateConvention)){
-      dateparams$terminationDateConvention='Following'
-    }
-    if (is.null(dateparams$dayCounter)){dateparams$dayCounter='Thirty360'}
-    if (is.null(dateparams$period)){dateparams$period='Semiannual'}
+    if (is.null(dateparams$settlementDays)) dateparams$settlementDays <- 1
+    if (is.null(dateparams$calendar)) dateparams$calendar <- 'us'
+    if (is.null(dateparams$businessDayConvention)) dateparams$businessDayConvention <- 'Following'
+    if (is.null(dateparams$terminationDateConvention)) dateparams$terminationDateConvention <- 'Following'
+    if (is.null(dateparams$dayCounter)) dateparams$dayCounter <- 'Thirty360'
+    if (is.null(dateparams$period)) dateparams$period <- 'Semiannual'
 
     dateparams <- matchParams(dateparams)
     callSch <- bondparams$callSch
 #    hw.termStructure <- hullWhite$term
 
-    val <- .Call("CallableBond", bondparams, hullWhite,coupon,
-#                c(hw.termStructure$table$date),
-#                hw.termStructure$table$zeroRates,
-                callSch, dateparams,
-                PACKAGE="RQuantLib")
+    val <- callableBondEngine(bondparams, hullWhite,coupon,
+                              ## c(hw.termStructure$table$date),
+                              ## hw.termStructure$table$zeroRates,
+                              callSch, dateparams)
     class(val) <- c("CallableBond", "Bond")
     val
 }
@@ -477,9 +456,7 @@ FittedBondCurve.default <- function(curveparams,
                                     dateparams){
     val <- 0
     dateparams <- matchParams(dateparams)
-    val <- .Call("FittedBondCurve", curveparams,
-                 lengths, coupons, marketQuotes, dateparams, PACKAGE="RQuantLib")
-
+    val <- fittedBondCurveEngine(curveparams, lengths, coupons, marketQuotes, dateparams)
     class(val) <- c("DiscountCurve")
     val
 }
@@ -582,29 +559,29 @@ matchDateGen <- function(dg = c("Backward", "Forward", "Zero",
 
 matchParams <- function(params) {
 
-  if (!is.null(params$dayCounter)) {
-     params$dayCounter <- matchDayCounter(params$dayCounter)
-  }
-  if (!is.null(params$period)) {
-     params$period <- matchFrequency(params$period)
-  }
+    if (!is.null(params$dayCounter)) {
+        params$dayCounter <- matchDayCounter(params$dayCounter)
+    }
+    if (!is.null(params$period)) {
+        params$period <- matchFrequency(params$period)
+    }
 
-  if (!is.null(params$businessDayConvention)) {
-     params$businessDayConvention <- matchBDC(params$businessDayConvention)
-  }
-  if (!is.null(params$terminationDateConvention)) {
-     params$terminationDateConvention <- matchBDC(params$terminationDateConvention)
-  }
-  if (!is.null(params$dateGeneration)) {
-     params$dateGeneration <- matchDateGen(params$dateGeneration)
-  }
-  if (!is.null(params$fixedLegConvention)) {
-     params$fixedLegConvention <- matchBDC(params$fixedLegConvention)
-  }
-  if (!is.null(params$fixedLegDayCounter)) {
-     params$fixedLegDayCounter <- matchDayCounter(params$fixedLegDayCounter)
-  }
-  params
+    if (!is.null(params$businessDayConvention)) {
+        params$businessDayConvention <- matchBDC(params$businessDayConvention)
+    }
+    if (!is.null(params$terminationDateConvention)) {
+        params$terminationDateConvention <- matchBDC(params$terminationDateConvention)
+    }
+    if (!is.null(params$dateGeneration)) {
+        params$dateGeneration <- matchDateGen(params$dateGeneration)
+    }
+    if (!is.null(params$fixedLegConvention)) {
+        params$fixedLegConvention <- matchBDC(params$fixedLegConvention)
+    }
+    if (!is.null(params$fixedLegDayCounter)) {
+        params$fixedLegDayCounter <- matchDayCounter(params$fixedLegDayCounter)
+    }
+    params
 
 }
 

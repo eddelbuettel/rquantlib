@@ -271,6 +271,63 @@ namespace RQuantLib {
         return Rcpp::as<Rcpp::List >(__result);
     }
 
+    inline Rcpp::List convertibleFloatingBondEngine(Rcpp::List rparam, Rcpp::List processParam, SEXP dividendYieldDateSexp, SEXP dividendYieldZeroSexp, SEXP rffDateSexp, SEXP rffZeroSexp, SEXP iborIndexDateSexp, SEXP iborIndexZeroSexp, Rcpp::List iborparams, std::vector<double> spreads, SEXP dividendScheduleFrame, SEXP callabilityScheduleFrame, Rcpp::List datemisc) {
+        typedef SEXP(*Ptr_convertibleFloatingBondEngine)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
+        static Ptr_convertibleFloatingBondEngine p_convertibleFloatingBondEngine = NULL;
+        if (p_convertibleFloatingBondEngine == NULL) {
+            validateSignature("Rcpp::List(*convertibleFloatingBondEngine)(Rcpp::List,Rcpp::List,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,Rcpp::List,std::vector<double>,SEXP,SEXP,Rcpp::List)");
+            p_convertibleFloatingBondEngine = (Ptr_convertibleFloatingBondEngine)R_GetCCallable("RQuantLib", "RQuantLib_convertibleFloatingBondEngine");
+        }
+        RObject __result;
+        {
+            RNGScope __rngScope;
+            __result = p_convertibleFloatingBondEngine(Rcpp::wrap(rparam), Rcpp::wrap(processParam), Rcpp::wrap(dividendYieldDateSexp), Rcpp::wrap(dividendYieldZeroSexp), Rcpp::wrap(rffDateSexp), Rcpp::wrap(rffZeroSexp), Rcpp::wrap(iborIndexDateSexp), Rcpp::wrap(iborIndexZeroSexp), Rcpp::wrap(iborparams), Rcpp::wrap(spreads), Rcpp::wrap(dividendScheduleFrame), Rcpp::wrap(callabilityScheduleFrame), Rcpp::wrap(datemisc));
+        }
+        if (__result.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (__result.inherits("try-error"))
+            throw Rcpp::exception(as<std::string>(__result).c_str());
+        return Rcpp::as<Rcpp::List >(__result);
+    }
+
+    inline Rcpp::List callableBondEngine(Rcpp::List rparam, Rcpp::List hwparam, Rcpp::NumericVector coupon, SEXP callabilityScheduleFrame, Rcpp::List datemisc) {
+        typedef SEXP(*Ptr_callableBondEngine)(SEXP,SEXP,SEXP,SEXP,SEXP);
+        static Ptr_callableBondEngine p_callableBondEngine = NULL;
+        if (p_callableBondEngine == NULL) {
+            validateSignature("Rcpp::List(*callableBondEngine)(Rcpp::List,Rcpp::List,Rcpp::NumericVector,SEXP,Rcpp::List)");
+            p_callableBondEngine = (Ptr_callableBondEngine)R_GetCCallable("RQuantLib", "RQuantLib_callableBondEngine");
+        }
+        RObject __result;
+        {
+            RNGScope __rngScope;
+            __result = p_callableBondEngine(Rcpp::wrap(rparam), Rcpp::wrap(hwparam), Rcpp::wrap(coupon), Rcpp::wrap(callabilityScheduleFrame), Rcpp::wrap(datemisc));
+        }
+        if (__result.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (__result.inherits("try-error"))
+            throw Rcpp::exception(as<std::string>(__result).c_str());
+        return Rcpp::as<Rcpp::List >(__result);
+    }
+
+    inline Rcpp::List fittedBondCurveEngine(Rcpp::List curveparam, Rcpp::NumericVector length, Rcpp::NumericVector coupons, Rcpp::NumericVector marketQuotes, Rcpp::List datemisc) {
+        typedef SEXP(*Ptr_fittedBondCurveEngine)(SEXP,SEXP,SEXP,SEXP,SEXP);
+        static Ptr_fittedBondCurveEngine p_fittedBondCurveEngine = NULL;
+        if (p_fittedBondCurveEngine == NULL) {
+            validateSignature("Rcpp::List(*fittedBondCurveEngine)(Rcpp::List,Rcpp::NumericVector,Rcpp::NumericVector,Rcpp::NumericVector,Rcpp::List)");
+            p_fittedBondCurveEngine = (Ptr_fittedBondCurveEngine)R_GetCCallable("RQuantLib", "RQuantLib_fittedBondCurveEngine");
+        }
+        RObject __result;
+        {
+            RNGScope __rngScope;
+            __result = p_fittedBondCurveEngine(Rcpp::wrap(curveparam), Rcpp::wrap(length), Rcpp::wrap(coupons), Rcpp::wrap(marketQuotes), Rcpp::wrap(datemisc));
+        }
+        if (__result.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (__result.inherits("try-error"))
+            throw Rcpp::exception(as<std::string>(__result).c_str());
+        return Rcpp::as<Rcpp::List >(__result);
+    }
+
     inline QuantLib::Date advanceDate(QuantLib::Date issueDate, int days) {
         typedef SEXP(*Ptr_advanceDate)(SEXP,SEXP);
         static Ptr_advanceDate p_advanceDate = NULL;

@@ -45,12 +45,12 @@ FloatBond2 <- function(bond, gearings, caps, spreads, floors, indexparams, index
     .Call('RQuantLib_FloatBond2', PACKAGE = 'RQuantLib', bond, gearings, caps, spreads, floors, indexparams, index_params, index_tsQuotes, index_times, discountCurve, dateparams)
 }
 
-FloatBond3 <- function(bond, gearings, caps, spreads, floors, indexparams, index, discount_params, discount_tsQuotes, discount_times, dateparams) {
-    .Call('RQuantLib_FloatBond3', PACKAGE = 'RQuantLib', bond, gearings, caps, spreads, floors, indexparams, index, discount_params, discount_tsQuotes, discount_times, dateparams)
+FloatBond3 <- function(bond, gearings, caps, spreads, floors, indexparams, index, disc_params, disc_tsQuotes, disc_times, dateparams) {
+    .Call('RQuantLib_FloatBond3', PACKAGE = 'RQuantLib', bond, gearings, caps, spreads, floors, indexparams, index, disc_params, disc_tsQuotes, disc_times, dateparams)
 }
 
-FloatBond4 <- function(bond, gearings, caps, spreads, floors, indexparams, index_params, index_tsQuotes, index_times, discount_params, discount_tsQuotes, discount_times, dateparams) {
-    .Call('RQuantLib_FloatBond4', PACKAGE = 'RQuantLib', bond, gearings, caps, spreads, floors, indexparams, index_params, index_tsQuotes, index_times, discount_params, discount_tsQuotes, discount_times, dateparams)
+FloatBond4 <- function(bond, gearings, caps, spreads, floors, indexparams, index_params, index_tsQuotes, index_times, disc_params, disc_tsQuotes, disc_times, dateparams) {
+    .Call('RQuantLib_FloatBond4', PACKAGE = 'RQuantLib', bond, gearings, caps, spreads, floors, indexparams, index_params, index_tsQuotes, index_times, disc_params, disc_tsQuotes, disc_times, dateparams)
 }
 
 floatingWithRebuiltCurveEngine <- function(bondparams, gearings, spreads, caps, floors, indexparams, iborDateSexp, iborzeroSexp, dateSexp, zeroSexp, dateparams) {

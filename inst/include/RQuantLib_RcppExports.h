@@ -138,7 +138,7 @@ namespace RQuantLib {
         return Rcpp::as<Rcpp::List >(__result);
     }
 
-    inline Rcpp::List FloatBond3(SEXP bond, std::vector<double> gearings, std::vector<double> caps, std::vector<double> spreads, std::vector<double> floors, SEXP indexparams, SEXP index, SEXP discount_params, SEXP discount_tsQuotes, SEXP discount_times, SEXP dateparams) {
+    inline Rcpp::List FloatBond3(SEXP bond, std::vector<double> gearings, std::vector<double> caps, std::vector<double> spreads, std::vector<double> floors, SEXP indexparams, SEXP index, SEXP disc_params, SEXP disc_tsQuotes, SEXP disc_times, SEXP dateparams) {
         typedef SEXP(*Ptr_FloatBond3)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_FloatBond3 p_FloatBond3 = NULL;
         if (p_FloatBond3 == NULL) {
@@ -148,7 +148,7 @@ namespace RQuantLib {
         RObject __result;
         {
             RNGScope __rngScope;
-            __result = p_FloatBond3(Rcpp::wrap(bond), Rcpp::wrap(gearings), Rcpp::wrap(caps), Rcpp::wrap(spreads), Rcpp::wrap(floors), Rcpp::wrap(indexparams), Rcpp::wrap(index), Rcpp::wrap(discount_params), Rcpp::wrap(discount_tsQuotes), Rcpp::wrap(discount_times), Rcpp::wrap(dateparams));
+            __result = p_FloatBond3(Rcpp::wrap(bond), Rcpp::wrap(gearings), Rcpp::wrap(caps), Rcpp::wrap(spreads), Rcpp::wrap(floors), Rcpp::wrap(indexparams), Rcpp::wrap(index), Rcpp::wrap(disc_params), Rcpp::wrap(disc_tsQuotes), Rcpp::wrap(disc_times), Rcpp::wrap(dateparams));
         }
         if (__result.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -157,7 +157,7 @@ namespace RQuantLib {
         return Rcpp::as<Rcpp::List >(__result);
     }
 
-    inline Rcpp::List FloatBond4(SEXP bond, std::vector<double> gearings, std::vector<double> caps, std::vector<double> spreads, std::vector<double> floors, SEXP indexparams, SEXP index_params, SEXP index_tsQuotes, SEXP index_times, SEXP discount_params, SEXP discount_tsQuotes, SEXP discount_times, SEXP dateparams) {
+    inline Rcpp::List FloatBond4(SEXP bond, std::vector<double> gearings, std::vector<double> caps, std::vector<double> spreads, std::vector<double> floors, SEXP indexparams, SEXP index_params, SEXP index_tsQuotes, SEXP index_times, SEXP disc_params, SEXP disc_tsQuotes, SEXP disc_times, SEXP dateparams) {
         typedef SEXP(*Ptr_FloatBond4)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_FloatBond4 p_FloatBond4 = NULL;
         if (p_FloatBond4 == NULL) {
@@ -167,7 +167,7 @@ namespace RQuantLib {
         RObject __result;
         {
             RNGScope __rngScope;
-            __result = p_FloatBond4(Rcpp::wrap(bond), Rcpp::wrap(gearings), Rcpp::wrap(caps), Rcpp::wrap(spreads), Rcpp::wrap(floors), Rcpp::wrap(indexparams), Rcpp::wrap(index_params), Rcpp::wrap(index_tsQuotes), Rcpp::wrap(index_times), Rcpp::wrap(discount_params), Rcpp::wrap(discount_tsQuotes), Rcpp::wrap(discount_times), Rcpp::wrap(dateparams));
+            __result = p_FloatBond4(Rcpp::wrap(bond), Rcpp::wrap(gearings), Rcpp::wrap(caps), Rcpp::wrap(spreads), Rcpp::wrap(floors), Rcpp::wrap(indexparams), Rcpp::wrap(index_params), Rcpp::wrap(index_tsQuotes), Rcpp::wrap(index_times), Rcpp::wrap(disc_params), Rcpp::wrap(disc_tsQuotes), Rcpp::wrap(disc_times), Rcpp::wrap(dateparams));
         }
         if (__result.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();

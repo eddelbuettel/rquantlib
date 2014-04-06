@@ -1,28 +1,28 @@
 // -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; indent-tabs-mode: nil; -*-
 //
-// RQuantLib -- R interface to the QuantLib libraries
+//  RQuantLib -- R interface to the QuantLib libraries
 //
-// Copyright (C) 2002 - 2014  Dirk Eddelbuettel 
-// Copyright (C) 2005 - 2006  Dominick Samperi
-// Copyright (C) 2009 - 2012  Dirk Eddelbuettel and Khanh Nguyen
+//  Copyright (C) 2002 - 2014  Dirk Eddelbuettel 
+//  Copyright (C) 2005 - 2006  Dominick Samperi
+//  Copyright (C) 2009 - 2012  Dirk Eddelbuettel and Khanh Nguyen
 //
-// This file is part of the RQuantLib library for GNU R.
-// It is made available under the terms of the GNU General Public
-// License, version 2, or at your option, any later version,
-// incorporated herein by reference.
 //
-// This program is distributed in the hope that it will be
-// useful, but WITHOUT ANY WARRANTY; without even the implied
-// warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-// PURPOSE.  See the GNU General Public License for more
-// details.
+//  RQuantLib is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 2 of the License, or
+//  (at your option) any later version.
 //
-// You should have received a copy of the GNU General Public
-// License along with this program; if not, write to the Free
-// Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-// MA 02111-1307, USA
+//  RQuantLib is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with RQuantLib.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <rquantlib.h>
+
+// [[Rcpp::interfaces(r, cpp)]]
 
 QuantLib::Option::Type getOptionType(const std::string &type) {
     QuantLib::Option::Type optionType;
@@ -103,16 +103,12 @@ makeOption(const boost::shared_ptr<QuantLib::StrikedTypePayoff>& payoff,
 }
 
 // QuantLib option setup utils, copied from the test-suite sources
-
-boost::shared_ptr<QuantLib::YieldTermStructure> buildTermStructure(SEXP params, SEXP tsQuotes, SEXP times){
+boost::shared_ptr<QuantLib::YieldTermStructure> buildTermStructure(Rcpp::List rparam, Rcpp::List tslist) { 
 
     boost::shared_ptr<QuantLib::YieldTermStructure> curve;
     try {
-      
-        Rcpp::List rparam(params);
-        Rcpp::List tslist(tsQuotes);
-        Rcpp::CharacterVector tsnames = tslist.names();
 
+        Rcpp::CharacterVector tsnames = tslist.names();
         QuantLib::Date todaysDate(Rcpp::as<QuantLib::Date>(rparam["tradeDate"])); 
         QuantLib::Date settlementDate(Rcpp::as<QuantLib::Date>(rparam["settleDate"])); 
         // cout << "TradeDate: " << todaysDate << endl << "Settle: " << settlementDate << endl;

@@ -384,8 +384,8 @@ RcppExport SEXP RQuantLib_FloatBond2(SEXP bondSEXP, SEXP gearingsSEXP, SEXP caps
     return __result;
 }
 // FloatBond3
-Rcpp::List FloatBond3(SEXP bond, std::vector<double> gearings, std::vector<double> caps, std::vector<double> spreads, std::vector<double> floors, SEXP indexparams, SEXP index, SEXP discount_params, SEXP discount_tsQuotes, SEXP discount_times, SEXP dateparams);
-static SEXP RQuantLib_FloatBond3_try(SEXP bondSEXP, SEXP gearingsSEXP, SEXP capsSEXP, SEXP spreadsSEXP, SEXP floorsSEXP, SEXP indexparamsSEXP, SEXP indexSEXP, SEXP discount_paramsSEXP, SEXP discount_tsQuotesSEXP, SEXP discount_timesSEXP, SEXP dateparamsSEXP) {
+Rcpp::List FloatBond3(SEXP bond, std::vector<double> gearings, std::vector<double> caps, std::vector<double> spreads, std::vector<double> floors, SEXP indexparams, SEXP index, SEXP disc_params, SEXP disc_tsQuotes, SEXP disc_times, SEXP dateparams);
+static SEXP RQuantLib_FloatBond3_try(SEXP bondSEXP, SEXP gearingsSEXP, SEXP capsSEXP, SEXP spreadsSEXP, SEXP floorsSEXP, SEXP indexparamsSEXP, SEXP indexSEXP, SEXP disc_paramsSEXP, SEXP disc_tsQuotesSEXP, SEXP disc_timesSEXP, SEXP dateparamsSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
@@ -396,22 +396,22 @@ BEGIN_RCPP
         Rcpp::traits::input_parameter< std::vector<double> >::type floors(floorsSEXP );
         Rcpp::traits::input_parameter< SEXP >::type indexparams(indexparamsSEXP );
         Rcpp::traits::input_parameter< SEXP >::type index(indexSEXP );
-        Rcpp::traits::input_parameter< SEXP >::type discount_params(discount_paramsSEXP );
-        Rcpp::traits::input_parameter< SEXP >::type discount_tsQuotes(discount_tsQuotesSEXP );
-        Rcpp::traits::input_parameter< SEXP >::type discount_times(discount_timesSEXP );
+        Rcpp::traits::input_parameter< SEXP >::type disc_params(disc_paramsSEXP );
+        Rcpp::traits::input_parameter< SEXP >::type disc_tsQuotes(disc_tsQuotesSEXP );
+        Rcpp::traits::input_parameter< SEXP >::type disc_times(disc_timesSEXP );
         Rcpp::traits::input_parameter< SEXP >::type dateparams(dateparamsSEXP );
-        Rcpp::List __result = FloatBond3(bond, gearings, caps, spreads, floors, indexparams, index, discount_params, discount_tsQuotes, discount_times, dateparams);
+        Rcpp::List __result = FloatBond3(bond, gearings, caps, spreads, floors, indexparams, index, disc_params, disc_tsQuotes, disc_times, dateparams);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
     return __sexp_result;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP RQuantLib_FloatBond3(SEXP bondSEXP, SEXP gearingsSEXP, SEXP capsSEXP, SEXP spreadsSEXP, SEXP floorsSEXP, SEXP indexparamsSEXP, SEXP indexSEXP, SEXP discount_paramsSEXP, SEXP discount_tsQuotesSEXP, SEXP discount_timesSEXP, SEXP dateparamsSEXP) {
+RcppExport SEXP RQuantLib_FloatBond3(SEXP bondSEXP, SEXP gearingsSEXP, SEXP capsSEXP, SEXP spreadsSEXP, SEXP floorsSEXP, SEXP indexparamsSEXP, SEXP indexSEXP, SEXP disc_paramsSEXP, SEXP disc_tsQuotesSEXP, SEXP disc_timesSEXP, SEXP dateparamsSEXP) {
     SEXP __result;
     {
         Rcpp::RNGScope __rngScope;
-        __result = PROTECT(RQuantLib_FloatBond3_try(bondSEXP, gearingsSEXP, capsSEXP, spreadsSEXP, floorsSEXP, indexparamsSEXP, indexSEXP, discount_paramsSEXP, discount_tsQuotesSEXP, discount_timesSEXP, dateparamsSEXP));
+        __result = PROTECT(RQuantLib_FloatBond3_try(bondSEXP, gearingsSEXP, capsSEXP, spreadsSEXP, floorsSEXP, indexparamsSEXP, indexSEXP, disc_paramsSEXP, disc_tsQuotesSEXP, disc_timesSEXP, dateparamsSEXP));
     }
     Rboolean __isInterrupt = Rf_inherits(__result, "interrupted-error");
     if (__isInterrupt) {
@@ -428,8 +428,8 @@ RcppExport SEXP RQuantLib_FloatBond3(SEXP bondSEXP, SEXP gearingsSEXP, SEXP caps
     return __result;
 }
 // FloatBond4
-Rcpp::List FloatBond4(SEXP bond, std::vector<double> gearings, std::vector<double> caps, std::vector<double> spreads, std::vector<double> floors, SEXP indexparams, SEXP index_params, SEXP index_tsQuotes, SEXP index_times, SEXP discount_params, SEXP discount_tsQuotes, SEXP discount_times, SEXP dateparams);
-static SEXP RQuantLib_FloatBond4_try(SEXP bondSEXP, SEXP gearingsSEXP, SEXP capsSEXP, SEXP spreadsSEXP, SEXP floorsSEXP, SEXP indexparamsSEXP, SEXP index_paramsSEXP, SEXP index_tsQuotesSEXP, SEXP index_timesSEXP, SEXP discount_paramsSEXP, SEXP discount_tsQuotesSEXP, SEXP discount_timesSEXP, SEXP dateparamsSEXP) {
+Rcpp::List FloatBond4(SEXP bond, std::vector<double> gearings, std::vector<double> caps, std::vector<double> spreads, std::vector<double> floors, SEXP indexparams, SEXP index_params, SEXP index_tsQuotes, SEXP index_times, SEXP disc_params, SEXP disc_tsQuotes, SEXP disc_times, SEXP dateparams);
+static SEXP RQuantLib_FloatBond4_try(SEXP bondSEXP, SEXP gearingsSEXP, SEXP capsSEXP, SEXP spreadsSEXP, SEXP floorsSEXP, SEXP indexparamsSEXP, SEXP index_paramsSEXP, SEXP index_tsQuotesSEXP, SEXP index_timesSEXP, SEXP disc_paramsSEXP, SEXP disc_tsQuotesSEXP, SEXP disc_timesSEXP, SEXP dateparamsSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
@@ -442,22 +442,22 @@ BEGIN_RCPP
         Rcpp::traits::input_parameter< SEXP >::type index_params(index_paramsSEXP );
         Rcpp::traits::input_parameter< SEXP >::type index_tsQuotes(index_tsQuotesSEXP );
         Rcpp::traits::input_parameter< SEXP >::type index_times(index_timesSEXP );
-        Rcpp::traits::input_parameter< SEXP >::type discount_params(discount_paramsSEXP );
-        Rcpp::traits::input_parameter< SEXP >::type discount_tsQuotes(discount_tsQuotesSEXP );
-        Rcpp::traits::input_parameter< SEXP >::type discount_times(discount_timesSEXP );
+        Rcpp::traits::input_parameter< SEXP >::type disc_params(disc_paramsSEXP );
+        Rcpp::traits::input_parameter< SEXP >::type disc_tsQuotes(disc_tsQuotesSEXP );
+        Rcpp::traits::input_parameter< SEXP >::type disc_times(disc_timesSEXP );
         Rcpp::traits::input_parameter< SEXP >::type dateparams(dateparamsSEXP );
-        Rcpp::List __result = FloatBond4(bond, gearings, caps, spreads, floors, indexparams, index_params, index_tsQuotes, index_times, discount_params, discount_tsQuotes, discount_times, dateparams);
+        Rcpp::List __result = FloatBond4(bond, gearings, caps, spreads, floors, indexparams, index_params, index_tsQuotes, index_times, disc_params, disc_tsQuotes, disc_times, dateparams);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
     return __sexp_result;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP RQuantLib_FloatBond4(SEXP bondSEXP, SEXP gearingsSEXP, SEXP capsSEXP, SEXP spreadsSEXP, SEXP floorsSEXP, SEXP indexparamsSEXP, SEXP index_paramsSEXP, SEXP index_tsQuotesSEXP, SEXP index_timesSEXP, SEXP discount_paramsSEXP, SEXP discount_tsQuotesSEXP, SEXP discount_timesSEXP, SEXP dateparamsSEXP) {
+RcppExport SEXP RQuantLib_FloatBond4(SEXP bondSEXP, SEXP gearingsSEXP, SEXP capsSEXP, SEXP spreadsSEXP, SEXP floorsSEXP, SEXP indexparamsSEXP, SEXP index_paramsSEXP, SEXP index_tsQuotesSEXP, SEXP index_timesSEXP, SEXP disc_paramsSEXP, SEXP disc_tsQuotesSEXP, SEXP disc_timesSEXP, SEXP dateparamsSEXP) {
     SEXP __result;
     {
         Rcpp::RNGScope __rngScope;
-        __result = PROTECT(RQuantLib_FloatBond4_try(bondSEXP, gearingsSEXP, capsSEXP, spreadsSEXP, floorsSEXP, indexparamsSEXP, index_paramsSEXP, index_tsQuotesSEXP, index_timesSEXP, discount_paramsSEXP, discount_tsQuotesSEXP, discount_timesSEXP, dateparamsSEXP));
+        __result = PROTECT(RQuantLib_FloatBond4_try(bondSEXP, gearingsSEXP, capsSEXP, spreadsSEXP, floorsSEXP, indexparamsSEXP, index_paramsSEXP, index_tsQuotesSEXP, index_timesSEXP, disc_paramsSEXP, disc_tsQuotesSEXP, disc_timesSEXP, dateparamsSEXP));
     }
     Rboolean __isInterrupt = Rf_inherits(__result, "interrupted-error");
     if (__isInterrupt) {

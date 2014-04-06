@@ -1,3 +1,9 @@
+2014-04-06  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/utils.cpp (buildTermStructure): Simplified interface
+	* inst/include/rquantlib_internal.h: Corresponding declation
+	* src/bonds.cpp: Use simpler interface to builtTermStructure()
+
 2014-04-05  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/bonds.cpp: Finishing conversion to Rcpp Attributes

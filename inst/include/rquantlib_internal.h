@@ -134,6 +134,8 @@ enum EngineType {Analytic,
                  FiniteDifferences, Integral,
                  PseudoMonteCarlo, QuasiMonteCarlo };
 
+enum optionType { European = 0, American };
+
 boost::shared_ptr<QuantLib::VanillaOption>
 makeOption(const boost::shared_ptr<QuantLib::StrikedTypePayoff>& payoff,
            const boost::shared_ptr<QuantLib::Exercise>& exercise,

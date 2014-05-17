@@ -164,7 +164,7 @@ QuantLib::BusinessDayConvention getBusinessDayConvention(const double n);
 QuantLib::DayCounter getDayCounter(const double n);
 QuantLib::DateGeneration::Rule getDateGenerationRule(const double n);
 boost::shared_ptr<QuantLib::YieldTermStructure> buildTermStructure(Rcpp::List params, Rcpp::List);
-QuantLib::Schedule getSchedule(SEXP sch);
+QuantLib::Schedule getSchedule(Rcpp::List rparam);
 boost::shared_ptr<QuantLib::IborIndex> getIborIndex(SEXP index, const QuantLib::Date today);
 std::vector<double> getDoubleVector(SEXP vector);
 boost::shared_ptr<QuantLib::YieldTermStructure> getFlatCurve(SEXP flatcurve);

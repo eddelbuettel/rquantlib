@@ -1,3 +1,8 @@
+2014-05-17  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/utils.cpp: Change getSchedule to use List argument
+	* inst/include/rquantlib_internal.h: Idem
+
 2014-04-06  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/utils.cpp (buildTermStructure): Simplified interface

@@ -200,8 +200,7 @@ boost::shared_ptr<QuantLib::YieldTermStructure> rebuildCurveFromZeroRates(SEXP d
     return rebuilt_curve;
 }
 
-boost::shared_ptr<QuantLib::YieldTermStructure> getFlatCurve(SEXP flatcurve){
-    Rcpp::List curve(flatcurve);
+boost::shared_ptr<QuantLib::YieldTermStructure> getFlatCurve(Rcpp::List curve) {
     QuantLib::Rate riskFreeRate = Rcpp::as<double>(curve["riskFreeRate"]);
     QuantLib::Date today(Rcpp::as<QuantLib::Date>(curve["todayDate"]));       
     boost::shared_ptr<QuantLib::SimpleQuote> rRate(new QuantLib::SimpleQuote(riskFreeRate));
@@ -209,8 +208,7 @@ boost::shared_ptr<QuantLib::YieldTermStructure> getFlatCurve(SEXP flatcurve){
     return flatRate(today, rRate, QuantLib::Actual360());
 }
 
-boost::shared_ptr<QuantLib::IborIndex> getIborIndex(SEXP index, const QuantLib::Date today){
-    Rcpp::List rparam(index);
+boost::shared_ptr<QuantLib::IborIndex> getIborIndex(Rcpp::List rparam, const QuantLib::Date today) {
     std::string type = Rcpp::as<std::string>(rparam["type"]);
     if (type == "USDLibor"){
         double riskFreeRate = Rcpp::as<double>(rparam["riskFreeRate"]);

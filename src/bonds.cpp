@@ -267,7 +267,7 @@ Rcpp::List FloatingBond(Rcpp::List rparam,
 // [[Rcpp::export]]
 Rcpp::List FloatBond1(SEXP bond, std::vector<double> gearings, std::vector<double> caps, 
                       std::vector<double> spreads, std::vector<double> floors, SEXP indexparams, SEXP index, 
-                      SEXP discountCurve, SEXP dateparams) {
+                      Rcpp::List discountCurve, SEXP dateparams) {
     
     QuantLib::Handle<QuantLib::YieldTermStructure> discount_curve(getFlatCurve(discountCurve));
     QuantLib::Handle<QuantLib::YieldTermStructure> ibor_curve(getFlatCurve(index));
@@ -280,7 +280,7 @@ Rcpp::List FloatBond2(SEXP bond, std::vector<double> gearings, std::vector<doubl
                       std::vector<double> spreads, std::vector<double> floors, 
                       SEXP indexparams, SEXP index_params, 
                       SEXP index_tsQuotes, SEXP index_times,
-                      SEXP discountCurve, SEXP dateparams) {
+                      Rcpp::List discountCurve, SEXP dateparams) {
     
     QuantLib::Handle<QuantLib::YieldTermStructure> discount_curve(getFlatCurve(discountCurve));
     QuantLib::Handle<QuantLib::YieldTermStructure> ibor_curve(buildTermStructure(index_params, index_tsQuotes));
@@ -291,7 +291,7 @@ Rcpp::List FloatBond2(SEXP bond, std::vector<double> gearings, std::vector<doubl
 // [[Rcpp::export]]
 Rcpp::List FloatBond3(SEXP bond, std::vector<double> gearings, std::vector<double> caps,
                       std::vector<double> spreads, std::vector<double> floors, 
-                      SEXP indexparams, SEXP index, 
+                      SEXP indexparams, Rcpp::List index, 
                       SEXP disc_params, SEXP disc_tsQuotes,
                       SEXP disc_times, SEXP dateparams) {
 

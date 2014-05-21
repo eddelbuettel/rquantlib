@@ -172,7 +172,7 @@ boost::shared_ptr<QuantLib::YieldTermStructure> rebuildCurveFromZeroRates(SEXP d
 boost::shared_ptr<QuantLib::IborIndex> 
     buildIborIndex(std::string type,
                    const QuantLib::Handle<QuantLib::YieldTermStructure>& iborStrc);
-QuantLib::Calendar* getCalendar(SEXP calParameters);
+//QuantLib::Calendar* getCalendar(SEXP calParameters);
 QuantLib::Period periodByTimeUnit(int length, std::string unit);
 
 // simple option type creator based on string
@@ -182,7 +182,7 @@ QuantLib::Option::Type getOptionType(const std::string &t);
 Rcpp::DataFrame getCashFlowDataFrame(const QuantLib::Leg &bondCashFlow);
 
 // fill QL data structures based on data.frames
-QuantLib::DividendSchedule getDividendSchedule(SEXP dividendScheduleFrame);
-QuantLib::CallabilitySchedule getCallabilitySchedule(SEXP callabilityScheduleFrame);
+QuantLib::DividendSchedule getDividendSchedule(Rcpp::DataFrame dividendScheduleFrame);
+QuantLib::CallabilitySchedule getCallabilitySchedule(Rcpp::DataFrame callabilityScheduleFrame);
 
 #endif

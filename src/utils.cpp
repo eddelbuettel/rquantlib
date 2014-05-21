@@ -446,11 +446,10 @@ Rcpp::DataFrame getCashFlowDataFrame(const QuantLib::Leg &bondCashFlow) {
 }
 
 
-QuantLib::DividendSchedule getDividendSchedule(SEXP dividendScheduleFrame) {
+QuantLib::DividendSchedule getDividendSchedule(Rcpp::DataFrame divScheDF) {
 
     QuantLib::DividendSchedule dividendSchedule;
     try {
-        Rcpp::DataFrame divScheDF(dividendScheduleFrame);
         Rcpp::CharacterVector s0v = divScheDF[0];
         Rcpp::NumericVector n1v = divScheDF[1];
         Rcpp::NumericVector n2v = divScheDF[2];
@@ -475,7 +474,7 @@ QuantLib::DividendSchedule getDividendSchedule(SEXP dividendScheduleFrame) {
     return dividendSchedule;
 }
 
-QuantLib::CallabilitySchedule getCallabilitySchedule(SEXP callabilityScheduleFrame) {
+QuantLib::CallabilitySchedule getCallabilitySchedule(Rcpp::DataFrame callScheDF) {
 
     QuantLib::CallabilitySchedule callabilitySchedule;
 
@@ -483,7 +482,6 @@ QuantLib::CallabilitySchedule getCallabilitySchedule(SEXP callabilityScheduleFra
         // RcppFrame rcppCallabilitySchedule(callabilityScheduleFrame);
         // std::vector<std::vector<ColDatum> > table = rcppCallabilitySchedule.getTableData();
         // int nrow = table.size();
-        Rcpp::DataFrame callScheDF(callabilityScheduleFrame);
         Rcpp::NumericVector n0v = callScheDF[0];
         Rcpp::CharacterVector s1v = callScheDF[1];
         Rcpp::NumericVector n2v = callScheDF[2];

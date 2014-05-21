@@ -233,11 +233,11 @@ namespace RQuantLib {
         return Rcpp::as<Rcpp::List >(__result);
     }
 
-    inline Rcpp::List convertibleZeroBondEngine(Rcpp::List rparam, Rcpp::List processParam, SEXP dividendYieldDateSexp, SEXP dividendYieldZeroSexp, SEXP rffDateSexp, SEXP rffZeroSexp, SEXP dividendScheduleFrame, SEXP callabilityScheduleFrame, Rcpp::List datemisc) {
+    inline Rcpp::List convertibleZeroBondEngine(Rcpp::List rparam, Rcpp::List processParam, SEXP dividendYieldDateSexp, SEXP dividendYieldZeroSexp, SEXP rffDateSexp, SEXP rffZeroSexp, Rcpp::DataFrame dividendScheduleFrame, Rcpp::DataFrame callabilityScheduleFrame, Rcpp::List datemisc) {
         typedef SEXP(*Ptr_convertibleZeroBondEngine)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_convertibleZeroBondEngine p_convertibleZeroBondEngine = NULL;
         if (p_convertibleZeroBondEngine == NULL) {
-            validateSignature("Rcpp::List(*convertibleZeroBondEngine)(Rcpp::List,Rcpp::List,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,Rcpp::List)");
+            validateSignature("Rcpp::List(*convertibleZeroBondEngine)(Rcpp::List,Rcpp::List,SEXP,SEXP,SEXP,SEXP,Rcpp::DataFrame,Rcpp::DataFrame,Rcpp::List)");
             p_convertibleZeroBondEngine = (Ptr_convertibleZeroBondEngine)R_GetCCallable("RQuantLib", "RQuantLib_convertibleZeroBondEngine");
         }
         RObject __result;
@@ -252,11 +252,11 @@ namespace RQuantLib {
         return Rcpp::as<Rcpp::List >(__result);
     }
 
-    inline Rcpp::List convertibleFixedBondEngine(Rcpp::List rparam, Rcpp::NumericVector rates, Rcpp::List processParam, SEXP dividendYieldDateSexp, SEXP dividendYieldZeroSexp, SEXP rffDateSexp, SEXP rffZeroSexp, SEXP dividendScheduleFrame, SEXP callabilityScheduleFrame, Rcpp::List datemisc) {
+    inline Rcpp::List convertibleFixedBondEngine(Rcpp::List rparam, Rcpp::NumericVector rates, Rcpp::List processParam, SEXP dividendYieldDateSexp, SEXP dividendYieldZeroSexp, SEXP rffDateSexp, SEXP rffZeroSexp, Rcpp::DataFrame dividendScheduleFrame, Rcpp::DataFrame callabilityScheduleFrame, Rcpp::List datemisc) {
         typedef SEXP(*Ptr_convertibleFixedBondEngine)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_convertibleFixedBondEngine p_convertibleFixedBondEngine = NULL;
         if (p_convertibleFixedBondEngine == NULL) {
-            validateSignature("Rcpp::List(*convertibleFixedBondEngine)(Rcpp::List,Rcpp::NumericVector,Rcpp::List,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,Rcpp::List)");
+            validateSignature("Rcpp::List(*convertibleFixedBondEngine)(Rcpp::List,Rcpp::NumericVector,Rcpp::List,SEXP,SEXP,SEXP,SEXP,Rcpp::DataFrame,Rcpp::DataFrame,Rcpp::List)");
             p_convertibleFixedBondEngine = (Ptr_convertibleFixedBondEngine)R_GetCCallable("RQuantLib", "RQuantLib_convertibleFixedBondEngine");
         }
         RObject __result;
@@ -271,11 +271,11 @@ namespace RQuantLib {
         return Rcpp::as<Rcpp::List >(__result);
     }
 
-    inline Rcpp::List convertibleFloatingBondEngine(Rcpp::List rparam, Rcpp::List processParam, SEXP dividendYieldDateSexp, SEXP dividendYieldZeroSexp, SEXP rffDateSexp, SEXP rffZeroSexp, SEXP iborIndexDateSexp, SEXP iborIndexZeroSexp, Rcpp::List iborparams, std::vector<double> spreads, SEXP dividendScheduleFrame, SEXP callabilityScheduleFrame, Rcpp::List datemisc) {
+    inline Rcpp::List convertibleFloatingBondEngine(Rcpp::List rparam, Rcpp::List processParam, SEXP dividendYieldDateSexp, SEXP dividendYieldZeroSexp, SEXP rffDateSexp, SEXP rffZeroSexp, SEXP iborIndexDateSexp, SEXP iborIndexZeroSexp, Rcpp::List iborparams, std::vector<double> spreads, Rcpp::DataFrame dividendScheduleFrame, Rcpp::DataFrame callabilityScheduleFrame, Rcpp::List datemisc) {
         typedef SEXP(*Ptr_convertibleFloatingBondEngine)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_convertibleFloatingBondEngine p_convertibleFloatingBondEngine = NULL;
         if (p_convertibleFloatingBondEngine == NULL) {
-            validateSignature("Rcpp::List(*convertibleFloatingBondEngine)(Rcpp::List,Rcpp::List,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,Rcpp::List,std::vector<double>,SEXP,SEXP,Rcpp::List)");
+            validateSignature("Rcpp::List(*convertibleFloatingBondEngine)(Rcpp::List,Rcpp::List,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,Rcpp::List,std::vector<double>,Rcpp::DataFrame,Rcpp::DataFrame,Rcpp::List)");
             p_convertibleFloatingBondEngine = (Ptr_convertibleFloatingBondEngine)R_GetCCallable("RQuantLib", "RQuantLib_convertibleFloatingBondEngine");
         }
         RObject __result;
@@ -290,11 +290,11 @@ namespace RQuantLib {
         return Rcpp::as<Rcpp::List >(__result);
     }
 
-    inline Rcpp::List callableBondEngine(Rcpp::List rparam, Rcpp::List hwparam, Rcpp::NumericVector coupon, SEXP callabilityScheduleFrame, Rcpp::List datemisc) {
+    inline Rcpp::List callableBondEngine(Rcpp::List rparam, Rcpp::List hwparam, Rcpp::NumericVector coupon, Rcpp::DataFrame callabilityScheduleFrame, Rcpp::List datemisc) {
         typedef SEXP(*Ptr_callableBondEngine)(SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_callableBondEngine p_callableBondEngine = NULL;
         if (p_callableBondEngine == NULL) {
-            validateSignature("Rcpp::List(*callableBondEngine)(Rcpp::List,Rcpp::List,Rcpp::NumericVector,SEXP,Rcpp::List)");
+            validateSignature("Rcpp::List(*callableBondEngine)(Rcpp::List,Rcpp::List,Rcpp::NumericVector,Rcpp::DataFrame,Rcpp::List)");
             p_callableBondEngine = (Ptr_callableBondEngine)R_GetCCallable("RQuantLib", "RQuantLib_callableBondEngine");
         }
         RObject __result;

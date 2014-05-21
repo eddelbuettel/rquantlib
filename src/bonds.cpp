@@ -463,8 +463,8 @@ Rcpp::List convertibleZeroBondEngine(Rcpp::List rparam,
                                      SEXP dividendYieldDateSexp,
                                      SEXP dividendYieldZeroSexp,
                                      SEXP rffDateSexp, SEXP rffZeroSexp,
-                                     SEXP dividendScheduleFrame,
-                                     SEXP callabilityScheduleFrame,
+                                     Rcpp::DataFrame dividendScheduleFrame,
+                                     Rcpp::DataFrame callabilityScheduleFrame,
                                      Rcpp::List datemisc) {
 
     QuantLib::DividendSchedule dividendSchedule = getDividendSchedule(dividendScheduleFrame);
@@ -561,8 +561,8 @@ Rcpp::List convertibleFixedBondEngine(Rcpp::List rparam,
                                       SEXP dividendYieldDateSexp,
                                       SEXP dividendYieldZeroSexp,
                                       SEXP rffDateSexp, SEXP rffZeroSexp,
-                                      SEXP dividendScheduleFrame,
-                                      SEXP callabilityScheduleFrame,
+                                      Rcpp::DataFrame dividendScheduleFrame,
+                                      Rcpp::DataFrame callabilityScheduleFrame,
                                       Rcpp::List datemisc) {
 
     QuantLib::DividendSchedule dividendSchedule = getDividendSchedule(dividendScheduleFrame);
@@ -666,8 +666,8 @@ Rcpp::List convertibleFloatingBondEngine(Rcpp::List rparam,
                                          SEXP iborIndexDateSexp, SEXP iborIndexZeroSexp,
                                          Rcpp::List iborparams, 
                                          std::vector<double> spreads,
-                                         SEXP dividendScheduleFrame,
-                                         SEXP callabilityScheduleFrame,
+                                         Rcpp::DataFrame dividendScheduleFrame,
+                                         Rcpp::DataFrame callabilityScheduleFrame,
                                          Rcpp::List datemisc) {
 
     QuantLib::DividendSchedule dividendSchedule = getDividendSchedule(dividendScheduleFrame);
@@ -774,7 +774,7 @@ Rcpp::List convertibleFloatingBondEngine(Rcpp::List rparam,
 Rcpp::List callableBondEngine(Rcpp::List rparam, 
                               Rcpp::List hwparam, 
                               Rcpp::NumericVector coupon,
-                              SEXP callabilityScheduleFrame,
+                              Rcpp::DataFrame callabilityScheduleFrame,
                               Rcpp::List datemisc) {
 
     QuantLib::CallabilitySchedule callabilitySchedule = getCallabilitySchedule(callabilityScheduleFrame);

@@ -1,3 +1,9 @@
+2014-05-20  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/utils.cpp: Converted three more functions interfaces
+	* src/bonds.cpp: Idem
+	* inst/include/rquantlib_internal.h: Idem
+
 2014-05-18  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/utils.cpp: Change getIborIndex and getFlatCurve to use List

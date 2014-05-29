@@ -27,7 +27,7 @@ AsianOption <- function(averageType, type, underlying, strike, dividendYield,
 
 AsianOption.default <- function(averageType, type, underlying, strike, dividendYield,
                                 riskFreeRate, maturity, volatility,
-                                first=0, length=0, fixings=0) {
+                                first=0, length=11.0/12.0, fixings=26) {
     averageType <- match.arg(averageType, c("geometric", "arithmetic"))
     type <- match.arg(type, c("call", "put"))
     if (missing(maturity)) {

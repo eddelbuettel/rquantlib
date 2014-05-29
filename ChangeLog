@@ -1,3 +1,17 @@
+2014-05-28  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/asian.R: Set default values for first, length and fixing used for
+	arithemtic asian options
+	* man/asian.Rd: Update documentation
+
+	* src/asian.cpp: For arithmetic option, check parameters first,
+	length and fixings
+
+	* src/asian.cpp (asianOptionEngine): Use NA not NaN on missing greeks
+	* src/barrier_binary.cpp (barrierOptionEngine): Idem
+
+	* tests/RQuantlib.Rout.save: Updated accordingly
+
 2014-05-20  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/utils.cpp: Converted three more functions interfaces

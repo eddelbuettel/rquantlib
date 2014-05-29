@@ -81,7 +81,13 @@ Rcpp::List asianOptionEngine(std::string averageType,
                                 Rcpp::Named("rho") = option.rho(),
                                 Rcpp::Named("divRho") = option.dividendRho());
             
-    } else if (averageType=="arithmetic"){
+    } else if (averageType=="arithmetic") {
+
+        // TODO:  check fixings > 1, first, length
+        if (first < 0) Rcpp::stop("Parameter 'first' must be non-negative.");
+        if (length < 0) Rcpp::stop("Parameter 'length' must be non-negative.");
+        if (fixings <= 1) Rcpp::stop("Parameter 'fixings' must be larger than one.");
+
         boost::shared_ptr<QuantLib::PricingEngine> engine =
             QuantLib::MakeMCDiscreteArithmeticAPEngine<QuantLib::LowDiscrepancy>(stochProcess)
             .withSamples(2047)
@@ -116,12 +122,12 @@ Rcpp::List asianOptionEngine(std::string averageType,
                                                       exercise);
         option.setPricingEngine(engine);
         rl = Rcpp::List::create(Rcpp::Named("value") = option.NPV(),
-                                Rcpp::Named("delta") = R_NaN,
-                                Rcpp::Named("gamma") = R_NaN,
-                                Rcpp::Named("vega") = R_NaN,
-                                Rcpp::Named("theta") = R_NaN,
-                                Rcpp::Named("rho") = R_NaN,
-                                Rcpp::Named("divRho") = R_NaN);
+                                Rcpp::Named("delta") = R_NaReal,
+                                Rcpp::Named("gamma") = R_NaReal,
+                                Rcpp::Named("vega") = R_NaReal,
+                                Rcpp::Named("theta") = R_NaReal,
+                                Rcpp::Named("rho") = R_NaReal,
+                                Rcpp::Named("divRho") = R_NaReal);
     }
     return rl;
 }

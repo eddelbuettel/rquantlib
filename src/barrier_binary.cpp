@@ -231,12 +231,12 @@ Rcpp::List barrierOptionEngine(std::string barrType,
     barrierOption.setPricingEngine(engine);
 
     Rcpp::List rl = Rcpp::List::create(Rcpp::Named("value") = barrierOption.NPV(),
-                                       Rcpp::Named("delta") = R_NaN,
-                                       Rcpp::Named("gamma") = R_NaN,
-                                       Rcpp::Named("vega") = R_NaN,
-                                       Rcpp::Named("theta") = R_NaN,
-                                       Rcpp::Named("rho") = R_NaN,
-                                       Rcpp::Named("divRho") = R_NaN);
+                                       Rcpp::Named("delta") = R_NaReal,
+                                       Rcpp::Named("gamma") = R_NaReal,
+                                       Rcpp::Named("vega") = R_NaReal,
+                                       Rcpp::Named("theta") = R_NaReal,
+                                       Rcpp::Named("rho") = R_NaReal,
+                                       Rcpp::Named("divRho") = R_NaReal);
     return rl;
 }
 

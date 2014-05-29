@@ -12,10 +12,10 @@
 \usage{
 \method{AsianOption}{default}(averageType, type, underlying, strike,
 	                  dividendYield, riskFreeRate, maturity, 
-	                  volatility, first=0, length=0, fixings=0)
+	                  volatility, first=0, length=11.0/12.0, fixings=26)
 }
 \arguments{
-  \item{averageType}{Specifiy averaging type, either "geometric" or "arithmetic" }
+  \item{averageType}{Specifiy averaging type, either \dQuote{geometric} or \dQuote{arithmetic} }
   \item{type}{A string with one of the values \code{call} or \code{put}}
   \item{underlying}{Current price of the underlying stock}
   \item{strike}{Strike price of the option}
@@ -23,9 +23,11 @@
   \item{riskFreeRate}{Risk-free rate}
   \item{maturity}{Time to maturity (in fractional years)}
   \item{volatility}{Volatility of the underlying stock}
-  \item{first}{to be written}
-  \item{length}{to be written}
-  \item{fixings}{to be written}
+  \item{first}{(Only for arithmetic averaging) Time step to first
+    average, can be zero}
+  \item{length}{(Only for arithmetic averaging) Total time length for
+    averaging period}
+  \item{fixings}{(Only for arithmetic averaging) Total number of averaging fixings}
 }
 \value{
   The \code{AsianOption} function returns an object of class

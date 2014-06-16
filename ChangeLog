@@ -1,3 +1,9 @@
+2014-06-16  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/QuantLib_LICENSE.TXT: Renamed from QuantLib-License.txt per
+	CRAN request
+	* inst/Boost_LICENSE.TXT: Renamed from Boost-License.txt for symmetry
+
 2014-05-28  Dirk Eddelbuettel  <edd@debian.org>
 
 	* R/asian.R: Set default values for first, length and fixing used for

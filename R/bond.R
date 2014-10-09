@@ -484,8 +484,10 @@ FittedBondCurve.default <- function(curveparams,
 # matching functions
 
 matchDayCounter <- function(daycounter = c("Actual360", "ActualFixed", "ActualActual",
-                 "Business252", "OneDayCounter", "SimpleDayCounter", "Thirty360"))
+                 "Business252", "OneDayCounter", "SimpleDayCounter", "Thirty360", "Actual365NoLeap",
+                 "ActualActual.ISMA", "ActualActual.Bond", "ActualActual.ISDA", "ActualActual.Historical", "ActualActual.AFB", "ActualActual.Euro"))
 {
+  
      if (!is.numeric(daycounter)) {
          daycounter <- match.arg(daycounter)
          daycounter <- switch(daycounter,
@@ -495,7 +497,14 @@ matchDayCounter <- function(daycounter = c("Actual360", "ActualFixed", "ActualAc
                               Business252 = 3,
                               OneDayCounter = 4,
                               SimpleDayCounter = 5,
-                              Thirty360 = 6)
+                              Thirty360 = 6,
+                              Actual365NoLeap = 7,
+                              ActualActual.ISMA = 8,
+                              ActualActual.Bond = 9,
+                              ActualActual.ISDA = 10,
+                              ActualActual.Historical = 11,
+                              ActualActual.AFB = 12,
+                              ActualActual.Euro = 13)
      }
      daycounter
 }

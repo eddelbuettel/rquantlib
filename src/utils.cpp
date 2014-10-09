@@ -175,11 +175,10 @@ QuantLib::Schedule getSchedule(Rcpp::List rparam) {
     std::string cal = Rcpp::as<std::string>(rparam["calendar"]);
     double businessDayConvention = Rcpp::as<double>(rparam["businessDayConvention"]);
     double terminationDateConvention = Rcpp::as<double>(rparam["terminationDateConvention"]);
-    QuantLib::Calendar calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-    if (cal == "us"){
-        calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-    } else if (cal == "uk"){
-        calendar = QuantLib::UnitedKingdom(QuantLib::UnitedKingdom::Exchange);
+    QuantLib::Calendar calendar;
+    if(!cal.empty()) {
+        auto p = getCalendar(cal);
+        calendar = *p;
     }
     QuantLib::BusinessDayConvention bdc = getBusinessDayConvention(businessDayConvention);   
     QuantLib::BusinessDayConvention t_bdc = getBusinessDayConvention(terminationDateConvention);

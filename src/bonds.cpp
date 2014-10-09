@@ -107,15 +107,12 @@ double fixedRateBondYieldByPriceEngine(double settlementDays,
     QuantLib::Frequency freq = getFrequency(frequency);
     QuantLib::Compounding cp = getCompounding(compound);
     
-    //set up calendar
-    QuantLib::Calendar 
-        calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-    if (cal == "us") {
-        calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-    } else if (cal == "uk") {
-        calendar = QuantLib::UnitedKingdom(QuantLib::UnitedKingdom::Exchange);
+    QuantLib::Calendar calendar;
+    if(!cal.empty()) {
+        auto p = getCalendar(cal);
+        calendar = *p;
     }
-        
+
     //build the bond
     QuantLib::Schedule sch(effectiveDate, maturityDate, QuantLib::Period(freq), calendar,
                            bdc, bdc, QuantLib::DateGeneration::Backward, false);
@@ -148,12 +145,10 @@ double fixedRateBondPriceByYieldEngine(double settlementDays,
     QuantLib::Compounding cp = getCompounding(compound);
  
     //set up calendar
-    QuantLib::Calendar 
-        calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-    if (cal == "us") {
-        calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-    } else if (cal == "uk") {
-        calendar = QuantLib::UnitedKingdom(QuantLib::UnitedKingdom::Exchange);
+    QuantLib::Calendar calendar;
+    if(!cal.empty()) {
+        auto p = getCalendar(cal);
+        calendar = *p;
     }
         
     //build the bond
@@ -203,12 +198,10 @@ Rcpp::List FloatingBond(Rcpp::List rparam,
     bool endOfMonth = (endOfMonthRule==1) ? true : false;
 
     //set up calendar
-    QuantLib::Calendar 
-        calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-    if (cal == "us") {
-        calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-    } else if (cal == "uk") {
-        calendar = QuantLib::UnitedKingdom(QuantLib::UnitedKingdom::Exchange);
+    QuantLib::Calendar calendar;
+    if(!cal.empty()) {
+        auto p = getCalendar(cal);
+        calendar = *p;
     }
     QuantLib::Schedule sch(effectiveDate, maturityDate, QuantLib::Period(freq), calendar,
                            bdc, tbdc, rule, endOfMonth);
@@ -360,11 +353,10 @@ Rcpp::List fixedBondEngine(Rcpp::List rparam, std::vector<double> rates,
     QuantLib::DateGeneration::Rule rule = getDateGenerationRule(dateGeneration);
     bool endOfMonth = (endOfMonthRule==1) ? true : false;
     //set up calendar
-    QuantLib::Calendar calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-    if (cal == "us") {
-        calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-    } else if (cal == "uk") {
-        calendar = QuantLib::UnitedKingdom(QuantLib::UnitedKingdom::Exchange);
+    QuantLib::Calendar calendar;
+    if(!cal.empty()) {
+        auto p = getCalendar(cal);
+        calendar = *p;
     }
 
     //build the bond
@@ -424,12 +416,10 @@ Rcpp::List zeroBondEngine(Rcpp::List rparam,
     //set up QuantLib::BusinessDayConvetion
     QuantLib::BusinessDayConvention bdc = getBusinessDayConvention(businessDayConvention);
         
-    // set up calendar -- FIXME: use utils function getCalendar instead
-    QuantLib::Calendar calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-    if (cal == "us") {
-        calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-    } else if (cal == "uk") {
-        calendar = QuantLib::UnitedKingdom(QuantLib::UnitedKingdom::Exchange);
+    QuantLib::Calendar calendar;
+    if(!cal.empty()) {
+        auto p = getCalendar(cal);
+        calendar = *p;
     }
         
     QuantLib::ZeroCouponBond bond(settlementDays, calendar, faceAmount,
@@ -487,12 +477,10 @@ Rcpp::List convertibleZeroBondEngine(Rcpp::List rparam,
         
     QuantLib::Date todayDate = issueDate;
         
-    QuantLib::Calendar calendar = 
-        QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-    if (cal == "us") {
-        calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-    } else if (cal == "uk") {
-        calendar = QuantLib::UnitedKingdom(QuantLib::UnitedKingdom::Exchange);
+    QuantLib::Calendar calendar;
+    if(!cal.empty()) {
+        auto p = getCalendar(cal);
+        calendar = *p;
     }
  
     QuantLib::BusinessDayConvention bdc = getBusinessDayConvention(businessDayConvention);
@@ -584,11 +572,10 @@ Rcpp::List convertibleFixedBondEngine(Rcpp::List rparam,
        
     QuantLib::Date todayDate = issueDate;
     QuantLib::Settings::instance().evaluationDate() = todayDate;
-    QuantLib::Calendar calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-    if (cal == "us") {
-        calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-    } else if (cal == "uk") {
-        calendar = QuantLib::UnitedKingdom(QuantLib::UnitedKingdom::Exchange);
+    QuantLib::Calendar calendar;
+    if(!cal.empty()) {
+        auto p = getCalendar(cal);
+        calendar = *p;
     }
  
     QuantLib::BusinessDayConvention bdc = getBusinessDayConvention(businessDayConvention);
@@ -707,11 +694,10 @@ Rcpp::List convertibleFloatingBondEngine(Rcpp::List rparam,
 
     QuantLib::Date todayDate = issueDate;
         
-    QuantLib::Calendar calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-    if (cal == "us") {
-        calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-    } else if (cal == "uk") {
-        calendar = QuantLib::UnitedKingdom(QuantLib::UnitedKingdom::Exchange);
+    QuantLib::Calendar calendar;
+    if(!cal.empty()) {
+        auto p = getCalendar(cal);
+        calendar = *p;
     }
  
     QuantLib::BusinessDayConvention bdc = getBusinessDayConvention(businessDayConvention);
@@ -791,11 +777,10 @@ Rcpp::List callableBondEngine(Rcpp::List rparam,
     double frequency = Rcpp::as<double>(datemisc["period"]);
     double businessDayConvention = Rcpp::as<double>(datemisc["businessDayConvention"]);
         
-    QuantLib::Calendar calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-    if (cal == "us") {
-        calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-    } else if (cal == "uk") {
-        calendar = QuantLib::UnitedKingdom(QuantLib::UnitedKingdom::Exchange);
+    QuantLib::Calendar calendar;
+    if(!cal.empty()) {
+        auto p = getCalendar(cal);
+        calendar = *p;
     }
 
     QuantLib::BusinessDayConvention bdc = getBusinessDayConvention(businessDayConvention);
@@ -886,12 +871,10 @@ Rcpp::List callableBondEngine(Rcpp::List rparam,
 //         std::string fixedLegConvention = swapparams.getDoubleValue("fixedLegConvention");
 //         std::string fixedLegDayCounter = swapparams.getDoubleValue("fixedLegDayCounter");
 //         std::string cal = swapparams.getStringValue("calendar");
-//         QuantLib::Calendar calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-//         if (cal == "us"){
-//             calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-//         }
-//         else if (cal == "uk"){
-//             calendar = QuantLib::UnitedKingdom(QuantLib::UnitedKingdom::Exchange);
+//         QuantLib::Calendar calendar;
+//         if(!cal.empty()) {
+//             auto p = getCalendar(cal);
+//             calendar = *p;
 //         }
 //         QuantLib::BusinessDayConvention fixedLegBDC = getBusinessDayConvention(fixedLegConvention);
 //         QuantLib::DayCounter fixedLedDC = getDayCounter(fixedLegDayCounter);

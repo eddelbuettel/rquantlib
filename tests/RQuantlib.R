@@ -67,7 +67,7 @@ print( AsianOption("geometric", "put", underlying=80, strike=85, div=-0.03, risk
 bond <- list(faceAmount=100,issueDate=as.Date("2004-11-30"),
              maturityDate=as.Date("2008-11-30"), redemption=100 )
 
-dateparams <-list(settlementDays=1, calendar="us", businessDayConvention='Unadjusted')
+dateparams <-list(settlementDays=1, calendar="UnitedStates/GovernmentBond", businessDayConvention='Unadjusted')
 
 
 discountCurve.param <- list(tradeDate=as.Date('2002-2-15'),
@@ -100,7 +100,7 @@ bond <- list(faceAmount=100,
              redemption=100, 
              effectiveDate=as.Date("2004-11-30"))
 dateparams <- list(settlementDays=1,
-                   calendar="us", dayCounter = 'Thirty360', period=2, 
+                   calendar="UnitedStates/GovernmentBond", dayCounter = 'Thirty360', period=2, 
                    businessDayConvention = 4, terminationDateConvention=4,
                    dateGeneration=1, endOfMonth=1)
 coupon.rate <- c(0.02875)
@@ -118,7 +118,7 @@ FixedRateBond(bond, coupon.rate, discountCurve.flat, dateparams)
 bond <- list(faceAmount=100, issueDate=as.Date("2004-11-30"),
              maturityDate=as.Date("2008-11-30"), redemption=100, 
              effectiveDate=as.Date("2004-11-30"))
-dateparams <- list(settlementDays=1, calendar="us",
+dateparams <- list(settlementDays=1, calendar="UnitedStates/GovernmentBond",
                    dayCounter = 'ActualActual', period=2, 
                    businessDayConvention = 1, terminationDateConvention=1,
                    dateGeneration=0, endOfMonth=0, fixingDays = 1)

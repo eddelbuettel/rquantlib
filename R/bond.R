@@ -88,47 +88,70 @@ ZeroYield.default <- function(price, faceAmount=100,
 
 
 
-FixedRateBond <- function(bond, rates, discountCurve, dateparams){
+FixedRateBond <- function(bond, rates, schedule, calc, discountCurve, yield){
     UseMethod("FixedRateBond")
 }
 FixedRateBond.default <- function(bond,
                                   rates,
-                                  discountCurve,
-                                  dateparams=list(
-                                    settlementDays=1,
-                                    calendar='UnitedStates/GovernmentBond',
-                                    businessDayConvention='Following',
-                                    terminationDateConvention='Following',
-                                    dayCounter='Thirty360',
-                                    period='Semiannual',
-                                    dateGeneration='Backward',
-                                    endOfMonth=0,
-                                    fixingDays=2
-                                    )){
+                                  schedule,
+                                  calc,
+                                  discountCurve = NULL,
+                                  yield = NA){
     val <- 0
 
-    if (is.null(bond$faceAmount))  bond$faceAmount <- 100
-    if (is.null(bond$redemption))  bond$redemption <- 100
-    if (is.null(bond$effectiveDate)) bond$effectiveDate <- bond$issueDate
+    # check bond params
+    if (is.null(bond$settlementDays)) bond$settlementDays <- 1
+    if (is.null(bond$faceAmount)) bond$faceAmount <- 100
+    if (is.null(bond$dayCounter)) bond$dayCounter <- 'Thirty360'
+    # additional parameters have default values on cpp side (see QuantLib::FixedRateBond first ctor)
+    # paymentConvention
+    # redemption
+    # issueDate
+    # paymentCalendar
+    # exCouponPeriod
+    # exCouponCalendar
+    # exCouponConvention
+    # exCouponEndOfMonth
+    bond <- matchParams(bond)
+    
+    # check schedule params
+    if (is.null(schedule$effectiveDate)){
+      stop("schedule effective date undefined.")
+    }
+    if (is.null(schedule$maturityDate)){
+      stop("schedule termination date undefined.")
+    }
+    if (is.null(schedule$period)) schedule$period <- 'Annual'
+    if (is.null(schedule$calendar)) schedule$calendar <- 'TARGET'
+    if (is.null(schedule$businessDayConvention)) schedule$businessDayConvention <- 'Following'
+    if (is.null(schedule$terminationDateConvention)) schedule$terminationDateConvention <- 'Following'
+    if (is.null(schedule$dateGeneration)) schedule$dateGeneration <- 'Backward'
+    if (is.null(schedule$endOfMonth)) schedule$endOfMonth <- 0
+    schedule <- matchParams(schedule)
+    
+    # check calc params
+    if (is.null(calc$dayCounter)) calc$dayCounter <- 'Thirty360'
+    if (is.null(calc$compounding)) calc$compounding <- 'Compounded'
+    if (is.null(calc$freq)) calc$freq <- 'Annual'
+    if (is.null(calc$durationType)) calc$durationType <- 'Simple'
+    if (is.null(calc$accuracy)) calc$accuracy <- 1.0e-8
+    if (is.null(calc$maxEvaluations)) calc$maxEvaluations <- 100
+    calc <- matchParams(calc)
 
-    if (is.null(dateparams$settlementDays)) dateparams$settlementDays <- 1
-    if (is.null(dateparams$calendar)) dateparams$calendar <- 'UnitedStates/GovernmentBond'
-    if (is.null(dateparams$businessDayConvention))
-        dateparams$businessDayConvention <- 'Following'
+    if (is.null(discountCurve) && is.na(yield)) {
+        stop("discountCurve and yield cannot be both undefined.")
+        
+    } else if (is.null(discountCurve)) { # calculate from yield
+      
+      val <- FixedRateWithYield(bond, rates, schedule, calc, yield)
+    } else if (is.na(yield)) { # calculate from zero rates
+      
+      val <- FixedRateWithRebuiltCurve(
+        bond, rates, schedule, calc, c(discountCurve$table$date), discountCurve$table$zeroRates)
+    } else {
+        stop("discountCurve and yield cannot be both defined.")
+    }
 
-    if (is.null(dateparams$terminationDateConvention))
-        dateparams$terminationDateConvention <- 'Following'
-
-    if (is.null(dateparams$dayCounter)) dateparams$dayCounter <- 'Thirty360'
-    if (is.null(dateparams$period)) dateparams$period <- 'Semiannual'
-    if (is.null(dateparams$dateGeneration)) dateparams$dateGeneration <- 'Backward'
-    if (is.null(dateparams$endOfMonth)) dateparams$endOfMonth <- 0
-    if (is.null(dateparams$fixingDays)) dateparams$fixingDays <- 2
-
-    dateparams <- matchParams(dateparams)
-
-    val <- FixedRateWithRebuiltCurve(bond, rates, c(discountCurve$table$date),
-                                     discountCurve$table$zeroRates, dateparams)
     class(val) <- c("FixedRateBond", "Bond")
     val
 }
@@ -566,20 +589,43 @@ matchDateGen <- function(dg = c("Backward", "Forward", "Zero",
 }
 
 
+matchDurationType <- function(dt = c("Simple", "Macaulay", "Modified")) {
+  if (!is.numeric(dt)){
+    dt <- match.arg(dt)
+    dt <- switch(dt,
+                 Simple = 0,
+                 Macaulay = 1,
+                 Modified = 2)
+  }
+  dt
+}
+
+
 matchParams <- function(params) {
 
     if (!is.null(params$dayCounter)) {
         params$dayCounter <- matchDayCounter(params$dayCounter)
     }
+    if (!is.null(params$compounding)) {
+      params$compounding <- matchCompounding(params$compounding)
+    }
     if (!is.null(params$period)) {
         params$period <- matchFrequency(params$period)
     }
-
+    if (!is.null(params$freq)) {
+      params$freq <- matchFrequency(params$freq)
+    }
     if (!is.null(params$businessDayConvention)) {
         params$businessDayConvention <- matchBDC(params$businessDayConvention)
     }
     if (!is.null(params$terminationDateConvention)) {
         params$terminationDateConvention <- matchBDC(params$terminationDateConvention)
+    }
+    if (!is.null(params$paymentConvention)) {
+      params$paymentConvention <- matchBDC(params$paymentConvention)
+    }
+    if (!is.null(params$exCouponConvention)) {
+      params$exCouponConvention <- matchBDC(params$exCouponConvention)
     }
     if (!is.null(params$dateGeneration)) {
         params$dateGeneration <- matchDateGen(params$dateGeneration)
@@ -589,6 +635,9 @@ matchParams <- function(params) {
     }
     if (!is.null(params$fixedLegDayCounter)) {
         params$fixedLegDayCounter <- matchDayCounter(params$fixedLegDayCounter)
+    }
+    if (!is.null(params$durationType)) {
+      params$durationType <- matchDurationType(params$durationType)
     }
     params
 

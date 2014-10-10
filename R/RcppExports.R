@@ -57,8 +57,12 @@ floatingWithRebuiltCurveEngine <- function(bondparams, gearings, spreads, caps, 
     .Call('RQuantLib_floatingWithRebuiltCurveEngine', PACKAGE = 'RQuantLib', bondparams, gearings, spreads, caps, floors, indexparams, iborDateSexp, iborzeroSexp, dateSexp, zeroSexp, dateparams)
 }
 
-FixedRateWithRebuiltCurve <- function(bondparam, ratesVec, dateSexp, zeroSexp, dateparams) {
-    .Call('RQuantLib_FixedRateWithRebuiltCurve', PACKAGE = 'RQuantLib', bondparam, ratesVec, dateSexp, zeroSexp, dateparams)
+FixedRateWithYield <- function(bondparam, ratesVec, scheduleparam, calcparam, yield) {
+    .Call('RQuantLib_FixedRateWithYield', PACKAGE = 'RQuantLib', bondparam, ratesVec, scheduleparam, calcparam, yield)
+}
+
+FixedRateWithRebuiltCurve <- function(bondparam, ratesVec, scheduleparam, calcparam, dateSexp, zeroSexp) {
+    .Call('RQuantLib_FixedRateWithRebuiltCurve', PACKAGE = 'RQuantLib', bondparam, ratesVec, scheduleparam, calcparam, dateSexp, zeroSexp)
 }
 
 ZeroBondWithRebuiltCurve <- function(bond, dateSexp, zeroSexp, dateparams) {

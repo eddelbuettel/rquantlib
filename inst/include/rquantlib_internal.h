@@ -165,6 +165,7 @@ QuantLib::DayCounter getDayCounter(const double n);
 QuantLib::DateGeneration::Rule getDateGenerationRule(const double n);
 boost::shared_ptr<QuantLib::YieldTermStructure> buildTermStructure(Rcpp::List params, Rcpp::List);
 QuantLib::Schedule getSchedule(Rcpp::List rparam);
+boost::shared_ptr<QuantLib::FixedRateBond> getFixedRateBond(Rcpp::List bondparam, std::vector<double> ratesVec, Rcpp::List scheduleparam);
 boost::shared_ptr<QuantLib::IborIndex> getIborIndex(Rcpp::List index, const QuantLib::Date today);
 // deprecated  std::vector<double> getDoubleVector(SEXP vector);
 boost::shared_ptr<QuantLib::YieldTermStructure> getFlatCurve(Rcpp::List flatcurve);
@@ -185,5 +186,6 @@ Rcpp::DataFrame getCashFlowDataFrame(const QuantLib::Leg &bondCashFlow);
 // fill QL data structures based on data.frames
 QuantLib::DividendSchedule getDividendSchedule(Rcpp::DataFrame dividendScheduleFrame);
 QuantLib::CallabilitySchedule getCallabilitySchedule(Rcpp::DataFrame callabilityScheduleFrame);
+QuantLib::Duration::Type getDurationType(const double n);
 
 #endif

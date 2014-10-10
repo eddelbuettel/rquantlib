@@ -109,7 +109,7 @@ double fixedRateBondYieldByPriceEngine(double settlementDays,
     
     QuantLib::Calendar calendar;
     if(!cal.empty()) {
-        auto p = getCalendar(cal);
+        boost::shared_ptr<QuantLib::Calendar> p = getCalendar(cal);
         calendar = *p;
     }
 
@@ -147,7 +147,7 @@ double fixedRateBondPriceByYieldEngine(double settlementDays,
     //set up calendar
     QuantLib::Calendar calendar;
     if(!cal.empty()) {
-        auto p = getCalendar(cal);
+        boost::shared_ptr<QuantLib::Calendar> p = getCalendar(cal);
         calendar = *p;
     }
         
@@ -200,7 +200,7 @@ Rcpp::List FloatingBond(Rcpp::List rparam,
     //set up calendar
     QuantLib::Calendar calendar;
     if(!cal.empty()) {
-        auto p = getCalendar(cal);
+        boost::shared_ptr<QuantLib::Calendar> p = getCalendar(cal);
         calendar = *p;
     }
     QuantLib::Schedule sch(effectiveDate, maturityDate, QuantLib::Period(freq), calendar,
@@ -322,75 +322,81 @@ Rcpp::List floatingWithRebuiltCurveEngine(SEXP bondparams, std::vector<double> g
                         curve, dateparams);
 }
 
-// TODO: R interface -- cannot use Attribute with converter for Handle<>
-// currently NOT exported but called below
-Rcpp::List fixedBondEngine(Rcpp::List rparam, std::vector<double> rates,
-                           QuantLib::Handle<QuantLib::YieldTermStructure> &discountCurve,
-                           Rcpp::List datemisc) {
+// [[Rcpp::export]]
+Rcpp::List FixedRateWithYield(Rcpp::List bondparam, 
+                              std::vector<double> ratesVec,
+                              Rcpp::List scheduleparam,
+                              Rcpp::List calcparam,
+                              double yield) {
 
-    double faceAmount = Rcpp::as<double>(rparam["faceAmount"]);
-    QuantLib::Date maturityDate(Rcpp::as<QuantLib::Date>(rparam["maturityDate"]));
-    QuantLib::Date issueDate(Rcpp::as<QuantLib::Date>(rparam["issueDate"]));
-    QuantLib::Date effectiveDate(Rcpp::as<QuantLib::Date>(rparam["effectiveDate"]));
-    double redemption = Rcpp::as<double>(rparam["redemption"]);
+    // get calc parameters
+    QuantLib::DayCounter calcDayCounter =
+        getDayCounter(Rcpp::as<double>(calcparam["dayCounter"]));
+    QuantLib::Compounding compounding =
+        getCompounding(Rcpp::as<double>(calcparam["compounding"]));
+    QuantLib::Frequency calcFreq =
+        getFrequency(Rcpp::as<double>(calcparam["freq"]));
+    QuantLib::Duration::Type durationType =
+        getDurationType(Rcpp::as<double>(calcparam["durationType"]));
 
-    double settlementDays = Rcpp::as<double>(datemisc["settlementDays"]);
-    std::string cal = Rcpp::as<std::string>(datemisc["calendar"]);
-    double dayCounter = Rcpp::as<double>(datemisc["dayCounter"]);
-    double frequency = Rcpp::as<double>(datemisc["period"]);
-    double businessDayConvention = Rcpp::as<double>(datemisc["businessDayConvention"]);
-    double terminationDateConvention = Rcpp::as<double>(datemisc["terminationDateConvention"]);
-    double dateGeneration = Rcpp::as<double>(datemisc["dateGeneration"]);
-    double endOfMonthRule = Rcpp::as<double>(datemisc["endOfMonth"]);
-
+    boost::shared_ptr<QuantLib::FixedRateBond> bond = getFixedRateBond(bondparam, ratesVec, scheduleparam);
     
+    QuantLib::Date sd = bond->settlementDate();
+    const Rcpp::Date settlementDate(sd.month(), sd.dayOfMonth(), sd.year());
 
-    //set up BusinessDayConvetion
-    QuantLib::BusinessDayConvention bdc = getBusinessDayConvention(businessDayConvention);
-    QuantLib::BusinessDayConvention tbdc = getBusinessDayConvention(terminationDateConvention);
-    QuantLib::DayCounter dc = getDayCounter(dayCounter);
-    QuantLib::Frequency freq = getFrequency(frequency);
-    QuantLib::DateGeneration::Rule rule = getDateGenerationRule(dateGeneration);
-    bool endOfMonth = (endOfMonthRule==1) ? true : false;
-    //set up calendar
-    QuantLib::Calendar calendar;
-    if(!cal.empty()) {
-        auto p = getCalendar(cal);
-        calendar = *p;
-    }
-
-    //build the bond
-    QuantLib::Schedule sch(effectiveDate, maturityDate, QuantLib::Period(freq), calendar,
-                           bdc, tbdc, rule, endOfMonth);
-        
-    QuantLib::FixedRateBond bond(settlementDays, faceAmount, sch, rates, 
-                                 dc, bdc, redemption, issueDate);
-    
-    //bond price
-    boost::shared_ptr<QuantLib::PricingEngine> 
-        bondEngine(new QuantLib::DiscountingBondEngine(discountCurve));
-    bond.setPricingEngine(bondEngine);   
-        
-    return Rcpp::List::create(Rcpp::Named("NPV") = bond.NPV(),
-                              Rcpp::Named("cleanPrice") = bond.cleanPrice(),
-                              Rcpp::Named("dirtyPrice") = bond.dirtyPrice(),
-                              Rcpp::Named("accruedCoupon") = bond.accruedAmount(),
-                              Rcpp::Named("yield") = bond.yield(QuantLib::Actual360(), 
-                                                                QuantLib::Compounded, QuantLib::Annual),
-                              Rcpp::Named("cashFlow") = getCashFlowDataFrame(bond.cashflows()));
+    return Rcpp::List::create(Rcpp::Named("NPV") = std::numeric_limits<double>::quiet_NaN(),
+                              Rcpp::Named("cleanPrice") = bond->cleanPrice(yield, calcDayCounter, compounding, calcFreq),
+                              Rcpp::Named("dirtyPrice") = bond->dirtyPrice(yield, calcDayCounter, compounding, calcFreq),
+                              Rcpp::Named("accruedCoupon") = bond->accruedAmount(),
+                              Rcpp::Named("yield") = yield,
+                              Rcpp::Named("duration") = QuantLib::BondFunctions::duration(*bond, yield, calcDayCounter, compounding, calcFreq, durationType, sd),
+                              Rcpp::Named("settlementDate") = settlementDate,
+                              Rcpp::Named("cashFlow") = getCashFlowDataFrame(bond->cashflows()));
 }
 
 // [[Rcpp::export]]
 Rcpp::List FixedRateWithRebuiltCurve(Rcpp::List bondparam, 
                                      std::vector<double> ratesVec,
+                                     Rcpp::List scheduleparam,
+                                     Rcpp::List calcparam,
                                      SEXP dateSexp, 
-                                     SEXP zeroSexp,
-                                     Rcpp::List dateparams) {
+                                     SEXP zeroSexp) {
+    
+    // get calc parameters
+    QuantLib::DayCounter calcDayCounter =
+        getDayCounter(Rcpp::as<double>(calcparam["dayCounter"]));
+    QuantLib::Compounding compounding =
+        getCompounding(Rcpp::as<double>(calcparam["compounding"]));
+    QuantLib::Frequency calcFreq =
+        getFrequency(Rcpp::as<double>(calcparam["freq"]));
+    QuantLib::Duration::Type durationType =
+        getDurationType(Rcpp::as<double>(calcparam["durationType"]));
+    double accuracy = Rcpp::as<double>(calcparam["accuracy"]);
+    double maxEvaluations = Rcpp::as<double>(calcparam["maxEvaluations"]);
+    
+    boost::shared_ptr<QuantLib::FixedRateBond> bond = getFixedRateBond(bondparam, ratesVec, scheduleparam);
+    
     QuantLib::Handle<QuantLib::YieldTermStructure> 
-        curve(rebuildCurveFromZeroRates(dateSexp, zeroSexp));
-    return fixedBondEngine(bondparam, ratesVec, curve, dateparams);
+        discountCurve(rebuildCurveFromZeroRates(dateSexp, zeroSexp));
+    
+    //bond price
+    boost::shared_ptr<QuantLib::PricingEngine> 
+        bondEngine(new QuantLib::DiscountingBondEngine(discountCurve));
+    bond->setPricingEngine(bondEngine);   
+    
+    const double yield = bond->yield(calcDayCounter, compounding, calcFreq, accuracy, maxEvaluations);
+    QuantLib::Date sd = bond->settlementDate();
+    const Rcpp::Date settlementDate(sd.month(), sd.dayOfMonth(), sd.year());
+    
+    return Rcpp::List::create(Rcpp::Named("NPV") = bond->NPV(),
+                              Rcpp::Named("cleanPrice") = bond->cleanPrice(),
+                              Rcpp::Named("dirtyPrice") = bond->dirtyPrice(),
+                              Rcpp::Named("accruedCoupon") = bond->accruedAmount(),
+                              Rcpp::Named("yield") = yield,
+                              Rcpp::Named("duration") = QuantLib::BondFunctions::duration(*bond, yield, calcDayCounter, compounding, calcFreq, durationType, sd),
+                              Rcpp::Named("settlementDate") = settlementDate,
+                              Rcpp::Named("cashFlow") = getCashFlowDataFrame(bond->cashflows()));
 }
-
 
 // TODO: R interface -- cannot use Attribute with converter for Handle<>
 // currently NOT exported but called below
@@ -418,7 +424,7 @@ Rcpp::List zeroBondEngine(Rcpp::List rparam,
         
     QuantLib::Calendar calendar;
     if(!cal.empty()) {
-        auto p = getCalendar(cal);
+        boost::shared_ptr<QuantLib::Calendar> p = getCalendar(cal);
         calendar = *p;
     }
         
@@ -479,7 +485,7 @@ Rcpp::List convertibleZeroBondEngine(Rcpp::List rparam,
         
     QuantLib::Calendar calendar;
     if(!cal.empty()) {
-        auto p = getCalendar(cal);
+        boost::shared_ptr<QuantLib::Calendar> p = getCalendar(cal);
         calendar = *p;
     }
  
@@ -574,7 +580,7 @@ Rcpp::List convertibleFixedBondEngine(Rcpp::List rparam,
     QuantLib::Settings::instance().evaluationDate() = todayDate;
     QuantLib::Calendar calendar;
     if(!cal.empty()) {
-        auto p = getCalendar(cal);
+        boost::shared_ptr<QuantLib::Calendar> p = getCalendar(cal);
         calendar = *p;
     }
  
@@ -696,7 +702,7 @@ Rcpp::List convertibleFloatingBondEngine(Rcpp::List rparam,
         
     QuantLib::Calendar calendar;
     if(!cal.empty()) {
-        auto p = getCalendar(cal);
+        boost::shared_ptr<QuantLib::Calendar> p = getCalendar(cal);
         calendar = *p;
     }
  
@@ -779,7 +785,7 @@ Rcpp::List callableBondEngine(Rcpp::List rparam,
         
     QuantLib::Calendar calendar;
     if(!cal.empty()) {
-        auto p = getCalendar(cal);
+        boost::shared_ptr<QuantLib::Calendar> p = getCalendar(cal);
         calendar = *p;
     }
 
@@ -873,7 +879,7 @@ Rcpp::List callableBondEngine(Rcpp::List rparam,
 //         std::string cal = swapparams.getStringValue("calendar");
 //         QuantLib::Calendar calendar;
 //         if(!cal.empty()) {
-//             auto p = getCalendar(cal);
+//             boost::shared_ptr<QuantLib::Calendar> p = getCalendar(cal);
 //             calendar = *p;
 //         }
 //         QuantLib::BusinessDayConvention fixedLegBDC = getBusinessDayConvention(fixedLegConvention);

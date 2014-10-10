@@ -109,7 +109,7 @@ double fixedRateBondYieldByPriceEngine(double settlementDays,
     
     QuantLib::Calendar calendar;
     if(!cal.empty()) {
-        auto p = getCalendar(cal);
+        boost::shared_ptr<QuantLib::Calendar> p = getCalendar(cal);
         calendar = *p;
     }
 
@@ -147,7 +147,7 @@ double fixedRateBondPriceByYieldEngine(double settlementDays,
     //set up calendar
     QuantLib::Calendar calendar;
     if(!cal.empty()) {
-        auto p = getCalendar(cal);
+        boost::shared_ptr<QuantLib::Calendar> p = getCalendar(cal);
         calendar = *p;
     }
         
@@ -200,7 +200,7 @@ Rcpp::List FloatingBond(Rcpp::List rparam,
     //set up calendar
     QuantLib::Calendar calendar;
     if(!cal.empty()) {
-        auto p = getCalendar(cal);
+        boost::shared_ptr<QuantLib::Calendar> p = getCalendar(cal);
         calendar = *p;
     }
     QuantLib::Schedule sch(effectiveDate, maturityDate, QuantLib::Period(freq), calendar,
@@ -355,7 +355,7 @@ Rcpp::List fixedBondEngine(Rcpp::List rparam, std::vector<double> rates,
     //set up calendar
     QuantLib::Calendar calendar;
     if(!cal.empty()) {
-        auto p = getCalendar(cal);
+        boost::shared_ptr<QuantLib::Calendar> p = getCalendar(cal);
         calendar = *p;
     }
 
@@ -418,7 +418,7 @@ Rcpp::List zeroBondEngine(Rcpp::List rparam,
         
     QuantLib::Calendar calendar;
     if(!cal.empty()) {
-        auto p = getCalendar(cal);
+        boost::shared_ptr<QuantLib::Calendar> p = getCalendar(cal);
         calendar = *p;
     }
         
@@ -479,7 +479,7 @@ Rcpp::List convertibleZeroBondEngine(Rcpp::List rparam,
         
     QuantLib::Calendar calendar;
     if(!cal.empty()) {
-        auto p = getCalendar(cal);
+        boost::shared_ptr<QuantLib::Calendar> p = getCalendar(cal);
         calendar = *p;
     }
  
@@ -574,7 +574,7 @@ Rcpp::List convertibleFixedBondEngine(Rcpp::List rparam,
     QuantLib::Settings::instance().evaluationDate() = todayDate;
     QuantLib::Calendar calendar;
     if(!cal.empty()) {
-        auto p = getCalendar(cal);
+        boost::shared_ptr<QuantLib::Calendar> p = getCalendar(cal);
         calendar = *p;
     }
  
@@ -696,7 +696,7 @@ Rcpp::List convertibleFloatingBondEngine(Rcpp::List rparam,
         
     QuantLib::Calendar calendar;
     if(!cal.empty()) {
-        auto p = getCalendar(cal);
+        boost::shared_ptr<QuantLib::Calendar> p = getCalendar(cal);
         calendar = *p;
     }
  
@@ -779,7 +779,7 @@ Rcpp::List callableBondEngine(Rcpp::List rparam,
         
     QuantLib::Calendar calendar;
     if(!cal.empty()) {
-        auto p = getCalendar(cal);
+        boost::shared_ptr<QuantLib::Calendar> p = getCalendar(cal);
         calendar = *p;
     }
 
@@ -873,7 +873,7 @@ Rcpp::List callableBondEngine(Rcpp::List rparam,
 //         std::string cal = swapparams.getStringValue("calendar");
 //         QuantLib::Calendar calendar;
 //         if(!cal.empty()) {
-//             auto p = getCalendar(cal);
+//             boost::shared_ptr<QuantLib::Calendar> p = getCalendar(cal);
 //             calendar = *p;
 //         }
 //         QuantLib::BusinessDayConvention fixedLegBDC = getBusinessDayConvention(fixedLegConvention);

@@ -177,7 +177,7 @@ QuantLib::Schedule getSchedule(Rcpp::List rparam) {
     double terminationDateConvention = Rcpp::as<double>(rparam["terminationDateConvention"]);
     QuantLib::Calendar calendar;
     if(!cal.empty()) {
-        auto p = getCalendar(cal);
+        boost::shared_ptr<QuantLib::Calendar> p = getCalendar(cal);
         calendar = *p;
     }
     QuantLib::BusinessDayConvention bdc = getBusinessDayConvention(businessDayConvention);   

@@ -94,7 +94,11 @@ FixedRateBond <- function(bond, rates, schedule, calc, discountCurve, yield){
 FixedRateBond.default <- function(bond,
                                   rates,
                                   schedule,
-                                  calc,
+                                  calc=list(
+                                    dayCounter='ActualActual::ISMA',
+                                    compounding='Compounded',
+                                    freq='Annual',
+                                    durationType='Modified'),
                                   discountCurve = NULL,
                                   yield = NA){
     val <- 0

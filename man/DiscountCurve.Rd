@@ -38,10 +38,17 @@ DiscountCurve(params, tsQuotes, times, legparams)
       \code{d1y}  \tab 1-year deposit rate\cr
       \code{s2y}  \tab 2-year swap rate\cr
       \code{s3y}  \tab 3-year swap rate\cr
+      \code{s4y}  \tab 4-year swap rate\cr
       \code{s5y}  \tab 5-year swap rate\cr
+      \code{s6y}  \tab 6-year swap rate\cr
+      \code{s7y}  \tab 7-year swap rate\cr
+      \code{s8y}  \tab 8-year swap rate\cr
+      \code{s9y}  \tab 9-year swap rate\cr
       \code{s10y} \tab 10-year swap rate\cr
+      \code{s12y} \tab 12-year swap rate\cr
       \code{s15y} \tab 15-year swap rate\cr
       \code{s20y} \tab 20-year swap rate\cr
+      \code{s25y}  \tab 25-year swap rate\cr
       \code{s30y} \tab 30-year swap rate\cr
       \code{s40y} \tab 40-year swap rate\cr
       \code{s50y} \tab 50-year swap rate\cr

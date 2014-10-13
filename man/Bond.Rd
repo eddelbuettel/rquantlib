@@ -81,6 +81,7 @@ bondparams <- list(faceAmount=100, issueDate=as.Date("2004-11-30"),
 dateparams <- list(settlementDays=1, calendar="UnitedStates/GovernmentBond",
                    dayCounter = 1, period=3, businessDayConvention = 4,
                    terminationDateConvention=4, dateGeneration=1, endOfMonth=1)
+
 rates <- c(0.02875)
 FixedRateBond(bondparams, rates, discountCurve, dateparams)
 

@@ -131,7 +131,6 @@ bond <- list(faceAmount=100,issueDate=as.Date("2004-11-30"),
 dateparams <-list(settlementDays=1, calendar="UnitedStates/GovernmentBond",
                   businessDayConvention='Unadjusted')
 
-
 discountCurve.param <- list(tradeDate=as.Date('2002-2-15'),
                            settleDate=as.Date('2002-2-15'),
                            dt=0.25,

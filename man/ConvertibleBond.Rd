@@ -176,7 +176,7 @@ bondparams <- list(exercise="am", faceAmount=100,
                    maturityDate=as.Date(today+3650))
 dateparams <- list(settlementDays=3, 
                    dayCounter="ActualActual", 
-                   period = "Semiannual", calendar = "us", 
+                   period = "Semiannual", calendar = "UnitedStates/GovernmentBond", 
                    businessDayConvention="Following")
 
 lengths <- c(2,4,6,8,10,12,14,16,18,20,22,24,26,28,30)
@@ -242,7 +242,7 @@ bondparams <- list(exercise="am", faceAmount=100, divSch = dividendSchedule,
                    maturityDate=as.Date(today+3650))
 dateparams <- list(settlementDays=3, 
                    dayCounter="Actual360", 
-                   period = "Once", calendar = "us", 
+                   period = "Once", calendar = "UnitedStates/GovernmentBond", 
                    businessDayConvention="Following"
                    )
 coupon <- c(0.05)
@@ -290,7 +290,7 @@ bondparams <- list(exercise="am", faceAmount=100, divSch = dividendSchedule,
                    maturityDate=as.Date(today+3650))
 dateparams <- list(settlementDays=3, 
                    dayCounter="Actual360", 
-                   period = "Once", calendar = "us", 
+                   period = "Once", calendar = "UnitedStates/GovernmentBond", 
                    businessDayConvention="Following"
                    )
 

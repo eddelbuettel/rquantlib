@@ -22,14 +22,14 @@
 
 \method{FixedRateBondPriceByYield}{default}( settlementDays=1, yield, faceAmount, 
                                  effectiveDate, maturityDate,
-                                 period, calendar="us", 
+                                 period, calendar="UnitedStates/GovernmentBond", 
                                  rates, dayCounter=2,
                                  businessDayConvention=0, compound = 0, redemption=100, 
                                  issueDate)
 
 \method{FixedRateBondYield}{default}( settlementDays=1, price, faceAmount, 
                                  effectiveDate, maturityDate,
-                                 period, calendar="us", 
+                                 period, calendar="UnitedStates/GovernmentBond", 
                                  rates, dayCounter=2,
                                  businessDayConvention=0, 
                                  compound = 0, redemption=100, 
@@ -156,7 +156,7 @@ bond <- list(faceAmount=100,
              redemption=100, 
              effectiveDate=as.Date("2004-11-30"))
 dateparams <- list(settlementDays=1,
-                   calendar="us", dayCounter = 'Thirty360', period=2, 
+                   calendar="UnitedStates/GovernmentBond", dayCounter = 'Thirty360', period=2, 
                    businessDayConvention = 4, terminationDateConvention=4,
                    dateGeneration=1, endOfMonth=1)
 coupon.rate <- c(0.02875)
@@ -199,7 +199,7 @@ FixedRateBond(bond, coupon.rate, discountCurve)
 ##exampe with defaul bond parameter and dateparams
 bond <- list(issueDate=as.Date("2004-11-30"),
              maturityDate=as.Date("2008-11-30"))
-dateparams <- list(calendar="us",
+dateparams <- list(calendar="UnitedStates/GovernmentBond",
                    dayCounter = "ActualActual", 
                    period="Annual")
 FixedRateBond(bond, coupon.rate, discountCurve, dateparams)

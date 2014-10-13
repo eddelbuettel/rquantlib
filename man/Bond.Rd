@@ -70,7 +70,7 @@ discountCurve <- DiscountCurve(params, tsQuotes, times)
 # price a zero coupon bond
 bondparams <- list(faceAmount=100, issueDate=as.Date("2004-11-30"),
              maturityDate=as.Date("2008-11-30"), redemption=100 )
-dateparams <-list(settlementDays=1, calendar="us", businessDayConvention=4)
+dateparams <-list(settlementDays=1, calendar="UnitedStates/GovernmentBond", businessDayConvention=4)
 ZeroCouponBond(bondparams, discountCurve, dateparams)
 
 # price a fixed rate coupon bond
@@ -78,7 +78,7 @@ ZeroCouponBond(bondparams, discountCurve, dateparams)
 bondparams <- list(faceAmount=100, issueDate=as.Date("2004-11-30"),
              maturityDate=as.Date("2008-11-30"), redemption=100, 
              effectiveDate=as.Date("2004-11-30"))
-dateparams <- list(settlementDays=1, calendar="us", dayCounter = 1, period=3, 
+dateparams <- list(settlementDays=1, calendar="UnitedStates/GovernmentBond", dayCounter = 1, period=3, 
                    businessDayConvention = 4, terminationDateConvention=4,
                    dateGeneration=1, endOfMonth=1)
 rates <- c(0.02875)
@@ -89,7 +89,7 @@ bondparams <- list(faceAmount=100, issueDate=as.Date("2004-11-30"),
              maturityDate=as.Date("2008-11-30"), redemption=100, 
              effectiveDate=as.Date("2004-12-01"))
 
-dateparams <- list(settlementDays=1, calendar="us", dayCounter = 1, period=3, 
+dateparams <- list(settlementDays=1, calendar="UnitedStates/GovernmentBond", dayCounter = 1, period=3, 
                    businessDayConvention = 1, terminationDateConvention=1,
                    dateGeneration=0, endOfMonth=0, fixingDays = 1)
 

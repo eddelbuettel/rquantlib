@@ -143,7 +143,7 @@ FixedRateBondYield <- function(settlementDays, price, faceAmount,
 }
 FixedRateBondYield.default <- function(settlementDays = 1, price, faceAmount=100,
                                        effectiveDate, maturityDate,
-                                       period, calendar = "us", rates,
+                                       period, calendar = "UnitedStates/GovernmentBond", rates,
                                        dayCounter=2, businessDayConvention=0,
                                        compound = 0, redemption = 100, issueDate) {
 
@@ -168,7 +168,7 @@ FixedRateBondPriceByYield <- function(settlementDays, yield, faceAmount,
 
 FixedRateBondPriceByYield.default <- function(settlementDays = 1, yield, faceAmount=100,
                                               effectiveDate=issueDate, maturityDate,
-                                              period, calendar = "us", rates,
+                                              period, calendar = "UnitedStates/GovernmentBond", rates,
                                               dayCounter=2, businessDayConvention=0,
                                               compound = 0, redemption = 100, issueDate) {
     val <- fixedRateBondPriceByYieldEngine(settlementDays, yield, calendar, faceAmount,

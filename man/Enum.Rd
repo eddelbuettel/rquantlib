@@ -15,7 +15,14 @@ Reference for parameters when constructing a bond
          \code{3} \tab ActualBusiness252 \cr
          \code{4} \tab OneDayCounter \cr
          \code{5} \tab SimpleDayCounter \cr
-         \code{anything else} \tab Thirty360
+         \code{6} \tab Thirty360 \cr
+         \code{7} \tab Actual365NoLeap \cr
+         \code{8} \tab ActualActual.ISMA \cr
+         \code{9} \tab ActualActual.Bond \cr
+         \code{10} \tab ActualActual.ISDA \cr
+         \code{11} \tab ActualActual.Historical \cr
+         \code{12} \tab ActualActual.AFB \cr
+         \code{anything else} \tab ActualActual.Euro
        }
 }
 

@@ -99,7 +99,7 @@ callSch$Type <- as.character(callSch$Type)
 bondparams <- list(faceAmount=100, issueDate = as.Date("2004-09-16"),
                    maturityDate=as.Date("2012-09-16"), redemption=100,
                    callSch = callSch)
-dateparams <- list(settlementDays=3, calendar="us", 
+dateparams <- list(settlementDays=3, calendar="UnitedStates/GovernmentBond", 
                    dayCounter = "ActualActual", 
                    period="Quarterly", 
                    businessDayConvention = "Unadjusted", 

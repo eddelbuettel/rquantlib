@@ -168,7 +168,7 @@ boost::shared_ptr<QuantLib::YieldTermStructure> buildTermStructure(Rcpp::List rp
 }
 
 QuantLib::Schedule getSchedule(Rcpp::List rparam) {
-   
+    
     QuantLib::Date effectiveDate(Rcpp::as<QuantLib::Date>(rparam["effectiveDate"]));
     QuantLib::Date maturityDate(Rcpp::as<QuantLib::Date>(rparam["maturityDate"]));      
     QuantLib::Period period = QuantLib::Period(getFrequency(Rcpp::as<double>(rparam["period"])));

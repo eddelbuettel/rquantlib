@@ -95,7 +95,7 @@ FixedRateBond.default <- function(bond,
                                   rates,
                                   schedule,
                                   calc=list(
-                                    dayCounter='ActualActual::ISMA',
+                                    dayCounter='ActualActual.ISMA',
                                     compounding='Compounded',
                                     freq='Annual',
                                     durationType='Modified'),
@@ -123,7 +123,7 @@ FixedRateBond.default <- function(bond,
       stop("schedule effective date undefined.")
     }
     if (is.null(schedule$maturityDate)){
-      stop("schedule termination date undefined.")
+      stop("schedule maturity date undefined.")
     }
     if (is.null(schedule$period)) schedule$period <- 'Annual'
     if (is.null(schedule$calendar)) schedule$calendar <- 'TARGET'
@@ -134,7 +134,7 @@ FixedRateBond.default <- function(bond,
     schedule <- matchParams(schedule)
     
     # check calc params
-    if (is.null(calc$dayCounter)) calc$dayCounter <- 'Thirty360'
+    if (is.null(calc$dayCounter)) calc$dayCounter <- 'ActualActual.ISMA'
     if (is.null(calc$compounding)) calc$compounding <- 'Compounded'
     if (is.null(calc$freq)) calc$freq <- 'Annual'
     if (is.null(calc$durationType)) calc$durationType <- 'Simple'
@@ -170,7 +170,7 @@ FixedRateBondYield <- function(settlementDays, price, faceAmount,
 }
 FixedRateBondYield.default <- function(settlementDays = 1, price, faceAmount=100,
                                        effectiveDate, maturityDate,
-                                       period, calendar = "us", rates,
+                                       period, calendar = "UnitedStates/GovernmentBond", rates,
                                        dayCounter=2, businessDayConvention=0,
                                        compound = 0, redemption = 100, issueDate) {
 
@@ -195,7 +195,7 @@ FixedRateBondPriceByYield <- function(settlementDays, yield, faceAmount,
 
 FixedRateBondPriceByYield.default <- function(settlementDays = 1, yield, faceAmount=100,
                                               effectiveDate=issueDate, maturityDate,
-                                              period, calendar = "us", rates,
+                                              period, calendar = "UnitedStates/GovernmentBond", rates,
                                               dayCounter=2, businessDayConvention=0,
                                               compound = 0, redemption = 100, issueDate) {
     val <- fixedRateBondPriceByYieldEngine(settlementDays, yield, calendar, faceAmount,

@@ -1,3 +1,21 @@
+2014-10-13  Michele Salvadore <michele.salvadore@gmail.com>
+
+	* src/bonds.cpp: Fixed-income functionality cleanup
+	* src/utils.cpp: Ditto
+	* R/bonds.R: Ditto
+
+	* man/Bond.Rd: Corresponding documentation update
+	* man/BondUtilities.Rd: Ditto
+	* man/CallableBond.Rd: Ditto
+	* man/ConvertibleBond.Rd: Ditto
+	* man/Enum.Rd: Ditto
+	* man/FixedRateBond.Rd: Ditto
+	* man/FloatingRateBond.Rd: Ditto
+	* man/ZeroCouponBond.Rd: Ditto
+
+	* tests/RQuantLib.R: Corresponding test update
+	* tests/RQuantLib.Rout.save: Ditto
+
 2014-06-16  Dirk Eddelbuettel  <edd@debian.org>
 
 	* inst/QuantLib_LICENSE.TXT: Renamed from QuantLib-License.txt per

@@ -125,7 +125,7 @@ FixedRateBond.default <- function(bond,
     if (is.null(schedule$maturityDate)){
       stop("schedule maturity date undefined.")
     }
-    if (is.null(schedule$period)) schedule$period <- 'Annual'
+    if (is.null(schedule$period)) schedule$period <- 'Semiannual'
     if (is.null(schedule$calendar)) schedule$calendar <- 'TARGET'
     if (is.null(schedule$businessDayConvention)) schedule$businessDayConvention <- 'Following'
     if (is.null(schedule$terminationDateConvention)) schedule$terminationDateConvention <- 'Following'
@@ -146,12 +146,12 @@ FixedRateBond.default <- function(bond,
         stop("discountCurve and yield cannot be both undefined.")
         
     } else if (is.null(discountCurve)) { # calculate from yield
-      
       val <- FixedRateWithYield(bond, rates, schedule, calc, yield)
-    } else if (is.na(yield)) { # calculate from zero rates
       
+    } else if (is.na(yield)) { # calculate from zero rates
       val <- FixedRateWithRebuiltCurve(
         bond, rates, schedule, calc, c(discountCurve$table$date), discountCurve$table$zeroRates)
+      
     } else {
         stop("discountCurve and yield cannot be both defined.")
     }
@@ -653,7 +653,6 @@ plot.Bond <- function(x, ...) {
     invisible(x)
 }
 
-
 print.Bond <- function(x, digits=5, ...) {
     cat("Concise summary of valuation for", class(x)[1], "\n")
     cat(" Net present value : ", format(x$NPV), "\n")
@@ -665,6 +664,21 @@ print.Bond <- function(x, digits=5, ...) {
     print(x$cashFlow, row.names=FALSE, digits=digits)
     #print(round(unlist(x[1:5]), digits))
     invisible(x)
+}
+
+print.FixedRateBond <- function(x, digits=5, ...) {
+  cat("Concise summary of valuation for", class(x)[1], "\n")
+  cat(" Net present value : ", format(x$NPV), "\n")
+  cat("       clean price : ", format(x$cleanPrice, digits=digits), "\n")
+  cat("       dirty price : ", format(x$dirtyPrice, digits=digits), "\n")
+  cat("    accrued coupon : ", format(x$accruedCoupon, digits=digits), "\n")
+  cat("             yield : ", format(x$yield, digits=digits), "\n")
+  cat("          duration : ", format(x$duration, digits=digits), "\n")
+  cat("   settlement date : ", format(x$settlementDate, format="%Y-%m-%d"), "\n")
+  cat("        cash flows : \n")
+  print(x$cashFlow, row.names=FALSE, digits=digits)
+  #print(round(unlist(x[1:5]), digits))
+  invisible(x)
 }
 
 summary.Bond <- function(object, digits=5, ...) {

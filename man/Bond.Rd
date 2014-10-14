@@ -3,6 +3,7 @@
 \alias{Bond}
 \alias{plot.Bond}
 \alias{print.Bond}
+\alias{print.FixedRateBond}
 \alias{summary.Bond}
 \title{Base class for Bond price evalution}
 \description{
@@ -10,6 +11,7 @@
   derived. }
 \usage{
 \method{print}{Bond}(x, digits=5, ...)
+\method{print}{FixedRateBond}(x, digits=5, ...)
 \method{plot}{Bond}(x, ...)
 \method{summary}{Bond}(object, digits=5, ...)
 }
@@ -75,15 +77,26 @@ ZeroCouponBond(bondparams, discountCurve, dateparams)
 
 # price a fixed rate coupon bond
 
-bondparams <- list(faceAmount=100, issueDate=as.Date("2004-11-30"),
-             maturityDate=as.Date("2008-11-30"), redemption=100, 
-             effectiveDate=as.Date("2004-11-30"))
-dateparams <- list(settlementDays=1, calendar="UnitedStates/GovernmentBond",
-                   dayCounter = 1, period=3, businessDayConvention = 4,
-                   terminationDateConvention=4, dateGeneration=1, endOfMonth=1)
-
+bond <- list(settlementDays=1, issueDate=as.Date("2004-11-30"),
+             faceAmount=100, accrualDayCounter='Thirty360',
+             paymentConvention='Unadjusted')
+schedule <- list(effectiveDate=as.Date("2004-11-30"),
+                 maturityDate=as.Date("2008-11-30"),
+                 period='Semiannual',
+                 calendar='UnitedStates/GovernmentBond',
+                 businessDayConvention='Unadjusted',
+                 terminationDateConvention='Unadjusted',
+                 dateGeneration='Forward',
+                 endOfMonth=1)
+calc=list(dayCounter='Actual360', compounding='Compounded',
+          freq='Annual', durationType='Modified')
 rates <- c(0.02875)
-FixedRateBond(bondparams, rates, discountCurve, dateparams)
+FixedRateBond(bond, rates, schedule, calc, discountCurve=discountCurve)
+
+# price a fixed rate coupon bond from yield
+
+yield <- 0.050517
+FixedRateBond(bond, rates, schedule, calc, yield=yield)
 
 # price a floating rate bond
 bondparams <- list(faceAmount=100, issueDate=as.Date("2004-11-30"),

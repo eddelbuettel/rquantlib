@@ -1,29 +1,14 @@
 Package: RQuantLib
-Title: R interface to the QuantLib library
-Version: 0.3.12.4
-Date: 2014-05-28
+Title: R Interface to the QuantLib Library
+Version: 0.3.12.5
+Date: 2014-10-14
 Maintainer: Dirk Eddelbuettel <edd@debian.org>
 Author: Dirk Eddelbuettel <edd@debian.org> and Khanh Nguyen <knguyen@cs.umb.edu>
-Description: The RQuantLib package makes parts of QuantLib visible to the R
- user. Currently a number option pricing functions are included, both vanilla
- and exotic, as well as a broad range of fixed-income functions. Also included
- are general calendaring and holiday utilities. Further software contributions 
- are welcome.
- .
+Description: The RQuantLib package makes parts of QuantLib accessible from R
  The QuantLib project aims to provide a comprehensive software framework for
  quantitative finance. The goal is to provide a standard open source library
  for quantitative analysis, modeling, trading, and risk management of
  financial assets.
- .
- The Windows binary version is self-contained and does not require a QuantLib
- (or Boost) installation.
- .
- RQuantLib uses the Rcpp R/C++ interface class library. See the Rcpp package
- on CRAN (or R-Forge) for more information on Rcpp.
- .
- Note that while RQuantLib's code is licensed under the GPL (v2 or later),
- QuantLib itself is released under a somewhat less restrictive Open Source
- license (see QuantLib-License.txt).
 Depends: R (>= 2.10.0)
 Suggests: rgl, zoo, RUnit
 Imports: methods, Rcpp (>= 0.11.0)

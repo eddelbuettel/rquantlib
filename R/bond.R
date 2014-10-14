@@ -28,7 +28,7 @@ ZeroCouponBond.default <- function(bond,
                                    discountCurve,
                                    dateparams=list(refDate=bond$issueDate,
                                    settlementDays=1,
-                                   calendar='us',
+                                   calendar='UnitedStates/GovernmentBond',
                                    businessDayConvention='Following')) {
     val <- 0
 
@@ -36,7 +36,7 @@ ZeroCouponBond.default <- function(bond,
     if (is.null(bond$redemption)) bond$redemption <- 100
 
     if (is.null(dateparams$settlementDays)) dateparams$settlementDays <- 1
-    if (is.null(dateparams$calendar)) dateparams$calendar <- 'us'
+    if (is.null(dateparams$calendar)) dateparams$calendar <- 'UnitedStates/GovernmentBond'
     if (is.null(dateparams$businessDayConvention)) dateparams$businessDayConvention <- 'Following'
     if (is.null(dateparams$refDate)) dateparams$refDate <- bond$issueDate
     dateparams <- matchParams(dateparams)
@@ -96,7 +96,7 @@ FixedRateBond.default <- function(bond,
                                   discountCurve,
                                   dateparams=list(
                                     settlementDays=1,
-                                    calendar='us',
+                                    calendar='UnitedStates/GovernmentBond',
                                     businessDayConvention='Following',
                                     terminationDateConvention='Following',
                                     dayCounter='Thirty360',
@@ -112,7 +112,7 @@ FixedRateBond.default <- function(bond,
     if (is.null(bond$effectiveDate)) bond$effectiveDate <- bond$issueDate
 
     if (is.null(dateparams$settlementDays)) dateparams$settlementDays <- 1
-    if (is.null(dateparams$calendar)) dateparams$calendar <- 'us'
+    if (is.null(dateparams$calendar)) dateparams$calendar <- 'UnitedStates/GovernmentBond'
     if (is.null(dateparams$businessDayConvention))
         dateparams$businessDayConvention <- 'Following'
 
@@ -143,7 +143,7 @@ FixedRateBondYield <- function(settlementDays, price, faceAmount,
 }
 FixedRateBondYield.default <- function(settlementDays = 1, price, faceAmount=100,
                                        effectiveDate, maturityDate,
-                                       period, calendar = "us", rates,
+                                       period, calendar = "UnitedStates/GovernmentBond", rates,
                                        dayCounter=2, businessDayConvention=0,
                                        compound = 0, redemption = 100, issueDate) {
 
@@ -168,7 +168,7 @@ FixedRateBondPriceByYield <- function(settlementDays, yield, faceAmount,
 
 FixedRateBondPriceByYield.default <- function(settlementDays = 1, yield, faceAmount=100,
                                               effectiveDate=issueDate, maturityDate,
-                                              period, calendar = "us", rates,
+                                              period, calendar = "UnitedStates/GovernmentBond", rates,
                                               dayCounter=2, businessDayConvention=0,
                                               compound = 0, redemption = 100, issueDate) {
     val <- fixedRateBondPriceByYieldEngine(settlementDays, yield, calendar, faceAmount,
@@ -195,7 +195,7 @@ FloatingRateBond.default <- function(bond,
                                      curve,
                                      dateparams=list(refDate=bond$issueDate-2,
                                                      settlementDays=1,
-                                                     calendar='us',
+                                                     calendar='UnitedStates/GovernmentBond',
                                                      businessDayConvention='Following',
                                                      terminationDateConvention='Following',
                                                      dayCounter='Thirty360',
@@ -212,7 +212,7 @@ FloatingRateBond.default <- function(bond,
 
 
     if (is.null(dateparams$settlementDays)) dateparams$settlementDays <- 1
-    if (is.null(dateparams$calendar)) dateparams$calendar <- 'us'
+    if (is.null(dateparams$calendar)) dateparams$calendar <- 'UnitedStates/GovernmentBond'
     if (is.null(dateparams$businessDayConvention)) dateparams$businessDayConvention <- 'Following'
     if (is.null(dateparams$terminationDateConvention)) dateparams$terminationDateConvention <- 'Following'
     if (is.null(dateparams$dayCounter)) dateparams$dayCounter <- 'Thirty360'
@@ -244,7 +244,7 @@ ConvertibleZeroCouponBond.default <- function(bondparams,
                                               process,
                                               dateparams=list(
                                               settlementDays=1,
-                                              calendar='us',
+                                              calendar='UnitedStates/GovernmentBond',
                                               dayCounter='Thirty360',
                                                 period='Semiannual',
                                                 businessDayConvention='Following'
@@ -266,7 +266,7 @@ ConvertibleZeroCouponBond.default <- function(bondparams,
 
 
     if (is.null(dateparams$settlementDays)) dateparams$settlementDays <- 1
-    if (is.null(dateparams$calendar)) dateparams$calendar <- 'us'
+    if (is.null(dateparams$calendar)) dateparams$calendar <- 'UnitedStates/GovernmentBond'
     if (is.null(dateparams$businessDayConvention)) dateparams$businessDayConvention <- 'Following'
     if (is.null(dateparams$dayCounter)) dateparams$dayCounter <- 'Thirty360'
     if (is.null(dateparams$period)) dateparams$period <- 'Semiannual'
@@ -296,7 +296,7 @@ ConvertibleFixedCouponBond.default <- function(bondparams,
                                                process,
                                                dateparams=list(
                                                  settlementDays=1,
-                                                 calendar='us',
+                                                 calendar='UnitedStates/GovernmentBond',
                                                  dayCounter='Thirty360',
                                                  period='Semiannual',
                                                  businessDayConvention='Following'
@@ -318,7 +318,7 @@ ConvertibleFixedCouponBond.default <- function(bondparams,
     }
 
     if (is.null(dateparams$settlementDays)) dateparams$settlementDays <- 1
-    if (is.null(dateparams$calendar)) dateparams$calendar <- 'us'
+    if (is.null(dateparams$calendar)) dateparams$calendar <- 'UnitedStates/GovernmentBond'
     if (is.null(dateparams$businessDayConvention)) dateparams$businessDayConvention <- 'Following'
     if (is.null(dateparams$dayCounter)) dateparams$dayCounter <- 'Thirty360'
     if (is.null(dateparams$period)) dateparams$period <- 'Semiannual'
@@ -348,7 +348,7 @@ ConvertibleFloatingCouponBond.default <- function(bondparams,
                                                   process,
                                                   dateparams=list(
                                                     settlementDays=1,
-                                                    calendar='us',
+                                                    calendar='UnitedStates/GovernmentBond',
                                                     dayCounter='Thirty360',
                                                     period='Semiannual',
                                                     businessDayConvention='Following'
@@ -369,7 +369,7 @@ ConvertibleFloatingCouponBond.default <- function(bondparams,
 
 
     if (is.null(dateparams$settlementDays)) dateparams$settlementDays <- 1
-    if (is.null(dateparams$calendar)) dateparams$calendar <- 'us'
+    if (is.null(dateparams$calendar)) dateparams$calendar <- 'UnitedStates/GovernmentBond'
     if (is.null(dateparams$businessDayConvention)) dateparams$businessDayConvention <- 'Following'
     if (is.null(dateparams$dayCounter)) dateparams$dayCounter <- 'Thirty360'
     if (is.null(dateparams$period)) dateparams$period <- 'Semiannual'
@@ -407,7 +407,7 @@ CallableBond.default <- function(bondparams, hullWhite,
                                  coupon,
                                  dateparams=list(
                                    settlementDays=1,
-                                   calendar='us',
+                                   calendar='UnitedStates/GovernmentBond',
                                    dayCounter='Thirty360',
                                    period='Semiannual',
                                    businessDayConvention='Following',
@@ -423,7 +423,7 @@ CallableBond.default <- function(bondparams, hullWhite,
     }
 
     if (is.null(dateparams$settlementDays)) dateparams$settlementDays <- 1
-    if (is.null(dateparams$calendar)) dateparams$calendar <- 'us'
+    if (is.null(dateparams$calendar)) dateparams$calendar <- 'UnitedStates/GovernmentBond'
     if (is.null(dateparams$businessDayConvention)) dateparams$businessDayConvention <- 'Following'
     if (is.null(dateparams$terminationDateConvention)) dateparams$terminationDateConvention <- 'Following'
     if (is.null(dateparams$dayCounter)) dateparams$dayCounter <- 'Thirty360'
@@ -484,8 +484,10 @@ FittedBondCurve.default <- function(curveparams,
 # matching functions
 
 matchDayCounter <- function(daycounter = c("Actual360", "ActualFixed", "ActualActual",
-                 "Business252", "OneDayCounter", "SimpleDayCounter", "Thirty360"))
+                 "Business252", "OneDayCounter", "SimpleDayCounter", "Thirty360", "Actual365NoLeap",
+                 "ActualActual.ISMA", "ActualActual.Bond", "ActualActual.ISDA", "ActualActual.Historical", "ActualActual.AFB", "ActualActual.Euro"))
 {
+  
      if (!is.numeric(daycounter)) {
          daycounter <- match.arg(daycounter)
          daycounter <- switch(daycounter,
@@ -495,7 +497,14 @@ matchDayCounter <- function(daycounter = c("Actual360", "ActualFixed", "ActualAc
                               Business252 = 3,
                               OneDayCounter = 4,
                               SimpleDayCounter = 5,
-                              Thirty360 = 6)
+                              Thirty360 = 6,
+                              Actual365NoLeap = 7,
+                              ActualActual.ISMA = 8,
+                              ActualActual.Bond = 9,
+                              ActualActual.ISDA = 10,
+                              ActualActual.Historical = 11,
+                              ActualActual.AFB = 12,
+                              ActualActual.Euro = 13)
      }
      daycounter
 }

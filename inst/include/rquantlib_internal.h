@@ -173,6 +173,7 @@ boost::shared_ptr<QuantLib::IborIndex>
     buildIborIndex(std::string type,
                    const QuantLib::Handle<QuantLib::YieldTermStructure>& iborStrc);
 //QuantLib::Calendar* getCalendar(SEXP calParameters);
+boost::shared_ptr<QuantLib::Calendar> getCalendar(const std::string &calstr);
 QuantLib::Period periodByTimeUnit(int length, std::string unit);
 
 // simple option type creator based on string

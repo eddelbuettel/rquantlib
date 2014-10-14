@@ -175,11 +175,10 @@ QuantLib::Schedule getSchedule(Rcpp::List rparam) {
     std::string cal = Rcpp::as<std::string>(rparam["calendar"]);
     double businessDayConvention = Rcpp::as<double>(rparam["businessDayConvention"]);
     double terminationDateConvention = Rcpp::as<double>(rparam["terminationDateConvention"]);
-    QuantLib::Calendar calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-    if (cal == "us"){
-        calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-    } else if (cal == "uk"){
-        calendar = QuantLib::UnitedKingdom(QuantLib::UnitedKingdom::Exchange);
+    QuantLib::Calendar calendar;
+    if(!cal.empty()) {
+        boost::shared_ptr<QuantLib::Calendar> p = getCalendar(cal);
+        calendar = *p;
     }
     QuantLib::BusinessDayConvention bdc = getBusinessDayConvention(businessDayConvention);   
     QuantLib::BusinessDayConvention t_bdc = getBusinessDayConvention(terminationDateConvention);
@@ -290,20 +289,34 @@ makeProcess(const boost::shared_ptr<QuantLib::Quote>& u,
 // }
 
 QuantLib::DayCounter getDayCounter(const double n){
-    if (n==0) 
+    if (n==0)
         return QuantLib::Actual360();
-    else if (n==1) 
+    else if (n==1)
         return QuantLib::Actual365Fixed();
-    else if (n==2) 
+    else if (n==2)
         return QuantLib::ActualActual();
-    else if (n==3) 
+    else if (n==3)
         return QuantLib::Business252();
-    else if (n==4) 
+    else if (n==4)
         return QuantLib::OneDayCounter();
-    else if (n==5) 
+    else if (n==5)
         return QuantLib::SimpleDayCounter();
-    else  
+    else if (n==6)
         return QuantLib::Thirty360();
+    else if (n==7)
+        return QuantLib::Actual365NoLeap();
+    else if (n==8)
+        return QuantLib::ActualActual(QuantLib::ActualActual::ISMA);
+    else if (n==9)
+        return QuantLib::ActualActual(QuantLib::ActualActual::Bond);
+    else if (n==10)
+        return QuantLib::ActualActual(QuantLib::ActualActual::ISDA);
+    else if (n==11)
+        return QuantLib::ActualActual(QuantLib::ActualActual::Historical);
+    else if (n==12)
+        return QuantLib::ActualActual(QuantLib::ActualActual::AFB);
+    else // if (n==13)
+        return QuantLib::ActualActual(QuantLib::ActualActual::Euro);
 }
 
 QuantLib::BusinessDayConvention getBusinessDayConvention(const double n){

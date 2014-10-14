@@ -91,7 +91,7 @@ ZeroYield.default <- function(price, faceAmount=100,
 FixedRateBond <- function(bond, rates, schedule, calc, discountCurve, yield){
     UseMethod("FixedRateBond")
 }
-FixedRateBond.default <- function(bond,
+FixedRateBond.default <- function(bond = list(),
                                   rates,
                                   schedule,
                                   calc=list(

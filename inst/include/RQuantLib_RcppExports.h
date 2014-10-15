@@ -195,17 +195,36 @@ namespace RQuantLib {
         return Rcpp::as<Rcpp::List >(__result);
     }
 
-    inline Rcpp::List FixedRateWithRebuiltCurve(Rcpp::List bondparam, std::vector<double> ratesVec, SEXP dateSexp, SEXP zeroSexp, Rcpp::List dateparams) {
-        typedef SEXP(*Ptr_FixedRateWithRebuiltCurve)(SEXP,SEXP,SEXP,SEXP,SEXP);
+    inline Rcpp::List FixedRateWithYield(Rcpp::List bondparam, std::vector<double> ratesVec, Rcpp::List scheduleparam, Rcpp::List calcparam, double yield) {
+        typedef SEXP(*Ptr_FixedRateWithYield)(SEXP,SEXP,SEXP,SEXP,SEXP);
+        static Ptr_FixedRateWithYield p_FixedRateWithYield = NULL;
+        if (p_FixedRateWithYield == NULL) {
+            validateSignature("Rcpp::List(*FixedRateWithYield)(Rcpp::List,std::vector<double>,Rcpp::List,Rcpp::List,double)");
+            p_FixedRateWithYield = (Ptr_FixedRateWithYield)R_GetCCallable("RQuantLib", "RQuantLib_FixedRateWithYield");
+        }
+        RObject __result;
+        {
+            RNGScope __rngScope;
+            __result = p_FixedRateWithYield(Rcpp::wrap(bondparam), Rcpp::wrap(ratesVec), Rcpp::wrap(scheduleparam), Rcpp::wrap(calcparam), Rcpp::wrap(yield));
+        }
+        if (__result.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (__result.inherits("try-error"))
+            throw Rcpp::exception(as<std::string>(__result).c_str());
+        return Rcpp::as<Rcpp::List >(__result);
+    }
+
+    inline Rcpp::List FixedRateWithRebuiltCurve(Rcpp::List bondparam, std::vector<double> ratesVec, Rcpp::List scheduleparam, Rcpp::List calcparam, SEXP dateSexp, SEXP zeroSexp) {
+        typedef SEXP(*Ptr_FixedRateWithRebuiltCurve)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_FixedRateWithRebuiltCurve p_FixedRateWithRebuiltCurve = NULL;
         if (p_FixedRateWithRebuiltCurve == NULL) {
-            validateSignature("Rcpp::List(*FixedRateWithRebuiltCurve)(Rcpp::List,std::vector<double>,SEXP,SEXP,Rcpp::List)");
+            validateSignature("Rcpp::List(*FixedRateWithRebuiltCurve)(Rcpp::List,std::vector<double>,Rcpp::List,Rcpp::List,SEXP,SEXP)");
             p_FixedRateWithRebuiltCurve = (Ptr_FixedRateWithRebuiltCurve)R_GetCCallable("RQuantLib", "RQuantLib_FixedRateWithRebuiltCurve");
         }
         RObject __result;
         {
             RNGScope __rngScope;
-            __result = p_FixedRateWithRebuiltCurve(Rcpp::wrap(bondparam), Rcpp::wrap(ratesVec), Rcpp::wrap(dateSexp), Rcpp::wrap(zeroSexp), Rcpp::wrap(dateparams));
+            __result = p_FixedRateWithRebuiltCurve(Rcpp::wrap(bondparam), Rcpp::wrap(ratesVec), Rcpp::wrap(scheduleparam), Rcpp::wrap(calcparam), Rcpp::wrap(dateSexp), Rcpp::wrap(zeroSexp));
         }
         if (__result.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();

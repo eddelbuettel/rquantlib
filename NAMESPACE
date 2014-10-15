@@ -69,3 +69,5 @@ S3method("summary", "Option")
 S3method("plot", "Bond")
 S3method("print", "Bond")
 S3method("summary", "Bond")
+
+S3method("print", "FixedRateBond")

@@ -168,25 +168,101 @@ boost::shared_ptr<QuantLib::YieldTermStructure> buildTermStructure(Rcpp::List rp
 }
 
 QuantLib::Schedule getSchedule(Rcpp::List rparam) {
-   
+    
     QuantLib::Date effectiveDate(Rcpp::as<QuantLib::Date>(rparam["effectiveDate"]));
     QuantLib::Date maturityDate(Rcpp::as<QuantLib::Date>(rparam["maturityDate"]));      
-    double frequency = Rcpp::as<double>(rparam["period"]);
+    QuantLib::Period period = QuantLib::Period(getFrequency(Rcpp::as<double>(rparam["period"])));
     std::string cal = Rcpp::as<std::string>(rparam["calendar"]);
-    double businessDayConvention = Rcpp::as<double>(rparam["businessDayConvention"]);
-    double terminationDateConvention = Rcpp::as<double>(rparam["terminationDateConvention"]);
     QuantLib::Calendar calendar;
     if(!cal.empty()) {
         boost::shared_ptr<QuantLib::Calendar> p = getCalendar(cal);
         calendar = *p;
     }
-    QuantLib::BusinessDayConvention bdc = getBusinessDayConvention(businessDayConvention);   
-    QuantLib::BusinessDayConvention t_bdc = getBusinessDayConvention(terminationDateConvention);
-    QuantLib::Schedule schedule(effectiveDate, maturityDate,
-                                QuantLib::Period(getFrequency(frequency)),
-                                calendar, bdc, t_bdc, 
-                                QuantLib::DateGeneration::Backward, false);
+    QuantLib::BusinessDayConvention businessDayConvention =
+        getBusinessDayConvention(Rcpp::as<double>(rparam["businessDayConvention"]));
+    QuantLib::BusinessDayConvention terminationDateConvention =
+        getBusinessDayConvention(Rcpp::as<double>(rparam["terminationDateConvention"]));
+    // keep these default values for the last two parameters for backward compatibility
+    // (although in QuantLib::schedule they have no default values)
+    QuantLib::DateGeneration::Rule dateGeneration = QuantLib::DateGeneration::Backward;
+    if(rparam.containsElementNamed("dateGeneration") ) {
+        dateGeneration = getDateGenerationRule(Rcpp::as<double>(rparam["dateGeneration"]));
+    }
+    bool endOfMonth = false;
+    if(rparam.containsElementNamed("endOfMonth") ) {
+        endOfMonth = (Rcpp::as<double>(rparam["endOfMonth"]) == 1) ? true : false;
+    }
+    
+    QuantLib::Schedule schedule(effectiveDate,
+                                maturityDate,
+                                period,
+                                calendar,
+                                businessDayConvention,
+                                terminationDateConvention,
+                                dateGeneration,
+                                endOfMonth);
     return schedule;
+}
+
+boost::shared_ptr<QuantLib::FixedRateBond> getFixedRateBond(
+    Rcpp::List bondparam, std::vector<double> ratesVec, Rcpp::List scheduleparam) {
+    
+    // get bond parameters
+    double settlementDays = Rcpp::as<double>(bondparam["settlementDays"]);
+    double faceAmount = Rcpp::as<double>(bondparam["faceAmount"]);
+    QuantLib::DayCounter accrualDayCounter =
+        getDayCounter(Rcpp::as<double>(bondparam["dayCounter"]));
+    QuantLib::BusinessDayConvention paymentConvention = QuantLib::Following;
+    if(bondparam.containsElementNamed("paymentConvention") ) {
+        paymentConvention = getBusinessDayConvention(Rcpp::as<double>(bondparam["paymentConvention"]));
+    }
+    double redemption = 100.0;
+    if(bondparam.containsElementNamed("redemption") ) {
+        redemption = Rcpp::as<double>(bondparam["redemption"]);
+    }
+    QuantLib::Date issueDate;
+    if(bondparam.containsElementNamed("issueDate") ) {
+        issueDate = Rcpp::as<QuantLib::Date>(bondparam["issueDate"]);
+    }
+    QuantLib::Calendar paymentCalendar;
+    if(bondparam.containsElementNamed("paymentCalendar") ) {
+        boost::shared_ptr<QuantLib::Calendar> p = getCalendar(Rcpp::as<std::string>(bondparam["paymentCalendar"]));
+        paymentCalendar = *p;
+    }
+    QuantLib::Period exCouponPeriod;
+    if(bondparam.containsElementNamed("exCouponPeriod") ) {
+        exCouponPeriod = QuantLib::Period(Rcpp::as<double>(bondparam["exCouponPeriod"]), QuantLib::Days);
+    }
+    QuantLib::Calendar exCouponCalendar;
+    if(bondparam.containsElementNamed("exCouponCalendar") ) {
+        boost::shared_ptr<QuantLib::Calendar> p = getCalendar(Rcpp::as<std::string>(bondparam["exCouponCalendar"]));
+        exCouponCalendar = *p;
+    }
+    QuantLib::BusinessDayConvention exCouponConvention = QuantLib::Unadjusted;
+    if(bondparam.containsElementNamed("exCouponConvention") ) {
+        exCouponConvention = getBusinessDayConvention(Rcpp::as<double>(bondparam["exCouponConvention"]));
+    }
+    bool exCouponEndOfMonth = false;
+    if(bondparam.containsElementNamed("exCouponEndOfMonth") ) {
+        exCouponEndOfMonth = (Rcpp::as<double>(bondparam["exCouponEndOfMonth"]) == 1) ? true : false;
+    }
+    
+    QuantLib::Schedule schedule = getSchedule(scheduleparam);
+    boost::shared_ptr<QuantLib::FixedRateBond> result(
+        new QuantLib::FixedRateBond(settlementDays,
+                                    faceAmount,
+                                    schedule,
+                                    ratesVec,
+                                    accrualDayCounter,
+                                    paymentConvention,
+                                    redemption,
+                                    issueDate,
+                                    paymentCalendar,
+                                    exCouponPeriod,
+                                    exCouponCalendar,
+                                    exCouponConvention,
+                                    exCouponEndOfMonth));
+    return result;
 }
 
 boost::shared_ptr<QuantLib::YieldTermStructure> rebuildCurveFromZeroRates(SEXP dateSexp, SEXP zeroSexp) {
@@ -520,4 +596,16 @@ QuantLib::CallabilitySchedule getCallabilitySchedule(Rcpp::DataFrame callScheDF)
         forward_exception_to_r(ex); 
     }
     return callabilitySchedule;
+}
+
+QuantLib::Duration::Type getDurationType(const double n) {
+    if (n==0) 
+        return QuantLib::Duration::Simple;
+    else if (n==1) 
+        return QuantLib::Duration::Macaulay;
+    else if (n==2) 
+        return QuantLib::Duration::Modified;
+    else {
+        throw std::range_error("Invalid duration type " + boost::lexical_cast<std::string>(n));
+    }
 }

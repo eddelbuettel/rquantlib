@@ -74,6 +74,14 @@ Reference for parameters when constructing a bond
      }
 }
 
+\item{durationType}{an int value to specify duration type
+     \tabular{ll}{
+        \code{0} \tab Simple \cr
+        \code{1} \tab Macaulay \cr
+        \code{2} \tab Modified
+     }
+}
+
 }
 \value{
 None

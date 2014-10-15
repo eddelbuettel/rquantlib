@@ -8,9 +8,10 @@
 \alias{FixedRateBondYield.default}
 \title{Fixed-Rate bond pricing}
 \description{
-  The \code{FixedRateBond} function evaluates a fixed rate bond using discount curve. 
-  More specificly, the calculation is done by DiscountingBondEngine from QuantLib.
-  The NPV, clean price, dirty price, accrued interest, yield and cash flows of the bond is returned. 
+  The \code{FixedRateBond} function evaluates a fixed rate bond using discount curve or yield. 
+  More specificly, when a discount curve is provided the calculation is done by DiscountingBondEngine from QuantLib.
+  The NPV, clean price, dirty price, accrued interest, yield, duration, actual settlement date and cash flows of the bond is returned.
+  When a yield is provided instead, no engine is provided to the bond class and prices are computed from yield. In the latter case, NPV is set to NA.
   For more detail, see the source codes in QuantLib's file \code{test-suite/bond.cpp}.
 
   The \code{FixedRateBondPriceByYield} function calculates the theoretical price of a fixed rate bond from its yield.
@@ -18,7 +19,13 @@
   The \code{FixedRateBondYield} function calculates the theoretical yield of a fixed rate bond from its price.
 }
 \usage{
-\method{FixedRateBond}{default}(bond, rates, discountCurve, dateparams )
+
+\method{FixedRateBond}{default}(bond, rates, schedule,
+                                calc=list(dayCounter='ActualActual.ISMA',
+                                          compounding='Compounded',
+                                          freq='Annual',
+                                          durationType='Modified'),
+                                discountCurve = NULL, yield = NA)
 
 \method{FixedRateBondPriceByYield}{default}( settlementDays=1, yield, faceAmount=100, 
                                  effectiveDate, maturityDate,
@@ -36,20 +43,81 @@
                                  issueDate)
 }
 \arguments{
-\item{bond}{bond parameters, a named list whose elements are: 
+\item{bond}{(Optional) bond parameters, a named list whose elements are: 
   \tabular{ll}{
-    \code{issueDate}     \tab a Date, the bond's issue date\cr
-    \code{maturityDate}  \tab a Date, the bond's maturity date\cr
-    \code{faceAmount}    \tab (Optional) a double, face amount of the bond.\cr
-    \code{}        \tab  Default value is 100. \cr
-    \code{redemption}    \tab (Optional) a double, percentage of the initial \cr
-    \code{}        \tab 	face amount that will be returned at maturity \cr
-    \code{}        \tab    date. Default value is 100.\cr
-    \code{effectiveDate}  \tab (Optinal) a Date, the bond's effective date. Default value is issueDate\cr
+    \code{settlementDays}      \tab (Optional) a double, settlement days. \cr 
+    \code{}                    \tab Default value is 1.\cr
+    \code{faceAmount}          \tab (Optional) a double, face amount of the bond.\cr
+    \code{}                    \tab  Default value is 100. \cr
+    \code{dayCounter}          \tab (Optional) a number or string, \cr 
+    \code{}                    \tab day counter convention. Defaults to 'Thirty360' \cr
+    \code{issueDate}           \tab (Optional) a Date, the bond's issue date\cr
+    \code{}                    \tab Defaults to QuantLib default. \cr
+    \code{paymentConvention}   \tab (Optional) a number or string, the bond \cr
+    \code{}                    \tab payment convention. \cr
+    \code{}                    \tab Defaults to QuantLib default. \cr
+    \code{redemption}          \tab (Optional) a double, the redemption amount. \cr
+    \code{}                    \tab Defaults to QuantLib default (100). \cr
+    \code{paymentCalendar}     \tab (Optional) a string, the name of the calendar. \cr
+    \code{}                    \tab Defaults to QuantLib default. \cr
+    \code{exCouponPeriod}      \tab (Optional) a number, the number of days when \cr
+    \code{}                    \tab the coupon goes ex relative to the coupon date. \cr
+    \code{}                    \tab Defaults to QuantLib default. \cr
+    \code{exCouponCalendar}    \tab (Optional) a string, the name of the \cr
+    \code{}                    \tab ex-coupon calendar. \cr
+    \code{}                    \tab Defaults to QuantLib default. \cr
+    \code{exCouponConvention}  \tab (Optional) a number or string, the coupon \cr
+    \code{}                    \tab payment convention. \cr
+    \code{}                    \tab Defaults to QuantLib default. \cr
+    \code{exCouponEndOfMonth}  \tab (Optional) 1 or 0, use End of Month rule for \cr
+    \code{}                    \tab ex-coupon dates. Defaults to 0 (false).
   }
 }
 
 \item{rates}{a numeric vector, bond's coupon rates}
+
+\item{schedule}{(Optional) a named list, QuantLib's parameters of the bond's schedule. 
+  \tabular{ll}{
+    \code{effectiveDate}       \tab a Date, when the schedule becomes effective. \cr 
+    \code{maturityDate}        \tab a Date, when the schedule matures. \cr 
+    \code{period}              \tab (Optional) a number or string, the frequency of \cr
+    \code{}                    \tab the schedule. Default value is 'Semiannual'. \cr
+    \code{calendar}            \tab (Optional) a string, the calendar name. \cr 
+    \code{}                    \tab Defaults to 'TARGET' \cr
+    \code{businessDayConvention} \tab (Optional) a number or string, the \cr 
+    \code{}                    \tab day convention to use. \cr
+    \code{}                    \tab Defaults to 'Following'. \cr
+    \code{terminationDateConvention} \tab (Optional) a number or string, the \cr 
+    \code{}                    \tab day convention to use for the terminal date. \cr
+    \code{}                    \tab Defaults to 'Following'. \cr
+    \code{dateGeneration}      \tab (Optional) a number or string, the \cr 
+    \code{}                    \tab date generation rule. \cr
+    \code{}                    \tab Defaults to 'Backward'. \cr
+    \code{endOfMonth}          \tab (Optional) 1 or 0, use End of Month rule for \cr
+    \code{}                    \tab schedule dates. Defaults to 0 (false).
+  }
+  See example below.
+}
+
+\item{calc}{(Optional) a named list, QuantLib's parameters for calculations. 
+  \tabular{ll}{
+    if (is.null(calc$durationType)) calc$durationType <- 'Simple'
+    if (is.null(calc$accuracy)) calc$accuracy <- 1.0e-8
+    if (is.null(calc$maxEvaluations)) calc$maxEvaluations <- 100
+    \code{dayCounter}          \tab (Optional) a number or string, day counter \cr 
+    \code{}                    \tab convention. Defaults to 'ActualActual.ISMA' \cr
+    \code{compounding}         \tab a string, what kind of compounding to use. \cr 
+    \code{}                    \tab Defaults to 'Compounded' \cr
+    \code{freq}                \tab (Optional) a number or string, the frequency \cr
+    \code{}                    \tab to use. Default value is 'Annual'. \cr
+    \code{durationType}        \tab (Optional) a number or string, the type of \cr 
+    \code{}                    \tab duration to calculate. Defaults to 'Simple' \cr
+    \code{accuracy}            \tab (Optional) a number, the accuracy required. \cr 
+    \code{}                    \tab Defaults to 1.0e-8. \cr
+    \code{maxEvaluations}      \tab (Optional) a number, max number of iterations. \cr 
+    \code{}                    \tab Defaults to 100.
+  }
+}
 
 \item{discountCurve}{Can be one of the following:
   \tabular{ll}{
@@ -62,40 +130,12 @@
     \code{}                \tab DiscountCurve object, "params" , \cr 
     \code{} \tab "tsQuotes", "times". \cr
     \code{}                \tab For more detail, see example or \cr 
-    \code{}                \tab the discountCurve function \cr
+    \code{}                \tab the discountCurve function
   }
 }
 
-\item{dateparams}{(Optional) a named list, QuantLib's date parameters of the bond. 
-  \tabular{ll}{
-    \code{settlementDays} \tab (Optional) a double, settlement days. \cr 
-    \code{}        \tab Default value is 1.\cr
-    \code{calendar} \tab (Optional) a string, either 'us' or 'uk' \cr 
-    \code{}        \tab corresponding to US Goverment Bond \cr
-    \code{}		   \tab calendar and UK Exchange calendar.\cr
-    \code{}        \tab  Default value is 'us'.\cr
-    \code{dayCounter} \tab (Optional) a number or string, \cr 
-    \code{}        \tab day counter convention.\cr
-    \code{}        \tab  See \link{Enum}. Default value is 'Thirty360' \cr 
-    \code{period}  \tab (Optional) a number or string, \cr
-    \code{}       \tab  interest compounding interval. See \link{Enum}. \cr
-    \code{}       \tab Default value is 'Semiannual'.\cr
-    \code{businessDayConvention} \tab (Optional) a number or string, \cr 
-    \code{}                 \tab business day convention. \cr 
-    \tab See \link{Enum}. Default value is 'Following'. \cr
-    \code{terminationDateConvention} \tab (Optional) a number or string, \cr 
-    \code{}                 \tab termination day convention. \cr 
-    \tab See \link{Enum}. Default value is 'Following'. \cr
-    \code{endOfMonth} \tab (Optional) a numeric with value 1 or 0. \cr 
-    \code{}           \tab End of Month rule. Default value is 0.\cr
-    \code{dateGeneration} \tab (Optional) a numeric, date generation method. \cr 
-    \code{} \tab See \link{Enum}. Default value is 'Backward' \cr
-  }
-  See example below.
-}
-
-\item{settlementDays}{an integer, 1 for T+1, 2 for T+2, etc...}
 \item{yield}{yield of the bond}
+\item{settlementDays}{an integer, 1 for T+1, 2 for T+2, etc...}
 \item{price}{price of the bond}
 \item{effectiveDate}{bond's effective date}
 \item{maturityDate}{bond's maturity date}
@@ -119,6 +159,8 @@
   \item{dirtyPrice}{dirty price of the bond}
   \item{accruedAmount}{accrued amount of the bond}
   \item{yield}{yield of the bond}
+  \item{duration}{the duration of the bond}
+  \item{settlementDate}{the actual settlement date used for the bond}
   \item{cashFlows}{cash flows of the bond}
 
   The \code{FixedRateBondPriceByYield} function returns an object of class
@@ -150,15 +192,23 @@
 
 \examples{
 #Simple call with a flat curve
-bond <- list(faceAmount=100,
+bond <- list(settlementDays=1,
              issueDate=as.Date("2004-11-30"),
-             maturityDate=as.Date("2008-11-30"),
-             redemption=100, 
-             effectiveDate=as.Date("2004-11-30"))
-dateparams <- list(settlementDays=1,
-                   calendar="UnitedStates/GovernmentBond", dayCounter = 'Thirty360', period=2, 
-                   businessDayConvention = 4, terminationDateConvention=4,
-                   dateGeneration=1, endOfMonth=1)
+             faceAmount=100,
+             accrualDayCounter='Thirty360',
+             paymentConvention='Unadjusted')
+schedule <- list(effectiveDate=as.Date("2004-11-30"),
+                 maturityDate=as.Date("2008-11-30"),
+                 period='Semiannual',
+                 calendar='UnitedStates/GovernmentBond',
+                 businessDayConvention='Unadjusted',
+                 terminationDateConvention='Unadjusted',
+                 dateGeneration='Forward',
+                 endOfMonth=1)
+calc=list(dayCounter='Actual360',
+          compounding='Compounded',
+          freq='Annual',
+          durationType='Modified')
 coupon.rate <- c(0.02875)
                        
 params <- list(tradeDate=as.Date('2002-2-15'),
@@ -169,7 +219,11 @@ params <- list(tradeDate=as.Date('2002-2-15'),
 setEvaluationDate(as.Date("2004-11-22"))
 
 discountCurve.flat <- DiscountCurve(params, list(flat=0.05))
-FixedRateBond(bond, coupon.rate, discountCurve.flat, dateparams)
+FixedRateBond(bond,
+              coupon.rate,
+              schedule,
+              calc,
+              discountCurve=discountCurve.flat)
 
 
 #Same bond with a discount curve constructed from market quotes
@@ -190,20 +244,32 @@ tsQuotes <- list(d1w  =0.0382,
 tsQuotes <- list("flat" = 0.02)		## While discount curve code is buggy
 
 discountCurve <- DiscountCurve(params, tsQuotes)
-FixedRateBond(bond, coupon.rate, discountCurve, dateparams)
+FixedRateBond(bond,
+              coupon.rate,
+              schedule,
+              calc,
+              discountCurve=discountCurve)
 
 
-#example with default dateparams
-FixedRateBond(bond, coupon.rate, discountCurve)
+#example with default calc parameter
+FixedRateBond(bond,
+              coupon.rate,
+              schedule,
+              discountCurve=discountCurve)
+              
+#example with default calc and schedule parameters
+schedule <- list(effectiveDate=as.Date("2004-11-30"),
+                 maturityDate=as.Date("2008-11-30"))
+FixedRateBond(bond,
+              coupon.rate,
+              schedule,
+              discountCurve=discountCurve)
 
-##exampe with defaul bond parameter and dateparams
-bond <- list(issueDate=as.Date("2004-11-30"),
-             maturityDate=as.Date("2008-11-30"))
-dateparams <- list(calendar="UnitedStates/GovernmentBond",
-                   dayCounter = "ActualActual", 
-                   period="Annual")
-FixedRateBond(bond, coupon.rate, discountCurve, dateparams)
-
+#example with default calc, schedule and bond parameters
+FixedRateBond(,
+              coupon.rate,
+              schedule,
+              discountCurve=discountCurve)
 
 FixedRateBondPriceByYield(,0.0307, 100000, as.Date("2004-11-30"),
                           as.Date("2008-11-30"), 3, , c(0.02875),

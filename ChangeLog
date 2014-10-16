@@ -1,3 +1,13 @@
+2014-10-15  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION: New minor version
+
+	* src/dates.cpp: New place for as<> and wrap() for Quantlib::Date
+	* inst/include/RQuantLib.h: No longer include rquantlib_wrappers.h
+
+	* src/Makevars.win: Add -fpermissive to cope with a 'long long'
+	conversion, also enable support for OpenMP on Windows
+
 2014-10-15  Michele Salvadore <michele.salvadore@gmail.com>
 
 	* src/bonds.cpp: Updated FixedRateBond() to better match the function

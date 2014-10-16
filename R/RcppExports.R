@@ -61,6 +61,10 @@ FixedRateWithYield <- function(bondparam, ratesVec, scheduleparam, calcparam, yi
     .Call('RQuantLib_FixedRateWithYield', PACKAGE = 'RQuantLib', bondparam, ratesVec, scheduleparam, calcparam, yield)
 }
 
+FixedRateWithPrice <- function(bondparam, ratesVec, scheduleparam, calcparam, price) {
+    .Call('RQuantLib_FixedRateWithPrice', PACKAGE = 'RQuantLib', bondparam, ratesVec, scheduleparam, calcparam, price)
+}
+
 FixedRateWithRebuiltCurve <- function(bondparam, ratesVec, scheduleparam, calcparam, dateSexp, zeroSexp) {
     .Call('RQuantLib_FixedRateWithRebuiltCurve', PACKAGE = 'RQuantLib', bondparam, ratesVec, scheduleparam, calcparam, dateSexp, zeroSexp)
 }

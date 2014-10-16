@@ -88,7 +88,7 @@ ZeroYield.default <- function(price, faceAmount=100,
 
 
 
-FixedRateBond <- function(bond, rates, schedule, calc, discountCurve, yield){
+FixedRateBond <- function(bond, rates, schedule, calc, discountCurve, yield, price){
     UseMethod("FixedRateBond")
 }
 FixedRateBond.default <- function(bond = list(),
@@ -100,7 +100,8 @@ FixedRateBond.default <- function(bond = list(),
                                     freq='Annual',
                                     durationType='Modified'),
                                   discountCurve = NULL,
-                                  yield = NA){
+                                  yield = NA,
+                                  price = NA){
     val <- 0
 
     # check bond params
@@ -142,18 +143,19 @@ FixedRateBond.default <- function(bond = list(),
     if (is.null(calc$maxEvaluations)) calc$maxEvaluations <- 100
     calc <- matchParams(calc)
 
-    if (is.null(discountCurve) && is.na(yield)) {
-        stop("discountCurve and yield cannot be both undefined.")
-        
-    } else if (is.null(discountCurve)) { # calculate from yield
+    which.calc <- !c(is.null(discountCurve), is.na(yield), is.na(price))
+    if (sum(which.calc) != 1)
+        stop("one and only one of discountCurve, yield or price must be defined.")
+    
+    if (!is.null(discountCurve)) {
+        val <- FixedRateWithRebuiltCurve(
+            bond, rates, schedule, calc, c(discountCurve$table$date), discountCurve$table$zeroRates)
+      
+    } else if (!is.na(yield)) {
       val <- FixedRateWithYield(bond, rates, schedule, calc, yield)
       
-    } else if (is.na(yield)) { # calculate from zero rates
-      val <- FixedRateWithRebuiltCurve(
-        bond, rates, schedule, calc, c(discountCurve$table$date), discountCurve$table$zeroRates)
-      
-    } else {
-        stop("discountCurve and yield cannot be both defined.")
+    } else if (!is.na(price)) {
+      val <- FixedRateWithPrice(bond, rates, schedule, calc, price)
     }
 
     class(val) <- c("FixedRateBond", "Bond")

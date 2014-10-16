@@ -353,6 +353,41 @@ Rcpp::List FixedRateWithYield(Rcpp::List bondparam,
                               Rcpp::Named("settlementDate") = settlementDate,
                               Rcpp::Named("cashFlow") = getCashFlowDataFrame(bond->cashflows()));
 }
+// [[Rcpp::export]]
+Rcpp::List FixedRateWithPrice(Rcpp::List bondparam, 
+                              std::vector<double> ratesVec,
+                              Rcpp::List scheduleparam,
+                              Rcpp::List calcparam,
+                              double price) {
+
+    // get calc parameters
+    QuantLib::DayCounter calcDayCounter =
+        getDayCounter(Rcpp::as<double>(calcparam["dayCounter"]));
+    QuantLib::Compounding compounding =
+        getCompounding(Rcpp::as<double>(calcparam["compounding"]));
+    QuantLib::Frequency calcFreq =
+        getFrequency(Rcpp::as<double>(calcparam["freq"]));
+    QuantLib::Duration::Type durationType =
+        getDurationType(Rcpp::as<double>(calcparam["durationType"]));
+    double accuracy = Rcpp::as<double>(calcparam["accuracy"]);
+    double maxEvaluations = Rcpp::as<double>(calcparam["maxEvaluations"]);
+
+    boost::shared_ptr<QuantLib::FixedRateBond> bond = getFixedRateBond(bondparam, ratesVec, scheduleparam);
+    
+    QuantLib::Date sd = bond->settlementDate();
+    const Rcpp::Date settlementDate(sd.month(), sd.dayOfMonth(), sd.year());
+    const double accrued = bond->accruedAmount();
+    const double yield = QuantLib::BondFunctions::yield(*bond, price, calcDayCounter, compounding, calcFreq, sd, accuracy, maxEvaluations);
+
+    return Rcpp::List::create(Rcpp::Named("NPV") = std::numeric_limits<double>::quiet_NaN(),
+                              Rcpp::Named("cleanPrice") = price,
+                              Rcpp::Named("dirtyPrice") = price + accrued,
+                              Rcpp::Named("accruedCoupon") = accrued,
+                              Rcpp::Named("yield") = yield,
+                              Rcpp::Named("duration") = QuantLib::BondFunctions::duration(*bond, yield, calcDayCounter, compounding, calcFreq, durationType, sd),
+                              Rcpp::Named("settlementDate") = settlementDate,
+                              Rcpp::Named("cashFlow") = getCashFlowDataFrame(bond->cashflows()));
+}
 
 // [[Rcpp::export]]
 Rcpp::List FixedRateWithRebuiltCurve(Rcpp::List bondparam, 

@@ -214,6 +214,25 @@ namespace RQuantLib {
         return Rcpp::as<Rcpp::List >(__result);
     }
 
+    inline Rcpp::List FixedRateWithPrice(Rcpp::List bondparam, std::vector<double> ratesVec, Rcpp::List scheduleparam, Rcpp::List calcparam, double price) {
+        typedef SEXP(*Ptr_FixedRateWithPrice)(SEXP,SEXP,SEXP,SEXP,SEXP);
+        static Ptr_FixedRateWithPrice p_FixedRateWithPrice = NULL;
+        if (p_FixedRateWithPrice == NULL) {
+            validateSignature("Rcpp::List(*FixedRateWithPrice)(Rcpp::List,std::vector<double>,Rcpp::List,Rcpp::List,double)");
+            p_FixedRateWithPrice = (Ptr_FixedRateWithPrice)R_GetCCallable("RQuantLib", "RQuantLib_FixedRateWithPrice");
+        }
+        RObject __result;
+        {
+            RNGScope __rngScope;
+            __result = p_FixedRateWithPrice(Rcpp::wrap(bondparam), Rcpp::wrap(ratesVec), Rcpp::wrap(scheduleparam), Rcpp::wrap(calcparam), Rcpp::wrap(price));
+        }
+        if (__result.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (__result.inherits("try-error"))
+            throw Rcpp::exception(as<std::string>(__result).c_str());
+        return Rcpp::as<Rcpp::List >(__result);
+    }
+
     inline Rcpp::List FixedRateWithRebuiltCurve(Rcpp::List bondparam, std::vector<double> ratesVec, Rcpp::List scheduleparam, Rcpp::List calcparam, SEXP dateSexp, SEXP zeroSexp) {
         typedef SEXP(*Ptr_FixedRateWithRebuiltCurve)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_FixedRateWithRebuiltCurve p_FixedRateWithRebuiltCurve = NULL;

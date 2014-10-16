@@ -1,3 +1,20 @@
+2014-10-15  Michele Salvadore <michele.salvadore@gmail.com>
+
+	* src/bonds.cpp: Updated FixedRateBond() to better match the function
+	signature in the QuantLib library while making it more flexible
+	* src/utils.cpp:
+	* bond.R: Ditto
+
+	* man/Bond.Rd: Updated accordingly
+	* man/FixedRateBond.Rd: Ditto
+
+	* tests/RQuantLib.R: Corresponding test update
+	* tests/RQuantLib.Rout.save: Ditto
+
+2014-10-14  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION: Added minor version, shorter Description
+
 2014-10-13  Michele Salvadore <michele.salvadore@gmail.com>
 
 	* src/bonds.cpp: Fixed-income functionality cleanup

@@ -1,3 +1,48 @@
+2014-10-15  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION: New minor version
+
+	* src/dates.cpp: New place for as<> and wrap() for Quantlib::Date
+	* inst/include/RQuantLib.h: No longer include rquantlib_wrappers.h
+
+	* src/Makevars.win: Add -fpermissive to cope with a 'long long'
+	conversion, also enable support for OpenMP on Windows
+
+2014-10-15  Michele Salvadore <michele.salvadore@gmail.com>
+
+	* src/bonds.cpp: Updated FixedRateBond() to better match the function
+	signature in the QuantLib library while making it more flexible
+	* src/utils.cpp:
+	* bond.R: Ditto
+
+	* man/Bond.Rd: Updated accordingly
+	* man/FixedRateBond.Rd: Ditto
+
+	* tests/RQuantLib.R: Corresponding test update
+	* tests/RQuantLib.Rout.save: Ditto
+
+2014-10-14  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION: Added minor version, shorter Description
+
+2014-10-13  Michele Salvadore <michele.salvadore@gmail.com>
+
+	* src/bonds.cpp: Fixed-income functionality cleanup
+	* src/utils.cpp: Ditto
+	* R/bonds.R: Ditto
+
+	* man/Bond.Rd: Corresponding documentation update
+	* man/BondUtilities.Rd: Ditto
+	* man/CallableBond.Rd: Ditto
+	* man/ConvertibleBond.Rd: Ditto
+	* man/Enum.Rd: Ditto
+	* man/FixedRateBond.Rd: Ditto
+	* man/FloatingRateBond.Rd: Ditto
+	* man/ZeroCouponBond.Rd: Ditto
+
+	* tests/RQuantLib.R: Corresponding test update
+	* tests/RQuantLib.Rout.save: Ditto
+
 2014-06-16  Dirk Eddelbuettel  <edd@debian.org>
 
 	* inst/QuantLib_LICENSE.TXT: Renamed from QuantLib-License.txt per

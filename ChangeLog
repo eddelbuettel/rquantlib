@@ -5,6 +5,8 @@
 	* configure.ac: Renamed from configure.in; also updated check for
 	QuantLib to ensure version 1.4.0 or later is used
 
+	* inst/unitTests/runit.calendar.R (test.isBusinessDay): adjust parens
+
 2014-10-15  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION: New minor version

@@ -1,5 +1,7 @@
 2014-10-17  Dirk Eddelbuettel  <edd@debian.org>
 
+	* src/Makevars.in: Add OpenMP support (conditional on R having it)
+
 	* configure.ac: Renamed from configure.in; also updated check for
 	QuantLib to ensure version 1.4.0 or later is used
 

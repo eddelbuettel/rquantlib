@@ -77,7 +77,7 @@ if test x"${QUANTLIB}" == x"yes" ; then
 
     # also test for quantlib version using result from quantlib-config --version
     case ${pkg_version} in
-    0.1.*|0.2.*|0.3.*|0.4.*|0.8.*|0.9.*|1.0.*|1.2.*)
+    0.1.*|0.2.*|0.3.*|0.4.*|0.8.*|0.9.*|1.0.*|1.1.*|1.2.*|1.3.*)
 	AC_MSG_WARN([RQuantLib requires QuantLib (>= 1.4.0).])
 	AC_MSG_ERROR([Please upgrade to a current version.])
 	;;

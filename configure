@@ -2820,7 +2820,7 @@ if test x"${QUANTLIB}" == x"yes" ; then
 
     # also test for quantlib version using result from quantlib-config --version
     case ${pkg_version} in
-    0.1.*|0.2.*|0.3.*|0.4.*|0.8.*|0.9.*|1.0.*|1.2.*)
+    0.1.*|0.2.*|0.3.*|0.4.*|0.8.*|0.9.*|1.0.*|1.1.*|1.2.*|1.3.*)
 	{ $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: RQuantLib requires QuantLib (>= 1.4.0)." >&5
 $as_echo "$as_me: WARNING: RQuantLib requires QuantLib (>= 1.4.0)." >&2;}
 	as_fn_error $? "Please upgrade to a current version." "$LINENO" 5

@@ -1,3 +1,8 @@
+2014-10-18  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/unitTests/runit.options.R: Do not run AsianOption() test on
+	Windows 
+
 2014-10-17  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/Makevars.in: Add OpenMP support (conditional on R having it)

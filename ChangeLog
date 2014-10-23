@@ -10,6 +10,8 @@
 	* src/dates.cpp: Include new header rquantlib_impl.h to have it in
 	default build for package just once
 
+	* R/inline.R (CFlags): Plugin builds set the #define for new header file
+
 2014-10-20  Dirk Eddelbuettel  <edd@debian.org>
 
 	* man/DiscountCurve.Rd: Do not include two-year swap ("s2y") in curve

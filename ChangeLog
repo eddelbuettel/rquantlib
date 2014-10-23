@@ -1,3 +1,15 @@
+2014-10-22  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/include/rquantlib_impl.h: New header with implementations for
+	as<>() and wrap(), currently only for Date mapping between QL and R
+	* inst/include/rquantlib_wrappers.h: Reduced to declarations only
+
+	* inst/include/RQuantLib.h: Include new header rquantlib_impl.h if
+	and only if a #define is set accordingly
+
+	* src/dates.cpp: Include new header rquantlib_impl.h to have it in
+	default build for package just once
+
 2014-10-20  Dirk Eddelbuettel  <edd@debian.org>
 
 	* man/DiscountCurve.Rd: Do not include two-year swap ("s2y") in curve

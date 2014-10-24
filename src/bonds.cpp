@@ -35,9 +35,11 @@ double zeroPriceByYieldEngine(double yield,
                               double compound,
                               QuantLib::Date maturityDate,
                               QuantLib::Date issueDate) {
-    //setup bond
-    QuantLib::Integer fixingDays = 2;
-    QuantLib::Calendar calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
+
+    //setup bond; initialise calendar from the singleton instance
+    QuantLib::Calendar calendar = RQLContext::instance().calendar;
+    QuantLib::Integer fixingDays = RQLContext::instance().fixingDays;
+
     QuantLib::Date todaysDate = calendar.advance(issueDate, -fixingDays, QuantLib::Days);
     QuantLib::Settings::instance().evaluationDate() = todaysDate;
     QuantLib::Natural settlementDays = 1;
@@ -65,9 +67,10 @@ double zeroYieldByPriceEngine(double price,
                               QuantLib::Date maturityDate,
                               QuantLib::Date issueDate) {
 
-    //setup bond
-    QuantLib::Integer fixingDays = 2;
-    QuantLib::Calendar calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
+    //setup bond; initialise calendar from the singleton instance
+    QuantLib::Calendar calendar = RQLContext::instance().calendar;
+    QuantLib::Integer fixingDays = RQLContext::instance().fixingDays;
+
     QuantLib::Date todaysDate = calendar.advance(issueDate, -fixingDays, QuantLib::Days);
     QuantLib::Settings::instance().evaluationDate() = todaysDate;
     QuantLib::Natural settlementDays = 1;
@@ -108,7 +111,7 @@ double fixedRateBondYieldByPriceEngine(double settlementDays,
     QuantLib::Compounding cp = getCompounding(compound);
     
     QuantLib::Calendar calendar;
-    if(!cal.empty()) {
+    if (!cal.empty()) {
         boost::shared_ptr<QuantLib::Calendar> p = getCalendar(cal);
         calendar = *p;
     }
@@ -146,7 +149,7 @@ double fixedRateBondPriceByYieldEngine(double settlementDays,
  
     //set up calendar
     QuantLib::Calendar calendar;
-    if(!cal.empty()) {
+    if (!cal.empty()) {
         boost::shared_ptr<QuantLib::Calendar> p = getCalendar(cal);
         calendar = *p;
     }
@@ -199,7 +202,7 @@ Rcpp::List FloatingBond(Rcpp::List rparam,
 
     //set up calendar
     QuantLib::Calendar calendar;
-    if(!cal.empty()) {
+    if (!cal.empty()) {
         boost::shared_ptr<QuantLib::Calendar> p = getCalendar(cal);
         calendar = *p;
     }
@@ -423,7 +426,7 @@ Rcpp::List zeroBondEngine(Rcpp::List rparam,
     QuantLib::BusinessDayConvention bdc = getBusinessDayConvention(businessDayConvention);
         
     QuantLib::Calendar calendar;
-    if(!cal.empty()) {
+    if (!cal.empty()) {
         boost::shared_ptr<QuantLib::Calendar> p = getCalendar(cal);
         calendar = *p;
     }
@@ -484,7 +487,7 @@ Rcpp::List convertibleZeroBondEngine(Rcpp::List rparam,
     QuantLib::Date todayDate = issueDate;
         
     QuantLib::Calendar calendar;
-    if(!cal.empty()) {
+    if (!cal.empty()) {
         boost::shared_ptr<QuantLib::Calendar> p = getCalendar(cal);
         calendar = *p;
     }
@@ -579,7 +582,7 @@ Rcpp::List convertibleFixedBondEngine(Rcpp::List rparam,
     QuantLib::Date todayDate = issueDate;
     QuantLib::Settings::instance().evaluationDate() = todayDate;
     QuantLib::Calendar calendar;
-    if(!cal.empty()) {
+    if (!cal.empty()) {
         boost::shared_ptr<QuantLib::Calendar> p = getCalendar(cal);
         calendar = *p;
     }
@@ -701,7 +704,7 @@ Rcpp::List convertibleFloatingBondEngine(Rcpp::List rparam,
     QuantLib::Date todayDate = issueDate;
         
     QuantLib::Calendar calendar;
-    if(!cal.empty()) {
+    if (!cal.empty()) {
         boost::shared_ptr<QuantLib::Calendar> p = getCalendar(cal);
         calendar = *p;
     }
@@ -784,7 +787,7 @@ Rcpp::List callableBondEngine(Rcpp::List rparam,
     double businessDayConvention = Rcpp::as<double>(datemisc["businessDayConvention"]);
         
     QuantLib::Calendar calendar;
-    if(!cal.empty()) {
+    if (!cal.empty()) {
         boost::shared_ptr<QuantLib::Calendar> p = getCalendar(cal);
         calendar = *p;
     }
@@ -981,7 +984,7 @@ Rcpp::List fittedBondCurveEngine(Rcpp::List curveparam,
         quoteHandle[i].linkTo(quote[i]);
     }
         
-    QuantLib::Calendar calendar =  QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
+    QuantLib::Calendar calendar = RQLContext::instance().calendar;
     QuantLib::BusinessDayConvention bdc = getBusinessDayConvention(businessDayConvention);
     QuantLib::DayCounter dc = getDayCounter(dayCounter);
     QuantLib::Frequency freq = getFrequency(frequency);

@@ -115,20 +115,28 @@ Rcpp::List discountCurveEngine(Rcpp::List rparams,
         zero[i] = curve->zeroRate(t, QuantLib::Continuous);
     }
 
-    int n = curve->maxDate() - settlementDate;
+    //int n = curve->maxDate() - settlementDate;
     //std::cout << "MaxDate " << curve->maxDate() << std::endl;
     //std::cout << "Settle " << settlementDate << std::endl;
     //n = std::min(300, n);
 
     QuantLib::Settings::instance().evaluationDate() = evalDate;
 
-    Rcpp::DateVector dates(n);
-    Rcpp::NumericVector zeroRates(n);
+    std::vector<QuantLib::Date> dates;
+    std::vector<double> zeroRates;
     QuantLib::Date d = current; 
-    for (int i = 0; i<n && d < curve->maxDate(); i++){
-        dates[i] = Rcpp::Date(d.month(), d.dayOfMonth(), d.year());
-        zeroRates[i] = curve->zeroRate(current, QuantLib::ActualActual(), QuantLib::Continuous);
-        d++;
+    //QuantLib::Date d = QuantLib::Settings::instance().evaluationDate();
+    //std::cout << "Discount: First eval date is " << d << std::endl;
+    //std::cout << "Discount: RQLsettle date is " << RQLContext::instance().settleDate << std::endl;
+    //std::cout << "Discount: QLeval date is " << QuantLib::Settings::instance().evaluationDate() << std::endl;
+    //std::cout << "Discount: Curve MaxDate " << curve->maxDate() << std::endl;
+    QuantLib::Date maxDate(31, QuantLib::December, 2099);
+    while (d < curve->maxDate() && d < maxDate) {
+        double z = curve->zeroRate(d, QuantLib::ActualActual(), QuantLib::Continuous);
+        dates.push_back(d);
+        zeroRates.push_back(z);
+        //std::cout << d << " " << z << std::endl;
+        d = advanceDate(d, 21);      // TODO: make the increment a parameter
     }
     
     //Rcpp::DataFrame frame = Rcpp::DataFrame::create(Rcpp::Named("date") = dates,

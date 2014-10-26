@@ -67,6 +67,7 @@ tsQuotes <- list(d1w = 0.0382,
                  s15y = 0.055175)
 times <- seq(0,10,.1)
 
+setEvaluationDate(params$tradeDate)
 discountCurve <- DiscountCurve(params, tsQuotes, times)
 
 # price a zero coupon bond

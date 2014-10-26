@@ -188,4 +188,8 @@ QuantLib::DividendSchedule getDividendSchedule(Rcpp::DataFrame dividendScheduleF
 QuantLib::CallabilitySchedule getCallabilitySchedule(Rcpp::DataFrame callabilityScheduleFrame);
 QuantLib::Duration::Type getDurationType(const double n);
 
+// dates.cpp
+QuantLib::Date advanceDate(QuantLib::Date issueDate, int days);
+
+
 #endif

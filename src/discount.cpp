@@ -34,7 +34,6 @@ Rcpp::List discountCurveEngine(Rcpp::List rparams,
     int i;
     QuantLib::Date todaysDate(Rcpp::as<QuantLib::Date>(rparams["tradeDate"])); 
     QuantLib::Date settlementDate(Rcpp::as<QuantLib::Date>(rparams["settleDate"]));
-    //std::cout << "TradeDate: " << todaysDate << std::endl << "Settle: " << settlementDate << std::endl;
 
     RQLContext::instance().settleDate = settlementDate;
     QuantLib::Date evalDate = QuantLib::Settings::instance().evaluationDate();
@@ -91,44 +90,28 @@ Rcpp::List discountCurveEngine(Rcpp::List rparams,
     }
 
     // Return discount, forward rate, and zero coupon curves
-    //int numCol = 2;
-    //std::vector<std::string> colNames(numCol);
-    //colNames[0] = "date";
-    //colNames[1] = "zeroRates";
-    //RcppFrame frame(colNames);
-        
-    int ntimes = times.size(); //Rf_length(times);
-    //SEXP disc  = PROTECT(Rf_allocVector(REALSXP, ntimes));
-    //SEXP fwds  = PROTECT(Rf_allocVector(REALSXP, ntimes));
-    //SEXP zero  = PROTECT(Rf_allocVector(REALSXP, ntimes));
+    int ntimes = times.size(); 
     Rcpp::NumericVector disc(ntimes), fwds(ntimes), zero(ntimes);
 
     QuantLib::Date current = settlementDate;
     for (i = 0; i < ntimes; i++) {          
-        //t = REAL(times)[i];                                                    
-        //REAL(disc)[i] = curve->discount(t);
-        //REAL(fwds)[i] = curve->forwardRate(t, t+dt, Continuous);
-        //REAL(zero)[i] = curve->zeroRate(t, Continuous);
         double t = times[i];
         disc[i] = curve->discount(t);
         fwds[i] = curve->forwardRate(t, t+dt, QuantLib::Continuous);
         zero[i] = curve->zeroRate(t, QuantLib::Continuous);
     }
 
-    int n = curve->maxDate() - settlementDate;
-    //std::cout << "MaxDate " << curve->maxDate() << std::endl;
-    //std::cout << "Settle " << settlementDate << std::endl;
-    //n = std::min(300, n);
-
     QuantLib::Settings::instance().evaluationDate() = evalDate;
 
-    Rcpp::DateVector dates(n);
-    Rcpp::NumericVector zeroRates(n);
+    std::vector<QuantLib::Date> dates;
+    std::vector<double> zeroRates;
     QuantLib::Date d = current; 
-    for (int i = 0; i<n && d < curve->maxDate(); i++){
-        dates[i] = Rcpp::Date(d.month(), d.dayOfMonth(), d.year());
-        zeroRates[i] = curve->zeroRate(current, QuantLib::ActualActual(), QuantLib::Continuous);
-        d++;
+    QuantLib::Date maxDate(31, QuantLib::December, 2099);
+    while (d < curve->maxDate() && d < maxDate) { // TODO set a max of, say, 5 or 10 years for flat curve
+        double z = curve->zeroRate(d, QuantLib::ActualActual(), QuantLib::Continuous);
+        dates.push_back(d);
+        zeroRates.push_back(z);
+        d = advanceDate(d, 21);      // TODO: make the increment a parameter
     }
     
     //Rcpp::DataFrame frame = Rcpp::DataFrame::create(Rcpp::Named("date") = dates,

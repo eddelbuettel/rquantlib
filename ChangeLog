@@ -1,3 +1,13 @@
+2014-10-26  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/discount.cpp: Curve exported in 'table' object now advances by
+	roughly one business months, also switched to using STL containers
+	grown and then exported back to R
+
+	* inst/include/rquantlib_internal.h: Declare advanceDate() function
+
+	* man/Bond.Rd: Re-set evaluation date in bond example
+
 2014-10-25  Dirk Eddelbuettel  <edd@debian.org>
 
 	* inst/unitTests/runit.dates.R: R side of new date conversion tests

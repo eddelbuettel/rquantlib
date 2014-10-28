@@ -1,3 +1,13 @@
+2014-10-27  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION: New minor version
+
+	* src/bonds.cpp: Remove last SEXP instances in function interfaces
+	* src/hullwhite.cpp: Idem
+	* src/utils.cpp: Idem
+
+	* inst/include/rquantlib_internal.h: Updated accordingly
+
 2014-10-26  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/discount.cpp: Curve exported in 'table' object now advances by

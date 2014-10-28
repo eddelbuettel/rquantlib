@@ -120,7 +120,6 @@ double binaryOptionImpliedVolatilityEngine(std::string type,
                                            double volatility,
                                            double cashPayoff) {
 
-    //RcppExport SEXP BinaryOptionImpliedVolatility(SEXP optionParameters) {
     int length = int(maturity*360 + 0.5); // FIXME: this could be better
 
     QuantLib::Option::Type optionType = getOptionType(type);

@@ -265,12 +265,12 @@ boost::shared_ptr<QuantLib::FixedRateBond> getFixedRateBond(
     return result;
 }
 
-boost::shared_ptr<QuantLib::YieldTermStructure> rebuildCurveFromZeroRates(SEXP dateSexp, SEXP zeroSexp) {
-    std::vector<QuantLib::Date> dates(Rcpp::as<std::vector<QuantLib::Date> >(dateSexp));
-    Rcpp::NumericVector zeros(zeroSexp);    //extract coupon rates vector
+boost::shared_ptr<QuantLib::YieldTermStructure> 
+rebuildCurveFromZeroRates(std::vector<QuantLib::Date> dates,
+                          std::vector<double> zeros) {
     boost::shared_ptr<QuantLib::YieldTermStructure>  
         rebuilt_curve(new QuantLib::InterpolatedZeroCurve<QuantLib::LogLinear>(dates, 
-                                                                               Rcpp::as< std::vector<double> >(zeros), 
+                                                                               zeros, 
                                                                                QuantLib::ActualActual()));
     return rebuilt_curve;
 }

@@ -53,32 +53,32 @@ FloatBond4 <- function(bond, gearings, caps, spreads, floors, indexparams, index
     .Call('RQuantLib_FloatBond4', PACKAGE = 'RQuantLib', bond, gearings, caps, spreads, floors, indexparams, index_params, index_tsQuotes, index_times, disc_params, disc_tsQuotes, disc_times, dateparams)
 }
 
-floatingWithRebuiltCurveEngine <- function(bondparams, gearings, spreads, caps, floors, indexparams, iborDateSexp, iborzeroSexp, dateSexp, zeroSexp, dateparams) {
-    .Call('RQuantLib_floatingWithRebuiltCurveEngine', PACKAGE = 'RQuantLib', bondparams, gearings, spreads, caps, floors, indexparams, iborDateSexp, iborzeroSexp, dateSexp, zeroSexp, dateparams)
+floatingWithRebuiltCurveEngine <- function(bondparams, gearings, spreads, caps, floors, indexparams, iborDateVec, iborzeroVec, dateVec, zeroVec, dateparams) {
+    .Call('RQuantLib_floatingWithRebuiltCurveEngine', PACKAGE = 'RQuantLib', bondparams, gearings, spreads, caps, floors, indexparams, iborDateVec, iborzeroVec, dateVec, zeroVec, dateparams)
 }
 
 FixedRateWithYield <- function(bondparam, ratesVec, scheduleparam, calcparam, yield) {
     .Call('RQuantLib_FixedRateWithYield', PACKAGE = 'RQuantLib', bondparam, ratesVec, scheduleparam, calcparam, yield)
 }
 
-FixedRateWithRebuiltCurve <- function(bondparam, ratesVec, scheduleparam, calcparam, dateSexp, zeroSexp) {
-    .Call('RQuantLib_FixedRateWithRebuiltCurve', PACKAGE = 'RQuantLib', bondparam, ratesVec, scheduleparam, calcparam, dateSexp, zeroSexp)
+FixedRateWithRebuiltCurve <- function(bondparam, ratesVec, scheduleparam, calcparam, dateVec, zeroVec) {
+    .Call('RQuantLib_FixedRateWithRebuiltCurve', PACKAGE = 'RQuantLib', bondparam, ratesVec, scheduleparam, calcparam, dateVec, zeroVec)
 }
 
-ZeroBondWithRebuiltCurve <- function(bond, dateSexp, zeroSexp, dateparams) {
-    .Call('RQuantLib_ZeroBondWithRebuiltCurve', PACKAGE = 'RQuantLib', bond, dateSexp, zeroSexp, dateparams)
+ZeroBondWithRebuiltCurve <- function(bond, dateVec, zeroVec, dateparams) {
+    .Call('RQuantLib_ZeroBondWithRebuiltCurve', PACKAGE = 'RQuantLib', bond, dateVec, zeroVec, dateparams)
 }
 
-convertibleZeroBondEngine <- function(rparam, processParam, dividendYieldDateSexp, dividendYieldZeroSexp, rffDateSexp, rffZeroSexp, dividendScheduleFrame, callabilityScheduleFrame, datemisc) {
-    .Call('RQuantLib_convertibleZeroBondEngine', PACKAGE = 'RQuantLib', rparam, processParam, dividendYieldDateSexp, dividendYieldZeroSexp, rffDateSexp, rffZeroSexp, dividendScheduleFrame, callabilityScheduleFrame, datemisc)
+convertibleZeroBondEngine <- function(rparam, processParam, dividendYieldDateVec, dividendYieldZeroVec, rffDateVec, rffZeroVec, dividendScheduleFrame, callabilityScheduleFrame, datemisc) {
+    .Call('RQuantLib_convertibleZeroBondEngine', PACKAGE = 'RQuantLib', rparam, processParam, dividendYieldDateVec, dividendYieldZeroVec, rffDateVec, rffZeroVec, dividendScheduleFrame, callabilityScheduleFrame, datemisc)
 }
 
-convertibleFixedBondEngine <- function(rparam, rates, processParam, dividendYieldDateSexp, dividendYieldZeroSexp, rffDateSexp, rffZeroSexp, dividendScheduleFrame, callabilityScheduleFrame, datemisc) {
-    .Call('RQuantLib_convertibleFixedBondEngine', PACKAGE = 'RQuantLib', rparam, rates, processParam, dividendYieldDateSexp, dividendYieldZeroSexp, rffDateSexp, rffZeroSexp, dividendScheduleFrame, callabilityScheduleFrame, datemisc)
+convertibleFixedBondEngine <- function(rparam, rates, processParam, dividendYieldDateVec, dividendYieldZeroVec, rffDateVec, rffZeroVec, dividendScheduleFrame, callabilityScheduleFrame, datemisc) {
+    .Call('RQuantLib_convertibleFixedBondEngine', PACKAGE = 'RQuantLib', rparam, rates, processParam, dividendYieldDateVec, dividendYieldZeroVec, rffDateVec, rffZeroVec, dividendScheduleFrame, callabilityScheduleFrame, datemisc)
 }
 
-convertibleFloatingBondEngine <- function(rparam, processParam, dividendYieldDateSexp, dividendYieldZeroSexp, rffDateSexp, rffZeroSexp, iborIndexDateSexp, iborIndexZeroSexp, iborparams, spreads, dividendScheduleFrame, callabilityScheduleFrame, datemisc) {
-    .Call('RQuantLib_convertibleFloatingBondEngine', PACKAGE = 'RQuantLib', rparam, processParam, dividendYieldDateSexp, dividendYieldZeroSexp, rffDateSexp, rffZeroSexp, iborIndexDateSexp, iborIndexZeroSexp, iborparams, spreads, dividendScheduleFrame, callabilityScheduleFrame, datemisc)
+convertibleFloatingBondEngine <- function(rparam, processParam, dividendYieldDateVec, dividendYieldZeroVec, rffDateVec, rffZeroVec, iborIndexDateVec, iborIndexZeroVec, iborparams, spreads, dividendScheduleFrame, callabilityScheduleFrame, datemisc) {
+    .Call('RQuantLib_convertibleFloatingBondEngine', PACKAGE = 'RQuantLib', rparam, processParam, dividendYieldDateVec, dividendYieldZeroVec, rffDateVec, rffZeroVec, iborIndexDateVec, iborIndexZeroVec, iborparams, spreads, dividendScheduleFrame, callabilityScheduleFrame, datemisc)
 }
 
 callableBondEngine <- function(rparam, hwparam, coupon, callabilityScheduleFrame, datemisc) {
@@ -153,12 +153,12 @@ discountCurveEngine <- function(rparams, tslist, times) {
     .Call('RQuantLib_discountCurveEngine', PACKAGE = 'RQuantLib', rparams, tslist, times)
 }
 
-calibrateHullWhiteUsingCapsEngine <- function(termStrcDateVec, termStrcZeroVec, capDataDF, iborDateVec, iborZeroVec, iborType, evalDate) {
-    .Call('RQuantLib_calibrateHullWhiteUsingCapsEngine', PACKAGE = 'RQuantLib', termStrcDateVec, termStrcZeroVec, capDataDF, iborDateVec, iborZeroVec, iborType, evalDate)
+calibrateHullWhiteUsingCapsEngine <- function(termStrcDateVec, termStrcZeroVec, capDF, iborDateVec, iborZeroVec, iborType, evalDate) {
+    .Call('RQuantLib_calibrateHullWhiteUsingCapsEngine', PACKAGE = 'RQuantLib', termStrcDateVec, termStrcZeroVec, capDF, iborDateVec, iborZeroVec, iborType, evalDate)
 }
 
-calibrateHullWhiteUsingSwapsEngine <- function(termStrcDateVec, termStrcZeroVec, swapDataDF, iborDateVec, iborZeroVec, iborType, evalDate) {
-    .Call('RQuantLib_calibrateHullWhiteUsingSwapsEngine', PACKAGE = 'RQuantLib', termStrcDateVec, termStrcZeroVec, swapDataDF, iborDateVec, iborZeroVec, iborType, evalDate)
+calibrateHullWhiteUsingSwapsEngine <- function(termStrcDateVec, termStrcZeroVec, swapDF, iborDateVec, iborZeroVec, iborType, evalDate) {
+    .Call('RQuantLib_calibrateHullWhiteUsingSwapsEngine', PACKAGE = 'RQuantLib', termStrcDateVec, termStrcZeroVec, swapDF, iborDateVec, iborZeroVec, iborType, evalDate)
 }
 
 europeanOptionImpliedVolatilityEngine <- function(type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volatility) {

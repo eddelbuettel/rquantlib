@@ -555,6 +555,44 @@ RcppExport SEXP RQuantLib_FixedRateWithYield(SEXP bondparamSEXP, SEXP ratesVecSE
     UNPROTECT(1);
     return __result;
 }
+// FixedRateWithPrice
+Rcpp::List FixedRateWithPrice(Rcpp::List bondparam, std::vector<double> ratesVec, Rcpp::List scheduleparam, Rcpp::List calcparam, double price);
+static SEXP RQuantLib_FixedRateWithPrice_try(SEXP bondparamSEXP, SEXP ratesVecSEXP, SEXP scheduleparamSEXP, SEXP calcparamSEXP, SEXP priceSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::traits::input_parameter< Rcpp::List >::type bondparam(bondparamSEXP );
+        Rcpp::traits::input_parameter< std::vector<double> >::type ratesVec(ratesVecSEXP );
+        Rcpp::traits::input_parameter< Rcpp::List >::type scheduleparam(scheduleparamSEXP );
+        Rcpp::traits::input_parameter< Rcpp::List >::type calcparam(calcparamSEXP );
+        Rcpp::traits::input_parameter< double >::type price(priceSEXP );
+        Rcpp::List __result = FixedRateWithPrice(bondparam, ratesVec, scheduleparam, calcparam, price);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP RQuantLib_FixedRateWithPrice(SEXP bondparamSEXP, SEXP ratesVecSEXP, SEXP scheduleparamSEXP, SEXP calcparamSEXP, SEXP priceSEXP) {
+    SEXP __result;
+    {
+        Rcpp::RNGScope __rngScope;
+        __result = PROTECT(RQuantLib_FixedRateWithPrice_try(bondparamSEXP, ratesVecSEXP, scheduleparamSEXP, calcparamSEXP, priceSEXP));
+    }
+    Rboolean __isInterrupt = Rf_inherits(__result, "interrupted-error");
+    if (__isInterrupt) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    Rboolean __isError = Rf_inherits(__result, "try-error");
+    if (__isError) {
+        SEXP __msgSEXP = Rf_asChar(__result);
+        UNPROTECT(1);
+        Rf_error(CHAR(__msgSEXP));
+    }
+    UNPROTECT(1);
+    return __result;
+}
 // FixedRateWithRebuiltCurve
 Rcpp::List FixedRateWithRebuiltCurve(Rcpp::List bondparam, std::vector<double> ratesVec, Rcpp::List scheduleparam, Rcpp::List calcparam, std::vector<QuantLib::Date> dateVec, std::vector<double> zeroVec);
 static SEXP RQuantLib_FixedRateWithRebuiltCurve_try(SEXP bondparamSEXP, SEXP ratesVecSEXP, SEXP scheduleparamSEXP, SEXP calcparamSEXP, SEXP dateVecSEXP, SEXP zeroVecSEXP) {
@@ -1483,6 +1521,7 @@ static int RQuantLib_RcppExport_validate(const char* sig) {
         signatures.insert("Rcpp::List(*FloatBond4)(Rcpp::List,std::vector<double>,std::vector<double>,std::vector<double>,std::vector<double>,Rcpp::List,Rcpp::List,Rcpp::List,Rcpp::List,Rcpp::List,Rcpp::List,Rcpp::List,Rcpp::List)");
         signatures.insert("Rcpp::List(*floatingWithRebuiltCurveEngine)(Rcpp::List,std::vector<double>,std::vector<double>,std::vector<double>,std::vector<double>,Rcpp::List,std::vector<QuantLib::Date>,std::vector<double>,std::vector<QuantLib::Date>,std::vector<double>,Rcpp::List)");
         signatures.insert("Rcpp::List(*FixedRateWithYield)(Rcpp::List,std::vector<double>,Rcpp::List,Rcpp::List,double)");
+        signatures.insert("Rcpp::List(*FixedRateWithPrice)(Rcpp::List,std::vector<double>,Rcpp::List,Rcpp::List,double)");
         signatures.insert("Rcpp::List(*FixedRateWithRebuiltCurve)(Rcpp::List,std::vector<double>,Rcpp::List,Rcpp::List,std::vector<QuantLib::Date>,std::vector<double>)");
         signatures.insert("Rcpp::List(*ZeroBondWithRebuiltCurve)(Rcpp::List,std::vector<QuantLib::Date>,std::vector<double>,Rcpp::List)");
         signatures.insert("Rcpp::List(*convertibleZeroBondEngine)(Rcpp::List,Rcpp::List,std::vector<QuantLib::Date>,std::vector<double>,std::vector<QuantLib::Date>,std::vector<double>,Rcpp::DataFrame,Rcpp::DataFrame,Rcpp::List)");
@@ -1515,6 +1554,7 @@ RcppExport SEXP RQuantLib_RcppExport_registerCCallable() {
     R_RegisterCCallable("RQuantLib", "RQuantLib_FloatBond4", (DL_FUNC)RQuantLib_FloatBond4_try);
     R_RegisterCCallable("RQuantLib", "RQuantLib_floatingWithRebuiltCurveEngine", (DL_FUNC)RQuantLib_floatingWithRebuiltCurveEngine_try);
     R_RegisterCCallable("RQuantLib", "RQuantLib_FixedRateWithYield", (DL_FUNC)RQuantLib_FixedRateWithYield_try);
+    R_RegisterCCallable("RQuantLib", "RQuantLib_FixedRateWithPrice", (DL_FUNC)RQuantLib_FixedRateWithPrice_try);
     R_RegisterCCallable("RQuantLib", "RQuantLib_FixedRateWithRebuiltCurve", (DL_FUNC)RQuantLib_FixedRateWithRebuiltCurve_try);
     R_RegisterCCallable("RQuantLib", "RQuantLib_ZeroBondWithRebuiltCurve", (DL_FUNC)RQuantLib_ZeroBondWithRebuiltCurve_try);
     R_RegisterCCallable("RQuantLib", "RQuantLib_convertibleZeroBondEngine", (DL_FUNC)RQuantLib_convertibleZeroBondEngine_try);

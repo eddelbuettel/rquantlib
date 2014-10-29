@@ -123,6 +123,24 @@ FixedRateBond(bond,
               schedule,
               calc,
               discountCurve=discountCurve.flat)
+
+#Same bond calculated from yield rather than from the discount curve
+yield <- 0.02
+FixedRateBond(bond,
+              coupon.rate,
+              schedule,
+              calc,
+              yield=yield)
+
+
+#same example with clean price
+price <- 103.31
+FixedRateBond(bond,
+              coupon.rate,
+              schedule,
+              calc,
+              price = price)
+
 ## bond.cpp FloatingRateBond, following test-suite/bonds.cpp
 
 bond <- list(faceAmount=100, issueDate=as.Date("2004-11-30"),

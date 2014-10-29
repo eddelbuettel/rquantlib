@@ -101,9 +101,6 @@
 
 \item{calc}{(Optional) a named list, QuantLib's parameters for calculations. 
   \tabular{ll}{
-    if (is.null(calc$durationType)) calc$durationType <- 'Simple'
-    if (is.null(calc$accuracy)) calc$accuracy <- 1.0e-8
-    if (is.null(calc$maxEvaluations)) calc$maxEvaluations <- 100
     \code{dayCounter}          \tab (Optional) a number or string, day counter \cr 
     \code{}                    \tab convention. Defaults to 'ActualActual.ISMA' \cr
     \code{compounding}         \tab a string, what kind of compounding to use. \cr 
@@ -250,6 +247,14 @@ FixedRateBond(bond,
               schedule,
               calc,
               discountCurve=discountCurve)
+
+#Same bond calculated from yield rather than from the discount curve
+yield <- 0.02
+FixedRateBond(bond,
+              coupon.rate,
+              schedule,
+              calc,
+              yield=yield)
 
 
 #same example with clean price

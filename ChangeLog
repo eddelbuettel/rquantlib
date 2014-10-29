@@ -1,3 +1,14 @@
+2014-10-29  Michele Salvadore <michele.salvadore@gmail.com>
+
+	* DESCRIPTION: Added clean price based calculation for FixedRateBond
+
+	* R/bond.R: Added a price parameter to FixedRateBond to calculate based on clean price
+	* src/bonds.cpp: new function wrapping price based calculation
+	* man/Bond.Rd: updated documentation and examples
+	* man/FixedRateBond.Rd: Ditto
+	* tests/RQuantLib.R: Corresponding test update
+	* tests/RQuantLib.Rout.save: Ditto
+
 2014-10-27  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION: New minor version

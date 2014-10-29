@@ -1,3 +1,74 @@
+2014-10-27  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION: New minor version
+
+	* src/bonds.cpp: Remove last SEXP instances in function interfaces
+	* src/hullwhite.cpp: Idem
+	* src/utils.cpp: Idem
+
+	* inst/include/rquantlib_internal.h: Updated accordingly
+
+2014-10-26  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/discount.cpp: Curve exported in 'table' object now advances by
+	roughly one business months, also switched to using STL containers
+	grown and then exported back to R
+
+	* inst/include/rquantlib_internal.h: Declare advanceDate() function
+
+	* man/Bond.Rd: Re-set evaluation date in bond example
+
+2014-10-25  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/unitTests/runit.dates.R: R side of new date conversion tests
+	* inst/unitTests/cpp/dates.cpp: C++ side of new date conversion tests
+
+	* R/unitTest.R: Added new support function unitTestSetup()
+
+	* NAMESPACE: Also import sourceCpp from Rcpp
+
+2014-10-24  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/bonds.cpp: Use the calendar from the RQL context
+	* src/zero.cpp: Ditto
+
+2014-10-23  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/dates.cpp (advanceDate): Use a calendar from the RQL context
+
+2014-10-22  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/include/rquantlib_impl.h: New header with implementations for
+	as<>() and wrap(), currently only for Date mapping between QL and R
+	* inst/include/rquantlib_wrappers.h: Reduced to declarations only
+
+	* inst/include/RQuantLib.h: Include new header rquantlib_impl.h if
+	and only if a #define is set accordingly
+
+	* src/dates.cpp: Include new header rquantlib_impl.h to have it in
+	default build for package just once
+
+	* R/inline.R (CFlags): Plugin builds set the #define for new header file
+
+2014-10-20  Dirk Eddelbuettel  <edd@debian.org>
+
+	* man/DiscountCurve.Rd: Do not include two-year swap ("s2y") in curve
+	parameters, and correct evaluation date -- with thanks to Luigi Ballabio
+	* man/Bond.Rd: Ditto
+
+2014-10-18  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/unitTests/runit.options.R: Skip AsianOption() test on Windows
+
+2014-10-17  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/Makevars.in: Add OpenMP support (conditional on R having it)
+
+	* configure.ac: Renamed from configure.in; also updated check for
+	QuantLib to ensure version 1.4.0 or later is used
+
+	* inst/unitTests/runit.calendar.R (test.isBusinessDay): adjust parens
+
 2014-10-15  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION: New minor version

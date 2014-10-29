@@ -100,11 +100,11 @@ namespace RQuantLib {
         return Rcpp::as<double >(__result);
     }
 
-    inline Rcpp::List FloatBond1(SEXP bond, std::vector<double> gearings, std::vector<double> caps, std::vector<double> spreads, std::vector<double> floors, SEXP indexparams, SEXP index, Rcpp::List discountCurve, SEXP dateparams) {
+    inline Rcpp::List FloatBond1(Rcpp::List bond, std::vector<double> gearings, std::vector<double> caps, std::vector<double> spreads, std::vector<double> floors, Rcpp::List indexparams, Rcpp::List index, Rcpp::List discountCurve, Rcpp::List dateparams) {
         typedef SEXP(*Ptr_FloatBond1)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_FloatBond1 p_FloatBond1 = NULL;
         if (p_FloatBond1 == NULL) {
-            validateSignature("Rcpp::List(*FloatBond1)(SEXP,std::vector<double>,std::vector<double>,std::vector<double>,std::vector<double>,SEXP,SEXP,Rcpp::List,SEXP)");
+            validateSignature("Rcpp::List(*FloatBond1)(Rcpp::List,std::vector<double>,std::vector<double>,std::vector<double>,std::vector<double>,Rcpp::List,Rcpp::List,Rcpp::List,Rcpp::List)");
             p_FloatBond1 = (Ptr_FloatBond1)R_GetCCallable("RQuantLib", "RQuantLib_FloatBond1");
         }
         RObject __result;
@@ -119,11 +119,11 @@ namespace RQuantLib {
         return Rcpp::as<Rcpp::List >(__result);
     }
 
-    inline Rcpp::List FloatBond2(SEXP bond, std::vector<double> gearings, std::vector<double> caps, std::vector<double> spreads, std::vector<double> floors, SEXP indexparams, SEXP index_params, SEXP index_tsQuotes, SEXP index_times, Rcpp::List discountCurve, SEXP dateparams) {
+    inline Rcpp::List FloatBond2(Rcpp::List bond, std::vector<double> gearings, std::vector<double> caps, std::vector<double> spreads, std::vector<double> floors, Rcpp::List indexparams, Rcpp::List index_params, Rcpp::List index_tsQuotes, Rcpp::List index_times, Rcpp::List discountCurve, Rcpp::List dateparams) {
         typedef SEXP(*Ptr_FloatBond2)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_FloatBond2 p_FloatBond2 = NULL;
         if (p_FloatBond2 == NULL) {
-            validateSignature("Rcpp::List(*FloatBond2)(SEXP,std::vector<double>,std::vector<double>,std::vector<double>,std::vector<double>,SEXP,SEXP,SEXP,SEXP,Rcpp::List,SEXP)");
+            validateSignature("Rcpp::List(*FloatBond2)(Rcpp::List,std::vector<double>,std::vector<double>,std::vector<double>,std::vector<double>,Rcpp::List,Rcpp::List,Rcpp::List,Rcpp::List,Rcpp::List,Rcpp::List)");
             p_FloatBond2 = (Ptr_FloatBond2)R_GetCCallable("RQuantLib", "RQuantLib_FloatBond2");
         }
         RObject __result;
@@ -138,11 +138,11 @@ namespace RQuantLib {
         return Rcpp::as<Rcpp::List >(__result);
     }
 
-    inline Rcpp::List FloatBond3(SEXP bond, std::vector<double> gearings, std::vector<double> caps, std::vector<double> spreads, std::vector<double> floors, SEXP indexparams, Rcpp::List index, SEXP disc_params, SEXP disc_tsQuotes, SEXP disc_times, SEXP dateparams) {
+    inline Rcpp::List FloatBond3(Rcpp::List bond, std::vector<double> gearings, std::vector<double> caps, std::vector<double> spreads, std::vector<double> floors, Rcpp::List indexparams, Rcpp::List index, Rcpp::List disc_params, Rcpp::List disc_tsQuotes, Rcpp::List disc_times, Rcpp::List dateparams) {
         typedef SEXP(*Ptr_FloatBond3)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_FloatBond3 p_FloatBond3 = NULL;
         if (p_FloatBond3 == NULL) {
-            validateSignature("Rcpp::List(*FloatBond3)(SEXP,std::vector<double>,std::vector<double>,std::vector<double>,std::vector<double>,SEXP,Rcpp::List,SEXP,SEXP,SEXP,SEXP)");
+            validateSignature("Rcpp::List(*FloatBond3)(Rcpp::List,std::vector<double>,std::vector<double>,std::vector<double>,std::vector<double>,Rcpp::List,Rcpp::List,Rcpp::List,Rcpp::List,Rcpp::List,Rcpp::List)");
             p_FloatBond3 = (Ptr_FloatBond3)R_GetCCallable("RQuantLib", "RQuantLib_FloatBond3");
         }
         RObject __result;
@@ -157,11 +157,11 @@ namespace RQuantLib {
         return Rcpp::as<Rcpp::List >(__result);
     }
 
-    inline Rcpp::List FloatBond4(SEXP bond, std::vector<double> gearings, std::vector<double> caps, std::vector<double> spreads, std::vector<double> floors, SEXP indexparams, SEXP index_params, SEXP index_tsQuotes, SEXP index_times, SEXP disc_params, SEXP disc_tsQuotes, SEXP disc_times, SEXP dateparams) {
+    inline Rcpp::List FloatBond4(Rcpp::List bond, std::vector<double> gearings, std::vector<double> caps, std::vector<double> spreads, std::vector<double> floors, Rcpp::List indexparams, Rcpp::List index_params, Rcpp::List index_tsQuotes, Rcpp::List index_times, Rcpp::List disc_params, Rcpp::List disc_tsQuotes, Rcpp::List disc_times, Rcpp::List dateparams) {
         typedef SEXP(*Ptr_FloatBond4)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_FloatBond4 p_FloatBond4 = NULL;
         if (p_FloatBond4 == NULL) {
-            validateSignature("Rcpp::List(*FloatBond4)(SEXP,std::vector<double>,std::vector<double>,std::vector<double>,std::vector<double>,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP)");
+            validateSignature("Rcpp::List(*FloatBond4)(Rcpp::List,std::vector<double>,std::vector<double>,std::vector<double>,std::vector<double>,Rcpp::List,Rcpp::List,Rcpp::List,Rcpp::List,Rcpp::List,Rcpp::List,Rcpp::List,Rcpp::List)");
             p_FloatBond4 = (Ptr_FloatBond4)R_GetCCallable("RQuantLib", "RQuantLib_FloatBond4");
         }
         RObject __result;
@@ -176,17 +176,17 @@ namespace RQuantLib {
         return Rcpp::as<Rcpp::List >(__result);
     }
 
-    inline Rcpp::List floatingWithRebuiltCurveEngine(SEXP bondparams, std::vector<double> gearings, std::vector<double> spreads, std::vector<double> caps, std::vector<double> floors, SEXP indexparams, SEXP iborDateSexp, SEXP iborzeroSexp, SEXP dateSexp, SEXP zeroSexp, SEXP dateparams) {
+    inline Rcpp::List floatingWithRebuiltCurveEngine(Rcpp::List bondparams, std::vector<double> gearings, std::vector<double> spreads, std::vector<double> caps, std::vector<double> floors, Rcpp::List indexparams, std::vector<QuantLib::Date> iborDateVec, std::vector<double> iborzeroVec, std::vector<QuantLib::Date> dateVec, std::vector<double> zeroVec, Rcpp::List dateparams) {
         typedef SEXP(*Ptr_floatingWithRebuiltCurveEngine)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_floatingWithRebuiltCurveEngine p_floatingWithRebuiltCurveEngine = NULL;
         if (p_floatingWithRebuiltCurveEngine == NULL) {
-            validateSignature("Rcpp::List(*floatingWithRebuiltCurveEngine)(SEXP,std::vector<double>,std::vector<double>,std::vector<double>,std::vector<double>,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP)");
+            validateSignature("Rcpp::List(*floatingWithRebuiltCurveEngine)(Rcpp::List,std::vector<double>,std::vector<double>,std::vector<double>,std::vector<double>,Rcpp::List,std::vector<QuantLib::Date>,std::vector<double>,std::vector<QuantLib::Date>,std::vector<double>,Rcpp::List)");
             p_floatingWithRebuiltCurveEngine = (Ptr_floatingWithRebuiltCurveEngine)R_GetCCallable("RQuantLib", "RQuantLib_floatingWithRebuiltCurveEngine");
         }
         RObject __result;
         {
             RNGScope __rngScope;
-            __result = p_floatingWithRebuiltCurveEngine(Rcpp::wrap(bondparams), Rcpp::wrap(gearings), Rcpp::wrap(spreads), Rcpp::wrap(caps), Rcpp::wrap(floors), Rcpp::wrap(indexparams), Rcpp::wrap(iborDateSexp), Rcpp::wrap(iborzeroSexp), Rcpp::wrap(dateSexp), Rcpp::wrap(zeroSexp), Rcpp::wrap(dateparams));
+            __result = p_floatingWithRebuiltCurveEngine(Rcpp::wrap(bondparams), Rcpp::wrap(gearings), Rcpp::wrap(spreads), Rcpp::wrap(caps), Rcpp::wrap(floors), Rcpp::wrap(indexparams), Rcpp::wrap(iborDateVec), Rcpp::wrap(iborzeroVec), Rcpp::wrap(dateVec), Rcpp::wrap(zeroVec), Rcpp::wrap(dateparams));
         }
         if (__result.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -214,17 +214,17 @@ namespace RQuantLib {
         return Rcpp::as<Rcpp::List >(__result);
     }
 
-    inline Rcpp::List FixedRateWithRebuiltCurve(Rcpp::List bondparam, std::vector<double> ratesVec, Rcpp::List scheduleparam, Rcpp::List calcparam, SEXP dateSexp, SEXP zeroSexp) {
+    inline Rcpp::List FixedRateWithRebuiltCurve(Rcpp::List bondparam, std::vector<double> ratesVec, Rcpp::List scheduleparam, Rcpp::List calcparam, std::vector<QuantLib::Date> dateVec, std::vector<double> zeroVec) {
         typedef SEXP(*Ptr_FixedRateWithRebuiltCurve)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_FixedRateWithRebuiltCurve p_FixedRateWithRebuiltCurve = NULL;
         if (p_FixedRateWithRebuiltCurve == NULL) {
-            validateSignature("Rcpp::List(*FixedRateWithRebuiltCurve)(Rcpp::List,std::vector<double>,Rcpp::List,Rcpp::List,SEXP,SEXP)");
+            validateSignature("Rcpp::List(*FixedRateWithRebuiltCurve)(Rcpp::List,std::vector<double>,Rcpp::List,Rcpp::List,std::vector<QuantLib::Date>,std::vector<double>)");
             p_FixedRateWithRebuiltCurve = (Ptr_FixedRateWithRebuiltCurve)R_GetCCallable("RQuantLib", "RQuantLib_FixedRateWithRebuiltCurve");
         }
         RObject __result;
         {
             RNGScope __rngScope;
-            __result = p_FixedRateWithRebuiltCurve(Rcpp::wrap(bondparam), Rcpp::wrap(ratesVec), Rcpp::wrap(scheduleparam), Rcpp::wrap(calcparam), Rcpp::wrap(dateSexp), Rcpp::wrap(zeroSexp));
+            __result = p_FixedRateWithRebuiltCurve(Rcpp::wrap(bondparam), Rcpp::wrap(ratesVec), Rcpp::wrap(scheduleparam), Rcpp::wrap(calcparam), Rcpp::wrap(dateVec), Rcpp::wrap(zeroVec));
         }
         if (__result.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -233,17 +233,17 @@ namespace RQuantLib {
         return Rcpp::as<Rcpp::List >(__result);
     }
 
-    inline Rcpp::List ZeroBondWithRebuiltCurve(SEXP bond, SEXP dateSexp, SEXP zeroSexp, SEXP dateparams) {
+    inline Rcpp::List ZeroBondWithRebuiltCurve(Rcpp::List bond, std::vector<QuantLib::Date> dateVec, std::vector<double> zeroVec, Rcpp::List dateparams) {
         typedef SEXP(*Ptr_ZeroBondWithRebuiltCurve)(SEXP,SEXP,SEXP,SEXP);
         static Ptr_ZeroBondWithRebuiltCurve p_ZeroBondWithRebuiltCurve = NULL;
         if (p_ZeroBondWithRebuiltCurve == NULL) {
-            validateSignature("Rcpp::List(*ZeroBondWithRebuiltCurve)(SEXP,SEXP,SEXP,SEXP)");
+            validateSignature("Rcpp::List(*ZeroBondWithRebuiltCurve)(Rcpp::List,std::vector<QuantLib::Date>,std::vector<double>,Rcpp::List)");
             p_ZeroBondWithRebuiltCurve = (Ptr_ZeroBondWithRebuiltCurve)R_GetCCallable("RQuantLib", "RQuantLib_ZeroBondWithRebuiltCurve");
         }
         RObject __result;
         {
             RNGScope __rngScope;
-            __result = p_ZeroBondWithRebuiltCurve(Rcpp::wrap(bond), Rcpp::wrap(dateSexp), Rcpp::wrap(zeroSexp), Rcpp::wrap(dateparams));
+            __result = p_ZeroBondWithRebuiltCurve(Rcpp::wrap(bond), Rcpp::wrap(dateVec), Rcpp::wrap(zeroVec), Rcpp::wrap(dateparams));
         }
         if (__result.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -252,17 +252,17 @@ namespace RQuantLib {
         return Rcpp::as<Rcpp::List >(__result);
     }
 
-    inline Rcpp::List convertibleZeroBondEngine(Rcpp::List rparam, Rcpp::List processParam, SEXP dividendYieldDateSexp, SEXP dividendYieldZeroSexp, SEXP rffDateSexp, SEXP rffZeroSexp, Rcpp::DataFrame dividendScheduleFrame, Rcpp::DataFrame callabilityScheduleFrame, Rcpp::List datemisc) {
+    inline Rcpp::List convertibleZeroBondEngine(Rcpp::List rparam, Rcpp::List processParam, std::vector<QuantLib::Date> dividendYieldDateVec, std::vector<double> dividendYieldZeroVec, std::vector<QuantLib::Date> rffDateVec, std::vector<double> rffZeroVec, Rcpp::DataFrame dividendScheduleFrame, Rcpp::DataFrame callabilityScheduleFrame, Rcpp::List datemisc) {
         typedef SEXP(*Ptr_convertibleZeroBondEngine)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_convertibleZeroBondEngine p_convertibleZeroBondEngine = NULL;
         if (p_convertibleZeroBondEngine == NULL) {
-            validateSignature("Rcpp::List(*convertibleZeroBondEngine)(Rcpp::List,Rcpp::List,SEXP,SEXP,SEXP,SEXP,Rcpp::DataFrame,Rcpp::DataFrame,Rcpp::List)");
+            validateSignature("Rcpp::List(*convertibleZeroBondEngine)(Rcpp::List,Rcpp::List,std::vector<QuantLib::Date>,std::vector<double>,std::vector<QuantLib::Date>,std::vector<double>,Rcpp::DataFrame,Rcpp::DataFrame,Rcpp::List)");
             p_convertibleZeroBondEngine = (Ptr_convertibleZeroBondEngine)R_GetCCallable("RQuantLib", "RQuantLib_convertibleZeroBondEngine");
         }
         RObject __result;
         {
             RNGScope __rngScope;
-            __result = p_convertibleZeroBondEngine(Rcpp::wrap(rparam), Rcpp::wrap(processParam), Rcpp::wrap(dividendYieldDateSexp), Rcpp::wrap(dividendYieldZeroSexp), Rcpp::wrap(rffDateSexp), Rcpp::wrap(rffZeroSexp), Rcpp::wrap(dividendScheduleFrame), Rcpp::wrap(callabilityScheduleFrame), Rcpp::wrap(datemisc));
+            __result = p_convertibleZeroBondEngine(Rcpp::wrap(rparam), Rcpp::wrap(processParam), Rcpp::wrap(dividendYieldDateVec), Rcpp::wrap(dividendYieldZeroVec), Rcpp::wrap(rffDateVec), Rcpp::wrap(rffZeroVec), Rcpp::wrap(dividendScheduleFrame), Rcpp::wrap(callabilityScheduleFrame), Rcpp::wrap(datemisc));
         }
         if (__result.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -271,17 +271,17 @@ namespace RQuantLib {
         return Rcpp::as<Rcpp::List >(__result);
     }
 
-    inline Rcpp::List convertibleFixedBondEngine(Rcpp::List rparam, Rcpp::NumericVector rates, Rcpp::List processParam, SEXP dividendYieldDateSexp, SEXP dividendYieldZeroSexp, SEXP rffDateSexp, SEXP rffZeroSexp, Rcpp::DataFrame dividendScheduleFrame, Rcpp::DataFrame callabilityScheduleFrame, Rcpp::List datemisc) {
+    inline Rcpp::List convertibleFixedBondEngine(Rcpp::List rparam, Rcpp::NumericVector rates, Rcpp::List processParam, std::vector<QuantLib::Date> dividendYieldDateVec, std::vector<double> dividendYieldZeroVec, std::vector<QuantLib::Date> rffDateVec, std::vector<double> rffZeroVec, Rcpp::DataFrame dividendScheduleFrame, Rcpp::DataFrame callabilityScheduleFrame, Rcpp::List datemisc) {
         typedef SEXP(*Ptr_convertibleFixedBondEngine)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_convertibleFixedBondEngine p_convertibleFixedBondEngine = NULL;
         if (p_convertibleFixedBondEngine == NULL) {
-            validateSignature("Rcpp::List(*convertibleFixedBondEngine)(Rcpp::List,Rcpp::NumericVector,Rcpp::List,SEXP,SEXP,SEXP,SEXP,Rcpp::DataFrame,Rcpp::DataFrame,Rcpp::List)");
+            validateSignature("Rcpp::List(*convertibleFixedBondEngine)(Rcpp::List,Rcpp::NumericVector,Rcpp::List,std::vector<QuantLib::Date>,std::vector<double>,std::vector<QuantLib::Date>,std::vector<double>,Rcpp::DataFrame,Rcpp::DataFrame,Rcpp::List)");
             p_convertibleFixedBondEngine = (Ptr_convertibleFixedBondEngine)R_GetCCallable("RQuantLib", "RQuantLib_convertibleFixedBondEngine");
         }
         RObject __result;
         {
             RNGScope __rngScope;
-            __result = p_convertibleFixedBondEngine(Rcpp::wrap(rparam), Rcpp::wrap(rates), Rcpp::wrap(processParam), Rcpp::wrap(dividendYieldDateSexp), Rcpp::wrap(dividendYieldZeroSexp), Rcpp::wrap(rffDateSexp), Rcpp::wrap(rffZeroSexp), Rcpp::wrap(dividendScheduleFrame), Rcpp::wrap(callabilityScheduleFrame), Rcpp::wrap(datemisc));
+            __result = p_convertibleFixedBondEngine(Rcpp::wrap(rparam), Rcpp::wrap(rates), Rcpp::wrap(processParam), Rcpp::wrap(dividendYieldDateVec), Rcpp::wrap(dividendYieldZeroVec), Rcpp::wrap(rffDateVec), Rcpp::wrap(rffZeroVec), Rcpp::wrap(dividendScheduleFrame), Rcpp::wrap(callabilityScheduleFrame), Rcpp::wrap(datemisc));
         }
         if (__result.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -290,17 +290,17 @@ namespace RQuantLib {
         return Rcpp::as<Rcpp::List >(__result);
     }
 
-    inline Rcpp::List convertibleFloatingBondEngine(Rcpp::List rparam, Rcpp::List processParam, SEXP dividendYieldDateSexp, SEXP dividendYieldZeroSexp, SEXP rffDateSexp, SEXP rffZeroSexp, SEXP iborIndexDateSexp, SEXP iborIndexZeroSexp, Rcpp::List iborparams, std::vector<double> spreads, Rcpp::DataFrame dividendScheduleFrame, Rcpp::DataFrame callabilityScheduleFrame, Rcpp::List datemisc) {
+    inline Rcpp::List convertibleFloatingBondEngine(Rcpp::List rparam, Rcpp::List processParam, std::vector<QuantLib::Date> dividendYieldDateVec, std::vector<double> dividendYieldZeroVec, std::vector<QuantLib::Date> rffDateVec, std::vector<double> rffZeroVec, std::vector<QuantLib::Date> iborIndexDateVec, std::vector<double> iborIndexZeroVec, Rcpp::List iborparams, std::vector<double> spreads, Rcpp::DataFrame dividendScheduleFrame, Rcpp::DataFrame callabilityScheduleFrame, Rcpp::List datemisc) {
         typedef SEXP(*Ptr_convertibleFloatingBondEngine)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_convertibleFloatingBondEngine p_convertibleFloatingBondEngine = NULL;
         if (p_convertibleFloatingBondEngine == NULL) {
-            validateSignature("Rcpp::List(*convertibleFloatingBondEngine)(Rcpp::List,Rcpp::List,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,Rcpp::List,std::vector<double>,Rcpp::DataFrame,Rcpp::DataFrame,Rcpp::List)");
+            validateSignature("Rcpp::List(*convertibleFloatingBondEngine)(Rcpp::List,Rcpp::List,std::vector<QuantLib::Date>,std::vector<double>,std::vector<QuantLib::Date>,std::vector<double>,std::vector<QuantLib::Date>,std::vector<double>,Rcpp::List,std::vector<double>,Rcpp::DataFrame,Rcpp::DataFrame,Rcpp::List)");
             p_convertibleFloatingBondEngine = (Ptr_convertibleFloatingBondEngine)R_GetCCallable("RQuantLib", "RQuantLib_convertibleFloatingBondEngine");
         }
         RObject __result;
         {
             RNGScope __rngScope;
-            __result = p_convertibleFloatingBondEngine(Rcpp::wrap(rparam), Rcpp::wrap(processParam), Rcpp::wrap(dividendYieldDateSexp), Rcpp::wrap(dividendYieldZeroSexp), Rcpp::wrap(rffDateSexp), Rcpp::wrap(rffZeroSexp), Rcpp::wrap(iborIndexDateSexp), Rcpp::wrap(iborIndexZeroSexp), Rcpp::wrap(iborparams), Rcpp::wrap(spreads), Rcpp::wrap(dividendScheduleFrame), Rcpp::wrap(callabilityScheduleFrame), Rcpp::wrap(datemisc));
+            __result = p_convertibleFloatingBondEngine(Rcpp::wrap(rparam), Rcpp::wrap(processParam), Rcpp::wrap(dividendYieldDateVec), Rcpp::wrap(dividendYieldZeroVec), Rcpp::wrap(rffDateVec), Rcpp::wrap(rffZeroVec), Rcpp::wrap(iborIndexDateVec), Rcpp::wrap(iborIndexZeroVec), Rcpp::wrap(iborparams), Rcpp::wrap(spreads), Rcpp::wrap(dividendScheduleFrame), Rcpp::wrap(callabilityScheduleFrame), Rcpp::wrap(datemisc));
         }
         if (__result.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();

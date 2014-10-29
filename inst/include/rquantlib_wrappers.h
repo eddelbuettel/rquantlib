@@ -24,41 +24,14 @@
 
 // define template specialisations for as and wrap
 namespace Rcpp {
-    static const unsigned int QLtoJan1970Offset = 25569;  	// Offset to R / Unix epoch 
 
-    template <> QuantLib::Date as(SEXP dtsexp) {
-        Rcpp::Date dt(dtsexp);
-        return QuantLib::Date(static_cast<int>(dt.getDate()) + QLtoJan1970Offset);
-    }
+    //template <> QuantLib::Date as(SEXP dtsexp);
+    template <typename T> T as(SEXP dtsexp);
+    template <typename T> SEXP wrap(const T& d);
 
-    template <> SEXP wrap(const QuantLib::Date &d) {
-        double dt = static_cast<double>(d.serialNumber()); // QL::BigInteger can cast to double
-        return Rcpp::wrap(Rcpp::Date(dt - QLtoJan1970Offset));
-    }
-
-
-    // non-intrusive extension via template specialisation
-    template <> std::vector<QuantLib::Date> as(SEXP dtvecsexp) {
-        Rcpp::DateVector dtvec(dtvecsexp);
-        int n = dtvec.size();
-        std::vector<QuantLib::Date> dates(n);
-        for (int i = 0; i<n; i++){
-            dates[i] = QuantLib::Date(static_cast<int>(dtvec[i].getDate()) + QLtoJan1970Offset);
-        }
-        return dates;
-    }
-
-    // non-intrusive extension via template specialisation
-    template <> SEXP wrap(const std::vector<QuantLib::Date> &dvec) {
-        int n = dvec.size();
-        Rcpp::DateVector dtvec(n);
-        for (int i = 0; i<n; i++) {
-            double dt = static_cast<double>(dvec[i].serialNumber()); // QL::BigInteger can cast to double
-            dtvec[i] = Rcpp::Date(dt - QLtoJan1970Offset);
-        }
-        return Rcpp::wrap(dtvec);
-    }
-
+    template <> std::vector<QuantLib::Date> as(SEXP dtvecsexp);
+    template <> SEXP wrap(const std::vector<QuantLib::Date> &dvec);
+        
 }
 
 #endif

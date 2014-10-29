@@ -1,6 +1,6 @@
 
 import(methods)
-importFrom(Rcpp, Rcpp.plugin.maker)
+importFrom(Rcpp, Rcpp.plugin.maker, sourceCpp)
 
 useDynLib(RQuantLib)
 

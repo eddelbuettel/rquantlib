@@ -56,7 +56,7 @@ DiscountCurve.default <- function(params, tsQuotes, times=seq(0,10,.1)) {
 }
 
 plot.DiscountCurve <- function(x, setpar=TRUE, dolegend=TRUE,...) {
-    if(setpar) {
+    if (setpar) {
         savepar <- par(mfrow=c(3,1))
     }
     if (x$flatQuotes) {
@@ -64,29 +64,28 @@ plot.DiscountCurve <- function(x, setpar=TRUE, dolegend=TRUE,...) {
         plot(c(x$times[1],x$times[length(x$times)]), c(0,.5),type='n',
              main='forwards', xlab='time',ylab='forward rate')
         lines(x$times, x$forwards, type='l')
-        if(dolegend) {
+        if (dolegend) {
             legend('center','center','flat',bty='n',text.col='red')
         }
         plot(c(x$times[1],x$times[length(x$times)]), c(0,.5),type='n',
              main='zero rates', xlab='time',ylab='zero rate')
         lines(x$times, x$zerorates, type='l')
-        if(dolegend) {
+        if (dolegend) {
             legend('center','center','flat',bty='n',text.col='red')
         }
     } else {
         plot(x$times, x$forwards, type='l', main='forwards',xlab='time',ylab='fwd rate')
-        if(dolegend) {
+        if (dolegend) {
             legend('center','center',paste(x$params$interpHow, 'discount'), bty='n', text.col='red')
         }
         plot(x$times, x$zerorates, type='l', main='zero rates',xlab='time',ylab='zero rate')
-        if(dolegend) {
+        if (dolegend) {
             legend('center','center',paste(x$params$interpHow, 'discount'),bty='n', text.col='red')
         }
     }
-    plot(x$times, x$discounts, type='l',
-         main='discounts',xlab='time',ylab='discount')
-    if(dolegend) {
-        if(x$flatQuotes) {
+    plot(x$times, x$discounts, type='l', main='discounts',xlab='time',ylab='discount')
+    if (dolegend) {
+        if (x$flatQuotes) {
             legend('center','center','flat',bty='n',text.col='red')
         } else {
             legend('center','center',paste(x$params$interpHow, 'discount'),bty='n', text.col='red')

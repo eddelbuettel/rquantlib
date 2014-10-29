@@ -23,11 +23,11 @@
 #include <rquantlib.h>
 
 // [[Rcpp::export]]
-Rcpp::List calibrateHullWhiteUsingCapsEngine(SEXP termStrcDateVec,
-                                             SEXP termStrcZeroVec,
-                                             SEXP capDataDF,
-                                             SEXP iborDateVec,
-                                             SEXP iborZeroVec,
+Rcpp::List calibrateHullWhiteUsingCapsEngine(std::vector<QuantLib::Date> termStrcDateVec,
+                                             std::vector<double> termStrcZeroVec,
+                                             Rcpp::DataFrame capDF,
+                                             std::vector<QuantLib::Date> iborDateVec,
+                                             std::vector<double> iborZeroVec,
                                              std::string iborType,
                                              QuantLib::Date evalDate) {
 	
@@ -43,7 +43,7 @@ Rcpp::List calibrateHullWhiteUsingCapsEngine(SEXP termStrcDateVec,
     //process capDataDF
     std::vector<boost::shared_ptr <QuantLib::CalibrationHelper> > caps;
 
-    Rcpp::DataFrame capDF(capDataDF);
+    //Rcpp::DataFrame capDF(capDataDF);
     Rcpp::NumericVector i0v = capDF[0];
     Rcpp::CharacterVector  s1v = capDF[1];
     Rcpp::NumericVector d2v = capDF[2];
@@ -86,11 +86,11 @@ Rcpp::List calibrateHullWhiteUsingCapsEngine(SEXP termStrcDateVec,
 }
 
 // [[Rcpp::export]]
-Rcpp::List calibrateHullWhiteUsingSwapsEngine(SEXP termStrcDateVec,
-                                              SEXP termStrcZeroVec,
-                                              SEXP swapDataDF,
-                                              SEXP iborDateVec,
-                                              SEXP iborZeroVec,
+Rcpp::List calibrateHullWhiteUsingSwapsEngine(std::vector<QuantLib::Date> termStrcDateVec,
+                                              std::vector<double> termStrcZeroVec,
+                                              Rcpp::DataFrame swapDF,
+                                              std::vector<QuantLib::Date> iborDateVec,
+                                              std::vector<double> iborZeroVec,
                                               std::string iborType,
                                               QuantLib::Date evalDate) {
 
@@ -99,6 +99,7 @@ Rcpp::List calibrateHullWhiteUsingSwapsEngine(SEXP termStrcDateVec,
     //set up the HullWhite model       
     QuantLib::Handle<QuantLib::YieldTermStructure> 
         term(rebuildCurveFromZeroRates(termStrcDateVec, termStrcZeroVec));
+
     boost::shared_ptr<QuantLib::HullWhite> model(new QuantLib::HullWhite(term));        
         
     //set up ibor index
@@ -110,7 +111,7 @@ Rcpp::List calibrateHullWhiteUsingSwapsEngine(SEXP termStrcDateVec,
         engine(new QuantLib::JamshidianSwaptionEngine(model));
     std::vector<boost::shared_ptr <QuantLib::CalibrationHelper> > swaps;
 
-    Rcpp::DataFrame swapDF(swapDataDF);
+    //Rcpp::DataFrame swapDF(swapDataDF);
     Rcpp::NumericVector i0v = swapDF[0];
     Rcpp::CharacterVector  s1v = swapDF[1];
     Rcpp::NumericVector i2v = swapDF[2];

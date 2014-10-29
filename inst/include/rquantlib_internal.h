@@ -169,7 +169,9 @@ boost::shared_ptr<QuantLib::FixedRateBond> getFixedRateBond(Rcpp::List bondparam
 boost::shared_ptr<QuantLib::IborIndex> getIborIndex(Rcpp::List index, const QuantLib::Date today);
 // deprecated  std::vector<double> getDoubleVector(SEXP vector);
 boost::shared_ptr<QuantLib::YieldTermStructure> getFlatCurve(Rcpp::List flatcurve);
-boost::shared_ptr<QuantLib::YieldTermStructure> rebuildCurveFromZeroRates(SEXP dateSexp, SEXP zeroSexp);
+//boost::shared_ptr<QuantLib::YieldTermStructure> rebuildCurveFromZeroRates(SEXP dateSexp, SEXP zeroSexp);
+boost::shared_ptr<QuantLib::YieldTermStructure> rebuildCurveFromZeroRates(std::vector<QuantLib::Date> dates, std::vector<double> zeros);
+
 boost::shared_ptr<QuantLib::IborIndex> 
     buildIborIndex(std::string type,
                    const QuantLib::Handle<QuantLib::YieldTermStructure>& iborStrc);
@@ -187,5 +189,9 @@ Rcpp::DataFrame getCashFlowDataFrame(const QuantLib::Leg &bondCashFlow);
 QuantLib::DividendSchedule getDividendSchedule(Rcpp::DataFrame dividendScheduleFrame);
 QuantLib::CallabilitySchedule getCallabilitySchedule(Rcpp::DataFrame callabilityScheduleFrame);
 QuantLib::Duration::Type getDurationType(const double n);
+
+// dates.cpp
+QuantLib::Date advanceDate(QuantLib::Date issueDate, int days);
+
 
 #endif

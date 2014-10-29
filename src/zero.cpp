@@ -23,8 +23,10 @@
 // [[Rcpp::export]]
 double zeroprice(double yield, QuantLib::Date maturity, QuantLib::Date settle, int period, int basis) {
     
-    QuantLib::Calendar calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-    QuantLib::Integer fixingDays = 2;
+    //setup bond; initialise calendar from the singleton instance
+    QuantLib::Calendar calendar = RQLContext::instance().calendar;
+    QuantLib::Integer fixingDays = RQLContext::instance().fixingDays;
+
     QuantLib::Date todaysDate = calendar.advance(settle, -fixingDays, QuantLib::Days);
     QuantLib::Settings::instance().evaluationDate() = todaysDate;
     
@@ -43,8 +45,10 @@ double zeroprice(double yield, QuantLib::Date maturity, QuantLib::Date settle, i
 // [[Rcpp::export]]
 double zeroyield(double price, QuantLib::Date maturity, QuantLib::Date settle, int period, int basis) {
 
-    QuantLib::Calendar calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
-    QuantLib::Integer fixingDays = 2;
+    //setup bond; initialise calendar from the singleton instance
+    QuantLib::Calendar calendar = RQLContext::instance().calendar;
+    QuantLib::Integer fixingDays = RQLContext::instance().fixingDays;
+
     QuantLib::Date todaysDate = calendar.advance(settle, -fixingDays, QuantLib::Days);
     QuantLib::Settings::instance().evaluationDate() = todaysDate;
 
@@ -80,7 +84,7 @@ Rcpp::DataFrame zbtyield(std::vector<QuantLib::Date> MatDates,
         quoteHandle[i].linkTo(quote[i]);
     }
 
-    QuantLib::Calendar calendar = QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond);
+    QuantLib::Calendar calendar = RQLContext::instance().calendar;
     QuantLib::Date todaysDate = calendar.advance(SettleDates[0], -2, QuantLib::Days);
     QuantLib::Settings::instance().evaluationDate() = todaysDate;
     QuantLib::Period p(getFrequency(2));

@@ -66,9 +66,6 @@ inlineCxxPlugin <- function(...) {
                                 Makevars = NULL,
                                 Makevars.win = NULL)
     settings <- plugin()
-    settings$env$PKG_CPPFLAGS <- CFlags(FALSE)
+    settings$env$PKG_CPPFLAGS <- paste("-DRQuantLib_Plugin", CFlags(FALSE))
     settings
 }
-
-
-

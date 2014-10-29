@@ -14,6 +14,3 @@
 ## With R 2.12.0 and later, we also support 32 and 64 bit builds and need to differentiate
 PKG_CXXFLAGS=-I$(QUANTLIB_ROOT) -I../inst/include -I. -I$(BOOSTLIB) $(SHLIB_OPENMP_CFLAGS) -fpermissive 
 PKG_LIBS=-L$(QUANTLIB_ROOT)/lib${R_ARCH} -lQuantLib $(SHLIB_OPENMP_CFLAGS) 
-
-## Quick shortcut to get 'long long' support -- conflicts with Boost in QuantLib lib build
-#CXX_STD = CXX11

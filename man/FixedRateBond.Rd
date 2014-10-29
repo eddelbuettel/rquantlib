@@ -265,7 +265,6 @@ FixedRateBond(bond,
               calc,
               price = price)
 
-
 #example with default calc parameter
 FixedRateBond(bond,
               coupon.rate,

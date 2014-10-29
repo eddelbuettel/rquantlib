@@ -223,6 +223,62 @@ Concise summary of valuation for FixedRateBond
  2008-05-31   1.4375
  2008-11-30   1.4375
  2008-11-30 100.0000
+> 
+> #Same bond calculated from yield rather than from the discount curve
+> yield <- 0.02
+> FixedRateBond(bond,
++               coupon.rate,
++               schedule,
++               calc,
++               yield=yield)
+Concise summary of valuation for FixedRateBond 
+ Net present value :  NaN 
+       clean price :  103.27 
+       dirty price :  103.27 
+    accrued coupon :  0 
+             yield :  0.02 
+          duration :  3.7905 
+   settlement date :  2004-11-30 
+        cash flows : 
+       Date   Amount
+ 2005-05-31   1.4375
+ 2005-11-30   1.4375
+ 2006-05-31   1.4375
+ 2006-11-30   1.4375
+ 2007-05-31   1.4375
+ 2007-11-30   1.4375
+ 2008-05-31   1.4375
+ 2008-11-30   1.4375
+ 2008-11-30 100.0000
+> 
+> 
+> #same example with clean price
+> price <- 103.31
+> FixedRateBond(bond,
++               coupon.rate,
++               schedule,
++               calc,
++               price = price)
+Concise summary of valuation for FixedRateBond 
+ Net present value :  NaN 
+       clean price :  103.31 
+       dirty price :  103.31 
+    accrued coupon :  0 
+             yield :  0.019905 
+          duration :  3.7909 
+   settlement date :  2004-11-30 
+        cash flows : 
+       Date   Amount
+ 2005-05-31   1.4375
+ 2005-11-30   1.4375
+ 2006-05-31   1.4375
+ 2006-11-30   1.4375
+ 2007-05-31   1.4375
+ 2007-11-30   1.4375
+ 2008-05-31   1.4375
+ 2008-11-30   1.4375
+ 2008-11-30 100.0000
+> 
 > ## bond.cpp FloatingRateBond, following test-suite/bonds.cpp
 > 
 > bond <- list(faceAmount=100, issueDate=as.Date("2004-11-30"),

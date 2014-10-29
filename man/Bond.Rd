@@ -101,6 +101,11 @@ FixedRateBond(bond, rates, schedule, calc, discountCurve=discountCurve)
 yield <- 0.050517
 FixedRateBond(bond, rates, schedule, calc, yield=yield)
 
+# calculate the same bond from the clean price
+
+price <- 92.167
+FixedRateBond(bond, rates, schedule, calc, price=price)
+
 # price a floating rate bond
 bondparams <- list(faceAmount=100, issueDate=as.Date("2004-11-30"),
                    maturityDate=as.Date("2008-11-30"), redemption=100, 

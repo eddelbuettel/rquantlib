@@ -1,7 +1,5 @@
 2014-10-29  Michele Salvadore <michele.salvadore@gmail.com>
 
-	* DESCRIPTION: Added clean price based calculation for FixedRateBond
-
 	* R/bond.R: Added a price parameter to FixedRateBond to calculate based on clean price
 	* src/bonds.cpp: new function wrapping price based calculation
 	* man/Bond.Rd: updated documentation and examples

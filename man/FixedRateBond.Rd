@@ -8,10 +8,10 @@
 \alias{FixedRateBondYield.default}
 \title{Fixed-Rate bond pricing}
 \description{
-  The \code{FixedRateBond} function evaluates a fixed rate bond using discount curve or yield. 
+  The \code{FixedRateBond} function evaluates a fixed rate bond using discount curve, the yield or the clean price. 
   More specificly, when a discount curve is provided the calculation is done by DiscountingBondEngine from QuantLib.
   The NPV, clean price, dirty price, accrued interest, yield, duration, actual settlement date and cash flows of the bond is returned.
-  When a yield is provided instead, no engine is provided to the bond class and prices are computed from yield. In the latter case, NPV is set to NA.
+  When a yield is provided instead, no engine is provided to the bond class and prices are computed from yield. In the latter case, NPV is set to NA. Same situation when the clean price is given instead of discount curve or yield.
   For more detail, see the source codes in QuantLib's file \code{test-suite/bond.cpp}.
 
   The \code{FixedRateBondPriceByYield} function calculates the theoretical price of a fixed rate bond from its yield.
@@ -25,7 +25,7 @@
                                           compounding='Compounded',
                                           freq='Annual',
                                           durationType='Modified'),
-                                discountCurve = NULL, yield = NA)
+                                discountCurve = NULL, yield = NA, price = NA)
 
 \method{FixedRateBondPriceByYield}{default}( settlementDays=1, yield, faceAmount=100, 
                                  effectiveDate, maturityDate,
@@ -135,6 +135,7 @@
 }
 
 \item{yield}{yield of the bond}
+\item{price}{clean price of the bond}
 \item{settlementDays}{an integer, 1 for T+1, 2 for T+2, etc...}
 \item{price}{price of the bond}
 \item{effectiveDate}{bond's effective date}
@@ -249,6 +250,15 @@ FixedRateBond(bond,
               schedule,
               calc,
               discountCurve=discountCurve)
+
+
+#same example with clean price
+price <- 103.31
+FixedRateBond(bond,
+              coupon.rate,
+              schedule,
+              calc,
+              price = price)
 
 
 #example with default calc parameter

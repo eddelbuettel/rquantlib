@@ -1,3 +1,7 @@
+2014-10-30  Dirk Eddelbuettel  <edd@debian.org>
+
+	* NAMESPACE: Tighten exportPattern for .default as suggested by Bill Dunlap
+
 2014-10-29  Michele Salvadore <michele.salvadore@gmail.com>
 
 	* R/bond.R: Added a price parameter to FixedRateBond to calculate based on clean price

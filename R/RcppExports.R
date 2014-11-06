@@ -173,6 +173,10 @@ americanOptionImpliedVolatilityEngine <- function(type, value, underlying, strik
     .Call('RQuantLib_americanOptionImpliedVolatilityEngine', PACKAGE = 'RQuantLib', type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volguess, timesteps, gridpoints)
 }
 
+CreateSchedule <- function(params) {
+    .Call('RQuantLib_CreateSchedule', PACKAGE = 'RQuantLib', params)
+}
+
 europeanOptionEngine <- function(type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility) {
     .Call('RQuantLib_europeanOptionEngine', PACKAGE = 'RQuantLib', type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility)
 }

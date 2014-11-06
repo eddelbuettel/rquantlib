@@ -1350,6 +1350,40 @@ RcppExport SEXP RQuantLib_americanOptionImpliedVolatilityEngine(SEXP typeSEXP, S
     UNPROTECT(1);
     return __result;
 }
+// CreateSchedule
+Rcpp::List CreateSchedule(Rcpp::List params);
+static SEXP RQuantLib_CreateSchedule_try(SEXP paramsSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::traits::input_parameter< Rcpp::List >::type params(paramsSEXP );
+        Rcpp::List __result = CreateSchedule(params);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP RQuantLib_CreateSchedule(SEXP paramsSEXP) {
+    SEXP __result;
+    {
+        Rcpp::RNGScope __rngScope;
+        __result = PROTECT(RQuantLib_CreateSchedule_try(paramsSEXP));
+    }
+    Rboolean __isInterrupt = Rf_inherits(__result, "interrupted-error");
+    if (__isInterrupt) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    Rboolean __isError = Rf_inherits(__result, "try-error");
+    if (__isError) {
+        SEXP __msgSEXP = Rf_asChar(__result);
+        UNPROTECT(1);
+        Rf_error(CHAR(__msgSEXP));
+    }
+    UNPROTECT(1);
+    return __result;
+}
 // europeanOptionEngine
 Rcpp::List europeanOptionEngine(std::string type, double underlying, double strike, double dividendYield, double riskFreeRate, double maturity, double volatility);
 static SEXP RQuantLib_europeanOptionEngine_try(SEXP typeSEXP, SEXP underlyingSEXP, SEXP strikeSEXP, SEXP dividendYieldSEXP, SEXP riskFreeRateSEXP, SEXP maturitySEXP, SEXP volatilitySEXP) {
@@ -1535,6 +1569,7 @@ static int RQuantLib_RcppExport_validate(const char* sig) {
         signatures.insert("bool(*setEvaluationDate)(QuantLib::Date)");
         signatures.insert("double(*europeanOptionImpliedVolatilityEngine)(std::string,double,double,double,double,double,double,double)");
         signatures.insert("double(*americanOptionImpliedVolatilityEngine)(std::string,double,double,double,double,double,double,double,int,int)");
+        signatures.insert("Rcpp::List(*CreateSchedule)(Rcpp::List)");
         signatures.insert("Rcpp::List(*europeanOptionEngine)(std::string,double,double,double,double,double,double)");
         signatures.insert("Rcpp::List(*americanOptionEngine)(std::string,double,double,double,double,double,double,int,int,std::string)");
         signatures.insert("Rcpp::List(*europeanOptionArraysEngine)(std::string,Rcpp::NumericMatrix)");
@@ -1568,6 +1603,7 @@ RcppExport SEXP RQuantLib_RcppExport_registerCCallable() {
     R_RegisterCCallable("RQuantLib", "RQuantLib_setEvaluationDate", (DL_FUNC)RQuantLib_setEvaluationDate_try);
     R_RegisterCCallable("RQuantLib", "RQuantLib_europeanOptionImpliedVolatilityEngine", (DL_FUNC)RQuantLib_europeanOptionImpliedVolatilityEngine_try);
     R_RegisterCCallable("RQuantLib", "RQuantLib_americanOptionImpliedVolatilityEngine", (DL_FUNC)RQuantLib_americanOptionImpliedVolatilityEngine_try);
+    R_RegisterCCallable("RQuantLib", "RQuantLib_CreateSchedule", (DL_FUNC)RQuantLib_CreateSchedule_try);
     R_RegisterCCallable("RQuantLib", "RQuantLib_europeanOptionEngine", (DL_FUNC)RQuantLib_europeanOptionEngine_try);
     R_RegisterCCallable("RQuantLib", "RQuantLib_americanOptionEngine", (DL_FUNC)RQuantLib_americanOptionEngine_try);
     R_RegisterCCallable("RQuantLib", "RQuantLib_europeanOptionArraysEngine", (DL_FUNC)RQuantLib_europeanOptionArraysEngine_try);

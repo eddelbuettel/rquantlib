@@ -134,7 +134,6 @@
 \item{yield}{yield of the bond}
 \item{price}{clean price of the bond}
 \item{settlementDays}{an integer, 1 for T+1, 2 for T+2, etc...}
-\item{price}{price of the bond}
 \item{effectiveDate}{bond's effective date}
 \item{maturityDate}{bond's maturity date}
 \item{period}{frequency of events,0=NoFrequency, 1=Once, 2=Annual, 3=Semiannual, 4=EveryFourthMonth, 5=Quarterly, 6=Bimonthly ,7=Monthly ,8=EveryFourthWeely,9=Biweekly, 10=Weekly, 11=Daily. For more information, see QuantLib's Frequency class }

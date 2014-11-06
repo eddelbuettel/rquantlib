@@ -59,7 +59,9 @@ export(
        "AmericanOption",
        "AmericanOption.default",
        "BinaryOption",
-       "BarrierOption"
+       "BarrierOption",
+       ##--schedule.R
+       "Schedule"
        )
 
 S3method("plot", "Option")

@@ -25,14 +25,8 @@
 #include <rquantlib.h>
 
 // [[Rcpp::export]]
-Rcpp::List CreateSchedule(Rcpp::List params) {
-  
-  QuantLib::Schedule schedule = getSchedule(params);
-  
-  Rcpp::DateVector dates(schedule.size());
-    for (unsigned int i = 0; i < schedule.size(); ++i){
-        QuantLib::Date d = schedule.date(i);
-        dates[i] = Rcpp::Date(d.month(), d.dayOfMonth(), d.year());
-    }
-    return Rcpp::List::create(Rcpp::Named("Date") = dates);
+Rcpp::DateVector CreateSchedule(Rcpp::List params) {
+    
+    QuantLib::Schedule schedule = getSchedule(params);
+    return Rcpp::wrap(schedule.dates());
 }

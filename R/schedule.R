@@ -18,29 +18,26 @@
 ##  along with RQuantLib.  If not, see <http://www.gnu.org/licenses/>.
 
 Schedule <- function(params){
-  UseMethod("Schedule")
+    UseMethod("Schedule")
 }
 
 Schedule.default <- function(params) {
-  val <- 0
-  
-  # check schedule params
-  if (is.null(params$effectiveDate)){
-    stop("schedule effective date undefined.")
-  }
-  if (is.null(params$maturityDate)){
-    stop("schedule maturity date undefined.")
-  }
-  if (is.null(params$period)) params$period <- 'Semiannual'
-  if (is.null(params$calendar)) params$calendar <- 'TARGET'
-  if (is.null(params$businessDayConvention)) params$businessDayConvention <- 'Following'
-  if (is.null(params$terminationDateConvention)) params$terminationDateConvention <- 'Following'
-  if (is.null(params$dateGeneration)) params$dateGeneration <- 'Backward'
-  if (is.null(params$endOfMonth)) params$endOfMonth <- 0
-  params <- matchParams(params)
-  
-  val <- CreateSchedule(params)
-  
-  class(val) <- c("Schedule")
-  val
+    val <- 0
+    
+    # check schedule params
+    if (is.null(params$effectiveDate)){
+        stop("schedule effective date undefined.")
+    }
+    if (is.null(params$maturityDate)){
+        stop("schedule maturity date undefined.")
+    }
+    if (is.null(params$period)) params$period <- 'Semiannual'
+    if (is.null(params$calendar)) params$calendar <- 'TARGET'
+    if (is.null(params$businessDayConvention)) params$businessDayConvention <- 'Following'
+    if (is.null(params$terminationDateConvention)) params$terminationDateConvention <- 'Following'
+    if (is.null(params$dateGeneration)) params$dateGeneration <- 'Backward'
+    if (is.null(params$endOfMonth)) params$endOfMonth <- 0
+    params <- matchParams(params)
+    
+    CreateSchedule(params)
 }

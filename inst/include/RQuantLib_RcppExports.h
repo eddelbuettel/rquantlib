@@ -480,11 +480,11 @@ namespace RQuantLib {
         return Rcpp::as<double >(__result);
     }
 
-    inline Rcpp::List CreateSchedule(Rcpp::List params) {
+    inline Rcpp::DateVector CreateSchedule(Rcpp::List params) {
         typedef SEXP(*Ptr_CreateSchedule)(SEXP);
         static Ptr_CreateSchedule p_CreateSchedule = NULL;
         if (p_CreateSchedule == NULL) {
-            validateSignature("Rcpp::List(*CreateSchedule)(Rcpp::List)");
+            validateSignature("Rcpp::DateVector(*CreateSchedule)(Rcpp::List)");
             p_CreateSchedule = (Ptr_CreateSchedule)R_GetCCallable("RQuantLib", "RQuantLib_CreateSchedule");
         }
         RObject __result;
@@ -496,7 +496,7 @@ namespace RQuantLib {
             throw Rcpp::internal::InterruptedException();
         if (__result.inherits("try-error"))
             throw Rcpp::exception(as<std::string>(__result).c_str());
-        return Rcpp::as<Rcpp::List >(__result);
+        return Rcpp::as<Rcpp::DateVector >(__result);
     }
 
     inline Rcpp::List europeanOptionEngine(std::string type, double underlying, double strike, double dividendYield, double riskFreeRate, double maturity, double volatility) {

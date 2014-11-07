@@ -1351,13 +1351,13 @@ RcppExport SEXP RQuantLib_americanOptionImpliedVolatilityEngine(SEXP typeSEXP, S
     return __result;
 }
 // CreateSchedule
-Rcpp::List CreateSchedule(Rcpp::List params);
+Rcpp::DateVector CreateSchedule(Rcpp::List params);
 static SEXP RQuantLib_CreateSchedule_try(SEXP paramsSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::traits::input_parameter< Rcpp::List >::type params(paramsSEXP );
-        Rcpp::List __result = CreateSchedule(params);
+        Rcpp::DateVector __result = CreateSchedule(params);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
@@ -1569,7 +1569,7 @@ static int RQuantLib_RcppExport_validate(const char* sig) {
         signatures.insert("bool(*setEvaluationDate)(QuantLib::Date)");
         signatures.insert("double(*europeanOptionImpliedVolatilityEngine)(std::string,double,double,double,double,double,double,double)");
         signatures.insert("double(*americanOptionImpliedVolatilityEngine)(std::string,double,double,double,double,double,double,double,int,int)");
-        signatures.insert("Rcpp::List(*CreateSchedule)(Rcpp::List)");
+        signatures.insert("Rcpp::DateVector(*CreateSchedule)(Rcpp::List)");
         signatures.insert("Rcpp::List(*europeanOptionEngine)(std::string,double,double,double,double,double,double)");
         signatures.insert("Rcpp::List(*americanOptionEngine)(std::string,double,double,double,double,double,double,int,int,std::string)");
         signatures.insert("Rcpp::List(*europeanOptionArraysEngine)(std::string,Rcpp::NumericMatrix)");

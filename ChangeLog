@@ -1,10 +1,10 @@
 2014-11-07 Michele Salvadore <michele.salvadore@gmail.com>
 
-  * DESCRIPTION: New minor version
-  * NAMESPACE: Export Schedule
-  * R/schedule.R: Added Schedule function to expose the QuantLib::Schedule to R
-  * man/schedule.Rd: Ditto
-  * src/schedule.cpp: Ditto
+	* DESCRIPTION: New minor version
+	* NAMESPACE: Export Schedule
+	* R/schedule.R: Added Schedule function to expose the QuantLib::Schedule to R
+	* man/schedule.Rd: Ditto
+	* src/schedule.cpp: Ditto
 
 2014-10-30  Dirk Eddelbuettel  <edd@debian.org>
 

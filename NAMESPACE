@@ -47,6 +47,8 @@ export(
        "dayCount",
        "yearFraction",
        "setEvaluationDate",
+       ##--dates.cpp
+       "advanceDate",
        ##--discount.R
        "DiscountCurve",
        "plot.DiscountCurve",

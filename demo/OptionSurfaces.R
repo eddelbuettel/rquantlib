@@ -6,9 +6,9 @@
 OptionSurface <- function(EOres, label, fov=60) {
     axis.col <- "black"
     text.col <- axis.col
-    ylab = label
-    xlab = "Underlying"
-    zlab = "Volatility"
+    ylab <- label
+    xlab <- "Underlying"
+    zlab <- "Volatility"
     y <- EOres
 
     ## clear scene:

@@ -42,6 +42,9 @@
   \code{Schedule}. It contains the list of dates in the schedule.
 }
 \details{
+  Please see any decent Finance textbook for background reading, and the
+  \code{QuantLib} documentation for details on the \code{QuantLib}
+  implementation.  
 }
 \references{\url{http://quantlib.org} for details on \code{QuantLib}.}
 \author{

@@ -15,6 +15,7 @@
 \alias{dayCount}
 \alias{yearFraction}
 \alias{setEvaluationDate}
+\alias{advanceDate}
 \title{Calendar functions from QuantLib}
 \description{
 The \code{isBusinessDay} function evaluates the given dates in the context
@@ -67,6 +68,9 @@ instance at the C++ layer.
 
 The \code{setEvaluationDate} function sets the evaluation date used by
 the QuantLib pricing engines.
+
+The \code{advanceDate} function advances the given date by the given
+number of days in the current calendar instance.
 
 }
 \usage{

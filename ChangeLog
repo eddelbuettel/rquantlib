@@ -1,3 +1,10 @@
+2014-11-27  Dirk Eddelbuettel  <edd@debian.org>
+
+	* man/Calendars.Rd: Add documentation for advanceDate
+
+	* man/Schedule.Rd: Add standard reference to QuantLib to the
+	details section (which was empty)
+
 2014-11-07  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .travis.yml: Call via travis_wait to allow for potential timeout

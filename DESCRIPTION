@@ -1,9 +1,9 @@
 Package: RQuantLib
 Title: R Interface to the QuantLib Library
-Version: 0.3.12.10
-Date: 2014-11-06
+Version: 0.3.12.11
+Date: 2014-11-27
 Maintainer: Dirk Eddelbuettel <edd@debian.org>
-Author: Dirk Eddelbuettel <edd@debian.org> and Khanh Nguyen <knguyen@cs.umb.edu>
+Author: Dirk Eddelbuettel, Khanh Nguyen
 Description: The RQuantLib package makes parts of QuantLib accessible from R
  The QuantLib project aims to provide a comprehensive software framework for
  quantitative finance. The goal is to provide a standard open source library

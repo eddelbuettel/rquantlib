@@ -1,4 +1,10 @@
+2014-11-29  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/NEWS.Rd: Expanded reflecting changes since last release
+
 2014-11-27  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/NEWS.Rd: Added -- better late than never
 
 	* man/Calendars.Rd: Add documentation for advanceDate
 

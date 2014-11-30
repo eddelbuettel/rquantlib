@@ -8,7 +8,7 @@
 AC_PREREQ(2.50)
 
 # Process this file with autoconf to produce a configure script.
-AC_INIT(RQuantlib, 0.3.13)
+AC_INIT(RQuantlib, 0.4.0)
 
 # We are using C++
 AC_LANG(C++)
@@ -23,7 +23,7 @@ if test "${GXX}" = yes; then
 	     AC_MSG_WARN([Only g++ version 3.0 or greater can be used with RQuantib.])
 	     AC_MSG_ERROR([Please use a different compiler.])   
         ;;
-	4.6.*|4.7.*|4.8.*)
+	4.6.*|4.7.*|4.8.*|4.9.*|5.*)
 	     gxx_newer_than_45="-fpermissive"
 	;;
     esac

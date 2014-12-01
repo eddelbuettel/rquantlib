@@ -2,7 +2,7 @@
 \title{News for Package 'RQuantLib'}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
-\section{Changes in RQuantLib version 0.4.0 (2014-11-30)}{
+\section{Changes in RQuantLib version 0.4.0 (2014-12-01)}{
   \itemize{
     \item Changes in RQuantLib code:
     \itemize{

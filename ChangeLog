@@ -1,6 +1,7 @@
-2014-11-30  Dirk Eddelbuettel  <edd@debian.org>
+2014-12-01  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION: Release 0.4.0
+	* DESCRIPTION: Update to note we need QL 1.4.0 or later
 
 	* configure.ac: Mark as 0.4.0, allow for newer g++ versions
 	* configure: Rebuilt

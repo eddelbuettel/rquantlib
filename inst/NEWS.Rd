@@ -29,6 +29,8 @@
       \item The \code{DiscountCurve} and \code{Bond} curve construction
       has been fixed via a corrected evaluation date and omitted the
       two-year swap rate, as suggested by Luigi Ballabio.
+      \item The \code{NAMESPACE} file has a tighter rule for export of
+      \code{*.default} functions, as suggested by Bill Dunlap
       \item Builds now use OpenMP where available.
       \item The package now depends on QuantLib 1.4.0 or later.
     }
@@ -45,8 +47,6 @@
     \itemize{
       \item This NEWS file has been added. Better late than never, as
       they say.
-      \item The \code{NAMESPACE} file has a tighter rule for export of
-      \code{*.default} functions, as suggested by Bill Dunlap
     }
   }
 }

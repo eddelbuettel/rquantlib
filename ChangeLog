@@ -1,3 +1,12 @@
+2014-12-03  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION: Bump dev version, add Suggests: shiny
+
+	* inst/shiny/DiscountCurve/ui.R: UI part of simple shiny app
+	* inst/shiny/DiscountCurve/server.R: Server part of shiny app
+
+	* demo/ShinyDiscountCurves.R: New demo() wrapper for shiny app
+
 2014-12-01  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION: Release 0.4.0

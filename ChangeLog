@@ -2,6 +2,8 @@
 
 	* DESCRIPTION: Bump dev version, add Suggests: shiny
 
+	* .travis.yml: Add shiny as Suggests: are needed by R CMD check
+
 	* inst/shiny/DiscountCurve/ui.R: UI part of simple shiny app
 	* inst/shiny/DiscountCurve/server.R: Server part of shiny app
 

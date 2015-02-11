@@ -16,14 +16,15 @@ before_install:
   - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
   - chmod 755 ./travis-tool.sh
   - ./travis-tool.sh bootstrap
+  - sudo sudo apt-get-repository -y ppa:edd/misc
 
 install:
-  - ./travis-tool.sh install_aptget r-cran-runit r-cran-rgl r-cran-zoo libboost-dev libboost-test-dev littler
+  - ./travis-tool.sh install_aptget libquantlib0-dev r-cran-runit r-cran-rgl r-cran-zoo libboost-dev libboost-test-dev littler
   - ./travis-tool.sh install_r shiny
   # get two locally built packages / backports of current QuantLib
-  - ./travis-tool.sh install_dpkgcurl http://dirk.eddelbuettel.com/code/ubuntu/12.04/amd64/libquantlib0.deb 
-  - ./travis-tool.sh install_dpkgcurl http://dirk.eddelbuettel.com/code/ubuntu/12.04/amd64/libquantlib0-dev.deb
-  - ./travis-tool.sh install_dpkgcurl http://dirk.eddelbuettel.com/code/ubuntu/12.04/amd64/r-cran-rcpp.deb
+  #- ./travis-tool.sh install_dpkgcurl http://dirk.eddelbuettel.com/code/ubuntu/12.04/amd64/libquantlib0.deb 
+  #- ./travis-tool.sh install_dpkgcurl http://dirk.eddelbuettel.com/code/ubuntu/12.04/amd64/libquantlib0-dev.deb
+  #- ./travis-tool.sh install_dpkgcurl http://dirk.eddelbuettel.com/code/ubuntu/12.04/amd64/r-cran-rcpp.deb
 
 script: 
   - travis_wait ./travis-tool.sh run_tests

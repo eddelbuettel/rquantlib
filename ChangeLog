@@ -1,3 +1,7 @@
+2015-02-12  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/Makevars.win: Tweak suggested by Jeroen (cf GitHub issue #12)
+
 2015-02-11  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .travis.yml (install): Switch to using ppa:edd/misc for QuantLib debs

@@ -20,7 +20,7 @@ before_install:
   - sudo apt-get update -q
 
 install:
-  - ./travis-tool.sh install_aptget libquantlib0-dev r-cran-runit r-cran-rgl r-cran-zoo libboost-dev libboost-test-dev littler
+  - ./travis-tool.sh install_aptget r-cran-rcpp libquantlib0-dev r-cran-runit r-cran-rgl r-cran-zoo libboost-dev libboost-test-dev littler r-cran-httpuv r-cran-mime r-cran-jsonio
   - ./travis-tool.sh install_r shiny
   # get two locally built packages / backports of current QuantLib
   #- ./travis-tool.sh install_dpkgcurl http://dirk.eddelbuettel.com/code/ubuntu/12.04/amd64/libquantlib0.deb 

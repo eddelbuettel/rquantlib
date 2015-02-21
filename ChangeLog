@@ -1,3 +1,7 @@
+2015-02-21  Dirk Eddelbuettel  <edd@debian.org>
+
+	* .travis.yml (install): Use more r-cran-* packages from ppa:edd/misc
+
 2015-02-12  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/Makevars.win: Tweak suggested by Jeroen (cf GitHub issue #12)

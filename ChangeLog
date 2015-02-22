@@ -1,3 +1,7 @@
+2015-02-22  Dirk Eddelbuettel  <edd@debian.org>
+
+	* .travis.yml (install): Now use only r-cran-* binary packages
+
 2015-02-21  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .travis.yml (install): Use more r-cran-* packages from ppa:edd/misc

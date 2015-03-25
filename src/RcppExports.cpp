@@ -1350,6 +1350,57 @@ RcppExport SEXP RQuantLib_americanOptionImpliedVolatilityEngine(SEXP typeSEXP, S
     UNPROTECT(1);
     return __result;
 }
+// doubleKOVannaVolga
+Rcpp::List doubleKOVannaVolga(std::string type, double barrierUp, double barrierDown, double underlying, double strike, double dividendYield, double riskFreeRate, double maturity, double vol25Put1, double volAtm1, double vol25Call1, double volatility);
+RcppExport SEXP RQuantLib_doubleKOVannaVolga(SEXP typeSEXP, SEXP barrierUpSEXP, SEXP barrierDownSEXP, SEXP underlyingSEXP, SEXP strikeSEXP, SEXP dividendYieldSEXP, SEXP riskFreeRateSEXP, SEXP maturitySEXP, SEXP vol25Put1SEXP, SEXP volAtm1SEXP, SEXP vol25Call1SEXP, SEXP volatilitySEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< std::string >::type type(typeSEXP );
+        Rcpp::traits::input_parameter< double >::type barrierUp(barrierUpSEXP );
+        Rcpp::traits::input_parameter< double >::type barrierDown(barrierDownSEXP );
+        Rcpp::traits::input_parameter< double >::type underlying(underlyingSEXP );
+        Rcpp::traits::input_parameter< double >::type strike(strikeSEXP );
+        Rcpp::traits::input_parameter< double >::type dividendYield(dividendYieldSEXP );
+        Rcpp::traits::input_parameter< double >::type riskFreeRate(riskFreeRateSEXP );
+        Rcpp::traits::input_parameter< double >::type maturity(maturitySEXP );
+        Rcpp::traits::input_parameter< double >::type vol25Put1(vol25Put1SEXP );
+        Rcpp::traits::input_parameter< double >::type volAtm1(volAtm1SEXP );
+        Rcpp::traits::input_parameter< double >::type vol25Call1(vol25Call1SEXP );
+        Rcpp::traits::input_parameter< double >::type volatility(volatilitySEXP );
+        Rcpp::List __result = doubleKOVannaVolga(type, barrierUp, barrierDown, underlying, strike, dividendYield, riskFreeRate, maturity, vol25Put1, volAtm1, vol25Call1, volatility);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// oneTouchMC
+Rcpp::List oneTouchMC(std::string type, double underlying, double strike, double cashPayoff, double dividendYield, double riskFreeRate, double maturity, double volatility, const std::vector<double> strikes, const std::vector<int> expirationsRcpp, const Rcpp::NumericMatrix volMatrixRcpp);
+RcppExport SEXP RQuantLib_oneTouchMC(SEXP typeSEXP, SEXP underlyingSEXP, SEXP strikeSEXP, SEXP cashPayoffSEXP, SEXP dividendYieldSEXP, SEXP riskFreeRateSEXP, SEXP maturitySEXP, SEXP volatilitySEXP, SEXP strikesSEXP, SEXP expirationsRcppSEXP, SEXP volMatrixRcppSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< std::string >::type type(typeSEXP );
+        Rcpp::traits::input_parameter< double >::type underlying(underlyingSEXP );
+        Rcpp::traits::input_parameter< double >::type strike(strikeSEXP );
+        Rcpp::traits::input_parameter< double >::type cashPayoff(cashPayoffSEXP );
+        Rcpp::traits::input_parameter< double >::type dividendYield(dividendYieldSEXP );
+        Rcpp::traits::input_parameter< double >::type riskFreeRate(riskFreeRateSEXP );
+        Rcpp::traits::input_parameter< double >::type maturity(maturitySEXP );
+        Rcpp::traits::input_parameter< double >::type volatility(volatilitySEXP );
+        Rcpp::traits::input_parameter< const std::vector<double> >::type strikes(strikesSEXP );
+        Rcpp::traits::input_parameter< const std::vector<int> >::type expirationsRcpp(expirationsRcppSEXP );
+        Rcpp::traits::input_parameter< const Rcpp::NumericMatrix >::type volMatrixRcpp(volMatrixRcppSEXP );
+        Rcpp::List __result = oneTouchMC(type, underlying, strike, cashPayoff, dividendYield, riskFreeRate, maturity, volatility, strikes, expirationsRcpp, volMatrixRcpp);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // CreateSchedule
 Rcpp::DateVector CreateSchedule(Rcpp::List params);
 static SEXP RQuantLib_CreateSchedule_try(SEXP paramsSEXP) {

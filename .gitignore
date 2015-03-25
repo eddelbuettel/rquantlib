@@ -5,3 +5,5 @@ src/*.o
 src/*.so
 src/*.dll
 /lib/
+/boost_1_57_0/
+/QuantLib-1.4.1/

@@ -173,6 +173,14 @@ americanOptionImpliedVolatilityEngine <- function(type, value, underlying, strik
     .Call('RQuantLib_americanOptionImpliedVolatilityEngine', PACKAGE = 'RQuantLib', type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volguess, timesteps, gridpoints)
 }
 
+doubleKOVannaVolga <- function(type, barrierUp, barrierDown, underlying, strike, dividendYield, riskFreeRate, maturity, vol25Put1, volAtm1, vol25Call1, volatility) {
+    .Call('RQuantLib_doubleKOVannaVolga', PACKAGE = 'RQuantLib', type, barrierUp, barrierDown, underlying, strike, dividendYield, riskFreeRate, maturity, vol25Put1, volAtm1, vol25Call1, volatility)
+}
+
+oneTouchMC <- function(type, underlying, strike, cashPayoff, dividendYield, riskFreeRate, maturity, volatility, strikes, expirationsRcpp, volMatrixRcpp) {
+    .Call('RQuantLib_oneTouchMC', PACKAGE = 'RQuantLib', type, underlying, strike, cashPayoff, dividendYield, riskFreeRate, maturity, volatility, strikes, expirationsRcpp, volMatrixRcpp)
+}
+
 CreateSchedule <- function(params) {
     .Call('RQuantLib_CreateSchedule', PACKAGE = 'RQuantLib', params)
 }

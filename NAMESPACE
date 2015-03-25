@@ -63,7 +63,10 @@ export(
        "BinaryOption",
        "BarrierOption",
        ##--schedule.R
-       "Schedule"
+       "Schedule",
+       ##--FXDerivatives.R
+       "oneTouch",
+       "DNTVannaVolga"
        )
 
 S3method("plot", "Option")

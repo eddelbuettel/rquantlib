@@ -338,6 +338,21 @@ flatVol(const QuantLib::Date& today,
                                           QuantLib::Handle<QuantLib::Quote>(vol), dc));
 }
 
+//boost::shared_ptr<QuantLib::BlackVolTermStructure> volSurface(const QuantLib::Date& today,const std::vector<QuantLib::Date> &expirations, const std::vector<QuantLib::Real>& strikes,const QuantLib::Matrix& volMatrix, const QuantLib::DayCounter& dc) {
+//   const  QuantLib::Calendar calendar =  QuantLib::TARGET();
+//
+//  boost::shared_ptr<QuantLib::BlackVarianceSurface> volatilitySurface(new QuantLib::BlackVarianceSurface(today,calendar, expirations, strikes, volMatrix, dc));
+//  
+//    // Volatility surface interpolation
+//  volatilitySurface->enableExtrapolation(true);
+//
+//	// Change interpolator to bicubic splines
+//	volatilitySurface->setInterpolation<Bicubic>(Bicubic());
+//  
+//  return volatilitySurface;
+//  
+//}
+
 typedef QuantLib::BlackScholesMertonProcess BSMProcess; // shortcut
 boost::shared_ptr<QuantLib::GeneralizedBlackScholesProcess>
 makeProcess(const boost::shared_ptr<QuantLib::Quote>& u,

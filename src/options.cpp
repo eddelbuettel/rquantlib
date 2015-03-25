@@ -6,21 +6,22 @@
 #include <ql/math/matrix.hpp>
 using namespace Rcpp;
 using namespace QuantLib;
+#include "rquantlib.h"
 
 // [[Rcpp::depends(RQuantLib)]]
 
-boost::shared_ptr<QuantLib::YieldTermStructure>    flatRate(const QuantLib::Date& today,
-const boost::shared_ptr<QuantLib::Quote>& forward,
-const QuantLib::DayCounter& dc) {
-  return boost::shared_ptr<QuantLib::YieldTermStructure>(
-    new QuantLib::FlatForward(today, QuantLib::Handle<QuantLib::Quote>(forward), dc));
-}
-
-boost::shared_ptr<QuantLib::BlackVolTermStructure> flatVol(const QuantLib::Date& today,const boost::shared_ptr<QuantLib::Quote>& vol,const QuantLib::DayCounter& dc) {
-  return boost::shared_ptr<QuantLib::BlackVolTermStructure>(new
-  QuantLib::BlackConstantVol(today, QuantLib::NullCalendar(), QuantLib::Handle<QuantLib::Quote>(vol), dc));
-}
-
+//boost::shared_ptr<QuantLib::YieldTermStructure>    flatRate(const QuantLib::Date& today,
+//const boost::shared_ptr<QuantLib::Quote>& forward,
+//const QuantLib::DayCounter& dc) {
+//  return boost::shared_ptr<QuantLib::YieldTermStructure>(
+//    new QuantLib::FlatForward(today, QuantLib::Handle<QuantLib::Quote>(forward), dc));
+//}
+//
+//boost::shared_ptr<QuantLib::BlackVolTermStructure> flatVol(const QuantLib::Date& today,const boost::shared_ptr<QuantLib::Quote>& vol,const QuantLib::DayCounter& dc) {
+//  return boost::shared_ptr<QuantLib::BlackVolTermStructure>(new
+//  QuantLib::BlackConstantVol(today, QuantLib::NullCalendar(), QuantLib::Handle<QuantLib::Quote>(vol), dc));
+//}
+//
 boost::shared_ptr<QuantLib::BlackVolTermStructure> volSurface(const QuantLib::Date& today,const std::vector<QuantLib::Date> &expirations, const std::vector<QuantLib::Real>& strikes,const QuantLib::Matrix& volMatrix, const QuantLib::DayCounter& dc) {
    const  QuantLib::Calendar calendar =  QuantLib::TARGET();
 
@@ -35,23 +36,23 @@ boost::shared_ptr<QuantLib::BlackVolTermStructure> volSurface(const QuantLib::Da
   return volatilitySurface;
   
 }
-
-
-QuantLib::Option::Type getOptionType(const std::string &type) {
-  QuantLib::Option::Type optionType;
-  if (type=="call") {
-    optionType = QuantLib::Option::Call;
-  } else if (type=="put") {
-    optionType = QuantLib::Option::Put;
-  } else {
-    throw std::range_error("Unknown option " + type);
-  }
-  return optionType;
-}
+//
+//
+//QuantLib::Option::Type getOptionType(const std::string &type) {
+//  QuantLib::Option::Type optionType;
+//  if (type=="call") {
+//    optionType = QuantLib::Option::Call;
+//  } else if (type=="put") {
+//    optionType = QuantLib::Option::Put;
+//  } else {
+//    throw std::range_error("Unknown option " + type);
+//  }
+//  return optionType;
+//}
 
 
 // [[Rcpp::export]]
-Rcpp::List doubleKOVannaVolga(std::string type,
+Rcpp::List doubleKOVannaVolgaEngine(std::string type,
 double barrierUp, 
 double barrierDown,
 double underlying,double strike,
@@ -167,7 +168,7 @@ double vol25Put1, double volAtm1, double vol25Call1,double volatility) {
 }
 
 // [[Rcpp::export]]
-Rcpp::List oneTouchMC(std::string type, double underlying,double strike, double cashPayoff,double dividendYield,double riskFreeRate,double maturity,double volatility,const std::vector<double> strikes,const std::vector<int> expirationsRcpp, const Rcpp::NumericMatrix volMatrixRcpp) {
+Rcpp::List oneTouchEngine(std::string type, double underlying,double strike, double cashPayoff,double dividendYield,double riskFreeRate,double maturity,double volatility,const std::vector<double> strikes,const std::vector<int> expirationsRcpp, const Rcpp::NumericMatrix volMatrixRcpp) {
   
   
   

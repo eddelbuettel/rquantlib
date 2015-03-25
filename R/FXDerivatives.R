@@ -31,9 +31,9 @@ oneTouch=function(type,underlying, strike, dividendYield,riskFreeRate, maturity,
   #expiration is a vector of integer, being the number of days until expirations
   
   calc = tryCatch({
-    oneTouchEngine(type=type,underlying=underlying, strike=strike, dividendYield=(dividendYield)/100,riskFreeRate=(riskFreeRate)/100, maturity=maturity/12, volatility=vol/100, cashPayoff=100,strikesMat,expirations,volMatrix/100)$calc
+    oneTouchEngine(type=type,underlying=underlying, strike=strike, dividendYield=(dividendYield),riskFreeRate=(riskFreeRate), maturity=maturity, volatility=vol, cashPayoff=100,strikesMat,expirations,volMatrix)$calc
   }, warning = function(w) {
-    oneTouchEngine(type=type,underlying=underlying, strike=strike, dividendYield=(dividendYield)/100,riskFreeRate=(riskFreeRate)/100, maturity=maturity/12, volatility=vol/100, cashPayoff=100,strikesMat,expirations,volMatrix/100)$calc
+    oneTouchEngine(type=type,underlying=underlying, strike=strike, dividendYield=(dividendYield),riskFreeRate=(riskFreeRate), maturity=maturity, volatility=vol, cashPayoff=100,strikesMat,expirations,volMatrix)$calc
   }, error = function(e) {
     NA
   }, finally = {
@@ -46,7 +46,7 @@ oneTouch=function(type,underlying, strike, dividendYield,riskFreeRate, maturity,
 
 doubleKOVannaVolga=function(type,barrierUp,  barrierDown,underlying,strike,dividendYield, riskFreeRate,maturity,   vol25Put, volATM,   vol25Call,volatility){
   
-  DKO=doubleKOVannaVolga(type,barrierUp,  barrierDown,underlying,strike, dividendYield, riskFreeRate,maturity,   vol25Put, volATM,   vol25Call,volatility)
+  DKO=doubleKOVannaVolgaEngine(type,barrierUp,  barrierDown,underlying,strike, dividendYield, riskFreeRate,maturity,   vol25Put, volATM,   vol25Call,volatility)
   
   return(DKO)
 }

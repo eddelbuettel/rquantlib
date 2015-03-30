@@ -1,5 +1,5 @@
 
-DNTVannaVolga=function(barrierUp,barrierDown,underlying,dividendYield,riskFreeRate,maturity,volatility,BF25D,RR25D){
+DoubleNoTouchOption<-function(barrierUp,barrierDown,underlying,dividendYield,riskFreeRate,maturity,volatility,BF25D,RR25D){
   
   volATM=volatility
   vol25Put=volatility+BF25D-0.5*RR25D
@@ -14,10 +14,10 @@ DNTVannaVolga=function(barrierUp,barrierDown,underlying,dividendYield,riskFreeRa
   else{
     barrierDown=ifelse(barrierDown<=0,0.01,barrierDown)
     
-    callDKO=doubleKOVannaVolga("call",barrierUp =barrierUp,  barrierDown =  barrierDown,underlying = underlying,strike = barrierDown,
-                               dividendYield, riskFreeRate,maturity,   vol25Put, volATM,   vol25Call,volatility)$calc
-    putDKO=doubleKOVannaVolga("put",barrierUp =barrierUp,  barrierDown =  barrierDown,underlying = underlying,strike = barrierUp,
-                              dividendYield, riskFreeRate,maturity, vol25Put, volATM,   vol25Call,volatility)$calc
+    callDKO=DoubleKnockOutOption("call",barrierUp =barrierUp,  barrierDown =  barrierDown,underlying = underlying,strike = barrierDown,
+                               dividendYield, riskFreeRate,maturity,   vol25Put, volATM,   vol25Call,volatility)$value
+    putDKO=DoubleKnockOutOption("put",barrierUp =barrierUp,  barrierDown =  barrierDown,underlying = underlying,strike = barrierUp,
+                              dividendYield, riskFreeRate,maturity, vol25Put, volATM,   vol25Call,volatility)$value
     
     DNT=1/(barrierUp-barrierDown)*callDKO+1/(barrierUp-barrierDown)*putDKO
     
@@ -25,28 +25,40 @@ DNTVannaVolga=function(barrierUp,barrierDown,underlying,dividendYield,riskFreeRa
   }
 }
 
-oneTouch=function(type,underlying, strike, dividendYield,riskFreeRate, maturity, vol, cashPayoff,strikesMat,expirations,volMatrix){
+AmericanBinaryOption<-function(type,underlying, strike, dividendYield,riskFreeRate, maturity, vol, cashPayoff,strikesMat,expirations,volMatrix){
   
   #strikes is a vector of double
   #expiration is a vector of integer, being the number of days until expirations
   
-  calc = tryCatch({
-    oneTouchEngine(type=type,underlying=underlying, strike=strike, dividendYield=(dividendYield),riskFreeRate=(riskFreeRate), maturity=maturity, volatility=vol, cashPayoff=100,strikesMat,expirations,volMatrix)$calc
-  }, warning = function(w) {
-    oneTouchEngine(type=type,underlying=underlying, strike=strike, dividendYield=(dividendYield),riskFreeRate=(riskFreeRate), maturity=maturity, volatility=vol, cashPayoff=100,strikesMat,expirations,volMatrix)$calc
-  }, error = function(e) {
-    NA
-  }, finally = {
-    NA
-  })
+#   value = tryCatch({
+#      }, warning = function(w) {
+#     oneTouchEngine(type=type,underlying=underlying, strike=strike, dividendYield=(dividendYield),riskFreeRate=(riskFreeRate), maturity=maturity, volatility=vol, cashPayoff=100,strikesMat,expirations,volMatrix)$value
+#   }, error = function(e) {
+#     NA
+#   }, finally = {
+#     NA
+#   })
+#   
+  value=oneTouchEngine(type=type,underlying=underlying, strike=strike, dividendYield=(dividendYield),riskFreeRate=(riskFreeRate), maturity=maturity, volatility=vol, cashPayoff=cashPayoff,strikesMat,expirations,volMatrix)$value
   
-  return(calc)
+  
+  return(value)
 }
 
 
-doubleKOVannaVolga=function(type,barrierUp,  barrierDown,underlying,strike,dividendYield, riskFreeRate,maturity,   vol25Put, volATM,   vol25Call,volatility){
-  
-  DKO=doubleKOVannaVolgaEngine(type,barrierUp,  barrierDown,underlying,strike, dividendYield, riskFreeRate,maturity,   vol25Put, volATM,   vol25Call,volatility)
-  
-  return(DKO)
+DoubleKnockOutOption <- function(type,barrierUp,  barrierDown,underlying,strike,
+                                 dividendYield, riskFreeRate,maturity,   vol25Put,
+                                 volATM,   vol25Call,volatility) {
+  UseMethod("DoubleKnockOutOption")
+}
+
+DoubleKnockOutOption.default <- function(type,barrierUp,  barrierDown,underlying,strike,
+                                         dividendYield, riskFreeRate,maturity,   vol25Put,
+                                         volATM,   vol25Call,volatility) {
+  type <- match.arg(type, c("call", "put"))
+  val <- doubleKOVannaVolgaEngine(type,barrierUp,  barrierDown,underlying,strike,
+                                  dividendYield, riskFreeRate,maturity,   vol25Put,
+                                  volATM,   vol25Call,volatility)
+  class(val) <- c("Option")
+  val
 }

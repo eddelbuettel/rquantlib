@@ -1,27 +1,15 @@
-#include <ql/quantlib.hpp>
+
 #include <Rcpp.h>
 #include <vector>
 #include <iostream>
-#include <ql/time/calendars/target.hpp>
-#include <ql/math/matrix.hpp>
+#include <rquantlib.h>
 using namespace Rcpp;
 using namespace QuantLib;
 #include "rquantlib.h"
 
 // [[Rcpp::depends(RQuantLib)]]
 
-//boost::shared_ptr<QuantLib::YieldTermStructure>    flatRate(const QuantLib::Date& today,
-//const boost::shared_ptr<QuantLib::Quote>& forward,
-//const QuantLib::DayCounter& dc) {
-//  return boost::shared_ptr<QuantLib::YieldTermStructure>(
-//    new QuantLib::FlatForward(today, QuantLib::Handle<QuantLib::Quote>(forward), dc));
-//}
-//
-//boost::shared_ptr<QuantLib::BlackVolTermStructure> flatVol(const QuantLib::Date& today,const boost::shared_ptr<QuantLib::Quote>& vol,const QuantLib::DayCounter& dc) {
-//  return boost::shared_ptr<QuantLib::BlackVolTermStructure>(new
-//  QuantLib::BlackConstantVol(today, QuantLib::NullCalendar(), QuantLib::Handle<QuantLib::Quote>(vol), dc));
-//}
-//
+
 boost::shared_ptr<QuantLib::BlackVolTermStructure> volSurface(const QuantLib::Date& today,const std::vector<QuantLib::Date> &expirations, const std::vector<QuantLib::Real>& strikes,const QuantLib::Matrix& volMatrix, const QuantLib::DayCounter& dc) {
    const  QuantLib::Calendar calendar =  QuantLib::TARGET();
 
@@ -36,19 +24,7 @@ boost::shared_ptr<QuantLib::BlackVolTermStructure> volSurface(const QuantLib::Da
   return volatilitySurface;
   
 }
-//
-//
-//QuantLib::Option::Type getOptionType(const std::string &type) {
-//  QuantLib::Option::Type optionType;
-//  if (type=="call") {
-//    optionType = QuantLib::Option::Call;
-//  } else if (type=="put") {
-//    optionType = QuantLib::Option::Put;
-//  } else {
-//    throw std::range_error("Unknown option " + type);
-//  }
-//  return optionType;
-//}
+
 
 
 // [[Rcpp::export]]
@@ -164,7 +140,7 @@ double vol25Put1, double volAtm1, double vol25Call1,double volatility) {
                 
                 QuantLib::Real calculated = doubleBarrierOption.NPV();
                 
-                return Rcpp::List::create(Rcpp::Named("calc") = calculated);
+                return Rcpp::List::create(Rcpp::Named("value") = calculated);
 }
 
 // [[Rcpp::export]]
@@ -247,6 +223,6 @@ int n = expirationsRcpp.size();
       QuantLib::Real calculated = opt.NPV();
       
       
-      return Rcpp::List::create(Rcpp::Named("calc") = calculated);                    
+      return Rcpp::List::create(Rcpp::Named("value") = calculated);                    
       
 }

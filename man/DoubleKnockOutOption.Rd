@@ -67,7 +67,7 @@ DoubleKnockOutOption("put",barrierUp = 1.5,  barrierDown =   1.1,underlying =   
                       strike = 1.5, dividendYield=0.0003541, riskFreeRate=0.0033871,
                       maturity=3/12, vol25Put=0.10087, volATM=0.08925, vol25Call=0.08463, 
                       volatility=0.08925)
-
+}
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{misc}

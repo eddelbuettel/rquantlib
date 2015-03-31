@@ -24,16 +24,14 @@ vol, cashPayoff, volStrikes, volMaturities, volMatrix)
   \item{cashPayoff}{Payout amount}
   \item{volStrikes}{A vector containing the volatility strikes
     associated with the column of the volatility matrix.}
-  \item{volMaturities}{A vector containing the volatility maturities
+  \item{volMaturities}{A vector containing the volatility maturities (in days)
     associated with the rows of the volatility matrix.
 }
   \item{volMatrix}{The volatility matrix representing the volatility surface associated with the underlying. Must be a 2D matrix
   stored by rows. See the example below.
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+
 \value{
   \item{value}{Value of option}
   \item{delta}{Sensitivity of the option value for a change in the underlying}

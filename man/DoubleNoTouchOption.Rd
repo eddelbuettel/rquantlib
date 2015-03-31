@@ -27,9 +27,6 @@ Price of downside barrier
   \item{BF25D}{Current price of the 25 delta Butterfly}
   \item{RR25D}{Current price of the 25 delta Risk Reversal}
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
  \item{value}{Value of option}
 }
@@ -55,7 +52,7 @@ DoubleNoTouchOption(barrierUp =barrierUp,  barrierDown =  barrierDown,
                       underlying = spot, dividendYield=6e-04, 
                       riskFreeRate=0.01294,maturity=3/12, volatility=0.10765,
                       BF25D=0.10765, RR25D=0.109225)
-                      
+ }                     
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{misc}

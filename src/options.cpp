@@ -11,15 +11,15 @@ using namespace QuantLib;
 
 
 boost::shared_ptr<QuantLib::BlackVolTermStructure> volSurface(const QuantLib::Date& today,const std::vector<QuantLib::Date> &expirations, const std::vector<QuantLib::Real>& strikes,const QuantLib::Matrix& volMatrix, const QuantLib::DayCounter& dc) {
-   const  QuantLib::Calendar calendar =  QuantLib::TARGET();
-
+  const  QuantLib::Calendar calendar =  QuantLib::TARGET();
+  
   boost::shared_ptr<BlackVarianceSurface> volatilitySurface(new QuantLib::BlackVarianceSurface(today,calendar, expirations, strikes, volMatrix, dc));
   
-    // Volatility surface interpolation
-	volatilitySurface->enableExtrapolation(true);
-
-	// Change interpolator to bicubic splines
-	volatilitySurface->setInterpolation<Bicubic>(Bicubic());
+  // Volatility surface interpolation
+  volatilitySurface->enableExtrapolation(true);
+  
+  // Change interpolator to bicubic splines
+  volatilitySurface->setInterpolation<Bicubic>(Bicubic());
   
   return volatilitySurface;
   
@@ -161,20 +161,20 @@ Rcpp::List oneTouchEngine(std::string type, double underlying,double strike, dou
   
   
   QuantLib::Matrix volMatrix=QuantLib::Matrix((QuantLib::Size)volMatrixRcpp.nrow(),(QuantLib::Size)volMatrixRcpp.ncol());
-   for (int i = 0;i<volMatrixRcpp.nrow();i++){
-     for(int j =0;j<volMatrixRcpp.ncol();j++){
-            double vol = volMatrixRcpp(i,j);
-            volMatrix[i][j] = vol;            
-        }
+  for (int i = 0;i<volMatrixRcpp.nrow();i++){
+    for(int j =0;j<volMatrixRcpp.ncol();j++){
+      double vol = volMatrixRcpp(i,j);
+      volMatrix[i][j] = vol;            
+    }
   }
   
-int n = expirationsRcpp.size();
-        std::vector<QuantLib::Date> expirations(expirationsRcpp.size());
-        for (int i = 0;i<n;i++){
-            QuantLib::Date day=today + expirationsRcpp[i];
-            expirations[i] = day;            
-        }
-
+  int n = expirationsRcpp.size();
+  std::vector<QuantLib::Date> expirations(expirationsRcpp.size());
+  for (int i = 0;i<n;i++){
+    QuantLib::Date day=today + expirationsRcpp[i];
+    expirations[i] = day;            
+  }
+  
   
   
   QuantLib::DayCounter dc = QuantLib::Actual360();
@@ -207,15 +207,15 @@ int n = expirationsRcpp.size();
       QuantLib::Handle<QuantLib::BlackVolTermStructure>(volTS)));
       
       QuantLib::Size requiredSamples = QuantLib::Size(std::pow(2.0, 14) - 1);
-//      boost::shared_ptr<QuantLib::PricingEngine> mcldEngine =
-//      QuantLib::MakeMCDigitalEngine<QuantLib::LowDiscrepancy>(stochProcess)
-//      .withStepsPerYear(timeStepsPerYear)
-//      .withBrownianBridge()
-//      .withSamples(requiredSamples)
-//      .withMaxSamples(maxSamples)
-//      .withSeed(seed);
-//      
-        boost::shared_ptr<PricingEngine> amEngine(new AnalyticDigitalAmericanEngine(stochProcess));
+      //      boost::shared_ptr<QuantLib::PricingEngine> mcldEngine =
+      //      QuantLib::MakeMCDigitalEngine<QuantLib::LowDiscrepancy>(stochProcess)
+      //      .withStepsPerYear(timeStepsPerYear)
+      //      .withBrownianBridge()
+      //      .withSamples(requiredSamples)
+      //      .withMaxSamples(maxSamples)
+      //      .withSeed(seed);
+      //      
+      boost::shared_ptr<PricingEngine> amEngine(new AnalyticDigitalAmericanEngine(stochProcess));
       
       QuantLib::VanillaOption opt(payoff, amExercise);
       opt.setPricingEngine(amEngine);
@@ -223,6 +223,14 @@ int n = expirationsRcpp.size();
       QuantLib::Real calculated = opt.NPV();
       
       
-      return Rcpp::List::create(Rcpp::Named("value") = calculated);                    
+      Rcpp::List rl = Rcpp::List::create(Rcpp::Named("value") = calculated, 
+                                         Rcpp::Named("delta") = opt.delta(),
+                                         Rcpp::Named("gamma") = opt.gamma(),
+                                         Rcpp::Named("vega") =  R_NaN,
+                                         Rcpp::Named("theta") = R_NaN,
+                                         Rcpp::Named("rho") = R_NaN,
+                                         Rcpp::Named("divRho") =  R_NaN);      
+      
+      return rl;                           
       
 }

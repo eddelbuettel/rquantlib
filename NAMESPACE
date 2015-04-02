@@ -63,7 +63,11 @@ export(
        "BinaryOption",
        "BarrierOption",
        ##--schedule.R
-       "Schedule"
+       "Schedule",
+       ##--FXDerivatives.R
+       "AmericanBinaryOption",
+       "DoubleNoTouchOption",
+       "DoubleKnockOutOption"
        )
 
 S3method("plot", "Option")

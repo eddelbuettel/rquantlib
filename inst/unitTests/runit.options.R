@@ -268,7 +268,7 @@ checkEquals(DKO(type="call", barrierDown=1.1, barrierUp=1.5, strike=1.46047, und
 
 checkEquals(DKO(type="put", barrierDown=1.1, barrierUp=1.5, strike=1.13321, underlying=1.30265, dividendYield=0.0003541, riskFreeRate=0.0033871, maturity=1.0, vol25Put=0.10087, volATM=0.08925, vol25Call=0.08463, volatility=0.11638)$value, 0.00017, tol=1.0e-3) 
 checkEquals(DKO(type="put", barrierDown=1.1, barrierUp=1.5, strike=1.22687, underlying=1.30265, dividendYield=0.0003541, riskFreeRate=0.0033871, maturity=1.0, vol25Put=0.10087, volATM=0.08925, vol25Call=0.08463, volatility=0.10088)$value, 0.00353, tol=1.0e-3) 
-checkEquals(DKO(type="put", barrierDown=1.1, barrierUp=1.5, strike=1.31179, underlying=1.30265, dividendYield=0.0003541, riskFreeRate=0.0033871, maturity=1.0, vol25Put=0.10087, volATM=0.08925, vol25Call=0.08463, volatility=0.08925)$value, 0.02221, tol=1.0e-3) 
+checkEquals(DKO(type="put", barrierDown=1.1, barrierUp=1.5, strike=1.31179, underlying=1.30265, dividendYield=0.0003541, riskFreeRate=0.0033871, maturity=1.0, vol25Put=0.10087, volATM=0.08925, vol25Call=0.08463, volatility=0.08925)$value, 0.02220, tol=1.0e-3) 
 checkEquals(DKO(type="put", barrierDown=1.1, barrierUp=1.5, strike=1.38843, underlying=1.30265, dividendYield=0.0003541, riskFreeRate=0.0033871, maturity=1.0, vol25Put=0.10087, volATM=0.08925, vol25Call=0.08463, volatility=0.08463)$value, 0.06049, tol=1.0e-3) 
 checkEquals(DKO(type="put", barrierDown=1.1, barrierUp=1.5, strike=1.46047, underlying=1.30265, dividendYield=0.0003541, riskFreeRate=0.0033871, maturity=1.0, vol25Put=0.10087, volATM=0.08925, vol25Call=0.08463, volatility=0.08412)$value, 0.11103, tol=1.0e-3) 
 

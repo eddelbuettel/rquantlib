@@ -257,7 +257,6 @@ test.european.Haug <- function() {
 test.DoubleKnockOut<-function(){
  
  
- Lines <- " type,barrierUp, barrierDown,underlying,strike,dividendYield, riskFreeRate,maturity,  vol25Put, volATM,  vol25Call, volatility value tol"
  DKO <- DoubleKnockOutOption
  
 checkEquals(DKO(type="call", barrierDown=1.1, barrierUp=1.5, strike=1.13321, underlying=1.30265, dividendYield=0.0003541, riskFreeRate=0.0033871, maturity=1.0, vol25Put=0.10087, volATM=0.08925, vol25Call=0.08463, volatility=0.11638)$value, 0.14413, tol=1.0e-3) 
@@ -293,14 +292,13 @@ test.AmericanBinary<-function(){
 
   # "Option pricing formulas", E.G. Haug, McGraw-Hill 1998 - pag 95, case 1,2
   
-  Lines <- " type,underlying, strike, dividendYield,riskFreeRate, maturity, vol, cashPayoff,strikesMat,expirations,volMatrix"
   ABO <- AmericanBinaryOption
  # type, strike,   spot,    q,    r,   t,  vol,   value, tol
 
-checkEquals(ABO(type="put", strike=100.00, underlying=105.00, dividendYield=0.00, riskFreeRate=0.10, maturity=0.5, vol=0.20,cashPayoff=15,volStrikes=c(95,110),volMaturities=180,volMatrix=(matrix(c(0.2,0.2)))),  9.7264, 1e-4 )
-checkEquals(ABO(type="call", strike=100.00, underlying=95.00, dividendYield=0.00, riskFreeRate=0.10, maturity=0.5, vol=0.20,cashPayoff=15,volStrikes=c(95,110),volMaturities=180,volMatrix=(matrix(c(0.2,0.2)))), 11.6553, 1e-4 )
+checkEquals(ABO(type="put", strike=100.00, underlying=105.00, dividendYield=0.00, riskFreeRate=0.10, maturity=0.5, vol=0.20,cashPayoff=15,volStrikes=c(95,110),volMaturities=180,volMatrix=(matrix(c(0.2,0.2))))$value,  9.7264, tol=1e-4 )
+checkEquals(ABO(type="call", strike=100.00, underlying=95.00, dividendYield=0.00, riskFreeRate=0.10, maturity=0.5, vol=0.20,cashPayoff=15,volStrikes=c(95,110),volMaturities=180,volMatrix=(matrix(c(0.2,0.2))))$value, 11.6553, tol=1e-4 )
 # in the money options (guaranteed discounted payoff)
-checkEquals(ABO(type="call", strike=100.00, underlying=105.00, dividendYield=0.00, riskFreeRate=0.10, maturity=0.5, vol=0.20,cashPayoff=15,volStrikes=c(95,110),volMaturities=180,volMatrix=(matrix(c(0.2,0.2)))), 15.0000, 1e-12 )
-checkEquals(ABO(type="put",  strike=100.00, underlying=95.00, dividendYield=0.00, riskFreeRate=0.10, maturity=0.5, vol=0.20,cashPayoff=15,volStrikes=c(95,110),volMaturities=180,volMatrix=(matrix(c(0.2,0.2)))), 15.0000, 1e-12 )
+checkEquals(ABO(type="call", strike=100.00, underlying=105.00, dividendYield=0.00, riskFreeRate=0.10, maturity=0.5, vol=0.20,cashPayoff=15,volStrikes=c(95,110),volMaturities=180,volMatrix=(matrix(c(0.2,0.2))))$value, 15.0000,tol= 1e-12 )
+checkEquals(ABO(type="put",  strike=100.00, underlying=95.00, dividendYield=0.00, riskFreeRate=0.10, maturity=0.5, vol=0.20,cashPayoff=15,volStrikes=c(95,110),volMaturities=180,volMatrix=(matrix(c(0.2,0.2))))$value, 15.0000, tol=1e-12 )
 
 }

@@ -19,6 +19,11 @@
 ## Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
 ## MA 02111-1307, USA
 
+SetDayCounter <- function(dc)
+{
+     setDayCount(dc)
+}
+
 #dayCount <- function(startDates, endDates, dayCounters) {
 #    val <- .Call('dayCount', startDates, endDates, dayCounters, PACKAGE="RQuantLib")
 #    invisible(val)

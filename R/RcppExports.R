@@ -141,6 +141,10 @@ advanceDate <- function(issueDate, days) {
     .Call('RQuantLib_advanceDate', PACKAGE = 'RQuantLib', issueDate, days)
 }
 
+setDayCount <- function(str) {
+    .Call('RQuantLib_setDayCount', PACKAGE = 'RQuantLib', str)
+}
+
 dayCount <- function(startDates, endDates, dayCounters) {
     .Call('RQuantLib_dayCount', PACKAGE = 'RQuantLib', startDates, endDates, dayCounters)
 }

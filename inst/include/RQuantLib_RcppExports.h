@@ -385,6 +385,25 @@ namespace RQuantLib {
         return Rcpp::as<QuantLib::Date >(__result);
     }
 
+    inline bool setDayCount(std::string str) {
+        typedef SEXP(*Ptr_setDayCount)(SEXP);
+        static Ptr_setDayCount p_setDayCount = NULL;
+        if (p_setDayCount == NULL) {
+            validateSignature("bool(*setDayCount)(std::string)");
+            p_setDayCount = (Ptr_setDayCount)R_GetCCallable("RQuantLib", "RQuantLib_setDayCount");
+        }
+        RObject __result;
+        {
+            RNGScope __rngScope;
+            __result = p_setDayCount(Rcpp::wrap(str));
+        }
+        if (__result.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (__result.inherits("try-error"))
+            throw Rcpp::exception(as<std::string>(__result).c_str());
+        return Rcpp::as<bool >(__result);
+    }
+
     inline std::vector<double> dayCount(std::vector<QuantLib::Date> startDates, std::vector<QuantLib::Date> endDates, std::vector<double> dayCounters) {
         typedef SEXP(*Ptr_dayCount)(SEXP,SEXP,SEXP);
         static Ptr_dayCount p_dayCount = NULL;

@@ -19,7 +19,6 @@
 //  along with RQuantLib.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "rquantlib.h"
-#include <iostream>
 
 QuantLib::DayCounter getDayCounter(const std::string &str)
 {

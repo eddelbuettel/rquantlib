@@ -21,6 +21,9 @@
 
 #include <rquantlib.h>
 
+// Defined in daycounter.cpp
+extern QuantLib::DayCounter __dc__;
+
 // [[Rcpp::interfaces(r, cpp)]]
 
 // [[Rcpp::export]]
@@ -32,8 +35,6 @@ Rcpp::List europeanOptionEngine(std::string type,
                                 double maturity,
                                 double volatility) {
 
-    int length           = int(maturity*360 + 0.5); // FIXME: this could be better
-    
     QuantLib::Option::Type optionType = getOptionType(type);
     QuantLib::Date today = QuantLib::Date::todaysDate();
     QuantLib::Settings::instance().evaluationDate() = today;
@@ -48,7 +49,15 @@ Rcpp::List europeanOptionEngine(std::string type,
     boost::shared_ptr<QuantLib::SimpleQuote> rRate(new QuantLib::SimpleQuote( riskFreeRate ));
     boost::shared_ptr<QuantLib::YieldTermStructure> rTS = flatRate(today, rRate, dc);
 
-    QuantLib::Date exDate = today + length;
+    QuantLib::Date d = today;
+
+    // What's the date that gives the closest maturity (in years)?
+    while (__dc__.yearFraction(today, d) < maturity)
+    {
+        d++;
+    }
+
+    QuantLib::Date exDate = d;
     boost::shared_ptr<QuantLib::Exercise> exercise(new QuantLib::EuropeanExercise(exDate));
 	
     boost::shared_ptr<QuantLib::StrikedTypePayoff> payoff(new QuantLib::PlainVanillaPayoff(optionType, strike));

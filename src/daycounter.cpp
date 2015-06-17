@@ -20,7 +20,31 @@
 
 #include "rquantlib.h"
 
+QuantLib::DayCounter getDayCounter(const std::string &str)
+{
+    if (str=="Actual360")
+        return QuantLib::Actual360();
+    else if (str == "Actual365Fixed")
+        return QuantLib::Actual365Fixed();
+    else if (str=="ActualActual")
+        return QuantLib::ActualActual();
+    else
+      throw std::runtime_error("Unknown day-counter: " + str);
+}
+
 // [[Rcpp::interfaces(r, cpp)]]
+
+// Global implied day-counters
+QuantLib::DayCounter __dc__ = QuantLib::Actual360();
+
+// [[Rcpp::export]]
+bool setDayCount(std::string str)
+{
+    // Set it to a global variable such that other C++ functions can access it
+    __dc__ = getDayCounter(str);
+
+    return true;
+}
 
 // [[Rcpp::export]]
 std::vector<double> dayCount(std::vector<QuantLib::Date> startDates, 
@@ -57,3 +81,4 @@ bool setEvaluationDate(QuantLib::Date evalDate) {
     QuantLib::Settings::instance().evaluationDate() = evalDate;
     return true;
 }
+

@@ -59,12 +59,40 @@ export(
        ##--option.R
        "EuropeanOption",
        "AmericanOption",
-       "AmericanOption.default",
        "BinaryOption",
        "BarrierOption",
        ##--schedule.R
        "Schedule"
        )
+
+S3method("AmericanOption", "default")
+S3method("AmericanOptionImpliedVolatility", "default")
+S3method("AsianOption", "default")
+S3method("BarrierOption", "default")
+S3method("BermudanSwaption", "default")
+S3method("BinaryOption", "default")
+S3method("BinaryOptionImpliedVolatility", "default")
+S3method("CallableBond", "default")
+S3method("ConvertibleFixedCouponBond", "default")
+S3method("ConvertibleFloatingCouponBond", "default")
+S3method("ConvertibleZeroCouponBond", "default")
+S3method("DiscountCurve", "default")
+S3method("EuropeanOption", "default")
+S3method("EuropeanOptionImpliedVolatility", "default")
+S3method("FittedBondCurve", "default")
+S3method("FixedRateBond", "default")
+S3method("FixedRateBondPriceByYield", "default")
+S3method("FixedRateBondYield", "default")
+S3method("FloatingRateBond", "default")
+S3method("plot", "DiscountCurve")
+S3method("Schedule", "default")
+S3method("summary", "BKTree")
+S3method("summary", "G2Analytic")
+S3method("summary", "HWAnalytic")
+S3method("summary", "HWTree")
+S3method("ZeroCouponBond", "default")
+S3method("ZeroPriceByYield", "default")
+S3method("ZeroYield", "default")
 
 S3method("plot", "Option")
 S3method("print", "Option")
@@ -75,3 +103,6 @@ S3method("print", "Bond")
 S3method("summary", "Bond")
 
 S3method("print", "FixedRateBond")
+
+importFrom("graphics", "legend", "lines", "par", "plot")
+importFrom("stats", "sd")

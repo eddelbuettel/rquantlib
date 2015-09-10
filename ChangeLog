@@ -1,3 +1,13 @@
+2015-09-10  Dirk Eddelbuettel  <deddelbuettel@ketchumtrading.com>
+
+	* NAMESPACE: Added a number of new S3method declarations suggested
+	by R CMD check
+
+	* R/arrays.R (plotOptionSurface): Use requireNamespace to
+	condition on the optional rgl package
+
+	* README.md: Added badges
+
 2015-02-22  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .travis.yml (install): Now use only r-cran-* binary packages

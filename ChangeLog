@@ -1,12 +1,15 @@
-2015-09-10  Dirk Eddelbuettel  <deddelbuettel@ketchumtrading.com>
+2015-09-10  Dirk Eddelbuettel  <edd@debian.org>
 
-	* NAMESPACE: Added a number of new S3method declarations suggested
-	by R CMD check
+	* NAMESPACE: Added more new S3method declarations
 
 	* R/arrays.R (plotOptionSurface): Use requireNamespace to
 	condition on the optional rgl package
 
 	* README.md: Added badges
+
+2015-07-07  Dirk Eddelbuettel  <edd@debian.org>
+
+	* NAMESPACE: Added more explicit S3method() registrations
 
 2015-02-22  Dirk Eddelbuettel  <edd@debian.org>
 

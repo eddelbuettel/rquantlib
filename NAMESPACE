@@ -1,10 +1,8 @@
 
-import(methods)
-importFrom(Rcpp, Rcpp.plugin.maker, sourceCpp)
+import("methods")
+importFrom("Rcpp", "Rcpp.plugin.maker", "sourceCpp")
 
-useDynLib(RQuantLib)
-
-exportPattern("\\.default$")
+useDynLib("RQuantLib")
 
 export(
        ##--arrays.R

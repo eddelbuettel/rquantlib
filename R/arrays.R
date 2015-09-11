@@ -111,7 +111,7 @@ EuropeanOptionArrays <- function(type, underlying, strike, dividendYield,
 }
 
 plotOptionSurface <- function(EOres, ylabel="", xlabel="", zlabel="", fov=60) {
-    stopifnot(require(rgl))
+    stopifnot(requireNamespace("rgl", quietly=TRUE))
     utils::globalVariables(c("clear3d", "bg3d", "ligh3d", "rgl.viewpoint", "rgl.surface", "tgl.texts"))
     axis.col <- "black"
     text.col <- axis.col

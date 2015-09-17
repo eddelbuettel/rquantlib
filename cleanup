@@ -2,7 +2,7 @@
 
 Rscript -e 'library(Rcpp); compileAttributes(".")'
 
-rm -f config.log config.status confdefs.h autom4te.cache \
+rm -rf config.log config.status confdefs.h autom4te.cache \
     src/Makevars src/libRQuantLib.a src/libRQuantLib.def src/*.o src/*.so src/symbols.rds \
     RcppSrc/*.a RcppSrc/*.o RcppSrc/config.* inst/Rcpp-version.txt 
 

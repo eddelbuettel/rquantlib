@@ -567,9 +567,9 @@ matchCompounding <- function(cp = c("Simple", "Compounded",
 }
 matchFrequency <- function(freq = c("NoFrequency","Once", "Annual",
                                     "Semiannual", "EveryFourthMonth",
-                                    "Quarterly", "Bimonthly",
+                                    "Quarterly", "Bimonthly", "Monthly",
                                     "EveryFourthWeek", "Biweekly",
-                                    "Weekly", "Daily")){
+                                    "Weekly", "Daily")) {
     if (!is.numeric(freq)){
        freq <- match.arg(freq)
        freq <- switch(freq,

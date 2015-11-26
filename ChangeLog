@@ -10,6 +10,8 @@
 	* tests/doRUnit.R: For now, comment-out unit tests to accelerate
 	build at Travis which times out leading to a failure report
 
+	* man/BondUtilities.Rd: Add 'Monthly' to documentation
+
 2015-10-29  Dirk Eddelbuettel  <edd@debian.org>
 
 	* R/bond.R: Add missing parameter 'Monthly' to freq arguments in

@@ -1,9 +1,12 @@
 2015-11-26  Dirk Eddelbuettel  <edd@debian.org>
 
+	* DESCRIPTION (Version): Roll Date and Version
+
 	* src/vanilla.cpp (europeanOptionEngine): Use intra-day time
 	calculation if QuantLib (>= 1.7) has been compiled for it
 	(americanOptionEngine): Idem
 	(europeanOptionArraysEngine): Idem
+
 
 2015-10-29  Dirk Eddelbuettel  <edd@debian.org>
 

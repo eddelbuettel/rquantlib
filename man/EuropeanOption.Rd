@@ -59,11 +59,15 @@
   \code{\link{AmericanOption}},\code{\link{BinaryOption}}}
 
 \examples{
-# simple call with unnamed parameters
+## simple call with unnamed parameters
 EuropeanOption("call", 100, 100, 0.01, 0.03, 0.5, 0.4)
-# simple call with some explicit parameters, and slightly increased vol:
+## simple call with some explicit parameters, and slightly increased vol:
 EuropeanOption(type="call", underlying=100, strike=100, dividendYield=0.01, 
 riskFreeRate=0.03, maturity=0.5, volatility=0.5)
+## simple call with slightly shorter maturity: QuantLib 1.7 compiled with 
+## intra-day time calculation support with create slightly changed values
+EuropeanOption(type="call", underlying=100, strike=100, dividendYield=0.01, 
+riskFreeRate=0.03, maturity=0.499, volatility=0.5)
 }
 \keyword{misc}
 

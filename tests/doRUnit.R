@@ -10,7 +10,7 @@
 ##
 ## Adapted for RQuantLib by Dirk Eddelbuettel, 29 Dec 2007
 
-if (require("RUnit", quietly=TRUE)) {
+if (FALSE && require("RUnit", quietly=TRUE)) {
 
     #wd <- getwd()
     #pkg <- sub("\\.Rcheck$", '', basename(dirname(wd))) 	# sub out trailing .Rcheck

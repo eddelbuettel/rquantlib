@@ -34,7 +34,7 @@ Rcpp::List europeanOptionEngine(std::string type,
 
 #ifdef QL_HIGH_RESOLUTION_DATE    
     // in minutes
-    boost::posix_time::time_duration length = boost::posix_time::minutes(maturity * 365 * 24 * 60); 
+    boost::posix_time::time_duration length = boost::posix_time::minutes(maturity * 360 * 24 * 60); 
 #else
     int length           = int(maturity*360 + 0.5); // FIXME: this could be better
 #endif
@@ -86,7 +86,7 @@ Rcpp::List americanOptionEngine(std::string type,
 
 #ifdef QL_HIGH_RESOLUTION_DATE    
     // in minutes
-    boost::posix_time::time_duration length = boost::posix_time::minutes(maturity * 365 * 24 * 60); 
+    boost::posix_time::time_duration length = boost::posix_time::minutes(maturity * 360 * 24 * 60); 
 #else
     int length           = int(maturity*360 + 0.5); // FIXME: this could be better
 #endif
@@ -170,7 +170,7 @@ Rcpp::List europeanOptionArraysEngine(std::string type, Rcpp::NumericMatrix par)
         QuantLib::Time maturity        = par(i, 4);    // fifth column
 #ifdef QL_HIGH_RESOLUTION_DATE    
         // in minutes
-        boost::posix_time::time_duration length = boost::posix_time::minutes(maturity * 365 * 24 * 60); 
+        boost::posix_time::time_duration length = boost::posix_time::minutes(maturity * 360 * 24 * 60); 
 #else
         int length           = int(maturity*360 + 0.5); // FIXME: this could be better
 #endif

@@ -2,7 +2,7 @@
 //
 //  RQuantLib -- R interface to the QuantLib libraries
 //
-//  Copyright (C) 2002 - 2014  Dirk Eddelbuettel 
+//  Copyright (C) 2002 - 2015  Dirk Eddelbuettel 
 //  Copyright (C) 2009 - 2010  Dirk Eddelbuettel and Khanh Nguyen
 //
 //  This file is part of RQuantLib.
@@ -67,7 +67,12 @@ Rcpp::List asianOptionEngine(std::string averageType,
             engine(new
                    QuantLib::AnalyticContinuousGeometricAveragePriceAsianEngine(stochProcess));
             
+#ifdef QL_HIGH_RESOLUTION_DATE    
+        // in minutes
+        QuantLib::Date exDate(today.dateTime() + boost::posix_time::minutes(maturity * 360 * 24 * 60));
+#else
         QuantLib::Date exDate = today + int(maturity * 360 + 0.5);
+#endif                              
         boost::shared_ptr<QuantLib::Exercise> exercise(new QuantLib::EuropeanExercise(exDate));
         QuantLib::ContinuousAveragingAsianOption option(QuantLib::Average::Geometric,
                                                         payoff, exercise);
@@ -106,7 +111,11 @@ Rcpp::List asianOptionEngine(std::string averageType,
         fixingDates[0] = today + QuantLib::Integer(timeIncrements[0] * 360 + 0.5);
         for (QuantLib::Size i=1; i<fixings; i++) {
             timeIncrements[i] = i*dt + first;
+#ifdef QL_HIGH_RESOLUTION_DATE
+            fixingDates[i]= QuantLib::Date(today.dateTime() + boost::posix_time::minutes(timeIncrements[i] * 360 * 24 * 60));
+#else            
             fixingDates[i] = today + QuantLib::Integer(timeIncrements[i]*360+0.5);
+#endif           
         }
         QuantLib::Real runningSum = 0.0;
         QuantLib::Size pastFixing = 0;

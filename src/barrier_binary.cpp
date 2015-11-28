@@ -2,7 +2,7 @@
 //
 //  RQuantLib -- R interface to the QuantLib libraries
 //
-//  Copyright (C) 2002 - 2014  Dirk Eddelbuettel <edd@debian.org>
+//  Copyright (C) 2002 - 2015  Dirk Eddelbuettel <edd@debian.org>
 //
 //  This file is part of RQuantLib.
 //
@@ -33,7 +33,12 @@ Rcpp::List binaryOptionEngine(std::string binType,
                               double volatility,
                               double cashPayoff) {
 
+#ifdef QL_HIGH_RESOLUTION_DATE    
+    // in minutes
+    boost::posix_time::time_duration length = boost::posix_time::minutes(maturity * 360 * 24 * 60); 
+#else
     int length = int(maturity*360 + 0.5); // FIXME: this could be better, but same rounding in QL
+#endif
     QuantLib::Option::Type optionType = getOptionType(type);
 
     // new QuantLib 0.3.5 framework: digitals, updated for 0.3.7
@@ -65,7 +70,11 @@ Rcpp::List binaryOptionEngine(std::string binType,
         throw std::range_error("Unknown binary option type " + binType);
     }
 
+#ifdef QL_HIGH_RESOLUTION_DATE
+    QuantLib::Date exDate(today.dateTime() + length);
+#else
     QuantLib::Date exDate = today + length;
+#endif    
     boost::shared_ptr<QuantLib::Exercise> exercise;
     if (excType=="american") {
         boost::shared_ptr<QuantLib::Exercise> amEx(new QuantLib::AmericanExercise(today, exDate));
@@ -120,7 +129,12 @@ double binaryOptionImpliedVolatilityEngine(std::string type,
                                            double volatility,
                                            double cashPayoff) {
 
+#ifdef QL_HIGH_RESOLUTION_DATE    
+    // in minutes
+    boost::posix_time::time_duration length = boost::posix_time::minutes(maturity * 360 * 24 * 60); 
+#else
     int length = int(maturity*360 + 0.5); // FIXME: this could be better
+#endif
 
     QuantLib::Option::Type optionType = getOptionType(type);
 
@@ -140,7 +154,12 @@ double binaryOptionImpliedVolatilityEngine(std::string type,
     boost::shared_ptr<QuantLib::StrikedTypePayoff> 
         payoff(new QuantLib::CashOrNothingPayoff(optionType, strike, cashPayoff));
 
+#ifdef QL_HIGH_RESOLUTION_DATE
+    QuantLib::Date exDate(today.dateTime() + length);
+#else
     QuantLib::Date exDate = today + length;
+#endif    
+    
     boost::shared_ptr<QuantLib::Exercise> exercise(new QuantLib::EuropeanExercise(exDate));
 
     boost::shared_ptr<QuantLib::BlackScholesMertonProcess> 
@@ -169,7 +188,12 @@ Rcpp::List barrierOptionEngine(std::string barrType,
                                double barrier, 
                                double rebate) {
 
+#ifdef QL_HIGH_RESOLUTION_DATE    
+    // in minutes
+    boost::posix_time::time_duration length = boost::posix_time::minutes(maturity * 360 * 24 * 60); 
+#else
     int length = int(maturity*360 + 0.5); // FIXME: this could be better
+#endif
         
     QuantLib::Barrier::Type barrierType = QuantLib::Barrier::DownIn;
     if (barrType=="downin") {
@@ -200,7 +224,12 @@ Rcpp::List barrierOptionEngine(std::string barrType,
     boost::shared_ptr<QuantLib::SimpleQuote> vol(new QuantLib::SimpleQuote(volatility));
     boost::shared_ptr<QuantLib::BlackVolTermStructure> volTS = flatVol(today, vol, dc);
 
+#ifdef QL_HIGH_RESOLUTION_DATE
+    QuantLib::Date exDate(today.dateTime() + length);
+#else
     QuantLib::Date exDate = today + length;
+#endif    
+    
     boost::shared_ptr<QuantLib::Exercise> exercise(new QuantLib::EuropeanExercise(exDate));
         
     boost::shared_ptr<QuantLib::StrikedTypePayoff> payoff(new QuantLib::PlainVanillaPayoff(optionType, strike));

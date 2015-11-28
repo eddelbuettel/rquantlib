@@ -2,6 +2,16 @@
 \title{News for Package 'RQuantLib'}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+\section{Changes in RQuantLib version 0.4.2 (2015-12-31)}{
+  \itemize{
+    \item Changes in RQuantLib code:
+    \itemize{
+      \item Intra-day times are now used if QuantLib 1.7 or later is
+      used, and has been configure with \code{--enable-intraday}
+    }
+  }
+}
+
 \section{Changes in RQuantLib version 0.4.1 (2015-09-11)}{
   \itemize{
     \item Changes in RQuantLib code:

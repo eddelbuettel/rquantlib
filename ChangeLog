@@ -1,11 +1,14 @@
+2015-11-28  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/asian.cpp: Use intra-day time calculation if available with
+	QuantLib (>= 1.7) has been compiled for it
+
 2015-11-26  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version): Roll Date and Version
 
-	* src/vanilla.cpp (europeanOptionEngine): Use intra-day time
-	calculation if QuantLib (>= 1.7) has been compiled for it
-	(americanOptionEngine): Idem
-	(europeanOptionArraysEngine): Idem
+	* src/vanilla.cpp: Use intra-day time calculation if available with
+	QuantLib (>= 1.7) has been compiled for it
 
 	* man/BondUtilities.Rd: Add 'Monthly' to documentation
 

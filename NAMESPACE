@@ -2,6 +2,8 @@
 
 import("methods")
 importFrom("Rcpp", "Rcpp.plugin.maker", "sourceCpp")
+importFrom("stats", "sd")
+importFrom("graphics", "par", "plot", "lines", "legend")
 
 useDynLib("RQuantLib")
 
@@ -106,5 +108,3 @@ S3method("summary", "Bond")
 
 S3method("print", "FixedRateBond")
 
-importFrom("graphics", "legend", "lines", "par", "plot")
-importFrom("stats", "sd")

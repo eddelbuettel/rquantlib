@@ -1,29 +1,40 @@
 ## doRUnit.R --- Run RUnit tests
 ##
-## Origianlly follows Gregor Gojanc's example in CRAN package  'gdata'
-## and the corresponding section in the R Wiki:
-## http://wiki.r-project.org/rwiki/doku.php?id=developers:runit
+## with credits to package fUtilities in RMetrics
+## which credits Gregor Gojanc's example in CRAN package  'gdata'
+## as per the R Wiki http://wiki.r-project.org/rwiki/doku.php?id=developers:runit
+## and changed further by Martin Maechler
+## and more changes by Murray Stokely in HistogramTools
+## and then used adapted in RProtoBuf
+## and now used in Rcpp* and here 
 ##
-## Changed by Martin Maechler for Rmetrics, making them "runnable"
-## for *installed* packages without ./tests/ directory by placing
-## the bulk of the code e.g. in  ../inst/unitTests/runTests.R
-##
-## Adapted for RQuantLib by Dirk Eddelbuettel, 29 Dec 2007
+## (Initially) inAdapted for RQuantLib by Dirk Eddelbuettel, 29 Dec 2007
 
-if (require("RUnit", quietly=TRUE)) {
+stopifnot(require(RUnit, quietly=TRUE))
+stopifnot(require(RQuantLib, quietly=TRUE))
 
-    #wd <- getwd()
-    #pkg <- sub("\\.Rcheck$", '', basename(dirname(wd))) 	# sub out trailing .Rcheck
-    #pkg <- gsub("[0-9.-]*$", '', pkg)				# sub out -0.1.2 number
+## Define tests
+testSuite <- defineTestSuite(name="RQuantLib Unit Tests",
+                             dirs=system.file("unitTests", package = "RQuantLib"),
+                             testFuncRegexp = "^[Tt]est.+")
 
-    pkg <- "RQuantLib"						# cannot read from current dir in SVN tree
+## without this, we get (or used to get) unit test failures
+Sys.setenv("R_TESTS"="")
 
-    library(package=pkg, character.only=TRUE)
+## Run tests
+tests <- runTestSuite(testSuite)
 
-    path <- system.file("unitTests", package = pkg)
+## Print results
+printTextProtocol(tests)
 
-    stopifnot(file.exists(path), file.info(path.expand(path))$isdir)
-
-    source(file.path(path, "runTests.R"), echo = TRUE)
+## Return success or failure to R CMD CHECK
+if (getErrors(tests)$nFail > 0) {
+    stop("TEST FAILED!")
+}
+if (getErrors(tests)$nErr > 0) {
+    stop("TEST HAD ERRORS!")
+}
+if (getErrors(tests)$nTestFunc < 1) {
+    stop("NO TEST FUNCTIONS RUN!")
 }
 

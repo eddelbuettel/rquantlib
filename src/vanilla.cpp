@@ -2,7 +2,7 @@
 //
 //  RQuantLib -- R interface to the QuantLib libraries
 //
-//  Copyright (C) 2002 - 2014  Dirk Eddelbuettel <edd@debian.org>
+//  Copyright (C) 2002 - 2015  Dirk Eddelbuettel <edd@debian.org>
 //
 //  This file is part of RQuantLib.
 //
@@ -32,7 +32,12 @@ Rcpp::List europeanOptionEngine(std::string type,
                                 double maturity,
                                 double volatility) {
 
+#ifdef QL_HIGH_RESOLUTION_DATE    
+    // in minutes
+    boost::posix_time::time_duration length = boost::posix_time::minutes(maturity * 360 * 24 * 60); 
+#else
     int length           = int(maturity*360 + 0.5); // FIXME: this could be better
+#endif
     
     QuantLib::Option::Type optionType = getOptionType(type);
     QuantLib::Date today = QuantLib::Date::todaysDate();
@@ -48,7 +53,11 @@ Rcpp::List europeanOptionEngine(std::string type,
     boost::shared_ptr<QuantLib::SimpleQuote> rRate(new QuantLib::SimpleQuote( riskFreeRate ));
     boost::shared_ptr<QuantLib::YieldTermStructure> rTS = flatRate(today, rRate, dc);
 
+#ifdef QL_HIGH_RESOLUTION_DATE
+    QuantLib::Date exDate(today.dateTime() + length);
+#else
     QuantLib::Date exDate = today + length;
+#endif    
     boost::shared_ptr<QuantLib::Exercise> exercise(new QuantLib::EuropeanExercise(exDate));
 	
     boost::shared_ptr<QuantLib::StrikedTypePayoff> payoff(new QuantLib::PlainVanillaPayoff(optionType, strike));
@@ -75,7 +84,12 @@ Rcpp::List americanOptionEngine(std::string type,
                                 int gridPoints,
                                 std::string engine) {
 
-    int length = int(maturity*360 + 0.5); // FIXME: this could be better
+#ifdef QL_HIGH_RESOLUTION_DATE    
+    // in minutes
+    boost::posix_time::time_duration length = boost::posix_time::minutes(maturity * 360 * 24 * 60); 
+#else
+    int length           = int(maturity*360 + 0.5); // FIXME: this could be better
+#endif
     QuantLib::Option::Type optionType = getOptionType(type);
 
     // new framework as per QuantLib 0.3.5, updated for 0.3.7
@@ -93,7 +107,11 @@ Rcpp::List americanOptionEngine(std::string type,
     
     boost::shared_ptr<QuantLib::StrikedTypePayoff> payoff(new QuantLib::PlainVanillaPayoff(optionType, strike));
 
+#ifdef QL_HIGH_RESOLUTION_DATE
+    QuantLib::Date exDate(today.dateTime() + length);
+#else
     QuantLib::Date exDate = today + length;
+#endif    
     boost::shared_ptr<QuantLib::Exercise> exercise(new QuantLib::AmericanExercise(today, exDate));
 
     boost::shared_ptr<QuantLib::BlackScholesMertonProcess> 
@@ -150,7 +168,12 @@ Rcpp::List europeanOptionArraysEngine(std::string type, Rcpp::NumericMatrix par)
         QuantLib::Spread dividendYield = par(i, 2);    // third column
         QuantLib::Rate riskFreeRate    = par(i, 3);    // fourth column
         QuantLib::Time maturity        = par(i, 4);    // fifth column
+#ifdef QL_HIGH_RESOLUTION_DATE    
+        // in minutes
+        boost::posix_time::time_duration length = boost::posix_time::minutes(maturity * 360 * 24 * 60); 
+#else
         int length           = int(maturity*360 + 0.5); // FIXME: this could be better
+#endif
         double volatility    = par(i, 5);    // sixth column
     
         boost::shared_ptr<QuantLib::SimpleQuote> spot(new QuantLib::SimpleQuote( underlying ));
@@ -161,7 +184,11 @@ Rcpp::List europeanOptionArraysEngine(std::string type, Rcpp::NumericMatrix par)
         boost::shared_ptr<QuantLib::SimpleQuote> rRate(new QuantLib::SimpleQuote( riskFreeRate ));
         boost::shared_ptr<QuantLib::YieldTermStructure> rTS = flatRate(today, rRate, dc);
         
-        QuantLib::Date exDate = today + length;
+#ifdef QL_HIGH_RESOLUTION_DATE
+    QuantLib::Date exDate(today.dateTime() + length);
+#else
+    QuantLib::Date exDate = today + length;
+#endif    
         boost::shared_ptr<QuantLib::Exercise> exercise(new QuantLib::EuropeanExercise(exDate));
 	
         boost::shared_ptr<QuantLib::StrikedTypePayoff> payoff(new QuantLib::PlainVanillaPayoff(optionType, strike));

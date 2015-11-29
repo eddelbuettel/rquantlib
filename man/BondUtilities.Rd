@@ -25,7 +25,8 @@ matchDateGen(dg = c("Backward", "Forward", "Zero", "ThirdWednesday",
                     "Twentieth", "TwentiethIMM"))
 matchFrequency(freq = c("NoFrequency","Once", "Annual", "Semiannual",
                         "EveryFourthMonth", "Quarterly", "Bimonthly",
-                        "EveryFourthWeek", "Biweekly", "Weekly", "Daily"))
+                        "Monthly", "EveryFourthWeek", "Biweekly",
+                        "Weekly", "Daily"))
 matchParams(params) 
 }
 \arguments{

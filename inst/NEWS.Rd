@@ -2,6 +2,35 @@
 \title{News for Package 'RQuantLib'}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+\section{Changes in RQuantLib version 0.4.2 (2015-12-31)}{
+  \itemize{
+    \item Changes in RQuantLib code:
+    \itemize{
+      \item Intra-day times are now used if QuantLib 1.7 or later is
+      used, and has been configured with \code{--enable-intraday}
+      \item New helper functions \code{getQuantLibVersion()} and
+      \code{getQuantLibCapabilties()}
+    }
+  }
+}
+
+\section{Changes in RQuantLib version 0.4.1 (2015-09-11)}{
+  \itemize{
+    \item Changes in RQuantLib code:
+    \itemize{
+      \item A simple \cpkg{shiny} application is now included in the
+      directory \code{shiny/DiscountCurve/} and accessible via the new
+      demo function \code{ShinyDiscountCurve}.
+      \item The option surface plotting example in \code{arrays.R} now
+      checks for \cpkg{rgl} by using \code{requireNamespace}.
+      \item The files \code{NAMESPACE} and \code{DESCRIPTION} have been
+      updated to reflect all the suggestions of \code{R CMD check}.
+      \item The Travis CI tests now use binary Debian packages for all
+      package dependencies making the tests a little faster.
+    }
+  }
+}
+
 \section{Changes in RQuantLib version 0.4.0 (2014-12-01)}{
   \itemize{
     \item Changes in RQuantLib code:

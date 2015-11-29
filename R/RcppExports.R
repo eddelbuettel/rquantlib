@@ -177,6 +177,33 @@ CreateSchedule <- function(params) {
     .Call('RQuantLib_CreateSchedule', PACKAGE = 'RQuantLib', params)
 }
 
+#' This function returns the QuantLib version string as encoded in the header
+#' file \code{config.hpp} and determined at compilation time of the QuantLib library. 
+#'
+#' @title Return the QuantLib version number
+#' @return A character variable
+#' @references \url{http://quantlib.org} for details on \code{QuantLib}.
+#' @author Dirk Eddelbuettel
+#' @examples
+#'   getQuantLibVersion()
+getQuantLibVersion <- function() {
+    .Call('RQuantLib_getQuantLibVersion', PACKAGE = 'RQuantLib')
+}
+
+#' This function returns a named vector of boolean variables describing several
+#' configuration options determined at compilation time of the QuantLib library. 
+#'
+#' Not all of these features are used (yet) by RQuantLib.
+#' @title Return configuration options of the QuantLib library
+#' @return A named vector of logical variables
+#' @references \url{http://quantlib.org} for details on \code{QuantLib}.
+#' @author Dirk Eddelbuettel
+#' @examples
+#'   getQuantLibCapabilities()
+getQuantLibCapabilities <- function() {
+    .Call('RQuantLib_getQuantLibCapabilities', PACKAGE = 'RQuantLib')
+}
+
 europeanOptionEngine <- function(type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility) {
     .Call('RQuantLib_europeanOptionEngine', PACKAGE = 'RQuantLib', type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility)
 }

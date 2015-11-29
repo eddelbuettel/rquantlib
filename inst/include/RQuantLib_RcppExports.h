@@ -499,6 +499,44 @@ namespace RQuantLib {
         return Rcpp::as<Rcpp::DateVector >(__result);
     }
 
+    inline std::string getQuantLibVersion() {
+        typedef SEXP(*Ptr_getQuantLibVersion)();
+        static Ptr_getQuantLibVersion p_getQuantLibVersion = NULL;
+        if (p_getQuantLibVersion == NULL) {
+            validateSignature("std::string(*getQuantLibVersion)()");
+            p_getQuantLibVersion = (Ptr_getQuantLibVersion)R_GetCCallable("RQuantLib", "RQuantLib_getQuantLibVersion");
+        }
+        RObject __result;
+        {
+            RNGScope __rngScope;
+            __result = p_getQuantLibVersion();
+        }
+        if (__result.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (__result.inherits("try-error"))
+            throw Rcpp::exception(as<std::string>(__result).c_str());
+        return Rcpp::as<std::string >(__result);
+    }
+
+    inline Rcpp::LogicalVector getQuantLibCapabilities() {
+        typedef SEXP(*Ptr_getQuantLibCapabilities)();
+        static Ptr_getQuantLibCapabilities p_getQuantLibCapabilities = NULL;
+        if (p_getQuantLibCapabilities == NULL) {
+            validateSignature("Rcpp::LogicalVector(*getQuantLibCapabilities)()");
+            p_getQuantLibCapabilities = (Ptr_getQuantLibCapabilities)R_GetCCallable("RQuantLib", "RQuantLib_getQuantLibCapabilities");
+        }
+        RObject __result;
+        {
+            RNGScope __rngScope;
+            __result = p_getQuantLibCapabilities();
+        }
+        if (__result.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (__result.inherits("try-error"))
+            throw Rcpp::exception(as<std::string>(__result).c_str());
+        return Rcpp::as<Rcpp::LogicalVector >(__result);
+    }
+
     inline Rcpp::List europeanOptionEngine(std::string type, double underlying, double strike, double dividendYield, double riskFreeRate, double maturity, double volatility) {
         typedef SEXP(*Ptr_europeanOptionEngine)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_europeanOptionEngine p_europeanOptionEngine = NULL;

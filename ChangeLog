@@ -1,3 +1,11 @@
+2015-11-29  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/utils.cpp: New helper functions getQuantLibVersion() and
+	getQuantLibCapabilties() which reports configuration options
+
+	* man/getQuantLibVersion.Rd: New manual page (via roxygen2)
+	* man/getQuantLibCapabilities.Rd: Idem
+
 2015-11-28  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/asian.cpp: Use intra-day time calculation if available with

@@ -1,3 +1,4 @@
+## Emacs, make this -*- mode: R; -*-
 
 import("methods")
 importFrom("Rcpp", "Rcpp.plugin.maker", "sourceCpp")
@@ -5,63 +6,66 @@ importFrom("Rcpp", "Rcpp.plugin.maker", "sourceCpp")
 useDynLib("RQuantLib")
 
 export(
-       ##--arrays.R
-       "oldEuropeanOptionArrays",
-       "EuropeanOptionArrays",
-       "plotOptionSurface",
-       ##--asian.R
-       "AsianOption",
-       ##--bermudan.R
-       "BermudanSwaption",
-       "summary.G2Analytic",
-       "summary.HWAnalytic",
-       "summary.HWTree",
-       "summary.BKTree",
-       ##--bond.R
-       "ZeroCouponBond",
-       "ZeroPriceByYield",
-       "ZeroYield",
-       "FixedRateBond",
-       "FixedRateBondYield",
-       "FixedRateBondPriceByYield",
-       "FloatingRateBond",
-       "ConvertibleZeroCouponBond",
-       "ConvertibleFixedCouponBond",
-       "ConvertibleFloatingCouponBond",
-       "CallableBond",
-       "FittedBondCurve",
-       ##--calendars.R
-       "isBusinessDay", "businessDay",
-       "isHoliday",
-       "isWeekend",
-       "isEndOfMonth",
-       "getEndOfMonth", "endOfMonth",
-       "adjust",
-       "advance",
-       "businessDaysBetween",
-       "getHolidayList", "holidayList",
-       "setCalendarContext",
-       ##--dayCounter.R
-       "dayCount",
-       "yearFraction",
-       "setEvaluationDate",
-       ##--dates.cpp
-       "advanceDate",
-       ##--discount.R
-       "DiscountCurve",
-       "plot.DiscountCurve",
-       ##--implied.R
-       "EuropeanOptionImpliedVolatility",
-       "AmericanOptionImpliedVolatility",
-       "BinaryOptionImpliedVolatility",
-       ##--option.R
-       "EuropeanOption",
-       "AmericanOption",
-       "BinaryOption",
-       "BarrierOption",
-       ##--schedule.R
-       "Schedule"
-       )
+    ##--arrays.R
+    "oldEuropeanOptionArrays",
+    "EuropeanOptionArrays",
+    "plotOptionSurface",
+    ##--asian.R
+    "AsianOption",
+    ##--bermudan.R
+    "BermudanSwaption",
+    "summary.G2Analytic",
+    "summary.HWAnalytic",
+    "summary.HWTree",
+    "summary.BKTree",
+    ##--bond.R
+    "ZeroCouponBond",
+    "ZeroPriceByYield",
+    "ZeroYield",
+    "FixedRateBond",
+    "FixedRateBondYield",
+    "FixedRateBondPriceByYield",
+    "FloatingRateBond",
+    "ConvertibleZeroCouponBond",
+    "ConvertibleFixedCouponBond",
+    "ConvertibleFloatingCouponBond",
+    "CallableBond",
+    "FittedBondCurve",
+    ##--calendars.R
+    "isBusinessDay", "businessDay",
+    "isHoliday",
+    "isWeekend",
+    "isEndOfMonth",
+    "getEndOfMonth", "endOfMonth",
+    "adjust",
+    "advance",
+    "businessDaysBetween",
+    "getHolidayList", "holidayList",
+    "setCalendarContext",
+    ##--dayCounter.R
+    "dayCount",
+    "yearFraction",
+    "setEvaluationDate",
+    ##--dates.cpp
+    "advanceDate",
+    ##--discount.R
+    "DiscountCurve",
+    "plot.DiscountCurve",
+    ##--implied.R
+    "EuropeanOptionImpliedVolatility",
+    "AmericanOptionImpliedVolatility",
+    "BinaryOptionImpliedVolatility",
+    ##--option.R
+    "EuropeanOption",
+    "AmericanOption",
+    "BinaryOption",
+    "BarrierOption",
+    ##--schedule.R
+    "Schedule",
+    ##--utils.R
+    "getQuantLibVersion",
+    "getQuantLibCapabilities"
+)
 
 S3method("AmericanOption", "default")
 S3method("AmericanOptionImpliedVolatility", "default")

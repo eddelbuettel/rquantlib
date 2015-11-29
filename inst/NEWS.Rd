@@ -7,7 +7,9 @@
     \item Changes in RQuantLib code:
     \itemize{
       \item Intra-day times are now used if QuantLib 1.7 or later is
-      used, and has been configure with \code{--enable-intraday}
+      used, and has been configured with \code{--enable-intraday}
+      \item New helper functions \code{getQuantLibVersion()} and
+      \code{getQuantLibCapabilties()}
     }
   }
 }

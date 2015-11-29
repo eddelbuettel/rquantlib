@@ -2,7 +2,7 @@
 //
 //  RQuantLib -- R interface to the QuantLib libraries
 //
-//  Copyright (C) 2002 - 2014  Dirk Eddelbuettel 
+//  Copyright (C) 2002 - 2015  Dirk Eddelbuettel 
 //  Copyright (C) 2005 - 2006  Dominick Samperi
 //  Copyright (C) 2009 - 2012  Dirk Eddelbuettel and Khanh Nguyen
 //
@@ -608,4 +608,51 @@ QuantLib::Duration::Type getDurationType(const double n) {
     else {
         throw std::range_error("Invalid duration type " + boost::lexical_cast<std::string>(n));
     }
+}
+
+//' This function returns the QuantLib version string as encoded in the header
+//' file \code{config.hpp} and determined at compilation time of the QuantLib library. 
+//'
+//' @title Return the QuantLib version number
+//' @return A character variable
+//' @references \url{http://quantlib.org} for details on \code{QuantLib}.
+//' @author Dirk Eddelbuettel
+//' @examples
+//'   getQuantLibVersion()
+// [[Rcpp::export]]
+std::string getQuantLibVersion() {
+    return std::string(QL_PACKAGE_VERSION);
+}
+
+//' This function returns a named vector of boolean variables describing several
+//' configuration options determined at compilation time of the QuantLib library. 
+//'
+//' Not all of these features are used (yet) by RQuantLib.
+//' @title Return configuration options of the QuantLib library
+//' @return A named vector of logical variables
+//' @references \url{http://quantlib.org} for details on \code{QuantLib}.
+//' @author Dirk Eddelbuettel
+//' @examples
+//'   getQuantLibCapabilities()
+// [[Rcpp::export]]
+Rcpp::LogicalVector getQuantLibCapabilities() {
+    bool hasSessions = false,        	// not (yet?) used by RQuantLib
+        hasHighResolutionDate=false,    // supported as of RQuantLib 0.4.2
+        hasNegativeRates=false;         // not explicitly supported or denied
+
+#ifdef QL_ENABLE_SESSIONS    
+    hasSessions = true;
+#endif
+
+#ifdef QL_HIGH_RESOLUTION_DATE
+    hasHighResolutionDate=true;
+#endif
+
+#ifdef QL_NEGATIVE_RATES
+    hasNegativeRates=true;
+#endif
+
+    return Rcpp::LogicalVector::create(Rcpp::Named("sessions") = hasSessions,
+                                       Rcpp::Named("intradayDate") = hasHighResolutionDate,
+                                       Rcpp::Named("negativeRates") = hasNegativeRates);
 }

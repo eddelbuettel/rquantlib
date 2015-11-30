@@ -2,7 +2,7 @@
 //
 //  RQuantLib -- R interface to the QuantLib libraries
 //
-//  Copyright (C) 2002 - 2014  Dirk Eddelbuettel <edd@debian.org>
+//  Copyright (C) 2002 - 2015  Dirk Eddelbuettel <edd@debian.org>
 //
 //  This file is part of RQuantLib.
 //
@@ -36,7 +36,12 @@ double europeanOptionImpliedVolatilityEngine(std::string type,
     const QuantLib::Size maxEvaluations = 100;
     const double tolerance = 1.0e-6;
   
+#ifdef QL_HIGH_RESOLUTION_DATE    
+    // in minutes
+    boost::posix_time::time_duration length = boost::posix_time::minutes(maturity * 360 * 24 * 60); 
+#else
     int length = int(maturity*360 + 0.5); // FIXME: this could be better
+#endif
 
     QuantLib::Option::Type optionType = getOptionType(type);
 
@@ -54,7 +59,11 @@ double europeanOptionImpliedVolatilityEngine(std::string type,
     boost::shared_ptr<QuantLib::YieldTermStructure> qTS = flatRate(today,qRate,dc);
     boost::shared_ptr<QuantLib::SimpleQuote> rRate(new QuantLib::SimpleQuote(riskFreeRate));
     boost::shared_ptr<QuantLib::YieldTermStructure> rTS = flatRate(today,rRate,dc);
+#ifdef QL_HIGH_RESOLUTION_DATE
+    QuantLib::Date exDate(today.dateTime() + length);
+#else
     QuantLib::Date exDate = today + length;
+#endif    
     boost::shared_ptr<QuantLib::Exercise> exercise(new QuantLib::EuropeanExercise(exDate));
     boost::shared_ptr<QuantLib::StrikedTypePayoff> payoff(new QuantLib::PlainVanillaPayoff(optionType, strike));
     boost::shared_ptr<QuantLib::VanillaOption> 
@@ -87,7 +96,12 @@ double americanOptionImpliedVolatilityEngine(std::string type,
     const QuantLib::Size maxEvaluations = 100;
     const double tolerance = 1.0e-6;
 
+#ifdef QL_HIGH_RESOLUTION_DATE    
+    // in minutes
+    boost::posix_time::time_duration length = boost::posix_time::minutes(maturity * 360 * 24 * 60); 
+#else
     int length = int(maturity*360 + 0.5); // FIXME: this could be better
+#endif
 
     QuantLib::Option::Type optionType = getOptionType(type);
     
@@ -104,7 +118,11 @@ double americanOptionImpliedVolatilityEngine(std::string type,
     boost::shared_ptr<QuantLib::SimpleQuote> rRate(new QuantLib::SimpleQuote(riskFreeRate));
     boost::shared_ptr<QuantLib::YieldTermStructure> rTS = flatRate(today,rRate,dc);
     
+#ifdef QL_HIGH_RESOLUTION_DATE
+    QuantLib::Date exDate(today.dateTime() + length);
+#else
     QuantLib::Date exDate = today + length;
+#endif    
     QuantLib::Settings::instance().evaluationDate() = today;
 
     boost::shared_ptr<QuantLib::Exercise> exercise(new QuantLib::AmericanExercise(today, exDate));

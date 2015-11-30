@@ -1,3 +1,8 @@
+2015-11-30  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/implieds.cpp: Use intra-day time calculation if available with
+	QuantLib (>= 1.7) has been compiled for it
+
 2015-11-29  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/utils.cpp: New helper functions getQuantLibVersion() and
@@ -10,6 +15,7 @@
 
 	* src/asian.cpp: Use intra-day time calculation if available with
 	QuantLib (>= 1.7) has been compiled for it
+	* src/barrier_binary.cpp: Idem
 
 2015-11-26  Dirk Eddelbuettel  <edd@debian.org>
 

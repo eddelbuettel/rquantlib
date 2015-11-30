@@ -1,13 +1,13 @@
 # Sample .travis.yml for R projects.
 #
 # See https://github.com/craigcitro/r-travis
-# and https://github.com/eddelbuettel/r-travis/
-#
-# See README.md for instructions.
+#     https://github.com/eddelbuettel/r-travis/
 
 language: c
 
 sudo: required
+
+dist: trusty
 
 env:
   global:

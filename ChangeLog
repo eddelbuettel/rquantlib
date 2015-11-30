@@ -3,6 +3,8 @@
 	* src/implieds.cpp: Use intra-day time calculation if available with
 	QuantLib (>= 1.7) has been compiled for it
 
+	* .travis.yml: Switch to using Ubuntu 14.04 aka 'trusty'
+
 2015-11-29  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/utils.cpp: New helper functions getQuantLibVersion() and

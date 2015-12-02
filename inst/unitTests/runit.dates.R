@@ -17,24 +17,32 @@
 # You should have received a copy of the GNU General Public License
 # along with RQuantLib.  If not, see <http://www.gnu.org/licenses/>.
 
-.setUp <- RQuantLib:::unitTestSetup("dates.cpp")
+.onWindows <- .Platform$OS.type == "windows"
+
+if (!.onWindows) {
+    .setUp <- RQuantLib:::unitTestSetup("dates.cpp")
+}
 
 test.date.conversion <- function() { 
-    given <- as.Date("2000-01-01")
-    inc <- 2
-    expected <- given + inc
+    if (!.onWindows) {
+        given <- as.Date("2000-01-01")
+        inc <- 2
+        expected <- given + inc
 
-    checkEquals(advanceDateRR(given, inc), expected, msg="date conversion from R to R")
-    checkEquals(advanceDateQR(given, inc), expected, msg="date conversion from QuantLib to R")
-    checkEquals(advanceDateQQ(given, inc), expected, msg="date conversion from QuantLib to QuantLib")
+        checkEquals(advanceDateRR(given, inc), expected, msg="date conversion from R to R")
+        checkEquals(advanceDateQR(given, inc), expected, msg="date conversion from QuantLib to R")
+        checkEquals(advanceDateQQ(given, inc), expected, msg="date conversion from QuantLib to QuantLib")
+    }
 }
 
 test.datevector.conversion <- function() { 
-    given <- as.Date("2000-01-01") + 0:3
-    inc <- 2
-    expected <- given + inc
+    if (!.onWindows) {
+        given <- as.Date("2000-01-01") + 0:3
+        inc <- 2
+        expected <- given + inc
 
-    checkEquals(advanceDatesRR(given, inc), expected, msg="date conversion from R to R")
-    checkEquals(advanceDatesQR(given, inc), expected, msg="date conversion from QuantLib to QuantLib")
-    checkEquals(advanceDatesQQ(given, inc), expected, msg="date conversion from QuantLib to R")
+        checkEquals(advanceDatesRR(given, inc), expected, msg="date conversion from R to R")
+        checkEquals(advanceDatesQR(given, inc), expected, msg="date conversion from QuantLib to QuantLib")
+        checkEquals(advanceDatesQQ(given, inc), expected, msg="date conversion from QuantLib to R")
+    }
 }

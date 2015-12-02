@@ -1,3 +1,8 @@
+2015-12-02  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/zzz.R (.onAttach): Add detection of QuantLib version and
+	intra-day capability and warn via startup message (if not interactive)
+
 2015-11-30  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/implieds.cpp: Use intra-day time calculation if available with

@@ -52,6 +52,7 @@ test.american.Haug <- function() {
     checkEquals(AO(type="put", strike=  100.00, underl=  90.00, div= 0.10, riskF= 0.10, mat= 0.50, vol= 0.35)$value, 14.6945, tol=1.0e-3)
     checkEquals(AO(type="put", strike=  100.00, underl= 100.00, div= 0.10, riskF= 0.10, mat= 0.50, vol= 0.35)$value,  9.5104, tol=1.0e-3)
     checkEquals(AO(type="put", strike=  100.00, underl= 110.00, div= 0.10, riskF= 0.10, mat= 0.50, vol= 0.35)$value,  5.8823, tol=1.0e-3)
+
 }
 
 ## Asian option tests
@@ -63,6 +64,7 @@ test.asian <- function() {
     checkEquals(AO(averageType="geometric", typ="put", strike=85, underl=80, div=-0.03, riskF=0.05, mat=0.25, vol=0.20)$value, 4.6922, tol=1.0e-4)
 
     if (!.onWindows) {
+        
         ## data from "Asian Option", Levy, 1997
         ## in "Exotic Options: The State of the Art",
         ## edited by Clewlow, Strickland
@@ -195,7 +197,6 @@ test.binary <- function() {
     checkEquals(rc[1:7],
                 list(value=2.671045, delta=-0.1060594, gamma=0.00310624, vega=8.153881, theta=-1.742309, rho=-9.9577, divRho=7.9544),
                 tolerance=1.0e-5)
-    return()
 }
 
 ## European option tests based on Haug's book

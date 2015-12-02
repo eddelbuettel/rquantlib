@@ -10,6 +10,9 @@
       used, and has been configured with \code{--enable-intraday}
       \item New helper functions \code{getQuantLibVersion()} and
       \code{getQuantLibCapabilties()}
+      \item New package startup code with detects and warns for outdated
+      QuantLib versions, or missing intra-day capability, unless not
+      interactive. 
     }
   }
 }

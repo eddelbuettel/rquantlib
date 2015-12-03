@@ -1,18 +1,21 @@
 \name{NEWS}
 \title{News for Package 'RQuantLib'}
-\newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
+\newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rquantlib/pull/#1}{##1}}
+\newcommand{\ghit}{\href{https://github.com/eddelbuettel/rquantlib/issues/#1}{##1}}
 
-\section{Changes in RQuantLib version 0.4.2 (2015-12-31)}{
+\section{Changes in RQuantLib version 0.4.2 (2015-12-03)}{
   \itemize{
     \item Changes in RQuantLib code:
     \itemize{
-      \item Intra-day times are now used if QuantLib 1.7 or later is
+      \item Intra-day times are now available if QuantLib 1.7 or later is
       used, and has been configured with \code{--enable-intraday}
       \item New helper functions \code{getQuantLibVersion()} and
       \code{getQuantLibCapabilties()}
-      \item New package startup code with detects and warns for outdated
+      \item New package startup code detects and warns about outdated
       QuantLib versions, or missing intra-day capability, unless not
-      interactive. 
+      interactive.
+      \item The missing \code{Monthly} parameter has been added to
+      \code{matchFrequency} (fixing issue ticket \ghit{19})
     }
   }
 }
@@ -21,11 +24,11 @@
   \itemize{
     \item Changes in RQuantLib code:
     \itemize{
-      \item A simple \cpkg{shiny} application is now included in the
+      \item A simple \CRANpkg{shiny} application is now included in the
       directory \code{shiny/DiscountCurve/} and accessible via the new
       demo function \code{ShinyDiscountCurve}.
       \item The option surface plotting example in \code{arrays.R} now
-      checks for \cpkg{rgl} by using \code{requireNamespace}.
+      checks for \CRANpkg{rgl} by using \code{requireNamespace}.
       \item The files \code{NAMESPACE} and \code{DESCRIPTION} have been
       updated to reflect all the suggestions of \code{R CMD check}.
       \item The Travis CI tests now use binary Debian packages for all
@@ -38,7 +41,7 @@
   \itemize{
     \item Changes in RQuantLib code:
     \itemize{
-      \item All function interfaces have been rewritten using \cpkg{Rcpp}
+      \item All function interfaces have been rewritten using \CRANpkg{Rcpp}
       Attributes. No \code{SEXP} remain in the function signatures. This
       make the code shorter, more readable and more easily extensible. 
       \item The header files have been reorganized so that plugin use is
@@ -70,7 +73,7 @@
     \itemize{
       \item New unit tests for dates have been added.
       \item C++ code for the unit tests has also been converted to
-      \cpkg{Rcpp} Attributes use; a helper function
+      \CRANpkg{Rcpp} Attributes use; a helper function
       \code{unitTestSetup()} has been added.
       \item Continuous Integration via Travis is now enabled from the
       GitHub repo.

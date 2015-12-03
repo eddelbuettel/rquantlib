@@ -1,3 +1,10 @@
+2015-12-03  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION: Release 0.4.2
+
+	* configure.ac: Mark as 0.4.2
+	* configure: Rebuilt
+
 2015-12-02  Dirk Eddelbuettel  <edd@debian.org>
 
 	* R/zzz.R (.onAttach): Add detection of QuantLib version and
@@ -42,6 +49,10 @@
 
 	* R/bond.R: Add missing parameter 'Monthly' to freq arguments in
 	function matchFrequency() (issue ticket #19)
+
+2015-09-11  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION: Release 0.4.1
 
 2015-09-10  Dirk Eddelbuettel  <edd@debian.org>
 

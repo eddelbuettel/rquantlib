@@ -60,7 +60,7 @@ DiscountCurve(params, tsQuotes, times,cpnParams,floatFreq)
     maturity of the instruments used for calibration (no extrapolation).
     }
   \item{cpnParams}{A list specifying the \code{dayCounter} the day count convention for the 
-   fixed leg (default is Thirty360), and  \code{freq}, fixed coupon frequecny (defualt is Annua).
+   fixed leg (default is Thirty360), and  \code{freq}, fixed coupon frequecny (defualt is Annual).
   }
   \item{floatFreq}{ An integer number representing the number resets per year on the floating leg, default is 6}
   }

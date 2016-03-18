@@ -1056,15 +1056,17 @@ RcppExport SEXP RQuantLib_setEvaluationDate(SEXP evalDateSEXP) {
     return __result;
 }
 // discountCurveEngine
-Rcpp::List discountCurveEngine(Rcpp::List rparams, Rcpp::List tslist, Rcpp::NumericVector times);
-RcppExport SEXP RQuantLib_discountCurveEngine(SEXP rparamsSEXP, SEXP tslistSEXP, SEXP timesSEXP) {
+Rcpp::List discountCurveEngine(Rcpp::List rparams, Rcpp::List tslist, Rcpp::NumericVector times, Rcpp::List cpnParams, Rcpp::IntegerVector floatFreq);
+RcppExport SEXP RQuantLib_discountCurveEngine(SEXP rparamsSEXP, SEXP tslistSEXP, SEXP timesSEXP, SEXP cpnParamsSEXP, SEXP floatFreqSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< Rcpp::List >::type rparams(rparamsSEXP);
     Rcpp::traits::input_parameter< Rcpp::List >::type tslist(tslistSEXP);
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type times(timesSEXP);
-    __result = Rcpp::wrap(discountCurveEngine(rparams, tslist, times));
+    Rcpp::traits::input_parameter< Rcpp::List >::type cpnParams(cpnParamsSEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type floatFreq(floatFreqSEXP);
+    __result = Rcpp::wrap(discountCurveEngine(rparams, tslist, times, cpnParams, floatFreq));
     return __result;
 END_RCPP
 }

@@ -25,107 +25,118 @@
 #include "rquantlib.h"
 
 // [[Rcpp::export]]
-Rcpp::List discountCurveEngine(Rcpp::List rparams, 
+Rcpp::List discountCurveEngine(Rcpp::List rparams,  
                                Rcpp::List tslist, 
-                               Rcpp::NumericVector times) {
-
-    std::vector<std::string> tsNames = tslist.names();
-
-    int i;
-    QuantLib::Date todaysDate(Rcpp::as<QuantLib::Date>(rparams["tradeDate"])); 
-    QuantLib::Date settlementDate(Rcpp::as<QuantLib::Date>(rparams["settleDate"]));
-
-    RQLContext::instance().settleDate = settlementDate;
-    QuantLib::Date evalDate = QuantLib::Settings::instance().evaluationDate();
-    QuantLib::Settings::instance().evaluationDate() = todaysDate;
-    std::string firstQuoteName = tsNames[0];
+                               Rcpp::NumericVector times,
+                               Rcpp::List cpnParams,
+                               Rcpp::IntegerVector floatFreq
+) {
+  ////  Rcpp::IntegerVector monthFreq) {
+  
+  std::vector<std::string> tsNames = tslist.names();
+  
+  int i;
+  QuantLib::Date todaysDate(Rcpp::as<QuantLib::Date>(rparams["tradeDate"])); 
+  QuantLib::Date settlementDate(Rcpp::as<QuantLib::Date>(rparams["settleDate"]));
+  
+  RQLContext::instance().settleDate = settlementDate;
+  QuantLib::Date evalDate = QuantLib::Settings::instance().evaluationDate();
+  QuantLib::Settings::instance().evaluationDate() = todaysDate;
+  std::string firstQuoteName = tsNames[0];
+  
+  double dt = Rcpp::as<double>(rparams["dt"]);
+  
+  std::string interpWhat, interpHow;
+  bool flatQuotes = true;
+  if (firstQuoteName.compare("flat") != 0) {
+    // Get interpolation method (not needed for "flat" case)
+    interpWhat = Rcpp::as<std::string>(rparams["interpWhat"]);
+    interpHow  = Rcpp::as<std::string>(rparams["interpHow"]);
+    flatQuotes = false;
+  }
+  
+  // initialise from the singleton instance
+  QuantLib::Calendar calendar = RQLContext::instance().calendar;
+  //Integer fixingDays = RQLContext::instance().fixingDays;
+  
+  // Any DayCounter would be fine.
+  // ActualActual::ISDA ensures that 30 years is 30.0
+  QuantLib::DayCounter termStructureDayCounter = QuantLib::ActualActual(QuantLib::ActualActual::ISDA);
+  double tolerance = 1.0e-8;
+  
+  boost::shared_ptr<QuantLib::YieldTermStructure> curve;
+  
+  if (firstQuoteName.compare("flat") == 0) {            // Create a flat term structure.
+    double rateQuote = Rcpp::as<double>(tslist[0]);
+    //boost::shared_ptr<Quote> flatRate(new SimpleQuote(rateQuote));
+    //boost::shared_ptr<FlatForward> ts(new FlatForward(settlementDate,
+    //			      Handle<Quote>(flatRate),
+    //			      ActualActual()));
+    boost::shared_ptr<QuantLib::SimpleQuote> rRate(new QuantLib::SimpleQuote(rateQuote));
+    curve = flatRate(settlementDate,rRate,QuantLib::ActualActual());
     
-    double dt = Rcpp::as<double>(rparams["dt"]);
+  } else {             // Build curve based on a set of observed rates and/or prices.
+    std::vector<boost::shared_ptr<QuantLib::RateHelper> > curveInput;
     
-    std::string interpWhat, interpHow;
-    bool flatQuotes = true;
-    if (firstQuoteName.compare("flat") != 0) {
-        // Get interpolation method (not needed for "flat" case)
-        interpWhat = Rcpp::as<std::string>(rparams["interpWhat"]);
-        interpHow  = Rcpp::as<std::string>(rparams["interpHow"]);
-        flatQuotes = false;
-    }
-
-    // initialise from the singleton instance
-    QuantLib::Calendar calendar = RQLContext::instance().calendar;
-    //Integer fixingDays = RQLContext::instance().fixingDays;
-
-    // Any DayCounter would be fine.
-    // ActualActual::ISDA ensures that 30 years is 30.0
-    QuantLib::DayCounter termStructureDayCounter = QuantLib::ActualActual(QuantLib::ActualActual::ISDA);
-    double tolerance = 1.0e-8;
-
-    boost::shared_ptr<QuantLib::YieldTermStructure> curve;
-
-    if (firstQuoteName.compare("flat") == 0) {            // Create a flat term structure.
-        double rateQuote = Rcpp::as<double>(tslist[0]);
-        //boost::shared_ptr<Quote> flatRate(new SimpleQuote(rateQuote));
-        //boost::shared_ptr<FlatForward> ts(new FlatForward(settlementDate,
-        //			      Handle<Quote>(flatRate),
-        //			      ActualActual()));
-        boost::shared_ptr<QuantLib::SimpleQuote> rRate(new QuantLib::SimpleQuote(rateQuote));
-        curve = flatRate(settlementDate,rRate,QuantLib::ActualActual());
-
-    } else {             // Build curve based on a set of observed rates and/or prices.
-        std::vector<boost::shared_ptr<QuantLib::RateHelper> > curveInput;
-        for(i = 0; i < tslist.size(); i++) {
-            std::string name = tsNames[i];
-            double val = Rcpp::as<double>(tslist[i]);
-            boost::shared_ptr<QuantLib::RateHelper> rh = ObservableDB::instance().getRateHelper(name, val);
-            // edd 2009-11-01 FIXME NULL_RateHelper no longer builds under 0.9.9
-            // if (rh == NULL_RateHelper)
-            if (rh.get() == NULL)
-                throw std::range_error("Unknown rate in getRateHelper");
-            curveInput.push_back(rh);
-        }
-        boost::shared_ptr<QuantLib::YieldTermStructure> 
-            ts = getTermStructure(interpWhat, interpHow, settlementDate, 
-                                  curveInput, termStructureDayCounter, tolerance);
-        curve = ts;
-    }
-
-    // Return discount, forward rate, and zero coupon curves
-    int ntimes = times.size(); 
-    Rcpp::NumericVector disc(ntimes), fwds(ntimes), zero(ntimes);
-
-    QuantLib::Date current = settlementDate;
-    for (i = 0; i < ntimes; i++) {          
-        double t = times[i];
-        disc[i] = curve->discount(t);
-        fwds[i] = curve->forwardRate(t, t+dt, QuantLib::Continuous);
-        zero[i] = curve->zeroRate(t, QuantLib::Continuous);
-    }
-
-    QuantLib::Settings::instance().evaluationDate() = evalDate;
-
-    std::vector<QuantLib::Date> dates;
-    std::vector<double> zeroRates;
-    QuantLib::Date d = current; 
-    QuantLib::Date maxDate(31, QuantLib::December, 2099);
-    while (d < curve->maxDate() && d < maxDate) { // TODO set a max of, say, 5 or 10 years for flat curve
-        double z = curve->zeroRate(d, QuantLib::ActualActual(), QuantLib::Continuous);
-        dates.push_back(d);
-        zeroRates.push_back(z);
-        d = advanceDate(d, 21);      // TODO: make the increment a parameter
-    }
+    // For general swap inputs, not elegant but necessary to pass to getRateHelper()
+    double fixDayCount = Rcpp::as<double>(cpnParams["dayCounter"]);
+    double fixFreq   = Rcpp::as<double>(cpnParams["freq"]) ;
+    //int floatFreq2 = 6;
     
-    //Rcpp::DataFrame frame = Rcpp::DataFrame::create(Rcpp::Named("date") = dates,
-    //                                                Rcpp::Named("zeroRates") = zeroRates);
-    Rcpp::List frame = Rcpp::List::create(Rcpp::Named("date") = dates,
-                                          Rcpp::Named("zeroRates") = zeroRates);
-
-    Rcpp::List rl = Rcpp::List::create(Rcpp::Named("times") = times,
-                                       Rcpp::Named("discounts") = disc,
-                                       Rcpp::Named("forwards") = fwds,
-                                       Rcpp::Named("zerorates") = zero,
-                                       Rcpp::Named("flatQuotes") = flatQuotes,
-                                       Rcpp::Named("params") = rparams,
-                                       Rcpp::Named("table") = frame);
-    return rl;
+    for(i = 0; i < tslist.size(); i++) {
+      std::string name = tsNames[i];
+      double val = Rcpp::as<double>(tslist[i]);
+      boost::shared_ptr<QuantLib::RateHelper> rh = ObservableDB::instance().getRateHelper(name, val,
+                                                                          fixDayCount,fixFreq, floatFreq[0]);
+      // edd 2009-11-01 FIXME NULL_RateHelper no longer builds under 0.9.9
+      // if (rh == NULL_RateHelper)
+      if (rh.get() == NULL)
+        throw std::range_error("Unknown rate in getRateHelper");
+      curveInput.push_back(rh);
+    }
+    boost::shared_ptr<QuantLib::YieldTermStructure> 
+      ts = getTermStructure(interpWhat, interpHow, settlementDate, 
+                            curveInput, termStructureDayCounter, tolerance);
+    curve = ts;
+  }
+  
+  // Return discount, forward rate, and zero coupon curves
+  int ntimes = times.size(); 
+  Rcpp::NumericVector disc(ntimes), fwds(ntimes), zero(ntimes);
+  
+  QuantLib::Date current = settlementDate;
+  for (i = 0; i < ntimes; i++) {          
+    double t = times[i];
+    disc[i] = curve->discount(t);
+    fwds[i] = curve->forwardRate(t, t+dt, QuantLib::Continuous);
+    zero[i] = curve->zeroRate(t, QuantLib::Continuous);
+  }
+  
+  QuantLib::Settings::instance().evaluationDate() = evalDate;
+  
+  std::vector<QuantLib::Date> dates;
+  std::vector<double> zeroRates;
+  QuantLib::Date d = current; 
+  QuantLib::Date maxDate(31, QuantLib::December, 2099);
+  while (d < curve->maxDate() && d < maxDate) { // TODO set a max of, say, 5 or 10 years for flat curve
+    double z = curve->zeroRate(d, QuantLib::ActualActual(), QuantLib::Continuous);
+    dates.push_back(d);
+    zeroRates.push_back(z);
+    d = advanceDate(d, 21);      // TODO: make the increment a parameter
+  }
+  
+  //Rcpp::DataFrame frame = Rcpp::DataFrame::create(Rcpp::Named("date") = dates,
+  //                                                Rcpp::Named("zeroRates") = zeroRates);
+  Rcpp::List frame = Rcpp::List::create(Rcpp::Named("date") = dates,
+                                        Rcpp::Named("zeroRates") = zeroRates);
+  
+  Rcpp::List rl = Rcpp::List::create(Rcpp::Named("times") = times,
+                                     Rcpp::Named("discounts") = disc,
+                                     Rcpp::Named("forwards") = fwds,
+                                     Rcpp::Named("zerorates") = zero,
+                                     Rcpp::Named("flatQuotes") = flatQuotes,
+                                     Rcpp::Named("params") = rparams,
+                                     Rcpp::Named("table") = frame);
+  return rl;
 }
 

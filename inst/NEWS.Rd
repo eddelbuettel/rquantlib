@@ -3,7 +3,18 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rquantlib/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rquantlib/issues/#1}{##1}}
 
-\section{Changes in RQuantLib version 0.4.2 (2015-12-03)}{
+\section{Changes in RQuantLib version 0.4.3 (2016-06-30)}{
+  \itemize{
+    \item Changes in RQuantLib code:
+    \itemize{
+      \item Discount curve creation has been made more general by
+      allowing additional arguments for day counter and fixed and
+      floating frequency (contributed by Terri Leitch in \ghpr{31})
+    }
+  }
+}
+
+\section{Changes in RQuantLib version 0.4.2 (2015-12-30)}{
   \itemize{
     \item Changes in RQuantLib code:
     \itemize{

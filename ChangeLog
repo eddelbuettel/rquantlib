@@ -6,6 +6,8 @@
 	* src/curves.cpp: Idem
 	* man/DiscountCurve.Rd: Idem, corrected parameter naming
 
+	* README.md: Use canonical CRAN URL to please R-devel CMD check
+
 2016-03-17  Terry Leitch  <tleitch@uchicago.edu>
 
 	* R/discount.R: Support arguments for day counter, frequency and

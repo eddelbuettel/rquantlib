@@ -13,7 +13,7 @@
   as input.
 }
 \usage{
-DiscountCurve(params, tsQuotes, times)
+DiscountCurve(params, tsQuotes, times,cpnParams,floatFreq)
 }
 \arguments{
   \item{params}{A list specifying the \code{tradeDate} (month/day/year),
@@ -59,6 +59,11 @@ DiscountCurve(params, tsQuotes, times)
     that the largest time plus \code{dt} does not exceed the longest
     maturity of the instruments used for calibration (no extrapolation).
     }
+  \item{cpnParams}{A list specifying the \code{dayCounter} the day count convention for the 
+   fixed leg (default is Thirty360), and  \code{freq}, fixed coupon frequecny (defualt is Annual).
+  }
+  \item{floatFreq}{ An integer number representing the number resets per year on the floating leg, default is 6}
+  }
 }
 \value{
   \code{DiscountCurve} returns a list containing:

@@ -1,3 +1,19 @@
+2016-03-19  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/discount.R: Restored standard indentation style, untabified
+	* inst/include/rquantlib_internal.h: Idem
+	* src/discount.cpp: Idem
+	* src/curves.cpp: Idem
+	* man/DiscountCurve.Rd: Idem, corrected parameter naming
+
+2016-03-17  Terry Leitch  <tleitch@uchicago.edu>
+
+	* R/discount.R: Support arguments for day counter, frequency and
+	floating frequency to enable more flexible curve building
+	* inst/include/rquantlib_internal.h: Idem
+	* src/discount.cpp: Idem
+	* src/curves.cpp: Idem; new getRateHelper() function
+
 2015-12-03  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION: Release 0.4.2

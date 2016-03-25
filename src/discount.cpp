@@ -28,9 +28,7 @@
 Rcpp::List discountCurveEngine(Rcpp::List rparams,  
                                Rcpp::List tslist, 
                                Rcpp::NumericVector times,
-                               Rcpp::List cpnParams,
-                               Rcpp::IntegerVector floatFreq) {
-    ////  Rcpp::IntegerVector monthFreq) {
+                               Rcpp::List legParams) {
   
     std::vector<std::string> tsNames = tslist.names();
   
@@ -77,16 +75,39 @@ Rcpp::List discountCurveEngine(Rcpp::List rparams,
     } else {             // Build curve based on a set of observed rates and/or prices.
         std::vector<boost::shared_ptr<QuantLib::RateHelper> > curveInput;
     
+// <<<<<<< HEAD
+//         // For general swap inputs, not elegant but necessary to pass to getRateHelper()
+//         double fixDayCount = Rcpp::as<double>(cpnParams["dayCounter"]);
+//         double fixFreq   = Rcpp::as<double>(cpnParams["freq"]) ;
+//         //int floatFreq2 = 6;
+    
+//         for(i = 0; i < tslist.size(); i++) {
+//             std::string name = tsNames[i];
+//             double val = Rcpp::as<double>(tslist[i]);
+//             boost::shared_ptr<QuantLib::RateHelper> rh =
+//                 ObservableDB::instance().getRateHelper(name, val, fixDayCount, fixFreq, floatFreq[0]);
+//             // edd 2009-11-01 FIXME NULL_RateHelper no longer builds under 0.9.9
+//             // if (rh == NULL_RateHelper)
+//             if (rh.get() == NULL)
+//                 throw std::range_error("Unknown rate in getRateHelper");
+//             curveInput.push_back(rh);
+//         }
+//         boost::shared_ptr<QuantLib::YieldTermStructure> 
+//             ts = getTermStructure(interpWhat, interpHow, settlementDate, 
+//                                   curveInput, termStructureDayCounter, tolerance);
+//         curve = ts;
+// =======
         // For general swap inputs, not elegant but necessary to pass to getRateHelper()
-        double fixDayCount = Rcpp::as<double>(cpnParams["dayCounter"]);
-        double fixFreq   = Rcpp::as<double>(cpnParams["freq"]) ;
+        double fixDayCount = Rcpp::as<double>(legParams["dayCounter"]);
+        double fixFreq   = Rcpp::as<double>(legParams["fixFreq"]) ;
+        int floatFreq = Rcpp::as<int>(legParams["floatFreq"]); 
         //int floatFreq2 = 6;
     
         for(i = 0; i < tslist.size(); i++) {
             std::string name = tsNames[i];
             double val = Rcpp::as<double>(tslist[i]);
-            boost::shared_ptr<QuantLib::RateHelper> rh =
-                ObservableDB::instance().getRateHelper(name, val, fixDayCount, fixFreq, floatFreq[0]);
+            boost::shared_ptr<QuantLib::RateHelper> rh = ObservableDB::instance().getRateHelper(name, val,
+                                                                                                fixDayCount,fixFreq, floatFreq);
             // edd 2009-11-01 FIXME NULL_RateHelper no longer builds under 0.9.9
             // if (rh == NULL_RateHelper)
             if (rh.get() == NULL)
@@ -98,7 +119,7 @@ Rcpp::List discountCurveEngine(Rcpp::List rparams,
                                   curveInput, termStructureDayCounter, tolerance);
         curve = ts;
     }
-  
+    
     // Return discount, forward rate, and zero coupon curves
     int ntimes = times.size(); 
     Rcpp::NumericVector disc(ntimes), fwds(ntimes), zero(ntimes);

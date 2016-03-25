@@ -30,7 +30,14 @@ BermudanSwaption.default <- function(params, tsQuotes, swaptionMaturities,
   if (!is.list(params) || length(params) == 0) {
       stop("The params parameter must be a non-empty list", call.=FALSE)
   }
-
+  if(is.null(params$startDate)){
+      params$startDate=advance("UnitedStates",params$tradeDate, 1, 3)
+    warning("swaption start date not set, defaulting to 1 year from trade date using US calendar")
+  }
+    if(is.null(params$maturity)){
+        params$maturity=advance("UnitedStates",params$startDate, 5, 3)
+        warning("swaption maturity not set, defaulting to 5 years from startDate using US calendar")
+    }
   # Check that the term structure quotes are properly formatted.
   if (!is.list(tsQuotes) || length(tsQuotes) == 0) {
     stop("Term structure quotes must be a non-empty list", call.=FALSE)

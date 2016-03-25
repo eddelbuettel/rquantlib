@@ -65,6 +65,9 @@ Rcpp::List bermudanSwaptionEngine(Rcpp::List rparam,
 
     QuantLib::Date todaysDate(Rcpp::as<QuantLib::Date>(rparam["tradeDate"])); 
     QuantLib::Date settlementDate(Rcpp::as<QuantLib::Date>(rparam["settleDate"])); 
+    QuantLib::Date startDate(Rcpp::as<QuantLib::Date>(rparam["startDate"])); 
+    QuantLib::Date maturity(Rcpp::as<QuantLib::Date>(rparam["maturity"])); 
+    
     //cout << "TradeDate: " << todaysDate << endl << "Settle: " << settlementDate << endl;
 
     RQLContext::instance().settleDate = settlementDate;
@@ -162,8 +165,8 @@ Rcpp::List bermudanSwaptionEngine(Rcpp::List rparam,
     QuantLib::Rate dummyFixedRate = 0.03;
     boost::shared_ptr<QuantLib::IborIndex> indexSixMonths(new QuantLib::Euribor6M(rhTermStructure));
         
-    QuantLib::Date startDate = calendar.advance(settlementDate, 1, QuantLib::Years, floatingLegConvention);
-    QuantLib::Date maturity = calendar.advance(startDate, 5, QuantLib::Years, floatingLegConvention);
+    //QuantLib::Date startDate = calendar.advance(settlementDate, 1, QuantLib::Years, floatingLegConvention);  //took out hard coded 
+    //QuantLib::Date maturity = calendar.advance(startDate, 5, QuantLib::Years, floatingLegConvention);         //dates
     QuantLib::Schedule fixedSchedule(startDate,maturity,
                                      QuantLib::Period(fixedLegFrequency),calendar,
                                      fixedLegConvention,fixedLegConvention,

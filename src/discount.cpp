@@ -28,8 +28,7 @@
 Rcpp::List discountCurveEngine(Rcpp::List rparams,  
                                Rcpp::List tslist, 
                                Rcpp::NumericVector times,
-                               Rcpp::List cpnParams,
-                               Rcpp::IntegerVector floatFreq
+                               Rcpp::List legParams 
 ) {
   ////  Rcpp::IntegerVector monthFreq) {
   
@@ -79,15 +78,16 @@ Rcpp::List discountCurveEngine(Rcpp::List rparams,
     std::vector<boost::shared_ptr<QuantLib::RateHelper> > curveInput;
     
     // For general swap inputs, not elegant but necessary to pass to getRateHelper()
-    double fixDayCount = Rcpp::as<double>(cpnParams["dayCounter"]);
-    double fixFreq   = Rcpp::as<double>(cpnParams["freq"]) ;
+    double fixDayCount = Rcpp::as<double>(legParams["dayCounter"]);
+    double fixFreq   = Rcpp::as<double>(legParams["fixFreq"]) ;
+    int floatFreq = Rcpp::as<int>(legParams["floatFreq"]); 
     //int floatFreq2 = 6;
     
     for(i = 0; i < tslist.size(); i++) {
       std::string name = tsNames[i];
       double val = Rcpp::as<double>(tslist[i]);
       boost::shared_ptr<QuantLib::RateHelper> rh = ObservableDB::instance().getRateHelper(name, val,
-                                                                          fixDayCount,fixFreq, floatFreq[0]);
+                                                                          fixDayCount,fixFreq, floatFreq);
       // edd 2009-11-01 FIXME NULL_RateHelper no longer builds under 0.9.9
       // if (rh == NULL_RateHelper)
       if (rh.get() == NULL)

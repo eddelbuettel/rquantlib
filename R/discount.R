@@ -20,13 +20,13 @@
 ##  along with RQuantLib.  If not, see <http://www.gnu.org/licenses/>.
 
 DiscountCurve <- function(params, tsQuotes, times=seq(0,10,.1),
-                          fixParams=list(dayCounter="Thirty360",freq="Annual"),floatFreq=as.integer(6)) {
+                          legparams=list(dayCounter="Thirty360",freq="Annual",floatFreq="Semiannual")) {
   UseMethod("DiscountCurve")
 }
 
 DiscountCurve.default <- function(params, tsQuotes, times=seq(0,10,.1),
-                                  fixParams=list(dayCounter="Thirty360",freq="Annual"),floatFreq=as.integer(6)) {
-  
+                                  legparams=list(dayCounter="Thirty360",fixFreq="Annual",floatFreq="Semiannual")) {
+                                      
   ## Check that params is properly formatted.
   if (!is.list(params) || length(params) == 0) {
     stop("The params parameter must be a non-empty list", call.=FALSE)
@@ -50,9 +50,9 @@ DiscountCurve.default <- function(params, tsQuotes, times=seq(0,10,.1),
   
   ## Finally ready to make the call...
   #val <- .Call("DiscountCurve", params, tsQuotes, times, PACKAGE="RQuantLib")
-  matchCpn<-matchParams(fixParams)
+  matchlegs<-matchParams(legparams)
   ##val <- discountCurveEngine(params, tsQuotes, times,matchCpnmonthFreq=as.integer(monthFreq))
-  val <- discountCurveEngine(params, tsQuotes, times,matchCpn,floatFreq)
+  val <- discountCurveEngine(params, tsQuotes, times,matchlegs)
   
   val[["table"]] <- as.data.frame(val[["table"]])  ## Windows all of a sudden needs this
   class(val) <- c("DiscountCurve")

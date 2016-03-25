@@ -153,8 +153,8 @@ setEvaluationDate <- function(evalDate) {
     .Call('RQuantLib_setEvaluationDate', PACKAGE = 'RQuantLib', evalDate)
 }
 
-discountCurveEngine <- function(rparams, tslist, times, cpnParams, floatFreq) {
-    .Call('RQuantLib_discountCurveEngine', PACKAGE = 'RQuantLib', rparams, tslist, times, cpnParams, floatFreq)
+discountCurveEngine <- function(rparams, tslist, times, legParams) {
+    .Call('RQuantLib_discountCurveEngine', PACKAGE = 'RQuantLib', rparams, tslist, times, legParams)
 }
 
 calibrateHullWhiteUsingCapsEngine <- function(termStrcDateVec, termStrcZeroVec, capDF, iborDateVec, iborZeroVec, iborType, evalDate) {

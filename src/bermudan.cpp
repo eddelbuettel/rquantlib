@@ -63,6 +63,7 @@ Rcpp::List bermudanSwaptionEngine(Rcpp::List rparam,
 
     double notional = 10000; // prices in basis points
 
+    // comment added to test github pull
     QuantLib::Date todaysDate(Rcpp::as<QuantLib::Date>(rparam["tradeDate"])); 
     QuantLib::Date settlementDate(Rcpp::as<QuantLib::Date>(rparam["settleDate"])); 
     QuantLib::Date startDate(Rcpp::as<QuantLib::Date>(rparam["startDate"])); 

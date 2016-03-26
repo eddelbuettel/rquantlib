@@ -9,7 +9,9 @@
     \itemize{
       \item Discount curve creation has been made more general by
       allowing additional arguments for day counter and fixed and
-      floating frequency (contributed by Terri Leitch in \ghpr{31})
+      floating frequency (contributed by Terry Leitch in \ghpr{31})
+      \item Swap leg parameters are now in combined variable and allow
+      textual description (also Terry in \ghpr{34} and \ghpr{35})
     }
   }
 }

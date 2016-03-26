@@ -1,3 +1,17 @@
+2016-03-25  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/discount.R: Minor edits and cleanups
+	* src/discount.cpp: Idem
+	* man/DiscountCurve.Rd: Minor correction
+
+2016-03-28  Terry Leitch  <tleitch@uchicago.edu>
+
+	* R/bond.R: Added converters for float frequencies
+	* R/discount.R: nUse float frequency textual descriptions, pass float
+	and fixed as one new combined parameter for swap legs
+	* src/bermudan.cpp: Use new parameter setting
+	* R/bermudan.R: Support old default values
+
 2016-03-19  Dirk Eddelbuettel  <edd@debian.org>
 
 	* R/discount.R: Restored standard indentation style, untabified

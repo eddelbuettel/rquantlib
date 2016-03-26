@@ -110,9 +110,11 @@ volMatrix)
 # This data is taken from sample code shipped with QuantLib 0.3.10.
 params <- list(tradeDate=as.Date('2002-2-15'),
                settleDate=as.Date('2002-2-19'),
+               startDate=as.Date('2003-2-19'),
+               maturity=as.Date('2008-2-19'),
                payFixed=TRUE,
-	       strike=.06,
-	       method="G2Analytic",
+	           strike=.06,
+	           method="G2Analytic",
                interpWhat="discount",
                interpHow="loglinear")
 		

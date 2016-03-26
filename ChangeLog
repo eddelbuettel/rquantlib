@@ -1,3 +1,39 @@
+2016-03-26  Dirk Eddelbuettel  <edd@debian.org>
+
+	* Contributing.md: New files
+
+2016-03-25  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/discount.R: Minor edits and cleanups
+	* src/discount.cpp: Idem
+	* man/DiscountCurve.Rd: Minor correction
+
+2016-03-28  Terry Leitch  <tleitch@uchicago.edu>
+
+	* R/bond.R: Added converters for float frequencies
+	* R/discount.R: nUse float frequency textual descriptions, pass float
+	and fixed as one new combined parameter for swap legs
+	* src/bermudan.cpp: Use new parameter setting
+	* R/bermudan.R: Support old default values
+
+2016-03-19  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/discount.R: Restored standard indentation style, untabified
+	* inst/include/rquantlib_internal.h: Idem
+	* src/discount.cpp: Idem
+	* src/curves.cpp: Idem
+	* man/DiscountCurve.Rd: Idem, corrected parameter naming
+
+	* README.md: Use canonical CRAN URL to please R-devel CMD check
+
+2016-03-17  Terry Leitch  <tleitch@uchicago.edu>
+
+	* R/discount.R: Support arguments for day counter, frequency and
+	floating frequency to enable more flexible curve building
+	* inst/include/rquantlib_internal.h: Idem
+	* src/discount.cpp: Idem
+	* src/curves.cpp: Idem; new getRateHelper() function
+
 2015-12-03  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION: Release 0.4.2

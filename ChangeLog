@@ -1,3 +1,7 @@
+2016-03-26  Dirk Eddelbuettel  <edd@debian.org>
+
+	* Contributing.md: New files
+
 2016-03-25  Dirk Eddelbuettel  <edd@debian.org>
 
 	* R/discount.R: Minor edits and cleanups

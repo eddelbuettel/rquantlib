@@ -39,19 +39,26 @@ BermudanSwaption.default <- function(params, ts, swaptionMaturities,
             params$maturity=advance("UnitedStates",params$startDate, 5, 3)
             warning("swaption maturity not set, defaulting to 5 years from startDate using US calendar")
         }
-#         # Check that the term structure quotes are properly formatted.
-#         if(is)
-#             if (!is.list(ts) || length(ts) == 0) {
-#                 stop("Term structure quotes must be a non-empty list", call.=FALSE)
-#             }
-#         if (length(ts) != length(names(ts))) {
-#             stop("Term structure quotes must include labels", call.=FALSE)
-#         }
-#         if (!is.numeric(unlist(ts))) {
-#             stop("Term structure quotes must have numeric values", call.=FALSE)
-#         }
-
     
+    matYears=as.numeric(params$maturity-params$tradeDate)/365
+    optStart=as.numeric(params$startDate-params$tradeDate)/365
+    numObs=round(matYears-optStart)
+    
+    tenor=expiry=vol=vector(length=numObs,mode="numeric")
+    for(i in 1:numObs){
+        expiryIDX=findInterval(optStart+i-1+.5,swaptionMaturities)
+        tenorIDX=findInterval(matYears-optStart-i+1,swapTenors)
+        if(tenorIDX >0 & expiryIDX>0){
+            vol[i]=volMatrix[expiryIDX,tenorIDX]
+            expiry[i]=swaptionMaturities[expiryIDX]
+            tenor[i]=swapTenors[tenorIDX]
+        } else {
+            vol[i]=expiry[i]=tenor[i]=0
+        }
+    }
+
+    expiry=expiry[expiry>0];tenor=tenor[tenor>0];vol=vol[vol>0]
+
     # Check for correct matrix/vector types
     if (!is.matrix(volMatrix)
         || !is.vector(swaptionMaturities)
@@ -73,8 +80,7 @@ BermudanSwaption.default <- function(params, ts, swaptionMaturities,
     if(class(ts)=="DiscountCurve"){
         print("here")
         val <- bermudanWithRebuiltCurveEngine(params, c(ts$table$date), ts$table$zeroRates,
-                                      swaptionMaturities,
-                                      swapTenors, volMatrix)   
+                                      expiry,tenor,vol)   
     } else{
         if (!is.numeric(ts) | length(ts) !=1) {
             stop("Flat Term structure yield must have single numeric value", call.=FALSE)

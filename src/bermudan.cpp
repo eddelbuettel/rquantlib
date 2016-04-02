@@ -28,10 +28,10 @@ void calibrateModel(const boost::shared_ptr<QuantLib::ShortRateModel>& model,
                     QuantLib::Real lambda,
                     Rcpp::NumericVector &swaptionMat, 
                     Rcpp::NumericVector &swapLengths, 
-                    Rcpp::NumericMatrix &swaptionVols) {
+                    Rcpp::NumericVector &swaptionVols) {
 
-    QuantLib::Size numRows = swaptionVols.nrow();
-    QuantLib::Size numCols = swaptionVols.ncol();
+    QuantLib::Size numRows = swaptionVols.size();
+    //QuantLib::Size numCols = swaptionVols.ncol();
     QuantLib::LevenbergMarquardt om;
     model->calibrate(helpers, om,QuantLib:: EndCriteria(400,100,1.0e-8, 1.0e-8, 1.0e-8));
 
@@ -40,11 +40,11 @@ void calibrateModel(const boost::shared_ptr<QuantLib::ShortRateModel>& model,
 	QuantLib::Real npv = helpers[i]->modelValue();
 	QuantLib::Volatility implied = helpers[i]->impliedVolatility(npv, 1e-4,
                                                            1000, 0.05, 1.50);
-	QuantLib::Volatility diff = implied - swaptionVols(i, numCols-i-1);
+	QuantLib::Volatility diff = implied - swaptionVols(i);
 
 	Rprintf((char*) "%dx%d: model %lf, market %lf, diff %lf\n",
-            swaptionMat[i], swapLengths[numCols-i-1], implied, 
-            swaptionVols(i, numCols-i-1), diff);
+            swaptionMat[i], swapLengths[i], implied, 
+            swaptionVols(i), diff);
     }	
 }	
 
@@ -53,7 +53,7 @@ Rcpp::List bermudanFromYieldEngine(Rcpp::List rparam,
                                   Rcpp::NumericVector yield,
                                   Rcpp::NumericVector swaptionMat,
                                   Rcpp::NumericVector swapLengths,
-                                  Rcpp::NumericMatrix swaptionVols) {
+                                  Rcpp::NumericVector swaptionVols) {
 
     QuantLib::Size i;
     //int *swaptionMat=0, *swapLengths=0;
@@ -65,6 +65,7 @@ Rcpp::List bermudanFromYieldEngine(Rcpp::List rparam,
     QuantLib::Date settlementDate(Rcpp::as<QuantLib::Date>(rparam["settleDate"])); 
     QuantLib::Date startDate(Rcpp::as<QuantLib::Date>(rparam["startDate"])); 
     QuantLib::Date maturity(Rcpp::as<QuantLib::Date>(rparam["maturity"])); 
+    
     
     //cout << "TradeDate: " << todaysDate << endl << "Settle: " << settlementDate << endl;
 
@@ -90,28 +91,11 @@ Rcpp::List bermudanFromYieldEngine(Rcpp::List rparam,
         rhTermStructure(boost::shared_ptr<QuantLib::FlatForward>(new QuantLib::FlatForward(settlementDate, 
                                                                                            QuantLib::Handle<QuantLib::Quote>(flatRate),
                                                                                            QuantLib::Actual365Fixed())));
-
-    // Get swaption vol matrix.
-    //Rcpp::NumericMatrix swaptionVols(vols);
-    int dim1 = swaptionVols.nrow(); 
-    int dim2 = swaptionVols.ncol(); 
+    
 	
     // Get swaption maturities
     //Rcpp::NumericVector swaptionMat(maturities);
     int numRows = swaptionMat.size(); 
-
-    // Get swap tenors
-    //Rcpp::NumericVector swapLengths(tenors);
-    int numCols = swapLengths.size(); 
-
-    if (numRows*numCols != dim1*dim2) {
-        std::ostringstream oss;
-        oss << "Swaption vol matrix size (" << dim1 << " x " << dim2 << ") "
-            << "incompatible\nwith size of swaption maturity vector ("
-            << numRows << ") and swap tenor vector ("
-            << numCols << ")";
-        throw std::range_error(oss.str());
-    }
 
     // Create dummy swap to get schedules.
     QuantLib::Frequency fixedLegFrequency = QuantLib::Annual;
@@ -170,9 +154,9 @@ Rcpp::List bermudanFromYieldEngine(Rcpp::List rparam,
     std::list<QuantLib::Time> times;
     for (i=0; i<(QuantLib::Size)numRows; i++) {
         //boost::shared_ptr<QuantLib::Quote> vol(new QuantLib::SimpleQuote(swaptionVols[i][numCols-i-1]));
-        boost::shared_ptr<QuantLib::Quote> vol(new QuantLib::SimpleQuote(swaptionVols(i, numCols-i-1)));
+        boost::shared_ptr<QuantLib::Quote> vol(new QuantLib::SimpleQuote(swaptionVols(i)));
         swaptions.push_back(boost::shared_ptr<QuantLib::CalibrationHelper>(new QuantLib::SwaptionHelper(swaptionMaturities[i],
-                                                                                                        QuantLib::Period(swapLengths[numCols-i-1], QuantLib::Years),
+                                                                                                        QuantLib::Period(swapLengths[i], QuantLib::Years),
                                                                                                         QuantLib::Handle<QuantLib::Quote>(vol),
                                                                                                         indexSixMonths,
                                                                                                         indexSixMonths->tenor(),
@@ -274,7 +258,7 @@ Rcpp::List bermudanWithRebuiltCurveEngine(Rcpp::List rparam,
                                   std::vector<double> zeroVec,
                                   Rcpp::NumericVector swaptionMat,
                                   Rcpp::NumericVector swapLengths,
-                                  Rcpp::NumericMatrix swaptionVols) {
+                                  Rcpp::NumericVector swaptionVols) {
     
    // std::vector<std::string> tsnames = tslist.names();
     
@@ -293,7 +277,8 @@ Rcpp::List bermudanWithRebuiltCurveEngine(Rcpp::List rparam,
     QuantLib::Date settlementDate(Rcpp::as<QuantLib::Date>(rparam["settleDate"])); 
     QuantLib::Date startDate(Rcpp::as<QuantLib::Date>(rparam["startDate"])); 
     QuantLib::Date maturity(Rcpp::as<QuantLib::Date>(rparam["maturity"])); 
-    Rprintf((char*) "Here 3* \n" );
+//    bool payfix = Rcpp::as<bool>(rparam["payFixed"]);
+
     
     //cout << "TradeDate: " << todaysDate << endl << "Settle: " << settlementDate << endl;
     
@@ -313,27 +298,10 @@ Rcpp::List bermudanWithRebuiltCurveEngine(Rcpp::List rparam,
         rhTermStructure(rebuildCurveFromZeroRates(dateVec, zeroVec));
     Rprintf((char*) "Here 3 \n" );
         
-    // Get swaption vol matrix.
-    //Rcpp::NumericMatrix swaptionVols(vols);
-    int dim1 = swaptionVols.nrow(); 
-    int dim2 = swaptionVols.ncol(); 
-    
     // Get swaption maturities
     //Rcpp::NumericVector swaptionMat(maturities);
     int numRows = swaptionMat.size(); 
-    
-    // Get swap tenors
-    //Rcpp::NumericVector swapLengths(tenors);
-    int numCols = swapLengths.size(); 
-    
-    if (numRows*numCols != dim1*dim2) {
-        std::ostringstream oss;
-        oss << "Swaption vol matrix size (" << dim1 << " x " << dim2 << ") "
-            << "incompatible\nwith size of swaption maturity vector ("
-            << numRows << ") and swap tenor vector ("
-            << numCols << ")";
-        throw std::range_error(oss.str());
-    }
+    Rprintf( "numRow= %d \n",numRows );
     
     // Create dummy swap to get schedules.
     QuantLib::Frequency fixedLegFrequency = QuantLib::Annual;
@@ -397,11 +365,11 @@ Rcpp::List bermudanWithRebuiltCurveEngine(Rcpp::List rparam,
     // List of times that have to be included in the timegrid
     std::list<QuantLib::Time> times;
     for (i=0; i<(QuantLib::Size)numRows; i++) {
-        Rprintf((char*) "Here again\n" );
+            Rprintf((char*) "Here again\n" );
         //boost::shared_ptr<QuantLib::Quote> vol(new QuantLib::SimpleQuote(swaptionVols[i][numCols-i-1]));
-        boost::shared_ptr<QuantLib::Quote> vol(new QuantLib::SimpleQuote(swaptionVols(i, numCols-i-1)));
+        boost::shared_ptr<QuantLib::Quote> vol(new QuantLib::SimpleQuote(swaptionVols(i)));
         swaptions.push_back(boost::shared_ptr<QuantLib::CalibrationHelper>(new QuantLib::SwaptionHelper(swaptionMaturities[i],
-                                                                                                        QuantLib::Period(swapLengths[numCols-i-1], QuantLib::Years),
+                                                                                                        QuantLib::Period(swapLengths[i], QuantLib::Years),
                                                                                                         QuantLib::Handle<QuantLib::Quote>(vol),
                                                                                                         indexSixMonths,
                                                                                                         indexSixMonths->tenor(),
@@ -410,11 +378,12 @@ Rcpp::List bermudanWithRebuiltCurveEngine(Rcpp::List rparam,
                                                                                                         rhTermStructure)));
         swaptions.back()->addTimesTo(times);
     }
-    
+    Rprintf((char*) "Here 8 \n" );
     
     // Building time-grid
     QuantLib::TimeGrid grid(times.begin(), times.end(), 30);
-
+    Rprintf((char*) "Here 8 \n" );
+    
     
     // Get Bermudan swaption exercise dates.
     std::vector<QuantLib::Date> bermudanDates;

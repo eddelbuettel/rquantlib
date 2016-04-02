@@ -1,3 +1,7 @@
+2016-04-02  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/zzz.R: Correct version comparison check
+
 2016-03-26  Dirk Eddelbuettel  <edd@debian.org>
 
 	* Contributing.md: New files

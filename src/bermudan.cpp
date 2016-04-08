@@ -261,31 +261,26 @@ Rcpp::List bermudanWithRebuiltCurveEngine(Rcpp::List rparam,
                                   Rcpp::NumericVector swaptionVols) {
     
    // std::vector<std::string> tsnames = tslist.names();
-    
-    Rprintf((char*) "%f zeroVec[0] \n",
-            zeroVec[0]);
+
     
     QuantLib::Size i;
     //int *swaptionMat=0, *swapLengths=0;
     //double **swaptionVols=0;
-    Rprintf((char*) "Here 1 \n" );
-    
+
     double notional = 10000; // prices in basis points
-    Rprintf((char*) "Here 2* \n" );
-    
+
     QuantLib::Date todaysDate(Rcpp::as<QuantLib::Date>(rparam["tradeDate"])); 
     QuantLib::Date settlementDate(Rcpp::as<QuantLib::Date>(rparam["settleDate"])); 
     QuantLib::Date startDate(Rcpp::as<QuantLib::Date>(rparam["startDate"])); 
     QuantLib::Date maturity(Rcpp::as<QuantLib::Date>(rparam["maturity"])); 
-//    bool payfix = Rcpp::as<bool>(rparam["payFixed"]);
+    bool payfix = Rcpp::as<bool>(rparam["payFixed"]);
 
     
     //cout << "TradeDate: " << todaysDate << endl << "Settle: " << settlementDate << endl;
     
     RQLContext::instance().settleDate = settlementDate;
     QuantLib::Settings::instance().evaluationDate() = todaysDate;
-    Rprintf((char*) "Here 1 \n" );
-        
+
     // initialise from the singleton instance
     QuantLib::Calendar calendar = RQLContext::instance().calendar;
     //Integer fixingDays = RQLContext::instance().fixingDays;
@@ -293,16 +288,13 @@ Rcpp::List bermudanWithRebuiltCurveEngine(Rcpp::List rparam,
     double strike = Rcpp::as<double>(rparam["strike"]);
     std::string method = Rcpp::as<std::string>(rparam["method"]);
     
-    Rprintf((char*) "Here 2 \n" );
     QuantLib::Handle<QuantLib::YieldTermStructure> 
         rhTermStructure(rebuildCurveFromZeroRates(dateVec, zeroVec));
-    Rprintf((char*) "Here 3 \n" );
-        
+
     // Get swaption maturities
     //Rcpp::NumericVector swaptionMat(maturities);
     int numRows = swaptionMat.size(); 
-    Rprintf( "numRow= %d \n",numRows );
-    
+
     // Create dummy swap to get schedules.
     QuantLib::Frequency fixedLegFrequency = QuantLib::Annual;
     QuantLib::BusinessDayConvention fixedLegConvention = QuantLib::Unadjusted;
@@ -311,8 +303,7 @@ Rcpp::List bermudanWithRebuiltCurveEngine(Rcpp::List rparam,
     QuantLib::Frequency floatingLegFrequency = QuantLib::Semiannual;
     QuantLib::Rate dummyFixedRate = 0.03;
     boost::shared_ptr<QuantLib::IborIndex> indexSixMonths(new QuantLib::Euribor6M(rhTermStructure));
-    Rprintf((char*) "Here 4 \n" );
-    
+
     //QuantLib::Date startDate = calendar.advance(settlementDate, 1, QuantLib::Years, floatingLegConvention);  //took out hard coded 
     //QuantLib::Date maturity = calendar.advance(startDate, 5, QuantLib::Years, floatingLegConvention);         //dates
     QuantLib::Schedule fixedSchedule(startDate,maturity,
@@ -323,9 +314,14 @@ Rcpp::List bermudanWithRebuiltCurveEngine(Rcpp::List rparam,
                                      calendar,
                                      floatingLegConvention,floatingLegConvention,
                                      QuantLib::DateGeneration::Forward,false);
-    Rprintf((char*) "Here 5 \n" );
+
+    QuantLib::VanillaSwap::Type type;
     
-    QuantLib::VanillaSwap::Type type = QuantLib::VanillaSwap::Payer;
+    if(payfix){
+        
+        type = QuantLib::VanillaSwap::Payer;} else{
+            type = QuantLib::VanillaSwap::Receiver;    
+        }
     boost::shared_ptr<QuantLib::VanillaSwap> 
         swap(new QuantLib::VanillaSwap(type, notional,
                                        fixedSchedule, dummyFixedRate, fixedLegDayCounter,
@@ -341,8 +337,7 @@ Rcpp::List bermudanWithRebuiltCurveEngine(Rcpp::List rparam,
         fixedRate = fixedATMRate * (-strike);
     else
         fixedRate = strike;
-    Rprintf((char*) "Here 6 \n" );
-    
+
     // The swap underlying the Bermudan swaption.
     boost::shared_ptr<QuantLib::VanillaSwap> 
         mySwap(new QuantLib::VanillaSwap(type, notional,
@@ -350,8 +345,7 @@ Rcpp::List bermudanWithRebuiltCurveEngine(Rcpp::List rparam,
                                          floatSchedule, indexSixMonths, 0.0,
                                          indexSixMonths->dayCounter()));
     swap->setPricingEngine(boost::shared_ptr<QuantLib::PricingEngine>(new QuantLib::DiscountingSwapEngine(rhTermStructure)));
-    Rprintf((char*) "Here 7 \n" );
-    
+
     // Build swaptions that will be used to calibrate model to
     // the volatility matrix.
     std::vector<QuantLib::Period> swaptionMaturities;
@@ -360,12 +354,10 @@ Rcpp::List bermudanWithRebuiltCurveEngine(Rcpp::List rparam,
     
     // Swaptions used for calibration
     std::vector<boost::shared_ptr<QuantLib::CalibrationHelper> > swaptions;
-    Rprintf((char*) "Here 8 \n" );
-    
+
     // List of times that have to be included in the timegrid
     std::list<QuantLib::Time> times;
     for (i=0; i<(QuantLib::Size)numRows; i++) {
-            Rprintf((char*) "Here again\n" );
         //boost::shared_ptr<QuantLib::Quote> vol(new QuantLib::SimpleQuote(swaptionVols[i][numCols-i-1]));
         boost::shared_ptr<QuantLib::Quote> vol(new QuantLib::SimpleQuote(swaptionVols(i)));
         swaptions.push_back(boost::shared_ptr<QuantLib::CalibrationHelper>(new QuantLib::SwaptionHelper(swaptionMaturities[i],
@@ -378,27 +370,21 @@ Rcpp::List bermudanWithRebuiltCurveEngine(Rcpp::List rparam,
                                                                                                         rhTermStructure)));
         swaptions.back()->addTimesTo(times);
     }
-    Rprintf((char*) "Here 8 \n" );
-    
+
     // Building time-grid
     QuantLib::TimeGrid grid(times.begin(), times.end(), 30);
-    Rprintf((char*) "Here 8 \n" );
-    
+
     
     // Get Bermudan swaption exercise dates.
     std::vector<QuantLib::Date> bermudanDates;
     const std::vector<boost::shared_ptr<QuantLib::CashFlow> >& leg = swap->fixedLeg();
-    Rprintf((char*) "Here 8 \n" );
-    
         for (i=0; i<leg.size(); i++) {
         boost::shared_ptr<QuantLib::Coupon> coupon = boost::dynamic_pointer_cast<QuantLib::Coupon>(leg[i]);
         bermudanDates.push_back(coupon->accrualStartDate());
     }
-        Rprintf((char*) "Here 8 \n" );
-        
+
     boost::shared_ptr<QuantLib::Exercise> bermudaExercise(new QuantLib::BermudanExercise(bermudanDates));
-    Rprintf((char*) "Here 9 \n" );
-    
+
     // Price based on method selected.
     if (method.compare("G2Analytic") == 0) {
         

@@ -42,23 +42,33 @@ BermudanSwaption.default <- function(params, ts, swaptionMaturities,
     
     matYears=as.numeric(params$maturity-params$tradeDate)/365
     optStart=as.numeric(params$startDate-params$tradeDate)/365
-    numObs=round(matYears-optStart)
+    numObs=nrow(volMatrix)
     
     tenor=expiry=vol=vector(length=numObs,mode="numeric")
     for(i in 1:numObs){
         expiryIDX=findInterval(optStart+i-1+.5,swaptionMaturities)
         tenorIDX=findInterval(matYears-optStart-i+1,swapTenors)
-        if(tenorIDX >0 & expiryIDX>0){
+        print("expiry and tenor ")
+        print(swaptionMaturities[expiryIDX]);            print(swapTenors[tenorIDX])
+        if(tenorIDX >0 ){
             vol[i]=volMatrix[expiryIDX,tenorIDX]
             expiry[i]=swaptionMaturities[expiryIDX]
             tenor[i]=swapTenors[tenorIDX]
+
         } else {
-            vol[i]=expiry[i]=tenor[i]=0
+            vol[i]=volMatrix[expiryIDX,tenorIDX+1]
+            expiry[i]=swaptionMaturities[expiryIDX]
+            tenor[i]=swapTenors[tenorIDX+1]
         }
+        print(i)
+        print(vol[i])
     }
 
     expiry=expiry[expiry>0];tenor=tenor[tenor>0];vol=vol[vol>0]
+    print("vol=")
+    print(vol);print(tenor);print(expiry)
 
+    
     # Check for correct matrix/vector types
     if (!is.matrix(volMatrix)
         || !is.vector(swaptionMaturities)

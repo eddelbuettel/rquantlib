@@ -33,6 +33,8 @@ void calibrateModel(const boost::shared_ptr<QuantLib::ShortRateModel>& model,
     QuantLib::Size numRows = swaptionVols.size();
     //QuantLib::Size numCols = swaptionVols.ncol();
     QuantLib::LevenbergMarquardt om;
+    Rprintf("numRow= %d",numRows);
+    
     model->calibrate(helpers, om,QuantLib:: EndCriteria(400,100,1.0e-8, 1.0e-8, 1.0e-8));
 
     // Output the implied Black volatilities
@@ -164,6 +166,7 @@ Rcpp::List bermudanFromYieldEngine(Rcpp::List rparam,
                                                                                                         indexSixMonths->dayCounter(),
                                                                                                         rhTermStructure)));
         swaptions.back()->addTimesTo(times);
+
     }
 
     // Building time-grid
@@ -277,7 +280,7 @@ Rcpp::List bermudanWithRebuiltCurveEngine(Rcpp::List rparam,
     QuantLib::Date settlementDate(Rcpp::as<QuantLib::Date>(rparam["settleDate"])); 
     QuantLib::Date startDate(Rcpp::as<QuantLib::Date>(rparam["startDate"])); 
     QuantLib::Date maturity(Rcpp::as<QuantLib::Date>(rparam["maturity"])); 
-//    bool payfix = Rcpp::as<bool>(rparam["payFixed"]);
+    bool payfix = Rcpp::as<bool>(rparam["payFixed"]);
 
     
     //cout << "TradeDate: " << todaysDate << endl << "Settle: " << settlementDate << endl;
@@ -325,7 +328,12 @@ Rcpp::List bermudanWithRebuiltCurveEngine(Rcpp::List rparam,
                                      QuantLib::DateGeneration::Forward,false);
     Rprintf((char*) "Here 5 \n" );
     
-    QuantLib::VanillaSwap::Type type = QuantLib::VanillaSwap::Payer;
+    QuantLib::VanillaSwap::Type type;
+    if(payfix){
+        type = QuantLib::VanillaSwap::Payer;
+    } else{
+        type = QuantLib::VanillaSwap::Receiver;
+    }   
     boost::shared_ptr<QuantLib::VanillaSwap> 
         swap(new QuantLib::VanillaSwap(type, notional,
                                        fixedSchedule, dummyFixedRate, fixedLegDayCounter,
@@ -376,10 +384,10 @@ Rcpp::List bermudanWithRebuiltCurveEngine(Rcpp::List rparam,
                                                                                                         indexSixMonths->dayCounter(),
                                                                                                         indexSixMonths->dayCounter(),
                                                                                                         rhTermStructure)));
+        Rprintf("swapLenghths= %f",swapLengths[i]);
         swaptions.back()->addTimesTo(times);
     }
-    Rprintf((char*) "Here 8 \n" );
-    
+
     // Building time-grid
     QuantLib::TimeGrid grid(times.begin(), times.end(), 30);
     Rprintf((char*) "Here 8 \n" );

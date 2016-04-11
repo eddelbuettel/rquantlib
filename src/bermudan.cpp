@@ -4,6 +4,7 @@
 //
 //  Copyright (C) 2005 - 2007 Dominick Samperi
 //  Copyright (C) 2007 - 2014 Dirk Eddelbuettel
+//  Copyright (C) 2016        Terry Leitch
 //
 //  This file is part of RQuantLib.
 //
@@ -33,7 +34,6 @@ void calibrateModel(const boost::shared_ptr<QuantLib::ShortRateModel>& model,
     QuantLib::Size numRows = swaptionVols.size();
     //QuantLib::Size numCols = swaptionVols.ncol();
     QuantLib::LevenbergMarquardt om;
-    Rprintf("numRow= %d",numRows);
     
     model->calibrate(helpers, om,QuantLib:: EndCriteria(400,100,1.0e-8, 1.0e-8, 1.0e-8));
 
@@ -319,21 +319,13 @@ Rcpp::List bermudanWithRebuiltCurveEngine(Rcpp::List rparam,
                                      QuantLib::DateGeneration::Forward,false);
 
     QuantLib::VanillaSwap::Type type;
-    
-<<<<<<< HEAD
-    QuantLib::VanillaSwap::Type type;
     if(payfix){
         type = QuantLib::VanillaSwap::Payer;
     } else{
         type = QuantLib::VanillaSwap::Receiver;
     }   
-=======
-    if(payfix){
-        
-        type = QuantLib::VanillaSwap::Payer;} else{
-            type = QuantLib::VanillaSwap::Receiver;    
-        }
->>>>>>> d83e6fcba0c1ab085d7e7e52e5181107af13a2b6
+
+
     boost::shared_ptr<QuantLib::VanillaSwap> 
         swap(new QuantLib::VanillaSwap(type, notional,
                                        fixedSchedule, dummyFixedRate, fixedLegDayCounter,
@@ -380,7 +372,6 @@ Rcpp::List bermudanWithRebuiltCurveEngine(Rcpp::List rparam,
                                                                                                         indexSixMonths->dayCounter(),
                                                                                                         indexSixMonths->dayCounter(),
                                                                                                         rhTermStructure)));
-        Rprintf("swapLenghths= %f",swapLengths[i]);
         swaptions.back()->addTimesTo(times);
     }
 

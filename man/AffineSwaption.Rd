@@ -20,12 +20,12 @@
 }
 \usage{
 AffineSwaption(params, tsQuotes, swaptionMaturities, swapTenors,
-volMatrix)
+volMatrix,legparams)
 }
 \arguments{
   \item{params}{A list specifying the \code{tradeDate} (month/day/year),
-    \code{settlementDate}, \code{payFixed}
-    flag, \code{strike}, pricing \code{method}, and curve construction options
+    \code{settlementDate}, logical flags \code{payFixed} & \code{european}
+    (european=FALSE generates Bermudan vlaue), \code{strike}, pricing \code{method}, and curve construction options
     (see \emph{Examples} section below). Curve construction options are
     \code{interpWhat} (possible values are \code{discount},
     \code{forward}, and \code{zero}) and
@@ -51,12 +51,16 @@ volMatrix)
     associated with the columns of the swaption volatility matrix.}
   \item{volMatrix}{The swaption volatility matrix. Must be a 2D matrix
   stored by rows. See the example below.}
+    \item{legparams}{A list specifying the \code{dayCounter} the day count convention for the 
+   fixed leg (default is Thirty360), and  \code{fixFreq}, fixed coupon frequecny (defualt is Annual), \code{floatFreq}, 
+   floating leg reset frequency (default is Semiannual).
+  }
  }
 \value{
   \code{AffineSwaption} returns a list containing calibrated model
   paramters (what parameters are returned depends on the model
   selected) along with:
-  \item{price}{Price of swaption in basis points (actual price
+  \item{NPV}{NPV of swaption in basis points (actual price
   equals \code{price} times notional divided by 10,000)}
   \item{ATMStrike}{At-the-money strike}
   \item{params}{Input parameter list}
@@ -110,17 +114,18 @@ volMatrix)
 \examples{
 
 # This data is taken from sample code shipped with QuantLib 0.3.10.
-params <- list(tradeDate=as.Date('2002-2-15'),
-               settleDate=as.Date('2002-2-19'),
-               startDate=as.Date('2003-2-19'),
-               maturity=as.Date('2008-2-19'),
+params <- list(tradeDate=as.Date('2016-2-15'),
+               settleDate=as.Date('2016-2-17'),
+               startDate=as.Date('2017-2-17'),
+               maturity=as.Date('2022-2-17'),
                payFixed=TRUE,
                european=FALSE,
-	           strike=.06,
-	           method="G2Analytic",
+               dt=.25,
+               strike=.06,
+               method="G2Analytic",
                interpWhat="discount",
                interpHow="loglinear")
-		
+
 # Market data used to construct the term structure of interest rates
 tsQuotes <- list(d1w  =0.0382,
                  d1m  =0.0372,
@@ -137,8 +142,6 @@ tsQuotes <- list(d1w  =0.0382,
                  s10y =0.05165,
                  s15y =0.055175)
 
-# Use this to compare with the Bermudan swaption example from QuantLib
-#tsQuotes <- list(flat=0.04875825)
 
 # Swaption volatility matrix with corresponding maturities and tenors
 swaptionMaturities <- c(1,2,3,4,5)
@@ -146,16 +149,23 @@ swaptionMaturities <- c(1,2,3,4,5)
 swapTenors <- c(1,2,3,4,5)
 
 volMatrix <- matrix(
-                    c(0.1490, 0.1340, 0.1228, 0.1189, 0.1148,
-                      0.1290, 0.1201, 0.1146, 0.1108, 0.1040,
-                      0.1149, 0.1112, 0.1070, 0.1010, 0.0957,
-                      0.1047, 0.1021, 0.0980, 0.0951, 0.1270,
-                      0.1000, 0.0950, 0.0900, 0.1230, 0.1160),
-                    ncol=5, byrow=TRUE)
+    c(0.1490, 0.1340, 0.1228, 0.1189, 0.1148,
+      0.1290, 0.1201, 0.1146, 0.1108, 0.1040,
+      0.1149, 0.1112, 0.1070, 0.1010, 0.0957,
+      0.1047, 0.1021, 0.0980, 0.0951, 0.1270,
+      0.1000, 0.0950, 0.0900, 0.1230, 0.1160),
+    ncol=5, byrow=TRUE)
+
+legparams=list(dayCounter="Thirty360",
+               fixFreq="Annual",
+               floatFreq="Semiannual")
+
+setEvaluationDate(as.Date("2016-2-16"))               
+times<-times <- seq(0,14.75,.25)
+dcurve <- DiscountCurve(params, tsQuotes, times=times,legparams)
 
 # Price the Bermudan swaption
-pricing <- AffineSwaption(params, tsQuotes,
-                            swaptionMaturities, swapTenors, volMatrix)
+pricing <- AffineSwaption(params, dcurve,swaptionMaturities, swapTenors, volMatrix,legparams)
 summary(pricing)
 }
 \keyword{models}

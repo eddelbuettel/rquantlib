@@ -8,6 +8,22 @@
 
 using namespace Rcpp;
 
+// affineWithRebuiltCurveEngine
+Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam, std::vector<QuantLib::Date> dateVec, std::vector<double> zeroVec, Rcpp::NumericVector swaptionMat, Rcpp::NumericVector swapLengths, Rcpp::NumericVector swaptionVols);
+RcppExport SEXP RQuantLib_affineWithRebuiltCurveEngine(SEXP rparamSEXP, SEXP dateVecSEXP, SEXP zeroVecSEXP, SEXP swaptionMatSEXP, SEXP swapLengthsSEXP, SEXP swaptionVolsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< Rcpp::List >::type rparam(rparamSEXP);
+    Rcpp::traits::input_parameter< std::vector<QuantLib::Date> >::type dateVec(dateVecSEXP);
+    Rcpp::traits::input_parameter< std::vector<double> >::type zeroVec(zeroVecSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type swaptionMat(swaptionMatSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type swapLengths(swapLengthsSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type swaptionVols(swaptionVolsSEXP);
+    __result = Rcpp::wrap(affineWithRebuiltCurveEngine(rparam, dateVec, zeroVec, swaptionMat, swapLengths, swaptionVols));
+    return __result;
+END_RCPP
+}
 // asianOptionEngine
 Rcpp::List asianOptionEngine(std::string averageType, std::string type, double underlying, double strike, double dividendYield, double riskFreeRate, double maturity, double volatility, double first, double length, size_t fixings);
 RcppExport SEXP RQuantLib_asianOptionEngine(SEXP averageTypeSEXP, SEXP typeSEXP, SEXP underlyingSEXP, SEXP strikeSEXP, SEXP dividendYieldSEXP, SEXP riskFreeRateSEXP, SEXP maturitySEXP, SEXP volatilitySEXP, SEXP firstSEXP, SEXP lengthSEXP, SEXP fixingsSEXP) {
@@ -88,18 +104,34 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
-// bermudanSwaptionEngine
-Rcpp::List bermudanSwaptionEngine(Rcpp::List rparam, Rcpp::List tslist, Rcpp::NumericVector swaptionMat, Rcpp::NumericVector swapLengths, Rcpp::NumericMatrix swaptionVols);
-RcppExport SEXP RQuantLib_bermudanSwaptionEngine(SEXP rparamSEXP, SEXP tslistSEXP, SEXP swaptionMatSEXP, SEXP swapLengthsSEXP, SEXP swaptionVolsSEXP) {
+// bermudanFromYieldEngine
+Rcpp::List bermudanFromYieldEngine(Rcpp::List rparam, Rcpp::NumericVector yield, Rcpp::NumericVector swaptionMat, Rcpp::NumericVector swapLengths, Rcpp::NumericVector swaptionVols);
+RcppExport SEXP RQuantLib_bermudanFromYieldEngine(SEXP rparamSEXP, SEXP yieldSEXP, SEXP swaptionMatSEXP, SEXP swapLengthsSEXP, SEXP swaptionVolsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< Rcpp::List >::type rparam(rparamSEXP);
-    Rcpp::traits::input_parameter< Rcpp::List >::type tslist(tslistSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type yield(yieldSEXP);
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type swaptionMat(swaptionMatSEXP);
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type swapLengths(swapLengthsSEXP);
-    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type swaptionVols(swaptionVolsSEXP);
-    __result = Rcpp::wrap(bermudanSwaptionEngine(rparam, tslist, swaptionMat, swapLengths, swaptionVols));
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type swaptionVols(swaptionVolsSEXP);
+    __result = Rcpp::wrap(bermudanFromYieldEngine(rparam, yield, swaptionMat, swapLengths, swaptionVols));
+    return __result;
+END_RCPP
+}
+// bermudanWithRebuiltCurveEngine
+Rcpp::List bermudanWithRebuiltCurveEngine(Rcpp::List rparam, std::vector<QuantLib::Date> dateVec, std::vector<double> zeroVec, Rcpp::NumericVector swaptionMat, Rcpp::NumericVector swapLengths, Rcpp::NumericVector swaptionVols);
+RcppExport SEXP RQuantLib_bermudanWithRebuiltCurveEngine(SEXP rparamSEXP, SEXP dateVecSEXP, SEXP zeroVecSEXP, SEXP swaptionMatSEXP, SEXP swapLengthsSEXP, SEXP swaptionVolsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< Rcpp::List >::type rparam(rparamSEXP);
+    Rcpp::traits::input_parameter< std::vector<QuantLib::Date> >::type dateVec(dateVecSEXP);
+    Rcpp::traits::input_parameter< std::vector<double> >::type zeroVec(zeroVecSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type swaptionMat(swaptionMatSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type swapLengths(swapLengthsSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type swaptionVols(swaptionVolsSEXP);
+    __result = Rcpp::wrap(bermudanWithRebuiltCurveEngine(rparam, dateVec, zeroVec, swaptionMat, swapLengths, swaptionVols));
     return __result;
 END_RCPP
 }

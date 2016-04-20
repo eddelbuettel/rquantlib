@@ -2,6 +2,7 @@
 ##
 ##  Copyright (C) 2005         Dominick Samperi
 ##  Copyright (C) 2007 - 2014  Dirk Eddelbuettel
+##  Copyright (C) 2016         Terry Leitch 
 ##
 ##  This file is part of RQuantLib.
 ##
@@ -41,13 +42,25 @@ BermudanSwaption.default <- function(params, ts, swaptionMaturities,
         }
     
     matYears=as.numeric(params$maturity-params$tradeDate)/365
-    optStart=as.numeric(params$startDate-params$tradeDate)/365
-    numObs=round(matYears-optStart)
+    expYears=as.numeric(params$startDate-params$tradeDate)/365
+    increment=min(matYears/6,1.0)
+    numObs=floor(matYears/increment)+1
     
+    # find cloest option to our target to ensure it is in calibration
     tenor=expiry=vol=vector(length=numObs,mode="numeric")
-    for(i in 1:numObs){
-        expiryIDX=findInterval(optStart+i-1+.5,swaptionMaturities)
-        tenorIDX=findInterval(matYears-optStart-i+1,swapTenors)
+    expiryIDX=findInterval(expYears,swaptionMaturities)
+    tenorIDX=findInterval(matYears-expYears,swapTenors)
+    if(tenorIDX >0 & expiryIDX>0){
+        vol[1]=volMatrix[expiryIDX,tenorIDX]
+        expiry[1]=swaptionMaturities[expiryIDX]
+        tenor[1]=swapTenors[tenorIDX]
+    } else {
+        vol[1]=expiry[1]=tenor[1]=0
+    }
+    
+    for(i in 2:numObs){
+        expiryIDX=findInterval(i*increment,swaptionMaturities)
+        tenorIDX=findInterval(matYears-(i-1)*increment,swapTenors)
         if(tenorIDX >0 & expiryIDX>0){
             vol[i]=volMatrix[expiryIDX,tenorIDX]
             expiry[i]=swaptionMaturities[expiryIDX]
@@ -57,7 +70,12 @@ BermudanSwaption.default <- function(params, ts, swaptionMaturities,
         }
     }
 
+    # remove if search was out of bounds
     expiry=expiry[expiry>0];tenor=tenor[tenor>0];vol=vol[vol>0]
+    if(length(expiry)<5){
+        warning("Insufficent vols to fit affine model")
+        return(NULL)
+    }
 
     # Check for correct matrix/vector types
     if (!is.matrix(volMatrix)

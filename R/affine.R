@@ -1,9 +1,14 @@
-##  RQuantLib function BermudanSwaption
+##  RQuantLib function AffineSwaption
 ##
 ##  Copyright (C) 2005         Dominick Samperi
 ##  Copyright (C) 2007 - 2014  Dirk Eddelbuettel
-##  Copyright (C) 2016         Terry Leitch 
+<<<<<<< HEAD
+##  Copyright (C) 2016         Terry Leitch and Dirk Eddelbuettel
 ##
+=======
+###  Copyright (C) 2016        Terry Leitch
+#
+>>>>>>> e40aa776a447a2d322e62b7712a58fa017483182
 ##  This file is part of RQuantLib.
 ##
 ##  RQuantLib is free software: you can redistribute it and/or modify
@@ -19,14 +24,21 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with RQuantLib.  If not, see <http://www.gnu.org/licenses/>.
 
-BermudanSwaption <- function(params, ts, swaptionMaturities,
-                             swapTenors, volMatrix) {
-    UseMethod("BermudanSwaption")
+AffineSwaption <- function(params,
+                           ts, swaptionMaturities,
+                           swapTenors, volMatrix, 
+                           legparams=list(dayCounter="Thirty360",
+                                          freq="Annual",
+                                          floatFreq="Semiannual")) {
+    UseMethod("AffineSwaption")
 }
 
-BermudanSwaption.default <- function(params, ts, swaptionMaturities,
-                                     swapTenors, volMatrix) {
-    print(class(ts))
+AffineSwaption.default <- function(params,
+                                   ts, swaptionMaturities,
+                                   swapTenors, volMatrix, 
+                                   legparams=list(dayCounter="Thirty360",
+                                                  freq="Annual",
+                                                  floatFreq="Semiannual")) {
     # Check that params list names
         
         if (!is.list(params) || length(params) == 0) {
@@ -40,68 +52,36 @@ BermudanSwaption.default <- function(params, ts, swaptionMaturities,
             params$maturity=advance("UnitedStates",params$startDate, 5, 3)
             warning("swaption maturity not set, defaulting to 5 years from startDate using US calendar")
         }
-    
-    matYears=as.numeric(params$maturity-params$tradeDate)/365
-<<<<<<< HEAD
-    expYears=as.numeric(params$startDate-params$tradeDate)/365
-    increment=min(matYears/6,1.0)
-    numObs=floor(matYears/increment)+1
-=======
-    optStart=as.numeric(params$startDate-params$tradeDate)/365
-    numObs=nrow(volMatrix)
->>>>>>> e40aa776a447a2d322e62b7712a58fa017483182
-    
-    # find cloest option to our target to ensure it is in calibration
-    tenor=expiry=vol=vector(length=numObs,mode="numeric")
-<<<<<<< HEAD
-    expiryIDX=findInterval(expYears,swaptionMaturities)
-    tenorIDX=findInterval(matYears-expYears,swapTenors)
-    if(tenorIDX >0 & expiryIDX>0){
-        vol[1]=volMatrix[expiryIDX,tenorIDX]
-        expiry[1]=swaptionMaturities[expiryIDX]
-        tenor[1]=swapTenors[tenorIDX]
-    } else {
-        vol[1]=expiry[1]=tenor[1]=0
+    if(is.null(params$european)){
+        params$european=TRUE
+        warning("affine swaption european flag not set defaulting to european")
+    }
+    if(is.null(params$payFix)){
+        params$payFix=TRUE
+        warning("affine swaption payFix flag not set defaulting to pay fix swap")
     }
     
-    for(i in 2:numObs){
-        expiryIDX=findInterval(i*increment,swaptionMaturities)
-        tenorIDX=findInterval(matYears-(i-1)*increment,swapTenors)
-        if(tenorIDX >0 & expiryIDX>0){
-=======
+
+    
+    matYears=as.numeric(params$maturity-params$tradeDate)/365
+    optStart=as.numeric(params$startDate-params$tradeDate)/365
+    numObs=round(matYears-optStart)
+    
+    tenor=expiry=vol=vector(length=numObs,mode="numeric")
     for(i in 1:numObs){
         expiryIDX=findInterval(optStart+i-1+.5,swaptionMaturities)
         tenorIDX=findInterval(matYears-optStart-i+1,swapTenors)
-        print("expiry and tenor ")
-        print(swaptionMaturities[expiryIDX]);            print(swapTenors[tenorIDX])
-        if(tenorIDX >0 ){
->>>>>>> e40aa776a447a2d322e62b7712a58fa017483182
+        if(tenorIDX >0 & expiryIDX>0){
             vol[i]=volMatrix[expiryIDX,tenorIDX]
             expiry[i]=swaptionMaturities[expiryIDX]
             tenor[i]=swapTenors[tenorIDX]
-
         } else {
-            vol[i]=volMatrix[expiryIDX,tenorIDX+1]
-            expiry[i]=swaptionMaturities[expiryIDX]
-            tenor[i]=swapTenors[tenorIDX+1]
+            vol[i]=expiry[i]=tenor[i]=0
         }
-        print(i)
-        print(vol[i])
     }
 
-    # remove if search was out of bounds
     expiry=expiry[expiry>0];tenor=tenor[tenor>0];vol=vol[vol>0]
-<<<<<<< HEAD
-    if(length(expiry)<5){
-        warning("Insufficent vols to fit affine model")
-        return(NULL)
-    }
-=======
-    print("vol=")
-    print(vol);print(tenor);print(expiry)
->>>>>>> e40aa776a447a2d322e62b7712a58fa017483182
 
-    
     # Check for correct matrix/vector types
     if (!is.matrix(volMatrix)
         || !is.vector(swaptionMaturities)
@@ -121,24 +101,20 @@ BermudanSwaption.default <- function(params, ts, swaptionMaturities,
     # temp <- as.double(volMatrix), dim(temp) < dim(a) [and pass temp instead
     # of volMatrix]. But this is taken care of in the C/C++ code.
     if(class(ts)=="DiscountCurve"){
-        print("here")
-        val <- bermudanWithRebuiltCurveEngine(params, c(ts$table$date), ts$table$zeroRates,
+        matchlegs<-matchParams(legparams)
+        val <- affineWithRebuiltCurveEngine(params, matchlegs, c(ts$table$date), ts$table$zeroRates,
                                       expiry,tenor,vol)   
     } else{
-        if (!is.numeric(ts) | length(ts) !=1) {
-            stop("Flat Term structure yield must have single numeric value", call.=FALSE)
-        }
-        val <- bermudanFromYieldEngine(params, ts,
-                                  swaptionMaturities,
-                                  swapTenors, volMatrix)
+            stop("DiscountCurve class term structure required", call.=FALSE)
+
     }
-    class(val) <- c(params$method, "BermudanSwaption")
+    class(val) <- c(params$method, "AffineSwaption")
     val
 }
 
 summary.G2Analytic <- function(object,...) {
-    cat('\n\tSummary of pricing results for Bermudan Swaption\n')
-    cat('\nPrice (in bp) of Bermudan swaption is ', object$price)
+    cat('\n\tSummary of pricing results for Affine Swaption\n')
+    cat('\nPrice (in bp) of Affine swaption is ', object$NPV)
     cat('\nStike is ', format(object$params$strike,digits=6))
     cat(' (ATM strike is ', format(object$ATMStrike,digits=6), ')')
     cat('\nModel used is: G2/Jamshidian using analytic formulas')
@@ -152,8 +128,8 @@ summary.G2Analytic <- function(object,...) {
 }
 
 summary.HWAnalytic <- function(object,...) {
-    cat('\n\tSummary of pricing results for Bermudan Swaption\n')
-    cat('\nPrice (in bp) of Bermudan swaption is ', object$price)
+    cat('\n\tSummary of pricing results for Affine Swaption\n')
+    cat('\nPrice (in bp) of Affine swaption is ', object$NPV)
     cat('\nStike is ', format(object$params$strike,digits=6))
     cat(' (ATM strike is ', format(object$ATMStrike,digits=6), ')')
     cat('\nModel used is: Hull-White using analytic formulas')
@@ -164,8 +140,8 @@ summary.HWAnalytic <- function(object,...) {
 }
 
 summary.HWTree <- function(object,...) {
-    cat('\n\tSummary of pricing results for Bermudan Swaption\n')
-    cat('\nPrice (in bp) of Bermudan swaption is ', object$price)
+    cat('\n\tSummary of pricing results for Affine Swaption\n')
+    cat('\nPrice (in bp) of Affine swaption is ', object$NPV)
     cat('\nStike is ', format(object$params$strike,digits=6))
     cat(' (ATM strike is ', format(object$ATMStrike,digits=6), ')')
     cat('\nModel used is: Hull-White using a tree')
@@ -176,8 +152,8 @@ summary.HWTree <- function(object,...) {
 }
 
 summary.BKTree <- function(object,...) {
-    cat('\n\tSummary of pricing results for Bermudan Swaption\n')
-    cat('\nPrice (in bp) of Bermudan swaption is ', object$price)
+    cat('\n\tSummary of pricing results for Affine Swaption\n')
+    cat('\nPrice (in bp) of Affine swaption is ', object$NPV)
     cat('\nStike is ', format(object$params$strike,digits=6))
     cat(' (ATM strike is ', format(object$ATMStrike,digits=6), ')')
     cat('\nModel used is: Black-Karasinski using a tree')

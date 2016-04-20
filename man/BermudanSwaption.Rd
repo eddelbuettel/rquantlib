@@ -22,7 +22,7 @@ volMatrix)
 }
 \arguments{
   \item{params}{A list specifying the \code{tradeDate} (month/day/year),
-    \code{settlementDate}, \code{payFixed}
+    \code{settlementDate}, \code{startDate}, \code{maturity},  \code{payFixed}
     flag, \code{strike}, pricing \code{method}, and curve construction options
     (see \emph{Examples} section below). Curve construction options are
     \code{interpWhat} (possible values are \code{discount},
@@ -51,45 +51,24 @@ volMatrix)
   stored by rows. See the example below.}
  }
 \value{
-  \code{BermudanSwaption} returns a list containing calibrated model
+  \code{BermudanSwaption} , if there are sufficient swaption vols to fit an affine model,
+  returns a list containing calibrated model
   paramters (what parameters are returned depends on the model
   selected) along with:
   \item{price}{Price of swaption in basis points (actual price
   equals \code{price} times notional divided by 10,000)}
   \item{ATMStrike}{At-the-money strike}
   \item{params}{Input parameter list}
+  If there are insufficient swaption vols to calibrate it throws a warning and returns {NULL}
 }
 \details{
-  This function is based on \code{QuantLib} Version 0.3.10. It
-  introduces support for fixed-income instruments in \code{RQuantLib}.
+  This function is based on \code{QuantLib} Version 1.7.1 It
+  introduces support for fixed-income instruments in \code{RQuantLib}. It implements the
+  full function and should work in most cases as long as there are suuficient swaption vol 
+  data points to fit the affine model. At least 5 unique points are required. The data point 
+  search attempts to find 5 or more points with one being the closet match in terms in of
+  expiration and maturity.
   
-  At present only a small number of the many parameters that can be set
-  in \code{QuantLib} are exposed by this function. Some of the
-  hard-coded parameters that apply to the current version include:
-  day-count conventions, fixing days (2), index (Euribor),
-  fixed leg frequency (annual), and floating leg frequency
-  (semi-annual). Also, it is assumed that the swaption
-  volatility matrix corresponds to expiration dates and tenors that are
-  measured in years (a 6-month expiration date is not currently
-  supported, for example).
-
-  Given the number of parameters that must be
-  specified and the care with which they must be specified (with no
-  defaults), it is not practical to use this function in the usual
-  interactive fashion.
-
-  The simplest approach is simply to save the
-  example below to a file, edit as desired, and \code{source} the result.
-  Alternatively, the input commands can be kept in a script file
-  (under Windows) or an Emacs/ESS session (under Linux), and selected
-  parts of the script can be executed in the usual way.
-
-  Fortunately, the C++ exception mechanism seems to work well with the R
-  interface, and \code{QuantLib} exceptions are propagated back to the
-  R user, usually with a message that indicates what went wrong. (The
-  first part of the message contains technical information about the
-  precise location of the problem in the \code{QuantLib} code. Scroll to
-  the end to find information that is meaningful to the R user.)
 }
 \references{
   Brigo, D. and Mercurio, F. (2001) \emph{Interest Rate Models: Theory and

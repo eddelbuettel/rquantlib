@@ -639,10 +639,10 @@ matchParams <- function(params) {
       params$freq <- matchFrequency(params$freq)
     }
     if (!is.null(params$fixFreq)) {
-        params$fixFreq <- matchFrequency(params$freq)
+        params$fixFreq <- matchFrequency(params$fixFreq)
     }
     if (!is.null(params$floatFreq)) {
-        params$floatFreq <- matchFloatFrequency(params$freq)
+        params$floatFreq <- matchFloatFrequency(params$floatFreq)
     }
     
     if (!is.null(params$businessDayConvention)) {

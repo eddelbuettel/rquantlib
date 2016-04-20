@@ -21,7 +21,7 @@
 
 DiscountCurve <- function(params, tsQuotes, times=seq(0,10,.1),
                           legparams=list(dayCounter="Thirty360",
-                                         freq="Annual",
+                                         fixFreq="Annual",
                                          floatFreq="Semiannual")) {
     UseMethod("DiscountCurve")
 }

@@ -2,8 +2,13 @@
 ##
 ##  Copyright (C) 2005         Dominick Samperi
 ##  Copyright (C) 2007 - 2014  Dirk Eddelbuettel
+<<<<<<< HEAD
 ##  Copyright (C) 2016         Terry Leitch and Dirk Eddelbuettel
 ##
+=======
+###  Copyright (C) 2016        Terry Leitch
+#
+>>>>>>> e40aa776a447a2d322e62b7712a58fa017483182
 ##  This file is part of RQuantLib.
 ##
 ##  RQuantLib is free software: you can redistribute it and/or modify
@@ -19,14 +24,21 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with RQuantLib.  If not, see <http://www.gnu.org/licenses/>.
 
-AffineSwaption <- function(params, ts, swaptionMaturities,
-                             swapTenors, volMatrix) {
+AffineSwaption <- function(params,
+                           ts, swaptionMaturities,
+                           swapTenors, volMatrix, 
+                           legparams=list(dayCounter="Thirty360",
+                                          freq="Annual",
+                                          floatFreq="Semiannual")) {
     UseMethod("AffineSwaption")
 }
 
-AffineSwaption.default <- function(params, ts, swaptionMaturities,
-                                     swapTenors, volMatrix) {
-    print(class(ts))
+AffineSwaption.default <- function(params,
+                                   ts, swaptionMaturities,
+                                   swapTenors, volMatrix, 
+                                   legparams=list(dayCounter="Thirty360",
+                                                  freq="Annual",
+                                                  floatFreq="Semiannual")) {
     # Check that params list names
         
         if (!is.list(params) || length(params) == 0) {
@@ -48,6 +60,9 @@ AffineSwaption.default <- function(params, ts, swaptionMaturities,
         params$payFix=TRUE
         warning("affine swaption payFix flag not set defaulting to pay fix swap")
     }
+    
+
+    
     matYears=as.numeric(params$maturity-params$tradeDate)/365
     optStart=as.numeric(params$startDate-params$tradeDate)/365
     numObs=round(matYears-optStart)
@@ -86,8 +101,8 @@ AffineSwaption.default <- function(params, ts, swaptionMaturities,
     # temp <- as.double(volMatrix), dim(temp) < dim(a) [and pass temp instead
     # of volMatrix]. But this is taken care of in the C/C++ code.
     if(class(ts)=="DiscountCurve"){
-        print("here")
-        val <- affineWithRebuiltCurveEngine(params, c(ts$table$date), ts$table$zeroRates,
+        matchlegs<-matchParams(legparams)
+        val <- affineWithRebuiltCurveEngine(params, matchlegs, c(ts$table$date), ts$table$zeroRates,
                                       expiry,tenor,vol)   
     } else{
             stop("DiscountCurve class term structure required", call.=FALSE)
@@ -99,7 +114,7 @@ AffineSwaption.default <- function(params, ts, swaptionMaturities,
 
 summary.G2Analytic <- function(object,...) {
     cat('\n\tSummary of pricing results for Affine Swaption\n')
-    cat('\nPrice (in bp) of Affine swaption is ', object$price)
+    cat('\nPrice (in bp) of Affine swaption is ', object$NPV)
     cat('\nStike is ', format(object$params$strike,digits=6))
     cat(' (ATM strike is ', format(object$ATMStrike,digits=6), ')')
     cat('\nModel used is: G2/Jamshidian using analytic formulas')
@@ -114,7 +129,7 @@ summary.G2Analytic <- function(object,...) {
 
 summary.HWAnalytic <- function(object,...) {
     cat('\n\tSummary of pricing results for Affine Swaption\n')
-    cat('\nPrice (in bp) of Affine swaption is ', object$price)
+    cat('\nPrice (in bp) of Affine swaption is ', object$NPV)
     cat('\nStike is ', format(object$params$strike,digits=6))
     cat(' (ATM strike is ', format(object$ATMStrike,digits=6), ')')
     cat('\nModel used is: Hull-White using analytic formulas')
@@ -126,7 +141,7 @@ summary.HWAnalytic <- function(object,...) {
 
 summary.HWTree <- function(object,...) {
     cat('\n\tSummary of pricing results for Affine Swaption\n')
-    cat('\nPrice (in bp) of Affine swaption is ', object$price)
+    cat('\nPrice (in bp) of Affine swaption is ', object$NPV)
     cat('\nStike is ', format(object$params$strike,digits=6))
     cat(' (ATM strike is ', format(object$ATMStrike,digits=6), ')')
     cat('\nModel used is: Hull-White using a tree')
@@ -138,7 +153,7 @@ summary.HWTree <- function(object,...) {
 
 summary.BKTree <- function(object,...) {
     cat('\n\tSummary of pricing results for Affine Swaption\n')
-    cat('\nPrice (in bp) of Affine swaption is ', object$price)
+    cat('\nPrice (in bp) of Affine swaption is ', object$NPV)
     cat('\nStike is ', format(object$params$strike,digits=6))
     cat(' (ATM strike is ', format(object$ATMStrike,digits=6), ')')
     cat('\nModel used is: Black-Karasinski using a tree')

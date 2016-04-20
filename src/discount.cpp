@@ -35,7 +35,6 @@ Rcpp::List discountCurveEngine(Rcpp::List rparams,
     int i;
     QuantLib::Date todaysDate(Rcpp::as<QuantLib::Date>(rparams["tradeDate"])); 
     QuantLib::Date settlementDate(Rcpp::as<QuantLib::Date>(rparams["settleDate"]));
-    
     RQLContext::instance().settleDate = settlementDate;
     
     QuantLib::Date evalDate = QuantLib::Settings::instance().evaluationDate();
@@ -53,7 +52,6 @@ Rcpp::List discountCurveEngine(Rcpp::List rparams,
         interpHow  = Rcpp::as<std::string>(rparams["interpHow"]);
         flatQuotes = false;
     }
-    
     // initialise from the singleton instance
     QuantLib::Calendar calendar = RQLContext::instance().calendar;
     //Integer fixingDays = RQLContext::instance().fixingDays;
@@ -75,7 +73,7 @@ Rcpp::List discountCurveEngine(Rcpp::List rparams,
         
     } else {             // Build curve based on a set of observed rates and/or prices.
         std::vector<boost::shared_ptr<QuantLib::RateHelper> > curveInput;
-        
+
         // For general swap inputs, not elegant but necessary to pass to getRateHelper()
         double fixDayCount = Rcpp::as<double>(legParams["dayCounter"]);
         double fixFreq   = Rcpp::as<double>(legParams["fixFreq"]) ;

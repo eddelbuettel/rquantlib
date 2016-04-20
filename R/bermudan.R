@@ -40,20 +40,17 @@ BermudanSwaption.default <- function(params, ts, swaptionMaturities,
             params$maturity=advance("UnitedStates",params$startDate, 5, 3)
             warning("swaption maturity not set, defaulting to 5 years from startDate using US calendar")
         }
-    
+    print(params$maturity)
     matYears=as.numeric(params$maturity-params$tradeDate)/365
-<<<<<<< HEAD
+    print(matYears)
     expYears=as.numeric(params$startDate-params$tradeDate)/365
     increment=min(matYears/6,1.0)
     numObs=floor(matYears/increment)+1
-=======
     optStart=as.numeric(params$startDate-params$tradeDate)/365
-    numObs=nrow(volMatrix)
->>>>>>> e40aa776a447a2d322e62b7712a58fa017483182
     
-    # find cloest option to our target to ensure it is in calibration
+    # find closest option to our target to ensure it is in calibration
     tenor=expiry=vol=vector(length=numObs,mode="numeric")
-<<<<<<< HEAD
+
     expiryIDX=findInterval(expYears,swaptionMaturities)
     tenorIDX=findInterval(matYears-expYears,swapTenors)
     if(tenorIDX >0 & expiryIDX>0){
@@ -65,17 +62,10 @@ BermudanSwaption.default <- function(params, ts, swaptionMaturities,
     }
     
     for(i in 2:numObs){
+        print(i)
         expiryIDX=findInterval(i*increment,swaptionMaturities)
         tenorIDX=findInterval(matYears-(i-1)*increment,swapTenors)
         if(tenorIDX >0 & expiryIDX>0){
-=======
-    for(i in 1:numObs){
-        expiryIDX=findInterval(optStart+i-1+.5,swaptionMaturities)
-        tenorIDX=findInterval(matYears-optStart-i+1,swapTenors)
-        print("expiry and tenor ")
-        print(swaptionMaturities[expiryIDX]);            print(swapTenors[tenorIDX])
-        if(tenorIDX >0 ){
->>>>>>> e40aa776a447a2d322e62b7712a58fa017483182
             vol[i]=volMatrix[expiryIDX,tenorIDX]
             expiry[i]=swaptionMaturities[expiryIDX]
             tenor[i]=swapTenors[tenorIDX]
@@ -91,15 +81,24 @@ BermudanSwaption.default <- function(params, ts, swaptionMaturities,
 
     # remove if search was out of bounds
     expiry=expiry[expiry>0];tenor=tenor[tenor>0];vol=vol[vol>0]
-<<<<<<< HEAD
+
     if(length(expiry)<5){
         warning("Insufficent vols to fit affine model")
         return(NULL)
     }
-=======
-    print("vol=")
-    print(vol);print(tenor);print(expiry)
->>>>>>> e40aa776a447a2d322e62b7712a58fa017483182
+#
+# Check that the term structure quotes are properly formatted.
+#         if(is)
+#             if (!is.list(ts) || length(ts) == 0) {
+#                 stop("Term structure quotes must be a non-empty list", call.=FALSE)
+#             }
+#         if (length(ts) != length(names(ts))) {
+#             stop("Term structure quotes must include labels", call.=FALSE)
+#         }
+#         if (!is.numeric(unlist(ts))) {
+#             stop("Term structure quotes must have numeric values", call.=FALSE)
+#         }
+
 
     
     # Check for correct matrix/vector types
@@ -123,7 +122,8 @@ BermudanSwaption.default <- function(params, ts, swaptionMaturities,
     if(class(ts)=="DiscountCurve"){
         print("here")
         val <- bermudanWithRebuiltCurveEngine(params, c(ts$table$date), ts$table$zeroRates,
-                                      expiry,tenor,vol)   
+                                      swaptionMaturities,
+                                      swapTenors, volMatrix)   
     } else{
         if (!is.numeric(ts) | length(ts) !=1) {
             stop("Flat Term structure yield must have single numeric value", call.=FALSE)

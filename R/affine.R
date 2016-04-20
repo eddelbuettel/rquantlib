@@ -2,13 +2,10 @@
 ##
 ##  Copyright (C) 2005         Dominick Samperi
 ##  Copyright (C) 2007 - 2014  Dirk Eddelbuettel
-<<<<<<< HEAD
+
 ##  Copyright (C) 2016         Terry Leitch and Dirk Eddelbuettel
 ##
-=======
-###  Copyright (C) 2016        Terry Leitch
-#
->>>>>>> e40aa776a447a2d322e62b7712a58fa017483182
+
 ##  This file is part of RQuantLib.
 ##
 ##  RQuantLib is free software: you can redistribute it and/or modify

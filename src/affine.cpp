@@ -61,11 +61,7 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
                                         Rcpp::NumericVector swaptionVols) {
     
     // std::vector<std::string> tsnames = tslist.names();
-<<<<<<< HEAD
 
-=======
-    
->>>>>>> e40aa776a447a2d322e62b7712a58fa017483182
     
     QuantLib::Size i;
     //int *swaptionMat=0, *swapLengths=0;
@@ -99,11 +95,7 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
     // Get swaption maturities
     //Rcpp::NumericVector swaptionMat(maturities);
     int numRows = swaptionMat.size(); 
-<<<<<<< HEAD
 
-=======
-    
->>>>>>> e40aa776a447a2d322e62b7712a58fa017483182
     // Create dummy swap to get schedules.
     QuantLib::Frequency fixedLegFrequency = getFrequency(Rcpp::as<double>(legparams["fixFreq"]));
     QuantLib::BusinessDayConvention fixedLegConvention = QuantLib::Unadjusted;
@@ -114,14 +106,7 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
 
 
     QuantLib::Rate dummyFixedRate = 0.03;
-<<<<<<< HEAD
-    boost::shared_ptr<QuantLib::IborIndex> indexSixMonths(new QuantLib::Euribor6M(rhTermStructure));
 
-    //QuantLib::Date startDate = calendar.advance(settlementDate, 1, QuantLib::Years, floatingLegConvention);  //took out hard coded 
-    //QuantLib::Date maturity = calendar.advance(startDate, 5, QuantLib::Years, floatingLegConvention);         //dates
-=======
-
->>>>>>> e40aa776a447a2d322e62b7712a58fa017483182
     QuantLib::Schedule fixedSchedule(startDate,maturity,
                                      QuantLib::Period(fixedLegFrequency),calendar,
                                      fixedLegConvention,fixedLegConvention,
@@ -204,60 +189,7 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
             boost::shared_ptr<QuantLib::Coupon> coupon = boost::dynamic_pointer_cast<QuantLib::Coupon>(leg[i]);
             affineDates.push_back(coupon->accrualStartDate());
         }
-<<<<<<< HEAD
-        boost::shared_ptr<QuantLib::VanillaSwap> 
-            swap(new QuantLib::VanillaSwap(type, notional,
-                                           fixedSchedule, dummyFixedRate, fixedLegDayCounter,
-                                           floatSchedule, indexSixMonths, 0.0,
-                                           indexSixMonths->dayCounter()));
-        swap->setPricingEngine(boost::shared_ptr<QuantLib::PricingEngine>(new QuantLib::DiscountingSwapEngine(rhTermStructure)));
-        
-        // Find the ATM or break-even rate
-        QuantLib::Rate fixedATMRate = swap->fairRate();
-        
-        QuantLib::Rate fixedRate;
-        if(strike < 0) // factor instead of real strike
-            fixedRate = fixedATMRate * (-strike);
-        else
-            fixedRate = strike;
-        
-        // The swap underlying the Affine swaption.
-        boost::shared_ptr<QuantLib::VanillaSwap> 
-            mySwap(new QuantLib::VanillaSwap(type, notional,
-                                             fixedSchedule, fixedRate, fixedLegDayCounter,
-                                             floatSchedule, indexSixMonths, 0.0,
-                                             indexSixMonths->dayCounter()));
-        swap->setPricingEngine(boost::shared_ptr<QuantLib::PricingEngine>(new QuantLib::DiscountingSwapEngine(rhTermStructure)));
 
-        // Build swaptions that will be used to calibrate model to
-        // the volatility matrix.
-        std::vector<QuantLib::Period> swaptionMaturities;
-        for(i = 0; i < (QuantLib::Size)numRows; i++)
-            swaptionMaturities.push_back(QuantLib::Period(swaptionMat[i], QuantLib::Years));
-        
-        // Swaptions used for calibration
-        std::vector<boost::shared_ptr<QuantLib::CalibrationHelper> > swaptions;
-
-        // List of times that have to be included in the timegrid
-        std::list<QuantLib::Time> times;
-        for (i=0; i<(QuantLib::Size)numRows; i++) {
-            //boost::shared_ptr<QuantLib::Quote> vol(new QuantLib::SimpleQuote(swaptionVols[i][numCols-i-1]));
-            boost::shared_ptr<QuantLib::Quote> vol(new QuantLib::SimpleQuote(swaptionVols(i)));
-            swaptions.push_back(boost::shared_ptr<QuantLib::CalibrationHelper>(new QuantLib::SwaptionHelper(swaptionMaturities[i],
-                                                                                                            QuantLib::Period(swapLengths[i], QuantLib::Years),
-                                                                                                            QuantLib::Handle<QuantLib::Quote>(vol),
-                                                                                                            indexSixMonths,
-                                                                                                            indexSixMonths->tenor(),
-                                                                                                            indexSixMonths->dayCounter(),
-                                                                                                            indexSixMonths->dayCounter(),
-                                                                                                            rhTermStructure)));
-            swaptions.back()->addTimesTo(times);
-        }
-        
-        // Building time-grid
-        QuantLib::TimeGrid grid(times.begin(), times.end(), 30);
-
-=======
     }
     
     boost::shared_ptr<QuantLib::Exercise> affineExercise(new QuantLib::BermudanExercise(affineDates));
@@ -303,8 +235,7 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
         Rprintf((char*)"Hull-White (tree) calibration\n");
         for (i=0; i<swaptions.size(); i++)
             swaptions[i]->setPricingEngine(boost::shared_ptr<QuantLib::PricingEngine>(new QuantLib::TreeSwaptionEngine(modelHW2,grid)));
->>>>>>> e40aa776a447a2d322e62b7712a58fa017483182
-        
+
         calibrateModel2(modelHW2, swaptions, 0.05, swaptionMat, swapLengths, swaptionVols);
         boost::shared_ptr<QuantLib::PricingEngine> engine(new QuantLib::TreeSwaptionEngine(modelHW2, 50));
         QuantLib::Swaption affineSwaption(mySwap, affineExercise);
@@ -315,7 +246,6 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
                                                                            Rcpp::Named("ATMStrike") = fixedATMRate);
         //Rcpp::Named("params") = params);
         
-<<<<<<< HEAD
         boost::shared_ptr<QuantLib::Exercise> affineExercise(new QuantLib::BermudanExercise(affineDates));
 
         // Price based on method selected.
@@ -389,24 +319,7 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
         } else {
             throw std::range_error("Unknown method in AffineSwaption\n");
         }
-=======
-    } else if (method.compare("BKTree") == 0) {
-        boost::shared_ptr<QuantLib::BlackKarasinski> modelBK(new QuantLib::BlackKarasinski(rhTermStructure));
-        Rprintf((char*)"Black-Karasinski (tree) calibration\n");
-        for (i=0; i<swaptions.size(); i++)
-            swaptions[i]->setPricingEngine(boost::shared_ptr<QuantLib::PricingEngine>(new QuantLib::TreeSwaptionEngine(modelBK,grid)));
-        calibrateModel2(modelBK, swaptions, 0.05, swaptionMat, swapLengths, swaptionVols);
-        
-        boost::shared_ptr<QuantLib::PricingEngine> engine(new QuantLib::TreeSwaptionEngine(modelBK, 50));
-        QuantLib::Swaption affineSwaption(mySwap, affineExercise);
-        affineSwaption.setPricingEngine(engine);
-        return Rcpp::List::create(Rcpp::Named("a") = modelBK->params()[0],
-                                  Rcpp::Named("sigma") = modelBK->params()[1],
-                                                                          Rcpp::Named("NPV") = affineSwaption.NPV(),
-                                                                          Rcpp::Named("ATMStrike") = fixedATMRate);
-        //Rcpp::Named("params") = params);
->>>>>>> e40aa776a447a2d322e62b7712a58fa017483182
-        
+
     } else {
         throw std::range_error("Unknown method in AffineSwaption\n");
     }

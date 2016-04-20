@@ -26,7 +26,6 @@ BermudanSwaption <- function(params, ts, swaptionMaturities,
 
 BermudanSwaption.default <- function(params, ts, swaptionMaturities,
                                      swapTenors, volMatrix) {
-    print(class(ts))
     # Check that params list names
         
         if (!is.list(params) || length(params) == 0) {
@@ -40,9 +39,7 @@ BermudanSwaption.default <- function(params, ts, swaptionMaturities,
             params$maturity=advance("UnitedStates",params$startDate, 5, 3)
             warning("swaption maturity not set, defaulting to 5 years from startDate using US calendar")
         }
-    print(params$maturity)
     matYears=as.numeric(params$maturity-params$tradeDate)/365
-    print(matYears)
     expYears=as.numeric(params$startDate-params$tradeDate)/365
     increment=min(matYears/6,1.0)
     numObs=floor(matYears/increment)+1
@@ -62,7 +59,6 @@ BermudanSwaption.default <- function(params, ts, swaptionMaturities,
     }
     
     for(i in 2:numObs){
-        print(i)
         expiryIDX=findInterval(i*increment,swaptionMaturities)
         tenorIDX=findInterval(matYears-(i-1)*increment,swapTenors)
         if(tenorIDX >0 & expiryIDX>0){
@@ -75,8 +71,6 @@ BermudanSwaption.default <- function(params, ts, swaptionMaturities,
             expiry[i]=swaptionMaturities[expiryIDX]
             tenor[i]=swapTenors[tenorIDX+1]
         }
-        print(i)
-        print(vol[i])
     }
 
     # remove if search was out of bounds
@@ -120,7 +114,6 @@ BermudanSwaption.default <- function(params, ts, swaptionMaturities,
     # temp <- as.double(volMatrix), dim(temp) < dim(a) [and pass temp instead
     # of volMatrix]. But this is taken care of in the C/C++ code.
     if(class(ts)=="DiscountCurve"){
-        print("here")
         val <- bermudanWithRebuiltCurveEngine(params, c(ts$table$date), ts$table$zeroRates,
                                       swaptionMaturities,
                                       swapTenors, volMatrix)   

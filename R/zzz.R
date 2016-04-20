@@ -1,6 +1,6 @@
 ## RQuantLib -- R interface to the QuantLib libraries
 ##
-## Copyright (C) 2002 - 2015  Dirk Eddelbuettel <edd@debian.org>
+## Copyright (C) 2002 - 2016  Dirk Eddelbuettel <edd@debian.org>
 ##
 ## This file is part of the RQuantLib library for GNU R.
 ## It is made available under the terms of the GNU General Public
@@ -30,7 +30,7 @@
 
     ## else let's test the QuantLib version, and then the intraday capability
     qlver <- getQuantLibVersion()
-    if (compareVersion(qlver, "1.7")) {
+    if (compareVersion(qlver, "1.7") < 0) {
         packageStartupMessage("QuantLib version ", qlver, " detected which is older than 1.7.")
         packageStartupMessage("Intra-daily options analytics unavailable with that version.")
     } else if (!getQuantLibCapabilities()[["intradayDate"]]) {

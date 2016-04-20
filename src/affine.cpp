@@ -60,18 +60,14 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
                                         Rcpp::NumericVector swaptionVols) {
     
     // std::vector<std::string> tsnames = tslist.names();
-    
-    Rprintf((char*) "%f zeroVec[0] \n",
-            zeroVec[0]);
+
     
     QuantLib::Size i;
     //int *swaptionMat=0, *swapLengths=0;
     //double **swaptionVols=0;
-    Rprintf((char*) "Here 1 \n" );
-    
+
     double notional = 10000; // prices in basis points
-    Rprintf((char*) "Here 2* \n" );
-    
+
     QuantLib::Date todaysDate(Rcpp::as<QuantLib::Date>(rparam["tradeDate"])); 
     QuantLib::Date settlementDate(Rcpp::as<QuantLib::Date>(rparam["settleDate"])); 
     QuantLib::Date startDate(Rcpp::as<QuantLib::Date>(rparam["startDate"])); 
@@ -98,8 +94,7 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
     // Get swaption maturities
     //Rcpp::NumericVector swaptionMat(maturities);
     int numRows = swaptionMat.size(); 
-    Rprintf( "numRow= %d \n",numRows );
-    
+
     // Create dummy swap to get schedules.
     QuantLib::Frequency fixedLegFrequency = QuantLib::Annual;
     QuantLib::BusinessDayConvention fixedLegConvention = QuantLib::Unadjusted;
@@ -108,8 +103,7 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
     QuantLib::Frequency floatingLegFrequency = QuantLib::Semiannual;
     QuantLib::Rate dummyFixedRate = 0.03;
     boost::shared_ptr<QuantLib::IborIndex> indexSixMonths(new QuantLib::Euribor6M(rhTermStructure));
-    Rprintf((char*) "Here 4 \n" );
-    
+
     //QuantLib::Date startDate = calendar.advance(settlementDate, 1, QuantLib::Years, floatingLegConvention);  //took out hard coded 
     //QuantLib::Date maturity = calendar.advance(startDate, 5, QuantLib::Years, floatingLegConvention);         //dates
     QuantLib::Schedule fixedSchedule(startDate,maturity,
@@ -151,8 +145,7 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
                                              floatSchedule, indexSixMonths, 0.0,
                                              indexSixMonths->dayCounter()));
         swap->setPricingEngine(boost::shared_ptr<QuantLib::PricingEngine>(new QuantLib::DiscountingSwapEngine(rhTermStructure)));
-        Rprintf((char*) "Here 7 \n" );
-        
+
         // Build swaptions that will be used to calibrate model to
         // the volatility matrix.
         std::vector<QuantLib::Period> swaptionMaturities;
@@ -161,8 +154,7 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
         
         // Swaptions used for calibration
         std::vector<boost::shared_ptr<QuantLib::CalibrationHelper> > swaptions;
-        Rprintf((char*) "Here 8 \n" );
-        
+
         // List of times that have to be included in the timegrid
         std::list<QuantLib::Time> times;
         for (i=0; i<(QuantLib::Size)numRows; i++) {
@@ -181,8 +173,7 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
         
         // Building time-grid
         QuantLib::TimeGrid grid(times.begin(), times.end(), 30);
-        Rprintf((char*) "Here 8 \n" );
-        
+
         
         // Get Affine swaption exercise dates.
         std::vector<QuantLib::Date> affineDates;
@@ -198,8 +189,7 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
         }
         
         boost::shared_ptr<QuantLib::Exercise> affineExercise(new QuantLib::BermudanExercise(affineDates));
-        Rprintf((char*) "Here 9 \n" );
-        
+
         // Price based on method selected.
         if (method.compare("G2Analytic") == 0) {
             

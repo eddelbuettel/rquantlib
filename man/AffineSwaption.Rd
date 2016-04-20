@@ -1,4 +1,4 @@
-% $Id: AffineSwaption.Rd,v 1.2 2006/07/20 02:42:44 dsamperi Exp $
+% $Id: AffineSwaption.Rd,v 1.0 2016/04/07 tleitch Exp $
 \name{AffineSwaption}
 \alias{AffineSwaption}
 \alias{AffineSwaption.default}
@@ -10,7 +10,7 @@
 \description{
   \code{AffineSwaption} prices a swaption with specified
   strike and maturity (in years), after calibrating the selected
-  short-rate model to an input swaption volatility matrix. Swaption
+  affine short-rate model to an input swaption volatility matrix. Swaption
   maturities are in years down the rows, and swap tenors are in years
   along the columns, in the usual fashion. It is assumed that the
   swaption is

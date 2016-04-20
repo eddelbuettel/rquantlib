@@ -2,6 +2,7 @@
 ##
 ##  Copyright (C) 2005         Dominick Samperi
 ##  Copyright (C) 2007 - 2014  Dirk Eddelbuettel
+##  Copyright (C) 2016         Terry Leitch and Dirk Eddelbuettel
 ##
 ##  This file is part of RQuantLib.
 ##

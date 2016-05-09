@@ -2,10 +2,10 @@
 \name{AffineSwaption}
 \alias{AffineSwaption}
 \alias{AffineSwaption.default}
-\alias{summary.G2Analytic}
-\alias{summary.HWAnalytic}
-\alias{summary.HWTree}
-\alias{summary.BKTree}
+\alias{summary.G2AnalyticAffineSwaption}
+\alias{summary.HWAnalyticAffineSwaption}
+\alias{summary.HWTreeAffineSwaption}
+\alias{summary.BKTreeAffineSwaption}
 \title{Affine swaption valuation using several short-rate models}
 \description{
   \code{AffineSwaption} prices a swaption with specified
@@ -19,7 +19,7 @@
   set to {FALSE}.
 }
 \usage{
-AffineSwaption(params, tsQuotes, swaptionMaturities, swapTenors,
+AffineSwaption(params, ts, swaptionMaturities, swapTenors,
 volMatrix,legparams)
 }
 \arguments{

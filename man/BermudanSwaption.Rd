@@ -87,8 +87,7 @@ volMatrix)
 
 \examples{
 
-# This data is taken from sample code shipped with QuantLib 0.3.10.
-# This data is taken from sample code shipped with QuantLib 0.3.10.
+# This data replicates sample code shipped with QuantLib 0.3.10 results
 params <- list(tradeDate=as.Date('2002-2-15'),
                settleDate=as.Date('2002-2-19'),
                startDate=as.Date('2003-2-19'),

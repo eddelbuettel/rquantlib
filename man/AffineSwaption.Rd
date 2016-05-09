@@ -107,13 +107,13 @@ volMatrix,legparams)
 \url{http://dirk.eddelbuettel.com/code/rquantlib.html}.
 
 }
-\author{Dominick Samperi}
+\author{Terry Leitch}
 
 \seealso{\code{\link{DiscountCurve}}}
 
 \examples{
 
-# This data is taken from sample code shipped with QuantLib 0.3.10.
+# This data was generated to match the original quantlib example for Bermudan Swaption
 params <- list(tradeDate=as.Date('2016-2-15'),
                settleDate=as.Date('2016-2-17'),
                startDate=as.Date('2017-2-17'),

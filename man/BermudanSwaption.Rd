@@ -17,7 +17,7 @@
   exercisable on each reset date of the underlying swaps.
 }
 \usage{
-BermudanSwaption(params, tsQuotes, swaptionMaturities, swapTenors,
+BermudanSwaption(params, ts, swaptionMaturities, swapTenors,
 volMatrix)
 }
 \arguments{
@@ -40,7 +40,8 @@ volMatrix)
       \code{BKTree} \tab Black-Karasinski model using a tree.
       }
     }
-  \item{tsQuotes}{Market observables needed to construct the spot term
+  \item{ts}{A term structure built with DiscounCurve or market observables 
+     needed to construct the spot term
     structure of interest rates. A list of name/value pairs. See the
     help page for \code{\link{DiscountCurve}} for details.}
   \item{swaptionMaturities}{A vector containing the swaption maturities

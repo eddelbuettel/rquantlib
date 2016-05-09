@@ -42,9 +42,8 @@ volMatrix,legparams)
       \code{BKTree} \tab Black-Karasinski model using a tree.
       }
     }
-  \item{tsQuotes}{Market observables needed to construct the spot term
-    structure of interest rates. A list of name/value pairs. See the
-    help page for \code{\link{DiscountCurve}} for details.}
+  \item{ts}{A term structure built with DiscountCurve is required. See the
+    help page for \code{\link{DiscountCurve}} and example below for details.}
   \item{swaptionMaturities}{A vector containing the swaption maturities
     associated with the rows of the swaption volatility matrix.}
   \item{swapTenors}{A vector containing the underlying swap tenors

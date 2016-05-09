@@ -21,7 +21,7 @@
 
 DiscountCurve <- function(params, tsQuotes, times=seq(0,10,.1),
                           legparams=list(dayCounter="Thirty360",
-                                         freq="Annual",
+                                         fixFreq="Annual",
                                          floatFreq="Semiannual")) {
     UseMethod("DiscountCurve")
 }
@@ -30,7 +30,6 @@ DiscountCurve.default <- function(params, tsQuotes, times=seq(0,10,.1),
                                   legparams=list(dayCounter="Thirty360",
                                                  fixFreq="Annual",
                                                  floatFreq="Semiannual")) {
-                                      
     ## Check that params is properly formatted.
     if (!is.list(params) || length(params) == 0) {
         stop("The params parameter must be a non-empty list", call.=FALSE)

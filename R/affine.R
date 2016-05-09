@@ -94,12 +94,13 @@ AffineSwaption.default <- function(params,
     
     # remove if search was out of bounds
     expiry=expiry[expiry>0];tenor=tenor[tenor>0];vol=vol[vol>0]
-    expiry=expiry[1:5];tenor=tenor[1:5];vol=vol[1:5]
-    
     if(length(expiry)<5){
         warning("Insufficent vols to fit affine model")
         return(NULL)
     }
+    #Take 1st 5 which includes closest to initial date
+    expiry=expiry[1:5];tenor=tenor[1:5];vol=vol[1:5]
+    
     # Finally ready to make the call...
     # We could coerce types here and pass as.integer(round(swapTenors)),
     # temp <- as.double(volMatrix), dim(temp) < dim(a) [and pass temp instead

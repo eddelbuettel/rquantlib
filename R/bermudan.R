@@ -47,7 +47,7 @@ BermudanSwaption.default <- function(params, ts, swaptionMaturities,
     
     # find closest option to our target to ensure it is in calibration
     tenor=expiry=vol=vector(length=numObs,mode="numeric")
-
+    
     expiryIDX=findInterval(expYears,swaptionMaturities)
     tenorIDX=findInterval(matYears-expYears,swapTenors)
     if(tenorIDX >0 & expiryIDX>0){
@@ -65,21 +65,22 @@ BermudanSwaption.default <- function(params, ts, swaptionMaturities,
             vol[i]=volMatrix[expiryIDX,tenorIDX]
             expiry[i]=swaptionMaturities[expiryIDX]
             tenor[i]=swapTenors[tenorIDX]
-
+            
         } else {
             vol[i]=volMatrix[expiryIDX,tenorIDX+1]
             expiry[i]=swaptionMaturities[expiryIDX]
             tenor[i]=swapTenors[tenorIDX+1]
         }
     }
-
+    
     # remove if search was out of bounds
     expiry=expiry[expiry>0];tenor=tenor[tenor>0];vol=vol[vol>0]
-
+    
     if(length(expiry)<5){
         warning("Insufficent vols to fit affine model")
         return(NULL)
     }
+    
 #
 # Check that the term structure quotes are properly formatted.
 #         if(is)

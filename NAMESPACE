@@ -17,6 +17,7 @@ export(
     "AsianOption",
     ##--bermudan.R
     "BermudanSwaption",
+    "AffineSwaption",
     "summary.G2Analytic",
     "summary.HWAnalytic",
     "summary.HWTree",
@@ -75,6 +76,7 @@ S3method("AmericanOptionImpliedVolatility", "default")
 S3method("AsianOption", "default")
 S3method("BarrierOption", "default")
 S3method("BermudanSwaption", "default")
+S3method("AffineSwaption", "default")
 S3method("BinaryOption", "default")
 S3method("BinaryOptionImpliedVolatility", "default")
 S3method("CallableBond", "default")
@@ -95,6 +97,9 @@ S3method("summary", "BKTree")
 S3method("summary", "G2Analytic")
 S3method("summary", "HWAnalytic")
 S3method("summary", "HWTree")
+S3method("summary", "G2AnalyticAffineSwaption")
+S3method("summary", "HWAnalyticAffineSwaption")
+S3method("summary", "HWTreeAffineSwaption")
 S3method("ZeroCouponBond", "default")
 S3method("ZeroPriceByYield", "default")
 S3method("ZeroYield", "default")

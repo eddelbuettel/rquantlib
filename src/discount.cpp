@@ -29,20 +29,21 @@ Rcpp::List discountCurveEngine(Rcpp::List rparams,
                                Rcpp::List tslist, 
                                Rcpp::NumericVector times,
                                Rcpp::List legParams) {
-  
+    
     std::vector<std::string> tsNames = tslist.names();
-  
+    
     int i;
     QuantLib::Date todaysDate(Rcpp::as<QuantLib::Date>(rparams["tradeDate"])); 
     QuantLib::Date settlementDate(Rcpp::as<QuantLib::Date>(rparams["settleDate"]));
-  
     RQLContext::instance().settleDate = settlementDate;
+    
     QuantLib::Date evalDate = QuantLib::Settings::instance().evaluationDate();
+    
     QuantLib::Settings::instance().evaluationDate() = todaysDate;
     std::string firstQuoteName = tsNames[0];
-  
+    
     double dt = Rcpp::as<double>(rparams["dt"]);
-  
+    
     std::string interpWhat, interpHow;
     bool flatQuotes = true;
     if (firstQuoteName.compare("flat") != 0) {
@@ -51,18 +52,16 @@ Rcpp::List discountCurveEngine(Rcpp::List rparams,
         interpHow  = Rcpp::as<std::string>(rparams["interpHow"]);
         flatQuotes = false;
     }
-  
     // initialise from the singleton instance
     QuantLib::Calendar calendar = RQLContext::instance().calendar;
     //Integer fixingDays = RQLContext::instance().fixingDays;
-  
+    
     // Any DayCounter would be fine.
     // ActualActual::ISDA ensures that 30 years is 30.0
     QuantLib::DayCounter termStructureDayCounter = QuantLib::ActualActual(QuantLib::ActualActual::ISDA);
     double tolerance = 1.0e-8;
-  
     boost::shared_ptr<QuantLib::YieldTermStructure> curve;
-  
+    
     if (firstQuoteName.compare("flat") == 0) {            // Create a flat term structure.
         double rateQuote = Rcpp::as<double>(tslist[0]);
         //boost::shared_ptr<Quote> flatRate(new SimpleQuote(rateQuote));
@@ -71,16 +70,16 @@ Rcpp::List discountCurveEngine(Rcpp::List rparams,
         //                        ActualActual()));
         boost::shared_ptr<QuantLib::SimpleQuote> rRate(new QuantLib::SimpleQuote(rateQuote));
         curve = flatRate(settlementDate,rRate,QuantLib::ActualActual());
-    
+        
     } else {             // Build curve based on a set of observed rates and/or prices.
         std::vector<boost::shared_ptr<QuantLib::RateHelper> > curveInput;
-    
+
         // For general swap inputs, not elegant but necessary to pass to getRateHelper()
         double fixDayCount = Rcpp::as<double>(legParams["dayCounter"]);
         double fixFreq   = Rcpp::as<double>(legParams["fixFreq"]) ;
         int floatFreq = Rcpp::as<int>(legParams["floatFreq"]); 
         //int floatFreq2 = 6;
-    
+        
         for(i = 0; i < tslist.size(); i++) {
             std::string name = tsNames[i];
             double val = Rcpp::as<double>(tslist[i]);
@@ -101,7 +100,7 @@ Rcpp::List discountCurveEngine(Rcpp::List rparams,
     // Return discount, forward rate, and zero coupon curves
     int ntimes = times.size(); 
     Rcpp::NumericVector disc(ntimes), fwds(ntimes), zero(ntimes);
-  
+    
     QuantLib::Date current = settlementDate;
     for (i = 0; i < ntimes; i++) {          
         double t = times[i];
@@ -109,9 +108,9 @@ Rcpp::List discountCurveEngine(Rcpp::List rparams,
         fwds[i] = curve->forwardRate(t, t+dt, QuantLib::Continuous);
         zero[i] = curve->zeroRate(t, QuantLib::Continuous);
     }
-  
+    
     QuantLib::Settings::instance().evaluationDate() = evalDate;
-  
+    
     std::vector<QuantLib::Date> dates;
     std::vector<double> zeroRates;
     QuantLib::Date d = current; 
@@ -122,12 +121,12 @@ Rcpp::List discountCurveEngine(Rcpp::List rparams,
         zeroRates.push_back(z);
         d = advanceDate(d, 21);      // TODO: make the increment a parameter
     }
-  
+    
     //Rcpp::DataFrame frame = Rcpp::DataFrame::create(Rcpp::Named("date") = dates,
     //                                                Rcpp::Named("zeroRates") = zeroRates);
     Rcpp::List frame = Rcpp::List::create(Rcpp::Named("date") = dates,
                                           Rcpp::Named("zeroRates") = zeroRates);
-  
+    
     Rcpp::List rl = Rcpp::List::create(Rcpp::Named("times") = times,
                                        Rcpp::Named("discounts") = disc,
                                        Rcpp::Named("forwards") = fwds,

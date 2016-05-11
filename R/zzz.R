@@ -34,7 +34,7 @@
         packageStartupMessage("QuantLib version ", qlver, " detected which is older than 1.7.")
         packageStartupMessage("Intra-daily options analytics unavailable with that version.")
     } else if (!getQuantLibCapabilities()[["intradayDate"]]) {
-        packageStartupMessage("Sufficient QuantLib version with insuffucient configuration.")
+        packageStartupMessage("Sufficient QuantLib version with insufficient configuration.")
         packageStartupMessage("Try configuring your build with the --enable-intraday argument.")
     }
 }

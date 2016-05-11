@@ -93,9 +93,17 @@ ObservableDB::getRateHelper(std::string& ticker, QuantLib::Rate r, double fixDay
         return depo;
     } else if (type == RQLSwap) {
         QuantLib::Frequency swFixedLegFrequency = getFrequency(fixFreq);
-        QuantLib::BusinessDayConvention swFixedLegConvention = QuantLib::Unadjusted;
+        QuantLib::BusinessDayConvention swFixedLegConvention = QuantLib::ModifiedFollowing;
         QuantLib::DayCounter swFixedLegDayCounter = getDayCounter(fixDayCount);
-        boost::shared_ptr<QuantLib::IborIndex> swFloatingLegIndex(new QuantLib::Euribor(QuantLib::Period(floatFreq,QuantLib::Months)));
+        boost::shared_ptr<QuantLib::IborIndex>
+            swFloatingLegIndex(new QuantLib::IborIndex("WOIbor", floatFreq * QuantLib::Months,
+                                                       fixingDays, // settlement days
+                                                       QuantLib::EURCurrency(),
+                                                       calendar,
+                                                       QuantLib::ModifiedFollowing,
+                                                       true,
+                                                       QuantLib::Actual360(),
+                                                       QuantLib::Handle<QuantLib::YieldTermStructure>()));
         boost::shared_ptr<QuantLib::Quote> quote(new QuantLib::SimpleQuote(r));
         boost::shared_ptr<QuantLib::RateHelper> 
             swap(new QuantLib::SwapRateHelper(QuantLib::Handle<QuantLib::Quote>(quote),

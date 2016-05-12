@@ -1,3 +1,7 @@
+2016-05-12  Dirk Eddelbuettel  <edd@debian.org>
+
+	* .travis.yml (script): Turn travis_wait back on
+
 2016-05-09  Terry Leitch  <tleitch1@jhu.edu>
 
 	* NAMESPACE: Updated to refelct new methods for affine swaption

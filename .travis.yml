@@ -31,8 +31,8 @@ install:
   #- ./travis-tool.sh install_dpkgcurl http://dirk.eddelbuettel.com/code/ubuntu/12.04/amd64/r-cran-rcpp.deb
 
 script: 
-#  - travis_wait ./travis-tool.sh run_tests
-  - ./travis-tool.sh run_tests
+  - travis_wait ./travis-tool.sh run_tests
+#  - ./travis-tool.sh run_tests
 
 after_failure:
   - ./travis-tool.sh dump_logs

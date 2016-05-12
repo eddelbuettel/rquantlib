@@ -1,5 +1,6 @@
 2016-05-09  Terry Leitch  <tleitch1@jhu.edu>
 
+<<<<<<< HEAD
     * NAMSPACE: Updated to refelct new methods for affine swaption
     * R/affine.R: New generic swaption model based on bermudan affine model
     * R/bermudan.R: Swaption model modified to take more general tenor & expiration dates and curve input
@@ -8,6 +9,22 @@
     * man/AffineSwaption.Rmd: created
     * man/BermudanSwaption.Rmd: Modified to reflect DiscountCurve option and example updated
     
+=======
+	* NAMESPACE: Updated to refelct new methods for affine swaption
+
+	* R/affine.R: New generic swaption model based on bermudan affine
+	model
+	* src/affine.cpp: New engine for affine swaption model
+	* man/AffineSwaption.Rmd: created
+	
+	* R/bermudan.R: Swaption model modified to take more general
+	tenor & expiration dates and curve input
+	* src/bermudan.cpp: Swaptions for fit selection & yield curve fit
+	moved up into bermudan.R
+	* man/BermudanSwaption.Rmd: Modified to reflect DiscountCurve
+	option and example updated
+	
+>>>>>>> eddelbuettel/master
 2016-04-02  Dirk Eddelbuettel  <edd@debian.org>
 
 	* R/zzz.R: Correct version comparison check
@@ -22,7 +39,7 @@
 	* src/discount.cpp: Idem
 	* man/DiscountCurve.Rd: Minor correction
 
-2016-03-28  Terry Leitch  <tleitch@uchicago.edu>
+2016-03-28  Terry Leitch  <tleitch1@jhu.edu>
 
 	* R/bond.R: Added converters for float frequencies
 	* R/discount.R: nUse float frequency textual descriptions, pass float
@@ -40,7 +57,7 @@
 
 	* README.md: Use canonical CRAN URL to please R-devel CMD check
 
-2016-03-17  Terry Leitch  <tleitch@uchicago.edu>
+2016-03-17  Terry Leitch  <tleitch1@jhu.edu>
 
 	* R/discount.R: Support arguments for day counter, frequency and
 	floating frequency to enable more flexible curve building

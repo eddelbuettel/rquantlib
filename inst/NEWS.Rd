@@ -7,6 +7,23 @@
   \itemize{
     \item Changes in RQuantLib code:
     \itemize{
+      \item BermudanSwaption has been modfied to take option expiration and swap tenors in order to
+      enable more general swaption structure pricing. A more general search for the swaptions was 
+      developed to accomodate this. Also, a DiscountCurve is allowed as an alternative to market 
+      quotes to reduce computation time for a portfolio on a given valuation date. 
+      \item A parallel model to BermudanSwaption, AffineSwaption, was developed and has similar interface 
+      to BermudanSwaption but it allows for valuation of a European exercise swaption valutaion utlizing 
+      the same affine methods available in BermudanSwaption. AffineSwaption will also value a Bermudan 
+      swaption, but it does not take rate market quotes to build 
+      a term structure. A DiscountCurve object is required.(contributed by Terry Leitch in \ghpr{41})
+    }
+  }
+}
+
+\section{Changes in RQuantLib version 0.4.3 (2016-06-30)}{
+  \itemize{
+    \item Changes in RQuantLib code:
+    \itemize{
       \item Discount curve creation has been made more general by
       allowing additional arguments for day counter and fixed and
       floating frequency (contributed by Terry Leitch in \ghpr{31})

@@ -1,0 +1,8 @@
+# -*- mode: Makefile -*-
+#
+# Copyright 2008 - 2014 Dirk Eddelbuettel
+
+# See configure.in for how these variables are computed
+PKG_CXXFLAGS=-Wall -mtune=core2 -g -O2  -I/opt/local/include -I/opt/local/include  -I../inst/include -I. $(SHLIB_OPENMP_CFLAGS)
+PKG_LIBS= -L/opt/local/lib -L/opt/local/lib -lQuantLib $(SHLIB_OPENMP_CFLAGS)
+

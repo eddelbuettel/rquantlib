@@ -2,7 +2,7 @@
 	
 	* discount.cpp modified to allow swap market instruments out to year 2199 
 	* curves.cpp to extend swap market instruments from 30y to 100y in 10 year increments
-	* DiscountCurve.Rmd mdofied to reflect swap tenor option changes
+	* DiscountCurve.Rmd modified to reflect swap tenor option changes
 	
 2016-05-09  Terry Leitch  <tleitch1@jhu.edu>
 

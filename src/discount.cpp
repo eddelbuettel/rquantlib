@@ -114,7 +114,7 @@ Rcpp::List discountCurveEngine(Rcpp::List rparams,
     std::vector<QuantLib::Date> dates;
     std::vector<double> zeroRates;
     QuantLib::Date d = current; 
-    QuantLib::Date maxDate(31, QuantLib::December, 2199);  // allow for at leat 100 years
+    QuantLib::Date maxDate(31, QuantLib::December, 2120);  // allow for at leat 100 years
     while (d < curve->maxDate() && d < maxDate) { // TODO set a max of, say, 5 or 10 years for flat curve
         double z = curve->zeroRate(d, QuantLib::ActualActual(), QuantLib::Continuous);
         dates.push_back(d);

@@ -160,12 +160,12 @@ int dateFromR(const Rcpp::Date &d); // using 'new' API's Rcpp::Date
 
 //utility functions for parameters of fixed-income instrument function
 QuantLib::IborIndex getIborIndex(std::string type);
-QuantLib::Frequency getFrequency(const double n);
-QuantLib::TimeUnit getTimeUnit(const double n);
-QuantLib::Compounding getCompounding(const double n);
-QuantLib::BusinessDayConvention getBusinessDayConvention(const double n);
-QuantLib::DayCounter getDayCounter(const double n);
-QuantLib::DateGeneration::Rule getDateGenerationRule(const double n);
+QuantLib::Frequency getFrequency(const int n);
+QuantLib::TimeUnit getTimeUnit(const int n);
+QuantLib::Compounding getCompounding(const int n);
+QuantLib::BusinessDayConvention getBusinessDayConvention(const int n);
+QuantLib::DayCounter getDayCounter(const int n);
+QuantLib::DateGeneration::Rule getDateGenerationRule(const int n);
 boost::shared_ptr<QuantLib::YieldTermStructure> buildTermStructure(Rcpp::List params, Rcpp::List);
 QuantLib::Schedule getSchedule(Rcpp::List rparam);
 boost::shared_ptr<QuantLib::FixedRateBond> getFixedRateBond(Rcpp::List bondparam, std::vector<double> ratesVec, Rcpp::List scheduleparam);
@@ -193,7 +193,7 @@ Rcpp::DataFrame getCashFlowDataFrame(const QuantLib::Leg &bondCashFlow);
 // fill QL data structures based on data.frames
 QuantLib::DividendSchedule getDividendSchedule(Rcpp::DataFrame dividendScheduleFrame);
 QuantLib::CallabilitySchedule getCallabilitySchedule(Rcpp::DataFrame callabilityScheduleFrame);
-QuantLib::Duration::Type getDurationType(const double n);
+QuantLib::Duration::Type getDurationType(const int n);
 
 // dates.cpp
 QuantLib::Date advanceDate(QuantLib::Date issueDate, int days);

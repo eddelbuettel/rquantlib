@@ -35,10 +35,17 @@ ObservableDB::ObservableDB() {
     db_["d1y"] = new RQLObservable(RQLDeposit, 1, 0, QuantLib::Years);
     db_["s2y"] = new RQLObservable(RQLSwap, 2, 0, QuantLib::Years);
     db_["s3y"] = new RQLObservable(RQLSwap, 3, 0, QuantLib::Years);
+    db_["s4y"] = new RQLObservable(RQLSwap, 4, 0, QuantLib::Years);
     db_["s5y"] = new RQLObservable(RQLSwap, 5, 0, QuantLib::Years);
+    db_["s6y"] = new RQLObservable(RQLSwap, 6, 0, QuantLib::Years);
+    db_["s7y"] = new RQLObservable(RQLSwap, 7, 0, QuantLib::Years);
+    db_["s8y"] = new RQLObservable(RQLSwap, 8, 0, QuantLib::Years);
+    db_["s9y"] = new RQLObservable(RQLSwap, 9, 0, QuantLib::Years);
     db_["s10y"] = new RQLObservable(RQLSwap, 10, 0, QuantLib::Years);
+    db_["s12y"] = new RQLObservable(RQLSwap, 12, 0, QuantLib::Years);
     db_["s15y"] = new RQLObservable(RQLSwap, 15, 0, QuantLib::Years);
     db_["s20y"] = new RQLObservable(RQLSwap, 20, 0, QuantLib::Years);
+    db_["s25y"] = new RQLObservable(RQLSwap, 25, 0, QuantLib::Years);
     db_["s30y"] = new RQLObservable(RQLSwap, 30, 0, QuantLib::Years);
     db_["s40y"] = new RQLObservable(RQLSwap, 40, 0, QuantLib::Years);
     db_["s50y"] = new RQLObservable(RQLSwap, 50, 0, QuantLib::Years);

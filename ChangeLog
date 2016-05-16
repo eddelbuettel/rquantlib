@@ -1,4 +1,4 @@
-2016-05-12  Dirk Eddelbuettel  <edd@debian.org>
+2016-05-19  Terry Leitch <tleitch1@jhu.edu>
 
 	* src/curve.cpp     added swap tenors from 40-100 years to curve build
 	* src/discount.cpp  increased max date from 2099 to 2150

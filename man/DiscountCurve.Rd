@@ -49,7 +49,7 @@ DiscountCurve(params, tsQuotes, times, legparams)
       \code{s70y} \tab 70-year swap rate\cr
       \code{s80y} \tab 80-year swap rate\cr
       \code{s90y} \tab 90-year swap rate\cr
-      \code{s100y} \tab 100-year swap rate\cr
+      \code{s100y} \tab 100-year swap rates\cr
       \code{fut1}--\code{fut8} \tab 3-month futures contracts\cr
       \code{fra3x6} \tab 3x6 FRA\cr
       \code{fra6x9} \tab 6x9 FRA\cr

@@ -11,21 +11,28 @@
       allowing additional arguments for day counter and fixed and
       floating frequency (contributed by Terry Leitch in \ghpr{31})
       \item Swap leg parameters are now in combined variable and allow
-      textual description (also Terry in \ghpr{34} and \ghpr{35})
+      textual description (Terry Leitch in \ghpr{34} and \ghpr{35})
       \item BermudanSwaption has been modfied to take option expiration
       and swap tenors in order to enable more general swaption structure
       pricing; a more general search for the swaptions was developed to
       accomodate this. Also, a DiscountCurve is allowed as an
       alternative to market quotes to reduce computation time for a
-      portfolio on a given valuation date (contributed by Terry Leitch
-      in \ghpr{41}).
+      portfolio on a given valuation date (Terry Leitch in \ghpr{42}
+      closing issue \ghpr{41}).
+      
       \item A new AffineSwaption model was added with similar interface
       to BermudanSwaption but allowing for valuation of a European
       exercise swaption utlizing the same affine methods available in
       BermudanSwaption. AffineSwaption will also value a Bermudan
       swaption, but does not take rate market quotes to build a term
-      structure and a DiscountCurve object is required (also contributed
-      by Terry Leitch in \ghpr{41}).
+      structure and a DiscountCurve object is required (Terry Leitch in
+      \ghpr{41} and \ghpr{43}).
+
+      \item Swap tenors can now be defined up to 100 years (Terry Leitch
+      in \ghpr{48} fising issue \ghit{46}).
+      \item Additional (shorter term) swap tenors are now defined
+      (Guillaume Horel in \ghpr{49}).
+      
     }
   }
 }

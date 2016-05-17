@@ -404,6 +404,12 @@ QuantLib::BusinessDayConvention getBusinessDayConvention(const double n){
         return QuantLib::Preceding;
     else if (n==3) 
         return QuantLib::ModifiedPreceding;
+    else if (n==4)
+        return QuantLib::Unadjusted;
+    else if (n==5)
+        return QuantLib::HalfMonthModifiedFollowing;
+    else if (n==6)
+        return QuantLib::Nearest;
     else  
         return QuantLib::Unadjusted;
 }
@@ -482,6 +488,12 @@ QuantLib::DateGeneration::Rule getDateGenerationRule(const double n){
         return QuantLib::DateGeneration::ThirdWednesday;
     else if (n==4) 
         return QuantLib::DateGeneration::Twentieth;
+    else if (n==5)
+        return QuantLib::DateGeneration::TwentiethIMM;
+    else if (n==6)
+        return QuantLib::DateGeneration::OldCDS;
+    else if (n==7)
+        return QuantLib::DateGeneration::CDS;
     else 
         return QuantLib::DateGeneration::TwentiethIMM;
 }

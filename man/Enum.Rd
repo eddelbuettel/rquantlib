@@ -32,7 +32,10 @@ Reference for parameters when constructing a bond
         \code{1} \tab ModifiedFollowing \cr
         \code{2} \tab Preceding \cr
         \code{3} \tab ModifiedPreceding \cr
-        \code{anything else} \tab UNadjusted 
+        \code{4} \tab Unadjusted \cr
+        \code{5} \tab HalfMonthModifiedFollowing \cr
+        \code{6} \tab Nearest \cr
+        \code{anything else} \tab Unadjusted
       }
 }
 
@@ -70,6 +73,9 @@ Reference for parameters when constructing a bond
         \code{2} \tab Zero \cr
         \code{3} \tab ThirdWednesday \cr
         \code{4} \tab Twentieth \cr
+        \code{5} \tab TwentiethIMM \cr
+        \code{6} \tab OldCDS \cr
+        \code{7} \tab CDS \cr
         \code{anything else} \tab TwentiethIMM
      }
 }

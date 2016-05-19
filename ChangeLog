@@ -1,9 +1,14 @@
-2016-05-19  Terry Leitch <tleitch1@jhu.edu>
+2016-05-19  Guillaume Horel  <guillaume.horel@serenitascapital.com>
 
-	* src/curve.cpp     added swap tenors from 40-100 years to curve build
-	* src/discount.cpp  increased max date from 2099 to 2150
-	* man/DiscountCurve.Rmd   updated doc to reflect new tenor choices
-	
+	* src/curves.cpp: Added extra swap tenors
+	* man/DiscountCurve.Rd: Idem
+
+2016-05-19  Terry Leitch  <tleitch1@jhu.edu>
+
+	* src/curve.cpp: Added swap tenors from 40-100 years to curve build
+	* src/discount.cpp: Increased max date from 2099 to 2150
+	* man/DiscountCurve.Rd: Updated doc to reflect new tenor choices
+
 2016-05-12  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .travis.yml (script): Turn travis_wait back on
@@ -15,15 +20,15 @@
 	* R/affine.R: New generic swaption model based on bermudan affine
 	model
 	* src/affine.cpp: New engine for affine swaption model
-	* man/AffineSwaption.Rmd: created
-	
+	* man/AffineSwaption.Rd: created
+
 	* R/bermudan.R: Swaption model modified to take more general
 	tenor & expiration dates and curve input
 	* src/bermudan.cpp: Swaptions for fit selection & yield curve fit
 	moved up into bermudan.R
-	* man/BermudanSwaption.Rmd: Modified to reflect DiscountCurve
+	* man/BermudanSwaption.Rd: Modified to reflect DiscountCurve
 	option and example updated
-	
+
 2016-04-02  Dirk Eddelbuettel  <edd@debian.org>
 
 	* R/zzz.R: Correct version comparison check

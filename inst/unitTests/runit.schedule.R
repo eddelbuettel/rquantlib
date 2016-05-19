@@ -78,17 +78,19 @@ test.Schedule <- function() {
                 paste("Testing that the first date is not duplicated due to",
                       "EOM convention when going backwards..."))
 
-    params <- list(effectiveDate = as.Date("2016-01-13"),
-                   maturityDate = as.Date("2016-05-04"),
-                   calendar = "TARGET",
-                   period = "EveryFourthWeek",
-                   businessDayConvention="Following",
-                   terminationDateConvention="Following",
-                   dateGeneration="Forward")
+    if( compareVersion(getQuantLibVersion(), "1.7.1") >= 0 ) {
+        params <- list(effectiveDate = as.Date("2016-01-13"),
+                       maturityDate = as.Date("2016-05-04"),
+                       calendar = "TARGET",
+                       period = "EveryFourthWeek",
+                       businessDayConvention="Following",
+                       terminationDateConvention="Following",
+                       dateGeneration="Forward")
 
-    expected <- as.Date(c("2016-01-13", "2016-02-10", "2016-03-09", "2016-04-06", "2016-05-04"))
-    checkEquals(Schedule(params), expected,
-                "Testing that a four-weeks tenor works...")
+        expected <- as.Date(c("2016-01-13", "2016-02-10", "2016-03-09", "2016-04-06", "2016-05-04"))
+        checkEquals(Schedule(params), expected,
+                    "Testing that a four-weeks tenor works...")
+    }
 }
 
 test.CDS <- function() {

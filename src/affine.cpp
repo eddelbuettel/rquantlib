@@ -207,11 +207,11 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
         affineSwaption.setPricingEngine(engine);
         return Rcpp::List::create(Rcpp::Named("a")         = modelG2->params()[0],
                                   Rcpp::Named("sigma")     = modelG2->params()[1],
-                                                                              Rcpp::Named("b")         = modelG2->params()[2],
-                                                                                                                          Rcpp::Named("eta")       = modelG2->params()[3],
-                                                                                                                                                                      Rcpp::Named("rho")       = modelG2->params()[4],
-                                                                                                                                                                                                                  Rcpp::Named("NPV")     = affineSwaption.NPV(),
-                                                                                                                                                                                                                  Rcpp::Named("ATMStrike") = fixedATMRate);
+                                  Rcpp::Named("b")         = modelG2->params()[2],
+                                  Rcpp::Named("eta")       = modelG2->params()[3],
+                                  Rcpp::Named("rho")       = modelG2->params()[4],
+                                  Rcpp::Named("NPV")       = affineSwaption.NPV(),
+                                  Rcpp::Named("ATMStrike") = fixedATMRate);
         //Rcpp::Named("params")    = params);
         
     } else if (method.compare("HWAnalytic") == 0) {
@@ -226,8 +226,8 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
         affineSwaption.setPricingEngine(engine);
         return Rcpp::List::create(Rcpp::Named("a") = modelHW->params()[0],
                                   Rcpp::Named("sigma") = modelHW->params()[1],
-                                                                          Rcpp::Named("NPV") = affineSwaption.NPV(),
-                                                                          Rcpp::Named("ATMStrike") = fixedATMRate);
+                                  Rcpp::Named("NPV") = affineSwaption.NPV(),
+                                  Rcpp::Named("ATMStrike") = fixedATMRate);
         //Rcpp::Named("params") = params);
         
     } else if (method.compare("HWTree") == 0) {
@@ -242,8 +242,8 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
         affineSwaption.setPricingEngine(engine);
         return Rcpp::List::create(Rcpp::Named("a") = modelHW2->params()[0],
                                   Rcpp::Named("sigma") = modelHW2->params()[1],
-                                                                           Rcpp::Named("NPV") = affineSwaption.NPV(),
-                                                                           Rcpp::Named("ATMStrike") = fixedATMRate);
+                                  Rcpp::Named("NPV") = affineSwaption.NPV(),
+                                  Rcpp::Named("ATMStrike") = fixedATMRate);
         //Rcpp::Named("params") = params);
         
         boost::shared_ptr<QuantLib::Exercise> affineExercise(new QuantLib::BermudanExercise(affineDates));
@@ -261,11 +261,11 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
             affineSwaption.setPricingEngine(engine);
             return Rcpp::List::create(Rcpp::Named("a")         = modelG2->params()[0],
                                       Rcpp::Named("sigma")     = modelG2->params()[1],
-                                                                                  Rcpp::Named("b")         = modelG2->params()[2],
-                                                                                                                              Rcpp::Named("eta")       = modelG2->params()[3],
-                                                                                                                                                                          Rcpp::Named("rho")       = modelG2->params()[4],
-                                                                                                                                                                                                                      Rcpp::Named("price")     = affineSwaption.NPV(),
-                                                                                                                                                                                                                      Rcpp::Named("ATMStrike") = fixedATMRate);
+                                      Rcpp::Named("b")         = modelG2->params()[2],
+                                      Rcpp::Named("eta")       = modelG2->params()[3],
+                                      Rcpp::Named("rho")       = modelG2->params()[4],
+                                      Rcpp::Named("price")     = affineSwaption.NPV(),
+                                      Rcpp::Named("ATMStrike") = fixedATMRate);
             //Rcpp::Named("params")    = params);
             
         } else if (method.compare("HWAnalytic") == 0) {
@@ -280,8 +280,8 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
             affineSwaption.setPricingEngine(engine);
             return Rcpp::List::create(Rcpp::Named("a") = modelHW->params()[0],
                                       Rcpp::Named("sigma") = modelHW->params()[1],
-                                                                              Rcpp::Named("price") = affineSwaption.NPV(),
-                                                                              Rcpp::Named("ATMStrike") = fixedATMRate);
+                                      Rcpp::Named("price") = affineSwaption.NPV(),
+                                      Rcpp::Named("ATMStrike") = fixedATMRate);
             //Rcpp::Named("params") = params);
             
         } else if (method.compare("HWTree") == 0) {
@@ -296,8 +296,8 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
             affineSwaption.setPricingEngine(engine);
             return Rcpp::List::create(Rcpp::Named("a") = modelHW2->params()[0],
                                       Rcpp::Named("sigma") = modelHW2->params()[1],
-                                                                               Rcpp::Named("price") = affineSwaption.NPV(),
-                                                                               Rcpp::Named("ATMStrike") = fixedATMRate);
+                                      Rcpp::Named("price") = affineSwaption.NPV(),
+                                      Rcpp::Named("ATMStrike") = fixedATMRate);
             //Rcpp::Named("params") = params);
             
         } else if (method.compare("BKTree") == 0) {
@@ -312,8 +312,8 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
             affineSwaption.setPricingEngine(engine);
             return Rcpp::List::create(Rcpp::Named("a") = modelBK->params()[0],
                                       Rcpp::Named("sigma") = modelBK->params()[1],
-                                                                              Rcpp::Named("price") = affineSwaption.NPV(),
-                                                                              Rcpp::Named("ATMStrike") = fixedATMRate);
+                                      Rcpp::Named("price") = affineSwaption.NPV(),
+                                      Rcpp::Named("ATMStrike") = fixedATMRate);
             //Rcpp::Named("params") = params);
             
         } else {

@@ -1,3 +1,9 @@
+2016-05-29  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version): Increased patch version and Date
+
+	* .travis.yml: Minor edits
+
 2016-05-19  Guillaume Horel  <guillaume.horel@serenitascapital.com>
 
 	* src/curves.cpp: Added extra swap tenors

@@ -540,7 +540,7 @@ matchDayCounter <- function(daycounter = c("Actual360", "ActualFixed", "ActualAc
 
 matchBDC <- function(bdc = c("Following", "ModifiedFollowing",
                              "Preceding", "ModifiedPreceding",
-                             "Unadjusted")) {
+                             "Unadjusted", "HalfMonthModifiedFollowing", "Nearest")) {
      if (!is.numeric(bdc)){
          bdc <- match.arg(bdc)
          bdc <- switch(bdc,
@@ -548,7 +548,9 @@ matchBDC <- function(bdc = c("Following", "ModifiedFollowing",
                        ModifiedFollowing = 1,
                        Preceding = 2,
                        ModifiedPreceding = 3,
-                       Unadjusted = 4)
+                       Unadjusted = 4,
+                       HalfMonthModifiedFollowing = 5,
+                       Nearest = 6)
      }
      bdc
 }
@@ -600,13 +602,13 @@ matchFloatFrequency <- function(freq = c( "Annual",
 
 matchDateGen <- function(dg = c("Backward", "Forward", "Zero",
                                 "ThirdWednesday", "Twentieth",
-                                "TwentiethIMM")){
+                                "TwentiethIMM", "OldCDS", "CDS")){
    if (!is.numeric(dg)){
       dg <- match.arg(dg)
       dg <- switch(dg,
                    Backward = 0, Forward = 1,
                    Zero = 2, ThirdWednesday = 3,
-                   Twentieth = 4, TwentiethIMM = 5)
+                   Twentieth = 4, TwentiethIMM = 5, OldCDS=6, CDS=7)
    }
    dg
 }

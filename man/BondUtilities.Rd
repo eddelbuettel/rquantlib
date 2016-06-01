@@ -14,7 +14,8 @@ documented here mostly to provide a means to look up some of the
 possible values---the user is not expected to call these functions directly..}
 \usage{
 matchBDC(bdc = c("Following", "ModifiedFollowing", "Preceding",
-                 "ModifiedPreceding", "Unadjusted")) 
+                 "ModifiedPreceding", "Unadjusted",
+                 "HalfMonthModifiedFollowing", "Nearest"))
 matchCompounding(cp = c("Simple", "Compounded", "Continuous", "SimpleThenCompounded")) 
 matchDayCounter(daycounter = c("Actual360", "ActualFixed", "ActualActual", "Business252",
                               "OneDayCounter", "SimpleDayCounter", "Thirty360",
@@ -22,7 +23,7 @@ matchDayCounter(daycounter = c("Actual360", "ActualFixed", "ActualActual", "Busi
                               "ActualActual.ISDA", "ActualActual.Historical",
                               "ActualActual.AFB", "ActualActual.Euro"))
 matchDateGen(dg = c("Backward", "Forward", "Zero", "ThirdWednesday",
-                    "Twentieth", "TwentiethIMM"))
+                    "Twentieth", "TwentiethIMM", "OldCDS", "CDS"))
 matchFrequency(freq = c("NoFrequency","Once", "Annual", "Semiannual",
                         "EveryFourthMonth", "Quarterly", "Bimonthly",
                         "Monthly", "EveryFourthWeek", "Biweekly",

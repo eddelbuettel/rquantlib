@@ -14,6 +14,12 @@ quantitative finance. The goal is to provide a standard open source library
 for quantitative analysis, modeling, trading, and risk management of
 financial assets.
 
+### Status
+
+The package is actively maintained, and is still being
+extended. Contributions are welcome, and initial discussions via
+[GitHub issue tickets](https://github.com/eddelbuettel/rquantlib/issues) are encouraged.
+
 ### Authors
 
 Dirk Eddelbuettel and Khanh Nguyen (during 2009-2010)

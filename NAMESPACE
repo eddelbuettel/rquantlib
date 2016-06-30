@@ -13,11 +13,14 @@ export(
     "oldEuropeanOptionArrays",
     "EuropeanOptionArrays",
     "plotOptionSurface",
+    "matchParams",
     ##--asian.R
     "AsianOption",
     ##--bermudan.R
     "BermudanSwaption",
     "AffineSwaption",
+    "sabrengine",
+    "sabrSwaption",
     "summary.G2Analytic",
     "summary.HWAnalytic",
     "summary.HWTree",
@@ -77,6 +80,8 @@ S3method("AsianOption", "default")
 S3method("BarrierOption", "default")
 S3method("BermudanSwaption", "default")
 S3method("AffineSwaption", "default")
+S3method("sabrSwaption", "default")
+
 S3method("BinaryOption", "default")
 S3method("BinaryOptionImpliedVolatility", "default")
 S3method("CallableBond", "default")

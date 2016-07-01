@@ -18,40 +18,6 @@
  */
 #include "rquantlib.h"
 
-#include "markovfunctional.hpp"
-#include "utilities.hpp"
-#include <ql/processes/mfstateprocess.hpp>
-#include <ql/models/shortrate/onefactormodels/markovfunctional.hpp>
-#include <ql/pricingengines/swaption/gaussian1dswaptionengine.hpp>
-#include <ql/pricingengines/capfloor/gaussian1dcapfloorengine.hpp>
-#include <ql/termstructures/yield/flatforward.hpp>
-#include <ql/termstructures/yield/piecewiseyieldcurve.hpp>
-#include <ql/termstructures/volatility/swaption/swaptionconstantvol.hpp>
-#include <ql/termstructures/volatility/optionlet/constantoptionletvol.hpp>
-#include <ql/termstructures/volatility/swaption/swaptionvolmatrix.hpp>
-#include <ql/termstructures/volatility/swaption/swaptionvolcube1.hpp>
-#include <ql/termstructures/volatility/swaption/swaptionvolcube2.hpp>
-#include <ql/termstructures/volatility/capfloor/capfloortermvolsurface.hpp>
-#include <ql/termstructures/volatility/optionlet/optionletstripper1.hpp>
-#include <ql/termstructures/volatility/optionlet/strippedoptionletadapter.hpp>
-#include <ql/termstructures/volatility/interpolatedsmilesection.hpp>
-#include <ql/termstructures/volatility/kahalesmilesection.hpp>
-#include <ql/time/calendars/target.hpp>
-#include <ql/indexes/swap/euriborswap.hpp>
-#include <ql/indexes/ibor/euribor.hpp>
-#include <ql/termstructures/yield/ratehelpers.hpp>
-#include <ql/time/daycounters/actual360.hpp>
-#include <ql/time/daycounters/thirty360.hpp>
-#include <ql/time/daycounters/actualactual.hpp>
-#include <ql/instruments/makeswaption.hpp>
-#include <ql/instruments/makevanillaswap.hpp>
-#include <ql/instruments/makecapfloor.hpp>
-#include <ql/cashflows/cashflowvectors.hpp>
-#include <ql/pricingengines/swaption/blackswaptionengine.hpp>
-#include <ql/pricingengines/capfloor/blackcapfloorengine.hpp>
-#include <ql/models/shortrate/calibrationhelpers/swaptionhelper.hpp>
-#include <ql/models/shortrate/calibrationhelpers/caphelper.hpp>
-
 using namespace QuantLib;
 //using namespace boost::unit_test_framework;
 
@@ -97,8 +63,6 @@ Handle<SwaptionVolatilityStructure> swptnVolCube(                    Rcpp::Numer
       swapTenors.push_back(Years*n);
     }
   }
-  
-  
   
   std::vector<std::vector<Handle<Quote> > > qSwAtm;
   

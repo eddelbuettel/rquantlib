@@ -173,8 +173,7 @@ Handle<SwaptionVolatilityStructure> swptnVolCube(                    Rcpp::Numer
   return res;
 }
   
-
- }  /// closes name space (i think)
+}  /// closes name space 
 
 
 //[[Rcpp::export]]
@@ -239,13 +238,13 @@ Rcpp::List sabrengine(Rcpp::List rparam,
       Real vol, blackPriceCall,rate;
 
           boost::shared_ptr<VanillaSwap> underlyingCall =
-            MakeVanillaSwap(Years*(daysBetween(startDate,maturity)/365.0), iborIndex1,
+            MakeVanillaSwap(Years*((maturity-startDate)/365.0), iborIndex1,
                             strike)
                                     .withEffectiveDate(
                             startDate)
                                     .receiveFixed(false);
                             boost::shared_ptr<VanillaSwap> underlyingPut =
-                            MakeVanillaSwap(Years*(daysBetween(startDate,maturity)/365.0), iborIndex1,
+                            MakeVanillaSwap(Years*((maturity-startDate)/365.0), iborIndex1,
                                             strike)
                                                     .withEffectiveDate(
                                             startDate)
@@ -256,7 +255,7 @@ Rcpp::List sabrengine(Rcpp::List rparam,
 
                                        //     Rprintf("%d %d %d\n",outputs1.expiries_[i].dayOfMonth(),outputs1.expiries_[i].month(),outputs1.expiries_[i].year());
                                             vol=volCube->volatility(
-                                              Years*(daysBetween(settlementDate,startDate)/365.0), Years*(daysBetween(startDate,maturity)/365.0),
+                                              Years*((startDate-settlementDate)/365.0), Years*((maturity-startDate)/365.0),
                                               strike);
                                                 boost::shared_ptr<PricingEngine> swapEngine(new DiscountingSwapEngine(yldCrv));
                                                 
@@ -272,3 +271,4 @@ Rcpp::List sabrengine(Rcpp::List rparam,
       return Rcpp::List::create(Rcpp::Named("call") = blackPriceCall,Rcpp::Named("put") = blackPricePut,
                                 Rcpp::Named("sigma") = vol,Rcpp::Named("atmRate") = rate);
 }
+ 

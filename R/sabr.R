@@ -25,7 +25,9 @@ sabrSwaption <- function(params,
                            ts,volCubeDF, 
                            legparams=list(dayCounter="Thirty360",
                                           fixFreq="Annual",
-                                          floatFreq="Semiannual")) {
+                                          floatFreq="Semiannual"),
+                                          tsUp01=NA,tsDn01=NA,vega=FALSE) {
+
     UseMethod("sabrSwaption")
 }
 
@@ -33,9 +35,15 @@ sabrSwaption.default <- function(params,
                                    ts,  volCubeDF, 
                                    legparams=list(dayCounter="Thirty360",
                                                   fixFreq="Annual",
-                                                  floatFreq="Semiannual")) {
+                                                  floatFreq="Semiannual"),
+                                 tsUp01=NA,tsDn01=NA,vega=FALSE) {
+  print("here 1")
     # Check that params list names
   volCube=volDF2CubeK(params,volCubeDF)
+  if(vega){
+    volCubeDF$LogNormalVol=volCubeDF$LogNormalVol+.01
+    volCubeUp=volDF2CubeK(params,volCubeDF)
+  }
   swaptionMaturities=volCube$expiries
   swapTenors=volCube$tenors
     if (!is.list(params) || length(params) == 0) {
@@ -74,7 +82,34 @@ sabrSwaption.default <- function(params,
     if(class(ts)=="DiscountCurve"){
         matchlegs<-matchParams(legparams)
         val <- sabrengine(params, matchlegs, c(ts$table$date), ts$table$zeroRates,
-                                  volCube$expiries,volCube$tenors,volCube$atmVol,volCube$strikes,volCube$smirk)  
+                                  volCube$expiries,volCube$tenors,volCube$atmVol,volCube$strikes,volCube$smirk) 
+        if(vega){
+          valUp <- sabrengine(params, matchlegs, c(ts$table$date), ts$table$zeroRates,
+                            volCubeUp$expiries,volCubeUp$tenors,volCubeUp$atmVol,volCubeUp$strikes,volCubeUp$smirk)
+
+          val$callVega=valUp$call-val$call
+          val$putVega=valUp$put-val$put
+          if(is.na(tsUp01)){print("here3")
+            }else{
+            valTsUp <- sabrengine(params, matchlegs, c(tsUp01$table$date), tsUp01$table$zeroRates,
+                              volCube$expiries,volCube$tenors,volCube$atmVol,volCube$strikes,volCube$smirk) 
+
+            val$callDV01=valTsUp$call-val$call
+            val$putDV01=valTsUp$put-val$put
+            if(is.na(tsDn01)){
+
+              
+            } else{
+              valTsDn <- sabrengine(params, matchlegs, c(tsDn01$table$date), tsDn01$table$zeroRates,
+                                    volCube$expiries,volCube$tenors,volCube$atmVol,volCube$strikes,volCube$smirk) 
+              val$callCnvx=(valTsUp$call+valTsDn$call-2*val$call)/2
+              val$putCnvx=(valTsUp$put+valTsDn$put-2*val$put)/2
+              print(val$putCnvx)
+            }
+            
+            
+          }
+        }
     } else{
         stop("DiscountCurve class term structure required", call.=FALSE)
         

@@ -24,6 +24,10 @@ tsQuotes <- list(
   s30y=.02178,
   s50y=.02205)
 
+tsQuoteUp01=lapply(tsQuotes,"+",.0001)
+tsQuoteDn01=lapply(tsQuotes,"-",.0001)
+
+
 params <- list(tradeDate=as.Date('2016-4-29'),
                settleDate=as.Date('2016-4-30'),
                payFixed=TRUE,
@@ -39,6 +43,8 @@ legparams=list(dayCounter="Thirty360",
 times<-times <- seq(0,49.5,.25)
 
 dcurve <- DiscountCurve(params, tsQuotes, times=times,legparams)
+dcurveUp01 <- DiscountCurve(params, tsQuoteUp01, times=times,legparams)
+dcurveDn01 <- DiscountCurve(params, tsQuoteDn01, times=times,legparams)
 
 expiriesY=c(1/12,.25,.5,1,2,3,4,5,6,7,8,9,10)
 expiriesM=c(1,3,6,0,0,0,0,0,0,0,0,0,0)
@@ -63,7 +69,13 @@ shinyServer(function(input, output) {
 
         tbl2=tbl2[with(tbl2,order(Expiry,Tenor,-Spread))]
         tbl2[,"payer"]<- -.0000001
+        tbl2[,"payerDV01"]<- -.0000001
+        tbl2[,"payerCnvx"]<- -.0000001
         tbl2[,"rcv"]<- -.0000001
+        tbl2[,"rcvDV01"]<- -.0000001
+        tbl2[,"rcvCnvx"]<- -.0000001
+        tbl2[,"payerVega"]<- -.0000001
+        tbl2[,"rcvVega"]<- -.0000001
         tbl2[,"sabrVol"]<- -.0000001
         tbl2[,"strike"]<- -.00000001
         for(expire in input$expiries){
@@ -81,29 +93,41 @@ shinyServer(function(input, output) {
             params$startDate=expiry
             params$maturity=tenorVal
             params$strike=.03
-            tmp2<-sabrSwaption(params, dcurve, inputVol,legparams)
+            tmp2<-sabrSwaption(params, dcurve, inputVol,legparams, vega=T)
             fwd1=tbl2[tbl2$Expiry==expire & tbl2$Tenor== tenor & tbl2$Spread==0,]$Strike
             fwdDiff=fwd1-tmp2$atmRate
             for(spread in unique(tbl2$Spread)){
               params$strike=tmp2$atmRate+spread/10000
               if(params$strike>0){
-              tmp<-sabrSwaption(params, dcurve, inputVol,legparams)
+              tmp<-sabrSwaption(params, dcurve, inputVol,legparams,tsUp01=dcurveUp01,tsDn01=dcurveDn01,vega=T)
               tbl2[tbl2$Expiry==expire & tbl2$Tenor== tenor & tbl2$Spread==spread,rcv:=signif(tmp$put,digits=4)]
-              tbl2[tbl2$Expiry==expire & tbl2$Tenor== tenor & tbl2$Spread==spread,payer:=signif(tmp$call,digits=4)]
-              tbl2[tbl2$Expiry==expire & tbl2$Tenor== tenor & tbl2$Spread==spread,sabrVol:=signif(tmp$sigma,digits=2)]
+              tbl2[tbl2$Expiry==expire & tbl2$Tenor== tenor & tbl2$Spread==spread,payer:=signif(tmp$call,digits=4)] 
+              tbl2[tbl2$Expiry==expire & tbl2$Tenor== tenor & tbl2$Spread==spread,rcvDV01:=signif(tmp$putDV01,digits=6)]
+              tbl2[tbl2$Expiry==expire & tbl2$Tenor== tenor & tbl2$Spread==spread,rcvCnvx:=signif(tmp$putCnvx,digits=6)]
+              tbl2[tbl2$Expiry==expire & tbl2$Tenor== tenor & tbl2$Spread==spread,payerDV01:=signif(tmp$callDV01,digits=6)]
+              tbl2[tbl2$Expiry==expire & tbl2$Tenor== tenor & tbl2$Spread==spread,payerCnvx:=signif(tmp$callCnvx,digits=6)]
+              tbl2[tbl2$Expiry==expire & tbl2$Tenor== tenor & tbl2$Spread==spread,rcvVega:=signif(tmp$putVega,digits=4)]
+              tbl2[tbl2$Expiry==expire & tbl2$Tenor== tenor & tbl2$Spread==spread,payerVega:=signif(tmp$callVega,digits=4)]
+              tbl2[tbl2$Expiry==expire & tbl2$Tenor== tenor & tbl2$Spread==spread,sabrVol:=signif(tmp$sigma,digits=3)]
               tbl2[tbl2$Expiry==expire & tbl2$Tenor== tenor & tbl2$Spread==spread,strike:=signif(params$strike,digits=4)]
               }
             }
           }
         }
-        tbl2=tbl2[,c("Expiry","Tenor","Spread","strike","LogNormalVol","sabrVol","payer","rcv"),with=F]
+        tbl2=tbl2[,c("Expiry","Tenor","Spread","strike","LogNormalVol","sabrVol","payer","payerDV01","payerCnvx","payerVega","rcv","rcvDV01","rcvCnvx","rcvVega"),with=F]
         numRow=length(tbl2)
         rhandsontable(tbl2,readOnly = F,rowHeaders=NULL,selectCallback = TRUE,halign="htCenter")%>%
           hot_col("strike", format = "0.0000") %>%
           hot_col("LogNormalVol", format = "0.00") %>%
           hot_col("sabrVol", format = "0.00") %>%
           hot_col("payer", format = "0.0000") %>%
-          hot_col("rcv", format = "0.000")
+          hot_col("payerDV01", format = "0.000000") %>%
+          hot_col("payerCnvx", format = "0.000000") %>%
+          hot_col("payerVega", format = "0.0000") %>%
+          hot_col("rcv", format = "0.000")%>%
+          hot_col("rcvDV01", format = "0.00000")%>%
+          hot_col("rcvCnvx", format = "0.00000")%>%
+          hot_col("rcvVega", format = "0.0000")
     })
     
 

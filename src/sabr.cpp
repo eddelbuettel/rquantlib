@@ -2,6 +2,7 @@
 
 /*
  Copyright (C) 2012 Peter Caspers
+ Copyright (C) 2016 Terry Leitch
  
  This file is part of QuantLib, a free-software/open-source library
  for financial quantitative analysts and developers - http://quantlib.org/
@@ -27,11 +28,11 @@ using std::fabs;
 namespace {
 
 Handle<SwaptionVolatilityStructure> swptnVolCube(                    Rcpp::NumericVector &expiries,
-                                                                        Rcpp::NumericVector &tenors,
-                                                                        Rcpp::NumericMatrix &atmVols,
-                                                                        Rcpp::NumericVector &strikes,
-                                                                        Rcpp::NumericMatrix &smirkVols, 
-                                                                        QuantLib::Handle<QuantLib::YieldTermStructure>  &yldCrv
+                                                                     Rcpp::NumericVector &tenors,
+                                                                     Rcpp::NumericMatrix &atmVols,
+                                                                     Rcpp::NumericVector &strikes,
+                                                                     Rcpp::NumericMatrix &smirkVols, 
+                                                                     QuantLib::Handle<QuantLib::YieldTermStructure>  &yldCrv
 ) {
   
   std::vector<Period> optionTenors;
@@ -42,12 +43,12 @@ Handle<SwaptionVolatilityStructure> swptnVolCube(                    Rcpp::Numer
   for (Size i = 0; i <numExp ; i++){
     if(expiries[i]<1.0){
       int n = static_cast<int>(12*expiries[i]);
-
+      
       optionTenors.push_back(Months*n);
       
     } else {
       int n = static_cast<int>(expiries[i]);
-
+      
       optionTenors.push_back(Years*n);
     }
   }
@@ -75,13 +76,13 @@ Handle<SwaptionVolatilityStructure> swptnVolCube(                    Rcpp::Numer
     }
     qSwAtm.push_back(qSwAtmTmp);
   }
-
+  
   Handle<SwaptionVolatilityStructure> swaptionVolAtm(
       boost::shared_ptr<SwaptionVolatilityStructure>(
         new SwaptionVolatilityMatrix(TARGET(), ModifiedFollowing,
                                      optionTenors, swapTenors, qSwAtm,
                                      Actual365Fixed())));
-
+  
   std::vector<Period> optionTenorsSmile;
   std::vector<Period> swapTenorsSmile;
   std::vector<Real> strikeSpreads;
@@ -89,7 +90,7 @@ Handle<SwaptionVolatilityStructure> swptnVolCube(                    Rcpp::Numer
   for (Size i = 0; i < numExp; i++){
     if(expiries[i]<1.0){
       int n = static_cast<int>(12*expiries[i]);
-    optionTenorsSmile.push_back(n*Months);
+      optionTenorsSmile.push_back(n*Months);
     } else {
       int n = static_cast<int>(expiries[i]);
       optionTenorsSmile.push_back(n*Years);
@@ -104,7 +105,7 @@ Handle<SwaptionVolatilityStructure> swptnVolCube(                    Rcpp::Numer
       int n = static_cast<int>(tenors[i]);
       swapTenorsSmile.push_back(Years*n);
     }
-
+    
   }
   QuantLib::Size numStrike = strikes.size();
   for (Size i = 0; i < numStrike; i++)
@@ -117,7 +118,7 @@ Handle<SwaptionVolatilityStructure> swptnVolCube(                    Rcpp::Numer
     for (int j = 0; j < numStrike; j++) {
       double qt=smirkVols(i,j);
       qSwSmileTmp.push_back(Handle<Quote>(boost::shared_ptr<Quote>(
-      new SimpleQuote(qt))));
+          new SimpleQuote(qt))));
     }
     qSwSmile.push_back(qSwSmileTmp);
   }
@@ -131,7 +132,7 @@ Handle<SwaptionVolatilityStructure> swptnVolCube(                    Rcpp::Numer
   parameterFixed.push_back(false); // beta could be fixed
   parameterFixed.push_back(false);
   parameterFixed.push_back(false);
-
+  
   std::vector<std::vector<Handle<Quote> > > parameterGuess;
   for (int i = 0; i < numExp*numTenor; i++) {
     std::vector<Handle<Quote> > parameterGuessTmp;
@@ -142,7 +143,7 @@ Handle<SwaptionVolatilityStructure> swptnVolCube(                    Rcpp::Numer
     }
     parameterGuess.push_back(parameterGuessTmp);
   }
-
+  
   boost::shared_ptr<EndCriteria> ec(
       new EndCriteria(5000000, 250, 1E-6, 1E-6, 1E-6));
   
@@ -150,27 +151,20 @@ Handle<SwaptionVolatilityStructure> swptnVolCube(                    Rcpp::Numer
       30 * Years, Handle<YieldTermStructure>(yldCrv)));
   boost::shared_ptr<SwapIndex> shortSwapIndex(new EuriborSwapIsdaFixA(
       1 * Years,
-      Handle<YieldTermStructure>(yldCrv))); // We assume that we have 6m
-  // vols (which we actually
-  // don't have for 1y
-  // underlying, but this is
-  // just a test...)
-
+      Handle<YieldTermStructure>(yldCrv))); 
   
-  // return Handle<SwaptionVolatilityStructure>(new
-  // SwaptionVolCube2(swaptionVolAtm,optionTenorsSmile,swapTenorsSmile,strikeSpreads,qSwSmile,swapIndex,shortSwapIndex,false));
-  // // bilinear interpolation gives nasty digitals
+  
   Handle<SwaptionVolatilityStructure> res(
       boost::shared_ptr<SwaptionVolatilityStructure>(new SwaptionVolCube1(
           swaptionVolAtm, optionTenorsSmile, swapTenorsSmile,
           strikeSpreads, qSwSmile, swapIndex, shortSwapIndex, true,
           parameterGuess, parameterFixed, true, ec,
           .050))); // put a big error tolerance here ... we just want a
-  // smooth cube for testing
-
-  res->enableExtrapolation();
-
-  return res;
+          // smooth cube for testing
+          
+          res->enableExtrapolation();
+          
+          return res;
 }
   
 }  /// closes name space 
@@ -178,97 +172,142 @@ Handle<SwaptionVolatilityStructure> swptnVolCube(                    Rcpp::Numer
 
 //[[Rcpp::export]]
 Rcpp::List sabrengine(Rcpp::List rparam,
-                              Rcpp::List legparams,
-                              std::vector<QuantLib::Date> dateVec, 
-                              std::vector<double> zeroVec,
-                              Rcpp::NumericVector swaptionMat,
-                              Rcpp::NumericVector swapLengths,
-                              Rcpp::NumericMatrix atmVols,
-                              Rcpp::NumericVector strikes,
-                              Rcpp::NumericMatrix smirkVols){
+                      Rcpp::List legParams,
+                      std::vector<QuantLib::Date> dateVec, 
+                      std::vector<double> zeroVec,
+                      Rcpp::NumericVector swaptionMat,
+                      Rcpp::NumericVector swapLengths,
+                      Rcpp::NumericMatrix atmVols,
+                      Rcpp::NumericVector strikes,
+                      Rcpp::NumericMatrix smirkVols){
   
   QuantLib::Date todaysDate(Rcpp::as<QuantLib::Date>(rparam["tradeDate"])); 
   QuantLib::Date settlementDate(Rcpp::as<QuantLib::Date>(rparam["settleDate"])); 
   QuantLib::Date startDate(Rcpp::as<QuantLib::Date>(rparam["startDate"])); 
+  QuantLib::Date expiryDate(Rcpp::as<QuantLib::Date>(rparam["expiryDate"])); 
   QuantLib::Date maturity(Rcpp::as<QuantLib::Date>(rparam["maturity"])); 
   bool payfix = Rcpp::as<bool>(rparam["payFixed"]);
   bool european = Rcpp::as<bool>(rparam["european"]);
   double strike = Rcpp::as<double>(rparam["strike"]);
-  
+  double fixDayCount = Rcpp::as<double>(legParams["dayCounter"]);
+  double fixFreq   = Rcpp::as<double>(legParams["fixFreq"]) ;
+  int floatFreq = Rcpp::as<int>(legParams["floatFreq"]);   
   
   const Real tol1 = 0.0001; // 1bp tolerance for model engine call put premia
-  // vs. black premia
-  // note that we use the real market conventions here (i.e. 2 fixing days),
-  // different from the calibration approach where 0 fixing days must be used.
-  // therefore higher errors compared to the calibration results are expected.
+
   
   // BOOST_TEST_MESSAGE("Testing Markov functional vanilla engines...");
   
   Date savedEvalDate = Settings::instance().evaluationDate();
   Settings::instance().evaluationDate() = todaysDate;
-
+  
   QuantLib::Handle<QuantLib::YieldTermStructure> yldCrv(rebuildCurveFromZeroRates(dateVec, zeroVec));
-
+  
   Handle<SwaptionVolatilityStructure> volCube = swptnVolCube(swaptionMat,swapLengths,atmVols,
-                                                                 strikes,smirkVols,yldCrv);
+                                                             strikes,smirkVols,yldCrv);
   
-  boost::shared_ptr<IborIndex> iborIndex1(new Euribor(6 * Months, yldCrv));
+  boost::shared_ptr<IborIndex> iborIndex1(new Euribor(floatFreq * Months, yldCrv));
+  boost::shared_ptr<SwapIndex> swapIndexBase (new EuriborSwapIsdaFixA(fixFreq * Years));
   
-  // boost::shared_ptr<MarkovFunctional> mf1(new MarkovFunctional(
-  //     flatYts_, 0.01, volStepDates, vols, flatSwaptionVts_,
-  //     expiriesCalBasket1(), tenorsCalBasket1(), swapIndexBase,
-  //     MarkovFunctional::ModelSettings()
-  //                                           .withYGridPoints(64)
-  //                                           .withYStdDevs(7.0)
-  //                                           .withGaussHermitePoints(32)
-  //                                           .withDigitalGap(1e-5)
-  //                                           .withMarketRateAccuracy(1e-7)
-  //                                           .withLowerRateBound(0.0)
-  //                                           .withUpperRateBound(2.0)
-  //                                           .withSmileMoneynessCheckpoints(money)));
-  //     
-  //     MarkovFunctional::ModelOutputs outputs1 = mf1->modelOutputs();
-  //     // BOOST_TEST_MESSAGE(outputs1);
-  //     
-  //     boost::shared_ptr<Gaussian1dSwaptionEngine> mfSwaptionEngine1(
-  //         new Gaussian1dSwaptionEngine(mf1, 64, 7.0));
-      boost::shared_ptr<BlackSwaptionEngine> blackSwaptionEngine1(
-                       new BlackSwaptionEngine(yldCrv, volCube));
-          
-      Real vol, blackPriceCall,rate;
-
-          boost::shared_ptr<VanillaSwap> underlyingCall =
-            MakeVanillaSwap(Years*((maturity-startDate)/365.0), iborIndex1,
-                            strike)
-                                    .withEffectiveDate(
-                            startDate)
-                                    .receiveFixed(false);
-                            boost::shared_ptr<VanillaSwap> underlyingPut =
-                            MakeVanillaSwap(Years*((maturity-startDate)/365.0), iborIndex1,
-                                            strike)
-                                                    .withEffectiveDate(
-                                            startDate)
-                                                    .receiveFixed(true);
-
-                                            boost::shared_ptr<Exercise> exercise(
-                                                new EuropeanExercise(startDate));
-
-                                       //     Rprintf("%d %d %d\n",outputs1.expiries_[i].dayOfMonth(),outputs1.expiries_[i].month(),outputs1.expiries_[i].year());
-                                            vol=volCube->volatility(
-                                              Years*((startDate-settlementDate)/365.0), Years*((maturity-startDate)/365.0),
-                                              strike);
-                                                boost::shared_ptr<PricingEngine> swapEngine(new DiscountingSwapEngine(yldCrv));
-                                                
-                                                underlyingCall->setPricingEngine(swapEngine);
-                                                rate=underlyingCall->fairRate();
-                                            Swaption swaptionC(underlyingCall, exercise);
-                                            Swaption swaptionP(underlyingPut, exercise);
-                                            swaptionC.setPricingEngine(blackSwaptionEngine1);
-                                            swaptionP.setPricingEngine(blackSwaptionEngine1);
-                                            blackPriceCall = swaptionC.NPV();
-                                            Real blackPricePut = swaptionP.NPV();
-
-      return Rcpp::List::create(Rcpp::Named("call") = blackPriceCall,Rcpp::Named("put") = blackPricePut,
-                                Rcpp::Named("sigma") = vol,Rcpp::Named("atmRate") = rate);
+  // create swaps for european swaption here to get atm fwd rate, these are ignored for bermudan  //
+  boost::shared_ptr<VanillaSwap> underlyingCall =
+    MakeVanillaSwap(Years*(((maturity-expiryDate)/365.0)), iborIndex1,
+                    strike)
+    .withEffectiveDate(expiryDate)
+    .receiveFixed(false);
+                    
+                    boost::shared_ptr<VanillaSwap> underlyingPut =
+                    MakeVanillaSwap(Years*((maturity-expiryDate)/365.0), iborIndex1,
+                                    strike)
+                      .withEffectiveDate(expiryDate)
+                      .receiveFixed(true); 
+                                    boost::shared_ptr<PricingEngine> swapEngine(new DiscountingSwapEngine(yldCrv));
+                                    
+                                    underlyingCall->setPricingEngine(swapEngine);
+                                    underlyingPut->setPricingEngine(swapEngine);
+                                    
+                                    Real vol,priceCall,pricePut,rate;
+                                    vol=volCube->volatility(
+                                      Years*((expiryDate-settlementDate)/365.0), Years*((maturity-expiryDate)/365.0),
+                                      strike);    
+                                    rate=underlyingCall->fairRate();
+                                    // calculate if bermudan here //
+                                    if(!european)  {
+                                      boost::shared_ptr<VanillaSwap> underlyingCall2 =
+                                        MakeVanillaSwap(Years*(((maturity-startDate)/365.0)), iborIndex1,
+                                                        strike)
+                                      .withEffectiveDate(startDate)
+                                      .receiveFixed(false);
+                                                        
+                                                        boost::shared_ptr<VanillaSwap> underlyingPut2 =
+                                                        MakeVanillaSwap(Years*((maturity-startDate)/365.0), iborIndex1,
+                                                                        strike)
+                                                          .withEffectiveDate(startDate)
+                                                          .receiveFixed(true); 
+                                                                        boost::shared_ptr<PricingEngine> swapEngine(new DiscountingSwapEngine(yldCrv));
+                                                                        
+                                                                        underlyingCall2->setPricingEngine(swapEngine);
+                                                                        underlyingPut2->setPricingEngine(swapEngine);
+                                                                        std::vector<Date> volStepDates;
+                                                                        std::vector<Real> vols;
+                                                                        vols.push_back(1.0);
+                                                                        std::vector<QuantLib::Date> exerciseDates;
+                                                                        std::vector<QuantLib::Period> underlyingTenors;
+                                                                        const std::vector<boost::shared_ptr<QuantLib::CashFlow> >& leg = underlyingCall2->fixedLeg();
+                                                                        for (int i=0; i<leg.size(); i++) {
+                                                                          boost::shared_ptr<QuantLib::Coupon> coupon = boost::dynamic_pointer_cast<QuantLib::Coupon>(leg[i]);
+                                                                          if(coupon->accrualStartDate() <= expiryDate && coupon->accrualStartDate() >= startDate) {
+                                                                            exerciseDates.push_back(coupon->accrualStartDate());
+                                                                            underlyingTenors.push_back(Years*((maturity-(coupon->accrualStartDate()))/365.0));
+                                                                          }
+                                                                        }
+                                                                        
+                                                                        //   create expiry backet, get maturity
+                                                                        boost::shared_ptr<MarkovFunctional> mf1(
+                                                                            new MarkovFunctional(yldCrv, 0.01, volStepDates, vols,volCube,
+                                                                                                 exerciseDates, underlyingTenors,
+                                                                                                 swapIndexBase, MarkovFunctional::ModelSettings()
+                                                                                                   .withYGridPoints(32)
+                                                                                                   .withYStdDevs(7.0)
+                                                                                                   .withGaussHermitePoints(16)
+                                                                                                   .withMarketRateAccuracy(1e-7)
+                                                                                                   .withDigitalGap(1e-5)
+                                                                                                   .withLowerRateBound(0.0)
+                                                                                                   .withUpperRateBound(2.0)));
+                                                                                                 boost::shared_ptr<PricingEngine> mfSwaptionEngine1(
+                                                                                                     new Gaussian1dSwaptionEngine(mf1, 64, 7.0));
+                                                                                                 boost::shared_ptr<Exercise> bermudanExercise(
+                                                                                                     new BermudanExercise(exerciseDates));
+                                                                                                 
+                                                                                                 Swaption bermudanSwaptionC(underlyingCall2, bermudanExercise);
+                                                                                                 Swaption bermudanSwaptionP(underlyingPut2, bermudanExercise);
+                                                                                                 bermudanSwaptionC.setPricingEngine(mfSwaptionEngine1);
+                                                                                                 bermudanSwaptionP.setPricingEngine(mfSwaptionEngine1);
+                                                                                                 
+                                                                                                 priceCall = bermudanSwaptionC.NPV();
+                                                                                                 pricePut = bermudanSwaptionP.NPV();
+                                                                                                 // calculate if european here //
+                                    } else {
+                                      
+                                      boost::shared_ptr<BlackSwaptionEngine> blackSwaptionEngine1(
+                                          new BlackSwaptionEngine(yldCrv, volCube));
+                                      
+                                      boost::shared_ptr<Exercise> exercise(
+                                          new EuropeanExercise(startDate));
+                                      
+                                      //     Rprintf("%d %d %d\n",outputs1.expiries_[i].dayOfMonth(),outputs1.expiries_[i].month(),outputs1.expiries_[i].year());
+                                      
+                                      
+                                      Swaption swaptionC(underlyingCall, exercise);
+                                      Swaption swaptionP(underlyingPut, exercise);
+                                      swaptionC.setPricingEngine(blackSwaptionEngine1);
+                                      swaptionP.setPricingEngine(blackSwaptionEngine1);
+                                      priceCall = swaptionC.NPV();
+                                      pricePut = swaptionP.NPV();
+                                    }
+                                    ////////men at work/////////////////                           
+                                    
+                                    return Rcpp::List::create(Rcpp::Named("call") = priceCall,Rcpp::Named("put") = pricePut,
+                                                              Rcpp::Named("sigma") = vol,Rcpp::Named("atmRate") = rate);
 }
- 
+

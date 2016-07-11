@@ -28,10 +28,10 @@ tsQuoteUp01=lapply(tsQuotes,"+",.0001)
 tsQuoteDn01=lapply(tsQuotes,"-",.0001)
 
 
-params <- list(tradeDate=as.Date('2016-4-29'),
+params <- list(tradeDate=as.Date('2016-4-28'),
                settleDate=as.Date('2016-4-30'),
                payFixed=TRUE,
-               european=TRUE,
+               #european=F,
                dt=.25,
                interpWhat="discount",
                interpHow="loglinear")
@@ -89,8 +89,10 @@ shinyServer(function(input, output) {
             }
             tenorIDX=match(tenor,tenorLvl)
             tenorVal=expiry;
+            params$european=!input$bermudan
             year(tenorVal)=year(tenorVal)+tenors[tenorIDX]
-            params$startDate=expiry
+            params$expiryDate=expiry
+            if(params$european){params$startDate=expiry;}else{params$startDate=params$settleDate}
             params$maturity=tenorVal
             params$strike=.03
             tmp2<-sabrSwaption(params, dcurve, inputVol,legparams, vega=T)

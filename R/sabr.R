@@ -37,7 +37,6 @@ sabrSwaption.default <- function(params,
                                                   fixFreq="Annual",
                                                   floatFreq="Semiannual"),
                                  tsUp01=NA,tsDn01=NA,vega=FALSE) {
-  print("here 1")
     # Check that params list names
   volCube=volDF2CubeK(params,volCubeDF)
   if(vega){
@@ -49,10 +48,14 @@ sabrSwaption.default <- function(params,
     if (!is.list(params) || length(params) == 0) {
         stop("The params parameter must be a non-empty list", call.=FALSE)
     }
-    if(is.null(params$startDate)){
-        params$startDate=advance("UnitedStates",params$tradeDate, 1, 3)
-        warning("swaption start date not set, defaulting to 1 year from trade date using US calendar")
-    }
+  if(is.null(params$startDate)){
+    params$startDate=advance("UnitedStates",params$tradeDate, 1, 3)
+    warning("swaption start date not set, defaulting to 1 year from trade date using US calendar")
+  }
+  if(is.null(params$expiryDate)){
+    parames$expiryDate=params$startDate
+    warning("swaption expiry date not set, defaulting to 1 year from trade date using US calendar")
+  }
     if(is.null(params$maturity)){
         params$maturity=advance("UnitedStates",params$startDate, 5, 3)
         warning("swaption maturity not set, defaulting to 5 years from startDate using US calendar")
@@ -68,9 +71,8 @@ sabrSwaption.default <- function(params,
     
     vc=volDF2CubeK(params,volCubeDF)
     matYears=as.numeric(params$maturity-params$tradeDate)/365
-    expYears=as.numeric(params$startDate-params$tradeDate)/365
-    optStart=as.numeric(params$startDate-params$tradeDate)/365
-    
+    expYears=as.numeric(params$expiryDate-params$tradeDate)/365
+
     # find closest option to our target to ensure it is in calibration
 
     
@@ -89,14 +91,14 @@ sabrSwaption.default <- function(params,
 
           val$callVega=valUp$call-val$call
           val$putVega=valUp$put-val$put
-          if(is.na(tsUp01)){print("here3")
+          if(anyNa(tsUp01)){
             }else{
             valTsUp <- sabrengine(params, matchlegs, c(tsUp01$table$date), tsUp01$table$zeroRates,
                               volCube$expiries,volCube$tenors,volCube$atmVol,volCube$strikes,volCube$smirk) 
 
             val$callDV01=valTsUp$call-val$call
             val$putDV01=valTsUp$put-val$put
-            if(is.na(tsDn01)){
+            if(anyNa(tsDn01)){
 
               
             } else{
@@ -104,7 +106,6 @@ sabrSwaption.default <- function(params,
                                     volCube$expiries,volCube$tenors,volCube$atmVol,volCube$strikes,volCube$smirk) 
               val$callCnvx=(valTsUp$call+valTsDn$call-2*val$call)/2
               val$putCnvx=(valTsUp$put+valTsDn$put-2*val$put)/2
-              print(val$putCnvx)
             }
             
             
@@ -126,8 +127,7 @@ volDF2CubeK <- function(params,tbl,source="CME"){
   strikes=levels(tbl$Spread)<-c(-200,-150,-100,-75,-50,-25,0,25,50,75,100,150,200)
   
   matYears=as.numeric(params$maturity-params$tradeDate)/365
-  expYears=as.numeric(params$startDate-params$tradeDate)/365
-  optStart=as.numeric(params$startDate-params$tradeDate)/365
+  expYears=as.numeric(params$expiryDate-params$tradeDate)/365
   expLvl=c( "1M","3M","6M","1Y","2Y","3Y","4Y",  "5Y",  "6Y",  "7Y",  "8Y",  "9Y","10Y")
   tbl$Expiry=factor(tbl$Expiry,level=expLvl)
   expiries=c(1/12,.25,.5,1,2,3,4,5,6,7,8,9,10)

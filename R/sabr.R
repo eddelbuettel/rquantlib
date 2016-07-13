@@ -91,14 +91,14 @@ sabrSwaption.default <- function(params,
 
           val$callVega=valUp$call-val$call
           val$putVega=valUp$put-val$put
-          if(anyNa(tsUp01)){
+          if(anyNA(tsUp01)){
             }else{
             valTsUp <- sabrengine(params, matchlegs, c(tsUp01$table$date), tsUp01$table$zeroRates,
                               volCube$expiries,volCube$tenors,volCube$atmVol,volCube$strikes,volCube$smirk) 
 
             val$callDV01=valTsUp$call-val$call
             val$putDV01=valTsUp$put-val$put
-            if(anyNa(tsDn01)){
+            if(anyNA(tsDn01)){
 
               
             } else{

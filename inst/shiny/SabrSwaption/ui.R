@@ -20,7 +20,7 @@ shinyUI(fluidPage(
                      choices=list("1Y"="1Y" , "2Y"="2Y",  "5Y"="5Y","10Y"="10Y","15Y"="15Y","20Y"="20Y","30Y"="30Y"),
                      #selected = c("1Y" , "2Y",  "5Y", "10Y","15Y","20Y","30Y")),
   selected = c( "5Y")),
-  checkboxInput("bermudan", label = "Bermudan Exercise?", value = F),
+  checkboxInput("bermudan", label = "Bermudan Exercise?", value = F), 
   
 
     # Show a plot of the generated distribution

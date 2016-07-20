@@ -20,7 +20,7 @@ export(
     "BermudanSwaption",
     "AffineSwaption",
     "sabrengine",
-    "sabrSwaption",
+    "SabrSwaption",
     "summary.G2Analytic",
     "summary.HWAnalytic",
     "summary.HWTree",
@@ -80,7 +80,7 @@ S3method("AsianOption", "default")
 S3method("BarrierOption", "default")
 S3method("BermudanSwaption", "default")
 S3method("AffineSwaption", "default")
-S3method("sabrSwaption", "default")
+S3method("SabrSwaption", "default")
 
 S3method("BinaryOption", "default")
 S3method("BinaryOptionImpliedVolatility", "default")

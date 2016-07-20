@@ -9,24 +9,26 @@ library(lubridate)
 library(reshape2)
 library(zoo)
 library(data.table)
-
-tsQuotes <- list(
-  d1w  =0.004,
-  d1y=.0091,
-  s2y=.0115,
-  s3y=.0138,
-  s4y =.011349,
-  s5y  =0.012375,
-  s6y =.0134,
-  s7y=.01446,
-  s10y =0.016829,
-  s15y =0.01944,
-  s30y=.02178,
-  s50y=.02205)
+data("rqlib")
+library(shiny)
+# tsQuotes <- list(
+#   d1w  =0.004,
+#   d1y=.0091,
+#   s2y=.0115,
+#   s3y=.0138,
+#   s4y =.011349,
+#   s5y  =0.012375,
+#   s6y =.0134,
+#   s7y=.01446,
+#   s10y =0.016829,
+#   s15y =0.01944,
+#   s30y=.02178,
+#   s50y=.02205)
 
 tsQuoteUp01=lapply(tsQuotes,"+",.0001)
 tsQuoteDn01=lapply(tsQuotes,"-",.0001)
 
+setEvaluationDate(as.Date("2016-4-30"))
 
 params <- list(tradeDate=as.Date('2016-4-28'),
                settleDate=as.Date('2016-4-30'),
@@ -53,12 +55,10 @@ expLvl=c("1M","3M","6M","1Y" , "2Y", "3Y",  "4Y",  "5Y",  "6Y",  "7Y",  "8Y",  "
 tenorLvl=c("1Y" , "2Y",  "5Y",  "10Y","15Y","20Y","30Y")
 tenors=c(1,2,5,10,15,20,30)
 
-psxSettle <- as.POSIXlt(params$settleDate)
 
-library(shiny)
 
 shinyServer(function(input, output) {
-    inputVol<-data.table(read.csv("volcube.csv",header=T))
+    inputVol<-vcube
     output$table<- renderRHandsontable({
   
         tbl2=inputVol
@@ -95,21 +95,21 @@ shinyServer(function(input, output) {
             if(params$european){params$startDate=expiry;}else{params$startDate=params$settleDate}
             params$maturity=tenorVal
             params$strike=.03
-            tmp2<-sabrSwaption(params, dcurve, inputVol,legparams, vega=T)
+            tmp2<-SabrSwaption(params, dcurve, inputVol,legparams, vega=T)
             fwd1=tbl2[tbl2$Expiry==expire & tbl2$Tenor== tenor & tbl2$Spread==0,]$Strike
             fwdDiff=fwd1-tmp2$atmRate
             for(spread in unique(tbl2$Spread)){
               params$strike=tmp2$atmRate+spread/10000
               if(params$strike>0){
-              tmp<-sabrSwaption(params, dcurve, inputVol,legparams,tsUp01=dcurveUp01,tsDn01=dcurveDn01,vega=T)
-              tbl2[tbl2$Expiry==expire & tbl2$Tenor== tenor & tbl2$Spread==spread,rcv:=signif(tmp$put,digits=4)]
-              tbl2[tbl2$Expiry==expire & tbl2$Tenor== tenor & tbl2$Spread==spread,payer:=signif(tmp$call,digits=4)] 
-              tbl2[tbl2$Expiry==expire & tbl2$Tenor== tenor & tbl2$Spread==spread,rcvDV01:=signif(tmp$putDV01,digits=6)]
-              tbl2[tbl2$Expiry==expire & tbl2$Tenor== tenor & tbl2$Spread==spread,rcvCnvx:=signif(tmp$putCnvx,digits=6)]
-              tbl2[tbl2$Expiry==expire & tbl2$Tenor== tenor & tbl2$Spread==spread,payerDV01:=signif(tmp$callDV01,digits=6)]
-              tbl2[tbl2$Expiry==expire & tbl2$Tenor== tenor & tbl2$Spread==spread,payerCnvx:=signif(tmp$callCnvx,digits=6)]
-              tbl2[tbl2$Expiry==expire & tbl2$Tenor== tenor & tbl2$Spread==spread,rcvVega:=signif(tmp$putVega,digits=4)]
-              tbl2[tbl2$Expiry==expire & tbl2$Tenor== tenor & tbl2$Spread==spread,payerVega:=signif(tmp$callVega,digits=4)]
+              tmp<-SabrSwaption(params, dcurve, inputVol,legparams,tsUp01=dcurveUp01,tsDn01=dcurveDn01,vega=T)
+              tbl2[tbl2$Expiry==expire & tbl2$Tenor== tenor & tbl2$Spread==spread,rcv:=signif(tmp$rcv,digits=4)]
+              tbl2[tbl2$Expiry==expire & tbl2$Tenor== tenor & tbl2$Spread==spread,payer:=signif(tmp$pay,digits=4)] 
+              tbl2[tbl2$Expiry==expire & tbl2$Tenor== tenor & tbl2$Spread==spread,rcvDV01:=signif(tmp$rcvDV01,digits=6)]
+              tbl2[tbl2$Expiry==expire & tbl2$Tenor== tenor & tbl2$Spread==spread,rcvCnvx:=signif(tmp$rcvCnvx,digits=6)]
+              tbl2[tbl2$Expiry==expire & tbl2$Tenor== tenor & tbl2$Spread==spread,payerDV01:=signif(tmp$payDV01,digits=6)]
+              tbl2[tbl2$Expiry==expire & tbl2$Tenor== tenor & tbl2$Spread==spread,payerCnvx:=signif(tmp$payCnvx,digits=6)]
+              tbl2[tbl2$Expiry==expire & tbl2$Tenor== tenor & tbl2$Spread==spread,rcvVega:=signif(tmp$rcvVega,digits=4)]
+              tbl2[tbl2$Expiry==expire & tbl2$Tenor== tenor & tbl2$Spread==spread,payerVega:=signif(tmp$payVega,digits=4)]
               tbl2[tbl2$Expiry==expire & tbl2$Tenor== tenor & tbl2$Spread==spread,sabrVol:=signif(tmp$sigma,digits=3)]
               tbl2[tbl2$Expiry==expire & tbl2$Tenor== tenor & tbl2$Spread==spread,strike:=signif(params$strike,digits=4)]
               }

@@ -180,22 +180,20 @@ Rcpp::List sabrengine(Rcpp::List rparam,
                       Rcpp::NumericMatrix atmVols,
                       Rcpp::NumericVector strikes,
                       Rcpp::NumericMatrix smirkVols){
-  
+
   QuantLib::Date todaysDate(Rcpp::as<QuantLib::Date>(rparam["tradeDate"])); 
   QuantLib::Date settlementDate(Rcpp::as<QuantLib::Date>(rparam["settleDate"])); 
   QuantLib::Date startDate(Rcpp::as<QuantLib::Date>(rparam["startDate"])); 
   QuantLib::Date expiryDate(Rcpp::as<QuantLib::Date>(rparam["expiryDate"])); 
   QuantLib::Date maturity(Rcpp::as<QuantLib::Date>(rparam["maturity"])); 
-  bool payfix = Rcpp::as<bool>(rparam["payFixed"]);
   bool european = Rcpp::as<bool>(rparam["european"]);
   double strike = Rcpp::as<double>(rparam["strike"]);
-  double fixDayCount = Rcpp::as<double>(legParams["dayCounter"]);
+  //double fixDayCount = Rcpp::as<double>(legParams["dayCounter"]); // currently not used, fix in future
   double fixFreq   = Rcpp::as<double>(legParams["fixFreq"]) ;
   int floatFreq = Rcpp::as<int>(legParams["floatFreq"]);   
   
   const Real tol1 = 0.0001; // 1bp tolerance for model engine call put premia
 
-  
   // BOOST_TEST_MESSAGE("Testing Markov functional vanilla engines...");
   
   Date savedEvalDate = Settings::instance().evaluationDate();
@@ -205,10 +203,9 @@ Rcpp::List sabrengine(Rcpp::List rparam,
   
   Handle<SwaptionVolatilityStructure> volCube = swptnVolCube(swaptionMat,swapLengths,atmVols,
                                                              strikes,smirkVols,yldCrv);
-  
   boost::shared_ptr<IborIndex> iborIndex1(new Euribor(floatFreq * Months, yldCrv));
   boost::shared_ptr<SwapIndex> swapIndexBase (new EuriborSwapIsdaFixA(fixFreq * Years));
-  
+
   // create swaps for european swaption here to get atm fwd rate, these are ignored for bermudan  //
   boost::shared_ptr<VanillaSwap> underlyingCall =
     MakeVanillaSwap(Years*(((maturity-expiryDate)/365.0)), iborIndex1,
@@ -226,7 +223,7 @@ Rcpp::List sabrengine(Rcpp::List rparam,
                                     underlyingCall->setPricingEngine(swapEngine);
                                     underlyingPut->setPricingEngine(swapEngine);
                                     
-                                    Real vol,priceCall,pricePut,rate;
+                                    Real vol,pricePay,priceRcv,rate;
                                     vol=volCube->volatility(
                                       Years*((expiryDate-settlementDate)/365.0), Years*((maturity-expiryDate)/365.0),
                                       strike);    
@@ -284,11 +281,11 @@ Rcpp::List sabrengine(Rcpp::List rparam,
                                                                                                  bermudanSwaptionC.setPricingEngine(mfSwaptionEngine1);
                                                                                                  bermudanSwaptionP.setPricingEngine(mfSwaptionEngine1);
                                                                                                  
-                                                                                                 priceCall = bermudanSwaptionC.NPV();
-                                                                                                 pricePut = bermudanSwaptionP.NPV();
-                                                                                                 // calculate if european here //
+                                                                                                 pricePay = bermudanSwaptionC.NPV();
+                                                                                                 priceRcv = bermudanSwaptionP.NPV();
+                                                                                             
                                     } else {
-                                      
+                                      // calculate european here //
                                       boost::shared_ptr<BlackSwaptionEngine> blackSwaptionEngine1(
                                           new BlackSwaptionEngine(yldCrv, volCube));
                                       
@@ -302,12 +299,12 @@ Rcpp::List sabrengine(Rcpp::List rparam,
                                       Swaption swaptionP(underlyingPut, exercise);
                                       swaptionC.setPricingEngine(blackSwaptionEngine1);
                                       swaptionP.setPricingEngine(blackSwaptionEngine1);
-                                      priceCall = swaptionC.NPV();
-                                      pricePut = swaptionP.NPV();
+                                      pricePay = swaptionC.NPV();
+                                      priceRcv = swaptionP.NPV();
                                     }
                                     ////////men at work/////////////////                           
                                     
-                                    return Rcpp::List::create(Rcpp::Named("call") = priceCall,Rcpp::Named("put") = pricePut,
+                                    return Rcpp::List::create(Rcpp::Named("pay") = pricePay,Rcpp::Named("rcv") = priceRcv,
                                                               Rcpp::Named("sigma") = vol,Rcpp::Named("atmRate") = rate);
 }
 

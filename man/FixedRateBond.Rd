@@ -136,7 +136,7 @@
 \item{settlementDays}{an integer, 1 for T+1, 2 for T+2, etc...}
 \item{effectiveDate}{bond's effective date}
 \item{maturityDate}{bond's maturity date}
-\item{period}{frequency of events,0=NoFrequency, 1=Once, 2=Annual, 3=Semiannual, 4=EveryFourthMonth, 5=Quarterly, 6=Bimonthly ,7=Monthly ,8=EveryFourthWeely,9=Biweekly, 10=Weekly, 11=Daily. For more information, see QuantLib's Frequency class }
+\item{period}{frequency of events,0=NoFrequency, 1=Once, 2=Annual, 3=Semiannual, 4=EveryFourthMonth, 5=Quarterly, 6=Bimonthly ,7=Monthly ,8=EveryFourthWeek,9=Biweekly, 10=Weekly, 11=Daily. For more information, see QuantLib's Frequency class }
 \item{calendar}{Business Calendar. Either \code{us} or \code{uk}}
 \item{faceAmount}{face amount of the bond}
 \item{businessDayConvention}{convention used to adjust a date in case it is not a valid business day. See quantlib for more detail. 0 = Following, 1 = ModifiedFollowing, 2 = Preceding, 3 = ModifiedPreceding, other = Unadjusted}

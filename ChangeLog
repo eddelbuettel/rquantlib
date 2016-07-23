@@ -1,8 +1,22 @@
+2016-07-20  Terry Leitch  <tleitch1@jhu.edu>
+
+	* R/sabr.R: New function for SABR swaption model
+	* src/sabr.cpp: C++ implementation for SABR model
+
+	* inst/shiny/SabrSwaption/*: Shiny application for SABR model
+
+	* data/rqlib.RData: Sample data
+
 2016-05-29  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version): Increased patch version and Date
 
 	* .travis.yml: Minor edits
+
+2016-05-27  Guillaume Horel  <guillaume.horel@serenitascapital.com>
+
+	* inst/unitTests/runit.businessdayconvention.R: New tests
+	* inst/unitTests/runit.schedule.R: Small cleanup
 
 2016-05-19  Guillaume Horel  <guillaume.horel@serenitascapital.com>
 

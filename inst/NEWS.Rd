@@ -19,7 +19,6 @@
       alternative to market quotes to reduce computation time for a
       portfolio on a given valuation date (Terry Leitch in \ghpr{42}
       closing issue \ghpr{41}).
-      
       \item A new AffineSwaption model was added with similar interface
       to BermudanSwaption but allowing for valuation of a European
       exercise swaption utlizing the same affine methods available in
@@ -27,12 +26,10 @@
       swaption, but does not take rate market quotes to build a term
       structure and a DiscountCurve object is required (Terry Leitch in
       \ghpr{41} and \ghpr{43}).
-
       \item Swap tenors can now be defined up to 100 years (Terry Leitch
       in \ghpr{48} fising issue \ghit{46}).
       \item Additional (shorter term) swap tenors are now defined
       (Guillaume Horel in \ghpr{49}).
-      
     }
   }
 }

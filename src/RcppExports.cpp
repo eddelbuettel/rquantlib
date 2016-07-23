@@ -1212,6 +1212,25 @@ RcppExport SEXP RQuantLib_americanOptionImpliedVolatilityEngine(SEXP typeSEXP, S
     UNPROTECT(1);
     return __result;
 }
+// sabrengine
+Rcpp::List sabrengine(Rcpp::List rparam, Rcpp::List legParams, std::vector<QuantLib::Date> dateVec, std::vector<double> zeroVec, Rcpp::NumericVector swaptionMat, Rcpp::NumericVector swapLengths, Rcpp::NumericMatrix atmVols, Rcpp::NumericVector strikes, Rcpp::NumericMatrix smirkVols);
+RcppExport SEXP RQuantLib_sabrengine(SEXP rparamSEXP, SEXP legParamsSEXP, SEXP dateVecSEXP, SEXP zeroVecSEXP, SEXP swaptionMatSEXP, SEXP swapLengthsSEXP, SEXP atmVolsSEXP, SEXP strikesSEXP, SEXP smirkVolsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< Rcpp::List >::type rparam(rparamSEXP);
+    Rcpp::traits::input_parameter< Rcpp::List >::type legParams(legParamsSEXP);
+    Rcpp::traits::input_parameter< std::vector<QuantLib::Date> >::type dateVec(dateVecSEXP);
+    Rcpp::traits::input_parameter< std::vector<double> >::type zeroVec(zeroVecSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type swaptionMat(swaptionMatSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type swapLengths(swapLengthsSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type atmVols(atmVolsSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type strikes(strikesSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type smirkVols(smirkVolsSEXP);
+    __result = Rcpp::wrap(sabrengine(rparam, legParams, dateVec, zeroVec, swaptionMat, swapLengths, atmVols, strikes, smirkVols));
+    return __result;
+END_RCPP
+}
 // CreateSchedule
 Rcpp::DateVector CreateSchedule(Rcpp::List params);
 static SEXP RQuantLib_CreateSchedule_try(SEXP paramsSEXP) {

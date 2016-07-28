@@ -6,7 +6,7 @@
 #
 library(rhandsontable)
 library(lubridate)
-library(reshape2)
+#library(reshape2)
 library(zoo)
 library(data.table)
 data("rqlib")

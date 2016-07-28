@@ -5,6 +5,7 @@ importFrom("Rcpp", "Rcpp.plugin.maker", "sourceCpp")
 importFrom("stats", "sd")
 importFrom("graphics", "par", "plot", "lines", "legend")
 importFrom("utils", "compareVersion")
+importFrom("zoo", "na.spline")
 
 useDynLib("RQuantLib")
 

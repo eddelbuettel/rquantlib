@@ -181,6 +181,10 @@ americanOptionImpliedVolatilityEngine <- function(type, value, underlying, strik
     .Call('RQuantLib_americanOptionImpliedVolatilityEngine', PACKAGE = 'RQuantLib', type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volguess, timesteps, gridpoints)
 }
 
+sabrengine <- function(rparam, legParams, dateVec, zeroVec, swaptionMat, swapLengths, atmVols, strikes, smirkVols) {
+    .Call('RQuantLib_sabrengine', PACKAGE = 'RQuantLib', rparam, legParams, dateVec, zeroVec, swaptionMat, swapLengths, atmVols, strikes, smirkVols)
+}
+
 CreateSchedule <- function(params) {
     .Call('RQuantLib_CreateSchedule', PACKAGE = 'RQuantLib', params)
 }

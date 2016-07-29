@@ -20,7 +20,7 @@ export(
     ##--bermudan.R
     "BermudanSwaption",
     "AffineSwaption",
-    "sabrengine",
+    #"sabrengine",
     "SabrSwaption",
     "summary.G2Analytic",
     "summary.HWAnalytic",

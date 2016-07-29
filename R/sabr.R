@@ -20,46 +20,46 @@
 ##  along with RQuantLib.  If not, see <http://www.gnu.org/licenses/>.
 
 SabrSwaption <- function(params,
-                           ts,volCubeDF, 
-                           legparams=list(dayCounter="Thirty360",
-                                          fixFreq="Annual",
-                                          floatFreq="Semiannual"),
-                                          tsUp01=NA,tsDn01=NA,vega=FALSE) {
+                         ts,volCubeDF, 
+                         legparams=list(dayCounter="Thirty360",
+                                        fixFreq="Annual",
+                                        floatFreq="Semiannual"),
+                         tsUp01=NA,tsDn01=NA,vega=FALSE) {
 
     UseMethod("SabrSwaption")
 }
 
 SabrSwaption.default <- function(params, 
-                                   ts,  volCubeDF, 
-                                   legparams=list(dayCounter="Thirty360",
-                                                  fixFreq="Annual",
-                                                  floatFreq="Semiannual"),
+                                 ts,  volCubeDF, 
+                                 legparams=list(dayCounter="Thirty360",
+                                                fixFreq="Annual",
+                                                floatFreq="Semiannual"),
                                  tsUp01=NA,tsDn01=NA,vega=FALSE) {
     # Check that params list names
 
-  if(is.null(params$startDate)){
-    params$startDate=advance("UnitedStates",params$tradeDate, 1, 3)
-    warning("swaption start date not set, defaulting to 1 year from trade date using US calendar")
-  }
-  if(is.null(params$expiryDate)){
-    params$expiryDate=params$startDate
-    warning("swaption expiry date not set, defaulting to 1 year from trade date using US calendar")
-  }
+    if(is.null(params$startDate)){
+        params$startDate=advance("UnitedStates",params$tradeDate, 1, 3)
+        warning("swaption start date not set, defaulting to 1 year from trade date using US calendar")
+    }
+    if(is.null(params$expiryDate)){
+        params$expiryDate=params$startDate
+        warning("swaption expiry date not set, defaulting to 1 year from trade date using US calendar")
+    }
     if(is.null(params$maturity)){
         params$maturity=advance("UnitedStates",params$startDate, 5, 3)
         warning("swaption maturity not set, defaulting to 5 years from startDate using US calendar")
     }
-  volCube=volDF2CubeK(params,volCubeDF)
-  if(vega){
-    volCubeDF$LogNormalVol=volCubeDF$LogNormalVol+.01
-    volCubeUp=volDF2CubeK(params,volCubeDF)
-  }
-  swapTenors=volCube$tenors
-  if (!is.list(params) || length(params) == 0) {
-    stop("The params parameter must be a non-empty list", call.=FALSE)
-  }
-  swaptionMaturities=volCube$expiries
-  #reshape dataframe to fit QL call
+    volCube=volDF2CubeK(params,volCubeDF)
+    if(vega){
+        volCubeDF$LogNormalVol=volCubeDF$LogNormalVol+.01
+        volCubeUp=volDF2CubeK(params,volCubeDF)
+    }
+    swapTenors=volCube$tenors
+    if (!is.list(params) || length(params) == 0) {
+        stop("The params parameter must be a non-empty list", call.=FALSE)
+    }
+    swaptionMaturities=volCube$expiries
+    ##reshape dataframe to fit QL call
     vc=volDF2CubeK(params,volCubeDF)
     matYears=as.numeric(params$maturity-params$tradeDate)/365
     expYears=as.numeric(params$expiryDate-params$tradeDate)/365
@@ -67,28 +67,28 @@ SabrSwaption.default <- function(params,
     if(class(ts)=="DiscountCurve"){
         matchlegs<-matchParams(legparams)
         val <- sabrengine(params, matchlegs, c(ts$table$date), ts$table$zeroRates,
-                                  volCube$expiries,volCube$tenors,volCube$atmVol,volCube$strikes,volCube$smirk) 
+                          volCube$expiries,volCube$tenors,volCube$atmVol,volCube$strikes,volCube$smirk) 
         if(vega){
-          valUp <- sabrengine(params, matchlegs, c(ts$table$date), ts$table$zeroRates,
-                            volCubeUp$expiries,volCubeUp$tenors,volCubeUp$atmVol,volCubeUp$strikes,volCubeUp$smirk)
+            valUp <- sabrengine(params, matchlegs, c(ts$table$date), ts$table$zeroRates,
+                                volCubeUp$expiries,volCubeUp$tenors,volCubeUp$atmVol,volCubeUp$strikes,volCubeUp$smirk)
 
-          val$payVega=valUp$pay-val$pay
-          val$rcvVega=valUp$rcv-val$rcv
-          if(anyNA(tsUp01)){
+            val$payVega=valUp$pay-val$pay
+            val$rcvVega=valUp$rcv-val$rcv
+            if(anyNA(tsUp01)){
             }else{
-            valTsUp <- sabrengine(params, matchlegs, c(tsUp01$table$date), tsUp01$table$zeroRates,
-                              volCube$expiries,volCube$tenors,volCube$atmVol,volCube$strikes,volCube$smirk) 
+                valTsUp <- sabrengine(params, matchlegs, c(tsUp01$table$date), tsUp01$table$zeroRates,
+                                      volCube$expiries,volCube$tenors,volCube$atmVol,volCube$strikes,volCube$smirk) 
 
-            val$payDV01=valTsUp$pay-val$pay
-            val$rcvDV01=valTsUp$rcv-val$rcv
-            if(anyNA(tsDn01)){
-            } else{
-              valTsDn <- sabrengine(params, matchlegs, c(tsDn01$table$date), tsDn01$table$zeroRates,
-                                    volCube$expiries,volCube$tenors,volCube$atmVol,volCube$strikes,volCube$smirk) 
-              val$payCnvx=(valTsUp$pay+valTsDn$pay-2*val$pay)/2
-              val$rcvCnvx=(valTsUp$rcv+valTsDn$rcv-2*val$rcv)/2
+                val$payDV01=valTsUp$pay-val$pay
+                val$rcvDV01=valTsUp$rcv-val$rcv
+                if(anyNA(tsDn01)){
+                } else{
+                    valTsDn <- sabrengine(params, matchlegs, c(tsDn01$table$date), tsDn01$table$zeroRates,
+                                          volCube$expiries,volCube$tenors,volCube$atmVol,volCube$strikes,volCube$smirk) 
+                    val$payCnvx=(valTsUp$pay+valTsDn$pay-2*val$pay)/2
+                    val$rcvCnvx=(valTsUp$rcv+valTsDn$rcv-2*val$rcv)/2
+                }
             }
-          }
         }
     } else{
         stop("DiscountCurve class term structure required", call.=FALSE)

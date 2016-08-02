@@ -14,8 +14,7 @@
   swap if {params$european} flag is set to {FALSE}.
 }
 \usage{
-SabrSwaption(params, ts, vcube,swaplegparams)
-}
+SabrSwaption(params, ts, volCubeDF, legparams = list(dayCounter = "Thirty360", fixFreq = "Annual", floatFreq = "Semiannual"), tsUp01 = NA, tsDn01 = NA, vega = FALSE)}
 \arguments{
   \item{params}{A list specifying the \code{tradeDate} (month/day/year),
     \code{settlementDate}, logical flags \code{payFixed} & \code{european}
@@ -36,9 +35,9 @@ SabrSwaption(params, ts, vcube,swaplegparams)
    fixed leg (default is Thirty360), and  \code{fixFreq}, fixed coupon frequecny (defualt is Annual), \code{floatFreq}, 
    floating leg reset frequency (default is Semiannual).
   }
-    \item{dv01Up=NA}{Discount for a user specied up move in rates.}
-    \item{dv01Dn=NA}{Discount for a user specied down move in rates.}
-    \item{vega=FALSE}{Discount for a user specied up move.}
+    \item{tsUp01}{Discount for a user specied up move in rates.}
+    \item{tsDn01}{Discount for a user specied down move in rates.}
+    \item{vega}{Discount for a user specied up move.}
  }
 \value{
   \code{SabrSwaption} returns a list containing the value of the payer and receiver swaptions at the strike. If 
@@ -79,7 +78,6 @@ SabrSwaption(params, ts, vcube,swaplegparams)
 
 \examples{
 
-# This data was generated to match the original quantlib example for Bermudan Swaption
 params <- list(tradeDate=as.Date('2016-2-15'),
                settleDate=as.Date('2016-2-17'),
                startDate=as.Date('2017-2-17'),

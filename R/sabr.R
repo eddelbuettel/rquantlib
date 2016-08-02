@@ -129,7 +129,7 @@ volDF2CubeK <- function(params,tbl){
   expLvl=expLvl[expiryIDX:length(expLvl)]
   expiries=expiries[expiryIDX:length(expiries)]
   tenorLvl=tenorLvl[tenorIDX:length(tenorLvl)]
-  tenors=tenors[tenorIDX:length(tenors)]
+  tenors=tenors[tenorIDX:length(tenors)] 
   tbl=tbl[tbl$Expiry%in%expLvl,]
   tbl=tbl[tbl$Tenor%in%tenorLvl,]
   tbl=tbl[tbl$Spread%in%strikes,]

@@ -43,8 +43,9 @@ tsUp01 = NA, tsDn01 = NA, vega = FALSE)}
     \item{vega}{Discount for a user specied up move.}
  }
 \value{
-  \code{SabrSwaption} returns a list containing the value of the payer and receiver swaptions at the strike. 
-  If  \item{NPV}{NPV of swaption in basis points (actual price
+  \code{SabrSwaption} returns a list containing the value of the payer and receiver swaptions at the 
+  strike specified in \code{params}. 
+  \item{NPV}{NPV of swaption in basis points (actual price
   equals \code{price} times notional divided by 10,000)}
   \item{strike}{swaption strike}
   \item{params}{Input parameter list}

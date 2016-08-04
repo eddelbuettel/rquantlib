@@ -136,19 +136,29 @@ volDF2CubeK <- function(params, tbl, source = "CME") {
     tbl <- tbl[tbl$Spread%in%strikes,]
     tbl <- tbl[with(tbl,order(Expiry,Tenor,Spread)),]
     tbl3 <- tbl[tbl$Spread==0,]
-    ## atm vol matrix
-    atmMat <- acast(tbl3,Expiry~Tenor,value.var = "LogNormalVol")
-    smirk <- matrix(ncol=length(strikes),nrow=length(expLvl)*length(tenorLvl))
-
-    tmp3 <- acast(tbl,Expiry~Tenor~Spread,value.var="LogNormalVol")
-    k <- 0
+    # atm vol matrix
+    #atmMat=acast(tbl3,Expiry~Tenor,value.var = "LogNormalVol")
+    atmMat=matrix(data=NA,nrow=length(expLvl),ncol=length(tenorLvl),dimnames=list(expLvl,tenorLvl))
     for(i in 1:length(expLvl)){
-        for(j in 1:length(tenorLvl)){
-            k <- k+1
-            smirk[k,1:length(strikes)] <- tmp3[i,j,]-tmp3[i,j,"0"]
-        }
+      for(j in 1:length(tenorLvl)){
+        atmMat[i,j]=tbl[tbl$Expiry==expLvl[i]& tbl$Tenor==tenorLvl[j] & tbl$Spread==0,]$LogNormalVol
+      }
     }
-  
+    smirk=matrix(ncol=length(strikes),nrow=length(expLvl)*length(tenorLvl))
+    
+    #tmp3=acast(tbl,Expiry~Tenor~Spread,value.var="LogNormalVol")
+    k=0
+    for(i in 1:length(expLvl)){
+      for(j in 1:length(tenorLvl)){
+        k=k+1
+        for(n in 1:length(strikes)){
+          #smirk[k,]=tmp3[i,j,]-tmp3[i,j,"0"]
+          smirk[k,n]=tbl[tbl$Expiry==expLvl[i]& tbl$Tenor==tenorLvl[j] & tbl$Spread==strikes[n],]$LogNormalVol -
+            tbl[tbl$Expiry==expLvl[i]& tbl$Tenor==tenorLvl[j] & tbl$Spread==0,]$LogNormalVol
+        }
+      }
+    }  
+    
   
     smirk <- na.spline(smirk,method="natural")
   

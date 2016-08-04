@@ -92,7 +92,6 @@ params <- list(tradeDate=as.Date('2016-2-15'),
                strike=.02,
                interpWhat="discount",
                interpHow="loglinear")
-data(rqlib)
 
 # Set leg paramters for generating discount curve
 dclegparams=list(dayCounter="Thirty360",
@@ -101,11 +100,14 @@ dclegparams=list(dayCounter="Thirty360",
 
 setEvaluationDate(as.Date("2016-2-16"))               
 times<-times <- seq(0,14.75,.25)
+
+data(tsQuotes)
 dcurve <- DiscountCurve(params, tsQuotes, times=times,dclegparams)
 
 # Price the Bermudan swaption
 swaplegparams=list(fixFreq="Semiannual",floatFreq="Quarterly")
 
+data(vcube)
 pricing <- SabrSwaption(params, dcurve,vcube,swaplegparams)
 pricing
 }

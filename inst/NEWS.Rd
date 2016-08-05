@@ -26,6 +26,8 @@
       swaption, but does not take rate market quotes to build a term
       structure and a DiscountCurve object is required (Terry Leitch in
       \ghpr{41} and \ghpr{43}).
+      \item New SABR swaption pricer (Terry Leitch in \ghpr{60} and
+      \ghpr{64}). 
       \item Swap tenors can now be defined up to 100 years (Terry Leitch
       in \ghpr{48} fising issue \ghit{46}).
       \item Additional (shorter term) swap tenors are now defined

@@ -1,3 +1,14 @@
+2016-08-04  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION: Roll minor version
+
+	* data/tsQuotes.RData: More explicit name and loading
+	* data/vcube.Rdata: Idem
+
+	* R/datasets.R: Dataset documentation
+	* man/tsQuotes.Rd: Idem
+	* man/vcube.Rdata: Idem
+
 2016-07-20  Terry Leitch  <tleitch1@jhu.edu>
 
 	* R/sabr.R: New function for SABR swaption model

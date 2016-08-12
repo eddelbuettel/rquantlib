@@ -1,6 +1,6 @@
 ## RQuantLib -- R interface to the QuantLib libraries
 ##
-## Copyright (C) 2002 - 2014  Dirk Eddelbuettel <edd@debian.org>
+## Copyright (C) 2002 - 2016  Dirk Eddelbuettel <edd@debian.org>
 ##
 ## This file is part of the RQuantLib library for GNU R.
 ## It is made available under the terms of the GNU General Public
@@ -38,10 +38,13 @@
         ## on Linux and OS X, see if we have quantlib-config which may well be
         ## false in the case of prebuild binary packages as eg r-cran-rquantlib
         ## on Debian / Ubuntu as well as the OS X package from CRAN
-        qc <- system("bash -c 'type -p quantlib-config'", ignore.stderr=TRUE, intern=TRUE)
-        if (is.character(qc) && nchar(qc) > 1) {
-            qlcflags <- system(paste(qc, "--cflags"), intern = TRUE)
-            qllibs   <- system(paste(qc, "--libs"),   intern = TRUE)
+        ## first we check whether we have quantlib-config in the path
+        if (isTRUE(unname(Sys.which("quantlib-config")) != "")) {
+            qc <- system("bash -c 'type -p quantlib-config'", ignore.stderr=TRUE, intern=TRUE)
+            if (is.character(qc) && nchar(qc) > 1) {
+                qlcflags <- system(paste(qc, "--cflags"), intern = TRUE)
+                qllibs   <- system(paste(qc, "--libs"),   intern = TRUE)
+            }
         }
     }
 

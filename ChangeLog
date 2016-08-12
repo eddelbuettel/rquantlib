@@ -1,3 +1,7 @@
+2016-08-12  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/inline.R (.onLoad): Check for quantlib-config before using it
+
 2016-08-04  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION: Roll minor version
@@ -8,6 +12,8 @@
 	* R/datasets.R: Dataset documentation
 	* man/tsQuotes.Rd: Idem
 	* man/vcube.Rdata: Idem
+
+	* .travis.yml: Switch to using run.sh for Travis CI
 
 2016-07-20  Terry Leitch  <tleitch1@jhu.edu>
 

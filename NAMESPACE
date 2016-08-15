@@ -26,6 +26,8 @@ export(
     "summary.HWAnalytic",
     "summary.HWTree",
     "summary.BKTree",
+    ##--swap.R
+    "Swap",
     ##--bond.R
     "ZeroCouponBond",
     "ZeroPriceByYield",

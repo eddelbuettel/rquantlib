@@ -27,7 +27,7 @@
       swaption, but does not take rate market quotes to build a term
       structure and a DiscountCurve object is required (Terry Leitch in
       \ghpr{43}).
-g      \item Swap tenors can now be defined up to 100 years (Terry Leitch
+      \item Swap tenors can now be defined up to 100 years (Terry Leitch
       in \ghpr{48} fising issue \ghit{46}).
       \item Additional (shorter term) swap tenors are now defined
       (Guillaume Horel in \ghpr{49}, \ghpr{54}, \ghpr{55}).

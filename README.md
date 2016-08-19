@@ -22,7 +22,7 @@ extended. Contributions are welcome, and initial discussions via
 
 ### Authors
 
-Dirk Eddelbuettel and Khanh Nguyen (during 2009-2010)
+Dirk Eddelbuettel, Khanh Nguyen (during 2009-2010) and Terry Leitch (since 2016)
 
 ### License
 

@@ -3,13 +3,14 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rquantlib/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rquantlib/issues/#1}{##1}}
 
-\section{Changes in RQuantLib version 0.4.3 (2016-06-30)}{
+\section{Changes in RQuantLib version 0.4.3 (2016-08-19)}{
   \itemize{
     \item Changes in RQuantLib code:
     \itemize{
       \item Discount curve creation has been made more general by
       allowing additional arguments for day counter and fixed and
-      floating frequency (contributed by Terry Leitch in \ghpr{31})
+      floating frequency (contributed by Terry Leitch in \ghpr{31},
+      plus some work by Dirk in \ghpr{32}).
       \item Swap leg parameters are now in combined variable and allow
       textual description (Terry Leitch in \ghpr{34} and \ghpr{35})
       \item BermudanSwaption has been modfied to take option expiration
@@ -25,13 +26,15 @@
       BermudanSwaption. AffineSwaption will also value a Bermudan
       swaption, but does not take rate market quotes to build a term
       structure and a DiscountCurve object is required (Terry Leitch in
-      \ghpr{41} and \ghpr{43}).
-      \item New SABR swaption pricer (Terry Leitch in \ghpr{60} and
-      \ghpr{64}). 
-      \item Swap tenors can now be defined up to 100 years (Terry Leitch
+      \ghpr{43}).
+g      \item Swap tenors can now be defined up to 100 years (Terry Leitch
       in \ghpr{48} fising issue \ghit{46}).
       \item Additional (shorter term) swap tenors are now defined
-      (Guillaume Horel in \ghpr{49}).
+      (Guillaume Horel in \ghpr{49}, \ghpr{54}, \ghpr{55}).
+      \item New SABR swaption pricer (Terry Leitch in \ghpr{60} and
+      \ghpr{64}, small follow-up by Dirk in \ghpr{65}).
+      \item Use of Travis CI has been updated and switch to maintained
+      fork of deprecated mainline.
     }
   }
 }

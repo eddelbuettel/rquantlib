@@ -18,7 +18,9 @@ financial assets.
 
 The package is actively maintained, and is still being
 extended. Contributions are welcome, and initial discussions via
-[GitHub issue tickets](https://github.com/eddelbuettel/rquantlib/issues) are encouraged.
+[GitHub issue tickets](https://github.com/eddelbuettel/rquantlib/issues)
+are encouraged as suggested in the
+[Contributing guide](https://github.com/eddelbuettel/rquantlib/blob/master/Contributing.md).
 
 ### Installation 
 

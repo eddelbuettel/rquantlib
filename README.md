@@ -20,6 +20,26 @@ The package is actively maintained, and is still being
 extended. Contributions are welcome, and initial discussions via
 [GitHub issue tickets](https://github.com/eddelbuettel/rquantlib/issues) are encouraged.
 
+### Installation 
+
+#### From Source
+
+The package is on [CRAN](https://cran.r-project.org) and can be installed _from source_ as usual:
+
+```{r}
+R> install.packages(RQuantLib)
+```
+
+#### Windows Binaries
+
+Starting with release 0.4.3, binaries are provided via the [ghrr drat repo](http://ghrr.github.io/drat)
+and be installed as
+
+```{r}
+R> drat::addRepo("ghrr")       #  maybe use 'install.package("drat")' first 
+R> install.packages(RQuantLib)
+```
+
 ### Authors
 
 Dirk Eddelbuettel, Khanh Nguyen (during 2009-2010) and Terry Leitch (since 2016)

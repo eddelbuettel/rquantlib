@@ -8,7 +8,7 @@
 AC_PREREQ(2.50)
 
 # Process this file with autoconf to produce a configure script.
-AC_INIT(RQuantlib, 0.4.2)
+AC_INIT(RQuantlib, 0.4.3)
 
 # We are using C++
 AC_LANG(C++)

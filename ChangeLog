@@ -1,3 +1,14 @@
+2016-08-19  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version): Release 0.4.3
+
+	* DESCRIPTION (OS_type): Set to 'OS_type: unix' as CRAN has not
+	installed an updated QuantLib library despite repeated emailed offers
+	offer several months.  A Windows binary will be provided.
+
+	* configure.ac: Mark as 0.4.3
+	* configure: Rebuilt
+
 2016-08-12  Dirk Eddelbuettel  <edd@debian.org>
 
 	* R/inline.R (.onLoad): Check for quantlib-config before using it

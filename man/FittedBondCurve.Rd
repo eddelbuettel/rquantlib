@@ -71,6 +71,6 @@ dateparams <- list(settlementDays=0, period="Annual",
 curveparams <- list(method="ExponentialSplinesFitting", 
                     origDate = Sys.Date())
 curve <- FittedBondCurve(curveparams, lengths, coupons, marketQuotes, dateparams)
-z <- zoo(curve$table$zeroRates, order.by=curve$table$date)
+z <- zoo::zoo(curve$table$zeroRates, order.by=curve$table$date)
 plot(z)
 }

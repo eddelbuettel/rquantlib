@@ -1,3 +1,13 @@
+2016-08-21  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION(Version): Rolled minor version to 0.4.3.1
+
+	* configure.ac: Require at least QuantLib 1.8
+	* configire: Rebuilt
+
+	* NAMESPACE: Also import zoo from zoo
+	* man/FittedBondCurve.Rd: No longer need to test for (imported) zoo
+
 2016-08-19  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version): Release 0.4.3

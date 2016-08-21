@@ -1,5 +1,5 @@
 \name{NEWS}
-\title{News for Package 'RQuantLib'}
+\title{News for Package \pkg{RQuantLib}}
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rquantlib/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rquantlib/issues/#1}{##1}}
 

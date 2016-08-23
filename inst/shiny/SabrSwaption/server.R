@@ -9,8 +9,12 @@ library(lubridate)
 library(reshape2)
 library(zoo)
 library(data.table)
-data("rqlib")
+data(vcube)
+data(tsQuotes)
 library(shiny)
+
+assignInNamespace("volDF2CubeK",source("volDF2CubeK.R"),"RQuantLib")
+
 # tsQuotes <- list(
 #   d1w  =0.004,
 #   d1y=.0091,

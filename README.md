@@ -39,7 +39,7 @@ and can be installed as
 
 ```{r}
 R> drat::addRepo("ghrr")       #  maybe use 'install.package("drat")' first 
-R> install.packages(RQuantLib)
+R> install.packages(RQuantLib, type="binary")
 ```
 
 ### Authors

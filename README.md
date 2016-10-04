@@ -35,7 +35,7 @@ R> install.packages(RQuantLib)
 #### Windows Binaries
 
 Starting with release 0.4.3, binaries are provided via the [ghrr drat repo](http://ghrr.github.io/drat)
-and be installed as
+and can be installed as
 
 ```{r}
 R> drat::addRepo("ghrr")       #  maybe use 'install.package("drat")' first 

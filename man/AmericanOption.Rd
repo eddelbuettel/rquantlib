@@ -10,7 +10,8 @@ derivatives ("Greeks") are returned.}
 \usage{
 \method{AmericanOption}{default}(type, underlying, strike,
 		dividendYield, riskFreeRate, maturity, volatility, 
-		timeSteps=150, gridPoints=149, engine="BaroneAdesiWhaley")
+		timeSteps=150, gridPoints=149, engine="BaroneAdesiWhaley", 
+		discreteDividends, discreteDividendsTimeUntil)
 }
 \arguments{
   \item{type}{A string with one of the values \code{call} or \code{put}}
@@ -26,6 +27,9 @@ derivatives ("Greeks") are returned.}
     default value is 149}
   \item{engine}{String selecting pricing engine, currently supported are
     \dQuote{BaroneAdesiWhaley} and \dQuote{CrankNicolson}}
+  \item{discreteDividends}{Vector of discrete dividends (optional)}
+  \item{discreteDividendsTimeUntil}{Vector of times to discrete dividends 
+    (in fractional years, optional)}
 }
 \value{
   An object of class \code{AmericanOption} (which inherits from class
@@ -48,6 +52,9 @@ derivatives ("Greeks") are returned.}
   \dQuote{CrankNicolson} is selected, then at least delta, gamma and
   vega are available. With the default pricing engine of
   \dQuote{BaroneAdesiWhaley}, no greeks are returned.
+  
+  The \dQuote{CrankNicolson} engine needs to be used when setting
+  discrete dividends.
 }
 \details{
   The Finite Differences method is used to value the American Option.

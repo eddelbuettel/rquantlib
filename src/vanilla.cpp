@@ -30,7 +30,9 @@ Rcpp::List europeanOptionEngine(std::string type,
                                 double dividendYield,
                                 double riskFreeRate,
                                 double maturity,
-                                double volatility) {
+                                double volatility,
+                                std::vector<double> discreteDividends,
+                                std::vector<double> discreteDividendsTimeUntil) {
 
 #ifdef QL_HIGH_RESOLUTION_DATE    
     // in minutes
@@ -52,24 +54,72 @@ Rcpp::List europeanOptionEngine(std::string type,
     boost::shared_ptr<QuantLib::YieldTermStructure> qTS = flatRate(today, qRate, dc);
     boost::shared_ptr<QuantLib::SimpleQuote> rRate(new QuantLib::SimpleQuote( riskFreeRate ));
     boost::shared_ptr<QuantLib::YieldTermStructure> rTS = flatRate(today, rRate, dc);
+    
+    int n = discreteDividendsTimeUntil.size();
+    std::vector<QuantLib::Date> discreteDividendDates;
 
 #ifdef QL_HIGH_RESOLUTION_DATE
     QuantLib::Date exDate(today.dateTime() + length);
+    
+    if(discreteDividends[0] != 0) {
+        std::vector<boost::posix_time::time_duration> discreteDividendLengths;
+        for (int i = 0; i < n; i++) {
+            discreteDividendLengths.push_back(boost::posix_time::minutes(discreteDividendsTimeUntil[i] * 360 * 24 * 60));
+            discreteDividendDates.push_back(today.dateTime() + discreteDividendLengths[i]);
+        }
+    }
 #else
     QuantLib::Date exDate = today + length;
+    
+    if(discreteDividends[0] != 0) {
+        std::vector<int> discreteDividendLengths;
+        for (int i = 0; i < n; i++) {
+            discreteDividendLengths.push_back(int(discreteDividendsTimeUntil[i] * 360 + 0.5));
+            discreteDividendDates.push_back(today + discreteDividendLengths[i]); 
+        }
+    }
 #endif    
     boost::shared_ptr<QuantLib::Exercise> exercise(new QuantLib::EuropeanExercise(exDate));
-	
-    boost::shared_ptr<QuantLib::StrikedTypePayoff> payoff(new QuantLib::PlainVanillaPayoff(optionType, strike));
-    boost::shared_ptr<QuantLib::VanillaOption> option = makeOption(payoff, exercise, spot, qTS, rTS, volTS);
 
-    return Rcpp::List::create(Rcpp::Named("value") = option->NPV(),
-                              Rcpp::Named("delta") = option->delta(),
-                              Rcpp::Named("gamma") = option->gamma(),
-                              Rcpp::Named("vega") = option->vega(),
-                              Rcpp::Named("theta") = option->theta(),
-                              Rcpp::Named("rho") = option->rho(),
-                              Rcpp::Named("divRho") = option->dividendRho());
+    boost::shared_ptr<QuantLib::StrikedTypePayoff> payoff(new QuantLib::PlainVanillaPayoff(optionType, strike));
+    
+    if(discreteDividends[0] != 0) { 
+        boost::shared_ptr<QuantLib::BlackScholesMertonProcess> 
+            stochProcess(new QuantLib::BlackScholesMertonProcess(QuantLib::Handle<QuantLib::Quote>(spot),
+                                                                 QuantLib::Handle<QuantLib::YieldTermStructure>(qTS),
+                                                                 QuantLib::Handle<QuantLib::YieldTermStructure>(rTS),
+                                                                 QuantLib::Handle<QuantLib::BlackVolTermStructure>(volTS)));
+        
+        boost::shared_ptr<QuantLib::PricingEngine> engine(
+                new QuantLib::AnalyticDividendEuropeanEngine(stochProcess));
+        
+        
+        QuantLib::DividendVanillaOption option(payoff, exercise,
+                                               discreteDividendDates, discreteDividends);
+        option.setPricingEngine(engine);
+        
+        return Rcpp::List::create(Rcpp::Named("value") = option.NPV(),
+                                  Rcpp::Named("delta") = option.delta(),
+                                  Rcpp::Named("gamma") = option.gamma(),
+                                  Rcpp::Named("vega") = option.vega(),
+                                  Rcpp::Named("theta") = option.theta(),
+                                  Rcpp::Named("rho") = option.rho(),
+                                  Rcpp::Named("divRho") = R_NaReal);
+    }
+    else {
+        boost::shared_ptr<QuantLib::VanillaOption> option = makeOption(payoff, exercise, spot, qTS, rTS, volTS);
+        
+        return Rcpp::List::create(Rcpp::Named("value") = option->NPV(),
+                                  Rcpp::Named("delta") = option->delta(),
+                                  Rcpp::Named("gamma") = option->gamma(),
+                                  Rcpp::Named("vega") = option->vega(),
+                                  Rcpp::Named("theta") = option->theta(),
+                                  Rcpp::Named("rho") = option->rho(),
+                                  Rcpp::Named("divRho") = option->dividendRho());
+    }
+    
+
+    
 }
 
 // [[Rcpp::export]]
@@ -82,13 +132,18 @@ Rcpp::List americanOptionEngine(std::string type,
                                 double volatility,
                                 int timeSteps,
                                 int gridPoints,
-                                std::string engine) {
+                                std::string engine,
+                                std::vector<double> discreteDividends,
+                                std::vector<double> discreteDividendsTimeUntil) {
+    
+    
 
 #ifdef QL_HIGH_RESOLUTION_DATE    
     // in minutes
     boost::posix_time::time_duration length = boost::posix_time::minutes(maturity * 360 * 24 * 60); 
 #else
-    int length           = int(maturity*360 + 0.5); // FIXME: this could be better
+    int length = int(maturity * 360 + 0.5); // FIXME: this could be better
+    
 #endif
     QuantLib::Option::Type optionType = getOptionType(type);
 
@@ -107,12 +162,32 @@ Rcpp::List americanOptionEngine(std::string type,
     
     boost::shared_ptr<QuantLib::StrikedTypePayoff> payoff(new QuantLib::PlainVanillaPayoff(optionType, strike));
 
+    int n = discreteDividendsTimeUntil.size();
+    std::vector<QuantLib::Date> discreteDividendDates;
+    
 #ifdef QL_HIGH_RESOLUTION_DATE
     QuantLib::Date exDate(today.dateTime() + length);
+    
+    if(discreteDividends[0] != 0) {
+        std::vector<boost::posix_time::time_duration> discreteDividendLengths;
+        for (int i = 0; i < n; i++) {
+            discreteDividendLengths.push_back(boost::posix_time::minutes(discreteDividendsTimeUntil[i] * 360 * 24 * 60));
+            discreteDividendDates.push_back(today.dateTime() + discreteDividendLengths[i]);
+        }
+    }
 #else
     QuantLib::Date exDate = today + length;
+    
+    if(discreteDividends[0] != 0) {
+        std::vector<int> discreteDividendLengths;
+        for (int i = 0; i < n; i++) {
+            discreteDividendLengths.push_back(int(discreteDividendsTimeUntil[i] * 360 + 0.5));
+            discreteDividendDates.push_back(today + discreteDividendLengths[i]); 
+        }
+    }
 #endif    
     boost::shared_ptr<QuantLib::Exercise> exercise(new QuantLib::AmericanExercise(today, exDate));
+    
 
     boost::shared_ptr<QuantLib::BlackScholesMertonProcess> 
         stochProcess(new QuantLib::BlackScholesMertonProcess(QuantLib::Handle<QuantLib::Quote>(spot),
@@ -120,33 +195,62 @@ Rcpp::List americanOptionEngine(std::string type,
                                                              QuantLib::Handle<QuantLib::YieldTermStructure>(rTS),
                                                              QuantLib::Handle<QuantLib::BlackVolTermStructure>(volTS)));
 
-    QuantLib::VanillaOption option(payoff, exercise);
-    if (engine=="BaroneAdesiWhaley") {
-        // new from 0.3.7 BaroneAdesiWhaley
-        boost::shared_ptr<QuantLib::PricingEngine> engine(new QuantLib::BaroneAdesiWhaleyApproximationEngine(stochProcess));
-        option.setPricingEngine(engine);
-        return Rcpp::List::create(Rcpp::Named("value") = option.NPV(),
-                                  Rcpp::Named("delta") = R_NaReal,
-                                  Rcpp::Named("gamma") = R_NaReal,
-                                  Rcpp::Named("vega") = R_NaReal,
-                                  Rcpp::Named("theta") = R_NaReal,
-                                  Rcpp::Named("rho") = R_NaReal,
-                                  Rcpp::Named("divRho") = R_NaReal);
-    } else if (engine=="CrankNicolson") {
-        // suggestion by Bryan Lewis: use CrankNicolson for greeks
-        boost::shared_ptr<QuantLib::PricingEngine> 
-            fdcnengine(new QuantLib::FDAmericanEngine<QuantLib::CrankNicolson>(stochProcess, timeSteps, gridPoints));
-        option.setPricingEngine(fdcnengine);
-        return Rcpp::List::create(Rcpp::Named("value") = option.NPV(),
-                                  Rcpp::Named("delta") = option.delta(),
-                                  Rcpp::Named("gamma") = option.gamma(),
-                                  Rcpp::Named("vega") = R_NaReal,
-                                  Rcpp::Named("theta") = R_NaReal,
-                                  Rcpp::Named("rho") = R_NaReal,
-                                  Rcpp::Named("divRho") = R_NaReal);
+    if(discreteDividends[0] != 0) { 
+        QuantLib::DividendVanillaOption option(payoff, exercise,
+                                               discreteDividendDates, discreteDividends);
+        if (engine=="BaroneAdesiWhaley") { 
+            Rf_warning("Discrete dividends, engine switched to CrankNicolson");
+            engine = "CrankNicolson";
+        }
+        
+        if (engine=="CrankNicolson") { // FDDividendAmericanEngine only works with CrankNicolson
+            // suggestion by Bryan Lewis: use CrankNicolson for greeks
+            boost::shared_ptr<QuantLib::PricingEngine> 
+            fdcnengine(new QuantLib::FDDividendAmericanEngine<QuantLib::CrankNicolson>(stochProcess, timeSteps, gridPoints));
+            option.setPricingEngine(fdcnengine);
+            return Rcpp::List::create(Rcpp::Named("value") = option.NPV(),
+                                      Rcpp::Named("delta") = option.delta(),
+                                      Rcpp::Named("gamma") = option.gamma(),
+                                      Rcpp::Named("vega") = R_NaReal,
+                                      Rcpp::Named("theta") = R_NaReal,
+                                      Rcpp::Named("rho") = R_NaReal,
+                                      Rcpp::Named("divRho") = R_NaReal);
+        } else {
+            throw std::range_error("Unknown engine " + engine);
+        }
     } else {
-        throw std::range_error("Unknown engine " + engine);
+        QuantLib::VanillaOption option(payoff, exercise);
+        
+        if (engine=="BaroneAdesiWhaley") {
+            // new from 0.3.7 BaroneAdesiWhaley
+            
+            boost::shared_ptr<QuantLib::PricingEngine> engine(new QuantLib::BaroneAdesiWhaleyApproximationEngine(stochProcess));
+            option.setPricingEngine(engine);
+            return Rcpp::List::create(Rcpp::Named("value") = option.NPV(),
+                                      Rcpp::Named("delta") = R_NaReal,
+                                      Rcpp::Named("gamma") = R_NaReal,
+                                      Rcpp::Named("vega") = R_NaReal,
+                                      Rcpp::Named("theta") = R_NaReal,
+                                      Rcpp::Named("rho") = R_NaReal,
+                                      Rcpp::Named("divRho") = R_NaReal);
+        } else if (engine=="CrankNicolson") {
+            // suggestion by Bryan Lewis: use CrankNicolson for greeks
+            boost::shared_ptr<QuantLib::PricingEngine> 
+            fdcnengine(new QuantLib::FDAmericanEngine<QuantLib::CrankNicolson>(stochProcess, timeSteps, gridPoints));
+            option.setPricingEngine(fdcnengine);
+            return Rcpp::List::create(Rcpp::Named("value") = option.NPV(),
+                                      Rcpp::Named("delta") = option.delta(),
+                                      Rcpp::Named("gamma") = option.gamma(),
+                                      Rcpp::Named("vega") = R_NaReal,
+                                      Rcpp::Named("theta") = R_NaReal,
+                                      Rcpp::Named("rho") = R_NaReal,
+                                      Rcpp::Named("divRho") = R_NaReal);
+        } else {
+            throw std::range_error("Unknown engine " + engine);
+        }
     }
+    
+    
 }
 
 // [[Rcpp::export]]
@@ -190,7 +294,7 @@ Rcpp::List europeanOptionArraysEngine(std::string type, Rcpp::NumericMatrix par)
     QuantLib::Date exDate = today + length;
 #endif    
         boost::shared_ptr<QuantLib::Exercise> exercise(new QuantLib::EuropeanExercise(exDate));
-	
+        
         boost::shared_ptr<QuantLib::StrikedTypePayoff> payoff(new QuantLib::PlainVanillaPayoff(optionType, strike));
         boost::shared_ptr<QuantLib::VanillaOption> option = makeOption(payoff, exercise, spot, qTS, rTS, volTS);
         

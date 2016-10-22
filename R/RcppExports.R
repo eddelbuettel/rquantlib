@@ -216,12 +216,12 @@ getQuantLibCapabilities <- function() {
     .Call('RQuantLib_getQuantLibCapabilities', PACKAGE = 'RQuantLib')
 }
 
-europeanOptionEngine <- function(type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility) {
-    .Call('RQuantLib_europeanOptionEngine', PACKAGE = 'RQuantLib', type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility)
+europeanOptionEngine <- function(type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, discreteDividends, discreteDividendsTimeUntil) {
+    .Call('RQuantLib_europeanOptionEngine', PACKAGE = 'RQuantLib', type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, discreteDividends, discreteDividendsTimeUntil)
 }
 
-americanOptionEngine <- function(type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, timeSteps, gridPoints, engine) {
-    .Call('RQuantLib_americanOptionEngine', PACKAGE = 'RQuantLib', type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, timeSteps, gridPoints, engine)
+americanOptionEngine <- function(type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, timeSteps, gridPoints, engine, discreteDividends, discreteDividendsTimeUntil) {
+    .Call('RQuantLib_americanOptionEngine', PACKAGE = 'RQuantLib', type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, timeSteps, gridPoints, engine, discreteDividends, discreteDividendsTimeUntil)
 }
 
 europeanOptionArraysEngine <- function(type, par) {

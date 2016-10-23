@@ -63,13 +63,14 @@ volMatrix)
   If there are insufficient swaption vols to calibrate it throws a warning and returns {NULL}
 }
 \details{
-  This function is based on \code{QuantLib} Version 1.7.1 It
+  This function was update for \code{QuantLib} Version 1.7.1 or later. It
   introduces support for fixed-income instruments in \code{RQuantLib}. It implements the
   full function and should work in most cases as long as there are suuficient swaption vol 
   data points to fit the affine model. At least 5 unique points are required. The data point 
   search attempts to find 5 or more points with one being the closet match in terms in of
   expiration and maturity.
-  
+
+  See the \code{\link{SabrSwaption}} function for an alternative.
 }
 \references{
   Brigo, D. and Mercurio, F. (2001) \emph{Interest Rate Models: Theory and
@@ -83,7 +84,7 @@ volMatrix)
 }
 \author{Dominick Samperi}
 
-\seealso{\code{\link{DiscountCurve}}}
+\seealso{\code{\link{DiscountCurve}}, \code{\link{SabrSwaption}}}}
 
 \examples{
 

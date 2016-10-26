@@ -60,18 +60,19 @@ Rcpp::List europeanOptionEngine(std::string type,
 
 #ifdef QL_HIGH_RESOLUTION_DATE
     QuantLib::Date exDate(today.dateTime() + length);
-    
+
     if(discreteDividends[0] != 0) {
-        std::vector<boost::posix_time::time_duration> discreteDividendLengths(n);
+        boost::posix_time::time_duration discreteDividendLength;        
         for (int i = 0; i < n; i++) {
-            discreteDividendDates[i] = today.dateTime() + boost::posix_time::minutes(discreteDividendsTimeUntil[i] * 360 * 24 * 60);
+            discreteDividendLength = boost::posix_time::minutes(discreteDividendsTimeUntil[i] * 360 * 24 * 60);
+            QuantLib::Date dt(today.dateTime() + discreteDividendLength);
+            discreteDividendDates.push_back(dt);
         }
     }
 #else
     QuantLib::Date exDate = today + length;
     
     if(discreteDividends[0] != 0) {
-        std::vector<int> discreteDividendLengths(n);
         for (int i = 0; i < n; i++) {
             discreteDividendDates[i] = today + int(discreteDividendsTimeUntil[i] * 360 + 0.5); 
         }
@@ -165,12 +166,13 @@ Rcpp::List americanOptionEngine(std::string type,
     
 #ifdef QL_HIGH_RESOLUTION_DATE
     QuantLib::Date exDate(today.dateTime() + length);
-    
+
     if(discreteDividends[0] != 0) {
-        std::vector<boost::posix_time::time_duration> discreteDividendLengths;
+        boost::posix_time::time_duration discreteDividendLength;
         for (int i = 0; i < n; i++) {
-            discreteDividendLengths.push_back(boost::posix_time::minutes(discreteDividendsTimeUntil[i] * 360 * 24 * 60));
-            discreteDividendDates.push_back(today.dateTime() + discreteDividendLengths[i]);
+            discreteDividendLength = boost::posix_time::minutes(discreteDividendsTimeUntil[i] * 360 * 24 * 60);
+            QuantLib::Date dt(today.dateTime() + discreteDividendLength);
+            discreteDividendDates.push_back(dt);
         }
     }
 #else

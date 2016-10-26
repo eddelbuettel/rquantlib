@@ -18,15 +18,18 @@
 ##  along with RQuantLib.  If not, see <http://www.gnu.org/licenses/>.
 
 EuropeanOption <- function(type, underlying, strike, dividendYield,
-                           riskFreeRate, maturity, volatility) {
+                           riskFreeRate, maturity, volatility,
+                           discreteDividends = c(0), discreteDividendsTimeUntil = c(0)) {
     UseMethod("EuropeanOption")
 }
 
 EuropeanOption.default <- function(type, underlying, strike, dividendYield,
-                                   riskFreeRate, maturity, volatility) {
+                                   riskFreeRate, maturity, volatility,
+                                   discreteDividends = c(0), discreteDividendsTimeUntil = c(0)) {
     type <- match.arg(type, c("call", "put"))
     val <- europeanOptionEngine(type, underlying, strike, dividendYield,
-                                riskFreeRate, maturity, volatility)
+                                riskFreeRate, maturity, volatility,
+                                discreteDividends, discreteDividendsTimeUntil)
     class(val) <- c("EuropeanOption", "Option")
     val
 }
@@ -34,19 +37,22 @@ EuropeanOption.default <- function(type, underlying, strike, dividendYield,
 AmericanOption <- function(type, underlying, strike, dividendYield,
                            riskFreeRate, maturity, volatility,
                            timeSteps=150, gridPoints=149,
-                           engine="BaroneAdesiWhaley") {
+                           engine="BaroneAdesiWhaley",
+                           discreteDividends = c(0), discreteDividendsTimeUntil = c(0)) {
     UseMethod("AmericanOption")
 }
 
 AmericanOption.default <- function(type, underlying, strike, dividendYield,
                                    riskFreeRate, maturity, volatility,
                                    timeSteps=150, gridPoints=149,
-                                   engine="BaroneAdesiWhaley") {
+                                   engine="BaroneAdesiWhaley",
+                                   discreteDividends = c(0), discreteDividendsTimeUntil = c(0)) {
     type <- match.arg(type, c("call", "put"))
     engine <- match.arg(engine, c("BaroneAdesiWhaley", "CrankNicolson"))
     val <- americanOptionEngine(type, underlying, strike, dividendYield,
                                 riskFreeRate, maturity, volatility,
-                                timeSteps, gridPoints, engine)
+                                timeSteps, gridPoints, engine,
+                                discreteDividends, discreteDividendsTimeUntil)
     class(val) <- c("AmericanOption","Option")
     val
 }

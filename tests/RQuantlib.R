@@ -44,6 +44,22 @@ print(AmericanOption("call", underlying=90, strike=100, div=0.1, riskFree=0.1,
                      maturity=0.1, vol=0.25), digits=5)
 
 
+# Discrete dividend
+## europeanoption.cpp:  call value ==  3.67
+## Reference pg. 253 - Hull 5th ed Exercise 12.8 - From QuantLib tests
+print(EuropeanOption("call", underlying=40, strike=40, div=0, riskFree=0.09,
+                     maturity=0.5, vol=0.3,
+                     discreteDividends = c(0.5, 0.5),
+                     discreteDividendsTimeUntil = c(2/12, 5/12)), digits=5)
+
+## americanoption.cpp:  call value == 3.72 (Hull) -- we show 3.75
+## Reference p. 256 - Hull 5th ed. Exercise 12.9 using (flawed) Roll, Geske, Whaley formula
+print(AmericanOption("call", underlying=40, strike=40, div=0, riskFree=0.09,
+                     maturity=0.5, vol=0.3,
+                     engine = "CrankNicolson",
+                     discreteDividends = c(0.5, 0.5),
+                     discreteDividendsTimeUntil = c(2/12, 5/12)), digits=5)
+
 ## barrier: down and out call == 9.0246
 print(BarrierOption("downout", barrier=95, rebate=3, type="call",
                     strike=90, underlying=100, div=0.04, riskF=0.08,

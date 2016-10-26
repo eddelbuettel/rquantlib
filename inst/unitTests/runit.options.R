@@ -253,3 +253,15 @@ test.european.Haug <- function() {
     checkEquals(EO(type="put",  strike=100.00, underl=110.00, div= 0.10, riskF=0.10, mat=0.50, vol=0.35)$value,  5.7963, tol=1.0e-3)
     checkEquals(EO(type="call", strike=40.00,  underl=42.00,  div= 0.08, riskF=0.04, mat=0.75, vol=0.35)$value,  5.0975, tol=1.0e-3)
 }
+
+## European and American option tests with discrete dividends based on Hull's book
+test.discreteDividend.Hull <- function() {
+    AO <- AmericanOption                # shorthand
+    EO <- EuropeanOption                # shorthand
+    ## Reference p. 253 - Hull 5th ed. Exercise 12.8 - From QuantLib tests
+    checkEquals(EO(type="call", underlying=40, strike=40, div=0, riskFree=0.09, maturity=0.5, vol=0.3,
+                   discreteDividends = c(0.5, 0.5), discreteDividendsTimeUntil = c(2/12, 5/12))$value, 3.67, tol=1.0e-2)
+    ## Reference p. 256 - Hull 5th ed. Exercise 12.9 using (flawed) Roll, Geske and Whaley formula
+    checkEquals(AO(type="call", underlying=40, strike=40, div=0, riskFree=0.09, maturity=0.5, vol=0.3, engine = "CrankNicolson",
+                   discreteDividends = c(0.5, 0.5), discreteDividendsTimeUntil = c(2/12, 5/12))$value, 3.72, tol=1.0e-1)
+}

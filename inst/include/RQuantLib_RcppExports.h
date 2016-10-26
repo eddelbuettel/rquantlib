@@ -537,17 +537,17 @@ namespace RQuantLib {
         return Rcpp::as<Rcpp::LogicalVector >(__result);
     }
 
-    inline Rcpp::List europeanOptionEngine(std::string type, double underlying, double strike, double dividendYield, double riskFreeRate, double maturity, double volatility) {
-        typedef SEXP(*Ptr_europeanOptionEngine)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
+    inline Rcpp::List europeanOptionEngine(std::string type, double underlying, double strike, double dividendYield, double riskFreeRate, double maturity, double volatility, std::vector<double> discreteDividends, std::vector<double> discreteDividendsTimeUntil) {
+        typedef SEXP(*Ptr_europeanOptionEngine)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_europeanOptionEngine p_europeanOptionEngine = NULL;
         if (p_europeanOptionEngine == NULL) {
-            validateSignature("Rcpp::List(*europeanOptionEngine)(std::string,double,double,double,double,double,double)");
+            validateSignature("Rcpp::List(*europeanOptionEngine)(std::string,double,double,double,double,double,double,std::vector<double>,std::vector<double>)");
             p_europeanOptionEngine = (Ptr_europeanOptionEngine)R_GetCCallable("RQuantLib", "RQuantLib_europeanOptionEngine");
         }
         RObject __result;
         {
             RNGScope __rngScope;
-            __result = p_europeanOptionEngine(Rcpp::wrap(type), Rcpp::wrap(underlying), Rcpp::wrap(strike), Rcpp::wrap(dividendYield), Rcpp::wrap(riskFreeRate), Rcpp::wrap(maturity), Rcpp::wrap(volatility));
+            __result = p_europeanOptionEngine(Rcpp::wrap(type), Rcpp::wrap(underlying), Rcpp::wrap(strike), Rcpp::wrap(dividendYield), Rcpp::wrap(riskFreeRate), Rcpp::wrap(maturity), Rcpp::wrap(volatility), Rcpp::wrap(discreteDividends), Rcpp::wrap(discreteDividendsTimeUntil));
         }
         if (__result.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -556,17 +556,17 @@ namespace RQuantLib {
         return Rcpp::as<Rcpp::List >(__result);
     }
 
-    inline Rcpp::List americanOptionEngine(std::string type, double underlying, double strike, double dividendYield, double riskFreeRate, double maturity, double volatility, int timeSteps, int gridPoints, std::string engine) {
-        typedef SEXP(*Ptr_americanOptionEngine)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
+    inline Rcpp::List americanOptionEngine(std::string type, double underlying, double strike, double dividendYield, double riskFreeRate, double maturity, double volatility, int timeSteps, int gridPoints, std::string engine, std::vector<double> discreteDividends, std::vector<double> discreteDividendsTimeUntil) {
+        typedef SEXP(*Ptr_americanOptionEngine)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_americanOptionEngine p_americanOptionEngine = NULL;
         if (p_americanOptionEngine == NULL) {
-            validateSignature("Rcpp::List(*americanOptionEngine)(std::string,double,double,double,double,double,double,int,int,std::string)");
+            validateSignature("Rcpp::List(*americanOptionEngine)(std::string,double,double,double,double,double,double,int,int,std::string,std::vector<double>,std::vector<double>)");
             p_americanOptionEngine = (Ptr_americanOptionEngine)R_GetCCallable("RQuantLib", "RQuantLib_americanOptionEngine");
         }
         RObject __result;
         {
             RNGScope __rngScope;
-            __result = p_americanOptionEngine(Rcpp::wrap(type), Rcpp::wrap(underlying), Rcpp::wrap(strike), Rcpp::wrap(dividendYield), Rcpp::wrap(riskFreeRate), Rcpp::wrap(maturity), Rcpp::wrap(volatility), Rcpp::wrap(timeSteps), Rcpp::wrap(gridPoints), Rcpp::wrap(engine));
+            __result = p_americanOptionEngine(Rcpp::wrap(type), Rcpp::wrap(underlying), Rcpp::wrap(strike), Rcpp::wrap(dividendYield), Rcpp::wrap(riskFreeRate), Rcpp::wrap(maturity), Rcpp::wrap(volatility), Rcpp::wrap(timeSteps), Rcpp::wrap(gridPoints), Rcpp::wrap(engine), Rcpp::wrap(discreteDividends), Rcpp::wrap(discreteDividendsTimeUntil));
         }
         if (__result.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();

@@ -11,7 +11,8 @@
 }
 \usage{
 \method{EuropeanOption}{default}(type, underlying, strike,
-	dividendYield, riskFreeRate, maturity, volatility)
+	dividendYield, riskFreeRate, maturity, volatility, 
+	discreteDividends, discreteDividendsTimeUntil)
 }
 \arguments{
   \item{type}{A string with one of the values \code{call} or \code{put}}
@@ -21,6 +22,9 @@
   \item{riskFreeRate}{Risk-free rate}
   \item{maturity}{Time to maturity (in fractional years)}
   \item{volatility}{Volatility of the underlying stock}
+  \item{discreteDividends}{Vector of discrete dividends (optional)}
+  \item{discreteDividendsTimeUntil}{Vector of times to discrete dividends 
+    (in fractional years, optional)}
 }
 \value{
   The \code{EuropeanOption} function returns an object of class

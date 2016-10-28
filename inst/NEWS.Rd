@@ -3,6 +3,17 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rquantlib/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rquantlib/issues/#1}{##1}}
 
+\section{Changes in RQuantLib version 0.4.4 (2016-xx-xx)}{
+  \itemize{
+    \item Changes in RQuantLib code:
+    \itemize{
+      \item Equity options can now be analyzed via discrete dividends
+      through two vectors of dividend dates and values (Francois
+      Cocquemas in \ghpr{73} fixing \ghit{72}) 
+    }
+  }
+}
+
 \section{Changes in RQuantLib version 0.4.3 (2016-08-19)}{
   \itemize{
     \item Changes in RQuantLib code:

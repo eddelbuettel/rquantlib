@@ -1,6 +1,8 @@
 2016-10-28  Dirk Eddelbuettel  <edd@debian.org>
 
-	* src/vanilla.cpp (europeanOptionEngine): 
+	* src/vanilla.cpp (europeanOptionEngine, americanOptionEngine):
+	Use Nullable<> on dividend parameters, other small rewrites
+	* R/options.R: Corresponding changes
 
 2016-10-24  Francois Cocquemas  <hfty@hfty.in>
 

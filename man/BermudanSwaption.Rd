@@ -84,7 +84,7 @@ volMatrix)
 }
 \author{Dominick Samperi}
 
-\seealso{\code{\link{DiscountCurve}}, \code{\link{SabrSwaption}}}}
+\seealso{\code{\link{DiscountCurve}}, \code{\link{SabrSwaption}}}
 
 \examples{
 

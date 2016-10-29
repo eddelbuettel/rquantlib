@@ -31,8 +31,8 @@ Rcpp::List europeanOptionEngine(std::string type,
                                 double riskFreeRate,
                                 double maturity,
                                 double volatility,
-                                std::vector<double> discreteDividends,
-                                std::vector<double> discreteDividendsTimeUntil) {
+                                Rcpp::Nullable<Rcpp::NumericVector> discreteDividends,
+                                Rcpp::Nullable<Rcpp::NumericVector> discreteDividendsTimeUntil) {
 
 #ifdef QL_HIGH_RESOLUTION_DATE    
     // in minutes
@@ -54,47 +54,43 @@ Rcpp::List europeanOptionEngine(std::string type,
     boost::shared_ptr<QuantLib::YieldTermStructure> qTS = flatRate(today, qRate, dc);
     boost::shared_ptr<QuantLib::SimpleQuote> rRate(new QuantLib::SimpleQuote( riskFreeRate ));
     boost::shared_ptr<QuantLib::YieldTermStructure> rTS = flatRate(today, rRate, dc);
-    
-    int n = discreteDividendsTimeUntil.size();
-    std::vector<QuantLib::Date> discreteDividendDates;
 
+    bool withDividends = discreteDividends.isNotNull() && discreteDividendsTimeUntil.isNotNull();
+    
 #ifdef QL_HIGH_RESOLUTION_DATE
     QuantLib::Date exDate(today.dateTime() + length);
-
-    if(discreteDividends[0] != 0) {
-        boost::posix_time::time_duration discreteDividendLength;        
-        for (int i = 0; i < n; i++) {
-            discreteDividendLength = boost::posix_time::minutes(discreteDividendsTimeUntil[i] * 360 * 24 * 60);
-            QuantLib::Date dt(today.dateTime() + discreteDividendLength);
-            discreteDividendDates.push_back(dt);
-        }
-    }
-#else
+#else 
     QuantLib::Date exDate = today + length;
-    
-    if(discreteDividends[0] != 0) {
-        for (int i = 0; i < n; i++) {
-            discreteDividendDates[i] = today + int(discreteDividendsTimeUntil[i] * 360 + 0.5); 
-        }
-    }
-#endif    
-    boost::shared_ptr<QuantLib::Exercise> exercise(new QuantLib::EuropeanExercise(exDate));
+#endif
 
+    boost::shared_ptr<QuantLib::Exercise> exercise(new QuantLib::EuropeanExercise(exDate));
     boost::shared_ptr<QuantLib::StrikedTypePayoff> payoff(new QuantLib::PlainVanillaPayoff(optionType, strike));
     
-    if(discreteDividends[0] != 0) { 
+    if (withDividends) {
+        Rcpp::NumericVector divvalues(discreteDividends), divtimes(discreteDividendsTimeUntil);
+        int n = divvalues.size();
+        std::vector<QuantLib::Date> discDivDates(n);
+        std::vector<double> discDividends(n);
+        boost::posix_time::time_duration discreteDividendLength;        
+        for (int i = 0; i < n; i++) {
+#ifdef QL_HIGH_RESOLUTION_DATE
+            discreteDividendLength = boost::posix_time::minutes(divtimes[i] * 360 * 24 * 60);
+            discDivDates[i] = QuantLib::Date(today.dateTime() + discreteDividendLength);
+#else
+            discDivDates[i] = today + int(discreteDividendsTimeUntil[i] * 360 + 0.5); 
+#endif    
+            discDividends[i] = divvalues[i];
+        }
+        
         boost::shared_ptr<QuantLib::BlackScholesMertonProcess> 
             stochProcess(new QuantLib::BlackScholesMertonProcess(QuantLib::Handle<QuantLib::Quote>(spot),
                                                                  QuantLib::Handle<QuantLib::YieldTermStructure>(qTS),
                                                                  QuantLib::Handle<QuantLib::YieldTermStructure>(rTS),
                                                                  QuantLib::Handle<QuantLib::BlackVolTermStructure>(volTS)));
         
-        boost::shared_ptr<QuantLib::PricingEngine> engine(
-                new QuantLib::AnalyticDividendEuropeanEngine(stochProcess));
+        boost::shared_ptr<QuantLib::PricingEngine> engine(new QuantLib::AnalyticDividendEuropeanEngine(stochProcess));
         
-        
-        QuantLib::DividendVanillaOption option(payoff, exercise,
-                                               discreteDividendDates, discreteDividends);
+        QuantLib::DividendVanillaOption option(payoff, exercise, discDivDates, discDividends);
         option.setPricingEngine(engine);
         
         return Rcpp::List::create(Rcpp::Named("value") = option.NPV(),
@@ -106,6 +102,7 @@ Rcpp::List europeanOptionEngine(std::string type,
                                   Rcpp::Named("divRho") = R_NaReal);
     }
     else {
+        
         boost::shared_ptr<QuantLib::VanillaOption> option = makeOption(payoff, exercise, spot, qTS, rTS, volTS);
         
         return Rcpp::List::create(Rcpp::Named("value") = option->NPV(),
@@ -116,8 +113,6 @@ Rcpp::List europeanOptionEngine(std::string type,
                                   Rcpp::Named("rho") = option->rho(),
                                   Rcpp::Named("divRho") = option->dividendRho());
     }
-    
-
     
 }
 
@@ -132,10 +127,8 @@ Rcpp::List americanOptionEngine(std::string type,
                                 int timeSteps,
                                 int gridPoints,
                                 std::string engine,
-                                std::vector<double> discreteDividends,
-                                std::vector<double> discreteDividendsTimeUntil) {
-    
-    
+                                Rcpp::Nullable<Rcpp::NumericVector> discreteDividends,
+                                Rcpp::Nullable<Rcpp::NumericVector> discreteDividendsTimeUntil) {
 
 #ifdef QL_HIGH_RESOLUTION_DATE    
     // in minutes
@@ -159,50 +152,45 @@ Rcpp::List americanOptionEngine(std::string type,
     boost::shared_ptr<QuantLib::SimpleQuote> vol(new QuantLib::SimpleQuote(volatility));
     boost::shared_ptr<QuantLib::BlackVolTermStructure> volTS = flatVol(today, vol, dc);
     
-    boost::shared_ptr<QuantLib::StrikedTypePayoff> payoff(new QuantLib::PlainVanillaPayoff(optionType, strike));
-
-    int n = discreteDividendsTimeUntil.size();
-    std::vector<QuantLib::Date> discreteDividendDates;
+    bool withDividends = discreteDividends.isNotNull() && discreteDividendsTimeUntil.isNotNull();
     
 #ifdef QL_HIGH_RESOLUTION_DATE
     QuantLib::Date exDate(today.dateTime() + length);
-
-    if(discreteDividends[0] != 0) {
-        boost::posix_time::time_duration discreteDividendLength;
-        for (int i = 0; i < n; i++) {
-            discreteDividendLength = boost::posix_time::minutes(discreteDividendsTimeUntil[i] * 360 * 24 * 60);
-            QuantLib::Date dt(today.dateTime() + discreteDividendLength);
-            discreteDividendDates.push_back(dt);
-        }
-    }
-#else
+#else 
     QuantLib::Date exDate = today + length;
-    
-    if(discreteDividends[0] != 0) {
-        std::vector<int> discreteDividendLengths;
-        for (int i = 0; i < n; i++) {
-            discreteDividendLengths.push_back(int(discreteDividendsTimeUntil[i] * 360 + 0.5));
-            discreteDividendDates.push_back(today + discreteDividendLengths[i]); 
-        }
-    }
-#endif    
+#endif
+
+    boost::shared_ptr<QuantLib::StrikedTypePayoff> payoff(new QuantLib::PlainVanillaPayoff(optionType, strike));
     boost::shared_ptr<QuantLib::Exercise> exercise(new QuantLib::AmericanExercise(today, exDate));
-    
 
     boost::shared_ptr<QuantLib::BlackScholesMertonProcess> 
         stochProcess(new QuantLib::BlackScholesMertonProcess(QuantLib::Handle<QuantLib::Quote>(spot),
                                                              QuantLib::Handle<QuantLib::YieldTermStructure>(qTS),
                                                              QuantLib::Handle<QuantLib::YieldTermStructure>(rTS),
                                                              QuantLib::Handle<QuantLib::BlackVolTermStructure>(volTS)));
+    
+    if (withDividends) {
+        Rcpp::NumericVector divvalues(discreteDividends), divtimes(discreteDividendsTimeUntil);
+        int n = divvalues.size();
+        std::vector<QuantLib::Date> discDivDates(n);
+        std::vector<double> discDividends(n);
+        boost::posix_time::time_duration discreteDividendLength;        
+        for (int i = 0; i < n; i++) {
+#ifdef QL_HIGH_RESOLUTION_DATE
+            discreteDividendLength = boost::posix_time::minutes(divtimes[i] * 360 * 24 * 60);
+            discDivDates[i] = QuantLib::Date(today.dateTime() + discreteDividendLength);
+#else
+            discDivDates[i] = today + int(discreteDividendsTimeUntil[i] * 360 + 0.5); 
+#endif    
+            discDividends[i] = divvalues[i];
+        }
 
-    if(discreteDividends[0] != 0) { 
-        QuantLib::DividendVanillaOption option(payoff, exercise,
-                                               discreteDividendDates, discreteDividends);
+        QuantLib::DividendVanillaOption option(payoff, exercise, discDivDates, discDividends);
         if (engine=="BaroneAdesiWhaley") { 
-            Rf_warning("Discrete dividends, engine switched to CrankNicolson");
+            Rcpp::warning("Discrete dividends, engine switched to CrankNicolson");
             engine = "CrankNicolson";
         }
-        
+       
         if (engine=="CrankNicolson") { // FDDividendAmericanEngine only works with CrankNicolson
             // suggestion by Bryan Lewis: use CrankNicolson for greeks
             boost::shared_ptr<QuantLib::PricingEngine> 
@@ -218,6 +206,7 @@ Rcpp::List americanOptionEngine(std::string type,
         } else {
             throw std::range_error("Unknown engine " + engine);
         }
+        
     } else {
         QuantLib::VanillaOption option(payoff, exercise);
         

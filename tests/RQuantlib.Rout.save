@@ -1,7 +1,7 @@
 
-R version 3.1.0 (2014-04-10) -- "Spring Dance"
-Copyright (C) 2014 The R Foundation for Statistical Computing
-Platform: i686-pc-linux-gnu (32-bit)
+R version 3.3.1 (2016-06-21) -- "Bug in Your Hair"
+Copyright (C) 2016 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -91,6 +91,28 @@ Concise summary of valuation for AmericanOption
  value  delta  gamma   vega  theta    rho divRho 
 0.3159     NA     NA     NA     NA     NA     NA 
 > 
+> 
+> # Discrete dividend
+> ## europeanoption.cpp:  call value ==  3.67
+> ## Reference pg. 253 - Hull 5th ed Exercise 12.8 - From QuantLib tests
+> print(EuropeanOption("call", underlying=40, strike=40, div=0, riskFree=0.09,
++                      maturity=0.5, vol=0.3,
++                      discreteDividends = c(0.5, 0.5),
++                      discreteDividendsTimeUntil = c(2/12, 5/12)), digits=5)
+Concise summary of valuation for EuropeanOption 
+   value    delta    gamma     vega    theta      rho   divRho 
+ 3.67123  0.58003  0.04722 10.78672 -4.99372  9.64649       NA 
+> 
+> ## americanoption.cpp:  call value == 3.72 (Hull) -- we show 3.75
+> ## Reference p. 256 - Hull 5th ed. Exercise 12.9 using (flawed) Roll, Geske, Whaley formula
+> print(AmericanOption("call", underlying=40, strike=40, div=0, riskFree=0.09,
++                      maturity=0.5, vol=0.3,
++                      engine = "CrankNicolson",
++                      discreteDividends = c(0.5, 0.5),
++                      discreteDividendsTimeUntil = c(2/12, 5/12)), digits=5)
+Concise summary of valuation for AmericanOption 
+  value   delta   gamma    vega   theta     rho  divRho 
+3.75022 0.57989 0.04613      NA      NA      NA      NA 
 > 
 > ## barrier: down and out call == 9.0246
 > print(BarrierOption("downout", barrier=95, rebate=3, type="call",
@@ -342,4 +364,4 @@ Concise summary of valuation for FloatingRateBond
 > 
 > proc.time()
    user  system elapsed 
-  1.252   0.472   1.302 
+  0.356   0.020   0.383 

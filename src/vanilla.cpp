@@ -67,19 +67,18 @@ Rcpp::List europeanOptionEngine(std::string type,
     boost::shared_ptr<QuantLib::StrikedTypePayoff> payoff(new QuantLib::PlainVanillaPayoff(optionType, strike));
     
     if (withDividends) {
-        Rcpp::NumericVector divvalues(discreteDividends), divtimes(discreteDividendsTimeUntil);
-        int n = divvalues.size();
+        std::vector<double> discDividends = Rcpp::as<std::vector<double> >(discreteDividends);
+        std::vector<double> divtimes = Rcpp::as<std::vector<double> >(discreteDividendsTimeUntil);
+        int n = divtimes.size();
         std::vector<QuantLib::Date> discDivDates(n);
-        std::vector<double> discDividends(n);
-        boost::posix_time::time_duration discreteDividendLength;        
         for (int i = 0; i < n; i++) {
 #ifdef QL_HIGH_RESOLUTION_DATE
-            discreteDividendLength = boost::posix_time::minutes(divtimes[i] * 360 * 24 * 60);
+            boost::posix_time::time_duration discreteDividendLength =
+                boost::posix_time::minutes(divtimes[i] * 360 * 24 * 60);
             discDivDates[i] = QuantLib::Date(today.dateTime() + discreteDividendLength);
 #else
-            discDivDates[i] = today + int(discreteDividendsTimeUntil[i] * 360 + 0.5); 
+            discDivDates[i] = today + int(divtimes[i] * 360 + 0.5);
 #endif    
-            discDividends[i] = divvalues[i];
         }
         
         boost::shared_ptr<QuantLib::BlackScholesMertonProcess> 
@@ -170,19 +169,18 @@ Rcpp::List americanOptionEngine(std::string type,
                                                              QuantLib::Handle<QuantLib::BlackVolTermStructure>(volTS)));
     
     if (withDividends) {
-        Rcpp::NumericVector divvalues(discreteDividends), divtimes(discreteDividendsTimeUntil);
-        int n = divvalues.size();
+        std::vector<double> discDividends = Rcpp::as<std::vector<double> >(discreteDividends);
+        std::vector<double> divtimes = Rcpp::as<std::vector<double> >(discreteDividendsTimeUntil);
+        int n = divtimes.size();
         std::vector<QuantLib::Date> discDivDates(n);
-        std::vector<double> discDividends(n);
-        boost::posix_time::time_duration discreteDividendLength;        
         for (int i = 0; i < n; i++) {
 #ifdef QL_HIGH_RESOLUTION_DATE
-            discreteDividendLength = boost::posix_time::minutes(divtimes[i] * 360 * 24 * 60);
+            boost::posix_time::time_duration discreteDividendLength =
+                boost::posix_time::minutes(divtimes[i] * 360 * 24 * 60);
             discDivDates[i] = QuantLib::Date(today.dateTime() + discreteDividendLength);
 #else
-            discDivDates[i] = today + int(discreteDividendsTimeUntil[i] * 360 + 0.5); 
+            discDivDates[i] = today + int(divtimes[i] * 360 + 0.5);
 #endif    
-            discDividends[i] = divvalues[i];
         }
 
         QuantLib::DividendVanillaOption option(payoff, exercise, discDivDates, discDividends);

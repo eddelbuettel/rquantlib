@@ -77,7 +77,7 @@ Rcpp::List europeanOptionEngine(std::string type,
             discreteDividendLength = boost::posix_time::minutes(divtimes[i] * 360 * 24 * 60);
             discDivDates[i] = QuantLib::Date(today.dateTime() + discreteDividendLength);
 #else
-            discDivDates[i] = today + int(discreteDividendsTimeUntil[i] * 360 + 0.5); 
+            discDivDates[i] = today + int(divtimes[i] * 360 + 0.5); 
 #endif    
             discDividends[i] = divvalues[i];
         }
@@ -180,7 +180,7 @@ Rcpp::List americanOptionEngine(std::string type,
             discreteDividendLength = boost::posix_time::minutes(divtimes[i] * 360 * 24 * 60);
             discDivDates[i] = QuantLib::Date(today.dateTime() + discreteDividendLength);
 #else
-            discDivDates[i] = today + int(discreteDividendsTimeUntil[i] * 360 + 0.5); 
+            discDivDates[i] = today + int(divtimes[i] * 360 + 0.5); 
 #endif    
             discDividends[i] = divvalues[i];
         }

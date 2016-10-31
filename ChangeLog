@@ -1,7 +1,8 @@
 2016-10-31  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/vanilla.cpp (europeanOptionEngine, americanOptionEngine):
-	Correct use of divtimes in case of no high-res. times in QuantLib
+	Correct use of divtimes in case of no high-res. times in QuantLib;
+	only use duration type when high-res time defined
 
 2016-10-28  Dirk Eddelbuettel  <edd@debian.org>
 

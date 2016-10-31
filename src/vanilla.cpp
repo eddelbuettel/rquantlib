@@ -71,13 +71,12 @@ Rcpp::List europeanOptionEngine(std::string type,
         int n = divvalues.size();
         std::vector<QuantLib::Date> discDivDates(n);
         std::vector<double> discDividends(n);
-        boost::posix_time::time_duration discreteDividendLength;        
         for (int i = 0; i < n; i++) {
 #ifdef QL_HIGH_RESOLUTION_DATE
-            discreteDividendLength = boost::posix_time::minutes(divtimes[i] * 360 * 24 * 60);
+            boost::posix_time::time_duration discreteDividendLength = boost::posix_time::minutes(divtimes[i] * 360 * 24 * 60);
             discDivDates[i] = QuantLib::Date(today.dateTime() + discreteDividendLength);
 #else
-            discDivDates[i] = today + int(discreteDividendsTimeUntil[i] * 360 + 0.5); 
+            discDivDates[i] = today + int(divtimes[i] * 360 + 0.5); 
 #endif    
             discDividends[i] = divvalues[i];
         }
@@ -174,13 +173,12 @@ Rcpp::List americanOptionEngine(std::string type,
         int n = divvalues.size();
         std::vector<QuantLib::Date> discDivDates(n);
         std::vector<double> discDividends(n);
-        boost::posix_time::time_duration discreteDividendLength;        
         for (int i = 0; i < n; i++) {
 #ifdef QL_HIGH_RESOLUTION_DATE
-            discreteDividendLength = boost::posix_time::minutes(divtimes[i] * 360 * 24 * 60);
+            boost::posix_time::time_duration discreteDividendLength = boost::posix_time::minutes(divtimes[i] * 360 * 24 * 60);
             discDivDates[i] = QuantLib::Date(today.dateTime() + discreteDividendLength);
 #else
-            discDivDates[i] = today + int(discreteDividendsTimeUntil[i] * 360 + 0.5); 
+            discDivDates[i] = today + int(divtimes[i] * 360 + 0.5); 
 #endif    
             discDividends[i] = divvalues[i];
         }

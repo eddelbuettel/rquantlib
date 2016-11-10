@@ -38,8 +38,8 @@ Starting with release 0.4.3, binaries are provided via the [ghrr drat repo](http
 and can be installed as
 
 ```{r}
-R> drat::addRepo("ghrr")       #  maybe use 'install.package("drat")' first 
-R> install.packages(RQuantLib, type="binary")
+R> drat::addRepo("ghrr")       #  maybe use 'install.packages("drat")' first 
+R> install.packages("RQuantLib", type="binary")
 ```
 
 ### Authors

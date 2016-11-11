@@ -29,7 +29,7 @@ are encouraged as suggested in the
 The package is on [CRAN](https://cran.r-project.org) and can be installed _from source_ as usual:
 
 ```{r}
-install.packages(RQuantLib)
+install.packages("RQuantLib")
 ```
 
 #### Windows Binaries
@@ -39,7 +39,7 @@ and can be installed as
 
 ```{r}
 drat::addRepo("ghrr")       #  maybe use 'install.packages("drat")' first 
-install.packages(RQuantLib, type="binary")
+install.packages("RQuantLib", type="binary")
 ```
 
 ### Authors

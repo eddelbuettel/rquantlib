@@ -1,3 +1,14 @@
+2016-11-24  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/include/rquantlib_impl.h (Rcpp): Adjust to new date(time)Vector
+	classes in Rcpp 0.12.8
+
+	* inst/unitTests/cpp/dates.cpp: Add one explicit copy where we used
+	to have implicit copy
+
+	* src/Makevars.in (PKG_CXXFLAGS): Set define for new date(time)vector
+	classes to work with Rcpp 0.12.8; has no effect on earlier versions
+
 2016-10-31  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/vanilla.cpp (europeanOptionEngine, americanOptionEngine):

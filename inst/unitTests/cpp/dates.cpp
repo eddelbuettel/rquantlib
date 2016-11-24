@@ -2,7 +2,7 @@
 //
 // dates.cpp: RQuantLib date conversion tests
 //
-// Copyright (C) 2014  Dirk Eddelbuettel
+// Copyright (C) 2014 - 2016  Dirk Eddelbuettel
 //
 // This file is part of RQuantLib.
 //
@@ -41,8 +41,9 @@ QuantLib::Date advanceDateQQ(QuantLib::Date d, int n) {
 
 // [[Rcpp::export]]
 Rcpp::DateVector advanceDatesRR(Rcpp::DateVector d, int n) {
-    for (int i=0; i<d.size(); i++) d[i] = d[i] + n;
-    return d;
+    Rcpp::DateVector nd(d.size());
+    for (int i=0; i<d.size(); i++) nd[i] = d[i] + n;
+    return nd;
 }
 
 // [[Rcpp::export]]

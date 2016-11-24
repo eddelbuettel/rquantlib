@@ -45,7 +45,12 @@ namespace Rcpp {
         int n = dtvec.size();
         std::vector<QuantLib::Date> dates(n);
         for (int i = 0; i<n; i++){
+#if RCPP_VERSION >= Rcpp_Version(0,12,8)
+            //dates[i] = QuantLib::Date(static_cast<int>(dtvec[i]) + QLtoJan1970Offset);
+            dates[i] = QuantLib::Date(static_cast<int>(Rcpp::Date(dtvec[i]).getDate()) + QLtoJan1970Offset);
+#else            
             dates[i] = QuantLib::Date(static_cast<int>(dtvec[i].getDate()) + QLtoJan1970Offset);
+#endif            
         }
         return dates;
     }

@@ -20,4 +20,4 @@ OS_type: unix
 License: GPL (>= 2)
 URL: http://dirk.eddelbuettel.com/code/rquantlib.html
 BugReports: https://github.com/eddelbuettel/rquantlib/issues
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

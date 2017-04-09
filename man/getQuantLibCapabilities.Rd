@@ -19,10 +19,9 @@ Not all of these features are used (yet) by RQuantLib.
 \examples{
   getQuantLibCapabilities()
 }
-\author{
-Dirk Eddelbuettel
-}
 \references{
 \url{http://quantlib.org} for details on \code{QuantLib}.
 }
-
+\author{
+Dirk Eddelbuettel
+}

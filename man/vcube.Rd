@@ -15,4 +15,3 @@ data(vcube)
 \description{
 Data for valuing swaption examples including rates and a lognormal vol cube
 }
-

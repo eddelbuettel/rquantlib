@@ -16,10 +16,9 @@ file \code{config.hpp} and determined at compilation time of the QuantLib librar
 \examples{
   getQuantLibVersion()
 }
-\author{
-Dirk Eddelbuettel
-}
 \references{
 \url{http://quantlib.org} for details on \code{QuantLib}.
 }
-
+\author{
+Dirk Eddelbuettel
+}

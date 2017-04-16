@@ -1,3 +1,7 @@
+2017-04-16  Dirk Eddelbuettel  <edd@debian.org>
+
+	* .travis.yml (before_install): Use https to download
+
 2016-11-24  Dirk Eddelbuettel  <edd@debian.org>
 
 	* inst/include/rquantlib_impl.h (Rcpp): Adjust to new date(time)Vector

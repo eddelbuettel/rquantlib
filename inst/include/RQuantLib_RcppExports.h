@@ -24,11 +24,11 @@ namespace RQuantLib {
         }
     }
 
-    inline double zeroPriceByYieldEngine(double yield, double faceAmount, double dayCounter, double frequency, double businessDayConvention, double compound, QuantLib::Date maturityDate, QuantLib::Date issueDate) {
+    inline double zeroPriceByYieldEngine(double yield, double faceAmount, int dayCounter, int frequency, int businessDayConvention, int compound, QuantLib::Date maturityDate, QuantLib::Date issueDate) {
         typedef SEXP(*Ptr_zeroPriceByYieldEngine)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_zeroPriceByYieldEngine p_zeroPriceByYieldEngine = NULL;
         if (p_zeroPriceByYieldEngine == NULL) {
-            validateSignature("double(*zeroPriceByYieldEngine)(double,double,double,double,double,double,QuantLib::Date,QuantLib::Date)");
+            validateSignature("double(*zeroPriceByYieldEngine)(double,double,int,int,int,int,QuantLib::Date,QuantLib::Date)");
             p_zeroPriceByYieldEngine = (Ptr_zeroPriceByYieldEngine)R_GetCCallable("RQuantLib", "RQuantLib_zeroPriceByYieldEngine");
         }
         RObject rcpp_result_gen;
@@ -43,11 +43,11 @@ namespace RQuantLib {
         return Rcpp::as<double >(rcpp_result_gen);
     }
 
-    inline double zeroYieldByPriceEngine(double price, double faceAmount, double dayCounter, double frequency, double businessDayConvention, double compound, QuantLib::Date maturityDate, QuantLib::Date issueDate) {
+    inline double zeroYieldByPriceEngine(double price, double faceAmount, int dayCounter, int frequency, int businessDayConvention, int compound, QuantLib::Date maturityDate, QuantLib::Date issueDate) {
         typedef SEXP(*Ptr_zeroYieldByPriceEngine)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_zeroYieldByPriceEngine p_zeroYieldByPriceEngine = NULL;
         if (p_zeroYieldByPriceEngine == NULL) {
-            validateSignature("double(*zeroYieldByPriceEngine)(double,double,double,double,double,double,QuantLib::Date,QuantLib::Date)");
+            validateSignature("double(*zeroYieldByPriceEngine)(double,double,int,int,int,int,QuantLib::Date,QuantLib::Date)");
             p_zeroYieldByPriceEngine = (Ptr_zeroYieldByPriceEngine)R_GetCCallable("RQuantLib", "RQuantLib_zeroYieldByPriceEngine");
         }
         RObject rcpp_result_gen;
@@ -62,11 +62,11 @@ namespace RQuantLib {
         return Rcpp::as<double >(rcpp_result_gen);
     }
 
-    inline double fixedRateBondYieldByPriceEngine(double settlementDays, double price, std::string cal, double faceAmount, double businessDayConvention, double compound, double redemption, double dayCounter, double frequency, QuantLib::Date maturityDate, QuantLib::Date issueDate, QuantLib::Date effectiveDate, std::vector<double> rates) {
+    inline double fixedRateBondYieldByPriceEngine(double settlementDays, double price, std::string cal, double faceAmount, int businessDayConvention, int compound, double redemption, int dayCounter, int frequency, QuantLib::Date maturityDate, QuantLib::Date issueDate, QuantLib::Date effectiveDate, std::vector<double> rates) {
         typedef SEXP(*Ptr_fixedRateBondYieldByPriceEngine)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_fixedRateBondYieldByPriceEngine p_fixedRateBondYieldByPriceEngine = NULL;
         if (p_fixedRateBondYieldByPriceEngine == NULL) {
-            validateSignature("double(*fixedRateBondYieldByPriceEngine)(double,double,std::string,double,double,double,double,double,double,QuantLib::Date,QuantLib::Date,QuantLib::Date,std::vector<double>)");
+            validateSignature("double(*fixedRateBondYieldByPriceEngine)(double,double,std::string,double,int,int,double,int,int,QuantLib::Date,QuantLib::Date,QuantLib::Date,std::vector<double>)");
             p_fixedRateBondYieldByPriceEngine = (Ptr_fixedRateBondYieldByPriceEngine)R_GetCCallable("RQuantLib", "RQuantLib_fixedRateBondYieldByPriceEngine");
         }
         RObject rcpp_result_gen;
@@ -81,11 +81,11 @@ namespace RQuantLib {
         return Rcpp::as<double >(rcpp_result_gen);
     }
 
-    inline double fixedRateBondPriceByYieldEngine(double settlementDays, double yield, std::string cal, double faceAmount, double businessDayConvention, double compound, double redemption, double dayCounter, double frequency, QuantLib::Date maturityDate, QuantLib::Date issueDate, QuantLib::Date effectiveDate, std::vector<double> rates) {
+    inline double fixedRateBondPriceByYieldEngine(double settlementDays, double yield, std::string cal, double faceAmount, int businessDayConvention, int compound, double redemption, int dayCounter, int frequency, QuantLib::Date maturityDate, QuantLib::Date issueDate, QuantLib::Date effectiveDate, std::vector<double> rates) {
         typedef SEXP(*Ptr_fixedRateBondPriceByYieldEngine)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_fixedRateBondPriceByYieldEngine p_fixedRateBondPriceByYieldEngine = NULL;
         if (p_fixedRateBondPriceByYieldEngine == NULL) {
-            validateSignature("double(*fixedRateBondPriceByYieldEngine)(double,double,std::string,double,double,double,double,double,double,QuantLib::Date,QuantLib::Date,QuantLib::Date,std::vector<double>)");
+            validateSignature("double(*fixedRateBondPriceByYieldEngine)(double,double,std::string,double,int,int,double,int,int,QuantLib::Date,QuantLib::Date,QuantLib::Date,std::vector<double>)");
             p_fixedRateBondPriceByYieldEngine = (Ptr_fixedRateBondPriceByYieldEngine)R_GetCCallable("RQuantLib", "RQuantLib_fixedRateBondPriceByYieldEngine");
         }
         RObject rcpp_result_gen;

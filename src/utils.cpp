@@ -179,20 +179,20 @@ QuantLib::Schedule getSchedule(Rcpp::List rparam) {
         calendar = *p;
     }
     QuantLib::BusinessDayConvention businessDayConvention =
-        getBusinessDayConvention(Rcpp::as<double>(rparam["businessDayConvention"]));
+        getBusinessDayConvention(Rcpp::as<int>(rparam["businessDayConvention"]));
     QuantLib::BusinessDayConvention terminationDateConvention =
-        getBusinessDayConvention(Rcpp::as<double>(rparam["terminationDateConvention"]));
+        getBusinessDayConvention(Rcpp::as<int>(rparam["terminationDateConvention"]));
     // keep these default values for the last two parameters for backward compatibility
     // (although in QuantLib::schedule they have no default values)
     QuantLib::DateGeneration::Rule dateGeneration = QuantLib::DateGeneration::Backward;
     if(rparam.containsElementNamed("dateGeneration") ) {
-        dateGeneration = getDateGenerationRule(Rcpp::as<double>(rparam["dateGeneration"]));
+        dateGeneration = getDateGenerationRule(Rcpp::as<int>(rparam["dateGeneration"]));
     }
     bool endOfMonth = false;
     if(rparam.containsElementNamed("endOfMonth") ) {
         endOfMonth = (Rcpp::as<double>(rparam["endOfMonth"]) == 1) ? true : false;
     }
-    
+
     QuantLib::Schedule schedule(effectiveDate,
                                 maturityDate,
                                 period,
@@ -214,7 +214,7 @@ boost::shared_ptr<QuantLib::FixedRateBond> getFixedRateBond(
         getDayCounter(Rcpp::as<double>(bondparam["dayCounter"]));
     QuantLib::BusinessDayConvention paymentConvention = QuantLib::Following;
     if(bondparam.containsElementNamed("paymentConvention") ) {
-        paymentConvention = getBusinessDayConvention(Rcpp::as<double>(bondparam["paymentConvention"]));
+        paymentConvention = getBusinessDayConvention(Rcpp::as<int>(bondparam["paymentConvention"]));
     }
     double redemption = 100.0;
     if(bondparam.containsElementNamed("redemption") ) {
@@ -240,13 +240,13 @@ boost::shared_ptr<QuantLib::FixedRateBond> getFixedRateBond(
     }
     QuantLib::BusinessDayConvention exCouponConvention = QuantLib::Unadjusted;
     if(bondparam.containsElementNamed("exCouponConvention") ) {
-        exCouponConvention = getBusinessDayConvention(Rcpp::as<double>(bondparam["exCouponConvention"]));
+        exCouponConvention = getBusinessDayConvention(Rcpp::as<int>(bondparam["exCouponConvention"]));
     }
     bool exCouponEndOfMonth = false;
     if(bondparam.containsElementNamed("exCouponEndOfMonth") ) {
         exCouponEndOfMonth = (Rcpp::as<double>(bondparam["exCouponEndOfMonth"]) == 1) ? true : false;
     }
-    
+
     QuantLib::Schedule schedule = getSchedule(scheduleparam);
     boost::shared_ptr<QuantLib::FixedRateBond> result(
         new QuantLib::FixedRateBond(settlementDays,
@@ -364,7 +364,7 @@ makeProcess(const boost::shared_ptr<QuantLib::Quote>& u,
 //     return(d.getDate() + QLtoJan1970Offset);
 // }
 
-QuantLib::DayCounter getDayCounter(const double n){
+QuantLib::DayCounter getDayCounter(const int n){
     if (n==0)
         return QuantLib::Actual360();
     else if (n==1)
@@ -395,107 +395,35 @@ QuantLib::DayCounter getDayCounter(const double n){
         return QuantLib::ActualActual(QuantLib::ActualActual::Euro);
 }
 
-QuantLib::BusinessDayConvention getBusinessDayConvention(const double n){
-    if (n==0) 
-        return QuantLib::Following;
-    else if (n==1) 
-        return QuantLib::ModifiedFollowing;
-    else if (n==2) 
-        return QuantLib::Preceding;
-    else if (n==3) 
-        return QuantLib::ModifiedPreceding;
-    else if (n==4)
-        return QuantLib::Unadjusted;
-    else if (n==5)
-        return QuantLib::HalfMonthModifiedFollowing;
-    else if (n==6)
-        return QuantLib::Nearest;
-    else  
-        return QuantLib::Unadjusted;
+QuantLib::BusinessDayConvention getBusinessDayConvention(const int n){
+    return static_cast<QuantLib::BusinessDayConvention>(n);
 }
 
-QuantLib::Compounding getCompounding(const double n){
-    if (n==0) 
-        return QuantLib::Simple;
-    else if (n==1) 
-        return QuantLib::Compounded;
-    else if (n==2) 
-        return QuantLib::Continuous;
-    else 
-        return QuantLib::SimpleThenCompounded;
+QuantLib::Compounding getCompounding(const int n){
+    return static_cast<QuantLib::Compounding>(n);
 }
 
-QuantLib::Frequency getFrequency(const double n){
-
-    if (n==-1) 
-        return QuantLib::NoFrequency;
-    else if (n==0) 
-        return QuantLib::Once;
-    else if (n==1) 
-        return QuantLib::Annual;
-    else if (n==2) 
-        return QuantLib::Semiannual;
-    else if (n==3) 
-        return QuantLib::EveryFourthMonth;
-    else if (n==4) 
-        return QuantLib::Quarterly;
-    else if (n==6) 
-        return QuantLib::Bimonthly;
-    else if (n==12) 
-        return QuantLib::Monthly;
-    else if (n==13) 
-        return QuantLib::EveryFourthWeek;
-    else if (n==26) 
-        return QuantLib::Biweekly;
-    else if (n==52) 
-        return QuantLib::Weekly;
-    else if (n==365) 
-        return QuantLib::Daily;
-    else 
-        return QuantLib::OtherFrequency;   
+QuantLib::Frequency getFrequency(const int n){
+    return static_cast<QuantLib::Frequency>(n);
 }
 
 QuantLib::Period periodByTimeUnit(int length, std::string unit){
     QuantLib::TimeUnit tu = QuantLib::Years;
-    if (unit=="Days") 
+    if (unit=="Days")
         tu = QuantLib::Days;
-    if (unit=="Weeks") 
+    if (unit=="Weeks")
         tu = QuantLib::Weeks;
-    if (unit=="Months") 
+    if (unit=="Months")
         tu = QuantLib::Months;
     return QuantLib::Period(length, tu);
 }
 
-QuantLib::TimeUnit getTimeUnit(const double n){
-    if (n==0) 
-        return QuantLib::Days;
-    else if (n==1) 
-        return QuantLib::Weeks;
-    else if (n==2) 
-        return QuantLib::Months;
-    else 
-        return QuantLib::Years;
+QuantLib::TimeUnit getTimeUnit(const int n){
+    return static_cast<QuantLib::TimeUnit>(n);
 }
 
-QuantLib::DateGeneration::Rule getDateGenerationRule(const double n){
-    if (n==0) 
-        return QuantLib::DateGeneration::Backward;
-    else if (n==1) 
-        return QuantLib::DateGeneration::Forward;
-    else if (n==2) 
-        return QuantLib::DateGeneration::Zero;
-    else if (n==3) 
-        return QuantLib::DateGeneration::ThirdWednesday;
-    else if (n==4) 
-        return QuantLib::DateGeneration::Twentieth;
-    else if (n==5)
-        return QuantLib::DateGeneration::TwentiethIMM;
-    else if (n==6)
-        return QuantLib::DateGeneration::OldCDS;
-    else if (n==7)
-        return QuantLib::DateGeneration::CDS;
-    else 
-        return QuantLib::DateGeneration::TwentiethIMM;
+QuantLib::DateGeneration::Rule getDateGenerationRule(const int n){
+    return static_cast<QuantLib::DateGeneration::Rule>(n);
 }
 
 boost::shared_ptr<QuantLib::IborIndex> buildIborIndex(std::string type,
@@ -610,16 +538,8 @@ QuantLib::CallabilitySchedule getCallabilitySchedule(Rcpp::DataFrame callScheDF)
     return callabilitySchedule;
 }
 
-QuantLib::Duration::Type getDurationType(const double n) {
-    if (n==0) 
-        return QuantLib::Duration::Simple;
-    else if (n==1) 
-        return QuantLib::Duration::Macaulay;
-    else if (n==2) 
-        return QuantLib::Duration::Modified;
-    else {
-        throw std::range_error("Invalid duration type " + boost::lexical_cast<std::string>(n));
-    }
+QuantLib::Duration::Type getDurationType(const int n) {
+    return static_cast<QuantLib::Duration::Type>(n);
 }
 
 //' This function returns the QuantLib version string as encoded in the header

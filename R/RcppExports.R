@@ -2,191 +2,191 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 affineWithRebuiltCurveEngine <- function(rparam, legparams, dateVec, zeroVec, swaptionMat, swapLengths, swaptionVols) {
-    .Call('_RQuantLib_affineWithRebuiltCurveEngine', PACKAGE = 'RQuantLib', rparam, legparams, dateVec, zeroVec, swaptionMat, swapLengths, swaptionVols)
+    .Call(`_RQuantLib_affineWithRebuiltCurveEngine`, rparam, legparams, dateVec, zeroVec, swaptionMat, swapLengths, swaptionVols)
 }
 
 asianOptionEngine <- function(averageType, type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, first, length, fixings) {
-    .Call('_RQuantLib_asianOptionEngine', PACKAGE = 'RQuantLib', averageType, type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, first, length, fixings)
+    .Call(`_RQuantLib_asianOptionEngine`, averageType, type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, first, length, fixings)
 }
 
 binaryOptionEngine <- function(binType, type, excType, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, cashPayoff) {
-    .Call('_RQuantLib_binaryOptionEngine', PACKAGE = 'RQuantLib', binType, type, excType, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, cashPayoff)
+    .Call(`_RQuantLib_binaryOptionEngine`, binType, type, excType, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, cashPayoff)
 }
 
 binaryOptionImpliedVolatilityEngine <- function(type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, cashPayoff) {
-    .Call('_RQuantLib_binaryOptionImpliedVolatilityEngine', PACKAGE = 'RQuantLib', type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, cashPayoff)
+    .Call(`_RQuantLib_binaryOptionImpliedVolatilityEngine`, type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, cashPayoff)
 }
 
 barrierOptionEngine <- function(barrType, type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, barrier, rebate) {
-    .Call('_RQuantLib_barrierOptionEngine', PACKAGE = 'RQuantLib', barrType, type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, barrier, rebate)
+    .Call(`_RQuantLib_barrierOptionEngine`, barrType, type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, barrier, rebate)
 }
 
 bermudanFromYieldEngine <- function(rparam, yield, swaptionMat, swapLengths, swaptionVols) {
-    .Call('_RQuantLib_bermudanFromYieldEngine', PACKAGE = 'RQuantLib', rparam, yield, swaptionMat, swapLengths, swaptionVols)
+    .Call(`_RQuantLib_bermudanFromYieldEngine`, rparam, yield, swaptionMat, swapLengths, swaptionVols)
 }
 
 bermudanWithRebuiltCurveEngine <- function(rparam, dateVec, zeroVec, swaptionMat, swapLengths, swaptionVols) {
-    .Call('_RQuantLib_bermudanWithRebuiltCurveEngine', PACKAGE = 'RQuantLib', rparam, dateVec, zeroVec, swaptionMat, swapLengths, swaptionVols)
+    .Call(`_RQuantLib_bermudanWithRebuiltCurveEngine`, rparam, dateVec, zeroVec, swaptionMat, swapLengths, swaptionVols)
 }
 
 zeroPriceByYieldEngine <- function(yield, faceAmount, dayCounter, frequency, businessDayConvention, compound, maturityDate, issueDate) {
-    .Call('_RQuantLib_zeroPriceByYieldEngine', PACKAGE = 'RQuantLib', yield, faceAmount, dayCounter, frequency, businessDayConvention, compound, maturityDate, issueDate)
+    .Call(`_RQuantLib_zeroPriceByYieldEngine`, yield, faceAmount, dayCounter, frequency, businessDayConvention, compound, maturityDate, issueDate)
 }
 
 zeroYieldByPriceEngine <- function(price, faceAmount, dayCounter, frequency, businessDayConvention, compound, maturityDate, issueDate) {
-    .Call('_RQuantLib_zeroYieldByPriceEngine', PACKAGE = 'RQuantLib', price, faceAmount, dayCounter, frequency, businessDayConvention, compound, maturityDate, issueDate)
+    .Call(`_RQuantLib_zeroYieldByPriceEngine`, price, faceAmount, dayCounter, frequency, businessDayConvention, compound, maturityDate, issueDate)
 }
 
 fixedRateBondYieldByPriceEngine <- function(settlementDays, price, cal, faceAmount, businessDayConvention, compound, redemption, dayCounter, frequency, maturityDate, issueDate, effectiveDate, rates) {
-    .Call('_RQuantLib_fixedRateBondYieldByPriceEngine', PACKAGE = 'RQuantLib', settlementDays, price, cal, faceAmount, businessDayConvention, compound, redemption, dayCounter, frequency, maturityDate, issueDate, effectiveDate, rates)
+    .Call(`_RQuantLib_fixedRateBondYieldByPriceEngine`, settlementDays, price, cal, faceAmount, businessDayConvention, compound, redemption, dayCounter, frequency, maturityDate, issueDate, effectiveDate, rates)
 }
 
 fixedRateBondPriceByYieldEngine <- function(settlementDays, yield, cal, faceAmount, businessDayConvention, compound, redemption, dayCounter, frequency, maturityDate, issueDate, effectiveDate, rates) {
-    .Call('_RQuantLib_fixedRateBondPriceByYieldEngine', PACKAGE = 'RQuantLib', settlementDays, yield, cal, faceAmount, businessDayConvention, compound, redemption, dayCounter, frequency, maturityDate, issueDate, effectiveDate, rates)
+    .Call(`_RQuantLib_fixedRateBondPriceByYieldEngine`, settlementDays, yield, cal, faceAmount, businessDayConvention, compound, redemption, dayCounter, frequency, maturityDate, issueDate, effectiveDate, rates)
 }
 
 FloatBond1 <- function(bond, gearings, caps, spreads, floors, indexparams, index, discountCurve, dateparams) {
-    .Call('_RQuantLib_FloatBond1', PACKAGE = 'RQuantLib', bond, gearings, caps, spreads, floors, indexparams, index, discountCurve, dateparams)
+    .Call(`_RQuantLib_FloatBond1`, bond, gearings, caps, spreads, floors, indexparams, index, discountCurve, dateparams)
 }
 
 FloatBond2 <- function(bond, gearings, caps, spreads, floors, indexparams, index_params, index_tsQuotes, index_times, discountCurve, dateparams) {
-    .Call('_RQuantLib_FloatBond2', PACKAGE = 'RQuantLib', bond, gearings, caps, spreads, floors, indexparams, index_params, index_tsQuotes, index_times, discountCurve, dateparams)
+    .Call(`_RQuantLib_FloatBond2`, bond, gearings, caps, spreads, floors, indexparams, index_params, index_tsQuotes, index_times, discountCurve, dateparams)
 }
 
 FloatBond3 <- function(bond, gearings, caps, spreads, floors, indexparams, index, disc_params, disc_tsQuotes, disc_times, dateparams) {
-    .Call('_RQuantLib_FloatBond3', PACKAGE = 'RQuantLib', bond, gearings, caps, spreads, floors, indexparams, index, disc_params, disc_tsQuotes, disc_times, dateparams)
+    .Call(`_RQuantLib_FloatBond3`, bond, gearings, caps, spreads, floors, indexparams, index, disc_params, disc_tsQuotes, disc_times, dateparams)
 }
 
 FloatBond4 <- function(bond, gearings, caps, spreads, floors, indexparams, index_params, index_tsQuotes, index_times, disc_params, disc_tsQuotes, disc_times, dateparams) {
-    .Call('_RQuantLib_FloatBond4', PACKAGE = 'RQuantLib', bond, gearings, caps, spreads, floors, indexparams, index_params, index_tsQuotes, index_times, disc_params, disc_tsQuotes, disc_times, dateparams)
+    .Call(`_RQuantLib_FloatBond4`, bond, gearings, caps, spreads, floors, indexparams, index_params, index_tsQuotes, index_times, disc_params, disc_tsQuotes, disc_times, dateparams)
 }
 
 floatingWithRebuiltCurveEngine <- function(bondparams, gearings, spreads, caps, floors, indexparams, iborDateVec, iborzeroVec, dateVec, zeroVec, dateparams) {
-    .Call('_RQuantLib_floatingWithRebuiltCurveEngine', PACKAGE = 'RQuantLib', bondparams, gearings, spreads, caps, floors, indexparams, iborDateVec, iborzeroVec, dateVec, zeroVec, dateparams)
+    .Call(`_RQuantLib_floatingWithRebuiltCurveEngine`, bondparams, gearings, spreads, caps, floors, indexparams, iborDateVec, iborzeroVec, dateVec, zeroVec, dateparams)
 }
 
 FixedRateWithYield <- function(bondparam, ratesVec, scheduleparam, calcparam, yield) {
-    .Call('_RQuantLib_FixedRateWithYield', PACKAGE = 'RQuantLib', bondparam, ratesVec, scheduleparam, calcparam, yield)
+    .Call(`_RQuantLib_FixedRateWithYield`, bondparam, ratesVec, scheduleparam, calcparam, yield)
 }
 
 FixedRateWithPrice <- function(bondparam, ratesVec, scheduleparam, calcparam, price) {
-    .Call('_RQuantLib_FixedRateWithPrice', PACKAGE = 'RQuantLib', bondparam, ratesVec, scheduleparam, calcparam, price)
+    .Call(`_RQuantLib_FixedRateWithPrice`, bondparam, ratesVec, scheduleparam, calcparam, price)
 }
 
 FixedRateWithRebuiltCurve <- function(bondparam, ratesVec, scheduleparam, calcparam, dateVec, zeroVec) {
-    .Call('_RQuantLib_FixedRateWithRebuiltCurve', PACKAGE = 'RQuantLib', bondparam, ratesVec, scheduleparam, calcparam, dateVec, zeroVec)
+    .Call(`_RQuantLib_FixedRateWithRebuiltCurve`, bondparam, ratesVec, scheduleparam, calcparam, dateVec, zeroVec)
 }
 
 ZeroBondWithRebuiltCurve <- function(bond, dateVec, zeroVec, dateparams) {
-    .Call('_RQuantLib_ZeroBondWithRebuiltCurve', PACKAGE = 'RQuantLib', bond, dateVec, zeroVec, dateparams)
+    .Call(`_RQuantLib_ZeroBondWithRebuiltCurve`, bond, dateVec, zeroVec, dateparams)
 }
 
 convertibleZeroBondEngine <- function(rparam, processParam, dividendYieldDateVec, dividendYieldZeroVec, rffDateVec, rffZeroVec, dividendScheduleFrame, callabilityScheduleFrame, datemisc) {
-    .Call('_RQuantLib_convertibleZeroBondEngine', PACKAGE = 'RQuantLib', rparam, processParam, dividendYieldDateVec, dividendYieldZeroVec, rffDateVec, rffZeroVec, dividendScheduleFrame, callabilityScheduleFrame, datemisc)
+    .Call(`_RQuantLib_convertibleZeroBondEngine`, rparam, processParam, dividendYieldDateVec, dividendYieldZeroVec, rffDateVec, rffZeroVec, dividendScheduleFrame, callabilityScheduleFrame, datemisc)
 }
 
 convertibleFixedBondEngine <- function(rparam, rates, processParam, dividendYieldDateVec, dividendYieldZeroVec, rffDateVec, rffZeroVec, dividendScheduleFrame, callabilityScheduleFrame, datemisc) {
-    .Call('_RQuantLib_convertibleFixedBondEngine', PACKAGE = 'RQuantLib', rparam, rates, processParam, dividendYieldDateVec, dividendYieldZeroVec, rffDateVec, rffZeroVec, dividendScheduleFrame, callabilityScheduleFrame, datemisc)
+    .Call(`_RQuantLib_convertibleFixedBondEngine`, rparam, rates, processParam, dividendYieldDateVec, dividendYieldZeroVec, rffDateVec, rffZeroVec, dividendScheduleFrame, callabilityScheduleFrame, datemisc)
 }
 
 convertibleFloatingBondEngine <- function(rparam, processParam, dividendYieldDateVec, dividendYieldZeroVec, rffDateVec, rffZeroVec, iborIndexDateVec, iborIndexZeroVec, iborparams, spreads, dividendScheduleFrame, callabilityScheduleFrame, datemisc) {
-    .Call('_RQuantLib_convertibleFloatingBondEngine', PACKAGE = 'RQuantLib', rparam, processParam, dividendYieldDateVec, dividendYieldZeroVec, rffDateVec, rffZeroVec, iborIndexDateVec, iborIndexZeroVec, iborparams, spreads, dividendScheduleFrame, callabilityScheduleFrame, datemisc)
+    .Call(`_RQuantLib_convertibleFloatingBondEngine`, rparam, processParam, dividendYieldDateVec, dividendYieldZeroVec, rffDateVec, rffZeroVec, iborIndexDateVec, iborIndexZeroVec, iborparams, spreads, dividendScheduleFrame, callabilityScheduleFrame, datemisc)
 }
 
 callableBondEngine <- function(rparam, hwparam, coupon, callabilityScheduleFrame, datemisc) {
-    .Call('_RQuantLib_callableBondEngine', PACKAGE = 'RQuantLib', rparam, hwparam, coupon, callabilityScheduleFrame, datemisc)
+    .Call(`_RQuantLib_callableBondEngine`, rparam, hwparam, coupon, callabilityScheduleFrame, datemisc)
 }
 
 fittedBondCurveEngine <- function(curveparam, length, coupons, marketQuotes, datemisc) {
-    .Call('_RQuantLib_fittedBondCurveEngine', PACKAGE = 'RQuantLib', curveparam, length, coupons, marketQuotes, datemisc)
+    .Call(`_RQuantLib_fittedBondCurveEngine`, curveparam, length, coupons, marketQuotes, datemisc)
 }
 
 setCalendarContext <- function(calendar, fixingDays, settleDate) {
-    .Call('_RQuantLib_setCalendarContext', PACKAGE = 'RQuantLib', calendar, fixingDays, settleDate)
+    .Call(`_RQuantLib_setCalendarContext`, calendar, fixingDays, settleDate)
 }
 
 isBusinessDay <- function(calendar, dates) {
-    .Call('_RQuantLib_isBusinessDay', PACKAGE = 'RQuantLib', calendar, dates)
+    .Call(`_RQuantLib_isBusinessDay`, calendar, dates)
 }
 
 isHoliday <- function(calendar, dates) {
-    .Call('_RQuantLib_isHoliday', PACKAGE = 'RQuantLib', calendar, dates)
+    .Call(`_RQuantLib_isHoliday`, calendar, dates)
 }
 
 isWeekend <- function(calendar, dates) {
-    .Call('_RQuantLib_isWeekend', PACKAGE = 'RQuantLib', calendar, dates)
+    .Call(`_RQuantLib_isWeekend`, calendar, dates)
 }
 
 isEndOfMonth <- function(calendar, dates) {
-    .Call('_RQuantLib_isEndOfMonth', PACKAGE = 'RQuantLib', calendar, dates)
+    .Call(`_RQuantLib_isEndOfMonth`, calendar, dates)
 }
 
 getEndOfMonth <- function(calendar, dates) {
-    .Call('_RQuantLib_getEndOfMonth', PACKAGE = 'RQuantLib', calendar, dates)
+    .Call(`_RQuantLib_getEndOfMonth`, calendar, dates)
 }
 
 adjust <- function(calendar, dates, bdc = 0L) {
-    .Call('_RQuantLib_adjust', PACKAGE = 'RQuantLib', calendar, dates, bdc)
+    .Call(`_RQuantLib_adjust`, calendar, dates, bdc)
 }
 
 advance1 <- function(calendar, amount, unit, bdcVal, emr, dates) {
-    .Call('_RQuantLib_advance1', PACKAGE = 'RQuantLib', calendar, amount, unit, bdcVal, emr, dates)
+    .Call(`_RQuantLib_advance1`, calendar, amount, unit, bdcVal, emr, dates)
 }
 
 advance2 <- function(calendar, period, bdcVal, emr, dates) {
-    .Call('_RQuantLib_advance2', PACKAGE = 'RQuantLib', calendar, period, bdcVal, emr, dates)
+    .Call(`_RQuantLib_advance2`, calendar, period, bdcVal, emr, dates)
 }
 
 businessDaysBetween <- function(calendar, from, to, includeFirst = TRUE, includeLast = FALSE) {
-    .Call('_RQuantLib_businessDaysBetween', PACKAGE = 'RQuantLib', calendar, from, to, includeFirst, includeLast)
+    .Call(`_RQuantLib_businessDaysBetween`, calendar, from, to, includeFirst, includeLast)
 }
 
 getHolidayList <- function(calendar, from, to, includeWeekends = FALSE) {
-    .Call('_RQuantLib_getHolidayList', PACKAGE = 'RQuantLib', calendar, from, to, includeWeekends)
+    .Call(`_RQuantLib_getHolidayList`, calendar, from, to, includeWeekends)
 }
 
 advanceDate <- function(issueDate, days) {
-    .Call('_RQuantLib_advanceDate', PACKAGE = 'RQuantLib', issueDate, days)
+    .Call(`_RQuantLib_advanceDate`, issueDate, days)
 }
 
 dayCount <- function(startDates, endDates, dayCounters) {
-    .Call('_RQuantLib_dayCount', PACKAGE = 'RQuantLib', startDates, endDates, dayCounters)
+    .Call(`_RQuantLib_dayCount`, startDates, endDates, dayCounters)
 }
 
 yearFraction <- function(startDates, endDates, dayCounters) {
-    .Call('_RQuantLib_yearFraction', PACKAGE = 'RQuantLib', startDates, endDates, dayCounters)
+    .Call(`_RQuantLib_yearFraction`, startDates, endDates, dayCounters)
 }
 
 setEvaluationDate <- function(evalDate) {
-    .Call('_RQuantLib_setEvaluationDate', PACKAGE = 'RQuantLib', evalDate)
+    .Call(`_RQuantLib_setEvaluationDate`, evalDate)
 }
 
 discountCurveEngine <- function(rparams, tslist, times, legParams) {
-    .Call('_RQuantLib_discountCurveEngine', PACKAGE = 'RQuantLib', rparams, tslist, times, legParams)
+    .Call(`_RQuantLib_discountCurveEngine`, rparams, tslist, times, legParams)
 }
 
 calibrateHullWhiteUsingCapsEngine <- function(termStrcDateVec, termStrcZeroVec, capDF, iborDateVec, iborZeroVec, iborType, evalDate) {
-    .Call('_RQuantLib_calibrateHullWhiteUsingCapsEngine', PACKAGE = 'RQuantLib', termStrcDateVec, termStrcZeroVec, capDF, iborDateVec, iborZeroVec, iborType, evalDate)
+    .Call(`_RQuantLib_calibrateHullWhiteUsingCapsEngine`, termStrcDateVec, termStrcZeroVec, capDF, iborDateVec, iborZeroVec, iborType, evalDate)
 }
 
 calibrateHullWhiteUsingSwapsEngine <- function(termStrcDateVec, termStrcZeroVec, swapDF, iborDateVec, iborZeroVec, iborType, evalDate) {
-    .Call('_RQuantLib_calibrateHullWhiteUsingSwapsEngine', PACKAGE = 'RQuantLib', termStrcDateVec, termStrcZeroVec, swapDF, iborDateVec, iborZeroVec, iborType, evalDate)
+    .Call(`_RQuantLib_calibrateHullWhiteUsingSwapsEngine`, termStrcDateVec, termStrcZeroVec, swapDF, iborDateVec, iborZeroVec, iborType, evalDate)
 }
 
 europeanOptionImpliedVolatilityEngine <- function(type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volatility) {
-    .Call('_RQuantLib_europeanOptionImpliedVolatilityEngine', PACKAGE = 'RQuantLib', type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volatility)
+    .Call(`_RQuantLib_europeanOptionImpliedVolatilityEngine`, type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volatility)
 }
 
 americanOptionImpliedVolatilityEngine <- function(type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volguess, timesteps, gridpoints) {
-    .Call('_RQuantLib_americanOptionImpliedVolatilityEngine', PACKAGE = 'RQuantLib', type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volguess, timesteps, gridpoints)
+    .Call(`_RQuantLib_americanOptionImpliedVolatilityEngine`, type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volguess, timesteps, gridpoints)
 }
 
 sabrengine <- function(rparam, legParams, dateVec, zeroVec, swaptionMat, swapLengths, atmVols, strikes, smirkVols) {
-    .Call('_RQuantLib_sabrengine', PACKAGE = 'RQuantLib', rparam, legParams, dateVec, zeroVec, swaptionMat, swapLengths, atmVols, strikes, smirkVols)
+    .Call(`_RQuantLib_sabrengine`, rparam, legParams, dateVec, zeroVec, swaptionMat, swapLengths, atmVols, strikes, smirkVols)
 }
 
 CreateSchedule <- function(params) {
-    .Call('_RQuantLib_CreateSchedule', PACKAGE = 'RQuantLib', params)
+    .Call(`_RQuantLib_CreateSchedule`, params)
 }
 
 #' This function returns the QuantLib version string as encoded in the header
@@ -199,7 +199,7 @@ CreateSchedule <- function(params) {
 #' @examples
 #'   getQuantLibVersion()
 getQuantLibVersion <- function() {
-    .Call('_RQuantLib_getQuantLibVersion', PACKAGE = 'RQuantLib')
+    .Call(`_RQuantLib_getQuantLibVersion`)
 }
 
 #' This function returns a named vector of boolean variables describing several
@@ -213,27 +213,27 @@ getQuantLibVersion <- function() {
 #' @examples
 #'   getQuantLibCapabilities()
 getQuantLibCapabilities <- function() {
-    .Call('_RQuantLib_getQuantLibCapabilities', PACKAGE = 'RQuantLib')
+    .Call(`_RQuantLib_getQuantLibCapabilities`)
 }
 
 europeanOptionEngine <- function(type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, discreteDividends, discreteDividendsTimeUntil) {
-    .Call('_RQuantLib_europeanOptionEngine', PACKAGE = 'RQuantLib', type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, discreteDividends, discreteDividendsTimeUntil)
+    .Call(`_RQuantLib_europeanOptionEngine`, type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, discreteDividends, discreteDividendsTimeUntil)
 }
 
 americanOptionEngine <- function(type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, timeSteps, gridPoints, engine, discreteDividends, discreteDividendsTimeUntil) {
-    .Call('_RQuantLib_americanOptionEngine', PACKAGE = 'RQuantLib', type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, timeSteps, gridPoints, engine, discreteDividends, discreteDividendsTimeUntil)
+    .Call(`_RQuantLib_americanOptionEngine`, type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, timeSteps, gridPoints, engine, discreteDividends, discreteDividendsTimeUntil)
 }
 
 europeanOptionArraysEngine <- function(type, par) {
-    .Call('_RQuantLib_europeanOptionArraysEngine', PACKAGE = 'RQuantLib', type, par)
+    .Call(`_RQuantLib_europeanOptionArraysEngine`, type, par)
 }
 
 zeroprice <- function(yield, maturity, settle, period, basis) {
-    .Call('_RQuantLib_zeroprice', PACKAGE = 'RQuantLib', yield, maturity, settle, period, basis)
+    .Call(`_RQuantLib_zeroprice`, yield, maturity, settle, period, basis)
 }
 
 zeroyield <- function(price, maturity, settle, period, basis) {
-    .Call('_RQuantLib_zeroyield', PACKAGE = 'RQuantLib', price, maturity, settle, period, basis)
+    .Call(`_RQuantLib_zeroyield`, price, maturity, settle, period, basis)
 }
 
 # Register entry points for exported C++ functions

@@ -1,3 +1,10 @@
+2017-08-03  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll minor version and date
+
+	* NAMESPACE: Set .registration=TRUE
+	* R/RcppExports.R: Updated again with .registration=TRUE
+
 2017-08-02  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/affine.cpp (affineWithRebuiltCurveEngine): Correction to BKTree

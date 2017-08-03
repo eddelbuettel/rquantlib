@@ -1,13 +1,13 @@
 ## Emacs, make this -*- mode: R; -*-
 
-import("methods");
+import("methods")
 importFrom("Rcpp", "Rcpp.plugin.maker", "sourceCpp")
 importFrom("stats", "sd")
 importFrom("graphics", "par", "plot", "lines", "legend")
 importFrom("utils", "compareVersion")
-importFrom("zoo","zoo","na.spline") 
+importFrom("zoo","zoo","na.spline")
 
-useDynLib("RQuantLib")
+useDynLib("RQuantLib", .registration=TRUE)
 
 export(
     ##--arrays.R

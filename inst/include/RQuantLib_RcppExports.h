@@ -16,7 +16,7 @@ namespace RQuantLib {
             require("RQuantLib", Rcpp::Named("quietly") = true);
             typedef int(*Ptr_validate)(const char*);
             static Ptr_validate p_validate = (Ptr_validate)
-                R_GetCCallable("RQuantLib", "RQuantLib_RcppExport_validate");
+                R_GetCCallable("RQuantLib", "_RQuantLib_RcppExport_validate");
             if (!p_validate(sig)) {
                 throw Rcpp::function_not_exported(
                     "C++ function with signature '" + std::string(sig) + "' not found in RQuantLib");
@@ -29,12 +29,12 @@ namespace RQuantLib {
         static Ptr_zeroPriceByYieldEngine p_zeroPriceByYieldEngine = NULL;
         if (p_zeroPriceByYieldEngine == NULL) {
             validateSignature("double(*zeroPriceByYieldEngine)(double,double,double,double,double,double,QuantLib::Date,QuantLib::Date)");
-            p_zeroPriceByYieldEngine = (Ptr_zeroPriceByYieldEngine)R_GetCCallable("RQuantLib", "RQuantLib_zeroPriceByYieldEngine");
+            p_zeroPriceByYieldEngine = (Ptr_zeroPriceByYieldEngine)R_GetCCallable("RQuantLib", "_RQuantLib_zeroPriceByYieldEngine");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_zeroPriceByYieldEngine(Rcpp::wrap(yield), Rcpp::wrap(faceAmount), Rcpp::wrap(dayCounter), Rcpp::wrap(frequency), Rcpp::wrap(businessDayConvention), Rcpp::wrap(compound), Rcpp::wrap(maturityDate), Rcpp::wrap(issueDate));
+            rcpp_result_gen = p_zeroPriceByYieldEngine(Shield<SEXP>(Rcpp::wrap(yield)), Shield<SEXP>(Rcpp::wrap(faceAmount)), Shield<SEXP>(Rcpp::wrap(dayCounter)), Shield<SEXP>(Rcpp::wrap(frequency)), Shield<SEXP>(Rcpp::wrap(businessDayConvention)), Shield<SEXP>(Rcpp::wrap(compound)), Shield<SEXP>(Rcpp::wrap(maturityDate)), Shield<SEXP>(Rcpp::wrap(issueDate)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -48,12 +48,12 @@ namespace RQuantLib {
         static Ptr_zeroYieldByPriceEngine p_zeroYieldByPriceEngine = NULL;
         if (p_zeroYieldByPriceEngine == NULL) {
             validateSignature("double(*zeroYieldByPriceEngine)(double,double,double,double,double,double,QuantLib::Date,QuantLib::Date)");
-            p_zeroYieldByPriceEngine = (Ptr_zeroYieldByPriceEngine)R_GetCCallable("RQuantLib", "RQuantLib_zeroYieldByPriceEngine");
+            p_zeroYieldByPriceEngine = (Ptr_zeroYieldByPriceEngine)R_GetCCallable("RQuantLib", "_RQuantLib_zeroYieldByPriceEngine");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_zeroYieldByPriceEngine(Rcpp::wrap(price), Rcpp::wrap(faceAmount), Rcpp::wrap(dayCounter), Rcpp::wrap(frequency), Rcpp::wrap(businessDayConvention), Rcpp::wrap(compound), Rcpp::wrap(maturityDate), Rcpp::wrap(issueDate));
+            rcpp_result_gen = p_zeroYieldByPriceEngine(Shield<SEXP>(Rcpp::wrap(price)), Shield<SEXP>(Rcpp::wrap(faceAmount)), Shield<SEXP>(Rcpp::wrap(dayCounter)), Shield<SEXP>(Rcpp::wrap(frequency)), Shield<SEXP>(Rcpp::wrap(businessDayConvention)), Shield<SEXP>(Rcpp::wrap(compound)), Shield<SEXP>(Rcpp::wrap(maturityDate)), Shield<SEXP>(Rcpp::wrap(issueDate)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -67,12 +67,12 @@ namespace RQuantLib {
         static Ptr_fixedRateBondYieldByPriceEngine p_fixedRateBondYieldByPriceEngine = NULL;
         if (p_fixedRateBondYieldByPriceEngine == NULL) {
             validateSignature("double(*fixedRateBondYieldByPriceEngine)(double,double,std::string,double,double,double,double,double,double,QuantLib::Date,QuantLib::Date,QuantLib::Date,std::vector<double>)");
-            p_fixedRateBondYieldByPriceEngine = (Ptr_fixedRateBondYieldByPriceEngine)R_GetCCallable("RQuantLib", "RQuantLib_fixedRateBondYieldByPriceEngine");
+            p_fixedRateBondYieldByPriceEngine = (Ptr_fixedRateBondYieldByPriceEngine)R_GetCCallable("RQuantLib", "_RQuantLib_fixedRateBondYieldByPriceEngine");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_fixedRateBondYieldByPriceEngine(Rcpp::wrap(settlementDays), Rcpp::wrap(price), Rcpp::wrap(cal), Rcpp::wrap(faceAmount), Rcpp::wrap(businessDayConvention), Rcpp::wrap(compound), Rcpp::wrap(redemption), Rcpp::wrap(dayCounter), Rcpp::wrap(frequency), Rcpp::wrap(maturityDate), Rcpp::wrap(issueDate), Rcpp::wrap(effectiveDate), Rcpp::wrap(rates));
+            rcpp_result_gen = p_fixedRateBondYieldByPriceEngine(Shield<SEXP>(Rcpp::wrap(settlementDays)), Shield<SEXP>(Rcpp::wrap(price)), Shield<SEXP>(Rcpp::wrap(cal)), Shield<SEXP>(Rcpp::wrap(faceAmount)), Shield<SEXP>(Rcpp::wrap(businessDayConvention)), Shield<SEXP>(Rcpp::wrap(compound)), Shield<SEXP>(Rcpp::wrap(redemption)), Shield<SEXP>(Rcpp::wrap(dayCounter)), Shield<SEXP>(Rcpp::wrap(frequency)), Shield<SEXP>(Rcpp::wrap(maturityDate)), Shield<SEXP>(Rcpp::wrap(issueDate)), Shield<SEXP>(Rcpp::wrap(effectiveDate)), Shield<SEXP>(Rcpp::wrap(rates)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -86,12 +86,12 @@ namespace RQuantLib {
         static Ptr_fixedRateBondPriceByYieldEngine p_fixedRateBondPriceByYieldEngine = NULL;
         if (p_fixedRateBondPriceByYieldEngine == NULL) {
             validateSignature("double(*fixedRateBondPriceByYieldEngine)(double,double,std::string,double,double,double,double,double,double,QuantLib::Date,QuantLib::Date,QuantLib::Date,std::vector<double>)");
-            p_fixedRateBondPriceByYieldEngine = (Ptr_fixedRateBondPriceByYieldEngine)R_GetCCallable("RQuantLib", "RQuantLib_fixedRateBondPriceByYieldEngine");
+            p_fixedRateBondPriceByYieldEngine = (Ptr_fixedRateBondPriceByYieldEngine)R_GetCCallable("RQuantLib", "_RQuantLib_fixedRateBondPriceByYieldEngine");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_fixedRateBondPriceByYieldEngine(Rcpp::wrap(settlementDays), Rcpp::wrap(yield), Rcpp::wrap(cal), Rcpp::wrap(faceAmount), Rcpp::wrap(businessDayConvention), Rcpp::wrap(compound), Rcpp::wrap(redemption), Rcpp::wrap(dayCounter), Rcpp::wrap(frequency), Rcpp::wrap(maturityDate), Rcpp::wrap(issueDate), Rcpp::wrap(effectiveDate), Rcpp::wrap(rates));
+            rcpp_result_gen = p_fixedRateBondPriceByYieldEngine(Shield<SEXP>(Rcpp::wrap(settlementDays)), Shield<SEXP>(Rcpp::wrap(yield)), Shield<SEXP>(Rcpp::wrap(cal)), Shield<SEXP>(Rcpp::wrap(faceAmount)), Shield<SEXP>(Rcpp::wrap(businessDayConvention)), Shield<SEXP>(Rcpp::wrap(compound)), Shield<SEXP>(Rcpp::wrap(redemption)), Shield<SEXP>(Rcpp::wrap(dayCounter)), Shield<SEXP>(Rcpp::wrap(frequency)), Shield<SEXP>(Rcpp::wrap(maturityDate)), Shield<SEXP>(Rcpp::wrap(issueDate)), Shield<SEXP>(Rcpp::wrap(effectiveDate)), Shield<SEXP>(Rcpp::wrap(rates)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -105,12 +105,12 @@ namespace RQuantLib {
         static Ptr_FloatBond1 p_FloatBond1 = NULL;
         if (p_FloatBond1 == NULL) {
             validateSignature("Rcpp::List(*FloatBond1)(Rcpp::List,std::vector<double>,std::vector<double>,std::vector<double>,std::vector<double>,Rcpp::List,Rcpp::List,Rcpp::List,Rcpp::List)");
-            p_FloatBond1 = (Ptr_FloatBond1)R_GetCCallable("RQuantLib", "RQuantLib_FloatBond1");
+            p_FloatBond1 = (Ptr_FloatBond1)R_GetCCallable("RQuantLib", "_RQuantLib_FloatBond1");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_FloatBond1(Rcpp::wrap(bond), Rcpp::wrap(gearings), Rcpp::wrap(caps), Rcpp::wrap(spreads), Rcpp::wrap(floors), Rcpp::wrap(indexparams), Rcpp::wrap(index), Rcpp::wrap(discountCurve), Rcpp::wrap(dateparams));
+            rcpp_result_gen = p_FloatBond1(Shield<SEXP>(Rcpp::wrap(bond)), Shield<SEXP>(Rcpp::wrap(gearings)), Shield<SEXP>(Rcpp::wrap(caps)), Shield<SEXP>(Rcpp::wrap(spreads)), Shield<SEXP>(Rcpp::wrap(floors)), Shield<SEXP>(Rcpp::wrap(indexparams)), Shield<SEXP>(Rcpp::wrap(index)), Shield<SEXP>(Rcpp::wrap(discountCurve)), Shield<SEXP>(Rcpp::wrap(dateparams)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -124,12 +124,12 @@ namespace RQuantLib {
         static Ptr_FloatBond2 p_FloatBond2 = NULL;
         if (p_FloatBond2 == NULL) {
             validateSignature("Rcpp::List(*FloatBond2)(Rcpp::List,std::vector<double>,std::vector<double>,std::vector<double>,std::vector<double>,Rcpp::List,Rcpp::List,Rcpp::List,Rcpp::List,Rcpp::List,Rcpp::List)");
-            p_FloatBond2 = (Ptr_FloatBond2)R_GetCCallable("RQuantLib", "RQuantLib_FloatBond2");
+            p_FloatBond2 = (Ptr_FloatBond2)R_GetCCallable("RQuantLib", "_RQuantLib_FloatBond2");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_FloatBond2(Rcpp::wrap(bond), Rcpp::wrap(gearings), Rcpp::wrap(caps), Rcpp::wrap(spreads), Rcpp::wrap(floors), Rcpp::wrap(indexparams), Rcpp::wrap(index_params), Rcpp::wrap(index_tsQuotes), Rcpp::wrap(index_times), Rcpp::wrap(discountCurve), Rcpp::wrap(dateparams));
+            rcpp_result_gen = p_FloatBond2(Shield<SEXP>(Rcpp::wrap(bond)), Shield<SEXP>(Rcpp::wrap(gearings)), Shield<SEXP>(Rcpp::wrap(caps)), Shield<SEXP>(Rcpp::wrap(spreads)), Shield<SEXP>(Rcpp::wrap(floors)), Shield<SEXP>(Rcpp::wrap(indexparams)), Shield<SEXP>(Rcpp::wrap(index_params)), Shield<SEXP>(Rcpp::wrap(index_tsQuotes)), Shield<SEXP>(Rcpp::wrap(index_times)), Shield<SEXP>(Rcpp::wrap(discountCurve)), Shield<SEXP>(Rcpp::wrap(dateparams)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -143,12 +143,12 @@ namespace RQuantLib {
         static Ptr_FloatBond3 p_FloatBond3 = NULL;
         if (p_FloatBond3 == NULL) {
             validateSignature("Rcpp::List(*FloatBond3)(Rcpp::List,std::vector<double>,std::vector<double>,std::vector<double>,std::vector<double>,Rcpp::List,Rcpp::List,Rcpp::List,Rcpp::List,Rcpp::List,Rcpp::List)");
-            p_FloatBond3 = (Ptr_FloatBond3)R_GetCCallable("RQuantLib", "RQuantLib_FloatBond3");
+            p_FloatBond3 = (Ptr_FloatBond3)R_GetCCallable("RQuantLib", "_RQuantLib_FloatBond3");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_FloatBond3(Rcpp::wrap(bond), Rcpp::wrap(gearings), Rcpp::wrap(caps), Rcpp::wrap(spreads), Rcpp::wrap(floors), Rcpp::wrap(indexparams), Rcpp::wrap(index), Rcpp::wrap(disc_params), Rcpp::wrap(disc_tsQuotes), Rcpp::wrap(disc_times), Rcpp::wrap(dateparams));
+            rcpp_result_gen = p_FloatBond3(Shield<SEXP>(Rcpp::wrap(bond)), Shield<SEXP>(Rcpp::wrap(gearings)), Shield<SEXP>(Rcpp::wrap(caps)), Shield<SEXP>(Rcpp::wrap(spreads)), Shield<SEXP>(Rcpp::wrap(floors)), Shield<SEXP>(Rcpp::wrap(indexparams)), Shield<SEXP>(Rcpp::wrap(index)), Shield<SEXP>(Rcpp::wrap(disc_params)), Shield<SEXP>(Rcpp::wrap(disc_tsQuotes)), Shield<SEXP>(Rcpp::wrap(disc_times)), Shield<SEXP>(Rcpp::wrap(dateparams)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -162,12 +162,12 @@ namespace RQuantLib {
         static Ptr_FloatBond4 p_FloatBond4 = NULL;
         if (p_FloatBond4 == NULL) {
             validateSignature("Rcpp::List(*FloatBond4)(Rcpp::List,std::vector<double>,std::vector<double>,std::vector<double>,std::vector<double>,Rcpp::List,Rcpp::List,Rcpp::List,Rcpp::List,Rcpp::List,Rcpp::List,Rcpp::List,Rcpp::List)");
-            p_FloatBond4 = (Ptr_FloatBond4)R_GetCCallable("RQuantLib", "RQuantLib_FloatBond4");
+            p_FloatBond4 = (Ptr_FloatBond4)R_GetCCallable("RQuantLib", "_RQuantLib_FloatBond4");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_FloatBond4(Rcpp::wrap(bond), Rcpp::wrap(gearings), Rcpp::wrap(caps), Rcpp::wrap(spreads), Rcpp::wrap(floors), Rcpp::wrap(indexparams), Rcpp::wrap(index_params), Rcpp::wrap(index_tsQuotes), Rcpp::wrap(index_times), Rcpp::wrap(disc_params), Rcpp::wrap(disc_tsQuotes), Rcpp::wrap(disc_times), Rcpp::wrap(dateparams));
+            rcpp_result_gen = p_FloatBond4(Shield<SEXP>(Rcpp::wrap(bond)), Shield<SEXP>(Rcpp::wrap(gearings)), Shield<SEXP>(Rcpp::wrap(caps)), Shield<SEXP>(Rcpp::wrap(spreads)), Shield<SEXP>(Rcpp::wrap(floors)), Shield<SEXP>(Rcpp::wrap(indexparams)), Shield<SEXP>(Rcpp::wrap(index_params)), Shield<SEXP>(Rcpp::wrap(index_tsQuotes)), Shield<SEXP>(Rcpp::wrap(index_times)), Shield<SEXP>(Rcpp::wrap(disc_params)), Shield<SEXP>(Rcpp::wrap(disc_tsQuotes)), Shield<SEXP>(Rcpp::wrap(disc_times)), Shield<SEXP>(Rcpp::wrap(dateparams)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -181,12 +181,12 @@ namespace RQuantLib {
         static Ptr_floatingWithRebuiltCurveEngine p_floatingWithRebuiltCurveEngine = NULL;
         if (p_floatingWithRebuiltCurveEngine == NULL) {
             validateSignature("Rcpp::List(*floatingWithRebuiltCurveEngine)(Rcpp::List,std::vector<double>,std::vector<double>,std::vector<double>,std::vector<double>,Rcpp::List,std::vector<QuantLib::Date>,std::vector<double>,std::vector<QuantLib::Date>,std::vector<double>,Rcpp::List)");
-            p_floatingWithRebuiltCurveEngine = (Ptr_floatingWithRebuiltCurveEngine)R_GetCCallable("RQuantLib", "RQuantLib_floatingWithRebuiltCurveEngine");
+            p_floatingWithRebuiltCurveEngine = (Ptr_floatingWithRebuiltCurveEngine)R_GetCCallable("RQuantLib", "_RQuantLib_floatingWithRebuiltCurveEngine");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_floatingWithRebuiltCurveEngine(Rcpp::wrap(bondparams), Rcpp::wrap(gearings), Rcpp::wrap(spreads), Rcpp::wrap(caps), Rcpp::wrap(floors), Rcpp::wrap(indexparams), Rcpp::wrap(iborDateVec), Rcpp::wrap(iborzeroVec), Rcpp::wrap(dateVec), Rcpp::wrap(zeroVec), Rcpp::wrap(dateparams));
+            rcpp_result_gen = p_floatingWithRebuiltCurveEngine(Shield<SEXP>(Rcpp::wrap(bondparams)), Shield<SEXP>(Rcpp::wrap(gearings)), Shield<SEXP>(Rcpp::wrap(spreads)), Shield<SEXP>(Rcpp::wrap(caps)), Shield<SEXP>(Rcpp::wrap(floors)), Shield<SEXP>(Rcpp::wrap(indexparams)), Shield<SEXP>(Rcpp::wrap(iborDateVec)), Shield<SEXP>(Rcpp::wrap(iborzeroVec)), Shield<SEXP>(Rcpp::wrap(dateVec)), Shield<SEXP>(Rcpp::wrap(zeroVec)), Shield<SEXP>(Rcpp::wrap(dateparams)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -200,12 +200,12 @@ namespace RQuantLib {
         static Ptr_FixedRateWithYield p_FixedRateWithYield = NULL;
         if (p_FixedRateWithYield == NULL) {
             validateSignature("Rcpp::List(*FixedRateWithYield)(Rcpp::List,std::vector<double>,Rcpp::List,Rcpp::List,double)");
-            p_FixedRateWithYield = (Ptr_FixedRateWithYield)R_GetCCallable("RQuantLib", "RQuantLib_FixedRateWithYield");
+            p_FixedRateWithYield = (Ptr_FixedRateWithYield)R_GetCCallable("RQuantLib", "_RQuantLib_FixedRateWithYield");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_FixedRateWithYield(Rcpp::wrap(bondparam), Rcpp::wrap(ratesVec), Rcpp::wrap(scheduleparam), Rcpp::wrap(calcparam), Rcpp::wrap(yield));
+            rcpp_result_gen = p_FixedRateWithYield(Shield<SEXP>(Rcpp::wrap(bondparam)), Shield<SEXP>(Rcpp::wrap(ratesVec)), Shield<SEXP>(Rcpp::wrap(scheduleparam)), Shield<SEXP>(Rcpp::wrap(calcparam)), Shield<SEXP>(Rcpp::wrap(yield)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -219,12 +219,12 @@ namespace RQuantLib {
         static Ptr_FixedRateWithPrice p_FixedRateWithPrice = NULL;
         if (p_FixedRateWithPrice == NULL) {
             validateSignature("Rcpp::List(*FixedRateWithPrice)(Rcpp::List,std::vector<double>,Rcpp::List,Rcpp::List,double)");
-            p_FixedRateWithPrice = (Ptr_FixedRateWithPrice)R_GetCCallable("RQuantLib", "RQuantLib_FixedRateWithPrice");
+            p_FixedRateWithPrice = (Ptr_FixedRateWithPrice)R_GetCCallable("RQuantLib", "_RQuantLib_FixedRateWithPrice");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_FixedRateWithPrice(Rcpp::wrap(bondparam), Rcpp::wrap(ratesVec), Rcpp::wrap(scheduleparam), Rcpp::wrap(calcparam), Rcpp::wrap(price));
+            rcpp_result_gen = p_FixedRateWithPrice(Shield<SEXP>(Rcpp::wrap(bondparam)), Shield<SEXP>(Rcpp::wrap(ratesVec)), Shield<SEXP>(Rcpp::wrap(scheduleparam)), Shield<SEXP>(Rcpp::wrap(calcparam)), Shield<SEXP>(Rcpp::wrap(price)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -238,12 +238,12 @@ namespace RQuantLib {
         static Ptr_FixedRateWithRebuiltCurve p_FixedRateWithRebuiltCurve = NULL;
         if (p_FixedRateWithRebuiltCurve == NULL) {
             validateSignature("Rcpp::List(*FixedRateWithRebuiltCurve)(Rcpp::List,std::vector<double>,Rcpp::List,Rcpp::List,std::vector<QuantLib::Date>,std::vector<double>)");
-            p_FixedRateWithRebuiltCurve = (Ptr_FixedRateWithRebuiltCurve)R_GetCCallable("RQuantLib", "RQuantLib_FixedRateWithRebuiltCurve");
+            p_FixedRateWithRebuiltCurve = (Ptr_FixedRateWithRebuiltCurve)R_GetCCallable("RQuantLib", "_RQuantLib_FixedRateWithRebuiltCurve");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_FixedRateWithRebuiltCurve(Rcpp::wrap(bondparam), Rcpp::wrap(ratesVec), Rcpp::wrap(scheduleparam), Rcpp::wrap(calcparam), Rcpp::wrap(dateVec), Rcpp::wrap(zeroVec));
+            rcpp_result_gen = p_FixedRateWithRebuiltCurve(Shield<SEXP>(Rcpp::wrap(bondparam)), Shield<SEXP>(Rcpp::wrap(ratesVec)), Shield<SEXP>(Rcpp::wrap(scheduleparam)), Shield<SEXP>(Rcpp::wrap(calcparam)), Shield<SEXP>(Rcpp::wrap(dateVec)), Shield<SEXP>(Rcpp::wrap(zeroVec)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -257,12 +257,12 @@ namespace RQuantLib {
         static Ptr_ZeroBondWithRebuiltCurve p_ZeroBondWithRebuiltCurve = NULL;
         if (p_ZeroBondWithRebuiltCurve == NULL) {
             validateSignature("Rcpp::List(*ZeroBondWithRebuiltCurve)(Rcpp::List,std::vector<QuantLib::Date>,std::vector<double>,Rcpp::List)");
-            p_ZeroBondWithRebuiltCurve = (Ptr_ZeroBondWithRebuiltCurve)R_GetCCallable("RQuantLib", "RQuantLib_ZeroBondWithRebuiltCurve");
+            p_ZeroBondWithRebuiltCurve = (Ptr_ZeroBondWithRebuiltCurve)R_GetCCallable("RQuantLib", "_RQuantLib_ZeroBondWithRebuiltCurve");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_ZeroBondWithRebuiltCurve(Rcpp::wrap(bond), Rcpp::wrap(dateVec), Rcpp::wrap(zeroVec), Rcpp::wrap(dateparams));
+            rcpp_result_gen = p_ZeroBondWithRebuiltCurve(Shield<SEXP>(Rcpp::wrap(bond)), Shield<SEXP>(Rcpp::wrap(dateVec)), Shield<SEXP>(Rcpp::wrap(zeroVec)), Shield<SEXP>(Rcpp::wrap(dateparams)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -276,12 +276,12 @@ namespace RQuantLib {
         static Ptr_convertibleZeroBondEngine p_convertibleZeroBondEngine = NULL;
         if (p_convertibleZeroBondEngine == NULL) {
             validateSignature("Rcpp::List(*convertibleZeroBondEngine)(Rcpp::List,Rcpp::List,std::vector<QuantLib::Date>,std::vector<double>,std::vector<QuantLib::Date>,std::vector<double>,Rcpp::DataFrame,Rcpp::DataFrame,Rcpp::List)");
-            p_convertibleZeroBondEngine = (Ptr_convertibleZeroBondEngine)R_GetCCallable("RQuantLib", "RQuantLib_convertibleZeroBondEngine");
+            p_convertibleZeroBondEngine = (Ptr_convertibleZeroBondEngine)R_GetCCallable("RQuantLib", "_RQuantLib_convertibleZeroBondEngine");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_convertibleZeroBondEngine(Rcpp::wrap(rparam), Rcpp::wrap(processParam), Rcpp::wrap(dividendYieldDateVec), Rcpp::wrap(dividendYieldZeroVec), Rcpp::wrap(rffDateVec), Rcpp::wrap(rffZeroVec), Rcpp::wrap(dividendScheduleFrame), Rcpp::wrap(callabilityScheduleFrame), Rcpp::wrap(datemisc));
+            rcpp_result_gen = p_convertibleZeroBondEngine(Shield<SEXP>(Rcpp::wrap(rparam)), Shield<SEXP>(Rcpp::wrap(processParam)), Shield<SEXP>(Rcpp::wrap(dividendYieldDateVec)), Shield<SEXP>(Rcpp::wrap(dividendYieldZeroVec)), Shield<SEXP>(Rcpp::wrap(rffDateVec)), Shield<SEXP>(Rcpp::wrap(rffZeroVec)), Shield<SEXP>(Rcpp::wrap(dividendScheduleFrame)), Shield<SEXP>(Rcpp::wrap(callabilityScheduleFrame)), Shield<SEXP>(Rcpp::wrap(datemisc)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -295,12 +295,12 @@ namespace RQuantLib {
         static Ptr_convertibleFixedBondEngine p_convertibleFixedBondEngine = NULL;
         if (p_convertibleFixedBondEngine == NULL) {
             validateSignature("Rcpp::List(*convertibleFixedBondEngine)(Rcpp::List,Rcpp::NumericVector,Rcpp::List,std::vector<QuantLib::Date>,std::vector<double>,std::vector<QuantLib::Date>,std::vector<double>,Rcpp::DataFrame,Rcpp::DataFrame,Rcpp::List)");
-            p_convertibleFixedBondEngine = (Ptr_convertibleFixedBondEngine)R_GetCCallable("RQuantLib", "RQuantLib_convertibleFixedBondEngine");
+            p_convertibleFixedBondEngine = (Ptr_convertibleFixedBondEngine)R_GetCCallable("RQuantLib", "_RQuantLib_convertibleFixedBondEngine");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_convertibleFixedBondEngine(Rcpp::wrap(rparam), Rcpp::wrap(rates), Rcpp::wrap(processParam), Rcpp::wrap(dividendYieldDateVec), Rcpp::wrap(dividendYieldZeroVec), Rcpp::wrap(rffDateVec), Rcpp::wrap(rffZeroVec), Rcpp::wrap(dividendScheduleFrame), Rcpp::wrap(callabilityScheduleFrame), Rcpp::wrap(datemisc));
+            rcpp_result_gen = p_convertibleFixedBondEngine(Shield<SEXP>(Rcpp::wrap(rparam)), Shield<SEXP>(Rcpp::wrap(rates)), Shield<SEXP>(Rcpp::wrap(processParam)), Shield<SEXP>(Rcpp::wrap(dividendYieldDateVec)), Shield<SEXP>(Rcpp::wrap(dividendYieldZeroVec)), Shield<SEXP>(Rcpp::wrap(rffDateVec)), Shield<SEXP>(Rcpp::wrap(rffZeroVec)), Shield<SEXP>(Rcpp::wrap(dividendScheduleFrame)), Shield<SEXP>(Rcpp::wrap(callabilityScheduleFrame)), Shield<SEXP>(Rcpp::wrap(datemisc)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -314,12 +314,12 @@ namespace RQuantLib {
         static Ptr_convertibleFloatingBondEngine p_convertibleFloatingBondEngine = NULL;
         if (p_convertibleFloatingBondEngine == NULL) {
             validateSignature("Rcpp::List(*convertibleFloatingBondEngine)(Rcpp::List,Rcpp::List,std::vector<QuantLib::Date>,std::vector<double>,std::vector<QuantLib::Date>,std::vector<double>,std::vector<QuantLib::Date>,std::vector<double>,Rcpp::List,std::vector<double>,Rcpp::DataFrame,Rcpp::DataFrame,Rcpp::List)");
-            p_convertibleFloatingBondEngine = (Ptr_convertibleFloatingBondEngine)R_GetCCallable("RQuantLib", "RQuantLib_convertibleFloatingBondEngine");
+            p_convertibleFloatingBondEngine = (Ptr_convertibleFloatingBondEngine)R_GetCCallable("RQuantLib", "_RQuantLib_convertibleFloatingBondEngine");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_convertibleFloatingBondEngine(Rcpp::wrap(rparam), Rcpp::wrap(processParam), Rcpp::wrap(dividendYieldDateVec), Rcpp::wrap(dividendYieldZeroVec), Rcpp::wrap(rffDateVec), Rcpp::wrap(rffZeroVec), Rcpp::wrap(iborIndexDateVec), Rcpp::wrap(iborIndexZeroVec), Rcpp::wrap(iborparams), Rcpp::wrap(spreads), Rcpp::wrap(dividendScheduleFrame), Rcpp::wrap(callabilityScheduleFrame), Rcpp::wrap(datemisc));
+            rcpp_result_gen = p_convertibleFloatingBondEngine(Shield<SEXP>(Rcpp::wrap(rparam)), Shield<SEXP>(Rcpp::wrap(processParam)), Shield<SEXP>(Rcpp::wrap(dividendYieldDateVec)), Shield<SEXP>(Rcpp::wrap(dividendYieldZeroVec)), Shield<SEXP>(Rcpp::wrap(rffDateVec)), Shield<SEXP>(Rcpp::wrap(rffZeroVec)), Shield<SEXP>(Rcpp::wrap(iborIndexDateVec)), Shield<SEXP>(Rcpp::wrap(iborIndexZeroVec)), Shield<SEXP>(Rcpp::wrap(iborparams)), Shield<SEXP>(Rcpp::wrap(spreads)), Shield<SEXP>(Rcpp::wrap(dividendScheduleFrame)), Shield<SEXP>(Rcpp::wrap(callabilityScheduleFrame)), Shield<SEXP>(Rcpp::wrap(datemisc)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -333,12 +333,12 @@ namespace RQuantLib {
         static Ptr_callableBondEngine p_callableBondEngine = NULL;
         if (p_callableBondEngine == NULL) {
             validateSignature("Rcpp::List(*callableBondEngine)(Rcpp::List,Rcpp::List,Rcpp::NumericVector,Rcpp::DataFrame,Rcpp::List)");
-            p_callableBondEngine = (Ptr_callableBondEngine)R_GetCCallable("RQuantLib", "RQuantLib_callableBondEngine");
+            p_callableBondEngine = (Ptr_callableBondEngine)R_GetCCallable("RQuantLib", "_RQuantLib_callableBondEngine");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_callableBondEngine(Rcpp::wrap(rparam), Rcpp::wrap(hwparam), Rcpp::wrap(coupon), Rcpp::wrap(callabilityScheduleFrame), Rcpp::wrap(datemisc));
+            rcpp_result_gen = p_callableBondEngine(Shield<SEXP>(Rcpp::wrap(rparam)), Shield<SEXP>(Rcpp::wrap(hwparam)), Shield<SEXP>(Rcpp::wrap(coupon)), Shield<SEXP>(Rcpp::wrap(callabilityScheduleFrame)), Shield<SEXP>(Rcpp::wrap(datemisc)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -352,12 +352,12 @@ namespace RQuantLib {
         static Ptr_fittedBondCurveEngine p_fittedBondCurveEngine = NULL;
         if (p_fittedBondCurveEngine == NULL) {
             validateSignature("Rcpp::List(*fittedBondCurveEngine)(Rcpp::List,Rcpp::NumericVector,Rcpp::NumericVector,Rcpp::NumericVector,Rcpp::List)");
-            p_fittedBondCurveEngine = (Ptr_fittedBondCurveEngine)R_GetCCallable("RQuantLib", "RQuantLib_fittedBondCurveEngine");
+            p_fittedBondCurveEngine = (Ptr_fittedBondCurveEngine)R_GetCCallable("RQuantLib", "_RQuantLib_fittedBondCurveEngine");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_fittedBondCurveEngine(Rcpp::wrap(curveparam), Rcpp::wrap(length), Rcpp::wrap(coupons), Rcpp::wrap(marketQuotes), Rcpp::wrap(datemisc));
+            rcpp_result_gen = p_fittedBondCurveEngine(Shield<SEXP>(Rcpp::wrap(curveparam)), Shield<SEXP>(Rcpp::wrap(length)), Shield<SEXP>(Rcpp::wrap(coupons)), Shield<SEXP>(Rcpp::wrap(marketQuotes)), Shield<SEXP>(Rcpp::wrap(datemisc)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -371,12 +371,12 @@ namespace RQuantLib {
         static Ptr_advanceDate p_advanceDate = NULL;
         if (p_advanceDate == NULL) {
             validateSignature("QuantLib::Date(*advanceDate)(QuantLib::Date,int)");
-            p_advanceDate = (Ptr_advanceDate)R_GetCCallable("RQuantLib", "RQuantLib_advanceDate");
+            p_advanceDate = (Ptr_advanceDate)R_GetCCallable("RQuantLib", "_RQuantLib_advanceDate");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_advanceDate(Rcpp::wrap(issueDate), Rcpp::wrap(days));
+            rcpp_result_gen = p_advanceDate(Shield<SEXP>(Rcpp::wrap(issueDate)), Shield<SEXP>(Rcpp::wrap(days)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -390,12 +390,12 @@ namespace RQuantLib {
         static Ptr_dayCount p_dayCount = NULL;
         if (p_dayCount == NULL) {
             validateSignature("std::vector<double>(*dayCount)(std::vector<QuantLib::Date>,std::vector<QuantLib::Date>,std::vector<double>)");
-            p_dayCount = (Ptr_dayCount)R_GetCCallable("RQuantLib", "RQuantLib_dayCount");
+            p_dayCount = (Ptr_dayCount)R_GetCCallable("RQuantLib", "_RQuantLib_dayCount");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_dayCount(Rcpp::wrap(startDates), Rcpp::wrap(endDates), Rcpp::wrap(dayCounters));
+            rcpp_result_gen = p_dayCount(Shield<SEXP>(Rcpp::wrap(startDates)), Shield<SEXP>(Rcpp::wrap(endDates)), Shield<SEXP>(Rcpp::wrap(dayCounters)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -409,12 +409,12 @@ namespace RQuantLib {
         static Ptr_yearFraction p_yearFraction = NULL;
         if (p_yearFraction == NULL) {
             validateSignature("std::vector<double>(*yearFraction)(std::vector<QuantLib::Date>,std::vector<QuantLib::Date>,std::vector<double>)");
-            p_yearFraction = (Ptr_yearFraction)R_GetCCallable("RQuantLib", "RQuantLib_yearFraction");
+            p_yearFraction = (Ptr_yearFraction)R_GetCCallable("RQuantLib", "_RQuantLib_yearFraction");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_yearFraction(Rcpp::wrap(startDates), Rcpp::wrap(endDates), Rcpp::wrap(dayCounters));
+            rcpp_result_gen = p_yearFraction(Shield<SEXP>(Rcpp::wrap(startDates)), Shield<SEXP>(Rcpp::wrap(endDates)), Shield<SEXP>(Rcpp::wrap(dayCounters)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -428,12 +428,12 @@ namespace RQuantLib {
         static Ptr_setEvaluationDate p_setEvaluationDate = NULL;
         if (p_setEvaluationDate == NULL) {
             validateSignature("bool(*setEvaluationDate)(QuantLib::Date)");
-            p_setEvaluationDate = (Ptr_setEvaluationDate)R_GetCCallable("RQuantLib", "RQuantLib_setEvaluationDate");
+            p_setEvaluationDate = (Ptr_setEvaluationDate)R_GetCCallable("RQuantLib", "_RQuantLib_setEvaluationDate");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_setEvaluationDate(Rcpp::wrap(evalDate));
+            rcpp_result_gen = p_setEvaluationDate(Shield<SEXP>(Rcpp::wrap(evalDate)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -447,12 +447,12 @@ namespace RQuantLib {
         static Ptr_europeanOptionImpliedVolatilityEngine p_europeanOptionImpliedVolatilityEngine = NULL;
         if (p_europeanOptionImpliedVolatilityEngine == NULL) {
             validateSignature("double(*europeanOptionImpliedVolatilityEngine)(std::string,double,double,double,double,double,double,double)");
-            p_europeanOptionImpliedVolatilityEngine = (Ptr_europeanOptionImpliedVolatilityEngine)R_GetCCallable("RQuantLib", "RQuantLib_europeanOptionImpliedVolatilityEngine");
+            p_europeanOptionImpliedVolatilityEngine = (Ptr_europeanOptionImpliedVolatilityEngine)R_GetCCallable("RQuantLib", "_RQuantLib_europeanOptionImpliedVolatilityEngine");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_europeanOptionImpliedVolatilityEngine(Rcpp::wrap(type), Rcpp::wrap(value), Rcpp::wrap(underlying), Rcpp::wrap(strike), Rcpp::wrap(dividendYield), Rcpp::wrap(riskFreeRate), Rcpp::wrap(maturity), Rcpp::wrap(volatility));
+            rcpp_result_gen = p_europeanOptionImpliedVolatilityEngine(Shield<SEXP>(Rcpp::wrap(type)), Shield<SEXP>(Rcpp::wrap(value)), Shield<SEXP>(Rcpp::wrap(underlying)), Shield<SEXP>(Rcpp::wrap(strike)), Shield<SEXP>(Rcpp::wrap(dividendYield)), Shield<SEXP>(Rcpp::wrap(riskFreeRate)), Shield<SEXP>(Rcpp::wrap(maturity)), Shield<SEXP>(Rcpp::wrap(volatility)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -466,12 +466,12 @@ namespace RQuantLib {
         static Ptr_americanOptionImpliedVolatilityEngine p_americanOptionImpliedVolatilityEngine = NULL;
         if (p_americanOptionImpliedVolatilityEngine == NULL) {
             validateSignature("double(*americanOptionImpliedVolatilityEngine)(std::string,double,double,double,double,double,double,double,int,int)");
-            p_americanOptionImpliedVolatilityEngine = (Ptr_americanOptionImpliedVolatilityEngine)R_GetCCallable("RQuantLib", "RQuantLib_americanOptionImpliedVolatilityEngine");
+            p_americanOptionImpliedVolatilityEngine = (Ptr_americanOptionImpliedVolatilityEngine)R_GetCCallable("RQuantLib", "_RQuantLib_americanOptionImpliedVolatilityEngine");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_americanOptionImpliedVolatilityEngine(Rcpp::wrap(type), Rcpp::wrap(value), Rcpp::wrap(underlying), Rcpp::wrap(strike), Rcpp::wrap(dividendYield), Rcpp::wrap(riskFreeRate), Rcpp::wrap(maturity), Rcpp::wrap(volguess), Rcpp::wrap(timesteps), Rcpp::wrap(gridpoints));
+            rcpp_result_gen = p_americanOptionImpliedVolatilityEngine(Shield<SEXP>(Rcpp::wrap(type)), Shield<SEXP>(Rcpp::wrap(value)), Shield<SEXP>(Rcpp::wrap(underlying)), Shield<SEXP>(Rcpp::wrap(strike)), Shield<SEXP>(Rcpp::wrap(dividendYield)), Shield<SEXP>(Rcpp::wrap(riskFreeRate)), Shield<SEXP>(Rcpp::wrap(maturity)), Shield<SEXP>(Rcpp::wrap(volguess)), Shield<SEXP>(Rcpp::wrap(timesteps)), Shield<SEXP>(Rcpp::wrap(gridpoints)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -485,12 +485,12 @@ namespace RQuantLib {
         static Ptr_CreateSchedule p_CreateSchedule = NULL;
         if (p_CreateSchedule == NULL) {
             validateSignature("Rcpp::DateVector(*CreateSchedule)(Rcpp::List)");
-            p_CreateSchedule = (Ptr_CreateSchedule)R_GetCCallable("RQuantLib", "RQuantLib_CreateSchedule");
+            p_CreateSchedule = (Ptr_CreateSchedule)R_GetCCallable("RQuantLib", "_RQuantLib_CreateSchedule");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_CreateSchedule(Rcpp::wrap(params));
+            rcpp_result_gen = p_CreateSchedule(Shield<SEXP>(Rcpp::wrap(params)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -504,7 +504,7 @@ namespace RQuantLib {
         static Ptr_getQuantLibVersion p_getQuantLibVersion = NULL;
         if (p_getQuantLibVersion == NULL) {
             validateSignature("std::string(*getQuantLibVersion)()");
-            p_getQuantLibVersion = (Ptr_getQuantLibVersion)R_GetCCallable("RQuantLib", "RQuantLib_getQuantLibVersion");
+            p_getQuantLibVersion = (Ptr_getQuantLibVersion)R_GetCCallable("RQuantLib", "_RQuantLib_getQuantLibVersion");
         }
         RObject rcpp_result_gen;
         {
@@ -523,7 +523,7 @@ namespace RQuantLib {
         static Ptr_getQuantLibCapabilities p_getQuantLibCapabilities = NULL;
         if (p_getQuantLibCapabilities == NULL) {
             validateSignature("Rcpp::LogicalVector(*getQuantLibCapabilities)()");
-            p_getQuantLibCapabilities = (Ptr_getQuantLibCapabilities)R_GetCCallable("RQuantLib", "RQuantLib_getQuantLibCapabilities");
+            p_getQuantLibCapabilities = (Ptr_getQuantLibCapabilities)R_GetCCallable("RQuantLib", "_RQuantLib_getQuantLibCapabilities");
         }
         RObject rcpp_result_gen;
         {
@@ -542,12 +542,12 @@ namespace RQuantLib {
         static Ptr_europeanOptionEngine p_europeanOptionEngine = NULL;
         if (p_europeanOptionEngine == NULL) {
             validateSignature("Rcpp::List(*europeanOptionEngine)(std::string,double,double,double,double,double,double,Rcpp::Nullable<Rcpp::NumericVector>,Rcpp::Nullable<Rcpp::NumericVector>)");
-            p_europeanOptionEngine = (Ptr_europeanOptionEngine)R_GetCCallable("RQuantLib", "RQuantLib_europeanOptionEngine");
+            p_europeanOptionEngine = (Ptr_europeanOptionEngine)R_GetCCallable("RQuantLib", "_RQuantLib_europeanOptionEngine");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_europeanOptionEngine(Rcpp::wrap(type), Rcpp::wrap(underlying), Rcpp::wrap(strike), Rcpp::wrap(dividendYield), Rcpp::wrap(riskFreeRate), Rcpp::wrap(maturity), Rcpp::wrap(volatility), Rcpp::wrap(discreteDividends), Rcpp::wrap(discreteDividendsTimeUntil));
+            rcpp_result_gen = p_europeanOptionEngine(Shield<SEXP>(Rcpp::wrap(type)), Shield<SEXP>(Rcpp::wrap(underlying)), Shield<SEXP>(Rcpp::wrap(strike)), Shield<SEXP>(Rcpp::wrap(dividendYield)), Shield<SEXP>(Rcpp::wrap(riskFreeRate)), Shield<SEXP>(Rcpp::wrap(maturity)), Shield<SEXP>(Rcpp::wrap(volatility)), Shield<SEXP>(Rcpp::wrap(discreteDividends)), Shield<SEXP>(Rcpp::wrap(discreteDividendsTimeUntil)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -561,12 +561,12 @@ namespace RQuantLib {
         static Ptr_americanOptionEngine p_americanOptionEngine = NULL;
         if (p_americanOptionEngine == NULL) {
             validateSignature("Rcpp::List(*americanOptionEngine)(std::string,double,double,double,double,double,double,int,int,std::string,Rcpp::Nullable<Rcpp::NumericVector>,Rcpp::Nullable<Rcpp::NumericVector>)");
-            p_americanOptionEngine = (Ptr_americanOptionEngine)R_GetCCallable("RQuantLib", "RQuantLib_americanOptionEngine");
+            p_americanOptionEngine = (Ptr_americanOptionEngine)R_GetCCallable("RQuantLib", "_RQuantLib_americanOptionEngine");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_americanOptionEngine(Rcpp::wrap(type), Rcpp::wrap(underlying), Rcpp::wrap(strike), Rcpp::wrap(dividendYield), Rcpp::wrap(riskFreeRate), Rcpp::wrap(maturity), Rcpp::wrap(volatility), Rcpp::wrap(timeSteps), Rcpp::wrap(gridPoints), Rcpp::wrap(engine), Rcpp::wrap(discreteDividends), Rcpp::wrap(discreteDividendsTimeUntil));
+            rcpp_result_gen = p_americanOptionEngine(Shield<SEXP>(Rcpp::wrap(type)), Shield<SEXP>(Rcpp::wrap(underlying)), Shield<SEXP>(Rcpp::wrap(strike)), Shield<SEXP>(Rcpp::wrap(dividendYield)), Shield<SEXP>(Rcpp::wrap(riskFreeRate)), Shield<SEXP>(Rcpp::wrap(maturity)), Shield<SEXP>(Rcpp::wrap(volatility)), Shield<SEXP>(Rcpp::wrap(timeSteps)), Shield<SEXP>(Rcpp::wrap(gridPoints)), Shield<SEXP>(Rcpp::wrap(engine)), Shield<SEXP>(Rcpp::wrap(discreteDividends)), Shield<SEXP>(Rcpp::wrap(discreteDividendsTimeUntil)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -580,12 +580,12 @@ namespace RQuantLib {
         static Ptr_europeanOptionArraysEngine p_europeanOptionArraysEngine = NULL;
         if (p_europeanOptionArraysEngine == NULL) {
             validateSignature("Rcpp::List(*europeanOptionArraysEngine)(std::string,Rcpp::NumericMatrix)");
-            p_europeanOptionArraysEngine = (Ptr_europeanOptionArraysEngine)R_GetCCallable("RQuantLib", "RQuantLib_europeanOptionArraysEngine");
+            p_europeanOptionArraysEngine = (Ptr_europeanOptionArraysEngine)R_GetCCallable("RQuantLib", "_RQuantLib_europeanOptionArraysEngine");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_europeanOptionArraysEngine(Rcpp::wrap(type), Rcpp::wrap(par));
+            rcpp_result_gen = p_europeanOptionArraysEngine(Shield<SEXP>(Rcpp::wrap(type)), Shield<SEXP>(Rcpp::wrap(par)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();

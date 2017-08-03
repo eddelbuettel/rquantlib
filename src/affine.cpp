@@ -88,7 +88,7 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
     
     double strike = Rcpp::as<double>(rparam["strike"]);
     std::string method = Rcpp::as<std::string>(rparam["method"]);
-    
+
     QuantLib::Handle<QuantLib::YieldTermStructure> 
         rhTermStructure(rebuildCurveFromZeroRates(dateVec, zeroVec));
     
@@ -119,7 +119,6 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
     QuantLib::VanillaSwap::Type type;
     
     if(payfix){
-        
         type = QuantLib::VanillaSwap::Payer;} 
     else{
         type = QuantLib::VanillaSwap::Receiver;    
@@ -196,7 +195,6 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
     
     // Price based on method selected.
     if (method.compare("G2Analytic") == 0) {
-        
         boost::shared_ptr<QuantLib::G2> modelG2(new QuantLib::G2(rhTermStructure));
         Rprintf((char*)"G2/Jamshidian (analytic) calibration\n");
         for(i = 0; i < swaptions.size(); i++)
@@ -215,7 +213,6 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
         //Rcpp::Named("params")    = params);
         
     } else if (method.compare("HWAnalytic") == 0) {
-        
         boost::shared_ptr<QuantLib::HullWhite> modelHW(new QuantLib::HullWhite(rhTermStructure));
         Rprintf((char*)"Hull-White (analytic) calibration\n");
         for (i=0; i<swaptions.size(); i++)
@@ -246,80 +243,23 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
                                   Rcpp::Named("ATMStrike") = fixedATMRate);
         //Rcpp::Named("params") = params);
         
-        boost::shared_ptr<QuantLib::Exercise> affineExercise(new QuantLib::BermudanExercise(affineDates));
-
-        // Price based on method selected.
-        if (method.compare("G2Analytic") == 0) {
             
-            boost::shared_ptr<QuantLib::G2> modelG2(new QuantLib::G2(rhTermStructure));
-            Rprintf((char*)"G2/Jamshidian (analytic) calibration\n");
-            for(i = 0; i < swaptions.size(); i++)
-                swaptions[i]->setPricingEngine(boost::shared_ptr<QuantLib::PricingEngine>(new QuantLib::G2SwaptionEngine(modelG2, 6.0, 16)));
-            calibrateModel2(modelG2, swaptions, 0.05, swaptionMat, swapLengths, swaptionVols); 
-            boost::shared_ptr<QuantLib::PricingEngine> engine(new QuantLib::TreeSwaptionEngine(modelG2, 50));
-            QuantLib::Swaption affineSwaption(mySwap, affineExercise); 
-            affineSwaption.setPricingEngine(engine);
-            return Rcpp::List::create(Rcpp::Named("a")         = modelG2->params()[0],
-                                      Rcpp::Named("sigma")     = modelG2->params()[1],
-                                      Rcpp::Named("b")         = modelG2->params()[2],
-                                      Rcpp::Named("eta")       = modelG2->params()[3],
-                                      Rcpp::Named("rho")       = modelG2->params()[4],
-                                      Rcpp::Named("price")     = affineSwaption.NPV(),
-                                      Rcpp::Named("ATMStrike") = fixedATMRate);
-            //Rcpp::Named("params")    = params);
+    } else if (method.compare("BKTree") == 0) {
+        boost::shared_ptr<QuantLib::BlackKarasinski> modelBK(new QuantLib::BlackKarasinski(rhTermStructure));
+        Rprintf((char*)"Black-Karasinski (tree) calibration\n");
+        for (i=0; i<swaptions.size(); i++)
+            swaptions[i]->setPricingEngine(boost::shared_ptr<QuantLib::PricingEngine>(new QuantLib::TreeSwaptionEngine(modelBK,grid)));
+        calibrateModel2(modelBK, swaptions, 0.05, swaptionMat, swapLengths, swaptionVols);
             
-        } else if (method.compare("HWAnalytic") == 0) {
+        boost::shared_ptr<QuantLib::PricingEngine> engine(new QuantLib::TreeSwaptionEngine(modelBK, 50));
+        QuantLib::Swaption affineSwaption(mySwap, affineExercise);
+        affineSwaption.setPricingEngine(engine);
+        return Rcpp::List::create(Rcpp::Named("a") = modelBK->params()[0],
+                                  Rcpp::Named("sigma") = modelBK->params()[1],
+                                  Rcpp::Named("price") = affineSwaption.NPV(),
+                                  Rcpp::Named("ATMStrike") = fixedATMRate);
+        //Rcpp::Named("params") = params);
             
-            boost::shared_ptr<QuantLib::HullWhite> modelHW(new QuantLib::HullWhite(rhTermStructure));
-            Rprintf((char*)"Hull-White (analytic) calibration\n");
-            for (i=0; i<swaptions.size(); i++)
-                swaptions[i]->setPricingEngine(boost::shared_ptr<QuantLib::PricingEngine>(new QuantLib::JamshidianSwaptionEngine(modelHW)));
-            calibrateModel2(modelHW, swaptions, 0.05, swaptionMat, swapLengths, swaptionVols);
-            boost::shared_ptr<QuantLib::PricingEngine> engine(new QuantLib::TreeSwaptionEngine(modelHW, 50));
-            QuantLib::Swaption affineSwaption(mySwap, affineExercise);
-            affineSwaption.setPricingEngine(engine);
-            return Rcpp::List::create(Rcpp::Named("a") = modelHW->params()[0],
-                                      Rcpp::Named("sigma") = modelHW->params()[1],
-                                      Rcpp::Named("price") = affineSwaption.NPV(),
-                                      Rcpp::Named("ATMStrike") = fixedATMRate);
-            //Rcpp::Named("params") = params);
-            
-        } else if (method.compare("HWTree") == 0) {
-            boost::shared_ptr<QuantLib::HullWhite> modelHW2(new QuantLib::HullWhite(rhTermStructure));
-            Rprintf((char*)"Hull-White (tree) calibration\n");
-            for (i=0; i<swaptions.size(); i++)
-                swaptions[i]->setPricingEngine(boost::shared_ptr<QuantLib::PricingEngine>(new QuantLib::TreeSwaptionEngine(modelHW2,grid)));
-            
-            calibrateModel2(modelHW2, swaptions, 0.05, swaptionMat, swapLengths, swaptionVols);
-            boost::shared_ptr<QuantLib::PricingEngine> engine(new QuantLib::TreeSwaptionEngine(modelHW2, 50));
-            QuantLib::Swaption affineSwaption(mySwap, affineExercise);
-            affineSwaption.setPricingEngine(engine);
-            return Rcpp::List::create(Rcpp::Named("a") = modelHW2->params()[0],
-                                      Rcpp::Named("sigma") = modelHW2->params()[1],
-                                      Rcpp::Named("price") = affineSwaption.NPV(),
-                                      Rcpp::Named("ATMStrike") = fixedATMRate);
-            //Rcpp::Named("params") = params);
-            
-        } else if (method.compare("BKTree") == 0) {
-            boost::shared_ptr<QuantLib::BlackKarasinski> modelBK(new QuantLib::BlackKarasinski(rhTermStructure));
-            Rprintf((char*)"Black-Karasinski (tree) calibration\n");
-            for (i=0; i<swaptions.size(); i++)
-                swaptions[i]->setPricingEngine(boost::shared_ptr<QuantLib::PricingEngine>(new QuantLib::TreeSwaptionEngine(modelBK,grid)));
-            calibrateModel2(modelBK, swaptions, 0.05, swaptionMat, swapLengths, swaptionVols);
-            
-            boost::shared_ptr<QuantLib::PricingEngine> engine(new QuantLib::TreeSwaptionEngine(modelBK, 50));
-            QuantLib::Swaption affineSwaption(mySwap, affineExercise);
-            affineSwaption.setPricingEngine(engine);
-            return Rcpp::List::create(Rcpp::Named("a") = modelBK->params()[0],
-                                      Rcpp::Named("sigma") = modelBK->params()[1],
-                                      Rcpp::Named("price") = affineSwaption.NPV(),
-                                      Rcpp::Named("ATMStrike") = fixedATMRate);
-            //Rcpp::Named("params") = params);
-            
-        } else {
-            throw std::range_error("Unknown method in AffineSwaption\n");
-        }
-
     } else {
         throw std::range_error("Unknown method in AffineSwaption\n");
     }

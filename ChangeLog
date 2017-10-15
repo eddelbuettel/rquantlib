@@ -1,3 +1,13 @@
+2017-10-15  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll minor version
+
+	* src/utils.cpp (getDayCounter): Deprecate Actual365NoLeap() as
+	needed for use with QuantLib 1.11
+
+	* man/Enum.Rd: Mark as deprecated Actual365NoLeap()
+	* man/BondUtilities.Rd: Note that Actual365NoLeap() deprecated
+
 2017-08-03  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version and date

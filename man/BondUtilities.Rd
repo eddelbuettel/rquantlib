@@ -44,8 +44,11 @@ matchParams(params)
   converted into a named vector of numerics..
 }
 \details{
-  The QuantLib documentation
-  should be consulted for details.
+  The QuantLib documentation should be consulted for details.
+
+  Note that \code{Actual365NoLeap} is deprecated as of QuantLib 1.11 and
+  no longer supported by default. It can be reinstated by defining
+  \code{RQUANTLIB_USE_ACTUAL365NOLEAP}.
 }
 \references{\url{http://quantlib.org} for details on \code{QuantLib}.}
 \author{Khanh Nguyen \email{knguyen@cs.umb.edu} for the \R interface;

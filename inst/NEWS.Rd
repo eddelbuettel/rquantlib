@@ -9,7 +9,15 @@
     \itemize{
       \item Equity options can now be analyzed via discrete dividends
       through two vectors of dividend dates and values (Francois
-      Cocquemas in \ghpr{73} fixing \ghit{72}) 
+      Cocquemas in \ghpr{73} fixing \ghit{72})
+      \item Some package and dependency information was updated in files
+      \code{DESCRIPTION} and \code{NAMESPACE}.
+      \item The new \code{Date(time)Vector} classes introduced with Rcpp
+      0.12.8 are now used when available.
+      \item Minor corrections were applied to \code{BKTree}, to vanilla
+      options for the case of intraday time stamps, to the
+      \code{SabrSwaption} documentation, and to bond utilities for the
+      most recent QuantLib release.
     }
   }
 }

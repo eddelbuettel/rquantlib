@@ -2,7 +2,7 @@
 //
 //  RQuantLib -- R interface to the QuantLib libraries
 //
-//  Copyright (C) 2002 - 2015  Dirk Eddelbuettel 
+//  Copyright (C) 2002 - 2017  Dirk Eddelbuettel 
 //  Copyright (C) 2005 - 2006  Dominick Samperi
 //  Copyright (C) 2009 - 2012  Dirk Eddelbuettel and Khanh Nguyen
 //
@@ -379,8 +379,6 @@ QuantLib::DayCounter getDayCounter(const double n){
         return QuantLib::SimpleDayCounter();
     else if (n==6)
         return QuantLib::Thirty360();
-    else if (n==7)
-        return QuantLib::Actual365NoLeap();
 #ifdef RQUANTLIB_USE_ACTUAL365NOLEAP
      else if (n==7)
          return QuantLib::Actual365NoLeap();

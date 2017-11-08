@@ -3,7 +3,7 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rquantlib/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rquantlib/issues/#1}{##1}}
 
-\section{Changes in RQuantLib version 0.4.4 (2016-xx-xx)}{
+\section{Changes in RQuantLib version 0.4.4 (2017-11-07)}{
   \itemize{
     \item Changes in RQuantLib code:
     \itemize{

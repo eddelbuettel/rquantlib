@@ -2,9 +2,8 @@
 //
 //  RQuantLib -- R interface to the QuantLib libraries
 //
-//  Copyright (C) 2002 - 2014  Dirk Eddelbuettel 
+//  Copyright (C) 2002 - 2018  Dirk Eddelbuettel 
 //  Copyright (C) 2009 - 2012  Khanh Nguyen and Dirk Eddelbuettel
-//  Copyright (C) 2013 - 2014  Dirk Eddelbuettel
 //
 //  This file is part of RQuantLib.
 //
@@ -21,10 +20,9 @@
 //  You should have received a copy of the GNU General Public License
 //  along with RQuantLib.  If not, see <http://www.gnu.org/licenses/>.
 
-
 //  [[Rcpp::interfaces(r, cpp)]]
 
-#include <rquantlib.h>
+#include <rquantlib_internal.h>
 
 // [[Rcpp::export]]
 double zeroPriceByYieldEngine(double yield,

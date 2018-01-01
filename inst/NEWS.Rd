@@ -3,6 +3,19 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rquantlib/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rquantlib/issues/#1}{##1}}
 
+\section{Changes in RQuantLib version 0.4.5 (2018-xx-yy)}{
+  \itemize{
+    \item Changes in RQuantLib code:
+    \itemize{
+      \item The old \code{rquantlib.h} header is deprecated and moved to
+      a subdirectory. (Some OS confuse it with \code{RQuantLib.h} which
+      Rcpp Attributes like to be the same name as the package.)
+      \item The files in \code{src/} now include
+      \code{rquantlib_internal.h} directly.
+    }
+  }
+}
+
 \section{Changes in RQuantLib version 0.4.4 (2017-11-07)}{
   \itemize{
     \item Changes in RQuantLib code:

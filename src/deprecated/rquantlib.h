@@ -2,7 +2,7 @@
 //
 // RQuantLib header
 //
-// Copyright 2014  Dirk Eddelbuettel <edd@debian.org>
+// Copyright 2014 - 2018  Dirk Eddelbuettel <edd@debian.org>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -29,6 +29,14 @@
 // matters.  This provides us with a backwards compatible
 // 'rquantlib.h' file, and its definitons are now in a file
 // inst/include/rquantlib_internal.h which we source here.
+//
+// Moreover, a particular silly company in Cupertino, CA, insists on
+// case non-existing for files and file systems, leading to a surprise
+// or warning here or there.  So in the current implementation, this file
+// exists but is not actually explicitly sourced. Rather, all C++ files
+// directly use '#include <rquantlib_internal.h> as well. And for the 
+// same reason, and to be totally safe, it is even moved to a directory
+// 'deprecated/' below 'src/'. Should you need it, you can move it back.
 
 #include "rquantlib_internal.h"
 

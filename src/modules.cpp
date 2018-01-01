@@ -2,7 +2,7 @@
 //
 //  RQuantLib -- R interface to the QuantLib libraries
 //
-//  Copyright (C) 2013 - 2014  Dirk Eddelbuettel
+//  Copyright (C) 2013 - 2018  Dirk Eddelbuettel
 //
 //  This file is part of RQuantLib.
 //
@@ -19,11 +19,9 @@
 //  You should have received a copy of the GNU General Public License
 //  along with RQuantLib.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 // trying something with Rcpp modules -- still experimental 
 
-#include <rquantlib.h>
+#include <rquantlib_internal.h>
 
 using namespace QuantLib;
 

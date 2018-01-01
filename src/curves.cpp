@@ -3,7 +3,7 @@
 //  RQuantLib -- R interface to the QuantLib libraries
 //
 //  Copyright (C) 2005 - 2007  Dominick Samperi
-//  Copyright (C) 2007 - 2016  Dirk Eddelbuettel
+//  Copyright (C) 2007 - 2018  Dirk Eddelbuettel
 //
 //  This file is part of RQuantLib.
 //
@@ -22,7 +22,7 @@
 
 //  [[Rcpp::interfaces(r, cpp)]]
 
-#include <rquantlib.h>
+#include <rquantlib_internal.h>
 
 // Database of interest rate instrument contract details.
 ObservableDB::ObservableDB() {

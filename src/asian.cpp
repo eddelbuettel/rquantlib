@@ -2,7 +2,7 @@
 //
 //  RQuantLib -- R interface to the QuantLib libraries
 //
-//  Copyright (C) 2002 - 2015  Dirk Eddelbuettel 
+//  Copyright (C) 2002 - 2018  Dirk Eddelbuettel 
 //  Copyright (C) 2009 - 2010  Dirk Eddelbuettel and Khanh Nguyen
 //
 //  This file is part of RQuantLib.
@@ -20,7 +20,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with RQuantLib.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <rquantlib.h>
+#include <rquantlib_internal.h>
 
 // [[Rcpp::export]]
 Rcpp::List asianOptionEngine(std::string averageType,

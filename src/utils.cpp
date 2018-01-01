@@ -2,10 +2,9 @@
 //
 //  RQuantLib -- R interface to the QuantLib libraries
 //
-//  Copyright (C) 2002 - 2017  Dirk Eddelbuettel 
+//  Copyright (C) 2002 - 2018  Dirk Eddelbuettel 
 //  Copyright (C) 2005 - 2006  Dominick Samperi
 //  Copyright (C) 2009 - 2012  Dirk Eddelbuettel and Khanh Nguyen
-//
 //
 //  RQuantLib is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -20,7 +19,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with RQuantLib.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <rquantlib.h>
+#include <rquantlib_internal.h>
 
 // [[Rcpp::interfaces(r, cpp)]]
 

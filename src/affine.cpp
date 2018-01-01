@@ -2,9 +2,9 @@
 //
 //  RQuantLib function AffineSwaption
 //
-//  Copyright (C) 2005 - 2007 Dominick Samperi
-//  Copyright (C) 2007 - 2014 Dirk Eddelbuettel
-//  Copyright (C) 2016        Terry Leitch
+//  Copyright (C) 2005 - 2007  Dominick Samperi
+//  Copyright (C) 2007 - 2018  Dirk Eddelbuettel
+//  Copyright (C) 2016         Terry Leitch
 //
 //  This file is part of RQuantLib.
 //
@@ -21,7 +21,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with RQuantLib.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "rquantlib.h"
+#include <rquantlib_internal.h>
 
 // Calibrates underlying swaptions to the input volatility matrix.
 void calibrateModel2(const boost::shared_ptr<QuantLib::ShortRateModel>& model,

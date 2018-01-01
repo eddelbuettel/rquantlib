@@ -3,9 +3,8 @@
 //  RQuantLib function DiscountCurve
 //
 //  Copyright (C) 2005 - 2007  Dominick Samperi
-//  Copyright (C) 2007 - 2009  Dirk Eddelbuettel 
+//  Copyright (C) 2007 - 2018  Dirk Eddelbuettel 
 //  Copyright (C) 2009 - 2011  Dirk Eddelbuettel and Khanh Nguyen
-//  Copyright (C) 2012 - 2016  Dirk Eddelbuettel
 //
 //  This file is part of RQuantLib.
 //
@@ -22,7 +21,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with RQuantLib.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "rquantlib.h"
+#include <rquantlib_internal.h>
 
 // [[Rcpp::export]]
 Rcpp::List discountCurveEngine(Rcpp::List rparams,  

@@ -17,7 +17,8 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
  */
-#include "rquantlib.h"
+
+#include <rquantlib_internal.h>
 
 using namespace QuantLib;
 //using namespace boost::unit_test_framework;

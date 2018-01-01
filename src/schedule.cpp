@@ -3,6 +3,7 @@
 //  RQuantLib -- R interface to the QuantLib libraries
 //
 //  Copyright (C) 2014         Michele Salvadore and Dirk Eddelbuettel
+//  Copyright (C) 2015 - 2018  Dirk Eddelbuettel
 //
 //  This file is part of RQuantLib.
 //
@@ -22,7 +23,7 @@
 
 //  [[Rcpp::interfaces(r, cpp)]]
 
-#include <rquantlib.h>
+#include <rquantlib_internal.h>
 
 // [[Rcpp::export]]
 Rcpp::DateVector CreateSchedule(Rcpp::List params) {

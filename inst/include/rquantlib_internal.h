@@ -2,7 +2,7 @@
 //
 // RQuantLib function prototypes and macros
 //
-// Copyright 2002 - 2016  Dirk Eddelbuettel <edd@debian.org>
+// Copyright 2002 - 2018  Dirk Eddelbuettel <edd@debian.org>
 // Copyright 2005 - 2006  Dominick Samperi
 //
 // This program is free software; you can redistribute it and/or modify

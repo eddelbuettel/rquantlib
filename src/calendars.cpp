@@ -2,7 +2,7 @@
 //
 //  RQuantLib -- R interface to the QuantLib libraries
 //
-//  Copyright (C) 2002 - 2014  Dirk Eddelbuettel 
+//  Copyright (C) 2002 - 2018  Dirk Eddelbuettel 
 //  Copyright (C) 2010         Dirk Eddelbuettel and Khanh Nguyen
 //
 //  RQuantLib is free software: you can redistribute it and/or modify
@@ -18,7 +18,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with RQuantLib.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <rquantlib.h>
+#include <rquantlib_internal.h>
 
 // returns a reference-counted pointer to a matching Calendar object
 boost::shared_ptr<QuantLib::Calendar> getCalendar(const std::string &calstr) {

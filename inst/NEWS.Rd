@@ -10,6 +10,7 @@
       \item The old \code{rquantlib.h} header is deprecated and moved to
       a subdirectory. (Some OS confuse it with \code{RQuantLib.h} which
       Rcpp Attributes like to be the same name as the package.)
+      (Dirk in \ghpr{100} addressing \ghit{99}).
       \item The files in \code{src/} now include
       \code{rquantlib_internal.h} directly.
     }

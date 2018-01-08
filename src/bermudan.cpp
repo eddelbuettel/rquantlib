@@ -84,8 +84,6 @@ Rcpp::List bermudanFromYieldEngine(Rcpp::List rparam,
     // ActualActual::ISDA ensures that 30 years is 30.0
     QuantLib::DayCounter termStructureDayCounter = 
         QuantLib::ActualActual(QuantLib::ActualActual::ISDA);
-    double tolerance = 1.0e-15;
-
 
     boost::shared_ptr<QuantLib::Quote> flatRate(new QuantLib::SimpleQuote(yield[0]));  // FIXME: hardcoded?
     QuantLib::Handle<QuantLib::YieldTermStructure> 

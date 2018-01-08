@@ -1,3 +1,11 @@
+2018-01-07  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/affine.cpp (affineWithRebuiltCurveEngine): Remove
+	declaration and assignment of one unused variable
+	* src/bermudan.cpp (bermudanFromYieldEngine): Idem
+	* src/sabr.cpp (sabrengine): Idem (twice); also rename one
+	variable ('todaysDate') to its parameter name ('tradeDate')
+
 2018-01-01  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): New minor version

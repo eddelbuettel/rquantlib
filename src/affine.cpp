@@ -100,7 +100,6 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
     QuantLib::Frequency fixedLegFrequency = getFrequency(Rcpp::as<double>(legparams["fixFreq"]));
     QuantLib::BusinessDayConvention fixedLegConvention = QuantLib::Unadjusted;
     QuantLib::BusinessDayConvention floatingLegConvention = QuantLib::ModifiedFollowing;
-    double fixDayCount = Rcpp::as<double>(legparams["dayCounter"]);
     QuantLib::DayCounter swFixedLegDayCounter = getDayCounter(Rcpp::as<double>(legparams["dayCounter"]));
     boost::shared_ptr<QuantLib::IborIndex> swFloatingLegIndex(new QuantLib::Euribor(QuantLib::Period(Rcpp::as<int>(legparams["floatFreq"]),QuantLib::Months),rhTermStructure));
 

@@ -4,14 +4,15 @@
 # Copyright 2005        Uwe Ligges
 # Copyright 2008 - 2015 Dirk Eddelbuettel
 # Copyright 2011        Uwe Ligges, Brian Ripley, and Josh Ulrich
+RWINLIB=../windows/quantlib-1.12.1
+PKG_CPPFLAGS=-I$(RWINLIB)/include -I../inst/include
+PKG_CXXFLAGS=$(SHLIB_OPENMP_CFLAGS)
+PKG_LIBS=-L$(RWINLIB)/lib${R_ARCH} -lQuantLib $(SHLIB_OPENMP_CFLAGS) 
 
-## This assumes that we can call Rscript to ask Rcpp about its locations
-## Use the R_HOME indirection to support installations of multiple R version
-## Commented out as Rcpp 0.11.0 and later no longer require this
-#RCPP_LDFLAGS = $(shell "${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" -e "Rcpp:::LdFlags()")
+all: clean winlibs
 
-## The environment variable QUANTLIB_ROOT has to point to an existing build of QuantLib
-## With R 2.12.0 and later, we also support 32 and 64 bit builds and need to differentiate
-PKG_CPPFLAGS=-I$(QUANTLIB_ROOT) -I../inst/include -I. -I$(BOOSTLIB) 
-PKG_CXXFLAGS=$(SHLIB_OPENMP_CFLAGS) -fpermissive 
-PKG_LIBS=-L$(QUANTLIB_ROOT)/lib${R_ARCH} -lQuantLib $(SHLIB_OPENMP_CFLAGS) 
+clean:
+	rm -f $(SHLIB) $(OBJECTS)
+
+winlibs:
+	"${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" "../tools/winlibs.R"

@@ -16,7 +16,6 @@ Imports: methods, Rcpp (>= 0.11.0), stats, graphics, zoo
 LinkingTo: Rcpp
 SystemRequirements: QuantLib library (>= 1.8.0) from http://quantlib.org,
  Boost library from http://www.boost.org
-OS_type: unix 
 License: GPL (>= 2)
 URL: http://dirk.eddelbuettel.com/code/rquantlib.html
 BugReports: https://github.com/eddelbuettel/rquantlib/issues

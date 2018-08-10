@@ -1,3 +1,15 @@
+2018-04-29  Dirk Eddelbuettel  <edd@debian.org>
+
+	* man/AffineSwaption.Rd: Do not run example as win32 is fragile
+	* man/BermudanSwaption.Rd: Idem
+	* man/DiscountCurve.Rd: Idem
+
+	* .Rbuildignore: Also ignore .tar.gz
+
+	* inst/include/RQuantLib_RcppExports.h: Updated via
+	current Rcpp::compileAttributes() version
+	* src/RcppExports.cpp: Idem
+
 2018-01-07  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/affine.cpp (affineWithRebuiltCurveEngine): Remove

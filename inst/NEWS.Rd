@@ -13,6 +13,12 @@
       (Dirk in \ghpr{100} addressing \ghit{99}).
       \item The files in \code{src/} now include
       \code{rquantlib_internal.h} directly.
+      \item Several \sQuote{unused variable} warnings have been taken
+      care of.
+      \item Three curve-building example are no longer running by
+      default as win32 has seen some numerical issues.
+      \item Two \code{Rcpp::compileAttributes} generated files have been
+      updated. 
     }
   }
 }

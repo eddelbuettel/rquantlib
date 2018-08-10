@@ -1,3 +1,13 @@
+2018-08-10  Dirk Eddelbuettel  <edd@debian.org>
+
+        * DESCRIPTION (Version, Date): New release 0.4.5
+
+        * configure.ac: Mark as 0.4.5
+        * configure: Rebuilt
+
+	* src/Makevars.in: Set CXX_STD=CXX11
+	* src/Makevars.win: Idem
+
 2018-04-29  Dirk Eddelbuettel  <edd@debian.org>
 
 	* man/AffineSwaption.Rd: Do not run example as win32 is fragile
@@ -9,6 +19,14 @@
 	* inst/include/RQuantLib_RcppExports.h: Updated via
 	current Rcpp::compileAttributes() version
 	* src/RcppExports.cpp: Idem
+
+2018-04-27  Jeroen Ooms  <jeroenooms@gmail.com>
+
+	* src/Makevars.win: Rewritten using rwinlib repo for Quantlib library
+
+	* tools/winlibs.R: New helper script to gather libraries from repo
+
+	* DESCRIPTION: Remove 'OS_type: unix'
 
 2018-01-07  Dirk Eddelbuettel  <edd@debian.org>
 

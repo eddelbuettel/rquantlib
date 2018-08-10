@@ -1,13 +1,18 @@
 # -*- mode: Makefile -*-
 #
-# Copyright 2005 - 2006 Dominick Samperi
-# Copyright 2005        Uwe Ligges
-# Copyright 2008 - 2015 Dirk Eddelbuettel
-# Copyright 2011        Uwe Ligges, Brian Ripley, and Josh Ulrich
+# Copyright 2005 - 2006  Dominick Samperi
+# Copyright 2005         Uwe Ligges
+# Copyright 2008 - 2018  Dirk Eddelbuettel
+# Copyright 2011         Uwe Ligges, Brian Ripley, and Josh Ulrich
+# Copyright 2018         Jeroen Ooms
+
 RWINLIB=../windows/quantlib-1.12.1
 PKG_CPPFLAGS=-I$(RWINLIB)/include -I../inst/include
 PKG_CXXFLAGS=$(SHLIB_OPENMP_CFLAGS)
 PKG_LIBS=-L$(RWINLIB)/lib${R_ARCH} -lQuantLib $(SHLIB_OPENMP_CFLAGS) 
+
+# For long long in Boost headers
+CXX_STD=CXX11
 
 all: clean winlibs
 

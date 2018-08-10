@@ -8,7 +8,15 @@
 AC_PREREQ(2.50)
 
 # Process this file with autoconf to produce a configure script.
-AC_INIT(RQuantlib, 0.4.4)
+AC_INIT(RQuantlib, 0.4.5)
+
+# Set CXX and CXXFLAGS based on the R configuration (with thanks to KH)
+: ${R_HOME=`R RHOME`}
+if test -z "${R_HOME}"; then
+    AC_MSG_ERROR([Could not determine R_HOME.])   
+fi
+CXX=`${R_HOME}/bin/R CMD config CXX`
+CXXFLAGS=`"${R_HOME}/bin/R" CMD config CXXFLAGS`
 
 # We are using C++
 AC_LANG(C++)
@@ -23,7 +31,7 @@ if test "${GXX}" = yes; then
 	     AC_MSG_WARN([Only g++ version 3.0 or greater can be used with RQuantib.])
 	     AC_MSG_ERROR([Please use a different compiler.])   
         ;;
-	4.6.*|4.7.*|4.8.*|4.9.*|5.*)
+	4.6.*|4.7.*|4.8.*|4.9.*|5.*|6.*|7.*|8.*|9.*)
 	     gxx_newer_than_45="-fpermissive"
 	;;
     esac
@@ -31,14 +39,6 @@ fi
 
 AC_DEFUN(AC_PROG_R, [AC_CHECK_PROG(R,R,yes)])
 AC_PROG_R
-
-# Next segment by Kurt
-: ${R_HOME=`R RHOME`}
-if test -z "${R_HOME}"; then
-    AC_MSG_ERROR([Could not determine R_HOME.])   
-fi
-CXX=`${R_HOME}/bin/R CMD config CXX`
-CXXFLAGS=`"${R_HOME}/bin/R" CMD config CXXFLAGS`
 
 ## We no longer need to set LDFLAGS for Rcpp 0.11.0 or later, 
 ## and hence no longer need to check for Rscipt
@@ -118,8 +118,8 @@ fi
 # --------------------
 # Check whether the Boost headers are available
 AC_DEFUN([QL_CHECK_BOOST_DEVEL],
-[AC_MSG_CHECKING([for Boost development files])
- AC_TRY_COMPILE(
+    [AC_MSG_CHECKING([for Boost development files])
+     AC_TRY_COMPILE(
     [@%:@include <boost/version.hpp>
      @%:@include <boost/shared_ptr.hpp>
      @%:@include <boost/assert.hpp>
@@ -135,9 +135,9 @@ AC_DEFUN([QL_CHECK_BOOST_DEVEL],
 # ----------------------
 # Check whether the Boost installation is up to date
 AC_DEFUN([QL_CHECK_BOOST_VERSION],
-[AC_MSG_CHECKING([for minimal Boost version])
- AC_REQUIRE([QL_CHECK_BOOST_DEVEL])
- AC_TRY_COMPILE(
+   [AC_MSG_CHECKING([for minimal Boost version])
+    AC_REQUIRE([QL_CHECK_BOOST_DEVEL])
+    AC_TRY_COMPILE(
     [@%:@include <boost/version.hpp>],
     [@%:@if BOOST_VERSION < 103400
      @%:@error too old
@@ -152,8 +152,8 @@ AC_DEFUN([QL_CHECK_BOOST_VERSION],
 # ------------------------
 # Boost-related tests
 AC_DEFUN([QL_CHECK_BOOST],
-[AC_REQUIRE([QL_CHECK_BOOST_DEVEL])
- AC_REQUIRE([QL_CHECK_BOOST_VERSION])
+    [AC_REQUIRE([QL_CHECK_BOOST_DEVEL])
+     AC_REQUIRE([QL_CHECK_BOOST_VERSION])
 ])
 QL_CHECK_BOOST
 

@@ -88,6 +88,8 @@ volMatrix)
 
 \examples{
 
+\dontrun{    ## issues on 32 bit Windows
+
 # This data replicates sample code shipped with QuantLib 0.3.10 results
 params <- list(tradeDate=as.Date('2002-2-15'),
                settleDate=as.Date('2002-2-19'),
@@ -141,5 +143,8 @@ volMatrix <- matrix(
 pricing <- BermudanSwaption(params, ts=.05,
                             swaptionMaturities, swapTenors, volMatrix)
 summary(pricing)
+
+}     ## end of \dontrun -- issues on 32 bit Windows
+
 }
 \keyword{models}

@@ -112,6 +112,8 @@ volMatrix,legparams)
 
 \examples{
 
+\dontrun{    ## issues on 32 bit Windows
+
 # This data was generated to match the original quantlib example for Bermudan Swaption
 params <- list(tradeDate=as.Date('2016-2-15'),
                settleDate=as.Date('2016-2-17'),
@@ -166,5 +168,8 @@ dcurve <- DiscountCurve(params, tsQuotes, times=times,legparams)
 # Price the Bermudan swaption
 pricing <- AffineSwaption(params, dcurve,swaptionMaturities, swapTenors, volMatrix,legparams)
 summary(pricing)
+
+}     ## end of \dontrun -- issues on 32 bit Windows
+    
 }
 \keyword{models}

@@ -3,8 +3,8 @@
 # Copyright 2008 - 2018  Dirk Eddelbuettel
 
 # See configure.in for how these variables are computed
-PKG_CXXFLAGS=@CXXFLAGS@ -I../inst/include -I. $(SHLIB_OPENMP_CFLAGS) -DRCPP_NEW_DATE_DATETIME_VECTORS
-PKG_LIBS=@LDFLAGS@ $(SHLIB_OPENMP_CFLAGS)
+PKG_CXXFLAGS=@CXXFLAGS@ -I../inst/include -I. $(SHLIB_OPENMP_CXXFLAGS) -DRCPP_NEW_DATE_DATETIME_VECTORS
+PKG_LIBS=@LDFLAGS@ $(SHLIB_OPENMP_CXXFLAGS)
 
-# For long long in Boost headers
+# Use C++11 for long long in Boost headers
 CXX_STD=CXX11

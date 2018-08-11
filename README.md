@@ -26,21 +26,23 @@ are encouraged as suggested in the
 
 #### From Source
 
-The package is on [CRAN](https://cran.r-project.org) and can be installed _from source_ as usual:
+The package is on [CRAN](https://cran.r-project.org) and can be installed as usual:
 
 ```{r}
 install.packages("RQuantLib")
 ```
 
-#### Windows Binaries
+Windows binary packages should be available.
 
-Starting with release 0.4.3, binaries may be provided via the [ghrr drat repo](http://ghrr.github.io/drat)
-and can be installed as
+<!-- #### Windows Binaries -->
 
-```{r}
-drat::addRepo("ghrr")       #  maybe use 'install.packages("drat")' first 
-install.packages("RQuantLib", type="binary")
-```
+<!-- Starting with release 0.4.3, binaries may be provided via the [ghrr drat repo](http://ghrr.github.io/drat) -->
+<!-- and can be installed as -->
+
+<!-- ```{r} -->
+<!-- drat::addRepo("ghrr")       #  maybe use 'install.packages("drat")' first  -->
+<!-- install.packages("RQuantLib", type="binary") -->
+<!-- ``` -->
 
 ### Authors
 

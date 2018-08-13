@@ -1,3 +1,7 @@
+2018-08-13  Dirk Eddelbuettel  <edd@debian.org>
+
+	* .travis.yml: Try 20 minute timeout parameter
+
 2018-08-11  Dirk Eddelbuettel  <edd@debian.org>
 
 	* README.md: Updated to mention renewed Windows support

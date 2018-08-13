@@ -17,7 +17,7 @@ install:
 
 script:
   #- ./run.sh run_tests
-  - travis_wait ./run.sh run_tests
+  - travis_wait 20 ./run.sh run_tests
 
 after_failure:
   - ./run.sh dump_logs

@@ -1,3 +1,7 @@
+2018-08-14  Dirk Eddelbuettel  <edd@debian.org>
+
+	* docker/Dockerfile: Add Dockerfile to create test container
+
 2018-08-13  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .travis.yml: Try 20 minute timeout parameter

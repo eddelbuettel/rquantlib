@@ -12,7 +12,9 @@ RUN apt-get update \
                 r-cran-zoo \
                 r-cran-runit \
 		libquantlib0-dev \
+                ccache \
         && mkdir ~/.R \
-        && echo _R_CHECK_FORCE_SUGGESTS_=FALSE > ~/.R/check.Renviron
+        && echo _R_CHECK_FORCE_SUGGESTS_=FALSE > ~/.R/check.Renviron \
+        && echo CXX=ccache g++ > ~/.R/Makevars
 
 CMD ["bash"]

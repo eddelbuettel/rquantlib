@@ -21,10 +21,12 @@ before_install:
 #   # add our launchpad repo which has (inter alia) the newest QuantLib
 #   - sudo add-apt-repository -y ppa:edd/misc
 #   - ./run.sh bootstrap
+#
  - docker pull ${DOCKER_CNTR}
  
 install:
 #   - ./run.sh install_aptget r-cran-rcpp libquantlib0-dev r-cran-runit r-cran-rgl r-cran-zoo libboost-dev libboost-test-dev littler r-cran-shiny
+#
  - docker run ${DOCKER_OPTS} ${DOCKER_CNTR} R CMD build ${R_BLD_CHK_OPTS} .
  # install once to generate stdout to not time out ... and file ccache at the same time
  - docker run ${DOCKER_OPTS} ${DOCKER_CNTR} R CMD INSTALL RQuantLib_*.tar.gz
@@ -32,6 +34,7 @@ install:
 script:
 #   #- ./run.sh run_tests
 #   - travis_wait 20 ./run.sh run_tests
+#
  - docker run ${DOCKER_OPTS} ${DOCKER_CNTR} R CMD check ${R_BLD_CHK_OPTS} RQuantLib_*.tar.gz
 
 after_failure:

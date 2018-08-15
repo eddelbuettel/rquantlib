@@ -12,10 +12,10 @@ services: docker
 
 env:
   global:
-    - DOCKER_OPTS="--rm -ti -v $(pwd):/mnt -w /mnt" 
+    - DOCKER_OPTS="--rm -ti -v ${HOME}/.ccache:/root/.ccache -v $(pwd):/mnt -w /mnt" 
       DOCKER_CNTR="eddelbuettel/rquantlib-testing"
       R_BLD_CHK_OPTS="--no-build-vignettes --no-manual"
-    
+      
 before_install:
 #   - curl -OLs https://eddelbuettel.github.io/r-travis/run.sh && chmod 0755 run.sh
 #   # add our launchpad repo which has (inter alia) the newest QuantLib
@@ -27,6 +27,10 @@ before_install:
 install:
 #   - ./run.sh install_aptget r-cran-rcpp libquantlib0-dev r-cran-runit r-cran-rgl r-cran-zoo libboost-dev libboost-test-dev littler r-cran-shiny
 #
+ # R packages need special treatment with ccache: temp dirs, new timestamps
+ - echo max_size = 5.0G > ~/.ccache/ccache.conf
+ - echo sloppiness = include_file_ctime >> ~/.ccache/ccache.conf 
+ - echo hash_dir = false >> ~/.ccache/ccache.conf
  - docker run ${DOCKER_OPTS} ${DOCKER_CNTR} R CMD build ${R_BLD_CHK_OPTS} .
  # install once to generate stdout to not time out ... and file ccache at the same time
  - docker run ${DOCKER_OPTS} ${DOCKER_CNTR} R CMD INSTALL RQuantLib_*.tar.gz

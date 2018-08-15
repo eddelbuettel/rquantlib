@@ -20,7 +20,7 @@ before_install:
  
 install:
 #   - ./run.sh install_aptget r-cran-rcpp libquantlib0-dev r-cran-runit r-cran-rgl r-cran-zoo libboost-dev libboost-test-dev littler r-cran-shiny
- - docker run --rm -ti -v $(pwd):/mnt -w /mnt eddelbuettel/rquantlib-testing R CMD BUILD --no-build-vignettes --no-manual .
+ - docker run --rm -ti -v $(pwd):/mnt -w /mnt eddelbuettel/rquantlib-testing R CMD build --no-build-vignettes --no-manual .
  
 script:
 #   #- ./run.sh run_tests

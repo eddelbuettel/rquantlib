@@ -2,14 +2,14 @@
 #
 # Adapted for Docker use via a custom container built for this repo
 
-language: c
+language: cpp
 
-sudo: required
-
-services:
-  - docker
-
+os: linux
 dist: trusty
+sudo: required
+compiler: gcc
+services: docker
+cache: ccache
 
 before_install:
 #   - curl -OLs https://eddelbuettel.github.io/r-travis/run.sh && chmod 0755 run.sh
@@ -21,11 +21,12 @@ before_install:
 install:
 #   - ./run.sh install_aptget r-cran-rcpp libquantlib0-dev r-cran-runit r-cran-rgl r-cran-zoo libboost-dev libboost-test-dev littler r-cran-shiny
  - docker run --rm -ti -v $(pwd):/mnt -w /mnt eddelbuettel/rquantlib-testing R CMD build --no-build-vignettes --no-manual .
- 
+ - docker run --rm -ti -v ${HOME}/.ccache:/root/.ccache -v $(pwd):/mnt -w /mnt eddelbuettel/rquantlib-testing R CMD INSTALL RQuantLib_*.tar.gz
+
 script:
 #   #- ./run.sh run_tests
 #   - travis_wait 20 ./run.sh run_tests
- - travis_wait 20 docker run --rm -ti -v $(pwd):/mnt -w /mnt eddelbuettel/rquantlib-testing R CMD check --no-vignettes --no-manual RQuantLib_*.tar.gz
+ - docker run --rm -ti -v ${HOME}/.ccache:/root/.ccache -v $(pwd):/mnt -w /mnt eddelbuettel/rquantlib-testing R CMD check --no-vignettes --no-manual RQuantLib_*.tar.gz
 
 after_failure:
   - ./run.sh dump_logs

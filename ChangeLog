@@ -2,6 +2,8 @@
 
 	* docker/Dockerfile: Add Dockerfile to create test container
 
+	* .travis.yml: Adapted to use Docker container
+
 2018-08-13  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .travis.yml: Try 20 minute timeout parameter

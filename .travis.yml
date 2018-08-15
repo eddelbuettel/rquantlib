@@ -25,7 +25,7 @@ install:
 script:
 #   #- ./run.sh run_tests
 #   - travis_wait 20 ./run.sh run_tests
- - docker run --rm -ti -v $(pwd):/mnt -w /mnt eddelbuettel/rquantlib-testing R CMD check --no-vignettes --no-manual RQuantLib_*.tar.gz
+ - travis_wait 20 docker run --rm -ti -v $(pwd):/mnt -w /mnt eddelbuettel/rquantlib-testing R CMD check --no-vignettes --no-manual RQuantLib_*.tar.gz
 
 after_failure:
   - ./run.sh dump_logs

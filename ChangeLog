@@ -1,3 +1,7 @@
+2018-08-16  Dirk Eddelbuettel  <edd@debian.org>
+
+	* .travis.yml): Prettification for Travis file
+
 2018-08-14  Dirk Eddelbuettel  <edd@debian.org>
 
 	* docker/Dockerfile: Add Dockerfile to create test container

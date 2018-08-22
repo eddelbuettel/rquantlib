@@ -6,3 +6,7 @@ src/*.so
 src/*.dll
 /FIXME
 windows
+GPATH
+GRTAGS
+GTAGS
+*\.tar.gz

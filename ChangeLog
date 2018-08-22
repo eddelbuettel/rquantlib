@@ -1,6 +1,13 @@
+2018-08-22  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll minor version
+
+	* src/calendars.cpp (addHolidays, removeHolidays): New functions
+	* man/Calendars.Rd: Added documentation
+
 2018-08-16  Dirk Eddelbuettel  <edd@debian.org>
 
-	* .travis.yml): Prettification for Travis file
+	* .travis.yml: Prettification for Travis file
 
 2018-08-14  Dirk Eddelbuettel  <edd@debian.org>
 

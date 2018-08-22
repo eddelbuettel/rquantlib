@@ -50,6 +50,8 @@ export(
     "businessDaysBetween",
     "getHolidayList", "holidayList",
     "setCalendarContext",
+    "addHolidays",
+    "removeHolidays",
     ##--dayCounter.R
     "dayCount",
     "yearFraction",

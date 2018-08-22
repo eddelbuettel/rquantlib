@@ -16,6 +16,8 @@
 \alias{yearFraction}
 \alias{setEvaluationDate}
 \alias{advanceDate}
+\alias{addHolidays}
+\alias{removeHolidays}
 \title{Calendar functions from QuantLib}
 \description{
 The \code{isBusinessDay} function evaluates the given dates in the context
@@ -72,6 +74,12 @@ the QuantLib pricing engines.
 The \code{advanceDate} function advances the given date by the given
 number of days in the current calendar instance.
 
+The \code{addHolidays} and \code{removeHolidays} add (and remove)
+holidays to (from) the given calendar. Note that this change is
+transitory and does not persist the session as all actual calendar
+information comes from the QuantLib library that this package is linked
+against.
+
 }
 \usage{
 isBusinessDay(calendar, dates)
@@ -92,6 +100,8 @@ dayCount(startDates, endDates, dayCounters)
 yearFraction(startDates, endDates, dayCounters)
 setCalendarContext(calendar, fixingDays, settleDate)
 setEvaluationDate(evalDate)
+addHolidays(calendar, dates)
+removeHolidays(calendar, dates)
 }
 \arguments{
   \item{calendar}{A string identifying one of the supported QuantLib

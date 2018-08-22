@@ -145,6 +145,14 @@ getHolidayList <- function(calendar, from, to, includeWeekends = FALSE) {
     .Call(`_RQuantLib_getHolidayList`, calendar, from, to, includeWeekends)
 }
 
+addHolidays <- function(calendar, dates) {
+    invisible(.Call(`_RQuantLib_addHolidays`, calendar, dates))
+}
+
+removeHolidays <- function(calendar, dates) {
+    invisible(.Call(`_RQuantLib_removeHolidays`, calendar, dates))
+}
+
 advanceDate <- function(issueDate, days) {
     .Call(`_RQuantLib_advanceDate`, issueDate, days)
 }

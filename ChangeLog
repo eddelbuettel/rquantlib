@@ -1,3 +1,7 @@
+2018-08-26  Dirk Eddelbuettel  <edd@debian.org>
+
+	* .travis.yml: Remove unneeded compiler and language tags
+
 2018-08-22  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version

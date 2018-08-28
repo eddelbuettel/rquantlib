@@ -29,9 +29,6 @@ install:
 script:
  - docker run ${DOCKER_OPTS} ${DOCKER_CNTR} R CMD check ${R_BLD_CHK_OPTS} RQuantLib_*.tar.gz
 
-after_failure:
-  - ./run.sh dump_logs
-
 notifications:
   email:
     on_success: change

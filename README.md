@@ -22,7 +22,7 @@ extended. Contributions are welcome, and initial discussions via
 are encouraged as suggested in the
 [Contributing guide](https://github.com/eddelbuettel/rquantlib/blob/master/Contributing.md).
 
-### Installation 
+### Installation
 
 #### From Source
 
@@ -43,6 +43,8 @@ Windows binary packages should be available.
 <!-- drat::addRepo("ghrr")       #  maybe use 'install.packages("drat")' first  -->
 <!-- install.packages("RQuantLib", type="binary") -->
 <!-- ``` -->
+
+For more OS-specific installation options, please see [the wiki](https://github.com/eddelbuettel/rquantlib/wiki/RQuantLib).
 
 ### Authors
 

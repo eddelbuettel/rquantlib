@@ -1,3 +1,12 @@
+2018-10-28  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll minor version
+
+	* src/asian.cpp: Patch fron Debian #911957 to support Boost 1.67
+	* src/barrier_binary.cpp: Idem
+	* src/implieds.cpp: Idem
+	* src/vanilla.cpp: Idem
+
 2018-08-26  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .travis.yml: Remove unneeded compiler and language tags

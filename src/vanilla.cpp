@@ -36,7 +36,7 @@ Rcpp::List europeanOptionEngine(std::string type,
 
 #ifdef QL_HIGH_RESOLUTION_DATE    
     // in minutes
-    boost::posix_time::time_duration length = boost::posix_time::minutes(maturity * 360 * 24 * 60); 
+    boost::posix_time::time_duration length = boost::posix_time::minutes(boost::uint64_t(maturity * 360 * 24 * 60)); 
 #else
     int length           = int(maturity*360 + 0.5); // FIXME: this could be better
 #endif
@@ -73,7 +73,7 @@ Rcpp::List europeanOptionEngine(std::string type,
         std::vector<double> discDividends(n);
         for (int i = 0; i < n; i++) {
 #ifdef QL_HIGH_RESOLUTION_DATE
-            boost::posix_time::time_duration discreteDividendLength = boost::posix_time::minutes(divtimes[i] * 360 * 24 * 60);
+            boost::posix_time::time_duration discreteDividendLength = boost::posix_time::minutes(boost::uint64_t(divtimes[i] * 360 * 24 * 60));
             discDivDates[i] = QuantLib::Date(today.dateTime() + discreteDividendLength);
 #else
             discDivDates[i] = today + int(divtimes[i] * 360 + 0.5); 
@@ -131,7 +131,7 @@ Rcpp::List americanOptionEngine(std::string type,
 
 #ifdef QL_HIGH_RESOLUTION_DATE    
     // in minutes
-    boost::posix_time::time_duration length = boost::posix_time::minutes(maturity * 360 * 24 * 60); 
+    boost::posix_time::time_duration length = boost::posix_time::minutes(boost::uint64_t(maturity * 360 * 24 * 60)); 
 #else
     int length = int(maturity * 360 + 0.5); // FIXME: this could be better
     
@@ -175,7 +175,7 @@ Rcpp::List americanOptionEngine(std::string type,
         std::vector<double> discDividends(n);
         for (int i = 0; i < n; i++) {
 #ifdef QL_HIGH_RESOLUTION_DATE
-            boost::posix_time::time_duration discreteDividendLength = boost::posix_time::minutes(divtimes[i] * 360 * 24 * 60);
+            boost::posix_time::time_duration discreteDividendLength = boost::posix_time::minutes(boost::uint64_t(divtimes[i] * 360 * 24 * 60));
             discDivDates[i] = QuantLib::Date(today.dateTime() + discreteDividendLength);
 #else
             discDivDates[i] = today + int(divtimes[i] * 360 + 0.5); 
@@ -261,7 +261,7 @@ Rcpp::List europeanOptionArraysEngine(std::string type, Rcpp::NumericMatrix par)
         QuantLib::Time maturity        = par(i, 4);    // fifth column
 #ifdef QL_HIGH_RESOLUTION_DATE    
         // in minutes
-        boost::posix_time::time_duration length = boost::posix_time::minutes(maturity * 360 * 24 * 60); 
+        boost::posix_time::time_duration length = boost::posix_time::minutes(boost::uint64_t(maturity * 360 * 24 * 60)); 
 #else
         int length           = int(maturity*360 + 0.5); // FIXME: this could be better
 #endif

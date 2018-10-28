@@ -25,7 +25,7 @@
 
 // Calibrates underlying swaptions to the input volatility matrix.
 void calibrateModel(const boost::shared_ptr<QuantLib::ShortRateModel>& model,
-                    const std::vector<boost::shared_ptr<QuantLib::CalibrationHelper> > &helpers,
+                    const std::vector<boost::shared_ptr<QuantLib::BlackCalibrationHelper> > &helpers,
                     QuantLib::Real lambda,
                     Rcpp::NumericVector &swaptionMat, 
                     Rcpp::NumericVector &swapLengths, 
@@ -164,21 +164,21 @@ Rcpp::List bermudanFromYieldEngine(Rcpp::List rparam,
         swaptionMaturities.push_back(QuantLib::Period(swaptionMat[i], QuantLib::Years));
 
     // Swaptions used for calibration
-    std::vector<boost::shared_ptr<QuantLib::CalibrationHelper> > swaptions;
+    std::vector<boost::shared_ptr<QuantLib::BlackCalibrationHelper> > swaptions;
 
     // List of times that have to be included in the timegrid
     std::list<QuantLib::Time> times;
     for (i=0; i<(QuantLib::Size)numRows; i++) {
         //boost::shared_ptr<QuantLib::Quote> vol(new QuantLib::SimpleQuote(swaptionVols[i][numCols-i-1]));
         boost::shared_ptr<QuantLib::Quote> vol(new QuantLib::SimpleQuote(swaptionVols(i, numCols-i-1)));
-        swaptions.push_back(boost::shared_ptr<QuantLib::CalibrationHelper>(new QuantLib::SwaptionHelper(swaptionMaturities[i],
-                                                                                                        QuantLib::Period(swapLengths[numCols-i-1], QuantLib::Years),
-                                                                                                        QuantLib::Handle<QuantLib::Quote>(vol),
-                                                                                                        indexSixMonths,
-                                                                                                        indexSixMonths->tenor(),
-                                                                                                        indexSixMonths->dayCounter(),
-                                                                                                        indexSixMonths->dayCounter(),
-                                                                                                        rhTermStructure)));
+        swaptions.push_back(boost::shared_ptr<QuantLib::BlackCalibrationHelper>(new QuantLib::SwaptionHelper(swaptionMaturities[i],
+                                                                                                             QuantLib::Period(swapLengths[numCols-i-1], QuantLib::Years),
+                                                                                                             QuantLib::Handle<QuantLib::Quote>(vol),
+                                                                                                             indexSixMonths,
+                                                                                                             indexSixMonths->tenor(),
+                                                                                                             indexSixMonths->dayCounter(),
+                                                                                                             indexSixMonths->dayCounter(),
+                                                                                                             rhTermStructure)));
         swaptions.back()->addTimesTo(times);
 
     }
@@ -390,7 +390,7 @@ Rcpp::List bermudanWithRebuiltCurveEngine(Rcpp::List rparam,
         swaptionMaturities.push_back(QuantLib::Period(swaptionMat[i], QuantLib::Years));
     
     // Swaptions used for calibration
-    std::vector<boost::shared_ptr<QuantLib::CalibrationHelper> > swaptions;
+    std::vector<boost::shared_ptr<QuantLib::BlackCalibrationHelper> > swaptions;
 
     // List of times that have to be included in the timegrid
     std::list<QuantLib::Time> times;
@@ -398,14 +398,14 @@ Rcpp::List bermudanWithRebuiltCurveEngine(Rcpp::List rparam,
 
         //boost::shared_ptr<QuantLib::Quote> vol(new QuantLib::SimpleQuote(swaptionVols[i][numCols-i-1]));
         boost::shared_ptr<QuantLib::Quote> vol(new QuantLib::SimpleQuote(swaptionVols(i, numCols-i-1)));
-        swaptions.push_back(boost::shared_ptr<QuantLib::CalibrationHelper>(new QuantLib::SwaptionHelper(swaptionMaturities[i],
-                                                                                                        QuantLib::Period(swapLengths[numCols-i-1], QuantLib::Years),
-                                                                                                        QuantLib::Handle<QuantLib::Quote>(vol),
-                                                                                                        indexSixMonths,
-                                                                                                        indexSixMonths->tenor(),
-                                                                                                        indexSixMonths->dayCounter(),
-                                                                                                        indexSixMonths->dayCounter(),
-                                                                                                        rhTermStructure)));
+        swaptions.push_back(boost::shared_ptr<QuantLib::BlackCalibrationHelper>(new QuantLib::SwaptionHelper(swaptionMaturities[i],
+                                                                                                             QuantLib::Period(swapLengths[numCols-i-1], QuantLib::Years),
+                                                                                                             QuantLib::Handle<QuantLib::Quote>(vol),
+                                                                                                             indexSixMonths,
+                                                                                                             indexSixMonths->tenor(),
+                                                                                                             indexSixMonths->dayCounter(),
+                                                                                                             indexSixMonths->dayCounter(),
+                                                                                                             rhTermStructure)));
         swaptions.back()->addTimesTo(times);
     }
 

@@ -41,7 +41,7 @@ Rcpp::List calibrateHullWhiteUsingCapsEngine(std::vector<QuantLib::Date> termStr
         indexStrc(rebuildCurveFromZeroRates(iborDateVec, iborZeroVec));    
     boost::shared_ptr<QuantLib::IborIndex> index = buildIborIndex(iborType, indexStrc);
     //process capDataDF
-    std::vector<boost::shared_ptr <QuantLib::CalibrationHelper> > caps;
+    std::vector<boost::shared_ptr <QuantLib::BlackCalibrationHelper> > caps;
 
     //Rcpp::DataFrame capDF(capDataDF);
     Rcpp::NumericVector i0v = capDF[0];
@@ -57,7 +57,7 @@ Rcpp::List calibrateHullWhiteUsingCapsEngine(std::vector<QuantLib::Date> termStr
         QuantLib::Period p = periodByTimeUnit(i0v[row], Rcpp::as<std::string>(s1v[row]));
         boost::shared_ptr<QuantLib::Quote> vol(new QuantLib::SimpleQuote(d2v[row]));
         QuantLib::DayCounter dc = getDayCounter(i4v[row]);
-        boost::shared_ptr<QuantLib::CalibrationHelper> 
+        boost::shared_ptr<QuantLib::BlackCalibrationHelper> 
             helper(new QuantLib::CapHelper(p, QuantLib::Handle<QuantLib::Quote>(vol), index, 
                                            getFrequency(i3v[row]),
                                            dc,
@@ -109,7 +109,7 @@ Rcpp::List calibrateHullWhiteUsingSwapsEngine(std::vector<QuantLib::Date> termSt
     //process capDataDF
     boost::shared_ptr<QuantLib::PricingEngine> 
         engine(new QuantLib::JamshidianSwaptionEngine(model));
-    std::vector<boost::shared_ptr <QuantLib::CalibrationHelper> > swaps;
+    std::vector<boost::shared_ptr <QuantLib::BlackCalibrationHelper> > swaps;
 
     //Rcpp::DataFrame swapDF(swapDataDF);
     Rcpp::NumericVector i0v = swapDF[0];
@@ -137,7 +137,7 @@ Rcpp::List calibrateHullWhiteUsingSwapsEngine(std::vector<QuantLib::Date> termSt
         QuantLib::DayCounter fixedLegDayCounter = getDayCounter(i7v[row]);
         QuantLib::DayCounter floatingLegDayCounter = getDayCounter(i8v[row]);
 
-        boost::shared_ptr<QuantLib::CalibrationHelper> 
+        boost::shared_ptr<QuantLib::BlackCalibrationHelper> 
             helper(new QuantLib::SwaptionHelper(maturity, length, 
                                                 QuantLib::Handle<QuantLib::Quote>(vol), 
                                                 index, 

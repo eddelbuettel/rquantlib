@@ -7,3 +7,6 @@ Contributing.md
 windows
 .*\.tar\.gz
 docker
+GPATH
+GRTAGS
+GTAGS

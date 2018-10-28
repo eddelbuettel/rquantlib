@@ -7,6 +7,10 @@
 	* src/implieds.cpp: Idem
 	* src/vanilla.cpp: Idem
 
+	* src/affine.cpp: Use BlackCalibrationHelper not CalibrationHelper
+	* src/bermudan.cpp: Idem
+	* src/hullwhite.cpp: Idem
+
 2018-08-26  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .travis.yml: Remove unneeded compiler and language tags

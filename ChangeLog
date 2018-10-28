@@ -11,6 +11,11 @@
 	* src/bermudan.cpp: Idem
 	* src/hullwhite.cpp: Idem
 
+	* docker/ci/Dockerfile: Moved from ../Dockerfile
+	* docker/run/Dockerfile: Added, providing run-time
+
+	* .travis.yml: Use rquantlib/ci for Travis CI
+
 2018-08-26  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .travis.yml: Remove unneeded compiler and language tags

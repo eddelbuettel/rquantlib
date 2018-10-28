@@ -38,7 +38,7 @@ double europeanOptionImpliedVolatilityEngine(std::string type,
   
 #ifdef QL_HIGH_RESOLUTION_DATE    
     // in minutes
-    boost::posix_time::time_duration length = boost::posix_time::minutes(maturity * 360 * 24 * 60); 
+    boost::posix_time::time_duration length = boost::posix_time::minutes(boost::uint64_t(maturity * 360 * 24 * 60)); 
 #else
     int length = int(maturity*360 + 0.5); // FIXME: this could be better
 #endif
@@ -98,7 +98,7 @@ double americanOptionImpliedVolatilityEngine(std::string type,
 
 #ifdef QL_HIGH_RESOLUTION_DATE    
     // in minutes
-    boost::posix_time::time_duration length = boost::posix_time::minutes(maturity * 360 * 24 * 60); 
+    boost::posix_time::time_duration length = boost::posix_time::minutes(boost::uint64_t(maturity * 360 * 24 * 60)); 
 #else
     int length = int(maturity*360 + 0.5); // FIXME: this could be better
 #endif

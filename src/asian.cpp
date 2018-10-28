@@ -69,7 +69,7 @@ Rcpp::List asianOptionEngine(std::string averageType,
             
 #ifdef QL_HIGH_RESOLUTION_DATE    
         // in minutes
-        QuantLib::Date exDate(today.dateTime() + boost::posix_time::minutes(maturity * 360 * 24 * 60));
+        QuantLib::Date exDate(today.dateTime() + boost::posix_time::minutes(boost::uint64_t(maturity * 360 * 24 * 60)));
 #else
         QuantLib::Date exDate = today + int(maturity * 360 + 0.5);
 #endif                              
@@ -112,7 +112,7 @@ Rcpp::List asianOptionEngine(std::string averageType,
         for (QuantLib::Size i=1; i<fixings; i++) {
             timeIncrements[i] = i*dt + first;
 #ifdef QL_HIGH_RESOLUTION_DATE
-            fixingDates[i]= QuantLib::Date(today.dateTime() + boost::posix_time::minutes(timeIncrements[i] * 360 * 24 * 60));
+            fixingDates[i]= QuantLib::Date(today.dateTime() + boost::posix_time::minutes(boost::uint64_t(timeIncrements[i] * 360 * 24 * 60)));
 #else            
             fixingDates[i] = today + QuantLib::Integer(timeIncrements[i]*360+0.5);
 #endif           

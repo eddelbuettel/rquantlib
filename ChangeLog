@@ -1,3 +1,8 @@
+2018-11-11  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/Makevars.in (PKG_CXXFLAGS): No longer need the opt-in for
+	-DRCPP_NEW_DATE_DATETIME_VECTORS which is now on by default
+
 2018-10-28  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version

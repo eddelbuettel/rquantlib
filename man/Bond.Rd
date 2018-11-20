@@ -81,7 +81,7 @@ ZeroCouponBond(bondparams, discountCurve, dateparams)
 # price a fixed rate coupon bond
 
 bond <- list(settlementDays=1, issueDate=as.Date("2004-11-30"),
-             faceAmount=100, accrualDayCounter='Thirty360',
+             faceAmount=100, dayCounter='Thirty360',
              paymentConvention='Unadjusted')
 schedule <- list(effectiveDate=as.Date("2004-11-30"),
                  maturityDate=as.Date("2008-11-30"),

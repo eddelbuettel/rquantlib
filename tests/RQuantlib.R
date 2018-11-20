@@ -113,7 +113,7 @@ FixedRateBondPriceByYield(,0.0307, 100000, as.Date("2004-11-30"), as.Date("2008-
 bond <- list(settlementDays=1,
              issueDate=as.Date("2004-11-30"),
              faceAmount=100,
-             accrualDayCounter='Thirty360',
+             dayCounter='Thirty360',
              paymentConvention='Unadjusted')
 schedule <- list(effectiveDate=as.Date("2004-11-30"),
                  maturityDate=as.Date("2008-11-30"),
@@ -160,10 +160,10 @@ FixedRateBond(bond,
 ## bond.cpp FloatingRateBond, following test-suite/bonds.cpp
 
 bond <- list(faceAmount=100, issueDate=as.Date("2004-11-30"),
-             maturityDate=as.Date("2008-11-30"), redemption=100, 
+             maturityDate=as.Date("2008-11-30"), redemption=100,
              effectiveDate=as.Date("2004-11-30"))
 dateparams <- list(settlementDays=1, calendar="UnitedStates/GovernmentBond",
-                   dayCounter = 'ActualActual', period=2, 
+                   dayCounter = 'ActualActual', period=2,
                    businessDayConvention = 1, terminationDateConvention=1,
                    dateGeneration=0, endOfMonth=0, fixingDays = 1)
 
@@ -195,8 +195,8 @@ tsQuotes <- list(d1w  =0.0382,
 
 discountCurve.flat <- DiscountCurve(params, list(flat=0.05))
 termstructure <- DiscountCurve(params, list(flat=0.03))
-iborIndex.params <- list(type="USDLibor", length=6, 
-                  inTermOf="Month", term=termstructure)                      
-FloatingRateBond(bond, gearings, spreads, caps, floors, 
+iborIndex.params <- list(type="USDLibor", length=6,
+                  inTermOf="Month", term=termstructure)
+FloatingRateBond(bond, gearings, spreads, caps, floors,
                  iborIndex.params, discountCurve.flat, dateparams)
 

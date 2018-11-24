@@ -81,7 +81,7 @@ tsUp01 = NA, tsDn01 = NA, vega = FALSE)}
 \seealso{\code{\link{AffineSwaption}}}
 
 \examples{
-
+\dontrun{  
 params <- list(tradeDate=as.Date('2016-2-15'),
                settleDate=as.Date('2016-2-17'),
                startDate=as.Date('2017-2-17'),
@@ -110,5 +110,6 @@ swaplegparams=list(fixFreq="Semiannual",floatFreq="Quarterly")
 data(vcube)
 pricing <- SabrSwaption(params, dcurve,vcube,swaplegparams)
 pricing
+}
 }
 \keyword{models}

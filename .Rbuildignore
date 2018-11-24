@@ -10,3 +10,4 @@ docker
 GPATH
 GRTAGS
 GTAGS
+tests/RQuantlib.Rout.save

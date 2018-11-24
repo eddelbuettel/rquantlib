@@ -8,7 +8,7 @@
 AC_PREREQ(2.50)
 
 # Process this file with autoconf to produce a configure script.
-AC_INIT(RQuantlib, 0.4.5)
+AC_INIT(RQuantlib, 0.4.6)
 
 # Set CXX and CXXFLAGS based on the R configuration (with thanks to KH)
 : ${R_HOME=`R RHOME`}
@@ -31,7 +31,7 @@ if test "${GXX}" = yes; then
 	     AC_MSG_WARN([Only g++ version 3.0 or greater can be used with RQuantib.])
 	     AC_MSG_ERROR([Please use a different compiler.])   
         ;;
-	4.6.*|4.7.*|4.8.*|4.9.*|5.*|6.*|7.*|8.*|9.*)
+	4.6.*|4.7.*|4.8.*|4.9.*|5.*|6.*|7.*|8.*|9.*|10.*)
 	     gxx_newer_than_45="-fpermissive"
 	;;
     esac
@@ -77,8 +77,8 @@ if test x"${QUANTLIB}" == x"yes" ; then
 
     # also test for quantlib version using result from quantlib-config --version
     case ${pkg_version} in
-    0.1.*|0.2.*|0.3.*|0.4.*|0.8.*|0.9.*|1.0.*|1.1.*|1.2.*|1.3.*|1.4.*|1.5.*|1.6.*|1.7.*)
-	AC_MSG_WARN([RQuantLib requires QuantLib (>= 1.8.0).])
+    0.1.*|0.2.*|0.3.*|0.4.*|0.8.*|0.9.*|1.0.*|1.1.*|1.2.*|1.3.*|1.4.*|1.5.*|1.6.*|1.7.*|1.8*|1.9.*|1.10.*|1.11.*|1.12.*|1.13.*)
+	AC_MSG_WARN([RQuantLib requires QuantLib (>= 1.14).])
 	AC_MSG_ERROR([Please upgrade to a current version.])
 	;;
     esac

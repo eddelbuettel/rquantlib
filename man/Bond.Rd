@@ -36,7 +36,7 @@
   stabilises its own API.}
 
 \examples{
-
+\dontrun{ 
 ## This data is taken from sample code shipped with QuantLib 0.9.7
 ## from the file Examples/Swap/swapvaluation
 params <- list(tradeDate=as.Date('2004-09-20'),
@@ -124,6 +124,6 @@ ibor <- list(type="USDLibor", length=6, inTermOf="Month",
 FloatingRateBond(bondparams, gearings, spreads, caps, floors, 
                  ibor, discountCurve, dateparams)
 }
-
+}
 \keyword{misc}
 

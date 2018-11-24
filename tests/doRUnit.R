@@ -6,35 +6,34 @@
 ## and changed further by Martin Maechler
 ## and more changes by Murray Stokely in HistogramTools
 ## and then used adapted in RProtoBuf
-## and now used in Rcpp* and here 
+## and now used in Rcpp* and here
 ##
 ## (Initially) inAdapted for RQuantLib by Dirk Eddelbuettel, 29 Dec 2007
 
-stopifnot(require(RUnit, quietly=TRUE))
-stopifnot(require(RQuantLib, quietly=TRUE))
+if (requireNamespace("RUnit", quietly=TRUE) &&
+    requireNamespace("RQuantLib", quietly=TRUE)) {
 
-## Define tests
-testSuite <- defineTestSuite(name="RQuantLib Unit Tests",
-                             dirs=system.file("unitTests", package = "RQuantLib"),
-                             testFuncRegexp = "^[Tt]est.+")
+    library(RUnit)
+    library(RQuantLib)
 
-## without this, we get (or used to get) unit test failures
-Sys.setenv("R_TESTS"="")
+    ## Define tests
+    testSuite <- defineTestSuite(name="RQuantLib Unit Tests",
+                                 dirs=system.file("unitTests", package = "RQuantLib"),
+                                 testFuncRegexp = "^[Tt]est.+")
 
-## Run tests
-tests <- runTestSuite(testSuite)
+    ## without this, we get (or used to get) unit test failures
+    Sys.setenv("R_TESTS"="")
 
-## Print results
-printTextProtocol(tests)
+    .onWindows <- .Platform$OS.type == "windows"
 
-## Return success or failure to R CMD CHECK
-if (getErrors(tests)$nFail > 0) {
-    stop("TEST FAILED!")
+    if (!.onWindows) {
+        tests <- runTestSuite(testSuite)	# Run tests
+
+        printTextProtocol(tests)			# Print results
+
+        ## Return success or failure to R CMD CHECK
+        if (getErrors(tests)$nFail > 0) stop("TEST FAILED!")
+        if (getErrors(tests)$nErr > 0) stop("TEST HAD ERRORS!")
+        if (getErrors(tests)$nTestFunc < 1) stop("NO TEST FUNCTIONS RUN!")
+    }
 }
-if (getErrors(tests)$nErr > 0) {
-    stop("TEST HAD ERRORS!")
-}
-if (getErrors(tests)$nTestFunc < 1) {
-    stop("NO TEST FUNCTIONS RUN!")
-}
-

@@ -1,3 +1,22 @@
+2018-11-22  Dirk Eddelbuettel  <edd@debian.org>
+
+	* configure.ac: Test for QuantLib 1.14
+	* configure: Idem
+
+	* tools/winlibs.R: Updated for QL 1.14 build by Josh
+
+	* man/Bond.Rd: Do not run examples to avoid Windows issue
+	* man/FixedRateBond.Rd: Idem
+	* man/FloaringRateBond.Rd: Idem
+	* man/SabrSwaption.Rd: Idem
+	* man/ZeroCouponBond.Rd: Idem
+
+	* tests/RQuantLib.R: Test for Windows, only run a portion of tests
+	* tests/doRUnit.R: Test for Windows
+
+	* src/Makevars.win: Set -Wno-deprecated-declarations options to
+	make the build less noisy
+
 2018-11-20  Dirk Eddelbuettel  <edd@debian.org>
 
 	* man/Bond.Rd: Example now uses dayCounter not accrualDayCounter

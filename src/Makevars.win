@@ -6,9 +6,9 @@
 # Copyright 2011         Uwe Ligges, Brian Ripley, and Josh Ulrich
 # Copyright 2018         Jeroen Ooms
 
-RWINLIB=../windows/quantlib-1.12.1
+RWINLIB=../windows/quantlib-1.14
 PKG_CPPFLAGS=-I$(RWINLIB)/include -I../inst/include
-PKG_CXXFLAGS=$(SHLIB_OPENMP_CXXFLAGS)
+PKG_CXXFLAGS=$(SHLIB_OPENMP_CXXFLAGS) -Wno-deprecated-declarations
 PKG_LIBS=-L$(RWINLIB)/lib${R_ARCH} -lQuantLib $(SHLIB_OPENMP_CXXFLAGS) 
 
 # Use C++11 for long long in Boost headers

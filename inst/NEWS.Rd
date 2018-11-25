@@ -3,6 +3,24 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rquantlib/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rquantlib/issues/#1}{##1}}
 
+\section{Changes in RQuantLib version 0.4.6 (2018-11-25)}{
+  \itemize{
+    \item Changes in RQuantLib code:
+    \itemize{
+      \item The code was updated for release 1.14 of QuantLib.
+      \item The code was updated for Boost 1.67 or later (\ghpr{120}
+      fixing \ghit{119}).
+      \item Fewer examples and tests are running on Windows.
+      \item Several bond prixing examples corrected to use
+      \code{dayCounter}.
+      \item Two new functions were added to add and remove (custom)
+      holidays (\ghit{115}).
+      \item The continuous integration setup was rewritten for
+      containers.
+    }
+  }
+}
+
 \section{Changes in RQuantLib version 0.4.5 (2018-08-10)}{
   \itemize{
     \item Changes in RQuantLib code:

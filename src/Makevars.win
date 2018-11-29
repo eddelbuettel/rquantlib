@@ -8,7 +8,7 @@
 
 RWINLIB=../windows/quantlib-1.14
 PKG_CPPFLAGS=-I$(RWINLIB)/include -I../inst/include
-PKG_CXXFLAGS=$(SHLIB_OPENMP_CXXFLAGS) -Wno-deprecated-declarations
+PKG_CXXFLAGS=$(SHLIB_OPENMP_CXXFLAGS) -DBOOST_NO_AUTO_PTR -Wno-deprecated-declarations
 PKG_LIBS=-L$(RWINLIB)/lib${R_ARCH} -lQuantLib $(SHLIB_OPENMP_CXXFLAGS) 
 
 # Use C++11 for long long in Boost headers

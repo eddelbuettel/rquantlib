@@ -1,3 +1,14 @@
+2018-11-28  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll minor version
+
+	* man/CallableBond.Rd: Set evaluation date
+
+	* src/Makevars.in (PKG_CXXFLAGS): Add -DBOOST_NO_AUTO_PTR
+	* src/Makevars.win (PKG_CXXFLAGS): Idem
+
+	* inst/NEWS.Rd: A few post-release edits
+
 2018-11-25  Dirk Eddelbuettel  <edd@debian.org>
 
         * DESCRIPTION (Version, Date): New release 0.4.6

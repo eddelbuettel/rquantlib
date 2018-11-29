@@ -7,16 +7,30 @@
   \itemize{
     \item Changes in RQuantLib code:
     \itemize{
+      \item The \code{CallableBonds} example now sets an evaluation date
+      (\ghit{124}).
+      \item The \code{-DBOOST_NO_AUTO_PTR} compilation flag is now set.
+    }
+  } 
+}
+
+\section{Changes in RQuantLib version 0.4.6 (2018-11-25)}{
+  \itemize{
+    \item Changes in RQuantLib code:
+    \itemize{
       \item The code was updated for release 1.14 of QuantLib.
       \item The code was updated for Boost 1.67 or later (\ghpr{120}
-      fixing \ghit{119}).
+      fixing \ghit{119}, Debian bug report #911957) to support
       \item Fewer examples and tests are running on Windows.
-      \item Several bond prixing examples corrected to use
-      \code{dayCounter}.
-      \item Two new functions were added to add and remove (custom)
-      holidays (\ghit{115}).
-      \item The continuous integration setup was rewritten for
-      containers.
+      \item Corrected bond function documentation to use
+      \code{dayCounter} instead of \code{accruedDayCounter}.
+      \item Two new functions \code{addHolidays} and
+      \code{removeHolidays} enable custom local holiday management
+      (\ghit{115}).
+      \item Corrected bond function documentation to use
+      \code{dayCounter} instead of \code{accruedDayCounter}.
+      \item Travis CI now uses a custom Docker container, also added a
+      deployment container building on the testing container.
     }
   }
 }

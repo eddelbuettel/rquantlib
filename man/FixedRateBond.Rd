@@ -1,4 +1,3 @@
-% $Id$
 \name{FixedRateBond}
 \alias{FixedRateBond}
 \alias{FixedRateBond.default}
@@ -188,7 +187,7 @@
 
 
 \examples{
-\dontrun{  
+
 #Simple call with a flat curve
 bond <- list(settlementDays=1,
              issueDate=as.Date("2004-11-30"),
@@ -291,7 +290,7 @@ FixedRateBondPriceByYield(,0.0307, 100000, as.Date("2004-11-30"),
 
 FixedRateBondYield(,90, 100000, as.Date("2004-11-30"), as.Date("2008-11-30"),
                    3, , c(0.02875), , , , ,as.Date("2004-11-30"))
-}
+
 }
 \keyword{misc}
 

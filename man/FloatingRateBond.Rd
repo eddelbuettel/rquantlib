@@ -1,4 +1,3 @@
-% $Id: FloatingRateBond.Rd 87 2009-06-09 16:48:13Z knguyen $
 \name{FloatingRateBond}
 \alias{FloatingRateBond}
 \alias{FloatingRateBond.default}
@@ -117,7 +116,7 @@
 
 
 \examples{
-\dontrun{
+
 bond <- list(faceAmount=100, issueDate=as.Date("2004-11-30"),
              maturityDate=as.Date("2008-11-30"), redemption=100, 
              effectiveDate=as.Date("2004-11-30"))
@@ -172,7 +171,7 @@ FloatingRateBond(bond, gearings, spreads, caps, floors,
 
 #example using default values
 FloatingRateBond(bond=bond, index=iborIndex.params, curve=discountCurve)
-}
+
 }
 \keyword{misc}
 

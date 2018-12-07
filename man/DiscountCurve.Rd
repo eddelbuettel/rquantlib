@@ -128,8 +128,6 @@ DiscountCurve(params, tsQuotes, times, legparams)
 
 \examples{
 
-\dontrun{    ## issues on 32 bit Windows
-
 savepar <- par(mfrow=c(3,3), mar=c(4,4,2,0.5))
 
 ## This data is taken from sample code shipped with QuantLib 0.9.7
@@ -183,8 +181,6 @@ curves <- DiscountCurve(params, tsQuotes, times)
 plot(curves,setpar=FALSE)
 
 par(savepar)
-
-}     ## end of \dontrun -- issues on 32 bit Windows
  
 }
 \keyword{models}

@@ -5,6 +5,10 @@
 	* src/Makevars.win: Reflect updated directory layout in updated
 	Windows library
 
+	* man/AffineSwaption.Rd: Restore example now that Windows works
+	* man/BermudanSwaption.Rd: Idem
+	* man/DiscountCurve.Rd: Idem
+
 2018-12-03  Dirk Eddelbuettel  <edd@debian.org>
 
 	* man/Bond.Rd: Restore example with correctly-built Windows library

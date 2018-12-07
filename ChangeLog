@@ -9,6 +9,9 @@
 	* man/BermudanSwaption.Rd: Idem
 	* man/DiscountCurve.Rd: Idem
 
+	* tools/build_RQuantLib.sh: Added build script by Josh (with a big
+	thank you for setting it up and running a series of builds)
+
 2018-12-03  Dirk Eddelbuettel  <edd@debian.org>
 
 	* man/Bond.Rd: Restore example with correctly-built Windows library

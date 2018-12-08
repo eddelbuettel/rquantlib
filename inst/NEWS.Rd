@@ -2,21 +2,36 @@
 \title{News for Package \pkg{RQuantLib}}
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rquantlib/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rquantlib/issues/#1}{##1}}
+\newcommand{\ghrp}{\href{https://github.com/#1}{##1}}
 
-\section{Changes in RQuantLib version 0.4.6 (2018-11-25)}{
+\section{Changes in \pkg{RQuantLib} version 0.4.7 (2018-12-10)}{
   \itemize{
-    \item Changes in RQuantLib code:
+    \item Changes in \pkg{RQuantLib} tests:
+    \itemize{
+      \item With the updated Windows binary library at
+      \ghpr{rwinlib/quantlib} all tests that previously exhibited issues
+      are re-enabled (Dirk in \ghpr{126}).
+    }
+    \item Changes in \pkg{RQuantLib} documentation:
     \itemize{
       \item The \code{CallableBonds} example now sets an evaluation date
       (\ghit{124}).
+      \item With the updated Windows binary library at
+      \ghpr{rwinlib/quantlib} all examples that were set to
+      \code{\dontrun} are re-activated (Dirk in \ghpr{126}).
+    }
+    \item Changes in \pkg{RQuantLib} build system:
+    \itemize{
+      \item The \code{src/Makevars.win} file was updated to reflect the
+      new layout used by the upstream build.
       \item The \code{-DBOOST_NO_AUTO_PTR} compilation flag is now set.
     }
-  } 
+  }
 }
 
-\section{Changes in RQuantLib version 0.4.6 (2018-11-25)}{
+\section{Changes in \pkg{RQuantLib} version 0.4.6 (2018-11-25)}{
   \itemize{
-    \item Changes in RQuantLib code:
+    \item Changes in \pkg{RQuantLib} code:
     \itemize{
       \item The code was updated for release 1.14 of QuantLib.
       \item The code was updated for Boost 1.67 or later (\ghpr{120}
@@ -35,9 +50,9 @@
   }
 }
 
-\section{Changes in RQuantLib version 0.4.5 (2018-08-10)}{
+\section{Changes in \pkg{RQuantLib} version 0.4.5 (2018-08-10)}{
   \itemize{
-    \item Changes in RQuantLib code:
+    \item Changes in \pkg{RQuantLib} code:
     \itemize{
       \item The old \code{rquantlib.h} header is deprecated and moved to
       a subdirectory. (Some OS confuse it with \code{RQuantLib.h} which
@@ -57,9 +72,9 @@
   }
 }
 
-\section{Changes in RQuantLib version 0.4.4 (2017-11-07)}{
+\section{Changes in \pkg{RQuantLib} version 0.4.4 (2017-11-07)}{
   \itemize{
-    \item Changes in RQuantLib code:
+    \item Changes in \pkg{RQuantLib} code:
     \itemize{
       \item Equity options can now be analyzed via discrete dividends
       through two vectors of dividend dates and values (Francois
@@ -76,9 +91,9 @@
   }
 }
 
-\section{Changes in RQuantLib version 0.4.3 (2016-08-19)}{
+\section{Changes in \pkg{RQuantLib} version 0.4.3 (2016-08-19)}{
   \itemize{
-    \item Changes in RQuantLib code:
+    \item Changes in \pkg{RQuantLib} code:
     \itemize{
       \item Discount curve creation has been made more general by
       allowing additional arguments for day counter and fixed and
@@ -112,9 +127,9 @@
   }
 }
 
-\section{Changes in RQuantLib version 0.4.2 (2015-12-30)}{
+\section{Changes in \pkg{RQuantLib} version 0.4.2 (2015-12-30)}{
   \itemize{
-    \item Changes in RQuantLib code:
+    \item Changes in \pkg{RQuantLib} code:
     \itemize{
       \item Intra-day times are now available if QuantLib 1.7 or later is
       used, and has been configured with \code{--enable-intraday}
@@ -129,9 +144,9 @@
   }
 }
 
-\section{Changes in RQuantLib version 0.4.1 (2015-09-11)}{
+\section{Changes in \pkg{RQuantLib} version 0.4.1 (2015-09-11)}{
   \itemize{
-    \item Changes in RQuantLib code:
+    \item Changes in \pkg{RQuantLib} code:
     \itemize{
       \item A simple \CRANpkg{shiny} application is now included in the
       directory \code{shiny/DiscountCurve/} and accessible via the new
@@ -146,9 +161,9 @@
   }
 }
 
-\section{Changes in RQuantLib version 0.4.0 (2014-12-01)}{
+\section{Changes in \pkg{RQuantLib} version 0.4.0 (2014-12-01)}{
   \itemize{
-    \item Changes in RQuantLib code:
+    \item Changes in \pkg{RQuantLib} code:
     \itemize{
       \item All function interfaces have been rewritten using \CRANpkg{Rcpp}
       Attributes. No \code{SEXP} remain in the function signatures. This
@@ -178,7 +193,7 @@
       \item Builds now use OpenMP where available.
       \item The package now depends on QuantLib 1.4.0 or later.
     }
-    \item Changes in RQuantLib tests:
+    \item Changes in \pkg{RQuantLib} tests:
     \itemize{
       \item New unit tests for dates have been added.
       \item C++ code for the unit tests has also been converted to
@@ -187,7 +202,7 @@
       \item Continuous Integration via Travis is now enabled from the
       GitHub repo.
     }
-    \item Changes in RQuantLib documentation:
+    \item Changes in \pkg{RQuantLib} documentation:
     \itemize{
       \item This NEWS file has been added. Better late than never, as
       they say.

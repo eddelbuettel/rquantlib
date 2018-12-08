@@ -1,4 +1,3 @@
-% $Id: EuropeanOptionArrays.Rd,v 1.4 2004/12/28 03:20:07 edd Exp $
 \name{EuropeanOptionArrays}
 \alias{EuropeanOptionArrays}
 \alias{oldEuropeanOptionArrays}

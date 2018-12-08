@@ -1,4 +1,3 @@
-% $Id: DiscountCurve.Rd,v 1.5 2007/12/31 02:12:27 edd Exp $
 \name{DiscountCurve}
 \alias{DiscountCurve}
 \alias{DiscountCurve.default}

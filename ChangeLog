@@ -1,3 +1,7 @@
+2018-12-08  Dirk Eddelbuettel  <edd@debian.org>
+
+	* man/*.Rd: Remove remaining SVN commit tag identifiers
+
 2018-12-07  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version

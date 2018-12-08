@@ -1,4 +1,3 @@
-% $Id: BarrierOption.Rd,v 1.7 2007/12/31 01:50:55 edd Exp $
 \name{BarrierOption}
 \alias{BarrierOption}
 \alias{BarrierOption.default}

@@ -1,4 +1,3 @@
-% $Id: Enum.Rd 78 2009-05-30 18:31:48Z edd $
 \name{Enum}
 \alias{Enum}
 \title{Documentation for parameters}

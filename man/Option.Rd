@@ -1,4 +1,3 @@
-% $Id: Option.Rd,v 1.1 2002/02/26 03:49:27 edd Exp $
 \name{Option}
 \alias{Option}
 \alias{plot.Option}

@@ -1,4 +1,3 @@
-% $Id: ConvertibleFloatingCouponBond 84 2009-06-19 knguyen $
 \name{ConvertibleBond}
 \alias{ConvertibleFixedCouponBond}
 \alias{ConvertibleFixedCouponBond.default}

@@ -1,4 +1,3 @@
-% $Id: EuropeanOption.Rd,v 1.5 2006/11/11 04:12:45 edd Exp $
 \name{EuropeanOption}
 \alias{EuropeanOption}
 \alias{EuropeanOption.default}

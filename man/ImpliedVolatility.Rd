@@ -1,4 +1,3 @@
-% $Id: ImpliedVolatility.Rd,v 1.2 2003/08/01 01:23:48 edd Exp $
 \name{ImpliedVolatility}
 \alias{ImpliedVolatility}
 \alias{print.ImpliedVolatility}

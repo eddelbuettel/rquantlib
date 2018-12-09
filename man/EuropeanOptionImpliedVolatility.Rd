@@ -1,4 +1,3 @@
-% $Id: EuropeanOptionImpliedVolatility.Rd,v 1.6 2006/11/11 04:13:25 edd Exp $
 \name{EuropeanOptionImpliedVolatility}
 \alias{EuropeanOptionImpliedVolatility}
 \alias{EuropeanOptionImpliedVolatility.default}

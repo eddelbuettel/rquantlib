@@ -1,4 +1,3 @@
-% $Id$
 \name{ZeroCouponBond}
 \alias{ZeroCouponBond}
 \alias{ZeroCouponBond.default}
@@ -124,7 +123,7 @@
 
 
 \examples{
-\dontrun{  
+
 # Simple call with all parameter and a flat curve
 bond <- list(faceAmount=100,issueDate=as.Date("2004-11-30"),
              maturityDate=as.Date("2008-11-30"), redemption=100 )
@@ -174,7 +173,7 @@ ZeroCouponBond(bond, discountCurve, dateparams)
 ZeroPriceByYield(0.1478, 100, as.Date("1993-6-24"), as.Date("1993-11-1"))
 
 ZeroYield(90, 100, as.Date("1993-6-24"), as.Date("1993-11-1"))
-}
+
 }
 \keyword{misc}
 

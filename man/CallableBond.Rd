@@ -1,4 +1,3 @@
-% $Id: CallableBond.Rd 87 2009-06-09 16:48:13Z knguyen $
 \name{CallableBond}
 \alias{CallableBond}
 \alias{CallableBond.default}

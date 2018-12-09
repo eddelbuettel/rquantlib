@@ -1,4 +1,3 @@
-% $Id: BinaryOptionImpliedVolatility.Rd,v 1.2 2006/11/11 04:12:02 edd Exp $
 \name{BinaryOptionImpliedVolatility}
 \alias{BinaryOptionImpliedVolatility}
 \alias{BinaryOptionImpliedVolatility.default}

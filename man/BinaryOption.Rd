@@ -1,4 +1,3 @@
-% $Id: BinaryOption.Rd,v 1.7 2007/12/31 01:51:47 edd Exp $
 \name{BinaryOption}
 \alias{BinaryOption}
 \alias{BinaryOption.default}

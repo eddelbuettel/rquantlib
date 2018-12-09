@@ -1,3 +1,32 @@
+2018-12-08  Dirk Eddelbuettel  <edd@debian.org>
+
+	* man/*.Rd: Remove remaining SVN commit tag identifiers
+
+2018-12-07  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll minor version
+
+	* src/Makevars.win: Reflect updated directory layout in updated
+	Windows library
+
+	* man/AffineSwaption.Rd: Restore example now that Windows works
+	* man/BermudanSwaption.Rd: Idem
+	* man/DiscountCurve.Rd: Idem
+
+	* tools/build_RQuantLib.sh: Added build script by Josh (with a big
+	thank you for setting it up and running a series of builds)
+
+2018-12-03  Dirk Eddelbuettel  <edd@debian.org>
+
+	* man/Bond.Rd: Restore example with correctly-built Windows library
+	* man/FixedRateBond.Rd: Idem
+	* man/FloaringRateBond.Rd: Idem
+	* man/SabrSwaption.Rd: Idem
+	* man/ZeroCouponBond.Rd: Idem
+
+	* tests/RQuantLib.R: Restore tests for Windows
+	* tests/doRUnit.R: Idem
+
 2018-11-28  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version

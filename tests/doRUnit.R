@@ -26,14 +26,12 @@ if (requireNamespace("RUnit", quietly=TRUE) &&
 
     .onWindows <- .Platform$OS.type == "windows"
 
-    if (!.onWindows) {
-        tests <- runTestSuite(testSuite)	# Run tests
+    tests <- runTestSuite(testSuite)	# Run tests
 
-        printTextProtocol(tests)			# Print results
+    printTextProtocol(tests)			# Print results
 
-        ## Return success or failure to R CMD CHECK
-        if (getErrors(tests)$nFail > 0) stop("TEST FAILED!")
-        if (getErrors(tests)$nErr > 0) stop("TEST HAD ERRORS!")
-        if (getErrors(tests)$nTestFunc < 1) stop("NO TEST FUNCTIONS RUN!")
-    }
+    ## Return success or failure to R CMD CHECK
+    if (getErrors(tests)$nFail > 0) stop("TEST FAILED!")
+    if (getErrors(tests)$nErr > 0) stop("TEST HAD ERRORS!")
+    if (getErrors(tests)$nTestFunc < 1) stop("NO TEST FUNCTIONS RUN!")
 }

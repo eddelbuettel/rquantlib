@@ -8,17 +8,18 @@
   \itemize{
     \item Changes in \pkg{RQuantLib} tests:
     \itemize{
-      \item With the updated Windows binary library at
-      \ghpr{rwinlib/quantlib} all tests that previously exhibited issues
-      are re-enabled (Dirk in \ghpr{126}).
+      \item Thanks to the updated \ghrp{rwinlib/quantlib} Windows
+      library provided by Josh, all tests that previously exhibited
+      issues have been re-enabled (Dirk in \ghpr{126}). 
     }
     \item Changes in \pkg{RQuantLib} documentation:
     \itemize{
       \item The \code{CallableBonds} example now sets an evaluation date
       (\ghit{124}).
-      \item With the updated Windows binary library at
-      \ghpr{rwinlib/quantlib} all examples that were set to
-      \code{\dontrun} are re-activated (Dirk in \ghpr{126}).
+      \item Thanks to the updated \ghrp{rwinlib/quantlib} Windows
+      library provided by Josh, examples that were set to \code{dontrun}
+      are re-activated (Dirk in \ghpr{126}). \code{AffineSwaption}
+      remains the sole holdout.
     }
     \item Changes in \pkg{RQuantLib} build system:
     \itemize{

@@ -8,12 +8,12 @@
 AC_PREREQ(2.50)
 
 # Process this file with autoconf to produce a configure script.
-AC_INIT(RQuantlib, 0.4.6)
+AC_INIT(RQuantlib, 0.4.7)
 
 # Set CXX and CXXFLAGS based on the R configuration (with thanks to KH)
 : ${R_HOME=`R RHOME`}
 if test -z "${R_HOME}"; then
-    AC_MSG_ERROR([Could not determine R_HOME.])   
+    AC_MSG_ERROR([Could not determine R_HOME.])
 fi
 CXX=`${R_HOME}/bin/R CMD config CXX`
 CXXFLAGS=`"${R_HOME}/bin/R" CMD config CXXFLAGS`
@@ -29,7 +29,7 @@ if test "${GXX}" = yes; then
     case ${gxx_version} in
         1.*|2.*)
 	     AC_MSG_WARN([Only g++ version 3.0 or greater can be used with RQuantib.])
-	     AC_MSG_ERROR([Please use a different compiler.])   
+	     AC_MSG_ERROR([Please use a different compiler.])
         ;;
 	4.6.*|4.7.*|4.8.*|4.9.*|5.*|6.*|7.*|8.*|9.*|10.*)
 	     gxx_newer_than_45="-fpermissive"
@@ -40,7 +40,7 @@ fi
 AC_DEFUN(AC_PROG_R, [AC_CHECK_PROG(R,R,yes)])
 AC_PROG_R
 
-## We no longer need to set LDFLAGS for Rcpp 0.11.0 or later, 
+## We no longer need to set LDFLAGS for Rcpp 0.11.0 or later,
 ## and hence no longer need to check for Rscipt
 ##
 ## ## look for Rscript, but use the one found via R_HOME to allow for multiple installations
@@ -48,7 +48,7 @@ AC_PROG_R
 ## AC_PROG_RSCRIPT
 ## #AC_MSG_CHECKING([for Rscript])
 ## if test x"${RSCRIPT}" == x"yes" ; then
-## #     AC_MSG_RESULT([yes])    
+## #     AC_MSG_RESULT([yes])
 ##      ## Rcpp compile flag providing header directory containing Rcpp.h
 ##      #rcpp_cxxflags=`${R_HOME}/bin/Rscript -e 'Rcpp:::CxxFlags()'`
 ##      ## link flag providing libary as well as path to library, and optionally rpath
@@ -57,10 +57,10 @@ AC_PROG_R
 ##      #AC_SUBST([CXXFLAGS],["${CXXFLAGS} $rcpp_cxxflags"])
 ##      AC_SUBST([LDFLAGS],["${LDFLAGS} $rcpp_ldflags"])
 ## else
-## #    AC_MSG_RESULT([no])    
+## #    AC_MSG_RESULT([no])
 ##     echo "
 ##   Your installation does not appear to have Rscript installed.
-## 
+##
 ##   Please make sure that you have a working and complete R installation.
 ## "
 ##     exit 1
@@ -91,9 +91,9 @@ else
     AC_MSG_ERROR([Please install QuantLib before trying to build RQuantLib.])
 fi
 
-## check for boost, this segment as well as segment below are 
+## check for boost, this segment as well as segment below are
 ## from QuantLib's configure.ac
-## 
+##
 ##
 ## Help the compiler find external software
 AC_ARG_WITH([boost-include],
@@ -167,5 +167,3 @@ echo "Completed configuration and ready to build."
 ### mode: autoconf ***
 ### autoconf-indentation: 4 ***
 ### End: ***
-
-

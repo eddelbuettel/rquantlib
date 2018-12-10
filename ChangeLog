@@ -1,3 +1,14 @@
+2018-12-10  Dirk Eddelbuettel  <edd@debian.org>
+
+        * DESCRIPTION (Version, Date): New release 0.4.7
+
+        * configure.ac: Mark as 0.4.7
+        * configure: Rebuilt
+
+2018-12-09  Dirk Eddelbuettel  <edd@debian.org>
+
+	* man/AffineSwaption.Rd: Re-comment-out example for i386
+
 2018-12-08  Dirk Eddelbuettel  <edd@debian.org>
 
 	* man/*.Rd: Remove remaining SVN commit tag identifiers

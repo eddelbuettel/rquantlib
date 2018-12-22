@@ -583,6 +583,7 @@ PACKAGE_URL=''
 
 ac_subst_vars='LTLIBOBJS
 LIBOBJS
+CXX_STD
 QUANTLIB
 R
 CXXCPP
@@ -2891,6 +2892,8 @@ fi
 # Check whether the Boost installation is up to date
 
 
+
+
 # QL_CHECK_BOOST
 # ------------------------
 # Boost-related tests
@@ -2948,6 +2951,36 @@ $as_echo "no" >&6; }
 
 fi
 rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether use CXX11STD" >&5
+$as_echo_n "checking whether use CXX11STD... " >&6; }
+
+    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+#include <boost/version.hpp>
+int
+main ()
+{
+#if BOOST_VERSION <= 105800
+     #error
+     #endif
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_cxx_try_compile "$LINENO"; then :
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+     CXX_STD="CXX11"
+
+
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+
+
 
 
 

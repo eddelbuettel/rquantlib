@@ -148,18 +148,34 @@ AC_DEFUN([QL_CHECK_BOOST_VERSION],
     ])
 ])
 
+AC_DEFUN([QL_SET_CXX_STD],
+   [AC_MSG_CHECKING([whether use CXX11STD])
+    AC_REQUIRE([QL_CHECK_BOOST_VERSION])
+    AC_TRY_COMPILE(
+    [@%:@include <boost/version.hpp>],
+    [@%:@if BOOST_VERSION <= 105800
+     @%:@error
+     @%:@endif],
+    [AC_MSG_RESULT([yes])
+     AC_SUBST([CXX_STD],["CXX11"])
+    ],
+    [AC_MSG_RESULT([no])])
+])
+
 # QL_CHECK_BOOST
 # ------------------------
 # Boost-related tests
 AC_DEFUN([QL_CHECK_BOOST],
     [AC_REQUIRE([QL_CHECK_BOOST_DEVEL])
      AC_REQUIRE([QL_CHECK_BOOST_VERSION])
+     AC_REQUIRE([QL_SET_CXX_STD])
 ])
 QL_CHECK_BOOST
 
 
 AC_SUBST(CXXFLAGS)
 AC_SUBST(LDFLAGS)
+AC_SUBST(CXX_STD)
 AC_OUTPUT(src/Makevars)
 echo "Completed configuration and ready to build."
 

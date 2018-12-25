@@ -32,11 +32,11 @@ The package is on [CRAN](https://cran.r-project.org) and can be installed as usu
 install.packages("RQuantLib")
 ```
 
-Windows binary packages are available at via [CRAN](https://cran.r-project.org) thanks to
-the [rwinlib/quantlib](https://github.com/rwinlib/quantlib) library provided by [Joshua
-Ulrich](https://about.me/joshuaulrich) .
+Windows binary packages are available via [CRAN](https://cran.r-project.org) thanks to the
+library provided by [Joshua Ulrich](https://about.me/joshuaulrich) via the
+[rwinlib/quantlib](https://github.com/rwinlib/quantlib) repository.
 
-Binaries for macOS _could_ be provided if we had a binary library, ideally via the
+Binaries for macOS _could_ be provided if we had a similar binary library, ideally via the
 [s-u/recipes](https://github.com/s-u/recipes) repository.  Some efforts are under way and
 coordinated on the [rquantlib mailing list](http://rquantlib.groups.io) so stay tuned.
 

@@ -32,19 +32,19 @@ The package is on [CRAN](https://cran.r-project.org) and can be installed as usu
 install.packages("RQuantLib")
 ```
 
-Windows binary packages should be available.
+Windows binary packages are available at via [CRAN](https://cran.r-project.org) thanks to
+the [rwinlib/quantlib](https://github.com/rwinlib/quantlib) library provided by [Joshua
+Ulrich](https://about.me/joshuaulrich) .
 
-<!-- #### Windows Binaries -->
-
-<!-- Starting with release 0.4.3, binaries may be provided via the [ghrr drat repo](http://ghrr.github.io/drat) -->
-<!-- and can be installed as -->
-
-<!-- ```{r} -->
-<!-- drat::addRepo("ghrr")       #  maybe use 'install.packages("drat")' first  -->
-<!-- install.packages("RQuantLib", type="binary") -->
-<!-- ``` -->
+Binaries for macOS _could_ be provided if we had a binary library, ideally via the
+[s-u/recipes](https://github.com/s-u/recipes) repository.  Some efforts are under way and
+coordinated on the [rquantlib mailing list](http://rquantlib.groups.io) so stay tuned.
 
 For more OS-specific installation options, please see [the wiki](https://github.com/eddelbuettel/rquantlib/wiki/RQuantLib).
+
+### Support
+
+Come to the friendly and low-volume [rquantlib mailing list](http://rquantlib.groups.io) for help.
 
 ### Authors
 

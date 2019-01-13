@@ -112,7 +112,6 @@ EuropeanOptionArrays <- function(type, underlying, strike, dividendYield,
 
 plotOptionSurface <- function(EOres, ylabel="", xlabel="", zlabel="", fov=60) {
     if (requireNamespace("rgl", quietly=TRUE)) {
-        utils::globalVariables(c("clear3d", "bg3d", "ligh3d", "rgl.viewpoint", "rgl.surface", "tgl.texts"))
         axis.col <- "black"
         text.col <- axis.col
         ylab <- ylabel
@@ -160,3 +159,5 @@ plotOptionSurface <- function(EOres, ylabel="", xlabel="", zlabel="", fov=60) {
         message("Please install the 'rgl' package before using this function.")
     }
 }
+
+utils::globalVariables(c("clear3d", "bg3d", "ligh3d", "rgl.viewpoint", "rgl.surface", "tgl.texts"))

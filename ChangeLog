@@ -1,3 +1,8 @@
+2019-01-12  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/arrays.R (plotOptionSurface): Call to utils::globalVariables()
+	now outside function where it triggered locked namespace error
+
 2018-12-24  Dirk Eddelbuettel  <edd@debian.org>
 
 	* README.md: Updates to README.me

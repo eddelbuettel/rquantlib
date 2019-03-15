@@ -6,6 +6,16 @@
 
 \section{Changes in \pkg{RQuantLib} version 0.4.7 (2018-12-10)}{
   \itemize{
+    \item Changes in \pkg{RQuantLib} build system:
+    \itemize{
+      \item The \code{configure.ac} file no longer upsets \code{R CMD
+        check}; the change does not actually change \code{configure}.
+    }
+  }
+}
+
+\section{Changes in \pkg{RQuantLib} version 0.4.7 (2018-12-10)}{
+  \itemize{
     \item Changes in \pkg{RQuantLib} tests:
     \itemize{
       \item Thanks to the updated \ghrp{rwinlib/quantlib} Windows

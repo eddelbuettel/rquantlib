@@ -8,7 +8,7 @@
 AC_PREREQ(2.50)
 
 # Process this file with autoconf to produce a configure script.
-AC_INIT(RQuantlib, 0.4.7)
+AC_INIT(RQuantlib, 0.4.7.1)
 
 # Set CXX and CXXFLAGS based on the R configuration (with thanks to KH)
 : ${R_HOME=`R RHOME`}
@@ -37,7 +37,7 @@ if test "${GXX}" = yes; then
     esac
 fi
 
-AC_DEFUN(AC_PROG_R, [AC_CHECK_PROG(R,R,yes)])
+AC_DEFUN([AC_PROG_R], [AC_CHECK_PROG(R,R,yes)])
 AC_PROG_R
 
 ## We no longer need to set LDFLAGS for Rcpp 0.11.0 or later,
@@ -67,7 +67,7 @@ AC_PROG_R
 ## fi
 
 # borrowed from a check for gnome in GNU gretl: define a check for quantlib-config
-AC_DEFUN(AC_PROG_QUANTLIB, [AC_CHECK_PROG(QUANTLIB,quantlib-config,yes)])
+AC_DEFUN([AC_PROG_QUANTLIB], [AC_CHECK_PROG(QUANTLIB,quantlib-config,yes)])
 AC_PROG_QUANTLIB
 if test x"${QUANTLIB}" == x"yes" ; then
     # use quantlib-config for QL settings

@@ -1,3 +1,13 @@
+2019-03-15  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/include/rquantlib_internal.h: Include ql/shared_ptr.hpp>
+
+	* src/affine.cpp: Use QuantLib::ext namespace for shared_ptr
+        * src/asian.cpp: Idem
+        * src/barrier_binary.cpp: Idem
+        * src/bermudan.cpp: Idem
+        * src/bonds.cpp: Idem
+
 2019-03-14  Dirk Eddelbuettel  <edd@debian.org>
 
 	* configure.ac: Correct use of AC_DEFUN (leaves configure unaffected)

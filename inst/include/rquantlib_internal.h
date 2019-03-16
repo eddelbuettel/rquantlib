@@ -2,7 +2,7 @@
 //
 // RQuantLib function prototypes and macros
 //
-// Copyright 2002 - 2018  Dirk Eddelbuettel <edd@debian.org>
+// Copyright 2002 - 2019  Dirk Eddelbuettel <edd@debian.org>
 // Copyright 2005 - 2006  Dominick Samperi
 //
 // This program is free software; you can redistribute it and/or modify
@@ -24,6 +24,7 @@
 #include <ql/quantlib.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
+#include <ql/shared_ptr.hpp>
 
 //using namespace QuantLib;
 

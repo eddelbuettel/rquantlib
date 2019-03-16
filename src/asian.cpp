@@ -2,7 +2,7 @@
 //
 //  RQuantLib -- R interface to the QuantLib libraries
 //
-//  Copyright (C) 2002 - 2018  Dirk Eddelbuettel 
+//  Copyright (C) 2002 - 2019  Dirk Eddelbuettel 
 //  Copyright (C) 2009 - 2010  Dirk Eddelbuettel and Khanh Nguyen
 //
 //  This file is part of RQuantLib.
@@ -42,28 +42,28 @@ Rcpp::List asianOptionEngine(std::string averageType,
     QuantLib::Date today = QuantLib::Date::todaysDate();
     QuantLib::Settings::instance().evaluationDate() = today;
 
-    boost::shared_ptr<QuantLib::SimpleQuote> spot(new QuantLib::SimpleQuote(underlying));
-    boost::shared_ptr<QuantLib::SimpleQuote> qRate(new QuantLib::SimpleQuote(dividendYield));
-    boost::shared_ptr<QuantLib::YieldTermStructure> qTS = flatRate(today, qRate, dc);
-    boost::shared_ptr<QuantLib::SimpleQuote> rRate(new QuantLib::SimpleQuote(riskFreeRate));
-    boost::shared_ptr<QuantLib::YieldTermStructure> rTS = flatRate(today, rRate, dc);
-    boost::shared_ptr<QuantLib::SimpleQuote> vol(new QuantLib::SimpleQuote(volatility));
-    boost::shared_ptr<QuantLib::BlackVolTermStructure> volTS = flatVol(today, vol, dc);
+    QuantLib::ext::shared_ptr<QuantLib::SimpleQuote> spot(new QuantLib::SimpleQuote(underlying));
+    QuantLib::ext::shared_ptr<QuantLib::SimpleQuote> qRate(new QuantLib::SimpleQuote(dividendYield));
+    QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure> qTS = flatRate(today, qRate, dc);
+    QuantLib::ext::shared_ptr<QuantLib::SimpleQuote> rRate(new QuantLib::SimpleQuote(riskFreeRate));
+    QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure> rTS = flatRate(today, rRate, dc);
+    QuantLib::ext::shared_ptr<QuantLib::SimpleQuote> vol(new QuantLib::SimpleQuote(volatility));
+    QuantLib::ext::shared_ptr<QuantLib::BlackVolTermStructure> volTS = flatVol(today, vol, dc);
         
-    boost::shared_ptr<QuantLib::BlackScholesMertonProcess>
+    QuantLib::ext::shared_ptr<QuantLib::BlackScholesMertonProcess>
         stochProcess(new
                      QuantLib::BlackScholesMertonProcess(QuantLib::Handle<QuantLib::Quote>(spot),
                                                          QuantLib::Handle<QuantLib::YieldTermStructure>(qTS),
                                                          QuantLib::Handle<QuantLib::YieldTermStructure>(rTS),
                                                          QuantLib::Handle<QuantLib::BlackVolTermStructure>(volTS)));
 
-    boost::shared_ptr<QuantLib::StrikedTypePayoff> 
+    QuantLib::ext::shared_ptr<QuantLib::StrikedTypePayoff> 
         payoff(new QuantLib::PlainVanillaPayoff(optionType,strike));
 
     Rcpp::List rl = R_NilValue;
    
     if (averageType=="geometric"){
-        boost::shared_ptr<QuantLib::PricingEngine> 
+        QuantLib::ext::shared_ptr<QuantLib::PricingEngine> 
             engine(new
                    QuantLib::AnalyticContinuousGeometricAveragePriceAsianEngine(stochProcess));
             

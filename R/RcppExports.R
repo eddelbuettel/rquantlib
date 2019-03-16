@@ -198,7 +198,7 @@ CreateSchedule <- function(params) {
 }
 
 #' This function returns the QuantLib version string as encoded in the header
-#' file \code{config.hpp} and determined at compilation time of the QuantLib library. 
+#' file \code{config.hpp} and determined at compilation time of the QuantLib library.
 #'
 #' @title Return the QuantLib version number
 #' @return A character variable
@@ -211,7 +211,7 @@ getQuantLibVersion <- function() {
 }
 
 #' This function returns a named vector of boolean variables describing several
-#' configuration options determined at compilation time of the QuantLib library. 
+#' configuration options determined at compilation time of the QuantLib library.
 #'
 #' Not all of these features are used (yet) by RQuantLib.
 #' @title Return configuration options of the QuantLib library

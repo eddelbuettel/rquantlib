@@ -1,3 +1,32 @@
+2019-03-16  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/calendars.cpp: Use QuantLib::ext for shared_ptr
+        * src/curves.cpp: Idem
+        * src/discount.cpp: Idem
+        * src/hullwhite.cpp: Idem
+        * src/implieds.cpp: Idem
+        * src/sabr.cpp: Idem
+        * src/schedule.cpp: Idem
+        * src/utils.cpp: Idem
+        * src/vanilla.cpp: Idem
+        * src/zero.cpp: Idem
+
+	* src/*: Removed Emacs formatting header line
+	* inst/include/*: Idem
+	* .editorconfig: Added to provide consistent settings
+
+	* .Rbuildignore: Exclude .editorconfig
+
+2019-03-15  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/include/rquantlib_internal.h: Include ql/shared_ptr.hpp>
+
+	* src/affine.cpp: Use QuantLib::ext namespace for shared_ptr
+        * src/asian.cpp: Idem
+        * src/barrier_binary.cpp: Idem
+        * src/bermudan.cpp: Idem
+        * src/bonds.cpp: Idem
+
 2019-03-14  Dirk Eddelbuettel  <edd@debian.org>
 
 	* configure.ac: Correct use of AC_DEFUN (leaves configure unaffected)

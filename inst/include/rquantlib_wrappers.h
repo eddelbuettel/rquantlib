@@ -1,5 +1,4 @@
-// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; indent-tabs-mode: nil; -*-
-//
+
 // RQuantLib wrapper definitions
 //
 // Copyright 2014  Dirk Eddelbuettel <edd@debian.org>
@@ -31,7 +30,7 @@ namespace Rcpp {
 
     template <> std::vector<QuantLib::Date> as(SEXP dtvecsexp);
     template <> SEXP wrap(const std::vector<QuantLib::Date> &dvec);
-        
+
 }
 
 #endif

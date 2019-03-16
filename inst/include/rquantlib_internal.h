@@ -1,8 +1,7 @@
-// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; indent-tabs-mode: nil; -*-
-//
+
 // RQuantLib function prototypes and macros
 //
-// Copyright 2002 - 2018  Dirk Eddelbuettel <edd@debian.org>
+// Copyright 2002 - 2019  Dirk Eddelbuettel <edd@debian.org>
 // Copyright 2005 - 2006  Dominick Samperi
 //
 // This program is free software; you can redistribute it and/or modify
@@ -24,6 +23,7 @@
 #include <ql/quantlib.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
+#include <ql/shared_ptr.hpp>
 
 //using namespace QuantLib;
 
@@ -51,14 +51,14 @@ namespace Rcpp {
 
 // Prototypes for convenience functions (some macros)
 //void insertListElement(SEXP &list, SEXP &names,
-//                       const int pos, const double value, 
+//                       const int pos, const double value,
 //                       const char *label);
 //SEXP getListElement(SEXP list, char *str);
 
 // Used to maintain context while in an R function.
 class RQLContext : public QuantLib::Singleton<RQLContext> {
 public:
-    RQLContext() { 
+    RQLContext() {
         fixingDays = 2;
         calendar = QuantLib::TARGET();
         settleDate = QuantLib::Date::todaysDate()+2;
@@ -105,8 +105,8 @@ private:
     RQLMap db_;
 };
 
-boost::shared_ptr<QuantLib::YieldTermStructure> 
-getTermStructure(std::string& interpWhat, std::string& interpHow, 
+boost::shared_ptr<QuantLib::YieldTermStructure>
+getTermStructure(std::string& interpWhat, std::string& interpHow,
                  const QuantLib::Date& settleDate,
                  const std::vector<boost::shared_ptr<QuantLib::RateHelper> >& curveInput,
                  QuantLib::DayCounter& dayCounter, QuantLib::Real tolerance);
@@ -121,7 +121,7 @@ flatRate(const QuantLib::Date& today,
          const boost::shared_ptr<QuantLib::Quote>& forward,
          const QuantLib::DayCounter& dc);
 
-boost::shared_ptr<QuantLib::BlackVolTermStructure> 
+boost::shared_ptr<QuantLib::BlackVolTermStructure>
 makeFlatVolatility(const QuantLib::Date& today,
                    const boost::shared_ptr<QuantLib::Quote>& vol,
                    QuantLib::DayCounter dc);
@@ -147,7 +147,7 @@ makeOption(const boost::shared_ptr<QuantLib::StrikedTypePayoff>& payoff,
            const boost::shared_ptr<QuantLib::BlackVolTermStructure>& vol,
            EngineType engineType = Analytic,
            QuantLib::Size binomialSteps=128,
-           QuantLib::Size samples=100); 
+           QuantLib::Size samples=100);
 
 boost::shared_ptr<QuantLib::GeneralizedBlackScholesProcess>
 makeProcess(const boost::shared_ptr<QuantLib::Quote>& u,
@@ -155,7 +155,7 @@ makeProcess(const boost::shared_ptr<QuantLib::Quote>& u,
             const boost::shared_ptr<QuantLib::YieldTermStructure>& r,
             const boost::shared_ptr<QuantLib::BlackVolTermStructure>& vol);
 
-// int dateFromR(const RcppDate &d);    // using 'classic' API's RcppDate 
+// int dateFromR(const RcppDate &d);    // using 'classic' API's RcppDate
 int dateFromR(const Rcpp::Date &d); // using 'new' API's Rcpp::Date
 
 //utility functions for parameters of fixed-income instrument function
@@ -177,7 +177,7 @@ boost::shared_ptr<QuantLib::YieldTermStructure> getFlatCurve(Rcpp::List flatcurv
 //boost::shared_ptr<QuantLib::YieldTermStructure> rebuildCurveFromZeroRates(SEXP dateSexp, SEXP zeroSexp);
 boost::shared_ptr<QuantLib::YieldTermStructure> rebuildCurveFromZeroRates(std::vector<QuantLib::Date> dates, std::vector<double> zeros);
 
-boost::shared_ptr<QuantLib::IborIndex> 
+boost::shared_ptr<QuantLib::IborIndex>
 buildIborIndex(std::string type,
                const QuantLib::Handle<QuantLib::YieldTermStructure>& iborStrc);
 //QuantLib::Calendar* getCalendar(SEXP calParameters);

@@ -1,5 +1,4 @@
-// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; indent-tabs-mode: nil; -*-
-//
+
 //  RQuantLib -- R interface to the QuantLib libraries
 //
 //  Copyright (C) 2014         Michele Salvadore and Dirk Eddelbuettel
@@ -27,7 +26,7 @@
 
 // [[Rcpp::export]]
 Rcpp::DateVector CreateSchedule(Rcpp::List params) {
-    
+
     QuantLib::Schedule schedule = getSchedule(params);
     return Rcpp::wrap(schedule.dates());
 }

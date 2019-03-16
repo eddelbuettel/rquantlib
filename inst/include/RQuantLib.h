@@ -1,5 +1,4 @@
-// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; indent-tabs-mode: nil; -*-
-//
+
 // RQuantLib function prototypes and macros
 //
 // Copyright 2014  Dirk Eddelbuettel <edd@debian.org>

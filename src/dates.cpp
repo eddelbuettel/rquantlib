@@ -1,5 +1,4 @@
-// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; indent-tabs-mode: nil; -*-
-//
+
 //  RQuantLib -- R interface to the QuantLib libraries
 //
 //  Copyright (C) 2002 - 2018  Dirk Eddelbuettel <edd@debian.org>
@@ -33,4 +32,3 @@ QuantLib::Date advanceDate(QuantLib::Date issueDate, int days) {
     QuantLib::Date newDate = cal.advance(issueDate, days, QuantLib::Days);
     return(newDate);
 }
-

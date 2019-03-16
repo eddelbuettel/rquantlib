@@ -1,9 +1,8 @@
-// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; indent-tabs-mode: nil; -*-
-//
+
 //  RQuantLib -- R interface to the QuantLib libraries
 //
 //  Copyright (C) 2010         Dirk Eddelbuettel and Khanh Nguyen
-//  Copyright (C) 2011 - 2018  Dirk Eddelbuettel 
+//  Copyright (C) 2011 - 2019  Dirk Eddelbuettel
 //
 //  This file is part of RQuantLib.
 //
@@ -30,18 +29,18 @@ Rcpp::List calibrateHullWhiteUsingCapsEngine(std::vector<QuantLib::Date> termStr
                                              std::vector<double> iborZeroVec,
                                              std::string iborType,
                                              QuantLib::Date evalDate) {
-	
+
     QuantLib::Settings::instance().evaluationDate() = evalDate;
 
-    QuantLib::Handle<QuantLib::YieldTermStructure> 
+    QuantLib::Handle<QuantLib::YieldTermStructure>
         term(rebuildCurveFromZeroRates(termStrcDateVec, termStrcZeroVec));
-        
+
     //set up ibor index
-    QuantLib::Handle<QuantLib::YieldTermStructure> 
-        indexStrc(rebuildCurveFromZeroRates(iborDateVec, iborZeroVec));    
-    boost::shared_ptr<QuantLib::IborIndex> index = buildIborIndex(iborType, indexStrc);
+    QuantLib::Handle<QuantLib::YieldTermStructure>
+        indexStrc(rebuildCurveFromZeroRates(iborDateVec, iborZeroVec));
+    QuantLib::ext::shared_ptr<QuantLib::IborIndex> index = buildIborIndex(iborType, indexStrc);
     //process capDataDF
-    std::vector<boost::shared_ptr <QuantLib::BlackCalibrationHelper> > caps;
+    std::vector<QuantLib::ext::shared_ptr <QuantLib::BlackCalibrationHelper> > caps;
 
     //Rcpp::DataFrame capDF(capDataDF);
     Rcpp::NumericVector i0v = capDF[0];
@@ -55,24 +54,24 @@ Rcpp::List calibrateHullWhiteUsingCapsEngine(std::vector<QuantLib::Date> termStr
     int nrow = i0v.size();
     for (int row=0; row<nrow;row++) {
         QuantLib::Period p = periodByTimeUnit(i0v[row], Rcpp::as<std::string>(s1v[row]));
-        boost::shared_ptr<QuantLib::Quote> vol(new QuantLib::SimpleQuote(d2v[row]));
+        QuantLib::ext::shared_ptr<QuantLib::Quote> vol(new QuantLib::SimpleQuote(d2v[row]));
         QuantLib::DayCounter dc = getDayCounter(i4v[row]);
-        boost::shared_ptr<QuantLib::BlackCalibrationHelper> 
-            helper(new QuantLib::CapHelper(p, QuantLib::Handle<QuantLib::Quote>(vol), index, 
+        QuantLib::ext::shared_ptr<QuantLib::BlackCalibrationHelper>
+            helper(new QuantLib::CapHelper(p, QuantLib::Handle<QuantLib::Quote>(vol), index,
                                            getFrequency(i3v[row]),
                                            dc,
                                            (i5v[row]==1) ? true : false,
                                            term));
-        boost::shared_ptr<QuantLib::BlackCapFloorEngine> 
+        QuantLib::ext::shared_ptr<QuantLib::BlackCapFloorEngine>
             engine(new QuantLib::BlackCapFloorEngine(term, d2v[row]));
-        
-        helper->setPricingEngine(engine);                
+
+        helper->setPricingEngine(engine);
         caps.push_back(helper);
     }
-        
+
     //set up the HullWhite model
-    boost::shared_ptr<QuantLib::HullWhite> model(new QuantLib::HullWhite(term));
-        
+    QuantLib::ext::shared_ptr<QuantLib::HullWhite> model(new QuantLib::HullWhite(term));
+
     //calibrate the data
     QuantLib::LevenbergMarquardt optimizationMethod(1.0e-8,1.0e-8,1.0e-8);
     QuantLib::EndCriteria endCriteria(10000, 100, 1e-6, 1e-8, 1e-8);
@@ -96,20 +95,20 @@ Rcpp::List calibrateHullWhiteUsingSwapsEngine(std::vector<QuantLib::Date> termSt
 
     QuantLib::Settings::instance().evaluationDate() = evalDate;
 
-    //set up the HullWhite model       
-    QuantLib::Handle<QuantLib::YieldTermStructure> 
+    //set up the HullWhite model
+    QuantLib::Handle<QuantLib::YieldTermStructure>
         term(rebuildCurveFromZeroRates(termStrcDateVec, termStrcZeroVec));
 
-    boost::shared_ptr<QuantLib::HullWhite> model(new QuantLib::HullWhite(term));        
-        
+    QuantLib::ext::shared_ptr<QuantLib::HullWhite> model(new QuantLib::HullWhite(term));
+
     //set up ibor index
-    QuantLib::Handle<QuantLib::YieldTermStructure> 
-        indexStrc(rebuildCurveFromZeroRates(iborDateVec, iborZeroVec));    
-    boost::shared_ptr<QuantLib::IborIndex> index = buildIborIndex(iborType, indexStrc);
+    QuantLib::Handle<QuantLib::YieldTermStructure>
+        indexStrc(rebuildCurveFromZeroRates(iborDateVec, iborZeroVec));
+    QuantLib::ext::shared_ptr<QuantLib::IborIndex> index = buildIborIndex(iborType, indexStrc);
     //process capDataDF
-    boost::shared_ptr<QuantLib::PricingEngine> 
+    QuantLib::ext::shared_ptr<QuantLib::PricingEngine>
         engine(new QuantLib::JamshidianSwaptionEngine(model));
-    std::vector<boost::shared_ptr <QuantLib::BlackCalibrationHelper> > swaps;
+    std::vector<QuantLib::ext::shared_ptr <QuantLib::BlackCalibrationHelper> > swaps;
 
     //Rcpp::DataFrame swapDF(swapDataDF);
     Rcpp::NumericVector i0v = swapDF[0];
@@ -125,30 +124,30 @@ Rcpp::List calibrateHullWhiteUsingSwapsEngine(std::vector<QuantLib::Date> termSt
     //int nrow = table.size();
     int nrow = i0v.size();
     for (int row=0; row<nrow;row++) {
-        QuantLib::Period maturity = periodByTimeUnit(i0v[row], 
+        QuantLib::Period maturity = periodByTimeUnit(i0v[row],
                                                      Rcpp::as<std::string>(s1v[row]));
-        QuantLib::Period length = periodByTimeUnit(i0v[row], 
+        QuantLib::Period length = periodByTimeUnit(i0v[row],
                                                    Rcpp::as<std::string>(s3v[row]));
-        
-        boost::shared_ptr<QuantLib::Quote> vol(new QuantLib::SimpleQuote(d4v[row]));
-        
-        QuantLib::Period fixedLegTenor = periodByTimeUnit(i5v[row], 
+
+        QuantLib::ext::shared_ptr<QuantLib::Quote> vol(new QuantLib::SimpleQuote(d4v[row]));
+
+        QuantLib::Period fixedLegTenor = periodByTimeUnit(i5v[row],
                                                           Rcpp::as<std::string>(s6v[row]));
         QuantLib::DayCounter fixedLegDayCounter = getDayCounter(i7v[row]);
         QuantLib::DayCounter floatingLegDayCounter = getDayCounter(i8v[row]);
 
-        boost::shared_ptr<QuantLib::BlackCalibrationHelper> 
-            helper(new QuantLib::SwaptionHelper(maturity, length, 
-                                                QuantLib::Handle<QuantLib::Quote>(vol), 
-                                                index, 
-                                                fixedLegTenor, 
+        QuantLib::ext::shared_ptr<QuantLib::BlackCalibrationHelper>
+            helper(new QuantLib::SwaptionHelper(maturity, length,
+                                                QuantLib::Handle<QuantLib::Quote>(vol),
+                                                index,
+                                                fixedLegTenor,
                                                 fixedLegDayCounter,
                                                 floatingLegDayCounter,
                                                 term));
-        helper->setPricingEngine(engine);                
+        helper->setPricingEngine(engine);
         swaps.push_back(helper);
     }
-        
+
     //calibrate the data
     QuantLib::LevenbergMarquardt optimizationMethod(1.0e-8,1.0e-8,1.0e-8);
     QuantLib::EndCriteria endCriteria(10000, 100, 1e-6, 1e-8, 1e-8);

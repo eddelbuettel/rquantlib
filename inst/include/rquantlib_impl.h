@@ -1,5 +1,4 @@
-// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; indent-tabs-mode: nil; -*-
-//
+
 // RQuantLib wrapper implmenentation
 //
 // Copyright 2014  Dirk Eddelbuettel <edd@debian.org>
@@ -25,7 +24,7 @@
 // define template specialisations for as and wrap
 namespace Rcpp {
 
-    static const unsigned int QLtoJan1970Offset = 25569;  	// Offset to R / Unix epoch 
+    static const unsigned int QLtoJan1970Offset = 25569;  	// Offset to R / Unix epoch
 
     inline unsigned int getQLtoJan1970offset(void) { return QLtoJan1970Offset; }
 
@@ -48,9 +47,9 @@ namespace Rcpp {
 #if RCPP_VERSION >= Rcpp_Version(0,12,8)
             //dates[i] = QuantLib::Date(static_cast<int>(dtvec[i]) + QLtoJan1970Offset);
             dates[i] = QuantLib::Date(static_cast<int>(Rcpp::Date(dtvec[i]).getDate()) + QLtoJan1970Offset);
-#else            
+#else
             dates[i] = QuantLib::Date(static_cast<int>(dtvec[i].getDate()) + QLtoJan1970Offset);
-#endif            
+#endif
         }
         return dates;
     }
@@ -61,7 +60,7 @@ namespace Rcpp {
         Rcpp::DateVector dtvec(n);
         for (int i = 0; i<n; i++) {
             // QL::BigInteger can cast to double
-            double dt = static_cast<double>(dvec[i].serialNumber()); 
+            double dt = static_cast<double>(dvec[i].serialNumber());
             dtvec[i] = Rcpp::Date(dt - QLtoJan1970Offset);
         }
         return Rcpp::wrap(dtvec);

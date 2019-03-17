@@ -4,8 +4,13 @@
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rquantlib/issues/#1}{##1}}
 \newcommand{\ghrp}{\href{https://github.com/#1}{##1}}
 
-\section{Changes in \pkg{RQuantLib} version 0.4.7 (2018-12-10)}{
+\section{Changes in \pkg{RQuantLib} version 0.4.8 (2019-03-17)}{
   \itemize{
+    \item Changes in \pkg{RQuantLib} code:
+    \itemize{
+      \item Source code supports Boost \code{shared_ptr} and C+11
+      \code{shared_ptr} via \code{QuantLib::ext} namespace like upstream.
+    }
     \item Changes in \pkg{RQuantLib} build system:
     \itemize{
       \item The \code{configure.ac} file no longer upsets \code{R CMD
@@ -20,7 +25,7 @@
     \itemize{
       \item Thanks to the updated \ghrp{rwinlib/quantlib} Windows
       library provided by Josh, all tests that previously exhibited
-      issues have been re-enabled (Dirk in \ghpr{126}). 
+      issues have been re-enabled (Dirk in \ghpr{126}).
     }
     \item Changes in \pkg{RQuantLib} documentation:
     \itemize{
@@ -78,7 +83,7 @@
       \item Three curve-building example are no longer running by
       default as win32 has seen some numerical issues.
       \item Two \code{Rcpp::compileAttributes} generated files have been
-      updated. 
+      updated.
     }
   }
 }
@@ -178,10 +183,10 @@
     \itemize{
       \item All function interfaces have been rewritten using \CRANpkg{Rcpp}
       Attributes. No \code{SEXP} remain in the function signatures. This
-      make the code shorter, more readable and more easily extensible. 
+      make the code shorter, more readable and more easily extensible.
       \item The header files have been reorganized so that plugin use is
       possible. An \code{impl.h} files is imported once for each compilation
-      unit: for RQuantLib from the file \code{src/dates.cpp} directory, from 
+      unit: for RQuantLib from the file \code{src/dates.cpp} directory, from
       a sourced file via a \code{#define} set by the plugin wrapper.
       \item \code{as<>()} and \code{wrap()} converters have added for
       QuantLib Date types.
@@ -192,7 +197,7 @@
       mostly by Michele Salvadore.
       \item Several Date and Calendar functions have been added.
       \item Calendar support has been greatly expanded thanks to Danilo
-      Dias da Silva. 
+      Dias da Silva.
       \item Exported curve objects are now more parsimonious and advance
       entries in the \code{table} object roughly one business month at a
       time.

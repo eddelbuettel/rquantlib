@@ -416,7 +416,7 @@ Rcpp::List bermudanWithRebuiltCurveEngine(Rcpp::List rparam,
     std::vector<QuantLib::Date> bermudanDates;
     const std::vector<QuantLib::ext::shared_ptr<QuantLib::CashFlow> >& leg = swap->fixedLeg();
     for (i=0; i<leg.size(); i++) {
-        QuantLib::ext::shared_ptr<QuantLib::Coupon> coupon = boost::dynamic_pointer_cast<QuantLib::Coupon>(leg[i]);
+        QuantLib::ext::shared_ptr<QuantLib::Coupon> coupon = QuantLib::ext::dynamic_pointer_cast<QuantLib::Coupon>(leg[i]);
         bermudanDates.push_back(coupon->accrualStartDate());
     }
 

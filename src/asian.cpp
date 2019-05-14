@@ -72,7 +72,7 @@ Rcpp::List asianOptionEngine(std::string averageType,
 #else
         QuantLib::Date exDate = today + int(maturity * 360 + 0.5);
 #endif
-        boost::shared_ptr<QuantLib::Exercise> exercise(new QuantLib::EuropeanExercise(exDate));
+        QuantLib::ext::shared_ptr<QuantLib::Exercise> exercise(new QuantLib::EuropeanExercise(exDate));
         QuantLib::ContinuousAveragingAsianOption option(QuantLib::Average::Geometric,
                                                         payoff, exercise);
         option.setPricingEngine(engine);
@@ -92,12 +92,12 @@ Rcpp::List asianOptionEngine(std::string averageType,
         if (length < 0) Rcpp::stop("Parameter 'length' must be non-negative.");
         if (fixings <= 1) Rcpp::stop("Parameter 'fixings' must be larger than one.");
 
-        boost::shared_ptr<QuantLib::PricingEngine> engine =
+        QuantLib::ext::shared_ptr<QuantLib::PricingEngine> engine =
             QuantLib::MakeMCDiscreteArithmeticAPEngine<QuantLib::LowDiscrepancy>(stochProcess)
             .withSamples(2047)
             .withControlVariate();
 
-        //boost::shared_ptr<PricingEngine> engine =
+        //QuantLib::ext::shared_ptr<PricingEngine> engine =
         //    MakeMCDiscreteArithmeticASEngine<LowDiscrepancy>(stochProcess)
         //    .withSeed(3456789)
         //    .withSamples(1023);
@@ -119,7 +119,7 @@ Rcpp::List asianOptionEngine(std::string averageType,
         QuantLib::Real runningSum = 0.0;
         QuantLib::Size pastFixing = 0;
 
-        boost::shared_ptr<QuantLib::Exercise>
+        QuantLib::ext::shared_ptr<QuantLib::Exercise>
             exercise(new QuantLib::EuropeanExercise(fixingDates[fixings-1]));
 
         QuantLib::DiscreteAveragingAsianOption option(QuantLib::Average::Arithmetic,

@@ -193,7 +193,7 @@ std::vector<bool> isBusinessDay(std::string calendar, std::vector<QuantLib::Date
 
 // [[Rcpp::export]]
 std::vector<bool> isHoliday(std::string calendar, std::vector<QuantLib::Date> dates) {
-    boost::shared_ptr<QuantLib::Calendar> pcal(getCalendar(calendar));
+    QuantLib::ext::shared_ptr<QuantLib::Calendar> pcal(getCalendar(calendar));
     int n = dates.size();
     std::vector<bool> hdays(n);
     for (int i=0; i<n; i++) {
@@ -204,7 +204,7 @@ std::vector<bool> isHoliday(std::string calendar, std::vector<QuantLib::Date> da
 
 // [[Rcpp::export]]
 std::vector<bool> isWeekend(std::string calendar, std::vector<QuantLib::Date> dates) {
-    boost::shared_ptr<QuantLib::Calendar> pcal(getCalendar(calendar));
+    QuantLib::ext::shared_ptr<QuantLib::Calendar> pcal(getCalendar(calendar));
     int n = dates.size();
     std::vector<bool> weekends(n);
     for (int i=0; i<n; i++) {
@@ -215,7 +215,7 @@ std::vector<bool> isWeekend(std::string calendar, std::vector<QuantLib::Date> da
 
 // [[Rcpp::export]]
 std::vector<bool> isEndOfMonth(std::string calendar, std::vector<QuantLib::Date> dates) {
-    boost::shared_ptr<QuantLib::Calendar> pcal(getCalendar(calendar));
+    QuantLib::ext::shared_ptr<QuantLib::Calendar> pcal(getCalendar(calendar));
     int n = dates.size();
     std::vector<bool> eom(n);
     for (int i=0; i<n; i++) {
@@ -226,7 +226,7 @@ std::vector<bool> isEndOfMonth(std::string calendar, std::vector<QuantLib::Date>
 
 // [[Rcpp::export]]
 std::vector<QuantLib::Date> getEndOfMonth(std::string calendar, std::vector<QuantLib::Date> dates) {
-    boost::shared_ptr<QuantLib::Calendar> pcal(getCalendar(calendar));
+    QuantLib::ext::shared_ptr<QuantLib::Calendar> pcal(getCalendar(calendar));
     int n = dates.size();
     std::vector<QuantLib::Date> ndates(n);
     for (int i=0; i<n; i++) {
@@ -237,7 +237,7 @@ std::vector<QuantLib::Date> getEndOfMonth(std::string calendar, std::vector<Quan
 
 // [[Rcpp::export]]
 std::vector<QuantLib::Date> adjust(std::string calendar, std::vector<QuantLib::Date> dates, int bdc=0) {
-    boost::shared_ptr<QuantLib::Calendar> pcal(getCalendar(calendar));
+    QuantLib::ext::shared_ptr<QuantLib::Calendar> pcal(getCalendar(calendar));
     QuantLib::BusinessDayConvention bdcval = getBusinessDayConvention(bdc);
     int n = dates.size();
     std::vector<QuantLib::Date> adjusted(n);
@@ -252,7 +252,7 @@ std::vector<QuantLib::Date> advance1(std::string calendar,
          double amount, double unit, int bdcVal, double emr,
          std::vector<QuantLib::Date> dates) {
 
-    boost::shared_ptr<QuantLib::Calendar> pcal(getCalendar(calendar));
+    QuantLib::ext::shared_ptr<QuantLib::Calendar> pcal(getCalendar(calendar));
     QuantLib::BusinessDayConvention bdc = getBusinessDayConvention(bdcVal);
     int n = dates.size();
     std::vector<QuantLib::Date> advance(n);
@@ -268,7 +268,7 @@ std::vector<QuantLib::Date> advance2(std::string calendar,
                                      double period, int bdcVal, double emr,
                                      std::vector<QuantLib::Date> dates) {
 
-    boost::shared_ptr<QuantLib::Calendar> pcal(getCalendar(calendar));
+    QuantLib::ext::shared_ptr<QuantLib::Calendar> pcal(getCalendar(calendar));
     QuantLib::BusinessDayConvention bdc = getBusinessDayConvention(bdcVal);
     int n = dates.size();
     std::vector<QuantLib::Date> advance(n);
@@ -285,7 +285,7 @@ std::vector<double> businessDaysBetween(std::string calendar,
                                         std::vector<QuantLib::Date> from,
                                         std::vector<QuantLib::Date> to,
                                         bool includeFirst=true, bool includeLast=false) {
-    boost::shared_ptr<QuantLib::Calendar> pcal(getCalendar(calendar));
+    QuantLib::ext::shared_ptr<QuantLib::Calendar> pcal(getCalendar(calendar));
     int n = from.size();
     std::vector<double> between(n);
     for (int i=0; i<n; i++) {
@@ -299,14 +299,14 @@ std::vector<QuantLib::Date> getHolidayList(std::string calendar,
                                            QuantLib::Date from, QuantLib::Date to,
                                            bool includeWeekends=false) {
 
-    boost::shared_ptr<QuantLib::Calendar> pcal(getCalendar(calendar));
+    QuantLib::ext::shared_ptr<QuantLib::Calendar> pcal(getCalendar(calendar));
     std::vector<QuantLib::Date> holidays = QuantLib::Calendar::holidayList(*pcal, from, to, includeWeekends);
     return holidays;
 }
 
 // [[Rcpp::export]]
 void addHolidays(std::string calendar, std::vector<QuantLib::Date> dates) {
-    boost::shared_ptr<QuantLib::Calendar> pcal(getCalendar(calendar));
+    QuantLib::ext::shared_ptr<QuantLib::Calendar> pcal(getCalendar(calendar));
     int n = dates.size();
     for (int i=0; i<n; i++) {
         pcal->addHoliday(dates[i]);
@@ -315,7 +315,7 @@ void addHolidays(std::string calendar, std::vector<QuantLib::Date> dates) {
 
 // [[Rcpp::export]]
 void removeHolidays(std::string calendar, std::vector<QuantLib::Date> dates) {
-    boost::shared_ptr<QuantLib::Calendar> pcal(getCalendar(calendar));
+    QuantLib::ext::shared_ptr<QuantLib::Calendar> pcal(getCalendar(calendar));
     int n = dates.size();
     for (int i=0; i<n; i++) {
         pcal->removeHoliday(dates[i]);

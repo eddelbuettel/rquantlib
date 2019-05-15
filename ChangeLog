@@ -1,10 +1,18 @@
+2019-05-14  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Date, Version): New minor version
+
+	* src/asian.cpp: Use QuantLib::ext namespace for shared_ptr
+        * src/bermudan.cpp: Idem
+	* src/calendars.cpp: Idem
+	* inst/include/rquantlib_internal.h: Idem
+
 2019-03-17  Dirk Eddelbuettel  <edd@debian.org>
 
         * DESCRIPTION (Version, Date): New release 0.4.8
 
         * configure.ac: Mark as 0.4.8
         * configure: Rebuilt
-
 
 2019-03-16  Dirk Eddelbuettel  <edd@debian.org>
 

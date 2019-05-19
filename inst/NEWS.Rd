@@ -4,6 +4,16 @@
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rquantlib/issues/#1}{##1}}
 \newcommand{\ghrp}{\href{https://github.com/#1}{##1}}
 
+\section{Changes in \pkg{RQuantLib} version 0.4.9 (2019-05-15)}{
+  \itemize{
+    \item Changes in \pkg{RQuantLib} code:
+    \itemize{
+      \item Completed switch to \code{QuantLib::ext} namespace wrappers
+      for either \code{shared_ptr} use started in 0.4.8.
+    }
+  }
+}
+
 \section{Changes in \pkg{RQuantLib} version 0.4.8 (2019-03-17)}{
   \itemize{
     \item Changes in \pkg{RQuantLib} code:

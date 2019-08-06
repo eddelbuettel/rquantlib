@@ -4,6 +4,18 @@
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rquantlib/issues/#1}{##1}}
 \newcommand{\ghrp}{\href{https://github.com/#1}{##1}}
 
+\section{Changes in \pkg{RQuantLib} version 0.4.10 (2019-08-xx)}{
+  \itemize{
+    \item Changes in \pkg{RQuantLib} build system:
+    \itemize{
+      \item The \code{src/Makevars.win} and \code{tools/winlibs.R} file
+      get QuantLib 1.16 for either toolchain (Jeroes in \ghpt{136}).
+      \item The custom Docker container now downloads QuantLib from
+      Debian unstable to get release 1.16 (from yesterday, no less)
+    }
+  }
+}
+    
 \section{Changes in \pkg{RQuantLib} version 0.4.9 (2019-05-15)}{
   \itemize{
     \item Changes in \pkg{RQuantLib} code:

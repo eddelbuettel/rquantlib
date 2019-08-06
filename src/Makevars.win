@@ -4,13 +4,18 @@
 # Copyright 2005         Uwe Ligges
 # Copyright 2008 - 2018  Dirk Eddelbuettel
 # Copyright 2011         Uwe Ligges, Brian Ripley, and Josh Ulrich
-# Copyright 2018         Jeroen Ooms
+# Copyright 2018 - 2019  Jeroen Ooms
 
-RWINLIB=../windows/quantlib-1.14
+RWINLIB=../windows/quantlib-1.16
 PKG_CPPFLAGS=-I$(RWINLIB)/include -I../inst/include
 PKG_CXXFLAGS=$(SHLIB_OPENMP_CXXFLAGS) -DBOOST_NO_AUTO_PTR -Wno-deprecated-declarations
 ## NB directory layout with arch/lib is quantlib upstream default which is followed here
-PKG_LIBS=-L$(RWINLIB)/${R_ARCH}/lib -lQuantLib $(SHLIB_OPENMP_CXXFLAGS)
+
+TARGET = $(subst gcc,lib,$(COMPILED_BY))
+PKG_LIBS = \
+	-L$(RWINLIB)/$(TARGET)$(R_ARCH)/lib \
+	-L$(RWINLIB)/lib$(R_ARCH)/lib \
+	-lQuantLib $(SHLIB_OPENMP_CXXFLAGS)
 
 # Use C++11 for long long in Boost headers
 CXX_STD=CXX11

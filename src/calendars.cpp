@@ -150,6 +150,9 @@ QuantLib::ext::shared_ptr<QuantLib::Calendar> getCalendar(const std::string &cal
     } else if (calstr == "WeekendsOnly") {
         pcal.reset(new QuantLib::WeekendsOnly());
 
+    } else if (calstr == "Null" || calstr == "null" || calstr == "NULL") {
+        pcal.reset(new QuantLib::NullCalendar());
+
     } else {
         throw std::invalid_argument("Calendar " + calstr + " not recognised ");
     }

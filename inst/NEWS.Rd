@@ -4,6 +4,16 @@
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rquantlib/issues/#1}{##1}}
 \newcommand{\ghrp}{\href{https://github.com/#1}{##1}}
 
+\section{Changes in \pkg{RQuantLib} version 0.4.11 (20xx-yy-zz)}{
+  \itemize{
+    \item Changes in \pkg{RQuantLib} code:
+    \itemize{
+      \item The 'Null' calendar without weekends or holidays is now
+      recognized.
+    }
+  }
+}
+
 \section{Changes in \pkg{RQuantLib} version 0.4.10 (2019-08-07)}{
   \itemize{
     \item Changes in \pkg{RQuantLib} build system:

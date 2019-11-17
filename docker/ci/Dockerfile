@@ -10,7 +10,6 @@ RUN apt-get update \
 	&& apt-get install -t unstable -y --no-install-recommends \
 		r-cran-rcpp \
                 r-cran-zoo \
-                r-cran-runit \
 		libquantlib0-dev \
                 ccache \
         && install.r tinytest \

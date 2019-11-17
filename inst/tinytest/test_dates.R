@@ -1,6 +1,6 @@
 #!/usr/bin/r -t
 #
-# Copyright (C) 2014  Dirk Eddelbuettel
+# Copyright (C) 2014 - 2019  Dirk Eddelbuettel
 #
 # This file is part of RQuantLib.
 #
@@ -19,30 +19,24 @@
 
 .onWindows <- .Platform$OS.type == "windows"
 
-if (!.onWindows) {
-    .setUp <- RQuantLib:::unitTestSetup("dates.cpp")
-}
+if (.onWindows) exit_file("Skipping dates test on Windows.")
 
-test.date.conversion <- function() { 
-    if (!.onWindows) {
-        given <- as.Date("2000-01-01")
-        inc <- 2
-        expected <- given + inc
+Rcpp::sourceCpp("cpp/dates.cpp")
 
-        checkEquals(advanceDateRR(given, inc), expected, msg="date conversion from R to R")
-        checkEquals(advanceDateQR(given, inc), expected, msg="date conversion from QuantLib to R")
-        checkEquals(advanceDateQQ(given, inc), expected, msg="date conversion from QuantLib to QuantLib")
-    }
-}
+#test.date.conversion <- function() {
+given <- as.Date("2000-01-01")
+inc <- 2
+expected <- given + inc
 
-test.datevector.conversion <- function() { 
-    if (!.onWindows) {
-        given <- as.Date("2000-01-01") + 0:3
-        inc <- 2
-        expected <- given + inc
+expect_equal(advanceDateRR(given, inc), expected, info="date conversion from R to R")
+expect_equal(advanceDateQR(given, inc), expected, info="date conversion from QuantLib to R")
+expect_equal(advanceDateQQ(given, inc), expected, info="date conversion from QuantLib to QuantLib")
 
-        checkEquals(advanceDatesRR(given, inc), expected, msg="date conversion from R to R")
-        checkEquals(advanceDatesQR(given, inc), expected, msg="date conversion from QuantLib to QuantLib")
-        checkEquals(advanceDatesQQ(given, inc), expected, msg="date conversion from QuantLib to R")
-    }
-}
+#test.datevector.conversion <- function() {
+given <- as.Date("2000-01-01") + 0:3
+inc <- 2
+expected <- given + inc
+
+expect_equal(advanceDatesRR(given, inc), expected, info="date conversion from R to R")
+expect_equal(advanceDatesQR(given, inc), expected, info="date conversion from QuantLib to QuantLib")
+expect_equal(advanceDatesQQ(given, inc), expected, info="date conversion from QuantLib to R")

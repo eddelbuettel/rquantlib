@@ -13,6 +13,7 @@ RUN apt-get update \
                 r-cran-runit \
 		libquantlib0-dev \
                 ccache \
+        && install.r tinytest \
         && mkdir ~/.R \
         && echo _R_CHECK_FORCE_SUGGESTS_=FALSE > ~/.R/check.Renviron \
         && echo CC=ccache gcc > ~/.R/Makevars \

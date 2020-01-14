@@ -4,6 +4,9 @@
 	FDEuropeanEngine to FdBlackScholesVanillaEngine
 	(getCallabilitySchedule): Update from now-deprecated
 	Callability::Price to Bond::Price
+	* src/vanilla.cpp (americanOptionEngine): Update from
+	now-deprecated FDDividendAmericanEngine and FDAmericanEngine to
+	FdBlackScholesVanillaEngine
 
 2019-08-24  Dirk Eddelbuettel  <edd@debian.org>
 

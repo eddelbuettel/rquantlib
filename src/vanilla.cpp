@@ -1,7 +1,7 @@
 
 //  RQuantLib -- R interface to the QuantLib libraries
 //
-//  Copyright (C) 2002 - 2019  Dirk Eddelbuettel <edd@debian.org>
+//  Copyright (C) 2002 - 2020  Dirk Eddelbuettel <edd@debian.org>
 //
 //  This file is part of RQuantLib.
 //
@@ -191,7 +191,7 @@ Rcpp::List americanOptionEngine(std::string type,
         if (engine=="CrankNicolson") { // FDDividendAmericanEngine only works with CrankNicolson
             // suggestion by Bryan Lewis: use CrankNicolson for greeks
             QuantLib::ext::shared_ptr<QuantLib::PricingEngine>
-            fdcnengine(new QuantLib::FDDividendAmericanEngine<QuantLib::CrankNicolson>(stochProcess, timeSteps, gridPoints));
+            fdcnengine(new QuantLib::FdBlackScholesVanillaEngine(stochProcess, timeSteps, gridPoints));
             option.setPricingEngine(fdcnengine);
             return Rcpp::List::create(Rcpp::Named("value") = option.NPV(),
                                       Rcpp::Named("delta") = option.delta(),
@@ -222,7 +222,7 @@ Rcpp::List americanOptionEngine(std::string type,
         } else if (engine=="CrankNicolson") {
             // suggestion by Bryan Lewis: use CrankNicolson for greeks
             QuantLib::ext::shared_ptr<QuantLib::PricingEngine>
-            fdcnengine(new QuantLib::FDAmericanEngine<QuantLib::CrankNicolson>(stochProcess, timeSteps, gridPoints));
+            fdcnengine(new QuantLib::FdBlackScholesVanillaEngine(stochProcess, timeSteps, gridPoints));
             option.setPricingEngine(fdcnengine);
             return Rcpp::List::create(Rcpp::Named("value") = option.NPV(),
                                       Rcpp::Named("delta") = option.delta(),

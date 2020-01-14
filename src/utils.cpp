@@ -579,6 +579,16 @@ QuantLib::CallabilitySchedule getCallabilitySchedule(Rcpp::DataFrame callScheDF)
 
     QuantLib::CallabilitySchedule callabilitySchedule;
 
+    // QuantLib::Callability::Price triggers 'deprecated' under clang++-9
+    // yet the new QuantLib::Bond::Price appeared only in QuantLib 1.17 so
+    // it is a little nice to protect buildability under 1.16 with this
+    // it also shortens the line a little below :)
+#if QL_HEX_VERSION >= 0x011700f0
+    typedef QuantLib::Bond::Price QlBondPrice;
+#else
+    typedef QuantLib::Callability::Price QlBondPrice;
+#endif
+
     try {
         // RcppFrame rcppCallabilitySchedule(callabilityScheduleFrame);
         // std::vector<std::vector<ColDatum> > table = rcppCallabilitySchedule.getTableData();
@@ -594,14 +604,10 @@ QuantLib::CallabilitySchedule getCallabilitySchedule(Rcpp::DataFrame callScheDF)
             QuantLib::Date d(Rcpp::as<QuantLib::Date>(Rcpp::wrap(rd)));
             if (type==1){
                 callabilitySchedule.push_back(QuantLib::ext::shared_ptr<QuantLib::Callability>
-                                              (new QuantLib::Callability(QuantLib::Bond::Price(price,
-                                                                                                      QuantLib::Bond::Price::Clean),
-                                                                         QuantLib::Callability::Put,d )));
+                                              (new QuantLib::Callability(QlBondPrice(price, QlBondPrice::Clean), QuantLib::Callability::Put,d )));
             } else {
                 callabilitySchedule.push_back(QuantLib::ext::shared_ptr<QuantLib::Callability>
-                                              (new QuantLib::Callability(QuantLib::Bond::Price(price,
-                                                                                                      QuantLib::Bond::Price::Clean),
-                                                                         QuantLib::Callability::Call,d )));
+                                              (new QuantLib::Callability(QlBondPrice(price, QlBondPrice::Clean), QuantLib::Callability::Call,d )));
             }
         }
     } catch (std::exception& ex){

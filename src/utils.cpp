@@ -1,7 +1,7 @@
 
 //  RQuantLib -- R interface to the QuantLib libraries
 //
-//  Copyright (C) 2002 - 2019  Dirk Eddelbuettel
+//  Copyright (C) 2002 - 2020  Dirk Eddelbuettel
 //  Copyright (C) 2005 - 2006  Dominick Samperi
 //  Copyright (C) 2009 - 2012  Dirk Eddelbuettel and Khanh Nguyen
 //
@@ -76,7 +76,7 @@ makeOption(const QuantLib::ext::shared_ptr<QuantLib::StrikedTypePayoff>& payoff,
         engine = spPE(new QuantLib::BinomialVanillaEngine<QuantLib::Joshi4>(stochProcess, binomialSteps));
         break;
     case FiniteDifferences:
-        engine = spPE(new QuantLib::FDEuropeanEngine<QuantLib::CrankNicolson>(stochProcess, binomialSteps, samples));
+        engine = spPE(new QuantLib::FdBlackScholesVanillaEngine(stochProcess, binomialSteps, samples));
         break;
     case Integral:
         engine = spPE(new QuantLib::IntegralEngine(stochProcess));
@@ -594,13 +594,13 @@ QuantLib::CallabilitySchedule getCallabilitySchedule(Rcpp::DataFrame callScheDF)
             QuantLib::Date d(Rcpp::as<QuantLib::Date>(Rcpp::wrap(rd)));
             if (type==1){
                 callabilitySchedule.push_back(QuantLib::ext::shared_ptr<QuantLib::Callability>
-                                              (new QuantLib::Callability(QuantLib::Callability::Price(price,
-                                                                                                      QuantLib::Callability::Price::Clean),
+                                              (new QuantLib::Callability(QuantLib::Bond::Price(price,
+                                                                                                      QuantLib::Bond::Price::Clean),
                                                                          QuantLib::Callability::Put,d )));
             } else {
                 callabilitySchedule.push_back(QuantLib::ext::shared_ptr<QuantLib::Callability>
-                                              (new QuantLib::Callability(QuantLib::Callability::Price(price,
-                                                                                                      QuantLib::Callability::Price::Clean),
+                                              (new QuantLib::Callability(QuantLib::Bond::Price(price,
+                                                                                                      QuantLib::Bond::Price::Clean),
                                                                          QuantLib::Callability::Call,d )));
             }
         }

@@ -1,3 +1,4 @@
+## original from 2018 or older
 library(reticulate)
 ql <- import("QuantLib")
 
@@ -24,4 +25,16 @@ tenor <- ql$Period(ql$Monthly)
 calendar <- ql$UnitedStates()
 # NB: ql.DateGeneration.Forward is just an enum with value 1
 schedule <- ql$Schedule(date1, date2, tenor, calendar, ql$Following, ql$Following, 1L, FALSE)
-# can list content though
+# cannot list content though
+
+
+## trying a python example -- bonds
+calendar <- ql$TARGET()
+settlementDate <- ql$Date(18L, ql$September, 2008L)
+settlementDate <- calendar$adjust(settlementDate)
+
+fixingDays <- 3L
+settlementDays <- 3L
+
+todaysDate <- calendar$advance(settlementDate, -fixingDays, ql$Days)
+## cannot set, only get   ql$Settings$instance()$evaluationDate <- todaysDate

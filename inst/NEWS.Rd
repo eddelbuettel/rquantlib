@@ -4,12 +4,16 @@
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rquantlib/issues/#1}{##1}}
 \newcommand{\ghrp}{\href{https://github.com/#1}{##1}}
 
-\section{Changes in \pkg{RQuantLib} version 0.4.11 (20xx-yy-zz)}{
+\section{Changes in \pkg{RQuantLib} version 0.4.11 (2020-01-15)}{
   \itemize{
     \item Changes in \pkg{RQuantLib} code:
     \itemize{
       \item The 'Null' calendar without weekends or holidays is now
       recognized.
+      \item The package now uses \pkg{tinytest} for unit tests (Dirk in
+      \ghpr{140}).
+      \item Calls deprecated-in-QuantLib 1.17 were updated (Dirk in
+      \ghpr{144}).
     }
   }
 }
@@ -25,7 +29,7 @@
     }
   }
 }
-    
+
 \section{Changes in \pkg{RQuantLib} version 0.4.9 (2019-05-15)}{
   \itemize{
     \item Changes in \pkg{RQuantLib} code:

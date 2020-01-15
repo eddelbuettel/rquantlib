@@ -8,7 +8,7 @@
 AC_PREREQ(2.50)
 
 # Process this file with autoconf to produce a configure script.
-AC_INIT(RQuantlib, 0.4.10)
+AC_INIT(RQuantlib, 0.4.11)
 
 # Set CXX and CXXFLAGS based on the R configuration (with thanks to KH)
 : ${R_HOME=`R RHOME`}

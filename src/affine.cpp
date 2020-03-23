@@ -2,7 +2,7 @@
 //  RQuantLib function AffineSwaption
 //
 //  Copyright (C) 2005 - 2007  Dominick Samperi
-//  Copyright (C) 2007 - 2019  Dirk Eddelbuettel
+//  Copyright (C) 2007 - 2020  Dirk Eddelbuettel
 //  Copyright (C) 2016         Terry Leitch
 //
 //  This file is part of RQuantLib.
@@ -24,12 +24,14 @@
 
 // Calibrates underlying swaptions to the input volatility matrix.
 void calibrateModel2(const QuantLib::ext::shared_ptr<QuantLib::ShortRateModel>& model,
-                     const std::vector<QuantLib::ext::shared_ptr<QuantLib::BlackCalibrationHelper> > &helpers,
+                     const std::vector<QuantLib::ext::shared_ptr<QuantLib::BlackCalibrationHelper>> &swaptions,
                      QuantLib::Real lambda,
                      Rcpp::NumericVector &swaptionMat,
                      Rcpp::NumericVector &swapLengths,
                      Rcpp::NumericVector &swaptionVols) {
 
+    std::vector<QuantLib::ext::shared_ptr<QuantLib::CalibrationHelper>>
+        helpers(swaptions.begin(), swaptions.end());
     QuantLib::Size numRows = swaptionVols.size();
     //QuantLib::Size numCols = swaptionVols.ncol();
     QuantLib::LevenbergMarquardt om;
@@ -37,8 +39,8 @@ void calibrateModel2(const QuantLib::ext::shared_ptr<QuantLib::ShortRateModel>& 
 
     // Output the implied Black volatilities
     for (QuantLib::Size i=0; i<numRows; i++) {
-        QuantLib::Real npv = helpers[i]->modelValue();
-        QuantLib::Volatility implied = helpers[i]->impliedVolatility(npv, 1e-4,
+        QuantLib::Real npv = swaptions[i]->modelValue();
+        QuantLib::Volatility implied = swaptions[i]->impliedVolatility(npv, 1e-4,
                                                                      1000, 0.05, 1.50);
         QuantLib::Volatility diff = implied - swaptionVols(i);
 

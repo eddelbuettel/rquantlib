@@ -1,3 +1,15 @@
+2020-03-23  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll minor release
+
+	* src/affine.cpp: Switch from depecreated BlackCalibrationHelper
+	to CalibrationHelper()
+	* src/bermudan.cpp: Idem
+	* src/hullwhite.cpp: Idem
+	* src/calendars.cpp: Switch from deprecated static method to standard
+	method for getHolidayList()
+	* src/curves.cpp: No longer use deprecated tolerance argument
+
 2020-03-20  Dirk Eddelbuettel  <edd@debian.org>
 
 	* README.md: Add Debian badge

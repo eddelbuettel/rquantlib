@@ -2,7 +2,7 @@
 //  RQuantLib -- R interface to the QuantLib libraries
 //
 //  Copyright (C) 2005 - 2007  Dominick Samperi
-//  Copyright (C) 2007 - 2019  Dirk Eddelbuettel
+//  Copyright (C) 2007 - 2020  Dirk Eddelbuettel
 //
 //  This file is part of RQuantLib.
 //
@@ -226,84 +226,66 @@ getTermStructure (std::string& interpWhat, std::string& interpHow,
     if (interpWhat.compare("discount") == 0 && interpHow.compare("linear") == 0) {
         QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure>
             ts(new QuantLib::PiecewiseYieldCurve<QuantLib::Discount,
-               QuantLib::Linear>(settlementDate,
-                                 curveInput, dayCounter,
+               QuantLib::Linear>(settlementDate, curveInput, dayCounter,
                                  std::vector<QuantLib::Handle<QuantLib::Quote> >(),
-                                 std::vector<QuantLib::Date>(),
-                                 tolerance));
+                                 std::vector<QuantLib::Date>()));
         return ts;
     } else if (interpWhat.compare("discount") == 0 && interpHow.compare("loglinear") == 0) {
         QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure>
             ts(new QuantLib::PiecewiseYieldCurve<QuantLib::Discount,
-               QuantLib::LogLinear>(settlementDate,
-                                    curveInput, dayCounter,
+               QuantLib::LogLinear>(settlementDate, curveInput, dayCounter,
                                     std::vector<QuantLib::Handle<QuantLib::Quote> >(),
-                                    std::vector<QuantLib::Date>(),
-                                    tolerance));
+                                    std::vector<QuantLib::Date>()));
         return ts;
     } else if (interpWhat.compare("discount") == 0 && interpHow.compare("spline") == 0) {
         QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure>
             ts(new QuantLib::PiecewiseYieldCurve<QuantLib::Discount,
-               QuantLib::Cubic>(settlementDate,
-                                curveInput, dayCounter,
+               QuantLib::Cubic>(settlementDate, curveInput, dayCounter,
                                 std::vector<QuantLib::Handle<QuantLib::Quote> >(),
-                                std::vector<QuantLib::Date>(),
-                                tolerance));
+                                std::vector<QuantLib::Date>()));
         return ts;
     } else if (interpWhat.compare("forward") == 0 &&
                interpHow.compare("linear") == 0) {
         QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure>
             ts(new QuantLib::PiecewiseYieldCurve<QuantLib::ForwardRate,
-               QuantLib::Linear>(settlementDate,
-                                 curveInput, dayCounter,
+               QuantLib::Linear>(settlementDate, curveInput, dayCounter,
                                  std::vector<QuantLib::Handle<QuantLib::Quote> >(),
-                                 std::vector<QuantLib::Date>(),
-                                 tolerance));
+                                 std::vector<QuantLib::Date>()));
         return ts;
     } else if (interpWhat.compare("forward") == 0 && interpHow.compare("loglinear") == 0) {
         QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure>
             ts(new QuantLib::PiecewiseYieldCurve<QuantLib::ForwardRate,
-               QuantLib::LogLinear>(settlementDate,
-                                    curveInput, dayCounter,
+               QuantLib::LogLinear>(settlementDate, curveInput, dayCounter,
                                     std::vector<QuantLib::Handle<QuantLib::Quote> >(),
-                                    std::vector<QuantLib::Date>(),
-                                    tolerance));
+                                    std::vector<QuantLib::Date>()));
         return ts;
     } else if (interpWhat.compare("forward") == 0 && interpHow.compare("spline") == 0) {
         QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure>
             ts(new QuantLib::PiecewiseYieldCurve<QuantLib::ForwardRate,
-               QuantLib::Cubic>(settlementDate,
-                                curveInput, dayCounter,
+               QuantLib::Cubic>(settlementDate, curveInput, dayCounter,
                                 std::vector<QuantLib::Handle<QuantLib::Quote> >(),
-                                std::vector<QuantLib::Date>(),
-                                tolerance));
+                                std::vector<QuantLib::Date>()));
         return ts;
     } else if (interpWhat.compare("zero") == 0 && interpHow.compare("linear") == 0) {
         QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure>
             ts(new QuantLib::PiecewiseYieldCurve<QuantLib::ZeroYield,
-               QuantLib::Linear>(settlementDate,
-                                 curveInput, dayCounter,
+               QuantLib::Linear>(settlementDate, curveInput, dayCounter,
                                  std::vector<QuantLib::Handle<QuantLib::Quote> >(),
-                                 std::vector<QuantLib::Date>(),
-                                 tolerance));
+                                 std::vector<QuantLib::Date>()));
         return ts;
     } else if (interpWhat.compare("zero") == 0 && interpHow.compare("loglinear") == 0) {
         QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure>
             ts(new QuantLib::PiecewiseYieldCurve<QuantLib::ZeroYield,
-               QuantLib::LogLinear>(settlementDate,
-                                    curveInput, dayCounter,
+               QuantLib::LogLinear>(settlementDate, curveInput, dayCounter,
                                     std::vector<QuantLib::Handle<QuantLib::Quote> >(),
-                                    std::vector<QuantLib::Date>(),
-                                    tolerance));
+                                    std::vector<QuantLib::Date>()));
         return ts;
     } else if (interpWhat.compare("zero") == 0 && interpHow.compare("spline") == 0) {
         QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure>
             ts(new QuantLib::PiecewiseYieldCurve<QuantLib::ZeroYield,
-               QuantLib::Cubic>(settlementDate,
-                                curveInput, dayCounter,
+               QuantLib::Cubic>(settlementDate, curveInput, dayCounter,
                                 std::vector<QuantLib::Handle<QuantLib::Quote> >(),
-                                std::vector<QuantLib::Date>(),
-                                tolerance));
+                                std::vector<QuantLib::Date>()));
         return ts;
     } else {
         Rcpp::Rcout << "interpWhat = " << interpWhat << std::endl;

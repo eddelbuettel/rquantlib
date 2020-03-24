@@ -1,7 +1,7 @@
 
 //  RQuantLib -- R interface to the QuantLib libraries
 //
-//  Copyright (C) 2002 - 2019  Dirk Eddelbuettel
+//  Copyright (C) 2002 - 2020  Dirk Eddelbuettel
 //  Copyright (C) 2010         Dirk Eddelbuettel and Khanh Nguyen
 //
 //  RQuantLib is free software: you can redistribute it and/or modify
@@ -303,7 +303,12 @@ std::vector<QuantLib::Date> getHolidayList(std::string calendar,
                                            bool includeWeekends=false) {
 
     QuantLib::ext::shared_ptr<QuantLib::Calendar> pcal(getCalendar(calendar));
-    std::vector<QuantLib::Date> holidays = QuantLib::Calendar::holidayList(*pcal, from, to, includeWeekends);
+#if QL_HEX_VERSION >= 0x011800f0
+    std::vector<QuantLib::Date> holidays = pcal->holidayList(from, to, includeWeekends);
+#else
+    std::vector<QuantLib::Date> holidays =
+        QuantLib::Calendar::holidayList(*pcal, from, to, includeWeekends);
+#endif
     return holidays;
 }
 

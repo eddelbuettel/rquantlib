@@ -2,7 +2,7 @@
 //  RQuantLib function BermudanSwaption
 //
 //  Copyright (C) 2005 - 2007  Dominick Samperi
-//  Copyright (C) 2007 - 2019  Dirk Eddelbuettel
+//  Copyright (C) 2007 - 2020  Dirk Eddelbuettel
 //  Copyright (C) 2016         Terry Leitch
 //
 //  This file is part of RQuantLib.
@@ -24,22 +24,24 @@
 
 // Calibrates underlying swaptions to the input volatility matrix.
 void calibrateModel(const QuantLib::ext::shared_ptr<QuantLib::ShortRateModel>& model,
-                    const std::vector<QuantLib::ext::shared_ptr<QuantLib::BlackCalibrationHelper> > &helpers,
+                    const std::vector<QuantLib::ext::shared_ptr<QuantLib::BlackCalibrationHelper> > &swaptions,
                     QuantLib::Real lambda,
                     Rcpp::NumericVector &swaptionMat,
                     Rcpp::NumericVector &swapLengths,
                     Rcpp::NumericMatrix &swaptionVols) {
 
+    std::vector<QuantLib::ext::shared_ptr<QuantLib::CalibrationHelper> >
+        helpers(swaptions.begin(), swaptions.end());
     QuantLib::Size numRows = swaptionVols.nrow();
     QuantLib::Size numCols = swaptionVols.ncol();
     QuantLib::LevenbergMarquardt om;
 
-    model->calibrate(helpers, om,QuantLib:: EndCriteria(400,100,1.0e-8, 1.0e-8, 1.0e-8));
+    model->calibrate(helpers, om, QuantLib:: EndCriteria(400,100,1.0e-8, 1.0e-8, 1.0e-8));
 
     // Output the implied Black volatilities
     for (QuantLib::Size i=0; i<numRows; i++) {
-	QuantLib::Real npv = helpers[i]->modelValue();
-	QuantLib::Volatility implied = helpers[i]->impliedVolatility(npv, 1e-4,
+	QuantLib::Real npv = swaptions[i]->modelValue();
+	QuantLib::Volatility implied = swaptions[i]->impliedVolatility(npv, 1e-4,
                                                            1000, 0.05, 1.50);
 	QuantLib::Volatility diff = implied - swaptionVols(i, numCols-i-1);
 
@@ -51,10 +53,10 @@ void calibrateModel(const QuantLib::ext::shared_ptr<QuantLib::ShortRateModel>& m
 
 // [[Rcpp::export]]
 Rcpp::List bermudanFromYieldEngine(Rcpp::List rparam,
-                                  Rcpp::NumericVector yield,
-                                  Rcpp::NumericVector swaptionMat,
-                                  Rcpp::NumericVector swapLengths,
-                                  Rcpp::NumericMatrix swaptionVols) {
+                                   Rcpp::NumericVector yield,
+                                   Rcpp::NumericVector swaptionMat,
+                                   Rcpp::NumericVector swapLengths,
+                                   Rcpp::NumericMatrix swaptionVols) {
 
     QuantLib::Size i;
     //int *swaptionMat=0, *swapLengths=0;

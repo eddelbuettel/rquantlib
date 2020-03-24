@@ -2,7 +2,7 @@
 //  RQuantLib -- R interface to the QuantLib libraries
 //
 //  Copyright (C) 2010         Dirk Eddelbuettel and Khanh Nguyen
-//  Copyright (C) 2011 - 2019  Dirk Eddelbuettel
+//  Copyright (C) 2011 - 2020  Dirk Eddelbuettel
 //
 //  This file is part of RQuantLib.
 //
@@ -40,7 +40,7 @@ Rcpp::List calibrateHullWhiteUsingCapsEngine(std::vector<QuantLib::Date> termStr
         indexStrc(rebuildCurveFromZeroRates(iborDateVec, iborZeroVec));
     QuantLib::ext::shared_ptr<QuantLib::IborIndex> index = buildIborIndex(iborType, indexStrc);
     //process capDataDF
-    std::vector<QuantLib::ext::shared_ptr <QuantLib::BlackCalibrationHelper> > caps;
+    std::vector<QuantLib::ext::shared_ptr <QuantLib::CalibrationHelper>> caps;
 
     //Rcpp::DataFrame capDF(capDataDF);
     Rcpp::NumericVector i0v = capDF[0];
@@ -108,7 +108,7 @@ Rcpp::List calibrateHullWhiteUsingSwapsEngine(std::vector<QuantLib::Date> termSt
     //process capDataDF
     QuantLib::ext::shared_ptr<QuantLib::PricingEngine>
         engine(new QuantLib::JamshidianSwaptionEngine(model));
-    std::vector<QuantLib::ext::shared_ptr <QuantLib::BlackCalibrationHelper> > swaps;
+    std::vector<QuantLib::ext::shared_ptr <QuantLib::CalibrationHelper>> swaps;
 
     //Rcpp::DataFrame swapDF(swapDataDF);
     Rcpp::NumericVector i0v = swapDF[0];

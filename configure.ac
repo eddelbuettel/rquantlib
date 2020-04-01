@@ -8,7 +8,9 @@
 AC_PREREQ(2.50)
 
 # Process this file with autoconf to produce a configure script.
-AC_INIT(RQuantlib, 0.4.11)
+
+# Extrace R package version from R DESCRIPTION file
+AC_INIT([RQuantlib], m4_esyscmd_s([awk -e '/^Version:/ {print $2}' DESCRIPTION]))
 
 # Set CXX and CXXFLAGS based on the R configuration (with thanks to KH)
 : ${R_HOME=`R RHOME`}
@@ -161,7 +163,8 @@ QL_CHECK_BOOST
 AC_SUBST(CXXFLAGS)
 AC_SUBST(LDFLAGS)
 AC_OUTPUT(src/Makevars)
-echo "Completed configuration and ready to build."
+
+echo "Configured ${PACKAGE_NAME} ${PACKAGE_VERSION}"
 
 ### Local Variables: ***
 ### mode: autoconf ***

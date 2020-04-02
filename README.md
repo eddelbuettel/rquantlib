@@ -4,7 +4,7 @@
 [![License](http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-2.0.html)
 [![CRAN](http://www.r-pkg.org/badges/version/RQuantLib)](https://cran.r-project.org/package=RQuantLib)
 [![Dependencies](https://tinyverse.netlify.com/badge/RQuantLib)](https://cran.r-project.org/package=RQuantLib)
-[![Debian package](https://img.shields.io/debian/v/r-cran-rinside/sid?color=brightgreen)](https://packages.debian.org/sid/r-cran-rquantlib)
+[![Debian package](https://img.shields.io/debian/v/r-cran-rquantlib/sid?color=brightgreen)](https://packages.debian.org/sid/r-cran-rquantlib)
 [![Downloads](http://cranlogs.r-pkg.org/badges/RQuantLib?color=brightgreen)](http://www.r-pkg.org/pkg/RQuantLib)
 [![Last Commit](https://img.shields.io/github/last-commit/eddelbuettel/rquantlib)](https://github.com/eddelbuettel/rquantlib)
 

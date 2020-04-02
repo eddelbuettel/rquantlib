@@ -6,6 +6,7 @@
 [![Dependencies](https://tinyverse.netlify.com/badge/RQuantLib)](https://cran.r-project.org/package=RQuantLib)
 [![Debian package](https://img.shields.io/debian/v/r-cran-rinside/sid?color=brightgreen)](https://packages.debian.org/sid/r-cran-rquantlib)
 [![Downloads](http://cranlogs.r-pkg.org/badges/RQuantLib?color=brightgreen)](http://www.r-pkg.org/pkg/RQuantLib)
+[![Last Commit](https://img.shields.io/github/last-commit/eddelbuettel/rquantlib)](https://github.com/eddelbuettel/rquantlib)
 
 ### About
 
@@ -39,13 +40,12 @@ The package is on [CRAN](https://cran.r-project.org) and can be installed as usu
 install.packages("RQuantLib")
 ```
 
-Windows binary packages are available via [CRAN](https://cran.r-project.org) thanks to the
-library provided by [Joshua Ulrich](https://about.me/joshuaulrich) via the
-[rwinlib/quantlib](https://github.com/rwinlib/quantlib) repository.
-
-Binaries for macOS _could_ be provided if we had a similar binary library, ideally via the
-[s-u/recipes](https://github.com/s-u/recipes) repository.  Some efforts are under way and
-coordinated on the [rquantlib mailing list](http://rquantlib.groups.io) so stay tuned.
+Windows binary packages are available via [CRAN](https://cran.r-project.org) thanks to the work by
+[Joshua Ulrich](https://about.me/joshuaulrich) and [Jeroen Ooms](https://github.com/jeroen)
+providing a QuantLib binary for the CRAN builders. Similarly, binaries for macOS _can_ be provided
+when a suitable macOS library of QuantLib is prepared, possibly via
+[s-u/recipes](https://github.com/s-u/recipes).  If and when these binary libraries may be outdated,
+please raise the issue on the [rquantlib mailing list](http://rquantlib.groups.io).
 
 For more OS-specific installation options, please see [the wiki](https://github.com/eddelbuettel/rquantlib/wiki/RQuantLib).
 

@@ -4,6 +4,16 @@
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rquantlib/issues/#1}{##1}}
 \newcommand{\ghrp}{\href{https://github.com/#1}{##1}}
 
+\section{Changes in \pkg{RQuantLib} version 0.4.12 (2020-04-01)}{
+  \itemize{
+    \item Changes in \pkg{RQuantLib} code:
+    \itemize{
+      \item Calls deprecated-in-QuantLib 1.18 were updated (Dirk in
+      \ghpr{146}).
+    }
+  }
+}
+
 \section{Changes in \pkg{RQuantLib} version 0.4.11 (2020-01-15)}{
   \itemize{
     \item Changes in \pkg{RQuantLib} code:

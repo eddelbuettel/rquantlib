@@ -17,20 +17,20 @@ env:
       PKG_TGZ="${PKG_NAME}_${PKG_VER}.tar.gz"
 
 before_install:
- - docker pull ${DOCKER_CNTR}
- - docker run ${DOCKER_OPTS} ${DOCKER_CNTR} r -p -e 'sessionInfo()'
+  - docker pull ${DOCKER_CNTR}
+  - docker run ${DOCKER_OPTS} ${DOCKER_CNTR} r -p -e 'sessionInfo()'
 
 install:
- # R packages need special treatment with ccache: temp dirs, new timestamps
- - echo max_size = 5.0G > ~/.ccache/ccache.conf
- - echo sloppiness = include_file_ctime >> ~/.ccache/ccache.conf
- - echo hash_dir = false >> ~/.ccache/ccache.conf
- - docker run ${DOCKER_OPTS} ${DOCKER_CNTR} R CMD build ${R_BLD_CHK_OPTS} .
- # install once to generate stdout to not time out ... and fill ccache at the same time
- - docker run ${DOCKER_OPTS} ${DOCKER_CNTR} R CMD INSTALL RQuantLib_*.tar.gz
+  # R packages need special treatment with ccache: temp dirs, new timestamps
+  - echo max_size = 5.0G > ~/.ccache/ccache.conf
+  - echo sloppiness = include_file_ctime >> ~/.ccache/ccache.conf
+  - echo hash_dir = false >> ~/.ccache/ccache.conf
+  - docker run ${DOCKER_OPTS} ${DOCKER_CNTR} R CMD build ${R_BLD_CHK_OPTS} .
+  # install once to generate stdout to not time out ... and fill ccache at the same time
+  - docker run ${DOCKER_OPTS} ${DOCKER_CNTR} R CMD INSTALL RQuantLib_*.tar.gz
 
 script:
- - docker run ${DOCKER_OPTS} ${DOCKER_CNTR} R CMD check ${R_BLD_CHK_OPTS} ${PKG_TGZ}
+  - docker run ${DOCKER_OPTS} ${DOCKER_CNTR} R CMD check ${R_BLD_CHK_OPTS} ${PKG_TGZ}
 
 notifications:
   email:

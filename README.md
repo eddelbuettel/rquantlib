@@ -1,6 +1,7 @@
 ## RQuantLib: R Interface to the [QuantLib](https://www.quantlib.org) Library
 
 [![Build Status](https://travis-ci.org/eddelbuettel/rquantlib.svg)](https://travis-ci.org/eddelbuettel/rquantlib)
+[![CI](https://github.com/eddelbuettel/rquantlib/workflows/ci/badge.svg)](https://github.com/eddelbuettel/rquantlib/actions?query=workflow%3Aci)
 [![License](http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-2.0.html)
 [![CRAN](http://www.r-pkg.org/badges/version/RQuantLib)](https://cran.r-project.org/package=RQuantLib)
 [![Dependencies](https://tinyverse.netlify.com/badge/RQuantLib)](https://cran.r-project.org/package=RQuantLib)

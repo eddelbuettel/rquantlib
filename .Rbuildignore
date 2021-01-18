@@ -1,6 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-.travis.yml
+^\.travis\.yml$
 FIXME
 misc
 Contributing.md
@@ -13,3 +13,4 @@ GTAGS
 tests/RQuantlib.Rout.save
 ^.editorconfig
 ubuntu-older-ql
+^\.github

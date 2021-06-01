@@ -17,6 +17,6 @@ LinkingTo: Rcpp
 SystemRequirements: QuantLib library (>= 1.14) from http://quantlib.org,
  Boost library from http://www.boost.org
 License: GPL (>= 2)
-URL: http://dirk.eddelbuettel.com/code/rquantlib.html
+URL: https://github.com/eddelbuettel/rquantlib, https://dirk.eddelbuettel.com/code/rquantlib.html
 BugReports: https://github.com/eddelbuettel/rquantlib/issues
 RoxygenNote: 6.0.1

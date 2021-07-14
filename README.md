@@ -31,6 +31,9 @@ extended. Contributions are welcome, and initial discussions via
 are encouraged as suggested in the
 [Contributing guide](https://github.com/eddelbuettel/rquantlib/blob/master/Contributing.md).
 
+The package is always tested against the most recent version of QuantLib itself, and
+it generally updated (should a change be needed) when QuantLib releases updates.
+
 ### Installation
 
 #### From Source

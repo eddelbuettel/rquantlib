@@ -1,3 +1,7 @@
+2021-07-14  Dirk Eddelbuettel  <edd@debian.org>
+
+	* README.md: Add note about usability with new QuantLib versions
+
 2021-06-01  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (URL): Add repo to URL field

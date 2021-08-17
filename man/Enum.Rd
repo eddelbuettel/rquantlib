@@ -9,7 +9,7 @@ Reference for parameters when constructing a bond
 \item{DayCounter}{an int value
        \tabular{ll}{
          \code{0} \tab Actual360 \cr
-         \code{1} \tab Actual360FixEd \cr
+         \code{1} \tab Actual365Fixed \cr
          \code{2} \tab ActualActual \cr
          \code{3} \tab ActualBusiness252 \cr
          \code{4} \tab OneDayCounter \cr
@@ -43,7 +43,7 @@ Reference for parameters when constructing a bond
        \code{0} \tab Simple \cr
        \code{1} \tab Compounded \cr
        \code{2} \tab Continuous \cr
-       \code{3} \tab SimpleThenCompounded 
+       \code{3} \tab SimpleThenCompounded
      }
 }
 
@@ -60,7 +60,7 @@ Reference for parameters when constructing a bond
        \code{13} \tab EveryFourthWeek \cr
        \code{26} \tab BiWeekly \cr
        \code{52} \tab Weekly \cr
-       \code{365} \tab Daily \cr       
+       \code{365} \tab Daily \cr
        \code{anything else} \tab OtherFrequency
      }
 }
@@ -100,4 +100,3 @@ None
 \author{Khanh Nguyen \email{knguyen@cs.umb.edu}}
 
 \keyword{misc}
-

@@ -1,5 +1,7 @@
 2021-08-26  Dirk Eddelbuettel  <edd@debian.org>
 
+	* DESCRIPTION (Version, Date): Roll minor release
+
 	* src/bonds.cpp (fittedBondCurveEngine): Use Actual365Fixed() instead
 	of deprecated ActualActual()
 	* src/discount.cpp (discountCurveEngine):  Idem

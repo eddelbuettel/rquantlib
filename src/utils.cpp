@@ -1,7 +1,7 @@
 
 //  RQuantLib -- R interface to the QuantLib libraries
 //
-//  Copyright (C) 2002 - 2020  Dirk Eddelbuettel
+//  Copyright (C) 2002 - 2021  Dirk Eddelbuettel
 //  Copyright (C) 2005 - 2006  Dominick Samperi
 //  Copyright (C) 2009 - 2012  Dirk Eddelbuettel and Khanh Nguyen
 //
@@ -128,7 +128,7 @@ QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure> buildTermStructure(Rcpp:
         //Integer fixingDays = RQLContext::instance().fixingDays;
 
         // Any DayCounter would be fine;  ActualActual::ISDA ensures that 30 years is 30.0
-        QuantLib::DayCounter termStructureDayCounter = QuantLib::ActualActual(QuantLib::ActualActual::ISDA);
+        QuantLib::DayCounter termStructureDayCounter = QuantLib::ActualActual(QuantLib::ActualActual::Convention::ISDA);
         double tolerance = 1.0e-15;
 
         if (firstQuoteName.compare("flat") == 0) {	// Create a flat term structure.
@@ -269,7 +269,7 @@ rebuildCurveFromZeroRates(std::vector<QuantLib::Date> dates,
     QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure>
         rebuilt_curve(new QuantLib::InterpolatedZeroCurve<QuantLib::LogLinear>(dates,
                                                                                zeros,
-                                                                               QuantLib::ActualActual()));
+                                                                               QuantLib::Actual365Fixed()));
     return rebuilt_curve;
 }
 
@@ -367,16 +367,20 @@ QuantLib::DayCounter getDayCounter(const double n){
         return QuantLib::Actual360();
     else if (n==1)
         return QuantLib::Actual365Fixed();
+#ifdef RQUANTLIB_USE_ACTUALACTUAL
     else if (n==2)
         return QuantLib::ActualActual();
+#endif
     else if (n==3)
         return QuantLib::Business252();
     else if (n==4)
         return QuantLib::OneDayCounter();
     else if (n==5)
         return QuantLib::SimpleDayCounter();
+#ifdef RQUANTLIB_USE_THIRTY360
     else if (n==6)
         return QuantLib::Thirty360();
+#endif
 #ifdef RQUANTLIB_USE_ACTUAL365NOLEAP
      else if (n==7)
          return QuantLib::Actual365NoLeap();

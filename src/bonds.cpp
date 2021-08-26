@@ -1,7 +1,7 @@
 
 //  RQuantLib -- R interface to the QuantLib libraries
 //
-//  Copyright (C) 2002 - 2019  Dirk Eddelbuettel
+//  Copyright (C) 2002 - 2021  Dirk Eddelbuettel
 //  Copyright (C) 2009 - 2012  Khanh Nguyen and Dirk Eddelbuettel
 //
 //  This file is part of RQuantLib.
@@ -1101,7 +1101,7 @@ Rcpp::List fittedBondCurveEngine(Rcpp::List curveparam,
     for (int i = 0; i < n; i++) {
         QuantLib::Date d = current;
         dates[i] =  Rcpp::Date(d.month(), d.dayOfMonth(), d.year());
-        zr[i] = curve->zeroRate(current, QuantLib::ActualActual(), QuantLib::Continuous);
+        zr[i] = curve->zeroRate(current, QuantLib::Actual365Fixed(), QuantLib::Continuous);
         di[i] = curve->discount(current);
         current++;
     }

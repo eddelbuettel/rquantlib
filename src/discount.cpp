@@ -2,7 +2,7 @@
 //  RQuantLib function DiscountCurve
 //
 //  Copyright (C) 2005 - 2007  Dominick Samperi
-//  Copyright (C) 2007 - 2019  Dirk Eddelbuettel
+//  Copyright (C) 2007 - 2021  Dirk Eddelbuettel
 //  Copyright (C) 2009 - 2011  Dirk Eddelbuettel and Khanh Nguyen
 //
 //  This file is part of RQuantLib.
@@ -67,7 +67,7 @@ Rcpp::List discountCurveEngine(Rcpp::List rparams,
         //                        Handle<Quote>(flatRate),
         //                        ActualActual()));
         QuantLib::ext::shared_ptr<QuantLib::SimpleQuote> rRate(new QuantLib::SimpleQuote(rateQuote));
-        curve = flatRate(settlementDate,rRate,QuantLib::ActualActual());
+        curve = flatRate(settlementDate,rRate,QuantLib::Actual365Fixed());
 
     } else {             // Build curve based on a set of observed rates and/or prices.
         std::vector<QuantLib::ext::shared_ptr<QuantLib::RateHelper> > curveInput;
@@ -114,7 +114,7 @@ Rcpp::List discountCurveEngine(Rcpp::List rparams,
     QuantLib::Date d = current;
     QuantLib::Date maxDate(31, QuantLib::December, 2150);
     while (d < curve->maxDate() && d < maxDate) { // TODO set a max of, say, 5 or 10 years for flat curve
-        double z = curve->zeroRate(d, QuantLib::ActualActual(), QuantLib::Continuous);
+        double z = curve->zeroRate(d, QuantLib::Actual365Fixed(), QuantLib::Continuous);
         dates.push_back(d);
         zeroRates.push_back(z);
         d = advanceDate(d, 21);      // TODO: make the increment a parameter

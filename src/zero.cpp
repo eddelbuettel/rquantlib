@@ -2,7 +2,7 @@
 //  RQuantLib -- R interface to the QuantLib libraries
 //
 //  Copyright (C) 2009 - 2012  Dirk Eddelbuettel and Khanh Nguyen
-//  Copyright (C) 2013 - 2019  Dirk Eddelbuettel
+//  Copyright (C) 2013 - 2021  Dirk Eddelbuettel
 //
 //  RQuantLib is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -143,7 +143,7 @@ Rcpp::DataFrame zbtyield(std::vector<QuantLib::Date> MatDates,
     for (unsigned int i = 0; i<numberOfBonds;i++){
         QuantLib::Date d = MatDates[i];
         dates[i] = Rcpp::Date(d.month(), d.dayOfMonth(), d.year());
-        zeros[i] = curve->zeroRate(d, QuantLib::ActualActual(), QuantLib::Simple);
+        zeros[i] = curve->zeroRate(d, QuantLib::Actual365Fixed(), QuantLib::Simple);
         current++; // ?
     }
 

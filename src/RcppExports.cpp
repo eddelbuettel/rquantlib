@@ -8,6 +8,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // affineWithRebuiltCurveEngine
 Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam, Rcpp::List legparams, std::vector<QuantLib::Date> dateVec, std::vector<double> zeroVec, Rcpp::NumericVector swaptionMat, Rcpp::NumericVector swapLengths, Rcpp::NumericVector swaptionVols);
 RcppExport SEXP _RQuantLib_affineWithRebuiltCurveEngine(SEXP rparamSEXP, SEXP legparamsSEXP, SEXP dateVecSEXP, SEXP zeroVecSEXP, SEXP swaptionMatSEXP, SEXP swapLengthsSEXP, SEXP swaptionVolsSEXP) {

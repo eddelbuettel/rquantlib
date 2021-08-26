@@ -1,4 +1,3 @@
-% $Id$
 \name{BondUtilities}
 \alias{matchBDC}
 \alias{matchCompounding}
@@ -16,7 +15,7 @@ possible values---the user is not expected to call these functions directly..}
 matchBDC(bdc = c("Following", "ModifiedFollowing", "Preceding",
                  "ModifiedPreceding", "Unadjusted",
                  "HalfMonthModifiedFollowing", "Nearest"))
-matchCompounding(cp = c("Simple", "Compounded", "Continuous", "SimpleThenCompounded")) 
+matchCompounding(cp = c("Simple", "Compounded", "Continuous", "SimpleThenCompounded"))
 matchDayCounter(daycounter = c("Actual360", "ActualFixed", "ActualActual", "Business252",
                               "OneDayCounter", "SimpleDayCounter", "Thirty360",
                               "Actual365NoLeap", "ActualActual.ISMA", "ActualActual.Bond",
@@ -28,7 +27,7 @@ matchFrequency(freq = c("NoFrequency","Once", "Annual", "Semiannual",
                         "EveryFourthMonth", "Quarterly", "Bimonthly",
                         "Monthly", "EveryFourthWeek", "Biweekly",
                         "Weekly", "Daily"))
-matchParams(params) 
+matchParams(params)
 }
 \arguments{
   \item{bdc}{A string identifying one of the possible business day convention values.}
@@ -49,6 +48,12 @@ matchParams(params)
   Note that \code{Actual365NoLeap} is deprecated as of QuantLib 1.11 and
   no longer supported by default. It can be reinstated by defining
   \code{RQUANTLIB_USE_ACTUAL365NOLEAP}.
+
+  Also note that \code{ActualActual} and \code{Thirty360} are deprecated as
+  of QuantLib 1.23 and no longer supported by default. They can be reinstated
+  by defining, respectively, \code{RQUANTLIB_USE_ACTUALACTUAL} and
+  \code{RQUANTLIB_USE_THIRTY360}.
+
 }
 \references{\url{http://quantlib.org} for details on \code{QuantLib}.}
 \author{Khanh Nguyen \email{knguyen@cs.umb.edu} for the \R interface;
@@ -57,4 +62,3 @@ matchParams(params)
   stabilises its own API.}
 %\examples{}
 \keyword{misc}
-

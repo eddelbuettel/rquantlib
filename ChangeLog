@@ -1,3 +1,20 @@
+2021-08-26  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll minor release
+
+	* src/bonds.cpp (fittedBondCurveEngine): Use Actual365Fixed() instead
+	of deprecated ActualActual()
+	* src/discount.cpp (discountCurveEngine):  Idem
+	* src/utils.cpp (rebuildCurveFromZeroRates): Idem
+	* src/zero.cpp (zbtyield): Idem
+
+	* src/utils.cpp (buildTermStructure): Switch to
+	ActualActual::Convention::ISDA in ctor following
+	(getDayCounter): Condition away ActualActual() and Thirty360()
+
+	* man/BondUtilities.Rd: Document that ActualActual() and Thirty360()
+	can be enabled locally via #define
+
 2021-08-17  Dirk Eddelbuettel  <edd@debian.org>
 
 	* man/Enum.Rd: Correct eleven-year old typo

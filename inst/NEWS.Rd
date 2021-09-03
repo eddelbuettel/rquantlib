@@ -4,6 +4,21 @@
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rquantlib/issues/#1}{##1}}
 \newcommand{\ghrp}{\href{https://github.com/#1}{##1}}
 
+\section{Changes in \pkg{RQuantLib} version 0.4.13 (2021-09-02)}{
+  \itemize{
+    \item Changes in \pkg{RQuantLib} code:
+    \itemize{
+      \item Small updates to \code{DESCRIPTION} and \code{README.md}
+      \item Switch CI use to \href{https://eddelbuettel.github.io/r-ci/}{r-ci}
+      \item An eleven-year old typo was correct in a manual page (Dirk in
+      \ghpr{156} fixing \ghit{155} with thanks to @klin133)
+      \item Daycount convention calls deprecated in QuantLib 1.23 were
+      updated (Dirk in \ghpr{157})
+      \item Updated remaining http:// URLs in documentation to https://
+    }
+  }
+}
+
 \section{Changes in \pkg{RQuantLib} version 0.4.12 (2020-04-01)}{
   \itemize{
     \item Changes in \pkg{RQuantLib} code:

@@ -4,13 +4,13 @@
 # Greatly simplified thanks to quantlib-config
 # Another contribution by Kurt Hornik gratefully acknowledged
 
-# require at least autoconf 2.50
-AC_PREREQ(2.50)
+# require at least autoconf 2.61
+AC_PREREQ(2.61)
 
 # Process this file with autoconf to produce a configure script.
 
 # Extrace R package version from R DESCRIPTION file
-AC_INIT([RQuantlib], m4_esyscmd_s([awk -e '/^Version:/ {print $2}' DESCRIPTION]))
+AC_INIT([RQuantlib], [0.4.13], [edd@debian.org])
 
 # Set CXX and CXXFLAGS based on the R configuration (with thanks to KH)
 : ${R_HOME=`R RHOME`}

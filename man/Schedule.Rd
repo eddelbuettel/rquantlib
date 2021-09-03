@@ -46,7 +46,7 @@
   \code{QuantLib} documentation for details on the \code{QuantLib}
   implementation.  
 }
-\references{\url{http://quantlib.org} for details on \code{QuantLib}.}
+\references{\url{https://www.quantlib.org/} for details on \code{QuantLib}.}
 \author{
   Michele Salvadore \email{michele.salvadore@gmail.com} for the inplementation;
   Dirk Eddelbuettel \email{edd@debian.org} for the \R interface;

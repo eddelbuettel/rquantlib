@@ -69,7 +69,7 @@ tsUp01 = NA, tsDn01 = NA, vega = FALSE)}
   Brigo, D. and Mercurio, F. (2006) \emph{Interest Rate Models: Theory and
     Practice, 2nd Edition}, Springer-Verlag, New York.
 
-  For information about \code{QuantLib} see \url{http://quantlib.org}.
+  For information about \code{QuantLib} see \url{https://www.quantlib.org/}.
 
   For information about \code{RQuantLib} see
 \url{http://dirk.eddelbuettel.com/code/rquantlib.html}.

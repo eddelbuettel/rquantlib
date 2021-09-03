@@ -77,7 +77,7 @@
   \code{QuantLib} documentation for details on the \code{QuantLib}
   implementation.  
 }
-\references{\url{http://quantlib.org} for details on \code{QuantLib}.}
+\references{\url{https://www.quantlib.org/} for details on \code{QuantLib}.}
 
 \author{Khanh Nguyen \email{knguyen@cs.umb.edu} for the inplementation; Dirk Eddelbuettel \email{edd@debian.org} for the \R interface;
   the QuantLib Group for \code{QuantLib}}

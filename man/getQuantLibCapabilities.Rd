@@ -20,7 +20,7 @@ Not all of these features are used (yet) by RQuantLib.
   getQuantLibCapabilities()
 }
 \references{
-\url{http://quantlib.org} for details on \code{QuantLib}.
+\url{https://www.quantlib.org/} for details on \code{QuantLib}.
 }
 \author{
 Dirk Eddelbuettel

@@ -96,7 +96,7 @@ None
   \code{QuantLib} documentation for details on the \code{QuantLib}
   implementation, particularly the datetime classes.
 }
-\references{\url{http://quantlib.org} for details on \code{QuantLib}.}
+\references{\url{https://www.quantlib.org/} for details on \code{QuantLib}.}
 \author{Khanh Nguyen \email{knguyen@cs.umb.edu}}
 
 \keyword{misc}

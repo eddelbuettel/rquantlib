@@ -117,7 +117,7 @@ removeHolidays(calendar, dates)
   \item{n}{an integer number}
   \item{timeUnit}{A value of 0,1,2,3 that corresponds to Days, Weeks,
     Months, and Year; for more detail, see the QuantLib documentation at
-    \url{http://quantlib.org/reference/group__datetime.html}} 
+    \url{https://www.quantlib.org//reference/group__datetime.html}} 
   \item{period}{See \link{Enum}}
   \item{bdc}{Business day convention. By default, this value is 0 and correspond to Following convention}
   \item{emr}{End Of Month rule, default is false}
@@ -158,7 +158,7 @@ removeHolidays(calendar, dates)
   right after the country itself. Using the shorter form is equivalent.)
   
 }
-\references{\url{http://quantlib.org} for details on \code{QuantLib}.}
+\references{\url{https://www.quantlib.org/} for details on \code{QuantLib}.}
 \author{Dirk Eddelbuettel \email{edd@debian.org} for the \R interface;
   the QuantLib Group for \code{QuantLib}}
 \note{The interface might change in future release as \code{QuantLib}

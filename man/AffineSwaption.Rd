@@ -99,7 +99,7 @@ volMatrix,legparams)
   Brigo, D. and Mercurio, F. (2001) \emph{Interest Rate Models: Theory and
     Practice}, Springer-Verlag, New York.
 
-  For information about \code{QuantLib} see \url{http://quantlib.org}.
+  For information about \code{QuantLib} see \url{https://www.quantlib.org/}.
 
   For information about \code{RQuantLib} see
 \url{http://dirk.eddelbuettel.com/code/rquantlib.html}.

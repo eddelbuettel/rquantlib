@@ -4,6 +4,8 @@
 
 	* src/calendars.cpp (getCalendar): Support new UnitedStates calendars
 	'LiborImpact' and 'FederalReserve'
+	* src/calendars.cpp (getCalendar): Support new calendars 'France' (same
+	as 'France/Settlement') and 'France/Exchange'
 
 2021-09-26  Dirk Eddelbuettel  <edd@debian.org>
 

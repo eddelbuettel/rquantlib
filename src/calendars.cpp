@@ -52,6 +52,11 @@ QuantLib::ext::shared_ptr<QuantLib::Calendar> getCalendar(const std::string &cal
     } else if (calstr == "Finland") {
         pcal.reset(new QuantLib::Finland());
 
+    } else if (calstr == "France" || calstr == "France/Settlement") {
+        pcal.reset(new QuantLib::France(QuantLib::France::Settlement));
+    } else if (calstr == "France/Exchange") {
+        pcal.reset(new QuantLib::France(QuantLib::France::Exchange));
+
     } else if (calstr == "Germany" || calstr == "Germany/FrankfurtStockExchange") {
         pcal.reset(new QuantLib::Germany(QuantLib::Germany::FrankfurtStockExchange));
     } else if (calstr == "Germany/Settlement") {

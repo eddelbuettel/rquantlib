@@ -1,3 +1,23 @@
+2021-09-29  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/calendars.cpp (getCalendar): Add Austria (plus Exchange),
+	Bespoke, Botswana, Israel (plus TASE), Romania (plus BVB), Thailand
+	* src/calendars.cpp (getCalendar): Protect Austria and Romania by an
+	#ifdef for the QuantLib version to permit CRAN builds under older QL
+
+	* .github/workflows/ci.yaml (env): Add edd/misc PPA for CI
+ 	* .github/workflows/docker.yaml (on): Restrict Docker rebuilds to
+	pushes to master branch
+
+2021-09-28  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll minor release
+
+	* src/calendars.cpp (getCalendar): Support new UnitedStates calendars
+	'LiborImpact' and 'FederalReserve'
+	* src/calendars.cpp (getCalendar): Support new calendars 'France' (same
+	as 'France/Settlement') and 'France/Exchange'
+
 2021-09-26  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .github/workflows/docker.yaml: Add action to build and push

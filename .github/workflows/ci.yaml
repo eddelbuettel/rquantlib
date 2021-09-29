@@ -9,6 +9,7 @@ on:
 env:
   USE_BSPM: "true"
   _R_CHECK_FORCE_SUGGESTS_: "false"
+  ADDED_PPAS: "ppa:edd/misc"
 
 jobs:
   ci:

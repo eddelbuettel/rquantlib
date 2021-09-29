@@ -1,3 +1,10 @@
+2021-09-28  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll minor release
+
+	* src/calendars.cpp (getCalendar): Support new UnitedStates calendars
+	'LiborImpact' and 'FederalReserve'
+
 2021-09-26  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .github/workflows/docker.yaml: Add action to build and push

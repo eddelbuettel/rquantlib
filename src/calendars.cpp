@@ -146,6 +146,10 @@ QuantLib::ext::shared_ptr<QuantLib::Calendar> getCalendar(const std::string &cal
         pcal.reset(new QuantLib::UnitedStates(QuantLib::UnitedStates::GovernmentBond));
     } else if (calstr == "UnitedStates/NERC") {
         pcal.reset(new QuantLib::UnitedStates(QuantLib::UnitedStates::NERC));
+    } else if (calstr == "UnitedStates/LiborImpact") {
+        pcal.reset(new QuantLib::UnitedStates(QuantLib::UnitedStates::LiborImpact));
+    } else if (calstr == "UnitedStates/FederalReserve") {
+        pcal.reset(new QuantLib::UnitedStates(QuantLib::UnitedStates::FederalReserve));
 
     } else if (calstr == "WeekendsOnly") {
         pcal.reset(new QuantLib::WeekendsOnly());

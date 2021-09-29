@@ -2,6 +2,8 @@
 
 	* src/calendars.cpp (getCalendar): Add Austria (plus Exchange),
 	Bespoke, Botswana, Israel (plus TASE), Romania (plus BVB), Thailand
+	* src/calendars.cpp (getCalendar): Protect Austria and Romania by an
+	#ifdef for the QuantLib version to permit CRAN builds under older QL
 
 	* .github/workflows/ci.yaml (env): Add edd/misc PPA for CI
  	* .github/workflows/docker.yaml (on): Restrict Docker rebuilds to

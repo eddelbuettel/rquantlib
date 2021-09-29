@@ -32,10 +32,12 @@ QuantLib::ext::shared_ptr<QuantLib::Calendar> getCalendar(const std::string &cal
     } else if (calstr == "Australia") {
         pcal.reset(new QuantLib::Australia());
 
+#if QL_HEX_VERSION >= 0x011900f0
     } else if (calstr == "Austria" || calstr == "Austria/Settlement") {
         pcal.reset(new QuantLib::Austria());
     } else if (calstr == "Austria/Exchange") {
         pcal.reset(new QuantLib::Austria(QuantLib::Austria::Exchange));
+#endif
 
     } else if (calstr == "Bespoke") {
         pcal.reset(new QuantLib::BespokeCalendar());
@@ -119,10 +121,12 @@ QuantLib::ext::shared_ptr<QuantLib::Calendar> getCalendar(const std::string &cal
     } else if (calstr == "Poland") {
         pcal.reset(new QuantLib::Poland());
 
+#if QL_HEX_VERSION >= 0x011900f0
     } else if (calstr == "Romania" || calstr == "Romania/Public") {
         pcal.reset(new QuantLib::Romania(QuantLib::Romania::Public));
     } else if (calstr == "Romania/BVB") {
         pcal.reset(new QuantLib::Romania(QuantLib::Romania::BVB));
+#endif
 
     } else if (calstr == "Russia") {
         pcal.reset(new QuantLib::Russia());

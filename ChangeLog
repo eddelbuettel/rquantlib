@@ -4,6 +4,8 @@
 	Bespoke, Botswana, Israel (plus TASE), Romania (plus BVB), Thailand
 
 	* .github/workflows/ci.yaml (env): Add edd/misc PPA for CI
+ 	* .github/workflows/docker.yaml (on): Restrict Docker rebuilds to
+	pushes to master branch
 
 2021-09-28  Dirk Eddelbuettel  <edd@debian.org>
 

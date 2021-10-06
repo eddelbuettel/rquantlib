@@ -1,3 +1,8 @@
+2021-10-06  Dirk Eddelbuettel  <edd@debian.org>
+
+	* configure.ac: Updated via 'autoupdate' and 'autoreconf
+	--warnings=obsolete' to bring to autoconf 2.69 standards
+
 2021-09-29  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/calendars.cpp (getCalendar): Add Austria (plus Exchange),

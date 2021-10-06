@@ -4,13 +4,13 @@
 # Greatly simplified thanks to quantlib-config
 # Another contribution by Kurt Hornik gratefully acknowledged
 
-# require at least autoconf 2.61
-AC_PREREQ(2.61)
+# require at least autoconf 2.69
+AC_PREREQ([2.69])
 
 # Process this file with autoconf to produce a configure script.
 
 # Extrace R package version from R DESCRIPTION file
-AC_INIT([RQuantlib], [0.4.13], [edd@debian.org])
+AC_INIT([RQuantlib],[0.4.13],[edd@debian.org])
 
 # Set CXX and CXXFLAGS based on the R configuration (with thanks to KH)
 : ${R_HOME=`R RHOME`}
@@ -99,16 +99,14 @@ fi
 ##
 ## Help the compiler find external software
 AC_ARG_WITH([boost-include],
-            AC_HELP_STRING([--with-boost-include=INCLUDE_PATH],
-                           [Supply the location of Boost header files]),
+            AS_HELP_STRING([--with-boost-include=INCLUDE_PATH],[Supply the location of Boost header files]),
             [ql_boost_include_path=$withval],
             [ql_boost_include_path=""])
 if test [ -n "$ql_boost_include_path" ] ; then
    AC_SUBST([CXXFLAGS],["${CXXFLAGS} -I${ql_boost_include_path}"])
 fi
 AC_ARG_WITH([boost-lib],
-            AC_HELP_STRING([--with-boost-lib=LIB_PATH],
-                           [Supply the location of Boost libraries]),
+            AS_HELP_STRING([--with-boost-lib=LIB_PATH],[Supply the location of Boost libraries]),
             [ql_boost_lib_path=$withval],
             [ql_boost_lib_path=""])
 if test [ -n "$ql_boost_lib_path" ] ; then
@@ -121,14 +119,10 @@ fi
 # Check whether the Boost headers are available
 AC_DEFUN([QL_CHECK_BOOST_DEVEL],
     [AC_MSG_CHECKING([for Boost development files])
-     AC_TRY_COMPILE(
-    [@%:@include <boost/version.hpp>
+     AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[@%:@include <boost/version.hpp>
      @%:@include <boost/shared_ptr.hpp>
      @%:@include <boost/assert.hpp>
-     @%:@include <boost/current_function.hpp>],
-    [],
-    [AC_MSG_RESULT([yes])],
-    [AC_MSG_RESULT([no])
+     @%:@include <boost/current_function.hpp>]], [[]])],[AC_MSG_RESULT([yes])],[AC_MSG_RESULT([no])
      AC_MSG_ERROR([Boost development files not found])
     ])
 ])
@@ -139,13 +133,9 @@ AC_DEFUN([QL_CHECK_BOOST_DEVEL],
 AC_DEFUN([QL_CHECK_BOOST_VERSION],
    [AC_MSG_CHECKING([for minimal Boost version])
     AC_REQUIRE([QL_CHECK_BOOST_DEVEL])
-    AC_TRY_COMPILE(
-    [@%:@include <boost/version.hpp>],
-    [@%:@if BOOST_VERSION < 103400
+    AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[@%:@include <boost/version.hpp>]], [[@%:@if BOOST_VERSION < 103400
      @%:@error too old
-     @%:@endif],
-    [AC_MSG_RESULT([yes])],
-    [AC_MSG_RESULT([no])
+     @%:@endif]])],[AC_MSG_RESULT([yes])],[AC_MSG_RESULT([no])
      AC_MSG_ERROR([outdated Boost installation])
     ])
 ])
@@ -162,7 +152,8 @@ QL_CHECK_BOOST
 
 AC_SUBST(CXXFLAGS)
 AC_SUBST(LDFLAGS)
-AC_OUTPUT(src/Makevars)
+AC_CONFIG_FILES([src/Makevars])
+AC_OUTPUT
 
 echo "Configured ${PACKAGE_NAME} ${PACKAGE_VERSION}"
 

@@ -4,6 +4,23 @@
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rquantlib/issues/#1}{##1}}
 \newcommand{\ghrp}{\href{https://github.com/#1}{##1}}
 
+\section{Changes in \pkg{RQuantLib} version 0.4.14 (2021-10-06)}{
+  \itemize{
+    \item Changes in \pkg{RQuantLib} code:
+    \itemize{
+      \item Several new calendars were added (Dirk in \ghpr{159} closing
+      \ghit{155})
+    }
+    \item Changes in \pkg{RQuantLib} package and setup:
+    \itemize{
+      \item Docker containers are now updated on a monthly schedule via
+      GitHub Actions
+      \item The \code{configure} files were updated to the standard of
+      version 2.69 following a CRAN request
+    }
+  }
+}
+
 \section{Changes in \pkg{RQuantLib} version 0.4.13 (2021-09-02)}{
   \itemize{
     \item Changes in \pkg{RQuantLib} code:

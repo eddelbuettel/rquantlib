@@ -10,7 +10,7 @@ AC_PREREQ([2.69])
 # Process this file with autoconf to produce a configure script.
 
 # Extrace R package version from R DESCRIPTION file
-AC_INIT([RQuantlib],[0.4.13],[edd@debian.org])
+AC_INIT([RQuantlib],[0.4.14],[edd@debian.org])
 
 # Set CXX and CXXFLAGS based on the R configuration (with thanks to KH)
 : ${R_HOME=`R RHOME`}

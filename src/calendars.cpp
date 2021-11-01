@@ -55,6 +55,9 @@ QuantLib::ext::shared_ptr<QuantLib::Calendar> getCalendar(const std::string &cal
     } else if (calstr == "Canada/TSX") {
         pcal.reset(new QuantLib::Canada(QuantLib::Canada::TSX));
 
+    } else if (txt == "Chile") {
+        pcal.reset(new QuantLib::Chile());
+
     } else if (calstr == "China") {
         pcal.reset(new QuantLib::China());
 
@@ -117,6 +120,11 @@ QuantLib::ext::shared_ptr<QuantLib::Calendar> getCalendar(const std::string &cal
 
     } else if (calstr == "Norway") {
         pcal.reset(new QuantLib::Norway());
+
+    } else if (txt == "Null" ||
+               txt == "null" ||
+               txt == "NULL") {
+        pcal.reset(new QuantLib::NullCalendar());
 
     } else if (calstr == "Poland") {
         pcal.reset(new QuantLib::Poland());

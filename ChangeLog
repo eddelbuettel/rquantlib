@@ -1,5 +1,7 @@
 2021-11-01  Dirk Eddelbuettel  <edd@debian.org>
 
+	* DESCRIPTION (Version, Date): Roll minor release
+
 	* src/calendars.cpp (getCalendar): Add Chile and Null
 
 2021-10-26  Dirk Eddelbuettel  <edd@debian.org>

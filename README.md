@@ -57,6 +57,10 @@ For more OS-specific installation options, please see [the wiki](https://github.
 
 Come to the friendly and low-volume [rquantlib mailing list](http://rquantlib.groups.io) for help.
 
+### See Also
+
+The [RcppQuantuccia](https://github.com/eddelbuettel/rcppquantuccia) project is closely related---take a look!
+
 ### Authors
 
 Dirk Eddelbuettel, Khanh Nguyen (during 2009-2010) and Terry Leitch (since 2016)

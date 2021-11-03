@@ -18,6 +18,7 @@
 \alias{advanceDate}
 \alias{addHolidays}
 \alias{removeHolidays}
+\alias{calendars}
 \title{Calendar functions from QuantLib}
 \description{
 The \code{isBusinessDay} function evaluates the given dates in the context
@@ -47,7 +48,7 @@ a deprecated form for this function.
 
 The \code{adjust} function evaluates the given dates in the context
 of the given calendar, and returns a vector that adjusts each input
-dates to the appropriate near business day with respect to the given convention. 
+dates to the appropriate near business day with respect to the given convention.
 
 The \code{advance} function evaluates the given dates in the context
 of the given calendar, and returns a vector that advances the given
@@ -57,7 +58,7 @@ This functions gets called either with both argument \code{n} and
 
 The \code{businessDaysBetween} function evaluates two given dates in the context
 of the given calendar, and returns a vector that gives the number of
-business day between.  
+business day between.
 
 The \code{dayCount} function returns the number of day between two dates
 given a day counter, see \link{Enum}.
@@ -80,6 +81,8 @@ transitory and does not persist the session as all actual calendar
 information comes from the QuantLib library that this package is linked
 against.
 
+The \code{calendars} vector contains all calendar identifiers.
+
 }
 \usage{
 isBusinessDay(calendar, dates)
@@ -89,13 +92,13 @@ isWeekend(calendar, dates)
 isEndOfMonth(calendar, dates)
 getEndOfMonth(calendar, dates)
 endOfMonth(calendar="TARGET", dates=Sys.Date())
-getHolidayList(calendar, from, to, includeWeekends=FALSE) 
+getHolidayList(calendar, from, to, includeWeekends=FALSE)
 holidayList(calendar="TARGET", from=Sys.Date(), to = Sys.Date() + 5,
 includeWeekends = FALSE)
 adjust(calendar, dates, bdc = 0L)
 advance(calendar="TARGET", dates=Sys.Date(), n, timeUnit, period, bdc = 0, emr =0)
 %advance(calendar="TARGET", dates=Sys.Date(), period, bdc = 0, emr =0)
-businessDaysBetween(calendar, from, to, includeFirst = TRUE, includeLast = FALSE) 
+businessDaysBetween(calendar, from, to, includeFirst = TRUE, includeLast = FALSE)
 dayCount(startDates, endDates, dayCounters)
 yearFraction(startDates, endDates, dayCounters)
 setCalendarContext(calendar, fixingDays, settleDate)
@@ -117,7 +120,7 @@ removeHolidays(calendar, dates)
   \item{n}{an integer number}
   \item{timeUnit}{A value of 0,1,2,3 that corresponds to Days, Weeks,
     Months, and Year; for more detail, see the QuantLib documentation at
-    \url{https://www.quantlib.org//reference/group__datetime.html}} 
+    \url{https://www.quantlib.org//reference/group__datetime.html}}
   \item{period}{See \link{Enum}}
   \item{bdc}{Business day convention. By default, this value is 0 and correspond to Following convention}
   \item{emr}{End Of Month rule, default is false}
@@ -156,7 +159,7 @@ removeHolidays(calendar, dates)
 
   (In case of multiples entries per country, the country default is listed
   right after the country itself. Using the shorter form is equivalent.)
-  
+
 }
 \references{\url{https://www.quantlib.org/} for details on \code{QuantLib}.}
 \author{Dirk Eddelbuettel \email{edd@debian.org} for the \R interface;
@@ -224,6 +227,7 @@ removeHolidays(calendar, dates)
   dayCounters <- c(0,1,2,3,4,5,6,1)
   dayCount(startDates, endDates, dayCounters)
   yearFraction(startDates, endDates, dayCounters)
+
+  head(calendars, 10)
 }
 \keyword{misc}
-

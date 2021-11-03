@@ -1,7 +1,7 @@
 2021-11-02  Dirk Eddelbuettel  <edd@debian.org>
 
 	* R/calendars.R: Add calendars vector
-	* man/calendars.Rd: Add documentation
+	* man/Calendars.Rd: Add documentation
 
 2021-11-01  Dirk Eddelbuettel  <edd@debian.org>
 

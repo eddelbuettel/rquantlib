@@ -19,15 +19,6 @@
 ## Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
 ## MA 02111-1307, USA
 
-#' The \code{calendars} vector contains all calendar identifiers.
-#'
-#' @name calendars
-#' @docType data
-#' @keywords data
-#' @examples
-#' head(calendars, 10)
-NULL
-
 calendars <- c("TARGET",
                "UnitedStates",
                "UnitedStates/LiborImpact",

@@ -17,7 +17,7 @@ file \code{config.hpp} and determined at compilation time of the QuantLib librar
   getQuantLibVersion()
 }
 \references{
-\url{https://www.quantlib.org/} for details on \code{QuantLib}.
+\url{http://quantlib.org} for details on \code{QuantLib}.
 }
 \author{
 Dirk Eddelbuettel

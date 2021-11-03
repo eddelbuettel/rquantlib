@@ -1,3 +1,8 @@
+2021-11-02  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/calendars.R: Add calendars vector
+	* man/calendars.Rd: Add documentation
+
 2021-11-01  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Roll minor release

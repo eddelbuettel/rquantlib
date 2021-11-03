@@ -1,9 +1,7 @@
 ## RQuantLib -- R interface to the QuantLib libraries
 ##
-## Copyright (C) 2002 - 2009 Dirk Eddelbuettel
+## Copyright (C) 2002 - 2021 Dirk Eddelbuettel
 ## Copyright (C) 2010        Dirk Eddelbuettel and Khanh Nguyen
-##
-## $Id$
 ##
 ## This file is part of the RQuantLib library for GNU R.
 ## It is made available under the terms of the GNU General Public
@@ -20,6 +18,78 @@
 ## License along with this program; if not, write to the Free
 ## Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
 ## MA 02111-1307, USA
+
+#' The \code{calendars} vector contains all calendar identifiers.
+#'
+#' @name calendars
+#' @docType data
+#' @keywords data
+#' @examples
+#' head(calendars, 10)
+NULL
+
+calendars <- c("TARGET",
+               "UnitedStates",
+               "UnitedStates/LiborImpact",
+               "UnitedStates/NYSE",
+               "UnitedStates/GovernmentBond",
+               "UnitedStates/NERC",
+               "UnitedStates/FederalReserve",
+               "Argentina",
+               "Australia",
+               "Austria",
+               "Austria/Exchange",
+               "Bespoke",
+               "Botswana",
+               "Brazil",
+               "Brazil/Exchange",
+               "Canada",
+               "Canada/TSX",
+               "Chile",
+               "China",
+               "China/IB",
+               "CzechRepublic",
+               "Denmark",
+               "Finland",
+               "France",
+               "France/Exchange",
+               "Germany",
+               "Germany/FrankfurtStockExchange",
+               "Germany/Xetra",
+               "Germany/Eurex",
+               "Germany/Euwax",
+               "HongKong",
+               "Hungary",
+               "Iceland",
+               "India",
+               "Indonesia",
+               "Israel",
+               "Italy",
+               "Italy/Exchange",
+               "Japan",
+               "Mexico",
+               "NewZealand",
+               "Norway",
+               "Null",
+               "Poland",
+               "Romania",
+               "Russia",
+               "SaudiArabia",
+               "Singapore",
+               "Slovakia",
+               "SouthAfrica",
+               "SouthKorea",
+               "SouthKorea/KRX",
+               "Sweden",
+               "Switzerland",
+               "Taiwan",
+               "Thailand",
+               "Turkey",
+               "Ukraine",
+               "UnitedKingdom",
+               "UnitedKingdom/Exchange",
+               "UnitedKingdom/Metals",
+               "WeekendsOnly")
 
 ## isBusinessDay <- function(calendar="TARGET", dates=Sys.Date()) {
 ##     stopifnot(is.character(calendar))
@@ -87,7 +157,7 @@ advance <- function(calendar="TARGET", dates=Sys.Date(),
                     bdc = 0, emr = 0) {
     stopifnot(is.character(calendar))
     stopifnot(class(dates)=="Date")
-    call1 <- missing(period) && !missing(n) && !missing(timeUnit)  
+    call1 <- missing(period) && !missing(n) && !missing(timeUnit)
     call2 <- !missing(period) && missing(n) && missing(timeUnit)
     stopifnot(call1 | call2)
     val <- NULL
@@ -148,7 +218,7 @@ advance <- function(calendar="TARGET", dates=Sys.Date(),
 ##                  PACKAGE="RQuantLib")
 ##     val
 ## }
- 
+
 holidayList <- function(calendar="TARGET", from=Sys.Date(), to=Sys.Date() + 5, includeWeekends=FALSE) {
     getHolidayList(calendar, from, to, includeWeekends)
 }

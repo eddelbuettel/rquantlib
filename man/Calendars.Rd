@@ -8,6 +8,8 @@
 \alias{endOfMonth}
 \alias{getHolidayList}
 \alias{holidayList}
+\alias{getBusinessDayList}
+\alias{businessDayList}
 \alias{setCalendarContext}
 \alias{adjust}
 \alias{advance}
@@ -44,7 +46,9 @@ of month. \code{endOfMonth} is a deprecated form for this function.
 
 The \code{getHolidayList} function returns the holidays between the
 given dates, with an option to exclude weekends.  \code{holidayList} is
-a deprecated form for this function.
+a deprecated form for this function. Similarly,
+\code{getBusinessDayList} and, for symmetry, \code{businessDayList}
+return the list of business days; this always excludes weekends.
 
 The \code{adjust} function evaluates the given dates in the context
 of the given calendar, and returns a vector that adjusts each input
@@ -94,7 +98,9 @@ getEndOfMonth(calendar, dates)
 endOfMonth(calendar="TARGET", dates=Sys.Date())
 getHolidayList(calendar, from, to, includeWeekends=FALSE)
 holidayList(calendar="TARGET", from=Sys.Date(), to = Sys.Date() + 5,
-includeWeekends = FALSE)
+            includeWeekends=FALSE)
+getBusinessDayList(calendar, from, to)
+businessDayList(calendar="TARGET", from=Sys.Date(), to = Sys.Date() + 5)
 adjust(calendar, dates, bdc = 0L)
 advance(calendar="TARGET", dates=Sys.Date(), n, timeUnit, period, bdc = 0, emr =0)
 %advance(calendar="TARGET", dates=Sys.Date(), period, bdc = 0, emr =0)

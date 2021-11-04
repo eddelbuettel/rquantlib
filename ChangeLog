@@ -5,6 +5,7 @@
 	* src/calendars.cpp: Add getBusinessDayList
 	* R/calendars.R: Add businessDayList
 	* NAMESPACE: Export both
+	* man/Calendars.Rd: Documentation
 
 2021-11-02  Dirk Eddelbuettel  <edd@debian.org>
 

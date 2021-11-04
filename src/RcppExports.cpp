@@ -1040,6 +1040,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// getBusinessDayList
+std::vector<QuantLib::Date> getBusinessDayList(std::string calendar, QuantLib::Date from, QuantLib::Date to);
+RcppExport SEXP _RQuantLib_getBusinessDayList(SEXP calendarSEXP, SEXP fromSEXP, SEXP toSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type calendar(calendarSEXP);
+    Rcpp::traits::input_parameter< QuantLib::Date >::type from(fromSEXP);
+    Rcpp::traits::input_parameter< QuantLib::Date >::type to(toSEXP);
+    rcpp_result_gen = Rcpp::wrap(getBusinessDayList(calendar, from, to));
+    return rcpp_result_gen;
+END_RCPP
+}
 // addHolidays
 void addHolidays(std::string calendar, std::vector<QuantLib::Date> dates);
 RcppExport SEXP _RQuantLib_addHolidays(SEXP calendarSEXP, SEXP datesSEXP) {
@@ -1721,6 +1734,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_RQuantLib_advance2", (DL_FUNC) &_RQuantLib_advance2, 5},
     {"_RQuantLib_businessDaysBetween", (DL_FUNC) &_RQuantLib_businessDaysBetween, 5},
     {"_RQuantLib_getHolidayList", (DL_FUNC) &_RQuantLib_getHolidayList, 4},
+    {"_RQuantLib_getBusinessDayList", (DL_FUNC) &_RQuantLib_getBusinessDayList, 3},
     {"_RQuantLib_addHolidays", (DL_FUNC) &_RQuantLib_addHolidays, 2},
     {"_RQuantLib_removeHolidays", (DL_FUNC) &_RQuantLib_removeHolidays, 2},
     {"_RQuantLib_advanceDate", (DL_FUNC) &_RQuantLib_advanceDate, 2},

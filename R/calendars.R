@@ -214,6 +214,10 @@ holidayList <- function(calendar="TARGET", from=Sys.Date(), to=Sys.Date() + 5, i
     getHolidayList(calendar, from, to, includeWeekends)
 }
 
+businessDayList <- function(calendar="TARGET", from=Sys.Date(), to=Sys.Date() + 5) {
+    getBusinessDayList(calendar, from, to)
+}
+
 #setCalendarContext <- function(calendar="TARGET",
 #                               fixingDays = 2,
 #                               settleDate = Sys.Date() + 2) {

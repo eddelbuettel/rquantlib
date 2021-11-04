@@ -50,6 +50,7 @@ export(
     "advance",
     "businessDaysBetween",
     "getHolidayList", "holidayList",
+    "getBusinessDayList", "businessDayList",
     "setCalendarContext",
     "addHolidays",
     "removeHolidays",

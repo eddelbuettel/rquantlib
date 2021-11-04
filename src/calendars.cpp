@@ -362,6 +362,16 @@ std::vector<QuantLib::Date> getHolidayList(std::string calendar,
 }
 
 // [[Rcpp::export]]
+std::vector<QuantLib::Date> getBusinessDayList(std::string calendar,
+                                               QuantLib::Date from, QuantLib::Date to) {
+
+    QuantLib::ext::shared_ptr<QuantLib::Calendar> pcal(getCalendar(calendar));
+    std::vector<QuantLib::Date> bizdays = pcal->businessDayList(from, to);
+    return bizdays;
+}
+
+
+// [[Rcpp::export]]
 void addHolidays(std::string calendar, std::vector<QuantLib::Date> dates) {
     QuantLib::ext::shared_ptr<QuantLib::Calendar> pcal(getCalendar(calendar));
     int n = dates.size();

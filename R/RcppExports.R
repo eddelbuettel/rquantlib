@@ -145,6 +145,10 @@ getHolidayList <- function(calendar, from, to, includeWeekends = FALSE) {
     .Call(`_RQuantLib_getHolidayList`, calendar, from, to, includeWeekends)
 }
 
+getBusinessDayList <- function(calendar, from, to) {
+    .Call(`_RQuantLib_getBusinessDayList`, calendar, from, to)
+}
+
 addHolidays <- function(calendar, dates) {
     invisible(.Call(`_RQuantLib_addHolidays`, calendar, dates))
 }

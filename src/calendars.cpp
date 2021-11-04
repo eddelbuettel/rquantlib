@@ -366,7 +366,10 @@ std::vector<QuantLib::Date> getBusinessDayList(std::string calendar,
                                                QuantLib::Date from, QuantLib::Date to) {
 
     QuantLib::ext::shared_ptr<QuantLib::Calendar> pcal(getCalendar(calendar));
-    std::vector<QuantLib::Date> bizdays = pcal->businessDayList(from, to);
+    std::vector<QuantLib::Date> bizdays;
+#if QL_HEX_VERSION >= 0x011800f0
+    bizdays = pcal->businessDayList(from, to);
+#endif
     return bizdays;
 }
 

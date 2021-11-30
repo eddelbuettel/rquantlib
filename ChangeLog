@@ -1,3 +1,7 @@
+2021-11-29  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/utils.cpp (getDayCounter): Correct Thirty360() use
+
 2021-11-04  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/calendars.cpp (getBusinessDayList): Condition businessDayList
@@ -39,7 +43,7 @@
 2021-09-29  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/calendars.cpp (getCalendar): Add Austria (plus Exchange),
-	Bespoke, Botswana, Israel (plus TASE), Romania (plus BVB), Thailand
+ 	Bespoke, Botswana, Israel (plus TASE), Romania (plus BVB), Thailand
 	* src/calendars.cpp (getCalendar): Protect Austria and Romania by an
 	#ifdef for the QuantLib version to permit CRAN builds under older QL
 

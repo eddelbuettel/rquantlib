@@ -49,10 +49,9 @@ matchParams(params)
   no longer supported by default. It can be reinstated by defining
   \code{RQUANTLIB_USE_ACTUAL365NOLEAP}.
 
-  Also note that \code{ActualActual} and \code{Thirty360} are deprecated as
-  of QuantLib 1.23 and no longer supported by default. They can be reinstated
-  by defining, respectively, \code{RQUANTLIB_USE_ACTUALACTUAL} and
-  \code{RQUANTLIB_USE_THIRTY360}.
+  Also note that \code{ActualActual} is deprecated as of QuantLib 1.23
+  and no longer supported by default. It can be reinstated by
+  defining \code{RQUANTLIB_USE_ACTUALACTUAL}.
 
 }
 \references{\url{https://www.quantlib.org/} for details on \code{QuantLib}.}

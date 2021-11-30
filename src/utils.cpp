@@ -377,10 +377,8 @@ QuantLib::DayCounter getDayCounter(const double n){
         return QuantLib::OneDayCounter();
     else if (n==5)
         return QuantLib::SimpleDayCounter();
-#ifdef RQUANTLIB_USE_THIRTY360
     else if (n==6)
-        return QuantLib::Thirty360();
-#endif
+        return QuantLib::Thirty360(QuantLib::Thirty360::BondBasis);
 #ifdef RQUANTLIB_USE_ACTUAL365NOLEAP
      else if (n==7)
          return QuantLib::Actual365NoLeap();

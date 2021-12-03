@@ -1,3 +1,11 @@
+2021-12-03  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/utils.cpp (getDayCounter): Use Rcpp::stop on error
+
+2021-11-30  Kai Lin  <klin441@gmail.com>
+
+	* src/utils.cpp (getDayCounter): Additional day counters
+
 2021-11-29  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/utils.cpp (getDayCounter): Correct Thirty360() use

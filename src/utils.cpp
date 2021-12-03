@@ -406,9 +406,9 @@ QuantLib::DayCounter getDayCounter(const double n){
     else if (n==19)
         return QuantLib::Thirty360(QuantLib::Thirty360::German);
     else
-        // Stop on verbose error.
-        // Do not silently default to the arbitrarily last else statement because it can conceal bugs in user code.
-        throw std::range_error("Unknown option " + std::to_string(n)); // is this the right way to cast double to string?
+        // Stop on verbose error -- Do not silently default to the arbitrarily
+        // last else statement because it can conceal bugs in user code.
+        Rcpp::stop("Unknown option '%d'", n);
 }
 
 QuantLib::BusinessDayConvention getBusinessDayConvention(const double n){

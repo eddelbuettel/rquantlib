@@ -1,3 +1,7 @@
+2021-12-28  Dirk Eddelbuettel  <edd@debian.org>
+
+	* README.md: Remove unused continuous integration artifact and badge
+
 2021-12-03  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/utils.cpp (getDayCounter): Use Rcpp::stop on error

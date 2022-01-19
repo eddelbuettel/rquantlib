@@ -206,7 +206,7 @@ CreateSchedule <- function(params) {
 #'
 #' @title Return the QuantLib version number
 #' @return A character variable
-#' @references \url{http://quantlib.org} for details on \code{QuantLib}.
+#' @references \url{https://www.quantlib.org} for details on \code{QuantLib}.
 #' @author Dirk Eddelbuettel
 #' @examples
 #'   getQuantLibVersion()
@@ -220,7 +220,7 @@ getQuantLibVersion <- function() {
 #' Not all of these features are used (yet) by RQuantLib.
 #' @title Return configuration options of the QuantLib library
 #' @return A named vector of logical variables
-#' @references \url{http://quantlib.org} for details on \code{QuantLib}.
+#' @references \url{https://www.quantlib.org} for details on \code{QuantLib}.
 #' @author Dirk Eddelbuettel
 #' @examples
 #'   getQuantLibCapabilities()

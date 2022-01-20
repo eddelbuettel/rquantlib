@@ -37,6 +37,6 @@
         packageStartupMessage("Sufficient QuantLib version with insufficient configuration.")
         packageStartupMessage("Try configuring your build with the --enable-intraday argument.")
     }
+    packageStartupMessage("RQuantLib ", packageVersion("RQuantLib"), " built with QuantLib version ",
+                          qlver, ". See https://www.quantlib.org for more on QuantLib.")
 }
-        
-        

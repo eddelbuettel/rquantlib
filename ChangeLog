@@ -1,3 +1,8 @@
+2022-01-19  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/zzz.R: In interactice mode, display versions of RQuantLib at
+	startup
+
 2022-01-18  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/bonds.cpp: Updated for Quantlib 1.25

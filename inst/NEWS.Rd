@@ -4,6 +4,23 @@
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rquantlib/issues/#1}{##1}}
 \newcommand{\ghrp}{\href{https://github.com/#1}{##1}}
 
+\section{Changes in \pkg{RQuantLib} version 0.4.15 (2022-01-19)}{
+  \itemize{
+    \item Changes in \pkg{RQuantLib} code:
+    \itemize{
+      \item Calendar support has been updated and completed to current
+      QuantLib standards (Dirk in \ghpr{161})
+      \item More daycounters have been added (Kai Lin in \ghpr{163}
+      fixing \ghit{162}, \ghit{164})
+      \item The bonds pricers were update to changes in QuantLib 1.25 (Dirk)
+    }
+    \item Changes in \pkg{RQuantLib} package and setup:
+    \itemize{
+      \item Some package metadata was removed from the README.md (Dirk)
+    }
+  }
+}
+
 \section{Changes in \pkg{RQuantLib} version 0.4.14 (2021-10-06)}{
   \itemize{
     \item Changes in \pkg{RQuantLib} code:

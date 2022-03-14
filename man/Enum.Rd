@@ -10,18 +10,24 @@ Reference for parameters when constructing a bond
        \tabular{ll}{
          \code{0} \tab Actual360 \cr
          \code{1} \tab Actual365Fixed \cr
-         \code{2} \tab ActualActual \cr
+         \code{2} \tab ActualActual (NB: soft deprecated, defaults to ActualActual.ISDA)\cr
          \code{3} \tab ActualBusiness252 \cr
          \code{4} \tab OneDayCounter \cr
          \code{5} \tab SimpleDayCounter \cr
-         \code{6} \tab Thirty360 \cr
+         \code{6} \tab Thirty360 (NB: soft deprecated, defaults to Thirty360.BondBasis) \cr
          \code{7} \tab Actual365NoLeap (NB: deprecated) \cr
          \code{8} \tab ActualActual.ISMA \cr
          \code{9} \tab ActualActual.Bond \cr
          \code{10} \tab ActualActual.ISDA \cr
          \code{11} \tab ActualActual.Historical \cr
          \code{12} \tab ActualActual.AFB \cr
-         \code{anything else} \tab ActualActual.Euro
+         \code{13} \tab ActualActual.Euro \cr
+         \code{14} \tab Thirty360.USA \cr
+         \code{15} \tab Thirty360.BondBasis \cr
+         \code{16} \tab Thirty360.European \cr
+         \code{17} \tab Thirty360.EurobondBasis \cr
+         \code{18} \tab Thirty360.Italian \cr
+         \code{19} \tab Thirty360.German
        }
 }
 

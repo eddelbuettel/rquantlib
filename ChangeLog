@@ -1,3 +1,12 @@
+2022-03-15  Kai Lin  <klin441@gmail.com>
+
+	* src/utils.cpp (getDayCounter):  change deprecated Actual365NoLeap() 
+	to Actual365Fixed(Actual365Fixed::NoLeap)
+	* man/Enum.Rd: associated documentation change
+	* man/BondUtilities.Rd: remove mentions of daycounter deprecation, 
+	remove mentions of compiler directives RQUANTLIB_USE_ACTUAL365NOLEAP 
+	and RQUANTLIB_USE_ACTUALACTUAL
+	
 2021-11-30  Kai Lin  <klin441@gmail.com>
 
 	* man/Enum.Rd: Update and extend documentation for DayCounter

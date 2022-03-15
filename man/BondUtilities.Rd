@@ -44,15 +44,6 @@ matchParams(params)
 }
 \details{
   The QuantLib documentation should be consulted for details.
-
-  Note that \code{Actual365NoLeap} is deprecated as of QuantLib 1.11 and
-  no longer supported by default. It can be reinstated by defining
-  \code{RQUANTLIB_USE_ACTUAL365NOLEAP}.
-
-  Also note that \code{ActualActual} is deprecated as of QuantLib 1.23
-  and no longer supported by default. It can be reinstated by
-  defining \code{RQUANTLIB_USE_ACTUALACTUAL}.
-
 }
 \references{\url{https://www.quantlib.org/} for details on \code{QuantLib}.}
 \author{Khanh Nguyen \email{knguyen@cs.umb.edu} for the \R interface;

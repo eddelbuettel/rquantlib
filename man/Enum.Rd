@@ -15,7 +15,7 @@ Reference for parameters when constructing a bond
          \code{4} \tab OneDayCounter \cr
          \code{5} \tab SimpleDayCounter \cr
          \code{6} \tab Thirty360 (NB: soft deprecated, defaults to Thirty360.BondBasis) \cr
-         \code{7} \tab Actual365NoLeap (NB: deprecated) \cr
+         \code{7} \tab Actual365Fixed.NoLeap \cr
          \code{8} \tab ActualActual.ISMA \cr
          \code{9} \tab ActualActual.Bond \cr
          \code{10} \tab ActualActual.ISDA \cr

@@ -378,7 +378,11 @@ QuantLib::DayCounter getDayCounter(const double n){
     else if (n==6)
         return QuantLib::Thirty360(QuantLib::Thirty360::BondBasis);  // reasonable default for back compatibility
     else if (n==7)
-         return QuantLib::Actual365Fixed(QuantLib::Actual365Fixed::NoLeap);
+#if QL_HEX_VERSION >= 0x011600f0
+        return QuantLib::Actual365Fixed(QuantLib::Actual365Fixed::NoLeap);
+#else
+        return QuantLib::Actual365NoLeap();
+#endif
     else if (n==8)
         return QuantLib::ActualActual(QuantLib::ActualActual::ISMA);
     else if (n==9)

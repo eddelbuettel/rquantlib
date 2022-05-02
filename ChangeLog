@@ -4,6 +4,8 @@
 
 	* man/SabrSwaption.Rd: Move evaluation date of example by a day
 
+	* .github/workflows/docker.yaml: Only run on (coarse) schedule
+
 2022-03-15  Kai Lin  <klin441@gmail.com>
 
 	* src/utils.cpp (getDayCounter):  change deprecated Actual365NoLeap()

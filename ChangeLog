@@ -1,5 +1,7 @@
 2022-05-02  Dirk Eddelbuettel  <edd@debian.org>
 
+	* DESCRIPTION (Version, Date): Roll minor release
+
 	* man/SabrSwaption.Rd: Move evaluation date of example by a day
 
 2022-03-15  Kai Lin  <klin441@gmail.com>

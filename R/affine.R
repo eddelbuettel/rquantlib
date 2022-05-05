@@ -2,8 +2,7 @@
 ##
 ##  Copyright (C) 2005         Dominick Samperi
 ##  Copyright (C) 2007 - 2014  Dirk Eddelbuettel
-
-##  Copyright (C) 2016         Terry Leitch and Dirk Eddelbuettel
+##  Copyright (C) 2016 - 2022  Terry Leitch and Dirk Eddelbuettel
 ##
 
 ##  This file is part of RQuantLib.
@@ -23,7 +22,7 @@
 
 AffineSwaption <- function(params,
                            ts, swaptionMaturities,
-                           swapTenors, volMatrix, 
+                           swapTenors, volMatrix,
                            legparams=list(dayCounter="Thirty360",
                                           fixFreq="Annual",
                                           floatFreq="Semiannual")) {
@@ -32,12 +31,12 @@ AffineSwaption <- function(params,
 
 AffineSwaption.default <- function(params,
                                    ts, swaptionMaturities,
-                                   swapTenors, volMatrix, 
+                                   swapTenors, volMatrix,
                                    legparams=list(dayCounter="Thirty360",
                                                   fixFreq="Annual",
                                                   floatFreq="Semiannual")) {
     # Check that params list names
-    
+
     if (!is.list(params) || length(params) == 0) {
         stop("The params parameter must be a non-empty list", call.=FALSE)
     }
@@ -57,16 +56,16 @@ AffineSwaption.default <- function(params,
         params$payFix=TRUE
         warning("affine swaption payFix flag not set defaulting to pay fix swap")
     }
-    
+
     matYears=as.numeric(params$maturity-params$tradeDate)/365
     expYears=as.numeric(params$startDate-params$tradeDate)/365
     increment=min(matYears/6,1.0)
     numObs=floor(matYears/increment)+1
     optStart=as.numeric(params$startDate-params$tradeDate)/365
-    
+
     # find closest option to our target to ensure it is in calibration
     tenor=expiry=vol=vector(length=numObs,mode="numeric")
-    
+
     expiryIDX=findInterval(expYears,swaptionMaturities)
     tenorIDX=findInterval(matYears-expYears,swapTenors)
     if(tenorIDX >0 & expiryIDX>0){
@@ -76,7 +75,7 @@ AffineSwaption.default <- function(params,
     } else {
         vol[1]=expiry[1]=tenor[1]=0
     }
-    
+
     for(i in 2:numObs){
         expiryIDX=findInterval(i*increment,swaptionMaturities)
         tenorIDX=findInterval(matYears-(i-1)*increment,swapTenors)
@@ -84,14 +83,14 @@ AffineSwaption.default <- function(params,
             vol[i]=volMatrix[expiryIDX,tenorIDX]
             expiry[i]=swaptionMaturities[expiryIDX]
             tenor[i]=swapTenors[tenorIDX]
-            
+
         } else {
             vol[i]=volMatrix[expiryIDX,tenorIDX+1]
             expiry[i]=swaptionMaturities[expiryIDX]
             tenor[i]=swapTenors[tenorIDX+1]
         }
     }
-    
+
     # remove if search was out of bounds
     expiry=expiry[expiry>0];tenor=tenor[tenor>0];vol=vol[vol>0]
     if(length(expiry)<5){
@@ -100,18 +99,18 @@ AffineSwaption.default <- function(params,
     }
     #Take 1st 5 which includes closest to initial date
     expiry=expiry[1:5];tenor=tenor[1:5];vol=vol[1:5]
-    
+
     # Finally ready to make the call...
     # We could coerce types here and pass as.integer(round(swapTenors)),
     # temp <- as.double(volMatrix), dim(temp) < dim(a) [and pass temp instead
     # of volMatrix]. But this is taken care of in the C/C++ code.
-    if(class(ts)=="DiscountCurve"){
+    if (inherits(ts, "DiscountCurve")) {
         matchlegs<-matchParams(legparams)
         val <- affineWithRebuiltCurveEngine(params, matchlegs, c(ts$table$date), ts$table$zeroRates,
-                                            expiry,tenor,vol)   
+                                            expiry,tenor,vol)
     } else{
         stop("DiscountCurve class term structure required", call.=FALSE)
-        
+
     }
     class(val) <- paste(params$method, "AffineSwaption",sep="")
     summary(val)
@@ -130,7 +129,7 @@ summary.G2AnalyticAffineSwaption <- function(object,...) {
     cat('\nsigma = ', format(object$sigma,digits=4))
     cat('\neta = ', format(object$eta,digits=4))
     cat('\nrho = ', format(object$rho,digits=4))
-    cat('\n\n') 
+    cat('\n\n')
 }
 
 summary.HWAnalyticAffineSwaption <- function(object,...) {

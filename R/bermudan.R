@@ -2,7 +2,7 @@
 ##
 ##  Copyright (C) 2005         Dominick Samperi
 ##  Copyright (C) 2007 - 2014  Dirk Eddelbuettel
-##  Copyright (C) 2016         Terry Leitch 
+##  Copyright (C) 2016         Terry Leitch
 ##
 ##  This file is part of RQuantLib.
 ##
@@ -27,7 +27,7 @@ BermudanSwaption <- function(params, ts, swaptionMaturities,
 BermudanSwaption.default <- function(params, ts, swaptionMaturities,
                                      swapTenors, volMatrix) {
     # Check that params list names
-        
+
         if (!is.list(params) || length(params) == 0) {
             stop("The params parameter must be a non-empty list", call.=FALSE)
         }
@@ -44,10 +44,10 @@ BermudanSwaption.default <- function(params, ts, swaptionMaturities,
     increment=min(matYears/6,1.0)
     numObs=floor(matYears/increment)+1
     optStart=as.numeric(params$startDate-params$tradeDate)/365
-    
+
     # find closest option to our target to ensure it is in calibration
     tenor=expiry=vol=vector(length=numObs,mode="numeric")
-    
+
     expiryIDX=findInterval(expYears,swaptionMaturities)
     tenorIDX=findInterval(matYears-expYears,swapTenors)
     if(tenorIDX >0 & expiryIDX>0){
@@ -57,7 +57,7 @@ BermudanSwaption.default <- function(params, ts, swaptionMaturities,
     } else {
         vol[1]=expiry[1]=tenor[1]=0
     }
-    
+
     for(i in 2:numObs){
         expiryIDX=findInterval(i*increment,swaptionMaturities)
         tenorIDX=findInterval(matYears-(i-1)*increment,swapTenors)
@@ -65,14 +65,14 @@ BermudanSwaption.default <- function(params, ts, swaptionMaturities,
             vol[i]=volMatrix[expiryIDX,tenorIDX]
             expiry[i]=swaptionMaturities[expiryIDX]
             tenor[i]=swapTenors[tenorIDX]
-            
+
         } else {
             vol[i]=volMatrix[expiryIDX,tenorIDX+1]
             expiry[i]=swaptionMaturities[expiryIDX]
             tenor[i]=swapTenors[tenorIDX+1]
         }
     }
-    
+
     # remove if search was out of bounds
     expiry=expiry[expiry>0];tenor=tenor[tenor>0];vol=vol[vol>0]
     if(length(expiry)<5){
@@ -81,7 +81,7 @@ BermudanSwaption.default <- function(params, ts, swaptionMaturities,
     }
     #Take 1st 5 which includes closest to initial date
     expiry=expiry[1:5];tenor=tenor[1:5];vol=vol[1:5]
-    
+
 #
 # Check that the term structure quotes are properly formatted.
 #         if(is)
@@ -96,7 +96,7 @@ BermudanSwaption.default <- function(params, ts, swaptionMaturities,
 #         }
 
 
-    
+
     # Check for correct matrix/vector types
     if (!is.matrix(volMatrix)
         || !is.vector(swaptionMaturities)
@@ -104,21 +104,21 @@ BermudanSwaption.default <- function(params, ts, swaptionMaturities,
         stop("Swaption vol must be a matrix, maturities/tenors must be vectors",
              call.=FALSE)
     }
-    
+
     # Check that matrix/vectors have compatible dimensions
     if (prod(dim(volMatrix)) != length(swaptionMaturities)*length(swapTenors)) {
         stop("Dimensions of swaption vol matrix not compatible with maturity/tenor vectors",
              call.=FALSE)
     }
-    
+
     # Finally ready to make the call...
     # We could coerce types here and pass as.integer(round(swapTenors)),
     # temp <- as.double(volMatrix), dim(temp) < dim(a) [and pass temp instead
     # of volMatrix]. But this is taken care of in the C/C++ code.
-    if(class(ts)=="DiscountCurve"){
+    if (inherits(ts, "DiscountCurve")) {
         val <- bermudanWithRebuiltCurveEngine(params, c(ts$table$date), ts$table$zeroRates,
                                       swaptionMaturities,
-                                      swapTenors, volMatrix)   
+                                      swapTenors, volMatrix)
     } else{
         if (!is.numeric(ts) | length(ts) !=1) {
             stop("Flat Term structure yield must have single numeric value", call.=FALSE)

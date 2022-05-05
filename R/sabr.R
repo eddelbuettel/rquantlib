@@ -20,7 +20,7 @@
 ##  along with RQuantLib.  If not, see <http://www.gnu.org/licenses/>.
 
 SabrSwaption <- function(params,
-                         ts,volCubeDF, 
+                         ts,volCubeDF,
                          legparams=list(dayCounter="Thirty360",
                                         fixFreq="Annual",
                                         floatFreq="Semiannual"),
@@ -29,8 +29,8 @@ SabrSwaption <- function(params,
     UseMethod("SabrSwaption")
 }
 
-SabrSwaption.default <- function(params, 
-                                 ts,  volCubeDF, 
+SabrSwaption.default <- function(params,
+                                 ts,  volCubeDF,
                                  legparams=list(dayCounter="Thirty360",
                                                 fixFreq="Annual",
                                                 floatFreq="Semiannual"),
@@ -64,10 +64,10 @@ SabrSwaption.default <- function(params,
     matYears=as.numeric(params$maturity-params$tradeDate)/365
     expYears=as.numeric(params$expiryDate-params$tradeDate)/365
 
-    if(class(ts)=="DiscountCurve"){
+    if (inherits(ts, "DiscountCurve")) {
         matchlegs<-matchParams(legparams)
         val <- sabrengine(params, matchlegs, c(ts$table$date), ts$table$zeroRates,
-                          volCube$expiries,volCube$tenors,volCube$atmVol,volCube$strikes,volCube$smirk) 
+                          volCube$expiries,volCube$tenors,volCube$atmVol,volCube$strikes,volCube$smirk)
         if(vega){
             valUp <- sabrengine(params, matchlegs, c(ts$table$date), ts$table$zeroRates,
                                 volCubeUp$expiries,volCubeUp$tenors,volCubeUp$atmVol,volCubeUp$strikes,volCubeUp$smirk)
@@ -77,14 +77,14 @@ SabrSwaption.default <- function(params,
             if(anyNA(tsUp01)){
             }else{
                 valTsUp <- sabrengine(params, matchlegs, c(tsUp01$table$date), tsUp01$table$zeroRates,
-                                      volCube$expiries,volCube$tenors,volCube$atmVol,volCube$strikes,volCube$smirk) 
+                                      volCube$expiries,volCube$tenors,volCube$atmVol,volCube$strikes,volCube$smirk)
 
                 val$payDV01=valTsUp$pay-val$pay
                 val$rcvDV01=valTsUp$rcv-val$rcv
                 if(anyNA(tsDn01)){
                 } else{
                     valTsDn <- sabrengine(params, matchlegs, c(tsDn01$table$date), tsDn01$table$zeroRates,
-                                          volCube$expiries,volCube$tenors,volCube$atmVol,volCube$strikes,volCube$smirk) 
+                                          volCube$expiries,volCube$tenors,volCube$atmVol,volCube$strikes,volCube$smirk)
                     val$payCnvx=(valTsUp$pay+valTsDn$pay-2*val$pay)/2
                     val$rcvCnvx=(valTsUp$rcv+valTsDn$rcv-2*val$rcv)/2
                 }
@@ -92,7 +92,7 @@ SabrSwaption.default <- function(params,
         }
     } else{
         stop("DiscountCurve class term structure required", call.=FALSE)
-        
+
     }
     val$params=params
     val$atmRate=as.numeric(val$atmRate)
@@ -104,7 +104,7 @@ SabrSwaption.default <- function(params,
 
 volDF2CubeK <- function(params, tbl, source = "CME") {
     strikes <- levels(tbl$Spread)<-c(-200,-150,-100,-75,-50,-25,0,25,50,75,100,150,200)
-  
+
     matYears <- as.numeric(params$maturity-params$tradeDate)/365
     expYears <- as.numeric(params$expiryDate-params$tradeDate)/365
     expLvl <- c( "1M","3M","6M","1Y","2Y","3Y","4Y",  "5Y",  "6Y",  "7Y",  "8Y",  "9Y","10Y")
@@ -117,7 +117,7 @@ volDF2CubeK <- function(params, tbl, source = "CME") {
     tenorIDX <- min(tenorIDX,length(tenors)-3)
     expiryIDX <- findInterval(expYears,expiries)
     expiryIDX <- min(expiryIDX,length(expiries)-3)
-    
+
     strikeIDX <- 1
     expire <- expLvl[expiryIDX]
     tenor <- tenorLvl[tenorIDX]
@@ -145,7 +145,7 @@ volDF2CubeK <- function(params, tbl, source = "CME") {
       }
     }
     smirk=matrix(ncol=length(strikes),nrow=length(expLvl)*length(tenorLvl))
-    
+
     #tmp3=acast(tbl,Expiry~Tenor~Spread,value.var="LogNormalVol")
     k=0
     for(i in 1:length(expLvl)){
@@ -157,13 +157,13 @@ volDF2CubeK <- function(params, tbl, source = "CME") {
             tbl[tbl$Expiry==expLvl[i]& tbl$Tenor==tenorLvl[j] & tbl$Spread==0,]$LogNormalVol
         }
       }
-    }  
-    
-  
+    }
+
+
     smirk <- na.spline(smirk,method="natural")
-  
+
     tmp <- list(atmVol=atmMat,tenors=tenors,expiries=expiries,smirk=smirk,strikes=strikes/10000)
     class(tmp) <- "volcube"
-  
+
     return(tmp)
 }

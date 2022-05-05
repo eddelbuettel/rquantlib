@@ -4,6 +4,15 @@
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rquantlib/issues/#1}{##1}}
 \newcommand{\ghrp}{\href{https://github.com/#1}{##1}}
 
+\section{Changes in \pkg{RQuantLib} version 0.4.16 (2022-05-05)}{
+  \itemize{
+    \item Documentationn for daycounters was updated and extended (Kai Lin)
+    \item Deprecated daycounters were approtiately updated (Kai Lin)
+    \item One example parameterization was changed to avoid error (Dirk)
+    \item The Docker files were updated
+  }
+}
+
 \section{Changes in \pkg{RQuantLib} version 0.4.15 (2022-01-19)}{
   \itemize{
     \item Changes in \pkg{RQuantLib} code:

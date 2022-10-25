@@ -1,10 +1,10 @@
 # -*- mode: Makefile -*-
 #
-# Copyright 2008 - 2018  Dirk Eddelbuettel
+# Copyright 2008 - 2022  Dirk Eddelbuettel
 
 # See configure.in for how these variables are computed
 PKG_CXXFLAGS=@CXXFLAGS@ -I../inst/include -I. -DBOOST_NO_AUTO_PTR $(SHLIB_OPENMP_CXXFLAGS)
 PKG_LIBS=@LDFLAGS@ $(SHLIB_OPENMP_CXXFLAGS)
 
-# Use C++11 for long long in Boost headers
-CXX_STD=CXX11
+# Use C++14 with QuantLib 1.28 or later -- and the default with R 4.2.* anyway
+CXX_STD=CXX14

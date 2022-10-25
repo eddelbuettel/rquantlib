@@ -17,8 +17,8 @@ PKG_LIBS = \
 	-L$(RWINLIB)/lib$(R_ARCH)/lib \
 	-lQuantLib $(SHLIB_OPENMP_CXXFLAGS)
 
-# Use C++11 for long long in Boost headers
-CXX_STD=CXX11
+# Use C++14 with QuantLib 1.28 or later -- and the default with R 4.2.* anyway
+CXX_STD=CXX14
 
 all: clean winlibs
 

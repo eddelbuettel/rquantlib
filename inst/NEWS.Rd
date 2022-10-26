@@ -4,6 +4,13 @@
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rquantlib/issues/#1}{##1}}
 \newcommand{\ghrp}{\href{https://github.com/#1}{##1}}
 
+\section{Changes in \pkg{RQuantLib} version 0.4.17 (2022-10-25)}{
+  \itemize{
+    \item Switch compilation to C++14 which is required by QuantLib 1.28
+    and, while standard with R 4.2.*, may be needed for R 4.1.*
+  }
+}
+
 \section{Changes in \pkg{RQuantLib} version 0.4.16 (2022-05-05)}{
   \itemize{
     \item Documentationn for daycounters was updated and extended (Kai Lin)

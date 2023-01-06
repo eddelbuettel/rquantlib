@@ -112,10 +112,24 @@ EuropeanOptionArrays <- function(type, underlying, strike, dividendYield,
 
 plotOptionSurface <- function(EOres, ylabel="", xlabel="", zlabel="", fov=60) {
     if (requireNamespace("rgl", quietly=TRUE)) {
+        if (missing(EOres)) {
+            message("No 'EOres' argument supplied. Calling 'EuropeanOptionArrays' to show 'delta'.\n",
+                    "See help('EuropeanOptionArrays') for function parameters and available result\n",
+                    "matrices in the returned list object.")
+            und.seq <- seq(10,180,by=2)
+            vol.seq <- seq(0.1,0.9,by=0.1)
+            ## evaluate them along with three scalar parameters
+            EOarr <- EuropeanOptionArrays("call", underlying=und.seq,
+                                          strike=100, dividendYield=0.01,
+                                          riskFreeRate=0.03,
+                                          maturity=1, volatility=vol.seq)
+            EOres <- EOarr$delta
+        }
         if (packageVersion("rgl") < "0.111.5")
             surface3d <- rgl::rgl.surface
         else
             surface3d <- rgl::surface3d
+
         axis.col <- "black"
         text.col <- axis.col
         ylab <- ylabel
@@ -139,7 +153,7 @@ plotOptionSurface <- function(EOres, ylabel="", xlabel="", zlabel="", fov=60) {
         x <- (x-min(x))/(max(x)-min(x))
         y <- (y-min(y))/(max(y)-min(y))
         z <- (z-min(z))/(max(z)-min(z))
-        
+
         surface3d(x = x, y = y, z = z, alpha=0.6, lit=TRUE, color="blue")
         rgl::lines3d(c(0,1), c(0,0), c(0,0), col=axis.col)
         rgl::lines3d(c(0,0), c(0,1), c(0,0), col=axis.col)

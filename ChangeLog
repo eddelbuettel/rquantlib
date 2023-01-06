@@ -1,3 +1,8 @@
+2023-01-06  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/arrays.R (plotOptionSurface): Provide default argument in case
+	none is given by user
+
 2023-01-06  Duncan Murdoch     <murdoch.duncan@gmail.com>
 
 	* R/arrays.R:  Switch rgl::rgl.* to rgl::*3d functions

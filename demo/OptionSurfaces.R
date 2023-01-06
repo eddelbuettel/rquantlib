@@ -4,6 +4,11 @@
 ## $Id: OptionSurfaces.R,v 1.1 2005/10/12 03:42:45 edd Exp $
 
 OptionSurface <- function(EOres, label, fov=60) {
+    #
+    # This can be removed when rgl 0.111.5 is released:
+    if (packageVersion("rgl") < "0.111.5")
+      surface3d <- rgl.surface
+    # End of old workaround
     axis.col <- "black"
     text.col <- axis.col
     ylab <- label
@@ -32,7 +37,7 @@ OptionSurface <- function(EOres, label, fov=60) {
     x <- (x-min(x))/(max(x)-min(x))
     y <- (y-min(y))/(max(y)-min(y))
     z <- (z-min(z))/(max(z)-min(z))
-    surface3d(x, y, z, alpha=0.6, lit=TRUE, color="blue")
+    surface3d(x = x, y = y, z = z, alpha=0.6, lit=TRUE, color="blue")
     lines3d(c(0,1), c(0,0), c(0,0), col=axis.col)
     lines3d(c(0,0), c(0,1), c(0,0), col=axis.col)
     lines3d(c(0,0),c(0,0), c(0,1), col=axis.col)
@@ -43,9 +48,9 @@ OptionSurface <- function(EOres, label, fov=60) {
     ## add grid (credit's to John Fox scatter3d)
     xgridind <- round(seq(1, nrow(y), length=25))
     zgridind <- round(seq(1, ncol(y), length=25))
-    surface3d(x[xgridind], y[xgridind,zgridind], z[zgridind], 
-                color="darkgray", alpha=0.5, lit=TRUE,
-                front="lines", back="lines")
+    surface3d(x = x[xgridind], y = y[xgridind,zgridind], z = z[zgridind], 
+              color="darkgray", alpha=0.5, lit=TRUE,
+              front="lines", back="lines")
 
     ## animate (credit to view3d() example)
     start <- proc.time()[3]

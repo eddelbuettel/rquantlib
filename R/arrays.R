@@ -112,6 +112,10 @@ EuropeanOptionArrays <- function(type, underlying, strike, dividendYield,
 
 plotOptionSurface <- function(EOres, ylabel="", xlabel="", zlabel="", fov=60) {
     if (requireNamespace("rgl", quietly=TRUE)) {
+        if (packageVersion("rgl") < "0.111.5")
+            surface3d <- rgl::rgl.surface
+        else
+            surface3d <- rgl::surface3d
         axis.col <- "black"
         text.col <- axis.col
         ylab <- ylabel
@@ -136,9 +140,7 @@ plotOptionSurface <- function(EOres, ylabel="", xlabel="", zlabel="", fov=60) {
         y <- (y-min(y))/(max(y)-min(y))
         z <- (z-min(z))/(max(z)-min(z))
         
-        # NOT RIGHT:  spike is in the wrong direction.
-        
-        rgl::surface3d(x = x, y = y, z = z, alpha=0.6, lit=TRUE, color="blue")
+        surface3d(x = x, y = y, z = z, alpha=0.6, lit=TRUE, color="blue")
         rgl::lines3d(c(0,1), c(0,0), c(0,0), col=axis.col)
         rgl::lines3d(c(0,0), c(0,1), c(0,0), col=axis.col)
         rgl::lines3d(c(0,0),c(0,0), c(0,1), col=axis.col)
@@ -149,7 +151,7 @@ plotOptionSurface <- function(EOres, ylabel="", xlabel="", zlabel="", fov=60) {
         ## add grid (credit's to John Fox scatter3d)
         xgridind <- round(seq(1, nrow(y), length=25))
         zgridind <- round(seq(1, ncol(y), length=25))
-        rgl::surface3d(x = x[xgridind], y = y[xgridind,zgridind], z = z[zgridind],
+        surface3d(x = x[xgridind], y = y[xgridind,zgridind], z = z[zgridind],
                          color="darkgray", alpha=0.5, lit=TRUE,
                          front="lines", back="lines")
 

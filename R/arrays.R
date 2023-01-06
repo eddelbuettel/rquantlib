@@ -128,36 +128,39 @@ plotOptionSurface <- function(EOres, ylabel="", xlabel="", zlabel="", fov=60) {
         rgl::bg3d(color="#DDDDDD")
         rgl::light3d()
 
-        rgl::rgl.viewpoint(fov=fov)
+        rgl::view3d(fov=fov)
 
         x <- 1:nrow(y)
         z <- 1:ncol(y)
         x <- (x-min(x))/(max(x)-min(x))
         y <- (y-min(y))/(max(y)-min(y))
         z <- (z-min(z))/(max(z)-min(z))
-        rgl::rgl.surface(x, z, y, alpha=0.6, lit=TRUE, color="blue")
-        rgl::rgl.lines(c(0,1), c(0,0), c(0,0), col=axis.col)
-        rgl::rgl.lines(c(0,0), c(0,1), c(0,0), col=axis.col)
-        rgl::rgl.lines(c(0,0),c(0,0), c(0,1), col=axis.col)
-        rgl::rgl.texts(1,0,0, xlab, adj=1, col=text.col)
-        rgl::rgl.texts(0,1,0, ylab, adj=1, col=text.col)
-        rgl::rgl.texts(0,0,1, zlab, adj=1, col=text.col)
+        
+        # NOT RIGHT:  spike is in the wrong direction.
+        
+        rgl::surface3d(x = x, y = y, z = z, alpha=0.6, lit=TRUE, color="blue")
+        rgl::lines3d(c(0,1), c(0,0), c(0,0), col=axis.col)
+        rgl::lines3d(c(0,0), c(0,1), c(0,0), col=axis.col)
+        rgl::lines3d(c(0,0),c(0,0), c(0,1), col=axis.col)
+        rgl::text3d(1,0,0, xlab, adj=1, col=text.col)
+        rgl::text3d(0,1,0, ylab, adj=1, col=text.col)
+        rgl::text3d(0,0,1, zlab, adj=1, col=text.col)
 
         ## add grid (credit's to John Fox scatter3d)
         xgridind <- round(seq(1, nrow(y), length=25))
         zgridind <- round(seq(1, ncol(y), length=25))
-        rgl::rgl.surface(x[xgridind], z[zgridind], y[xgridind,zgridind],
+        rgl::surface3d(x = x[xgridind], y = y[xgridind,zgridind], z = z[zgridind],
                          color="darkgray", alpha=0.5, lit=TRUE,
                          front="lines", back="lines")
 
-        ## animate (credit to rgl.viewpoint() example)
+        ## animate (credit to view3d() example)
         start <- proc.time()[3]
         while ((i <- 36*(proc.time()[3]-start)) < 360) {
-            rgl::rgl.viewpoint(i,i/8);
+            rgl::view3d(i,i/8);
         }
     } else {
         message("Please install the 'rgl' package before using this function.")
     }
 }
 
-utils::globalVariables(c("clear3d", "bg3d", "ligh3d", "rgl.viewpoint", "rgl.surface", "tgl.texts"))
+utils::globalVariables(c("clear3d", "bg3d", "ligh3d", "view3d", "surface3d", "text3d"))

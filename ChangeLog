@@ -1,6 +1,5 @@
 2023-01-06  Duncan Murdoch     <murdoch.duncan@gmail.com>
 
-        * DESCRIPTION (Version, Date): New release 0.4.18
 	* R/arrays.R:  Switch rgl::rgl.* to rgl::*3d functions
 	* demo/OptionSurfaces.R: Idem
 

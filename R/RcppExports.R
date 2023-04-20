@@ -250,5 +250,5 @@ zeroyield <- function(price, maturity, settle, period, basis) {
 
 # Register entry points for exported C++ functions
 methods::setLoadAction(function(ns) {
-    .Call('_RQuantLib_RcppExport_registerCCallable', PACKAGE = 'RQuantLib')
+    .Call(`_RQuantLib_RcppExport_registerCCallable`)
 })

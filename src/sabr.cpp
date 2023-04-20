@@ -149,11 +149,11 @@ namespace {
 
 
         Handle<SwpVolStr>
-            res(QuantLib::ext::shared_ptr<SwpVolStr>(new SwaptionVolCube1(swaptionVolAtm, optionTenorsSmile,
-                                                                  swapTenorsSmile, strikeSpreads, qSwSmile,
-                                                                  swapIndex, shortSwapIndex, true,
-                                                                  parameterGuess, parameterFixed, true, ec,
-                                                                  .050)));
+            res(QuantLib::ext::shared_ptr<SwpVolStr>(new SabrSwaptionVolatilityCube(swaptionVolAtm, optionTenorsSmile,
+                                                                                    swapTenorsSmile, strikeSpreads, qSwSmile,
+                                                                                    swapIndex, shortSwapIndex, true,
+                                                                                    parameterGuess, parameterFixed, true, ec,
+                                                                                    .050)));
         // put a big error tolerance here ... we just want a
         // smooth cube for testing
 

@@ -1,7 +1,7 @@
 
 //  RQuantLib -- R interface to the QuantLib libraries
 //
-//  Copyright (C) 2002 - 2020  Dirk Eddelbuettel <edd@debian.org>
+//  Copyright (C) 2002 - 2023  Dirk Eddelbuettel <edd@debian.org>
 //
 //  This file is part of RQuantLib.
 //
@@ -86,9 +86,12 @@ Rcpp::List europeanOptionEngine(std::string type,
                                                                  QuantLib::Handle<QuantLib::YieldTermStructure>(rTS),
                                                                  QuantLib::Handle<QuantLib::BlackVolTermStructure>(volTS)));
 
+        QL_DEPRECATED_DISABLE_WARNING
         QuantLib::ext::shared_ptr<QuantLib::PricingEngine> engine(new QuantLib::AnalyticDividendEuropeanEngine(stochProcess));
+        //QuantLib::ext::shared_ptr<QuantLib::PricingEngine> engine(new QuantLib::AnalyticEuropeanEngine(stochProcess));
 
         QuantLib::DividendVanillaOption option(payoff, exercise, discDivDates, discDividends);
+        QL_DEPRECATED_ENABLE_WARNING
         option.setPricingEngine(engine);
 
         return Rcpp::List::create(Rcpp::Named("value") = option.NPV(),
@@ -182,7 +185,9 @@ Rcpp::List americanOptionEngine(std::string type,
             discDividends[i] = divvalues[i];
         }
 
+        QL_DEPRECATED_DISABLE_WARNING
         QuantLib::DividendVanillaOption option(payoff, exercise, discDivDates, discDividends);
+        QL_DEPRECATED_ENABLE_WARNING
         if (engine=="BaroneAdesiWhaley") {
             Rcpp::warning("Discrete dividends, engine switched to CrankNicolson");
             engine = "CrankNicolson";

@@ -3,6 +3,9 @@
 	* src/sabr.cpp (swptnVolCube): Update from SwaptionVolCube1 to
 	SabrSwaptionVolatilityCube
 
+	* src/vanilla.cpp (americanOptionEngine): Tweaked deprecation
+	warnings (as in QL's own test file) to continue with dividend option
+
 2023-01-13  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Roll minor release

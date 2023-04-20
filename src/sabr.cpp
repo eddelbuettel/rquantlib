@@ -149,7 +149,11 @@ namespace {
 
 
         Handle<SwpVolStr>
+#if QL_HEX_VERSION < 0x013000f0
+            res(QuantLib::ext::shared_ptr<SwpVolStr>(new SwaptionVolCube1(swaptionVolAtm, optionTenorsSmile,
+#else
             res(QuantLib::ext::shared_ptr<SwpVolStr>(new SabrSwaptionVolatilityCube(swaptionVolAtm, optionTenorsSmile,
+#endif
                                                                                     swapTenorsSmile, strikeSpreads, qSwSmile,
                                                                                     swapIndex, shortSwapIndex, true,
                                                                                     parameterGuess, parameterFixed, true, ec,

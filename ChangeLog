@@ -1,3 +1,8 @@
+2023-04-20  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/sabr.cpp (swptnVolCube): Make SabrSwaptionVolatilityCube change
+	conditional on QuantLib 1.30 or later, else use SwaptionVolCube1
+
 2023-04-19  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/sabr.cpp (swptnVolCube): Update from SwaptionVolCube1 to

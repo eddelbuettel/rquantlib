@@ -1,7 +1,7 @@
 
-.onWindows <- .Platform$OS.type == "windows"
+.onWinOrMac <- grepl("darwin|mingw", R.Version()$platform)
 
-if (.onWindows) exit_file("Skipping dates test on Windows.")
+if (.onWinOrMac) exit_file("Skipping dates test on Windows.")
 
 Rcpp::sourceCpp("cpp/dates.cpp")
 

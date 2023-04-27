@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         include:
-          #- {os: macOS-latest}
+          - {os: macOS-latest}
           - {os: ubuntu-latest}
 
     runs-on: ${{ matrix.os }}
@@ -30,9 +30,11 @@ jobs:
         run: ./run.sh bootstrap
 
       - name: Dependencies
-        run: |
-          ./run.sh install_deps
-          ./run.sh install_aptget libquantlib0-dev libboost-dev
+        run: ./run.sh install_deps
+
+      - name: Linux Dependencies
+        if: runner.os == 'linux'
+        run: ./run.sh install_aptget libquantlib0-dev libboost-dev
 
       - name: Test
         run: ./run.sh run_tests

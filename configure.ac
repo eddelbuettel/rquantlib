@@ -89,6 +89,29 @@ if test x"${QUANTLIB}" == x"yes" ; then
     AC_SUBST([CXXFLAGS],["${CXXFLAGS} "])
     AC_SUBST([CXXFLAGS],["${CXXFLAGS} ${pkg_cxxflags} ${gxx_newer_than_45}"])
     AC_SUBST([LDFLAGS],["${LDFLAGS} $pkg_libs"])
+elif test "`uname`" == "Darwin" ; then
+  if test "`arch`" == "arm64" ; then
+    quantlib="https://mac.r-project.org/bin/darwin20/arm64/QuantLib-1.27.1-darwin.20-arm64.tar.xz"
+    boost="https://mac.r-project.org/bin/darwin20/arm64/boost-1.80.0-darwin.20-arm64.tar.xz"
+  else
+    quantlib="https://mac.r-project.org/bin/darwin20/x86_64/QuantLib-1.27.1-darwin.20-x86_64.tar.xz"
+    boost="https://mac.r-project.org/bin/darwin20/x86_64/boost-1.80.0-darwin.20-x86_64.tar.xz"
+  fi
+  quantlibdir="$PWD/.deps"
+  mkdir -p $quantlibdir
+  echo "downloading $quantlib"
+  curl -sSL "$quantlib" -o quantlib.tar.xz
+  echo "downloading $boost"
+  curl -sSL "$boost" -o boost.tar.xz
+  tar xf quantlib.tar.xz --strip 3 -C "$quantlibdir"
+  tar xf boost.tar.xz --strip 3 -C "$quantlibdir"
+  rm quantlib.tar.xz boost.tar.xz
+  pkg_cxxflags="-I${quantlibdir}/include"
+  pkg_libs="-L${quantlibdir}/lib -lQuantLib"
+
+  # Same as above
+  AC_SUBST([CXXFLAGS],["${CXXFLAGS} $pkg_cxxflags"])
+  AC_SUBST([LDFLAGS],["${LDFLAGS} $pkg_libs"])
 else
     AC_MSG_ERROR([Please install QuantLib before trying to build RQuantLib.])
 fi

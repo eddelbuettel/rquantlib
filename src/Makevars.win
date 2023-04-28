@@ -6,19 +6,10 @@
 # Copyright 2011         Uwe Ligges, Brian Ripley, and Josh Ulrich
 # Copyright 2018 - 2019  Jeroen Ooms
 
-RWINLIB=../windows/quantlib-1.16
+RWINLIB=../windows/quantlib-1.29
 PKG_CPPFLAGS=-I$(RWINLIB)/include -I../inst/include
 PKG_CXXFLAGS=$(SHLIB_OPENMP_CXXFLAGS) -DBOOST_NO_AUTO_PTR -Wno-deprecated-declarations
-## NB directory layout with arch/lib is quantlib upstream default which is followed here
-
-TARGET = $(subst gcc,lib,$(COMPILED_BY))
-PKG_LIBS = \
-	-L$(RWINLIB)/$(TARGET)$(R_ARCH)/lib \
-	-L$(RWINLIB)/lib$(R_ARCH)/lib \
-	-lQuantLib $(SHLIB_OPENMP_CXXFLAGS)
-
-# Use C++14 with QuantLib 1.28 or later -- and the default with R 4.2.* anyway
-CXX_STD=CXX14
+PKG_LIBS = -L$(RWINLIB)/lib$(R_ARCH) -lQuantLib
 
 all: clean winlibs
 

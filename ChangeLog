@@ -1,3 +1,19 @@
+2023-04-29  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll micro release and date
+
+2023-04-28  Jeroen Ooms  <jeroenooms@gmail.com>
+
+	* src/Makevars.win: Refactor and simplify for current use
+	* tools/winlibs.R: Update to QuantLib 1.29 download
+
+2023-04-27  Jeroen Ooms  <jeroenooms@gmail.com>
+
+	* configure.ac: Update build to fetch arm|x86_64 macOS artifacts
+	* configure: Idem
+	* .github/workflows/ci.yam: Re-enable macOS tests
+	* inst/tinytest/test_dates.R: Skip one test file on macOS
+
 2023-04-20  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Roll micro release and date

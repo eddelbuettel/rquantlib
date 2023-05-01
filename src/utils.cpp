@@ -29,7 +29,7 @@ QuantLib::Option::Type getOptionType(const std::string &type) {
     } else if (type=="put") {
         optionType = QuantLib::Option::Put;
     } else {
-        throw std::range_error("Unknown option " + type);
+        Rcpp::stop(std::string("Unknown option ") + type);
     }
     return optionType;
 }
@@ -104,64 +104,55 @@ makeOption(const QuantLib::ext::shared_ptr<QuantLib::StrikedTypePayoff>& payoff,
 QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure> buildTermStructure(Rcpp::List rparam, Rcpp::List tslist) {
 
     QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure> curve;
-    try {
 
-        Rcpp::CharacterVector tsnames = tslist.names();
-        QuantLib::Date todaysDate(Rcpp::as<QuantLib::Date>(rparam["tradeDate"]));
-        QuantLib::Date settlementDate(Rcpp::as<QuantLib::Date>(rparam["settleDate"]));
-        // cout << "TradeDate: " << todaysDate << endl << "Settle: " << settlementDate << endl;
+    Rcpp::CharacterVector tsnames = tslist.names();
+    QuantLib::Date todaysDate(Rcpp::as<QuantLib::Date>(rparam["tradeDate"]));
+    QuantLib::Date settlementDate(Rcpp::as<QuantLib::Date>(rparam["settleDate"]));
+    // cout << "TradeDate: " << todaysDate << endl << "Settle: " << settlementDate << endl;
 
-        RQLContext::instance().settleDate = settlementDate;
-        QuantLib::Settings::instance().evaluationDate() = todaysDate;
+    RQLContext::instance().settleDate = settlementDate;
+    QuantLib::Settings::instance().evaluationDate() = todaysDate;
 
-        std::string firstQuoteName = Rcpp::as<std::string>(tsnames[0]);
-        //double dt = rparam.getDoubleValue("dt");
+    std::string firstQuoteName = Rcpp::as<std::string>(tsnames[0]);
+    //double dt = rparam.getDoubleValue("dt");
 
-        std::string interpWhat, interpHow;
-        if (firstQuoteName.compare("flat") != 0) { // Get interpolation method (not needed for "flat" case)
-            interpWhat = Rcpp::as<std::string>(rparam["interpWhat"]);
-            interpHow  = Rcpp::as<std::string>(rparam["interpHow"]);
-        }
-
-        // initialise from the singleton instance
-        QuantLib::Calendar calendar = RQLContext::instance().calendar;
-        //Integer fixingDays = RQLContext::instance().fixingDays;
-
-        // Any DayCounter would be fine;  ActualActual::ISDA ensures that 30 years is 30.0
-        QuantLib::DayCounter termStructureDayCounter = QuantLib::ActualActual(QuantLib::ActualActual::Convention::ISDA);
-        double tolerance = 1.0e-15;
-
-        if (firstQuoteName.compare("flat") == 0) {	// Create a flat term structure.
-            double rateQuote = Rcpp::as<double>(tslist[0]);
-            QuantLib::ext::shared_ptr<QuantLib::Quote> flatRate(new QuantLib::SimpleQuote(rateQuote));
-            QuantLib::ext::shared_ptr<QuantLib::FlatForward>
-                ts(new QuantLib::FlatForward(settlementDate, QuantLib::Handle<QuantLib::Quote>(flatRate), QuantLib::Actual365Fixed()));
-            curve =  ts;
-        } else {									// Build curve based on a set of observed rates and/or prices.
-            std::vector<QuantLib::ext::shared_ptr<QuantLib::RateHelper> > curveInput;
-            for (int i = 0; i < tslist.size(); i++) {
-                std::string name = Rcpp::as<std::string>(tsnames[i]);
-                double val = Rcpp::as<double>(tslist[i]);
-                QuantLib::ext::shared_ptr<QuantLib::RateHelper> rh = ObservableDB::instance().getRateHelper(name, val);
-                // edd 2009-11-01 FIXME NULL_RateHelper no longer builds under 0.9.9
-                // if (rh == NULL_RateHelper)
-                if (rh.get() == NULL)
-                    throw std::range_error("Unknown rate in getRateHelper");
-                curveInput.push_back(rh);
-            }
-            QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure> ts =
-                getTermStructure(interpWhat, interpHow, settlementDate, curveInput,
-                                 termStructureDayCounter, tolerance);
-            curve = ts;
-        }
-        return curve;
-
-    } catch(std::exception &ex) {
-        forward_exception_to_r(ex);
-    } catch(...) {
-        ::Rf_error("c++ exception (unknown reason)");
+    std::string interpWhat, interpHow;
+    if (firstQuoteName.compare("flat") != 0) { // Get interpolation method (not needed for "flat" case)
+        interpWhat = Rcpp::as<std::string>(rparam["interpWhat"]);
+        interpHow  = Rcpp::as<std::string>(rparam["interpHow"]);
     }
 
+    // initialise from the singleton instance
+    QuantLib::Calendar calendar = RQLContext::instance().calendar;
+    //Integer fixingDays = RQLContext::instance().fixingDays;
+
+    // Any DayCounter would be fine;  ActualActual::ISDA ensures that 30 years is 30.0
+    QuantLib::DayCounter termStructureDayCounter = QuantLib::ActualActual(QuantLib::ActualActual::Convention::ISDA);
+    double tolerance = 1.0e-15;
+
+    if (firstQuoteName.compare("flat") == 0) {	// Create a flat term structure.
+        double rateQuote = Rcpp::as<double>(tslist[0]);
+        QuantLib::ext::shared_ptr<QuantLib::Quote> flatRate(new QuantLib::SimpleQuote(rateQuote));
+        QuantLib::ext::shared_ptr<QuantLib::FlatForward>
+            ts(new QuantLib::FlatForward(settlementDate, QuantLib::Handle<QuantLib::Quote>(flatRate), QuantLib::Actual365Fixed()));
+        curve =  ts;
+    } else {									// Build curve based on a set of observed rates and/or prices.
+        std::vector<QuantLib::ext::shared_ptr<QuantLib::RateHelper> > curveInput;
+        for (int i = 0; i < tslist.size(); i++) {
+            std::string name = Rcpp::as<std::string>(tsnames[i]);
+            double val = Rcpp::as<double>(tslist[i]);
+            QuantLib::ext::shared_ptr<QuantLib::RateHelper> rh = ObservableDB::instance().getRateHelper(name, val);
+            // edd 2009-11-01 FIXME NULL_RateHelper no longer builds under 0.9.9
+            // if (rh == NULL_RateHelper)
+            if (rh.get() == NULL)
+                Rcpp::stop("Unknown rate in getRateHelper");
+            curveInput.push_back(rh);
+        }
+        QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure> ts =
+            getTermStructure(interpWhat, interpHow, settlementDate, curveInput,
+                             termStructureDayCounter, tolerance);
+        curve = ts;
+    }
     return curve;
 }
 
@@ -642,7 +633,7 @@ QuantLib::Duration::Type getDurationType(const double n) {
     else if (n==2)
         return QuantLib::Duration::Modified;
     else {
-        throw std::range_error("Invalid duration type " + boost::lexical_cast<std::string>(n));
+        Rcpp::stop(std::string("Invalid duration type ") + std::to_string(n));
     }
 }
 

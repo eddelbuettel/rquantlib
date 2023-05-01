@@ -4,6 +4,20 @@
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rquantlib/issues/#1}{##1}}
 \newcommand{\ghrp}{\href{https://github.com/#1}{##1}}
 
+\section{Changes in \pkg{RQuantLib} version 0.4.18 (2023-05-01)}{
+  \itemize{
+    \item Use of several \code{rgl} functions was updated to a new naming
+    scheme in the package (kindly contributed by Duncan Murdoch in \ghpr{174})
+    \item A default argument is now given for option surface plots
+    \item Changed call from SwaptionVolCube1 to SabrSwaptionVolatilityCube
+    (conditional on using QuantLib 1.30 or later)
+    \item Some other deprecation warnings were tweaked as in QL test file
+    \item Builds for macOS and Windows were updated with more library build
+    (changes kindly contributed by Jeron Ooms in \ghpr{176} and \ghpr{175})
+    \item Some remaining \code{throw} calls were replace by \code{Rcpp::stop}
+  }
+}
+
 \section{Changes in \pkg{RQuantLib} version 0.4.17 (2022-10-25)}{
   \itemize{
     \item Switch compilation to C++14 which is required by QuantLib 1.28

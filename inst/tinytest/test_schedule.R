@@ -1,6 +1,9 @@
 
 library(RQuantLib)
 
+## For QuantLib 1.31 or newer we need to adjust three test expectations
+is131 <- RQuantLib::getQuantLibVersion() >= "1.31"
+
 #test.Schedule <- function() {
 ## these tests are taken from the QuantLib test-suite/schedule.cpp file
 startDate <- as.Date("2012-1-17")
@@ -20,7 +23,8 @@ params <- list(effectiveDate= as.Date("2009-09-30"),
                dateGeneration="Forward",
                endOfMonth=T)
 expected <- as.Date(c("2009-09-30", "2010-03-31", "2010-09-30", "2011-03-31", "2011-09-30",
-                      "2012-03-30", "2012-06-29"))
+                      "2012-03-30",
+                      if (is131) "2012-06-15" else "2012-06-29"))
 expect_equal(Schedule(params), expected, info="Testing end date for schedule with end-of-month adjustment...")
 
 params$terminationDateConvention="Unadjusted"
@@ -35,7 +39,8 @@ params <- list(effectiveDate = as.Date("2013-03-28"),
                terminationDateConvention="Unadjusted",
                dateGeneration="Forward",
                endOfMonth=T)
-expected <- as.Date(c("2013-03-31", "2014-03-31", "2015-03-30"))
+expected <- as.Date(c(if (is131) "2013-03-28" else "2013-03-31",
+                      "2014-03-31", "2015-03-30"))
 expect_equal(Schedule(params), expected, info="Testing that no dates are past the end date with EOM adjustment...")
 
 params <- list(effectiveDate = as.Date("1996-08-31"),
@@ -71,7 +76,8 @@ params <- list(effectiveDate = as.Date("1996-08-22"),
                terminationDateConvention="Following",
                dateGeneration="Backward",
                endOfMonth=T)
-expected <- as.Date(c("1996-08-30", "1997-02-28", "1997-08-29"))
+expected <- if (is131) { as.Date(c("1996-08-22", "1996-08-30", "1997-02-28", "1997-09-02"))
+            } else { as.Date(c("1996-08-30", "1997-02-28", "1997-08-29")) }
 expect_equal(Schedule(params), expected, info=paste("Testing that the first date is not duplicated due to",
                                                    "EOM convention when going backwards..."))
 

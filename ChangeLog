@@ -1,3 +1,7 @@
+2023-07-25  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/tinytest/test_schedule.R: Adjust three tests for QuantLib 1.31
+
 2023-06-28  Dirk Eddelbuettel  <edd@debian.org>
 
 	* README.md: Add r-universe badge

@@ -4,6 +4,8 @@
 
 	* inst/tinytest/test_schedule.R: Adjust three tests for QuantLib 1.31
 
+	* README.md: Mention qlcal, remove note about RcppQuantuccia
+
 2023-06-28  Dirk Eddelbuettel  <edd@debian.org>
 
 	* README.md: Add r-universe badge

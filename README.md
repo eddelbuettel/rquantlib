@@ -59,7 +59,9 @@ Come to the friendly and low-volume [rquantlib mailing list](http://rquantlib.gr
 
 ### See Also
 
-The [RcppQuantuccia](https://github.com/eddelbuettel/rcppquantuccia) project is closely related---take a look!
+The [qlcal](https://github.com/qlcal/qlcal-r) R package provides the calendaring functionality of
+[QuantLib](https://github.com/lballabio/quantlib) in a standalone R package that does not require
+[QuantLib](https://github.com/lballabio/quantlib).
 
 ### Authors
 

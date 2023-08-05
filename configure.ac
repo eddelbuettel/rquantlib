@@ -9,8 +9,8 @@ AC_PREREQ([2.69])
 
 # Process this file with autoconf to produce a configure script.
 
-# Extrace R package version from R DESCRIPTION file
-AC_INIT([RQuantlib],[0.4.17],[edd@debian.org])
+# Would like to extract R package version from R DESCRIPTION file
+AC_INIT([RQuantlib],[0.4.19],[edd@debian.org])
 
 # Set CXX and CXXFLAGS based on the R configuration (with thanks to KH)
 : ${R_HOME=`R RHOME`}
@@ -29,11 +29,7 @@ if test "${GXX}" = yes; then
     gxx_version=`${CXX} -v 2>&1 | grep "^.*g.. version" | \\
 		       sed -e 's/^.*g.. version *//'`
     case ${gxx_version} in
-        1.*|2.*)
-	     AC_MSG_WARN([Only g++ version 3.0 or greater can be used with RQuantib.])
-	     AC_MSG_ERROR([Please use a different compiler.])
-        ;;
-	4.6.*|4.7.*|4.8.*|4.9.*|5.*|6.*|7.*|8.*|9.*|10.*)
+	4.6.*|4.7.*|4.8.*|4.9.*|5.*|6.*|7.*|8.*|9.*|10.*|11.*|12.*|13.*)
 	     gxx_newer_than_45="-fpermissive"
 	;;
     esac
@@ -76,12 +72,19 @@ if test x"${QUANTLIB}" == x"yes" ; then
     pkg_cxxflags=`quantlib-config --cflags`
     pkg_libs=`quantlib-config --libs`
     pkg_version=`quantlib-config --version`
+    ##echo "Seeing ${pkg_cxxflags} ${pkg_libs} ${pkg_version}"
 
     # also test for quantlib version using result from quantlib-config --version
     case ${pkg_version} in
-    0.1.*|0.2.*|0.3.*|0.4.*|0.8.*|0.9.*|1.0.*|1.1.*|1.2.*|1.3.*|1.4.*|1.5.*|1.6.*|1.7.*|1.8*|1.9.*|1.10.*|1.11.*|1.12.*|1.13.*)
-	AC_MSG_WARN([RQuantLib requires QuantLib (>= 1.14).])
+    0.1.*|0.2.*|0.3.*|0.4.*|0.8.*|0.9.*|1.0.*|1.1.*|1.2.*|1.3.*|1.4.*|1.5.*|1.6.*|1.7.*|1.8*|1.9.*|1.10.*|1.11.*|1.12.*|1.13.*|1.14.*|1.15.*|1.16.*|1.17.*)
+	AC_MSG_WARN([RQuantLib requires QuantLib (>= 1.18).])
 	AC_MSG_ERROR([Please upgrade to a current version.])
+	;;
+    1.18.*|1.19.*|1.20.*|1.21.*|1.22.*|1.23.*|1.24.*)
+	echo "checking for suitable QuantLib version... sort-of (${pkg_version}). Consider upgrading."
+	;;
+    1.25.*|1.26*|1.27*|1.28*|1.29*|1.30*|1.31*)
+	echo "checking for suitable QuantLib version... yes (${pkg_version})"
 	;;
     esac
 
@@ -115,6 +118,7 @@ elif test "`uname`" == "Darwin" ; then
 else
     AC_MSG_ERROR([Please install QuantLib before trying to build RQuantLib.])
 fi
+
 
 ## check for boost, this segment as well as segment below are
 ## from QuantLib's configure.ac
@@ -156,7 +160,7 @@ AC_DEFUN([QL_CHECK_BOOST_DEVEL],
 AC_DEFUN([QL_CHECK_BOOST_VERSION],
    [AC_MSG_CHECKING([for minimal Boost version])
     AC_REQUIRE([QL_CHECK_BOOST_DEVEL])
-    AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[@%:@include <boost/version.hpp>]], [[@%:@if BOOST_VERSION < 103400
+    AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[@%:@include <boost/version.hpp>]], [[@%:@if BOOST_VERSION < 106500
      @%:@error too old
      @%:@endif]])],[AC_MSG_RESULT([yes])],[AC_MSG_RESULT([no])
      AC_MSG_ERROR([outdated Boost installation])

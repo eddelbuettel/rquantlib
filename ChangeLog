@@ -1,3 +1,8 @@
+2023-08-05  Dirk Eddelbuettel  <edd@debian.org>
+
+	* configure.ac: Update configure checks
+	* configure: Idem
+
 2023-07-25  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Roll micro release and date

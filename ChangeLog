@@ -1,3 +1,18 @@
+2023-08-07  Dirk Eddelbuettel  <edd@debian.org>
+
+        * DESCRIPTION (Version, Date): New release 0.4.19
+	* configure.ac: Idem
+	* configure: Idem
+
+	* man/AffineSwaption.Rd: Add \dontrun{} to example
+	* man/BermudanSwaption.Rd: Idem
+	* man/Bond.Rd: Idem
+	* man/DiscountCurve.Rd: Idem
+	* man/EuropeanOptionArrays.Rd: Idem
+
+	* src/Makevars.win: Remove useful-but-verboten compiler option to
+	silence overly verbose output due to Boost headers
+
 2023-08-05  Dirk Eddelbuettel  <edd@debian.org>
 
 	* configure.ac: Update configure checks

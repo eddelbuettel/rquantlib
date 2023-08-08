@@ -8,7 +8,7 @@
 
 RWINLIB=../windows/quantlib-1.29
 PKG_CPPFLAGS=-I$(RWINLIB)/include -I../inst/include
-PKG_CXXFLAGS=-DBOOST_NO_AUTO_PTR -Wno-deprecated-declarations
+PKG_CXXFLAGS=-DBOOST_NO_AUTO_PTR
 PKG_LIBS = -L$(RWINLIB)/lib$(R_ARCH) -lQuantLib
 
 all: clean winlibs

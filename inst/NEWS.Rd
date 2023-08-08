@@ -4,6 +4,17 @@
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rquantlib/issues/#1}{##1}}
 \newcommand{\ghrp}{\href{https://github.com/#1}{##1}}
 
+\section{Changes in \pkg{RQuantLib} version 0.4.19 (2023-08-07)}{
+  \itemize{
+    \item Three calendaring / schedule tests were adjusted for slightly
+    changed values under QuantLib 1.31
+    \item Several checks in the \code{configure} script have been updated to
+    reflect current versions of packages.
+    \item Five examples no longer run because, even while extremely short,
+    use of (too many default) threads was seen.
+  }
+}
+
 \section{Changes in \pkg{RQuantLib} version 0.4.18 (2023-05-01)}{
   \itemize{
     \item Use of several \code{rgl} functions was updated to a new naming

@@ -13,8 +13,8 @@
   maturities are in years down the rows, and swap tenors are in years
   along the columns, in the usual fashion. It is assumed that the
   swaption is
-  exercisable  at the start of the swap if {params$european} flag is set to {TRUE} or  
-  on each reset date (Bermudan) of the underlying swap if {params$european} flag is 
+  exercisable  at the start of the swap if {params$european} flag is set to {TRUE} or
+  on each reset date (Bermudan) of the underlying swap if {params$european} flag is
   set to {FALSE}.
 }
 \usage{
@@ -49,8 +49,8 @@ volMatrix,legparams)
     associated with the columns of the swaption volatility matrix.}
   \item{volMatrix}{The swaption volatility matrix. Must be a 2D matrix
   stored by rows. See the example below.}
-    \item{legparams}{A list specifying the \code{dayCounter} the day count convention for the 
-   fixed leg (default is Thirty360), and  \code{fixFreq}, fixed coupon frequecny (defualt is Annual), \code{floatFreq}, 
+    \item{legparams}{A list specifying the \code{dayCounter} the day count convention for the
+   fixed leg (default is Thirty360), and  \code{fixFreq}, fixed coupon frequecny (defualt is Annual), \code{floatFreq},
    floating leg reset frequency (default is Semiannual).
   }
  }
@@ -66,7 +66,7 @@ volMatrix,legparams)
 \details{
   This function is based on \code{QuantLib} Version 0.3.10. It
   introduces support for fixed-income instruments in \code{RQuantLib}.
-  
+
   At present only a small number of the many parameters that can be set
   in \code{QuantLib} are exposed by this function. Some of the
   hard-coded parameters that apply to the current version include:
@@ -111,7 +111,8 @@ volMatrix,legparams)
 
 \examples{
 if (.Platform$OS.type != "windows" && .Platform$r_arch != "i386") {
-    
+\dontrun{
+
 # This data was generated to match the original quantlib example for Bermudan Swaption
 params <- list(tradeDate=as.Date('2016-2-15'),
                settleDate=as.Date('2016-2-17'),
@@ -159,7 +160,7 @@ legparams=list(dayCounter="Thirty360",
                fixFreq="Annual",
                floatFreq="Semiannual")
 
-setEvaluationDate(as.Date("2016-2-16"))               
+setEvaluationDate(as.Date("2016-2-16"))
 times<-times <- seq(0,14.75,.25)
 dcurve <- DiscountCurve(params, tsQuotes, times=times,legparams)
 
@@ -167,6 +168,7 @@ dcurve <- DiscountCurve(params, tsQuotes, times=times,legparams)
 pricing <- AffineSwaption(params, dcurve,swaptionMaturities, swapTenors, volMatrix,legparams)
 summary(pricing)
 
-}    
+}
+}
 }
 \keyword{models}

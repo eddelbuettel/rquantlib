@@ -72,8 +72,8 @@ DiscountCurve(params, tsQuotes, times, legparams)
     that the largest time plus \code{dt} does not exceed the longest
     maturity of the instruments used for calibration (no extrapolation).
     }
-  \item{legparams}{A list specifying the \code{dayCounter} the day count convention for the 
-   fixed leg (default is Thirty360), and  \code{fixFreq}, fixed coupon frequecny (defualt is Annual), \code{floatFreq}, 
+  \item{legparams}{A list specifying the \code{dayCounter} the day count convention for the
+   fixed leg (default is Thirty360), and  \code{fixFreq}, fixed coupon frequecny (defualt is Annual), \code{floatFreq},
    floating leg reset frequency (default is Semiannual).
   }
 
@@ -90,7 +90,7 @@ DiscountCurve(params, tsQuotes, times, legparams)
 \details{
   This function is based on \code{QuantLib} Version 0.3.10. It
   introduces support for fixed-income instruments in \code{RQuantLib}.
-  
+
   Forward rates and zero rates are computed assuming continuous
   compounding, so the forward rate \eqn{f} over the
   period from \eqn{t_1}{t1} to \eqn{t_2}{t2} is determined by the
@@ -109,7 +109,7 @@ DiscountCurve(params, tsQuotes, times, legparams)
   first part of the message contains technical information about the
   precise location of the problem in the \code{QuantLib} code. Scroll to
   the end to find information that is meaningful to the R user.)
-  
+
 }
 \references{
   Brigo, D. and Mercurio, F. (2001) \emph{Interest Rate Models: Theory and
@@ -126,7 +126,7 @@ DiscountCurve(params, tsQuotes, times, legparams)
 \seealso{\code{\link{BermudanSwaption}}}
 
 \examples{
-
+\dontrun{
 savepar <- par(mfrow=c(3,3), mar=c(4,4,2,0.5))
 
 ## This data is taken from sample code shipped with QuantLib 0.9.7
@@ -180,6 +180,6 @@ curves <- DiscountCurve(params, tsQuotes, times)
 plot(curves,setpar=FALSE)
 
 par(savepar)
- 
+}
 }
 \keyword{models}

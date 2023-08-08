@@ -39,7 +39,7 @@ volMatrix)
       \code{BKTree} \tab Black-Karasinski model using a tree.
       }
     }
-  \item{ts}{A term structure built with DiscounCurve or market observables 
+  \item{ts}{A term structure built with DiscounCurve or market observables
      needed to construct the spot term
     structure of interest rates. A list of name/value pairs. See the
     help page for \code{\link{DiscountCurve}} for details.}
@@ -64,8 +64,8 @@ volMatrix)
 \details{
   This function was update for \code{QuantLib} Version 1.7.1 or later. It
   introduces support for fixed-income instruments in \code{RQuantLib}. It implements the
-  full function and should work in most cases as long as there are suuficient swaption vol 
-  data points to fit the affine model. At least 5 unique points are required. The data point 
+  full function and should work in most cases as long as there are suuficient swaption vol
+  data points to fit the affine model. At least 5 unique points are required. The data point
   search attempts to find 5 or more points with one being the closet match in terms in of
   expiration and maturity.
 
@@ -86,12 +86,12 @@ volMatrix)
 \seealso{\code{\link{DiscountCurve}}, \code{\link{SabrSwaption}}}
 
 \examples{
-
+\dontrun{
 # This data replicates sample code shipped with QuantLib 0.3.10 results
 params <- list(tradeDate=as.Date('2002-2-15'),
                settleDate=as.Date('2002-2-19'),
                startDate=as.Date('2003-2-19'),
-               maturity=as.Date('2008-2-19'),   
+               maturity=as.Date('2008-2-19'),
                dt=.25,
                payFixed=TRUE,
                strike=.05,
@@ -140,6 +140,6 @@ volMatrix <- matrix(
 pricing <- BermudanSwaption(params, ts=.05,
                             swaptionMaturities, swapTenors, volMatrix)
 summary(pricing)
-
+}
 }
 \keyword{models}

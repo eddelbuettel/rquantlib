@@ -7,7 +7,7 @@
   The \code{EuropeanOptionArrays} function allows any two of the numerical
   input parameters to be a vector, and a list of matrices is
   returned for the option value as well as each of the 'greeks'. For
-  each of the returned matrices, each element 
+  each of the returned matrices, each element
   corresponds to an evaluation under the given set of parameters.
 }
 \usage{
@@ -15,7 +15,7 @@ EuropeanOptionArrays(type, underlying, strike, dividendYield,
                      riskFreeRate, maturity, volatility)
 oldEuropeanOptionArrays(type, underlying, strike, dividendYield,
                         riskFreeRate, maturity, volatility)
-plotOptionSurface(EOres, ylabel="", xlabel="", zlabel="", fov=60) 
+plotOptionSurface(EOres, ylabel="", xlabel="", zlabel="", fov=60)
 }
 \arguments{
   \item{type}{A string with one of the values \code{call} or \code{put}}
@@ -35,7 +35,7 @@ plotOptionSurface(EOres, ylabel="", xlabel="", zlabel="", fov=60)
   The \code{EuropeanOptionArrays} function allows any two of the numerical
   input parameters to be a vector or sequence. A list of
   two-dimensional matrices is returned. Each cell corresponds to
-  an evaluation under the given set of parameters. 
+  an evaluation under the given set of parameters.
 
   For these functions, the following components are returned:
   \item{value}{(matrix) value of option}
@@ -50,15 +50,15 @@ plotOptionSurface(EOres, ylabel="", xlabel="", zlabel="", fov=60)
   The \code{oldEuropeanOptionArrays} function is an older implementation
   which vectorises this at the R level instead but allows more general
   multidimensional arrays.
-  
+
 }
 \details{
   The well-known closed-form solution derived by Black, Scholes and
-  Merton is used for valuation. 
+  Merton is used for valuation.
 
   Please see any decent Finance textbook for background reading, and the
   \code{QuantLib} documentation for details on the \code{QuantLib}
-  implementation.  
+  implementation.
 }
 \references{\url{https://www.quantlib.org/} for details on \code{QuantLib}.}
 \author{Dirk Eddelbuettel \email{edd@debian.org} for the \R interface;
@@ -68,6 +68,7 @@ plotOptionSurface(EOres, ylabel="", xlabel="", zlabel="", fov=60)
 \seealso{\code{\link{AmericanOption}},\code{\link{BinaryOption}}}
 
 \examples{
+\dontrun{
 # define two vectos for the underlying and the volatility
 und.seq <- seq(10,180,by=2)
 vol.seq <- seq(0.1,0.9,by=0.1)
@@ -80,7 +81,7 @@ EOarr <- EuropeanOptionArrays("call", underlying=und.seq,
 old.par <- par(no.readonly = TRUE)
 par(mfrow=c(2,2),oma=c(5,0,0,0),mar=c(2,2,2,1))
 plot(EOarr$parameters.underlying, EOarr$value[,1], type='n',
-     main="option value", xlab="", ylab="") 
+     main="option value", xlab="", ylab="")
 topocol <- topo.colors(length(vol.seq))
 for (i in 1:length(vol.seq))
   lines(EOarr$parameters.underlying, EOarr$value[,i], col=topocol[i])
@@ -102,5 +103,5 @@ mtext(text=paste("Strike is 100, maturity 1 year, riskless rate 0.03",
       side=1,font=1,outer=TRUE,line=3)
 par(old.par)
 }
+}
 \keyword{misc}
-

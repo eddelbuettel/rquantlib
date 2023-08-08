@@ -15,10 +15,10 @@
 \method{summary}{Bond}(object, digits=5, ...)
 }
 \arguments{
-  \item{x}{Any Bond object derived from this base class} 
-  \item{object}{Any Bond object derived from this base class} 
-  \item{digits}{Number of digits of precision shown} 
-  \item{...}{Further arguments} 
+  \item{x}{Any Bond object derived from this base class}
+  \item{object}{Any Bond object derived from this base class}
+  \item{digits}{Number of digits of precision shown}
+  \item{...}{Further arguments}
 }
 \value{
   None, but side effects of displaying content.
@@ -26,7 +26,7 @@
 \details{
          Please see any decent Finance textbook for background reading, and the
   \code{QuantLib} documentation for details on the \code{QuantLib}
-  implementation.  
+  implementation.
 }
 \references{\url{https://www.quantlib.org/} for details on \code{QuantLib}.}
 \author{Khanh Nguyen \email{knguyen@cs.umb.edu}; Dirk Eddelbuettel \email{edd@debian.org} for the \R interface;
@@ -35,6 +35,7 @@
   stabilises its own API.}
 
 \examples{
+\dontrun{
 
 ## This data is taken from sample code shipped with QuantLib 0.9.7
 ## from the file Examples/Swap/swapvaluation
@@ -107,7 +108,7 @@ FixedRateBond(bond, rates, schedule, calc, price=price)
 
 # price a floating rate bond
 bondparams <- list(faceAmount=100, issueDate=as.Date("2004-11-30"),
-                   maturityDate=as.Date("2008-11-30"), redemption=100, 
+                   maturityDate=as.Date("2008-11-30"), redemption=100,
                    effectiveDate=as.Date("2004-12-01"))
 
 dateparams <- list(settlementDays=1, calendar="UnitedStates/GovernmentBond",
@@ -118,10 +119,10 @@ dateparams <- list(settlementDays=1, calendar="UnitedStates/GovernmentBond",
 gearings <- spreads <- caps <- floors <- vector()
 
 iborCurve <- DiscountCurve(params,list(flat=0.05), times)
-ibor <- list(type="USDLibor", length=6, inTermOf="Month", 
+ibor <- list(type="USDLibor", length=6, inTermOf="Month",
              term=iborCurve)
-FloatingRateBond(bondparams, gearings, spreads, caps, floors, 
+FloatingRateBond(bondparams, gearings, spreads, caps, floors,
                  ibor, discountCurve, dateparams)
 }
+}
 \keyword{misc}
-

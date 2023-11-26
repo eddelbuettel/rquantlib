@@ -10,6 +10,9 @@
 	* man/CallableBond.Rd: Wrap example in 'if (interactive())' to not
 	run afould example computation time
 
+	* src/Makevars.in (#CXX_STD): No longer explicitly set C++14 which is
+	the default since R 4.2.0; if needed uncomment the line
+
 2023-09-20  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .github/workflows/docker.yaml (jobs): Update to actions/checkout@v4

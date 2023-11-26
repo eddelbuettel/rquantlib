@@ -13,6 +13,9 @@
 	* src/Makevars.in (#CXX_STD): No longer explicitly set C++14 which is
 	the default since R 4.2.0; if needed uncomment the line
 
+	* src/RcppExports.cpp: Regenrated under Rcpp 1.0.11.5 to avoid a
+	warning from -Wformat-security
+
 2023-09-20  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .github/workflows/docker.yaml (jobs): Update to actions/checkout@v4

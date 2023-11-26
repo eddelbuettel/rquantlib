@@ -4,6 +4,16 @@
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rquantlib/issues/#1}{##1}}
 \newcommand{\ghrp}{\href{https://github.com/#1}{##1}}
 
+\section{Changes in \pkg{RQuantLib} version 0.4.20 (2023-11-26)}{
+  \itemize{
+    \item Correct three help pages with stray curly braces
+    \item Correct two printf format strings
+    \item Comment-out explicit selection of C++14
+    \item Wrap one example inside `if (interactive())` to not exceed
+    total running time limit at CRAN checks
+  }
+}
+
 \section{Changes in \pkg{RQuantLib} version 0.4.19 (2023-08-07)}{
   \itemize{
     \item Three calendaring / schedule tests were adjusted for slightly

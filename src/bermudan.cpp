@@ -2,8 +2,8 @@
 //  RQuantLib function BermudanSwaption
 //
 //  Copyright (C) 2005 - 2007  Dominick Samperi
-//  Copyright (C) 2007 - 2020  Dirk Eddelbuettel
-//  Copyright (C) 2016         Terry Leitch
+//  Copyright (C) 2007 - 2023  Dirk Eddelbuettel
+//  Copyright (C) 2016 - 2023  Terry Leitch
 //
 //  This file is part of RQuantLib.
 //
@@ -45,7 +45,7 @@ void calibrateModel(const QuantLib::ext::shared_ptr<QuantLib::ShortRateModel>& m
                                                            1000, 0.05, 1.50);
 	QuantLib::Volatility diff = implied - swaptionVols(i, numCols-i-1);
 
-	Rprintf((char*) "%dx%d: model %lf, market %lf, diff %lf\n",
+	Rprintf((char*) "%.0fx%.0f: model %lf, market %lf, diff %lf\n",
             swaptionMat[i], swapLengths[numCols-i-1], implied,
             swaptionVols(i, numCols-i-1), diff);
     }

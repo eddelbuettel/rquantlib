@@ -4,6 +4,9 @@
 	* man/BermudanSwaption.Rd: Ditto
 	* man/SabrSwaption.Rd: Ditto
 
+	* src/affine.cpp (calibrateModel2): Adjust printf format string
+	* src/bermudan.cpp (calibrateModel): Ditto
+
 2023-09-20  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .github/workflows/docker.yaml (jobs): Update to actions/checkout@v4

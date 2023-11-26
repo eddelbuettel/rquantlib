@@ -59,7 +59,7 @@ volMatrix)
   equals \code{price} times notional divided by 10,000)}
   \item{ATMStrike}{At-the-money strike}
   \item{params}{Input parameter list}
-  If there are insufficient swaption vols to calibrate it throws a warning and returns {NULL}
+  If there are insufficient swaption vols to calibrate it throws a warning and returns \code{NULL}
 }
 \details{
   This function was update for \code{QuantLib} Version 1.7.1 or later. It

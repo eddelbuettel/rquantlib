@@ -6,11 +6,11 @@
   \code{SabrSwaption} prices a swaption with specified
   expiration or time range if Bermudan, strike, and maturity, using quantlibs SABR model for europeans
   and quantlib's markovfunctional for Bermudans.  Currently the input is a zero offset log-normal vol surface.
-  An example of a dataset can be found in the dataset {rqlib} inlcuded with Rquantlib. It is assumed that the
+  An example of a dataset can be found in the dataset \code{rqlib} inlcuded with Rquantlib. It is assumed that the
   swaption is
-  exercisable  at the start of a forward start swap if {params$european} flag is set to {TRUE} or starting
+  exercisable  at the start of a forward start swap if \code{params$european} flag is set to \code{TRUE} or starting
   immediately on each reset date (Bermudan) of an existing underlying swap or spot start
-  swap if {params$european} flag is set to {FALSE}.
+  swap if \code{params$european} flag is set to \code{FALSE}.
 }
 \usage{
 SabrSwaption(params, ts, volCubeDF,

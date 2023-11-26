@@ -13,9 +13,9 @@
   maturities are in years down the rows, and swap tenors are in years
   along the columns, in the usual fashion. It is assumed that the
   swaption is
-  exercisable  at the start of the swap if {params$european} flag is set to {TRUE} or
-  on each reset date (Bermudan) of the underlying swap if {params$european} flag is
-  set to {FALSE}.
+  exercisable  at the start of the swap if \code{params$european} flag is set to \code{TRUE} or
+  on each reset date (Bermudan) of the underlying swap if \code{params$european} flag is
+  set to \code{FALSE}.
 }
 \usage{
 AffineSwaption(params, ts, swaptionMaturities, swapTenors,

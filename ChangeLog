@@ -1,3 +1,9 @@
+2023-11-26  Dirk Eddelbuettel  <edd@debian.org>
+
+	* man/AffineSwaption.Rd: Add missing `\code` before stray `{}`
+	* man/BermudanSwaption.Rd: Ditto
+	* man/SabrSwaption.Rd: Ditto
+
 2023-09-20  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .github/workflows/docker.yaml (jobs): Update to actions/checkout@v4

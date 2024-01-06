@@ -1,3 +1,8 @@
+2023-04-27  Jeroen Ooms  <jeroenooms@gmail.com>
+
+	* configure.ac: Use universal build macOS build of QuantLib 1.31.1
+	* configure: Idem
+
 2023-11-26  Dirk Eddelbuettel  <edd@debian.org>
 
 	* man/AffineSwaption.Rd: Add missing `\code` before stray `{}`

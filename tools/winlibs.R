@@ -1,8 +1,19 @@
-# Build against mingw-w64 build of quantlib
-if (!file.exists("../windows/quantlib-1.29/include/ql/quantlib.hpp")) {
-  download.file("https://github.com/rwinlib/quantlib/archive/v1.29.zip", "quantlib-1.29.zip", quiet = TRUE)
+if(!file.exists("../windows/quantlib/include/ql/quantlib.hpp")){
+  unlink("../windows", recursive = TRUE)
+  url <- if(grepl("aarch", R.version$platform)){
+    "https://github.com/r-windows/bundles/releases/download/quantlib-1.32/quantlib-1.32-clang-aarch64.tar.xz"
+  } else if(grepl("clang", Sys.getenv('R_COMPILED_BY'))){
+    "https://github.com/r-windows/bundles/releases/download/quantlib-1.32/quantlib-1.32-clang-x86_64.tar.xz"
+  } else if(getRversion() >= "4.3") {
+    "https://github.com/r-windows/bundles/releases/download/quantlib-1.32/quantlib-1.32-ucrt-x86_64.tar.xz"
+  } else {
+    "https://github.com/rwinlib/quantlib/archive/v1.29.tar.gz"
+  }
+  download.file(url, basename(url), quiet = TRUE)
   dir.create("../windows", showWarnings = FALSE)
-  unzip("quantlib-1.29.zip", exdir = "../windows")
-  unlink("quantlib-1.29.zip")
-  unzip("../windows/quantlib-1.29/lib.zip", exdir = "../windows/quantlib-1.29")
+  untar(basename(url), exdir = "../windows", tar = 'internal')
+  unlink(basename(url))
+  setwd("../windows")
+  file.rename(list.files(), 'quantlib')
+  if(file.exists("quantlib/lib.zip")) unzip("quantlib/lib.zip", exdir = "quantlib")
 }

@@ -4,12 +4,12 @@
 # Copyright 2005         Uwe Ligges
 # Copyright 2008 - 2018  Dirk Eddelbuettel
 # Copyright 2011         Uwe Ligges, Brian Ripley, and Josh Ulrich
-# Copyright 2018 - 2019  Jeroen Ooms
+# Copyright 2018 - 2024  Jeroen Ooms
 
-RWINLIB=../windows/quantlib-1.29
+RWINLIB=../windows/quantlib
 PKG_CPPFLAGS=-I$(RWINLIB)/include -I../inst/include
 PKG_CXXFLAGS=-DBOOST_NO_AUTO_PTR
-PKG_LIBS = -L$(RWINLIB)/lib$(R_ARCH) -lQuantLib
+PKG_LIBS = -L$(RWINLIB)/lib$(R_ARCH) -L$(RWINLIB)/lib -lQuantLib
 
 all: clean winlibs
 

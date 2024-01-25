@@ -648,7 +648,11 @@ QuantLib::Duration::Type getDurationType(const double n) {
 //'   getQuantLibVersion()
 // [[Rcpp::export]]
 std::string getQuantLibVersion() {
-    return std::string(QL_PACKAGE_VERSION);
+#ifdef QL_PACKAGE_VERSION
+    return std::string(QL_PACKAGE_VERSION); //autotools
+#else
+    return std::string(PACKAGE_VERSION); //cmake
+#endif
 }
 
 //' This function returns a named vector of boolean variables describing several

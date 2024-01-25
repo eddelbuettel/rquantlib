@@ -4,6 +4,15 @@
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rquantlib/issues/#1}{##1}}
 \newcommand{\ghrp}{\href{https://github.com/#1}{##1}}
 
+\section{Changes in \pkg{RQuantLib} version 0.4.21 (unreleased)}{
+  \itemize{
+    \item Generalize macOS build to universal build (Jeroen in \ghpr{179})
+    \item Generalize Windows build to arm64 (Jeroen in \ghpr{181})
+    \item Generalize version string use to support \code{cmake} use (Jeroen
+    in \ghpr{181} fixing \ghit{180})
+  }
+}
+
 \section{Changes in \pkg{RQuantLib} version 0.4.20 (2023-11-26)}{
   \itemize{
     \item Correct three help pages with stray curly braces

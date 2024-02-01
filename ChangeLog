@@ -1,3 +1,8 @@
+2024-02-01  Dirk Eddelbuettel  <edd@debian.org>
+
+	* .github/workflows/ci.yaml (jobs): Update to checkout@v4, switch to
+	using r-ci-setup action
+
 2024-01-25  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Roll micro release and date

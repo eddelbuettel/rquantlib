@@ -4,12 +4,13 @@
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rquantlib/issues/#1}{##1}}
 \newcommand{\ghrp}{\href{https://github.com/#1}{##1}}
 
-\section{Changes in \pkg{RQuantLib} version 0.4.21 (unreleased)}{
+\section{Changes in \pkg{RQuantLib} version 0.4.21 (2024-02-01)}{
   \itemize{
     \item Generalize macOS build to universal build (Jeroen in \ghpr{179})
     \item Generalize Windows build to arm64 (Jeroen in \ghpr{181})
     \item Generalize version string use to support \code{cmake} use (Jeroen
     in \ghpr{181} fixing \ghit{180})
+    \item Minor update to `ci.yaml` github action (Dirk)
   }
 }
 

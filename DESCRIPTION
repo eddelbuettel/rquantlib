@@ -1,7 +1,7 @@
 Package: RQuantLib
 Title: R Interface to the 'QuantLib' Library
-Version: 0.4.21
-Date: 2024-02-01
+Version: 0.4.21.1
+Date: 2024-03-09
 Maintainer: Dirk Eddelbuettel <edd@debian.org>
 Author: Dirk Eddelbuettel, Khanh Nguyen (2009-2010), Terry Leitch (since 2016)
 Description: The 'RQuantLib' package makes parts of 'QuantLib' accessible from R

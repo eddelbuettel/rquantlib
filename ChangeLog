@@ -1,5 +1,7 @@
 2024-03-09  Dirk Eddelbuettel  <edd@debian.org>
 
+	* DESCRIPTION (Version, Date): Roll micro release and date
+
 	* R/asian.R: Remove three redundant duplicate methods available via
 	class 'option' inherited from
 

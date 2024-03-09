@@ -45,23 +45,3 @@ AsianOption.default <- function(averageType, type, underlying, strike, dividendY
     class(val) <- c("AsianOption","Option")
     val
 }
-
-plot.Option <- function(x, ...) {
-    warning("No plotting available for class", class(x)[1],"\n")
-    invisible(x)
-}
-
-print.Option <- function(x, digits=4, ...) {
-    cat("Concise summary of valuation for", class(x)[1], "\n")
-    print(round(unlist(x[1:7]), digits))
-    invisible(x)
-}
-
-summary.Option <- function(object, digits=4, ...) {
-    cat("Detailed summary of valuation for", class(object)[1], "\n")
-    print(round(unlist(object[1:7]), digits))
-    cat("with parameters\n")
-    print(unlist(object[["parameters"]]))
-    invisible(object)
-}
-

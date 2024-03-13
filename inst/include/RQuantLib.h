@@ -21,9 +21,7 @@
 
 #include "rquantlib_internal.h"        	// old rquantlib.h
 #include "rquantlib_wrappers.h"         // as<> and wrap
-#if defined(RQuantLib_Plugin)
 #include "rquantlib_impl.h"         	// as<> and wrap implementation
-#endif
 #include "RQuantLib_RcppExports.h"
 
 #endif // __RQuantLib_h__

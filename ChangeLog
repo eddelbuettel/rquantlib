@@ -1,5 +1,7 @@
 2024-03-20  Dirk Eddelbuettel  <edd@debian.org>
 
+	* DESCRIPTION (Version, Date): Roll micro release and date
+
 	* .github/workflows/ci.yaml: Pause macOS runs for now
 
 2024-03-20  Othman El Hammouchi  <othman.el.hammouchi@protonmail.com>

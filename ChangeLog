@@ -2,16 +2,7 @@
 
 	* DESCRIPTION (Version, Date): Roll micro release and date
 
-	* .github/workflows/ci.yaml: Pause macOS runs for now
-
 	* src/Makevars.in (PKG_CXXFLAGS): No longer need -DBOOST_NO_AUTO_PTR
-
-2024-03-20  Othman El Hammouchi  <othman.el.hammouchi@protonmail.com>
-
-	* inst/include/rquantlib_impl.h: Inline `as` and `wrap functions so they don't
-	generate linker errors when included from C++ code in a package
-	* inst/include/RQuantLib.h: Remove '#if' preprocessor directive so 'rquantlib_impl.h'
-	always gets included when including the master header
 
 2024-03-09  Dirk Eddelbuettel  <edd@debian.org>
 

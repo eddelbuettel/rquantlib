@@ -4,6 +4,8 @@
 
 	* .github/workflows/ci.yaml: Pause macOS runs for now
 
+	* src/Makevars.in (PKG_CXXFLAGS): No longer need -DBOOST_NO_AUTO_PTR
+
 2024-03-20  Othman El Hammouchi  <othman.el.hammouchi@protonmail.com>
 
 	* inst/include/rquantlib_impl.h: Inline `as` and `wrap functions so they don't

@@ -2,7 +2,7 @@
 //  RQuantLib -- R interface to the QuantLib libraries
 //
 //  Copyright (C) 2009 - 2012  Dirk Eddelbuettel and Khanh Nguyen
-//  Copyright (C) 2013 - 2021  Dirk Eddelbuettel
+//  Copyright (C) 2013 - 2024  Dirk Eddelbuettel
 //
 //  RQuantLib is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -57,8 +57,9 @@ double zeroyield(double price, QuantLib::Date maturity, QuantLib::Date settle, i
     //double EMR = Rcpp::as<double>(rparam["EMR");
 
     QuantLib::ZeroCouponBond bond(1, calendar, 100, maturity, QuantLib::Unadjusted, 100.0, settle);
+    QuantLib::Bond::Price bondprice{price, QuantLib::Bond::Price::Clean};
 
-    return bond.yield(price, dayCounter, QuantLib::Compounded, freq);
+    return bond.yield(bondprice, dayCounter, QuantLib::Compounded, freq);
 }
 
 Rcpp::DataFrame zbtyield(std::vector<QuantLib::Date> MatDates,

@@ -1,7 +1,7 @@
 
 //  RQuantLib -- R interface to the QuantLib libraries
 //
-//  Copyright (C) 2002 - 2022  Dirk Eddelbuettel
+//  Copyright (C) 2002 - 2024  Dirk Eddelbuettel
 //  Copyright (C) 2009 - 2012  Khanh Nguyen and Dirk Eddelbuettel
 //
 //  This file is part of RQuantLib.
@@ -81,7 +81,8 @@ double zeroYieldByPriceEngine(double price,
     QuantLib::DayCounter dc = getDayCounter(dayCounter);
     QuantLib::Compounding cp = getCompounding(compound);
     QuantLib::Frequency freq = getFrequency(frequency);
-    return zbond.yield(price, dc, cp, freq);
+    QuantLib::Bond::Price bondprice{price, QuantLib::Bond::Price::Clean};
+    return zbond.yield(bondprice, dc, cp, freq);
 }
 
 
@@ -120,7 +121,8 @@ double fixedRateBondYieldByPriceEngine(double settlementDays,
     QuantLib::FixedRateBond bond(settlementDays, faceAmount, sch,
                                  rates, dc, bdc, redemption, issueDate);
 
-    return bond.yield(price, dc, cp, freq);
+    QuantLib::Bond::Price bondprice{price, QuantLib::Bond::Price::Clean};
+    return bond.yield(bondprice, dc, cp, freq);
 }
 
 // [[Rcpp::export]]
@@ -380,7 +382,8 @@ Rcpp::List FixedRateWithPrice(Rcpp::List bondparam,
     QuantLib::Date sd = bond->settlementDate();
     const Rcpp::Date settlementDate(sd.month(), sd.dayOfMonth(), sd.year());
     const double accrued = bond->accruedAmount();
-    const double yield = QuantLib::BondFunctions::yield(*bond, price, calcDayCounter, compounding, calcFreq, sd, accuracy, maxEvaluations);
+    const QuantLib::Bond::Price bondprice{price, QuantLib::Bond::Price::Clean};
+    const double yield = QuantLib::BondFunctions::yield(*bond, bondprice, calcDayCounter, compounding, calcFreq, sd, accuracy, maxEvaluations);
 
     return Rcpp::List::create(Rcpp::Named("NPV") = std::numeric_limits<double>::quiet_NaN(),
                               Rcpp::Named("cleanPrice") = price,

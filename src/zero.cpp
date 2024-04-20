@@ -57,9 +57,12 @@ double zeroyield(double price, QuantLib::Date maturity, QuantLib::Date settle, i
     //double EMR = Rcpp::as<double>(rparam["EMR");
 
     QuantLib::ZeroCouponBond bond(1, calendar, 100, maturity, QuantLib::Unadjusted, 100.0, settle);
+#if QL_HEX_VERSION >= 0x013400c0
     QuantLib::Bond::Price bondprice{price, QuantLib::Bond::Price::Clean};
-
     return bond.yield(bondprice, dayCounter, QuantLib::Compounded, freq);
+#else
+    return bond.yield(price, dayCounter, QuantLib::Compounded, freq);
+#endif
 }
 
 Rcpp::DataFrame zbtyield(std::vector<QuantLib::Date> MatDates,

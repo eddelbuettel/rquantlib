@@ -2,7 +2,7 @@
 library(RQuantLib)
 
 ## For QuantLib 1.31 or newer we need to adjust three test expectations
-is131 <- RQuantLib::getQuantLibVersion() >= "1.31"
+is131 <- gsub("-[a-z]+", "", RQuantLib::getQuantLibVersion()) >= "1.31"
 
 #test.Schedule <- function() {
 ## these tests are taken from the QuantLib test-suite/schedule.cpp file
@@ -81,7 +81,7 @@ expected <- if (is131) { as.Date(c("1996-08-22", "1996-08-30", "1997-02-28", "19
 expect_equal(Schedule(params), expected, info=paste("Testing that the first date is not duplicated due to",
                                                    "EOM convention when going backwards..."))
 
-if( compareVersion(getQuantLibVersion(), "1.7.1") >= 0 ) {
+if( compareVersion(gsub("-[a-z]+", "", getQuantLibVersion()), "1.7.1") >= 0 ) {
     params <- list(effectiveDate = as.Date("2016-01-13"),
                    maturityDate = as.Date("2016-05-04"),
                    calendar = "TARGET",

@@ -4,6 +4,15 @@
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rquantlib/issues/#1}{##1}}
 \newcommand{\ghrp}{\href{https://github.com/#1}{##1}}
 
+\section{Changes in \pkg{RQuantLib} version 0.4.22 (2024-04-xx)}{
+  \itemize{
+    \item Small code cleanup removing duplicate R code
+    \item Small improvements to C++ compilation flags
+    \item Robustify internal version comparison to accommodate RC releases
+    \item Adjustments to two C++ files for QuantLib 1.34
+  }
+}
+
 \section{Changes in \pkg{RQuantLib} version 0.4.21 (2024-02-01)}{
   \itemize{
     \item Generalize macOS build to universal build (Jeroen in \ghpr{179})
@@ -19,7 +28,7 @@
     \item Correct three help pages with stray curly braces
     \item Correct two printf format strings
     \item Comment-out explicit selection of C++14
-    \item Wrap one example inside `if (interactive())` to not exceed
+    \item Wrap one example inside \code{if (interactive())} to not exceed
     total running time limit at CRAN checks
   }
 }

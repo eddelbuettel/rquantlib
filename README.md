@@ -5,7 +5,7 @@
 [![CRAN](http://www.r-pkg.org/badges/version/RQuantLib)](https://cran.r-project.org/package=RQuantLib)
 [![r-universe](https://eddelbuettel.r-universe.dev/badges/RQuantLib)](https://eddelbuettel.r-universe.dev/RQuantLib)
 [![Debian package](https://img.shields.io/debian/v/r-cran-rquantlib/sid?color=brightgreen)](https://packages.debian.org/sid/r-cran-rquantlib)
-[![Dependencies](https://tinyverse.netlify.com/badge/RQuantLib)](https://cran.r-project.org/package=RQuantLib)
+[![Dependencies](https://tinyverse.netlify.app/badge/RQuantLib)](https://cran.r-project.org/package=RQuantLib)
 [![Downloads](http://cranlogs.r-pkg.org/badges/RQuantLib?color=brightgreen)](https://www.r-pkg.org:443/pkg/RQuantLib)
 [![Last Commit](https://img.shields.io/github/last-commit/eddelbuettel/rquantlib)](https://github.com/eddelbuettel/rquantlib)
 

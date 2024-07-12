@@ -1,7 +1,7 @@
 
 //  RQuantLib -- R interface to the QuantLib libraries
 //
-//  Copyright (C) 2002 - 2021  Dirk Eddelbuettel
+//  Copyright (C) 2002 - 2024  Dirk Eddelbuettel
 //  Copyright (C) 2005 - 2006  Dominick Samperi
 //  Copyright (C) 2009 - 2012  Dirk Eddelbuettel and Khanh Nguyen
 //
@@ -508,37 +508,40 @@ QuantLib::DateGeneration::Rule getDateGenerationRule(const double n){
 }
 
 QuantLib::ext::shared_ptr<QuantLib::IborIndex> buildIborIndex(std::string type,
-                                                      const QuantLib::Handle<QuantLib::YieldTermStructure>& iborStrc){
-    if (type == "Euribor10M")
-        return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor10M(iborStrc));
-    if (type == "Euribor11M")
-        return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor11M(iborStrc));
-    if (type == "Euribor1M")
-        return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor1M(iborStrc));
-    if (type == "Euribor1Y")
-        return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor1Y(iborStrc));
-    if (type == "Euribor2M")
-        return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor2M(iborStrc));
-    if (type == "Euribor2W")
-        return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor2W(iborStrc));
-    if (type == "Euribor3M")
-        return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor3M(iborStrc));
-    if (type == "Euribor3W")
-        return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor3W(iborStrc));
-    if (type == "Euribor4M")
-        return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor4M(iborStrc));
-    if (type == "Euribor5M")
-        return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor5M(iborStrc));
-    if (type == "Euribor6M")
-        return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor6M(iborStrc));
-    if (type == "Euribor7M")
-        return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor7M(iborStrc));
-    if (type == "Euribor8M")
-        return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor8M(iborStrc));
-    if (type == "Euribor9M")
-        return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor9M(iborStrc));
-    if (type == "EuriborSW")
-        return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::EuriborSW(iborStrc));
+                                                              const QuantLib::Handle<QuantLib::YieldTermStructure>& iborStrc){
+#if QL_HEX_VERSION >= 0x013500c0
+    if (type == "EuriborSW") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor1W(iborStrc));
+    if (type == "Euribor1M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor(1*QuantLib::Months, iborStrc));
+    if (type == "Euribor2M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor(2*QuantLib::Months, iborStrc));
+    if (type == "Euribor2W") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor(2*QuantLib::Months, iborStrc));
+    if (type == "Euribor3M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor(3*QuantLib::Months, iborStrc));
+    if (type == "Euribor3W") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor(3*QuantLib::Months, iborStrc));
+    if (type == "Euribor4M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor(4*QuantLib::Months, iborStrc));
+    if (type == "Euribor5M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor(5*QuantLib::Months, iborStrc));
+    if (type == "Euribor6M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor(6*QuantLib::Months, iborStrc));
+    if (type == "Euribor7M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor(7*QuantLib::Months, iborStrc));
+    if (type == "Euribor8M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor(8*QuantLib::Months, iborStrc));
+    if (type == "Euribor9M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor(9*QuantLib::Months, iborStrc));
+    if (type == "Euribor10M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor(10*QuantLib::Months, iborStrc));
+    if (type == "Euribor11M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor(11*QuantLib::Months, iborStrc));
+    if (type == "Euribor1Y")  return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor(1*QuantLib::Years, iborStrc));
+#else
+    if (type == "EuriborSW") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::EuriborSW(iborStrc));
+    if (type == "Euribor1M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor1M(iborStrc));
+    if (type == "Euribor2M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor2M(iborStrc));
+    if (type == "Euribor2W") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor2W(iborStrc));
+    if (type == "Euribor3M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor3M(iborStrc));
+    if (type == "Euribor3W") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor3W(iborStrc));
+    if (type == "Euribor4M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor4M(iborStrc));
+    if (type == "Euribor5M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor5M(iborStrc));
+    if (type == "Euribor6M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor6M(iborStrc));
+    if (type == "Euribor7M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor7M(iborStrc));
+    if (type == "Euribor8M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor8M(iborStrc));
+    if (type == "Euribor9M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor9M(iborStrc));
+    if (type == "Euribor10M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor10M(iborStrc));
+    if (type == "Euribor11M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor11M(iborStrc));
+    if (type == "Euribor1Y") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor1Y(iborStrc));
+#endif
     return QuantLib::ext::shared_ptr<QuantLib::IborIndex>();
 }
 

@@ -8,6 +8,8 @@
 	* src/utils.cpp: Update to Euribor* deprecation, conditional on
 	using QuantLb 1.35 or later
 
+	* README.md: Update three URLs
+
 2024-05-25  Dirk Eddelbuettel  <edd@debian.org>
 
 	* README.md: Use tinyverse.netlify.app for dependency badge

@@ -86,12 +86,9 @@ Rcpp::List europeanOptionEngine(std::string type,
                                                                  QuantLib::Handle<QuantLib::YieldTermStructure>(rTS),
                                                                  QuantLib::Handle<QuantLib::BlackVolTermStructure>(volTS)));
 
-        QL_DEPRECATED_DISABLE_WARNING
-        QuantLib::ext::shared_ptr<QuantLib::PricingEngine> engine(new QuantLib::AnalyticDividendEuropeanEngine(stochProcess));
-        //QuantLib::ext::shared_ptr<QuantLib::PricingEngine> engine(new QuantLib::AnalyticEuropeanEngine(stochProcess));
+        QuantLib::ext::shared_ptr<QuantLib::PricingEngine> engine(new QuantLib::AnalyticEuropeanEngine(stochProcess));
 
-        QuantLib::DividendVanillaOption option(payoff, exercise, discDivDates, discDividends);
-        QL_DEPRECATED_ENABLE_WARNING
+        QuantLib::VanillaOption option(payoff, exercise);
         option.setPricingEngine(engine);
 
         return Rcpp::List::create(Rcpp::Named("value") = option.NPV(),
@@ -185,9 +182,8 @@ Rcpp::List americanOptionEngine(std::string type,
             discDividends[i] = divvalues[i];
         }
 
-        QL_DEPRECATED_DISABLE_WARNING
-        QuantLib::DividendVanillaOption option(payoff, exercise, discDivDates, discDividends);
-        QL_DEPRECATED_ENABLE_WARNING
+        QuantLib::VanillaOption option(payoff, exercise);
+
         if (engine=="BaroneAdesiWhaley") {
             Rcpp::warning("Discrete dividends, engine switched to CrankNicolson");
             engine = "CrankNicolson";

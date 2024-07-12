@@ -1,3 +1,8 @@
+2024-07-12  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/vanilla.cpp (europeanOptionEngine): Update dividend case to
+	(initially deprecated, now removed) changes in upstream QuantLib
+
 2024-05-25  Dirk Eddelbuettel  <edd@debian.org>
 
 	* README.md: Use tinyverse.netlify.app for dependency badge
@@ -15,7 +20,7 @@
 	* src/bonds.cpp: Use QuantLib::Bond::Price in yield calculation
 	* src/zero.cpp: Use QuantLib::Bond::Price in yield calculation
 
-	* R/zzz.R (.onAttach): Protect version comparison from possible '-rc'
+	* R/zzz.R (.onAttach):e Protect version comparison from possible '-rc'
 	in release candidate builds
 	* inst/tinytest/test_schedule.R: Idem
 

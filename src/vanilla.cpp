@@ -86,7 +86,7 @@ Rcpp::List europeanOptionEngine(std::string type,
                                                                  QuantLib::Handle<QuantLib::YieldTermStructure>(rTS),
                                                                  QuantLib::Handle<QuantLib::BlackVolTermStructure>(volTS)));
 
-        QuantLib::ext::shared_ptr<QuantLib::PricingEngine> engine(new QuantLib::AnalyticEuropeanEngine(stochProcess));
+        QuantLib::ext::shared_ptr<QuantLib::PricingEngine> engine(new QuantLib::AnalyticDividendEuropeanEngine(stochProcess, QuantLib::DividendVector(discDivDates, discDividends)));
 
         QuantLib::VanillaOption option(payoff, exercise);
         option.setPricingEngine(engine);
@@ -190,10 +190,8 @@ Rcpp::List americanOptionEngine(std::string type,
         }
 
         if (engine=="CrankNicolson") { // FDDividendAmericanEngine only works with CrankNicolson
-            // suggestion by Bryan Lewis: use CrankNicolson for greeks
-            QuantLib::ext::shared_ptr<QuantLib::PricingEngine>
-            fdcnengine(new QuantLib::FdBlackScholesVanillaEngine(stochProcess, timeSteps, gridPoints));
-            option.setPricingEngine(fdcnengine);
+            // see eg test-suite/americanoption.cc
+            option.setPricingEngine(QuantLib::MakeFdBlackScholesVanillaEngine(stochProcess).withCashDividends(discDivDates, discDividends));
             return Rcpp::List::create(Rcpp::Named("value") = option.NPV(),
                                       Rcpp::Named("delta") = option.delta(),
                                       Rcpp::Named("gamma") = option.gamma(),

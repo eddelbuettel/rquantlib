@@ -2,7 +2,7 @@
 //  RQuantLib -- R interface to the QuantLib libraries
 //
 //  Copyright (C) 2010         Dirk Eddelbuettel and Khanh Nguyen
-//  Copyright (C) 2011 - 2020  Dirk Eddelbuettel
+//  Copyright (C) 2011 - 2024  Dirk Eddelbuettel
 //
 //  This file is part of RQuantLib.
 //
@@ -52,6 +52,7 @@ Rcpp::List calibrateHullWhiteUsingCapsEngine(std::vector<QuantLib::Date> termStr
     //std::vector<std::vector<ColDatum> > table = capDF.getTableData();
     //int nrow = table.size();
     int nrow = i0v.size();
+    namespace qlext = QuantLib::ext; 				// convenience namespace shortcut
     for (int row=0; row<nrow;row++) {
         QuantLib::Period p = periodByTimeUnit(i0v[row], Rcpp::as<std::string>(s1v[row]));
         QuantLib::ext::shared_ptr<QuantLib::Quote> vol(new QuantLib::SimpleQuote(d2v[row]));
@@ -62,15 +63,14 @@ Rcpp::List calibrateHullWhiteUsingCapsEngine(std::vector<QuantLib::Date> termStr
                                            dc,
                                            (i5v[row]==1) ? true : false,
                                            term));
-        QuantLib::ext::shared_ptr<QuantLib::BlackCapFloorEngine>
-            engine(new QuantLib::BlackCapFloorEngine(term, d2v[row]));
+        auto engine = qlext::make_shared<QuantLib::BlackCapFloorEngine>(term, d2v[row]);
 
         helper->setPricingEngine(engine);
         caps.push_back(helper);
     }
 
     //set up the HullWhite model
-    QuantLib::ext::shared_ptr<QuantLib::HullWhite> model(new QuantLib::HullWhite(term));
+    auto model = qlext::make_shared<QuantLib::HullWhite>(term);
 
     //calibrate the data
     QuantLib::LevenbergMarquardt optimizationMethod(1.0e-8,1.0e-8,1.0e-8);
@@ -99,15 +99,15 @@ Rcpp::List calibrateHullWhiteUsingSwapsEngine(std::vector<QuantLib::Date> termSt
     QuantLib::Handle<QuantLib::YieldTermStructure>
         term(rebuildCurveFromZeroRates(termStrcDateVec, termStrcZeroVec));
 
-    QuantLib::ext::shared_ptr<QuantLib::HullWhite> model(new QuantLib::HullWhite(term));
+    namespace qlext = QuantLib::ext; 				// convenience namespace shortcut
+    auto model = qlext::make_shared<QuantLib::HullWhite>(term);
 
     //set up ibor index
     QuantLib::Handle<QuantLib::YieldTermStructure>
         indexStrc(rebuildCurveFromZeroRates(iborDateVec, iborZeroVec));
     QuantLib::ext::shared_ptr<QuantLib::IborIndex> index = buildIborIndex(iborType, indexStrc);
     //process capDataDF
-    QuantLib::ext::shared_ptr<QuantLib::PricingEngine>
-        engine(new QuantLib::JamshidianSwaptionEngine(model));
+    auto engine = qlext::make_shared<QuantLib::JamshidianSwaptionEngine>(model);
     std::vector<QuantLib::ext::shared_ptr <QuantLib::CalibrationHelper>> swaps;
 
     //Rcpp::DataFrame swapDF(swapDataDF);
@@ -129,7 +129,7 @@ Rcpp::List calibrateHullWhiteUsingSwapsEngine(std::vector<QuantLib::Date> termSt
         QuantLib::Period length = periodByTimeUnit(i0v[row],
                                                    Rcpp::as<std::string>(s3v[row]));
 
-        QuantLib::ext::shared_ptr<QuantLib::Quote> vol(new QuantLib::SimpleQuote(d4v[row]));
+        auto vol = qlext::make_shared<QuantLib::SimpleQuote>(d4v[row]);
 
         QuantLib::Period fixedLegTenor = periodByTimeUnit(i5v[row],
                                                           Rcpp::as<std::string>(s6v[row]));

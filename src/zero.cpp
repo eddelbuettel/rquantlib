@@ -71,14 +71,16 @@ Rcpp::DataFrame zbtyield(std::vector<QuantLib::Date> MatDates,
                          std::vector<QuantLib::Date> SettleDates,
                          Rcpp::NumericVector cleanPrice) {
 
+    namespace qlext = QuantLib::ext; 				// convenience namespace shortcut
+
     //setting up the bonds
     const QuantLib::Size numberOfBonds = MatDates.size();
 
-    std::vector<QuantLib::ext::shared_ptr<QuantLib::RateHelper> > instruments;
+    std::vector<qlext::shared_ptr<QuantLib::RateHelper> > instruments;
 
-    std::vector< QuantLib::ext::shared_ptr<QuantLib::SimpleQuote> > quote;
+    std::vector<qlext::shared_ptr<QuantLib::SimpleQuote> > quote;
     for (QuantLib::Size i=0; i<numberOfBonds; i++) {
-        QuantLib::ext::shared_ptr<QuantLib::SimpleQuote> cp(new QuantLib::SimpleQuote(cleanPrice[i]));
+        auto cp = qlext::make_shared<QuantLib::SimpleQuote>(cleanPrice[i]);
         quote.push_back(cp);
     }
 
@@ -106,10 +108,10 @@ Rcpp::DataFrame zbtyield(std::vector<QuantLib::Date> MatDates,
         QuantLib::Schedule schedule(SettleDates[j], MatDates[j],p, calendar,
                                     QuantLib::Unadjusted, QuantLib::Unadjusted,
                                     QuantLib::DateGeneration::Backward, emr);
-        QuantLib::ext::shared_ptr<QuantLib::FixedRateBondHelper>
-            helper(new QuantLib::FixedRateBondHelper(quoteHandle[j], 1, faceAmount, schedule,
-                                                     std::vector<QuantLib::Rate>(1,bondparam(j,0)),
-                                                     dayCounter, QuantLib::Unadjusted, 100, SettleDates[j]));
+        typedef QuantLib::FixedRateBondHelper qlFRBH;
+        auto helper = qlext::make_shared<qlFRBH>(quoteHandle[j], 1, faceAmount, schedule,
+                                                 std::vector<QuantLib::Rate>(1,bondparam(j,0)),
+                                                 dayCounter, QuantLib::Unadjusted, 100, SettleDates[j]);
         instruments.push_back(helper);
     }
 
@@ -131,9 +133,8 @@ Rcpp::DataFrame zbtyield(std::vector<QuantLib::Date> MatDates,
       curve = ts3;
     */
 
-    QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure>
-        curve(new QuantLib::PiecewiseYieldCurve<QuantLib::ZeroYield,
-                                                QuantLib::Cubic>(1, calendar, instruments, dayCounter));
+    typedef QuantLib::PiecewiseYieldCurve<QuantLib::ZeroYield, QuantLib::Cubic> qlPYCZYC;
+    auto curve = qlext::make_shared<qlPYCZYC>(1, calendar, instruments, dayCounter);
     int numCol = 2;
     std::vector<std::string> colNames(numCol);
     colNames[0] = "date";

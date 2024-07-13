@@ -1,3 +1,10 @@
+2024-07-13  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/asian.cpp: Minor refactoring and C++ update
+	* src/discount.cpp: Idem
+	* src/vanilla.cpp: Idem
+	* src/zero.cpp: Idem
+
 2024-07-12  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Roll micro release and date

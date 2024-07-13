@@ -1,7 +1,7 @@
 
 //  RQuantLib -- R interface to the QuantLib libraries
 //
-//  Copyright (C) 2002 - 2019  Dirk Eddelbuettel
+//  Copyright (C) 2002 - 2024  Dirk Eddelbuettel
 //  Copyright (C) 2009 - 2010  Dirk Eddelbuettel and Khanh Nguyen
 //
 //  This file is part of RQuantLib.
@@ -41,30 +41,28 @@ Rcpp::List asianOptionEngine(std::string averageType,
     QuantLib::Date today = QuantLib::Date::todaysDate();
     QuantLib::Settings::instance().evaluationDate() = today;
 
-    QuantLib::ext::shared_ptr<QuantLib::SimpleQuote> spot(new QuantLib::SimpleQuote(underlying));
-    QuantLib::ext::shared_ptr<QuantLib::SimpleQuote> qRate(new QuantLib::SimpleQuote(dividendYield));
-    QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure> qTS = flatRate(today, qRate, dc);
-    QuantLib::ext::shared_ptr<QuantLib::SimpleQuote> rRate(new QuantLib::SimpleQuote(riskFreeRate));
-    QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure> rTS = flatRate(today, rRate, dc);
-    QuantLib::ext::shared_ptr<QuantLib::SimpleQuote> vol(new QuantLib::SimpleQuote(volatility));
-    QuantLib::ext::shared_ptr<QuantLib::BlackVolTermStructure> volTS = flatVol(today, vol, dc);
+    namespace qlext = QuantLib::ext; 				// convenience namespace shortcut
+    auto spot = qlext::make_shared<QuantLib::SimpleQuote>(underlying);
+    auto qRate = qlext::make_shared<QuantLib::SimpleQuote>(dividendYield);
+    auto qTS = flatRate(today, qRate, dc);
+    auto rRate = qlext::make_shared<QuantLib::SimpleQuote>(riskFreeRate);
+    auto rTS  = flatRate(today, rRate, dc);
+    auto vol = qlext::make_shared<QuantLib::SimpleQuote>(volatility);
+    auto volTS = flatVol(today, vol, dc);
 
-    QuantLib::ext::shared_ptr<QuantLib::BlackScholesMertonProcess>
-        stochProcess(new
-                     QuantLib::BlackScholesMertonProcess(QuantLib::Handle<QuantLib::Quote>(spot),
-                                                         QuantLib::Handle<QuantLib::YieldTermStructure>(qTS),
-                                                         QuantLib::Handle<QuantLib::YieldTermStructure>(rTS),
-                                                         QuantLib::Handle<QuantLib::BlackVolTermStructure>(volTS)));
+    typedef QuantLib::BlackScholesMertonProcess qlBSMp;
+    auto stochProcess = qlext::make_shared<qlBSMp>(QuantLib::Handle<QuantLib::Quote>(spot),
+                                                   QuantLib::Handle<QuantLib::YieldTermStructure>(qTS),
+                                                   QuantLib::Handle<QuantLib::YieldTermStructure>(rTS),
+                                                   QuantLib::Handle<QuantLib::BlackVolTermStructure>(volTS));
 
-    QuantLib::ext::shared_ptr<QuantLib::StrikedTypePayoff>
-        payoff(new QuantLib::PlainVanillaPayoff(optionType,strike));
+
+    auto payoff = qlext::make_shared<QuantLib::PlainVanillaPayoff>(optionType,strike);
 
     Rcpp::List rl = R_NilValue;
 
     if (averageType=="geometric"){
-        QuantLib::ext::shared_ptr<QuantLib::PricingEngine>
-            engine(new
-                   QuantLib::AnalyticContinuousGeometricAveragePriceAsianEngine(stochProcess));
+        auto engine = qlext::make_shared<QuantLib::AnalyticContinuousGeometricAveragePriceAsianEngine>(stochProcess);
 
 #ifdef QL_HIGH_RESOLUTION_DATE
         // in minutes
@@ -72,9 +70,8 @@ Rcpp::List asianOptionEngine(std::string averageType,
 #else
         QuantLib::Date exDate = today + int(maturity * 360 + 0.5);
 #endif
-        QuantLib::ext::shared_ptr<QuantLib::Exercise> exercise(new QuantLib::EuropeanExercise(exDate));
-        QuantLib::ContinuousAveragingAsianOption option(QuantLib::Average::Geometric,
-                                                        payoff, exercise);
+        auto exercise = qlext::make_shared<QuantLib::EuropeanExercise>(exDate);
+        QuantLib::ContinuousAveragingAsianOption option(QuantLib::Average::Geometric, payoff, exercise);
         option.setPricingEngine(engine);
 
         rl = Rcpp::List::create(Rcpp::Named("value") = option.NPV(),
@@ -92,7 +89,7 @@ Rcpp::List asianOptionEngine(std::string averageType,
         if (length < 0) Rcpp::stop("Parameter 'length' must be non-negative.");
         if (fixings <= 1) Rcpp::stop("Parameter 'fixings' must be larger than one.");
 
-        QuantLib::ext::shared_ptr<QuantLib::PricingEngine> engine =
+        auto engine =
             QuantLib::MakeMCDiscreteArithmeticAPEngine<QuantLib::LowDiscrepancy>(stochProcess)
             .withSamples(2047)
             .withControlVariate();
@@ -119,8 +116,7 @@ Rcpp::List asianOptionEngine(std::string averageType,
         QuantLib::Real runningSum = 0.0;
         QuantLib::Size pastFixing = 0;
 
-        QuantLib::ext::shared_ptr<QuantLib::Exercise>
-            exercise(new QuantLib::EuropeanExercise(fixingDates[fixings-1]));
+        auto exercise = qlext::make_shared<QuantLib::EuropeanExercise>(fixingDates[fixings-1]);
 
         QuantLib::DiscreteAveragingAsianOption option(QuantLib::Average::Arithmetic,
                                                       runningSum,

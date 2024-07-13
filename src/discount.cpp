@@ -2,7 +2,7 @@
 //  RQuantLib function DiscountCurve
 //
 //  Copyright (C) 2005 - 2007  Dominick Samperi
-//  Copyright (C) 2007 - 2021  Dirk Eddelbuettel
+//  Copyright (C) 2007 - 2024  Dirk Eddelbuettel
 //  Copyright (C) 2009 - 2011  Dirk Eddelbuettel and Khanh Nguyen
 //
 //  This file is part of RQuantLib.
@@ -62,11 +62,7 @@ Rcpp::List discountCurveEngine(Rcpp::List rparams,
 
     if (firstQuoteName.compare("flat") == 0) {            // Create a flat term structure.
         double rateQuote = Rcpp::as<double>(tslist[0]);
-        //QuantLib::ext::shared_ptr<Quote> flatRate(new SimpleQuote(rateQuote));
-        //QuantLib::ext::shared_ptr<FlatForward> ts(new FlatForward(settlementDate,
-        //                        Handle<Quote>(flatRate),
-        //                        ActualActual()));
-        QuantLib::ext::shared_ptr<QuantLib::SimpleQuote> rRate(new QuantLib::SimpleQuote(rateQuote));
+        auto rRate = QuantLib::ext::make_shared<QuantLib::SimpleQuote>(rateQuote);
         curve = flatRate(settlementDate,rRate,QuantLib::Actual365Fixed());
 
     } else {             // Build curve based on a set of observed rates and/or prices.
@@ -81,17 +77,14 @@ Rcpp::List discountCurveEngine(Rcpp::List rparams,
         for(i = 0; i < tslist.size(); i++) {
             std::string name = tsNames[i];
             double val = Rcpp::as<double>(tslist[i]);
-            QuantLib::ext::shared_ptr<QuantLib::RateHelper> rh =
-                ObservableDB::instance().getRateHelper(name, val, fixDayCount,fixFreq, floatFreq);
+            auto rh = ObservableDB::instance().getRateHelper(name, val, fixDayCount,fixFreq, floatFreq);
             // edd 2009-11-01 FIXME NULL_RateHelper no longer builds under 0.9.9
             // if (rh == NULL_RateHelper)
             if (rh.get() == NULL)
                 throw std::range_error("Unknown rate in getRateHelper");
             curveInput.push_back(rh);
         }
-        QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure>
-            ts = getTermStructure(interpWhat, interpHow, settlementDate,
-                                  curveInput, termStructureDayCounter, tolerance);
+        auto ts = getTermStructure(interpWhat, interpHow, settlementDate, curveInput, termStructureDayCounter, tolerance);
         curve = ts;
     }
 

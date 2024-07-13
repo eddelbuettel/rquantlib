@@ -1,6 +1,7 @@
 2024-07-13  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/asian.cpp: Minor refactoring and C++ update
+	* src/barrier_binary.cpp: Idem
 	* src/discount.cpp: Idem
 	* src/vanilla.cpp: Idem
 	* src/zero.cpp: Idem

@@ -1,7 +1,7 @@
 
 //  RQuantLib -- R interface to the QuantLib libraries
 //
-//  Copyright (C) 2002 - 2019  Dirk Eddelbuettel <edd@debian.org>
+//  Copyright (C) 2002 - 2024  Dirk Eddelbuettel <edd@debian.org>
 //
 //  This file is part of RQuantLib.
 //
@@ -47,24 +47,22 @@ Rcpp::List binaryOptionEngine(std::string binType,
     QuantLib::Settings::instance().evaluationDate() = today;
 
     QuantLib::DayCounter dc = QuantLib::Actual360();
-    QuantLib::ext::shared_ptr<QuantLib::SimpleQuote> spot(new QuantLib::SimpleQuote(underlying));
-    QuantLib::ext::shared_ptr<QuantLib::SimpleQuote> qRate(new QuantLib::SimpleQuote(dividendYield));
-    QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure> qTS = flatRate(today,qRate,dc);
-    QuantLib::ext::shared_ptr<QuantLib::SimpleQuote> rRate(new QuantLib::SimpleQuote(riskFreeRate));
-    QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure> rTS = flatRate(today,rRate,dc);
-    QuantLib::ext::shared_ptr<QuantLib::SimpleQuote> vol(new QuantLib::SimpleQuote(volatility));
-    QuantLib::ext::shared_ptr<QuantLib::BlackVolTermStructure> volTS = flatVol(today, vol, dc);
+    namespace qlext = QuantLib::ext; 				// convenience namespace shortcut
+    auto spot  = qlext::make_shared<QuantLib::SimpleQuote>(underlying);
+    auto qRate = qlext::make_shared<QuantLib::SimpleQuote>(dividendYield);
+    auto qTS   = flatRate(today,qRate,dc);
+    auto rRate = qlext::make_shared<QuantLib::SimpleQuote>(riskFreeRate);
+    auto rTS   = flatRate(today,rRate,dc);
+    auto vol   = qlext::make_shared<QuantLib::SimpleQuote>(volatility);
+    auto volTS = flatVol(today, vol, dc);
 
     QuantLib::ext::shared_ptr<QuantLib::StrikedTypePayoff> payoff;
     if (binType=="cash") {
-        QuantLib::ext::shared_ptr<QuantLib::StrikedTypePayoff> con(new QuantLib::CashOrNothingPayoff(optionType, strike, cashPayoff));
-        payoff = con;
+        payoff = qlext::make_shared<QuantLib::CashOrNothingPayoff>(optionType, strike, cashPayoff);
     } else if (binType=="asset") {
-        QuantLib::ext::shared_ptr<QuantLib::StrikedTypePayoff> aon(new QuantLib::AssetOrNothingPayoff(optionType, strike));
-        payoff = aon;
+        payoff = qlext::make_shared<QuantLib::AssetOrNothingPayoff>(optionType, strike);
     } else if (binType=="gap") {
-        QuantLib::ext::shared_ptr<QuantLib::StrikedTypePayoff> gap(new QuantLib::GapPayoff(optionType, strike, cashPayoff));
-        payoff = gap;
+        payoff = qlext::make_shared<QuantLib::GapPayoff>(optionType, strike, cashPayoff);
     } else {
         throw std::range_error("Unknown binary option type " + binType);
     }
@@ -76,28 +74,23 @@ Rcpp::List binaryOptionEngine(std::string binType,
 #endif
     QuantLib::ext::shared_ptr<QuantLib::Exercise> exercise;
     if (excType=="american") {
-        QuantLib::ext::shared_ptr<QuantLib::Exercise> amEx(new QuantLib::AmericanExercise(today, exDate));
-        exercise = amEx;
+        exercise = qlext::make_shared<QuantLib::AmericanExercise>(today, exDate);
     } else if (excType=="european") {
-        QuantLib::ext::shared_ptr<QuantLib::Exercise> euEx(new QuantLib::EuropeanExercise(exDate));
-        exercise = euEx;
+        exercise = qlext::make_shared<QuantLib::EuropeanExercise>(exDate);
     } else {
         throw std::range_error("Unknown binary exercise type " + excType);
     }
 
-    QuantLib::ext::shared_ptr<QuantLib::BlackScholesMertonProcess>
-        stochProcess(new QuantLib::BlackScholesMertonProcess(QuantLib::Handle<QuantLib::Quote>(spot),
-                                                             QuantLib::Handle<QuantLib::YieldTermStructure>(qTS),
-                                                             QuantLib::Handle<QuantLib::YieldTermStructure>(rTS),
-                                                             QuantLib::Handle<QuantLib::BlackVolTermStructure>(volTS)));
+    auto stochProcess = qlext::make_shared<QuantLib::BlackScholesMertonProcess>(QuantLib::Handle<QuantLib::Quote>(spot),
+                                                                                QuantLib::Handle<QuantLib::YieldTermStructure>(qTS),
+                                                                                QuantLib::Handle<QuantLib::YieldTermStructure>(rTS),
+                                                                                QuantLib::Handle<QuantLib::BlackVolTermStructure>(volTS));
 
     QuantLib::ext::shared_ptr<QuantLib::PricingEngine> engine;
     if (excType=="american") {
-        QuantLib::ext::shared_ptr<QuantLib::PricingEngine> amEng(new QuantLib::AnalyticDigitalAmericanEngine(stochProcess));
-        engine = amEng;
+        engine = qlext::make_shared<QuantLib::AnalyticDigitalAmericanEngine>(stochProcess);
     } else if (excType=="european") {
-        QuantLib::ext::shared_ptr<QuantLib::PricingEngine> euEng(new QuantLib::AnalyticEuropeanEngine(stochProcess));
-        engine = euEng;
+        engine = qlext::make_shared<QuantLib::AnalyticEuropeanEngine>(stochProcess);
     } else {
         throw std::range_error("Unknown binary exercise type " + excType);
     }
@@ -142,16 +135,16 @@ double binaryOptionImpliedVolatilityEngine(std::string type,
     QuantLib::Date today = QuantLib::Date::todaysDate();
     QuantLib::Settings::instance().evaluationDate() = today;
     QuantLib::DayCounter dc = QuantLib::Actual360();
-    QuantLib::ext::shared_ptr<QuantLib::SimpleQuote> spot(new QuantLib::SimpleQuote(underlying));
-    QuantLib::ext::shared_ptr<QuantLib::SimpleQuote> qRate(new QuantLib::SimpleQuote(dividendYield));
-    QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure> qTS = flatRate(today, qRate, dc);
-    QuantLib::ext::shared_ptr<QuantLib::SimpleQuote> rRate(new QuantLib::SimpleQuote(riskFreeRate));
-    QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure> rTS = flatRate(today, rRate, dc);
-    QuantLib::ext::shared_ptr<QuantLib::SimpleQuote> vol(new QuantLib::SimpleQuote(volatility));
-    QuantLib::ext::shared_ptr<QuantLib::BlackVolTermStructure> volTS = flatVol(today, vol, dc);
+    namespace qlext = QuantLib::ext; 				// convenience namespace shortcut
+    auto spot  = qlext::make_shared<QuantLib::SimpleQuote>(underlying);
+    auto qRate = qlext::make_shared<QuantLib::SimpleQuote>(dividendYield);
+    auto qTS   = flatRate(today, qRate, dc);
+    auto rRate = qlext::make_shared<QuantLib::SimpleQuote>(riskFreeRate);
+    auto rTS   = flatRate(today, rRate, dc);
+    auto vol   = qlext::make_shared<QuantLib::SimpleQuote>(volatility);
+    auto volTS = flatVol(today, vol, dc);
 
-    QuantLib::ext::shared_ptr<QuantLib::StrikedTypePayoff>
-        payoff(new QuantLib::CashOrNothingPayoff(optionType, strike, cashPayoff));
+    auto payoff = qlext::make_shared<QuantLib::CashOrNothingPayoff>(optionType, strike, cashPayoff);
 
 #ifdef QL_HIGH_RESOLUTION_DATE
     QuantLib::Date exDate(today.dateTime() + length);
@@ -159,15 +152,13 @@ double binaryOptionImpliedVolatilityEngine(std::string type,
     QuantLib::Date exDate = today + length;
 #endif
 
-    QuantLib::ext::shared_ptr<QuantLib::Exercise> exercise(new QuantLib::EuropeanExercise(exDate));
+    auto exercise = qlext::make_shared<QuantLib::EuropeanExercise>(exDate);
 
-    QuantLib::ext::shared_ptr<QuantLib::BlackScholesMertonProcess>
-        stochProcess(new QuantLib::BlackScholesMertonProcess(QuantLib::Handle<QuantLib::Quote>(spot),
-                                                             QuantLib::Handle<QuantLib::YieldTermStructure>(qTS),
-                                                             QuantLib::Handle<QuantLib::YieldTermStructure>(rTS),
-                                                             QuantLib::Handle<QuantLib::BlackVolTermStructure>(volTS)));
-    //QuantLib::ext::shared_ptr<PricingEngine> engine(new AnalyticEuropeanEngine(stochProcess));
-    QuantLib::ext::shared_ptr<QuantLib::PricingEngine> engine(new QuantLib::AnalyticBarrierEngine(stochProcess));
+    auto stochProcess = qlext::make_shared<QuantLib::BlackScholesMertonProcess>(QuantLib::Handle<QuantLib::Quote>(spot),
+                                                                                QuantLib::Handle<QuantLib::YieldTermStructure>(qTS),
+                                                                                QuantLib::Handle<QuantLib::YieldTermStructure>(rTS),
+                                                                                QuantLib::Handle<QuantLib::BlackVolTermStructure>(volTS));
+    auto engine = qlext::make_shared<QuantLib::AnalyticBarrierEngine>(stochProcess);
 
     QuantLib::VanillaOption opt(payoff, exercise);
     opt.setPricingEngine(engine);
@@ -215,13 +206,14 @@ Rcpp::List barrierOptionEngine(std::string barrType,
     QuantLib::Date today = QuantLib::Date::todaysDate();
     QuantLib::Settings::instance().evaluationDate() = today;
     QuantLib::DayCounter dc = QuantLib::Actual360();
-    QuantLib::ext::shared_ptr<QuantLib::SimpleQuote> spot(new QuantLib::SimpleQuote(underlying));
-    QuantLib::ext::shared_ptr<QuantLib::SimpleQuote> qRate(new QuantLib::SimpleQuote(dividendYield));
-    QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure> qTS = flatRate(today, qRate, dc);
-    QuantLib::ext::shared_ptr<QuantLib::SimpleQuote> rRate(new QuantLib::SimpleQuote(riskFreeRate));
-    QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure> rTS = flatRate(today,rRate,dc);
-    QuantLib::ext::shared_ptr<QuantLib::SimpleQuote> vol(new QuantLib::SimpleQuote(volatility));
-    QuantLib::ext::shared_ptr<QuantLib::BlackVolTermStructure> volTS = flatVol(today, vol, dc);
+    namespace qlext = QuantLib::ext; 				// convenience namespace shortcut
+    auto spot = qlext::make_shared<QuantLib::SimpleQuote>(underlying);
+    auto qRate = qlext::make_shared<QuantLib::SimpleQuote>(dividendYield);
+    auto qTS = flatRate(today, qRate, dc);
+    auto rRate = qlext::make_shared<QuantLib::SimpleQuote>(riskFreeRate);
+    auto rTS = flatRate(today,rRate,dc);
+    auto vol = qlext::make_shared<QuantLib::SimpleQuote>(volatility);
+    auto volTS = flatVol(today, vol, dc);
 
 #ifdef QL_HIGH_RESOLUTION_DATE
     QuantLib::Date exDate(today.dateTime() + length);
@@ -229,15 +221,14 @@ Rcpp::List barrierOptionEngine(std::string barrType,
     QuantLib::Date exDate = today + length;
 #endif
 
-    QuantLib::ext::shared_ptr<QuantLib::Exercise> exercise(new QuantLib::EuropeanExercise(exDate));
+    auto exercise = qlext::make_shared<QuantLib::EuropeanExercise>(exDate);
 
-    QuantLib::ext::shared_ptr<QuantLib::StrikedTypePayoff> payoff(new QuantLib::PlainVanillaPayoff(optionType, strike));
+    auto payoff = qlext::make_shared<QuantLib::PlainVanillaPayoff>(optionType, strike);
 
-    QuantLib::ext::shared_ptr<QuantLib::BlackScholesMertonProcess>
-        stochProcess(new QuantLib::BlackScholesMertonProcess(QuantLib::Handle<QuantLib::Quote>(spot),
-                                                             QuantLib::Handle<QuantLib::YieldTermStructure>(qTS),
-                                                             QuantLib::Handle<QuantLib::YieldTermStructure>(rTS),
-                                                             QuantLib::Handle<QuantLib::BlackVolTermStructure>(volTS)));
+    auto stochProcess = qlext::make_shared<QuantLib::BlackScholesMertonProcess>(QuantLib::Handle<QuantLib::Quote>(spot),
+                                                                                QuantLib::Handle<QuantLib::YieldTermStructure>(qTS),
+                                                                                QuantLib::Handle<QuantLib::YieldTermStructure>(rTS),
+                                                                                QuantLib::Handle<QuantLib::BlackVolTermStructure>(volTS));
 
     // Size timeSteps = 1;
     // bool antitheticVariate = false;
@@ -247,7 +238,7 @@ Rcpp::List barrierOptionEngine(std::string barrType,
     // Size maxSamples = 1000000;
     // bool isBiased = false;
 
-    QuantLib::ext::shared_ptr<QuantLib::PricingEngine> engine(new QuantLib::AnalyticBarrierEngine(stochProcess));
+    auto engine = qlext::make_shared<QuantLib::AnalyticBarrierEngine>(stochProcess);
 
     // need to explicitly reference BarrierOption from QuantLib here
     QuantLib::BarrierOption barrierOption(barrierType,

@@ -7,6 +7,8 @@
 	* src/implieds.cpp Idem
 	* src/vanilla.cpp: Idem
 
+	* inst/include/rquantlib_internal.h: Move qlext namespace defintion
+
 2024-07-13  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/asian.cpp: Minor refactoring and C++ update

@@ -41,7 +41,6 @@ Rcpp::List asianOptionEngine(std::string averageType,
     QuantLib::Date today = QuantLib::Date::todaysDate();
     QuantLib::Settings::instance().evaluationDate() = today;
 
-    namespace qlext = QuantLib::ext; 				// convenience namespace shortcut
     auto spot = qlext::make_shared<QuantLib::SimpleQuote>(underlying);
     auto qRate = qlext::make_shared<QuantLib::SimpleQuote>(dividendYield);
     auto qTS = flatRate(today, qRate, dc);

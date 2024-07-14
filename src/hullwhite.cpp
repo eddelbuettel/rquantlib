@@ -52,19 +52,15 @@ Rcpp::List calibrateHullWhiteUsingCapsEngine(std::vector<QuantLib::Date> termStr
     //std::vector<std::vector<ColDatum> > table = capDF.getTableData();
     //int nrow = table.size();
     int nrow = i0v.size();
-    namespace qlext = QuantLib::ext; 				// convenience namespace shortcut
     for (int row=0; row<nrow;row++) {
         QuantLib::Period p = periodByTimeUnit(i0v[row], Rcpp::as<std::string>(s1v[row]));
-        QuantLib::ext::shared_ptr<QuantLib::Quote> vol(new QuantLib::SimpleQuote(d2v[row]));
+        auto vol = qlext::make_shared<QuantLib::SimpleQuote>(d2v[row]);
         QuantLib::DayCounter dc = getDayCounter(i4v[row]);
-        QuantLib::ext::shared_ptr<QuantLib::BlackCalibrationHelper>
-            helper(new QuantLib::CapHelper(p, QuantLib::Handle<QuantLib::Quote>(vol), index,
-                                           getFrequency(i3v[row]),
-                                           dc,
-                                           (i5v[row]==1) ? true : false,
-                                           term));
+        auto helper = qlext::make_shared<QuantLib::CapHelper>(p,
+                                                              QuantLib::Handle<QuantLib::Quote>(vol),
+                                                              index, getFrequency(i3v[row]),
+                                                              dc, (i5v[row]==1) ? true : false, term);
         auto engine = qlext::make_shared<QuantLib::BlackCapFloorEngine>(term, d2v[row]);
-
         helper->setPricingEngine(engine);
         caps.push_back(helper);
     }
@@ -99,7 +95,6 @@ Rcpp::List calibrateHullWhiteUsingSwapsEngine(std::vector<QuantLib::Date> termSt
     QuantLib::Handle<QuantLib::YieldTermStructure>
         term(rebuildCurveFromZeroRates(termStrcDateVec, termStrcZeroVec));
 
-    namespace qlext = QuantLib::ext; 				// convenience namespace shortcut
     auto model = qlext::make_shared<QuantLib::HullWhite>(term);
 
     //set up ibor index

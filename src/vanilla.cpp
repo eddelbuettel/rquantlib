@@ -38,7 +38,6 @@ Rcpp::List europeanOptionEngine(std::string type,
     QuantLib::Date exDate = getFutureDate(today, maturity);
     QuantLib::Settings::instance().evaluationDate() = today;
     QuantLib::DayCounter dc = QuantLib::Actual360();
-    namespace qlext = QuantLib::ext; 				// convenience namespace shortcut
     auto spot  = qlext::make_shared<QuantLib::SimpleQuote>(underlying);
     auto vol   = qlext::make_shared<QuantLib::SimpleQuote>(volatility);
     auto volTS = flatVol(today, vol, dc); 		// cf src/utils.cpp
@@ -115,7 +114,6 @@ Rcpp::List americanOptionEngine(std::string type,
     QuantLib::Settings::instance().evaluationDate() = today;
     QuantLib::Date exDate = getFutureDate(today, maturity);
     QuantLib::DayCounter dc = QuantLib::Actual360();
-    namespace qlext = QuantLib::ext; 				// convenience namespace shortcut
     auto spot  = qlext::make_shared<QuantLib::SimpleQuote>(underlying);
     auto qRate = qlext::make_shared<QuantLib::SimpleQuote>(dividendYield);
     auto qTS   = flatRate(today, qRate, dc); 	// cf src/utils.cpp
@@ -220,7 +218,6 @@ Rcpp::List europeanOptionArraysEngine(std::string type, Rcpp::NumericMatrix par)
         QuantLib::Time maturity        = par(i, 4);    // fifth column
         double volatility    = par(i, 5);    // sixth column
 
-        namespace qlext = QuantLib::ext; 	 // convenience namespace shortcut
         auto spot  = qlext::make_shared<QuantLib::SimpleQuote>(underlying);
         auto vol   = qlext::make_shared<QuantLib::SimpleQuote>(volatility);
         auto volTS = flatVol(today, vol, dc); 		// cf src/utils.cpp

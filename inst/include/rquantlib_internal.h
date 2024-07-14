@@ -1,7 +1,7 @@
 
 // RQuantLib function prototypes and macros
 //
-// Copyright 2002 - 2019  Dirk Eddelbuettel <edd@debian.org>
+// Copyright 2002 - 2024  Dirk Eddelbuettel <edd@debian.org>
 // Copyright 2005 - 2006  Dominick Samperi
 //
 // This program is free software; you can redistribute it and/or modify
@@ -131,10 +131,10 @@ flatVol(const QuantLib::Date& today,
         const QuantLib::ext::shared_ptr<QuantLib::Quote>& vol,
         const QuantLib::DayCounter& dc);
 
-enum EngineType {Analytic,
-                 JR, CRR, EQP, TGEO, TIAN, LR, JOSHI,
-                 FiniteDifferences, Integral,
-                 PseudoMonteCarlo, QuasiMonteCarlo };
+enum EngineType { Analytic,
+                  JR, CRR, EQP, TGEO, TIAN, LR, JOSHI,
+                  FiniteDifferences, Integral,
+                  PseudoMonteCarlo, QuasiMonteCarlo };
 
 enum optionType { European = 0, American };
 
@@ -200,5 +200,8 @@ QuantLib::Date advanceDate(QuantLib::Date issueDate, int days);
 
 // utils.cpp
 QuantLib::Date getFutureDate(const QuantLib::Date today, double maturity);
+
+// convenience namespace shortcut
+namespace qlext = QuantLib::ext;
 
 #endif

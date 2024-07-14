@@ -71,8 +71,6 @@ Rcpp::DataFrame zbtyield(std::vector<QuantLib::Date> MatDates,
                          std::vector<QuantLib::Date> SettleDates,
                          Rcpp::NumericVector cleanPrice) {
 
-    namespace qlext = QuantLib::ext; 				// convenience namespace shortcut
-
     //setting up the bonds
     const QuantLib::Size numberOfBonds = MatDates.size();
 

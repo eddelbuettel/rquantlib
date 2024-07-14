@@ -45,7 +45,6 @@ double europeanOptionImpliedVolatilityEngine(std::string type,
     // updated for 0.3.7
     QuantLib::DayCounter dc = QuantLib::Actual360();
 
-    namespace qlext = QuantLib::ext; 				// convenience namespace shortcut
     auto spot = qlext::make_shared<QuantLib::SimpleQuote>(underlying);
     auto vol = qlext::make_shared<QuantLib::SimpleQuote>(volatility);
     auto volTS = flatVol(today, vol, dc);
@@ -89,7 +88,6 @@ double americanOptionImpliedVolatilityEngine(std::string type,
 
     // new framework as per QuantLib 0.3.5
     QuantLib::DayCounter dc = QuantLib::Actual360();
-    namespace qlext = QuantLib::ext; 				// convenience namespace shortcut
     auto spot = qlext::make_shared<QuantLib::SimpleQuote>(underlying);
     auto vol = qlext::make_shared<QuantLib::SimpleQuote>(volguess);
     auto volTS = flatVol(today, vol,dc);

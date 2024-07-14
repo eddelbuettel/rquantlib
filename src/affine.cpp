@@ -102,8 +102,7 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
     QuantLib::BusinessDayConvention fixedLegConvention = QuantLib::Unadjusted;
     QuantLib::BusinessDayConvention floatingLegConvention = QuantLib::ModifiedFollowing;
     QuantLib::DayCounter swFixedLegDayCounter = getDayCounter(Rcpp::as<double>(legparams["dayCounter"]));
-    QuantLib::ext::shared_ptr<QuantLib::IborIndex> swFloatingLegIndex(new QuantLib::Euribor(QuantLib::Period(Rcpp::as<int>(legparams["floatFreq"]),QuantLib::Months),rhTermStructure));
-
+    auto swFloatingLegIndex = qlext::make_shared<QuantLib::Euribor>(QuantLib::Period(Rcpp::as<int>(legparams["floatFreq"]),QuantLib::Months),rhTermStructure);
 
     QuantLib::Rate dummyFixedRate = 0.03;
 
@@ -123,12 +122,11 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
     else {
         type = QuantLib::VanillaSwap::Receiver;
     }
-    QuantLib::ext::shared_ptr<QuantLib::VanillaSwap>
-        swap(new QuantLib::VanillaSwap(type, notional,
-                                       fixedSchedule, dummyFixedRate, swFixedLegDayCounter,
-                                       floatSchedule, swFloatingLegIndex, 0.0,
-                                       swFloatingLegIndex->dayCounter()));
-    swap->setPricingEngine(QuantLib::ext::shared_ptr<QuantLib::PricingEngine>(new QuantLib::DiscountingSwapEngine(rhTermStructure)));
+    auto swap = qlext::make_shared<QuantLib::VanillaSwap>(type, notional, fixedSchedule, dummyFixedRate,
+                                                          swFixedLegDayCounter,
+                                                          floatSchedule, swFloatingLegIndex, 0.0,
+                                                          swFloatingLegIndex->dayCounter());
+    swap->setPricingEngine(qlext::make_shared<QuantLib::DiscountingSwapEngine>(rhTermStructure));
 
     // Find the ATM or break-even rate
     QuantLib::Rate fixedATMRate = swap->fairRate();
@@ -140,12 +138,11 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
         fixedRate = strike;
 
     // The swap underlying the Affine swaption.
-    QuantLib::ext::shared_ptr<QuantLib::VanillaSwap>
-        mySwap(new QuantLib::VanillaSwap(type, notional,
-                                         fixedSchedule, fixedRate,swFixedLegDayCounter,
-                                         floatSchedule, swFloatingLegIndex, 0.0,
-                                         swFloatingLegIndex->dayCounter()));
-    swap->setPricingEngine(QuantLib::ext::shared_ptr<QuantLib::PricingEngine>(new QuantLib::DiscountingSwapEngine(rhTermStructure)));
+    auto mySwap = qlext::make_shared<QuantLib::VanillaSwap>(type, notional, fixedSchedule,
+                                                            fixedRate,swFixedLegDayCounter,
+                                                            floatSchedule, swFloatingLegIndex, 0.0,
+                                                            swFloatingLegIndex->dayCounter());
+    swap->setPricingEngine(qlext::make_shared<QuantLib::DiscountingSwapEngine>(rhTermStructure));
 
 
     // Build swaptions that will be used to calibrate model to
@@ -160,16 +157,17 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
     // List of times that have to be included in the timegrid
     std::list<QuantLib::Time> times;
     for (i=0; i<(QuantLib::Size)numRows; i++) {
-        //QuantLib::ext::shared_ptr<QuantLib::Quote> vol(new QuantLib::SimpleQuote(swaptionVols[i][numCols-i-1]));
-        QuantLib::ext::shared_ptr<QuantLib::Quote> vol(new QuantLib::SimpleQuote(swaptionVols(i)));
-        swaptions.push_back(QuantLib::ext::shared_ptr<QuantLib::BlackCalibrationHelper>(new QuantLib::SwaptionHelper(swaptionMaturities[i],
-                                                                                                             QuantLib::Period(swapLengths[i], QuantLib::Years),
-                                                                                                             QuantLib::Handle<QuantLib::Quote>(vol),
-                                                                                                             swFloatingLegIndex,
-                                                                                                             swFloatingLegIndex->tenor(),
-                                                                                                             swFloatingLegIndex->dayCounter(),
-                                                                                                             swFloatingLegIndex->dayCounter(),
-                                                                                                             rhTermStructure)));
+        auto vol = qlext::make_shared<QuantLib::SimpleQuote>(swaptionVols(i));
+        auto sh = qlext::make_shared<QuantLib::SwaptionHelper>(swaptionMaturities[i],
+                                                               QuantLib::Period(swapLengths[i],
+                                                                                QuantLib::Years),
+                                                               QuantLib::Handle<QuantLib::Quote>(vol),
+                                                               swFloatingLegIndex,
+                                                               swFloatingLegIndex->tenor(),
+                                                               swFloatingLegIndex->dayCounter(),
+                                                               swFloatingLegIndex->dayCounter(),
+                                                               rhTermStructure);
+        swaptions.push_back(sh);
         swaptions.back()->addTimesTo(times);
     }
 
@@ -191,16 +189,16 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
 
     }
 
-    QuantLib::ext::shared_ptr<QuantLib::Exercise> affineExercise(new QuantLib::BermudanExercise(affineDates));
+    auto affineExercise = qlext::make_shared<QuantLib::BermudanExercise>(affineDates);
 
     // Price based on method selected.
     if (method.compare("G2Analytic") == 0) {
-        QuantLib::ext::shared_ptr<QuantLib::G2> modelG2(new QuantLib::G2(rhTermStructure));
+        auto modelG2 = qlext::make_shared<QuantLib::G2>(rhTermStructure);
         Rprintf((char*)"G2/Jamshidian (analytic) calibration\n");
         for(i = 0; i < swaptions.size(); i++)
-            swaptions[i]->setPricingEngine(QuantLib::ext::shared_ptr<QuantLib::PricingEngine>(new QuantLib::G2SwaptionEngine(modelG2, 6.0, 16)));
+            swaptions[i]->setPricingEngine(qlext::make_shared<QuantLib::G2SwaptionEngine>(modelG2, 6.0, 16));
         calibrateModel2(modelG2, swaptions, 0.05, swaptionMat, swapLengths, swaptionVols);
-        QuantLib::ext::shared_ptr<QuantLib::PricingEngine> engine(new QuantLib::TreeSwaptionEngine(modelG2, 50));
+        auto engine = qlext::make_shared<QuantLib::TreeSwaptionEngine>(modelG2, 50);
         QuantLib::Swaption affineSwaption(mySwap, affineExercise);
         affineSwaption.setPricingEngine(engine);
         return Rcpp::List::create(Rcpp::Named("a")         = modelG2->params()[0],
@@ -213,12 +211,12 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
         //Rcpp::Named("params")    = params);
 
     } else if (method.compare("HWAnalytic") == 0) {
-        QuantLib::ext::shared_ptr<QuantLib::HullWhite> modelHW(new QuantLib::HullWhite(rhTermStructure));
+        auto modelHW = qlext::make_shared<QuantLib::HullWhite>(rhTermStructure);
         Rprintf((char*)"Hull-White (analytic) calibration\n");
         for (i=0; i<swaptions.size(); i++)
-            swaptions[i]->setPricingEngine(QuantLib::ext::shared_ptr<QuantLib::PricingEngine>(new QuantLib::JamshidianSwaptionEngine(modelHW)));
+            swaptions[i]->setPricingEngine(qlext::make_shared<QuantLib::JamshidianSwaptionEngine>(modelHW));
         calibrateModel2(modelHW, swaptions, 0.05, swaptionMat, swapLengths, swaptionVols);
-        QuantLib::ext::shared_ptr<QuantLib::PricingEngine> engine(new QuantLib::TreeSwaptionEngine(modelHW, 50));
+        auto engine = qlext::make_shared<QuantLib::TreeSwaptionEngine>(modelHW, 50);
         QuantLib::Swaption affineSwaption(mySwap, affineExercise);
         affineSwaption.setPricingEngine(engine);
         return Rcpp::List::create(Rcpp::Named("a") = modelHW->params()[0],
@@ -228,13 +226,13 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
         //Rcpp::Named("params") = params);
 
     } else if (method.compare("HWTree") == 0) {
-        QuantLib::ext::shared_ptr<QuantLib::HullWhite> modelHW2(new QuantLib::HullWhite(rhTermStructure));
+        auto modelHW2 = qlext::make_shared<QuantLib::HullWhite>(rhTermStructure);
         Rprintf((char*)"Hull-White (tree) calibration\n");
         for (i=0; i<swaptions.size(); i++)
-            swaptions[i]->setPricingEngine(QuantLib::ext::shared_ptr<QuantLib::PricingEngine>(new QuantLib::TreeSwaptionEngine(modelHW2,grid)));
+            swaptions[i]->setPricingEngine(qlext::make_shared<QuantLib::TreeSwaptionEngine>(modelHW2,grid));
 
         calibrateModel2(modelHW2, swaptions, 0.05, swaptionMat, swapLengths, swaptionVols);
-        QuantLib::ext::shared_ptr<QuantLib::PricingEngine> engine(new QuantLib::TreeSwaptionEngine(modelHW2, 50));
+        auto engine = qlext::make_shared<QuantLib::TreeSwaptionEngine>(modelHW2, 50);
         QuantLib::Swaption affineSwaption(mySwap, affineExercise);
         affineSwaption.setPricingEngine(engine);
         return Rcpp::List::create(Rcpp::Named("a") = modelHW2->params()[0],
@@ -245,13 +243,13 @@ Rcpp::List affineWithRebuiltCurveEngine(Rcpp::List rparam,
 
 
     } else if (method.compare("BKTree") == 0) {
-        QuantLib::ext::shared_ptr<QuantLib::BlackKarasinski> modelBK(new QuantLib::BlackKarasinski(rhTermStructure));
+        auto modelBK = qlext::make_shared<QuantLib::BlackKarasinski>(rhTermStructure);
         Rprintf((char*)"Black-Karasinski (tree) calibration\n");
         for (i=0; i<swaptions.size(); i++)
-            swaptions[i]->setPricingEngine(QuantLib::ext::shared_ptr<QuantLib::PricingEngine>(new QuantLib::TreeSwaptionEngine(modelBK,grid)));
+            swaptions[i]->setPricingEngine(qlext::make_shared<QuantLib::TreeSwaptionEngine>(modelBK,grid));
         calibrateModel2(modelBK, swaptions, 0.05, swaptionMat, swapLengths, swaptionVols);
 
-        QuantLib::ext::shared_ptr<QuantLib::PricingEngine> engine(new QuantLib::TreeSwaptionEngine(modelBK, 50));
+        auto engine = qlext::make_shared<QuantLib::TreeSwaptionEngine>(modelBK, 50);
         QuantLib::Swaption affineSwaption(mySwap, affineExercise);
         affineSwaption.setPricingEngine(engine);
         return Rcpp::List::create(Rcpp::Named("a") = modelBK->params()[0],

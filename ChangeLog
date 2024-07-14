@@ -9,6 +9,8 @@
 
 	* inst/include/rquantlib_internal.h: Move qlext namespace defintion
 
+	* src/affine.cpp: Minor refactoring and C++ update
+
 2024-07-13  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/asian.cpp: Minor refactoring and C++ update

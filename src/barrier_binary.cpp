@@ -39,7 +39,7 @@ Rcpp::List binaryOptionEngine(std::string binType,
     // cf QuantLib-0.9.0/test-suite/digitaloption.cpp
     QuantLib::Date today = QuantLib::Date::todaysDate();
     QuantLib::Settings::instance().evaluationDate() = today;
-    QuantLib::Date exDate = getExerciseDate(today, maturity);
+    QuantLib::Date exDate = getFutureDate(today, maturity);
 
     QuantLib::DayCounter dc = QuantLib::Actual360();
     namespace qlext = QuantLib::ext; 				// convenience namespace shortcut
@@ -118,7 +118,7 @@ double binaryOptionImpliedVolatilityEngine(std::string type,
     QuantLib::Date today = QuantLib::Date::todaysDate();
     QuantLib::Settings::instance().evaluationDate() = today;
     QuantLib::DayCounter dc = QuantLib::Actual360();
-    QuantLib::Date exDate = getExerciseDate(today, maturity);
+    QuantLib::Date exDate = getFutureDate(today, maturity);
     namespace qlext = QuantLib::ext; 				// convenience namespace shortcut
     auto spot  = qlext::make_shared<QuantLib::SimpleQuote>(underlying);
     auto qRate = qlext::make_shared<QuantLib::SimpleQuote>(dividendYield);
@@ -177,7 +177,7 @@ Rcpp::List barrierOptionEngine(std::string barrType,
     QuantLib::Date today = QuantLib::Date::todaysDate();
     QuantLib::Settings::instance().evaluationDate() = today;
     QuantLib::DayCounter dc = QuantLib::Actual360();
-    QuantLib::Date exDate = getExerciseDate(today, maturity);
+    QuantLib::Date exDate = getFutureDate(today, maturity);
     namespace qlext = QuantLib::ext; 				// convenience namespace shortcut
     auto spot = qlext::make_shared<QuantLib::SimpleQuote>(underlying);
     auto qRate = qlext::make_shared<QuantLib::SimpleQuote>(dividendYield);

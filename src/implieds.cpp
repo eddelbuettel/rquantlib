@@ -39,7 +39,7 @@ double europeanOptionImpliedVolatilityEngine(std::string type,
 
     QuantLib::Date today = QuantLib::Date::todaysDate();
     QuantLib::Settings::instance().evaluationDate() = today;
-    QuantLib::Date exDate = getExerciseDate(today, maturity);
+    QuantLib::Date exDate = getFutureDate(today, maturity);
 
     // new framework as per QuantLib 0.3.5
     // updated for 0.3.7
@@ -85,7 +85,7 @@ double americanOptionImpliedVolatilityEngine(std::string type,
 
     QuantLib::Date today = QuantLib::Date::todaysDate();
     QuantLib::Settings::instance().evaluationDate() = today;
-    QuantLib::Date exDate = getExerciseDate(today, maturity);
+    QuantLib::Date exDate = getFutureDate(today, maturity);
 
     // new framework as per QuantLib 0.3.5
     QuantLib::DayCounter dc = QuantLib::Actual360();

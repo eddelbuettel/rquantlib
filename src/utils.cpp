@@ -691,7 +691,7 @@ Rcpp::LogicalVector getQuantLibCapabilities() {
                                        Rcpp::Named("negativeRates") = hasNegativeRates);
 }
 
-QuantLib::Date getExerciseDate(const QuantLib::Date today, double maturity) {
+QuantLib::Date getFutureDate(const QuantLib::Date today, double maturity) {
     // depending on the compile-time option, this is either intra-day or not
     #ifdef QL_HIGH_RESOLUTION_DATE
 
@@ -701,7 +701,7 @@ QuantLib::Date getExerciseDate(const QuantLib::Date today, double maturity) {
 
     #else
 
-    int length  = int(maturity*360 + 0.5); 		// FIXME: this could be better
+    int length  = int(maturity * 360 + 0.5); 		// FIXME: this could be better
     return QuantLib::Date{today + length};
 
     #endif

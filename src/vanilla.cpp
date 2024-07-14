@@ -35,7 +35,7 @@ Rcpp::List europeanOptionEngine(std::string type,
 
     QuantLib::Option::Type optionType = getOptionType(type);
     QuantLib::Date today = QuantLib::Date::todaysDate();
-    QuantLib::Date exDate = getExerciseDate(today, maturity);
+    QuantLib::Date exDate = getFutureDate(today, maturity);
     QuantLib::Settings::instance().evaluationDate() = today;
     QuantLib::DayCounter dc = QuantLib::Actual360();
     namespace qlext = QuantLib::ext; 				// convenience namespace shortcut
@@ -58,12 +58,7 @@ Rcpp::List europeanOptionEngine(std::string type,
         std::vector<QuantLib::Date> discDivDates(n);
         std::vector<double> discDividends(n);
         for (int i = 0; i < n; i++) {
-#ifdef QL_HIGH_RESOLUTION_DATE
-            boost::posix_time::time_duration discreteDividendLength = boost::posix_time::minutes(boost::uint64_t(divtimes[i] * 360 * 24 * 60));
-            discDivDates[i] = QuantLib::Date(today.dateTime() + discreteDividendLength);
-#else
-            discDivDates[i] = today + int(divtimes[i] * 360 + 0.5);
-#endif
+            discDivDates[i] = getFutureDate(today, divtimes[i]);
             discDividends[i] = divvalues[i];
         }
 
@@ -118,7 +113,7 @@ Rcpp::List americanOptionEngine(std::string type,
 
     QuantLib::Date today = QuantLib::Date::todaysDate();
     QuantLib::Settings::instance().evaluationDate() = today;
-    QuantLib::Date exDate = getExerciseDate(today, maturity);
+    QuantLib::Date exDate = getFutureDate(today, maturity);
     QuantLib::DayCounter dc = QuantLib::Actual360();
     namespace qlext = QuantLib::ext; 				// convenience namespace shortcut
     auto spot  = qlext::make_shared<QuantLib::SimpleQuote>(underlying);
@@ -146,12 +141,7 @@ Rcpp::List americanOptionEngine(std::string type,
         std::vector<QuantLib::Date> discDivDates(n);
         std::vector<double> discDividends(n);
         for (int i = 0; i < n; i++) {
-#ifdef QL_HIGH_RESOLUTION_DATE
-            boost::posix_time::time_duration discreteDividendLength = boost::posix_time::minutes(boost::uint64_t(divtimes[i] * 360 * 24 * 60));
-            discDivDates[i] = QuantLib::Date(today.dateTime() + discreteDividendLength);
-#else
-            discDivDates[i] = today + int(divtimes[i] * 360 + 0.5);
-#endif
+            discDivDates[i] = getFutureDate(today, divtimes[i]);
             discDividends[i] = divvalues[i];
         }
 
@@ -239,7 +229,7 @@ Rcpp::List europeanOptionArraysEngine(std::string type, Rcpp::NumericMatrix par)
         auto rRate = qlext::make_shared<QuantLib::SimpleQuote>(riskFreeRate);
         auto rTS   = flatRate(today, rRate, dc); 	// cf src/utils.cpp
 
-        QuantLib::Date exDate = getExerciseDate(today, maturity);
+        QuantLib::Date exDate = getFutureDate(today, maturity);
         auto exercise = qlext::make_shared<QuantLib::EuropeanExercise>(exDate);
         auto payoff   = qlext::make_shared<QuantLib::PlainVanillaPayoff>(optionType, strike);
         auto option = makeOption(payoff, exercise, spot, qTS, rTS, volTS);

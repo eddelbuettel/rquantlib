@@ -1,6 +1,6 @@
 2024-07-14  Dirk Eddelbuettel  <edd@debian.org>
 
-	* src/utils.cpp (getExerciseDate): New helper function
+	* src/utils.cpp (getFutureDate): New helper function
 	* inst/include/rquantlib_internal.h: Declaration
 	* src/asian.cpp: Use new helper function
 	* src/barrier_binary.cpp: Idem

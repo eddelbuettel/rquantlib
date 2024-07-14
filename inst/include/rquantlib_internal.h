@@ -199,6 +199,6 @@ QuantLib::Duration::Type getDurationType(const double n);
 QuantLib::Date advanceDate(QuantLib::Date issueDate, int days);
 
 // utils.cpp
-QuantLib::Date getExerciseDate(const QuantLib::Date today, double maturity);
+QuantLib::Date getFutureDate(const QuantLib::Date today, double maturity);
 
 #endif

@@ -64,12 +64,8 @@ Rcpp::List asianOptionEngine(std::string averageType,
     if (averageType=="geometric"){
         auto engine = qlext::make_shared<QuantLib::AnalyticContinuousGeometricAveragePriceAsianEngine>(stochProcess);
 
-#ifdef QL_HIGH_RESOLUTION_DATE
-        // in minutes
-        QuantLib::Date exDate(today.dateTime() + boost::posix_time::minutes(boost::uint64_t(maturity * 360 * 24 * 60)));
-#else
-        QuantLib::Date exDate = today + int(maturity * 360 + 0.5);
-#endif
+        QuantLib::Date exDate = getExerciseDate(today, maturity);
+
         auto exercise = qlext::make_shared<QuantLib::EuropeanExercise>(exDate);
         QuantLib::ContinuousAveragingAsianOption option(QuantLib::Average::Geometric, payoff, exercise);
         option.setPricingEngine(engine);

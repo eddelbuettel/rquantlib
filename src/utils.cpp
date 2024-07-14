@@ -690,3 +690,19 @@ Rcpp::LogicalVector getQuantLibCapabilities() {
                                        Rcpp::Named("intradayDate") = hasHighResolutionDate,
                                        Rcpp::Named("negativeRates") = hasNegativeRates);
 }
+
+QuantLib::Date getExerciseDate(const QuantLib::Date today, double maturity) {
+    // depending on the compile-time option, this is either intra-day or not
+    #ifdef QL_HIGH_RESOLUTION_DATE
+
+    // in minutes
+    auto length = boost::posix_time::minutes(boost::uint64_t(maturity * 360 * 24 * 60));
+    return QuantLib::Date{today.dateTime() + length}; // high-res time ctos
+
+    #else
+
+    int length  = int(maturity*360 + 0.5); 		// FIXME: this could be better
+    return QuantLib::Date{today + length};
+
+    #endif
+}

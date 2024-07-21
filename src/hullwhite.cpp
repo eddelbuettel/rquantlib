@@ -131,14 +131,10 @@ Rcpp::List calibrateHullWhiteUsingSwapsEngine(std::vector<QuantLib::Date> termSt
         QuantLib::DayCounter fixedLegDayCounter = getDayCounter(i7v[row]);
         QuantLib::DayCounter floatingLegDayCounter = getDayCounter(i8v[row]);
 
-        QuantLib::ext::shared_ptr<QuantLib::BlackCalibrationHelper>
-            helper(new QuantLib::SwaptionHelper(maturity, length,
-                                                QuantLib::Handle<QuantLib::Quote>(vol),
-                                                index,
-                                                fixedLegTenor,
-                                                fixedLegDayCounter,
-                                                floatingLegDayCounter,
-                                                term));
+        auto helper = qlext::make_shared<QuantLib::SwaptionHelper>(maturity, length,
+                                                                   QuantLib::Handle<QuantLib::Quote>(vol),
+                                                                   index, fixedLegTenor, fixedLegDayCounter,
+                                                                   floatingLegDayCounter, term);
         helper->setPricingEngine(engine);
         swaps.push_back(helper);
     }

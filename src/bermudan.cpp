@@ -86,11 +86,11 @@ Rcpp::List bermudanFromYieldEngine(Rcpp::List rparam,
     QuantLib::DayCounter termStructureDayCounter =
         QuantLib::ActualActual(QuantLib::ActualActual::ISDA);
 
-    QuantLib::ext::shared_ptr<QuantLib::Quote> flatRate(new QuantLib::SimpleQuote(yield[0]));  // FIXME: hardcoded?
+    auto flatRate = qlext::make_shared<QuantLib::SimpleQuote>(yield[0]);  // FIXME: hardcoded?
     QuantLib::Handle<QuantLib::YieldTermStructure>
-        rhTermStructure(QuantLib::ext::shared_ptr<QuantLib::FlatForward>(new QuantLib::FlatForward(settlementDate,
-                                                                                           QuantLib::Handle<QuantLib::Quote>(flatRate),
-                                                                                           QuantLib::Actual365Fixed())));
+        rhTermStructure(qlext::make_shared<QuantLib::FlatForward>(QuantLib::FlatForward(settlementDate,
+                                                                                        QuantLib::Handle<QuantLib::Quote>(flatRate),
+                                                                                        QuantLib::Actual365Fixed())));
 
     // Get swaption vol matrix.
     //Rcpp::NumericMatrix swaptionVols(vols);
@@ -121,7 +121,7 @@ Rcpp::List bermudanFromYieldEngine(Rcpp::List rparam,
     QuantLib::DayCounter fixedLegDayCounter = QuantLib::Thirty360(QuantLib::Thirty360::European);
     QuantLib::Frequency floatingLegFrequency = QuantLib::Semiannual;
     QuantLib::Rate dummyFixedRate = 0.03;
-    QuantLib::ext::shared_ptr<QuantLib::IborIndex> indexSixMonths(new QuantLib::Euribor6M(rhTermStructure));
+    auto indexSixMonths = qlext::make_shared<QuantLib::Euribor6M>(rhTermStructure);
 
     //QuantLib::Date startDate = calendar.advance(settlementDate, 1, QuantLib::Years, floatingLegConvention);  //took out hard coded
     //QuantLib::Date maturity = calendar.advance(startDate, 5, QuantLib::Years, floatingLegConvention);         //dates
@@ -134,12 +134,12 @@ Rcpp::List bermudanFromYieldEngine(Rcpp::List rparam,
                                      floatingLegConvention,floatingLegConvention,
                                      QuantLib::DateGeneration::Forward,false);
     QuantLib::VanillaSwap::Type type = QuantLib::VanillaSwap::Payer;
-    QuantLib::ext::shared_ptr<QuantLib::VanillaSwap>
-        swap(new QuantLib::VanillaSwap(type, notional,
-                                       fixedSchedule, dummyFixedRate, fixedLegDayCounter,
-                                       floatSchedule, indexSixMonths, 0.0,
-                                       indexSixMonths->dayCounter()));
-    swap->setPricingEngine(QuantLib::ext::shared_ptr<QuantLib::PricingEngine>(new QuantLib::DiscountingSwapEngine(rhTermStructure)));
+    auto swap = qlext::make_shared<QuantLib::VanillaSwap>(type, notional,
+                                                          fixedSchedule, dummyFixedRate,
+                                                          fixedLegDayCounter,
+                                                          floatSchedule, indexSixMonths, 0.0,
+                                                          indexSixMonths->dayCounter());
+    swap->setPricingEngine(qlext::make_shared<QuantLib::DiscountingSwapEngine>(rhTermStructure));
 
     // Find the ATM or break-even rate
     QuantLib::Rate fixedATMRate = swap->fairRate();
@@ -151,12 +151,12 @@ Rcpp::List bermudanFromYieldEngine(Rcpp::List rparam,
         fixedRate = strike;
 
     // The swap underlying the Bermudan swaption.
-    QuantLib::ext::shared_ptr<QuantLib::VanillaSwap>
-        mySwap(new QuantLib::VanillaSwap(type, notional,
-                                         fixedSchedule, fixedRate, fixedLegDayCounter,
-                                         floatSchedule, indexSixMonths, 0.0,
-                                         indexSixMonths->dayCounter()));
-    swap->setPricingEngine(QuantLib::ext::shared_ptr<QuantLib::PricingEngine>(new QuantLib::DiscountingSwapEngine(rhTermStructure)));
+    auto mySwap = qlext::make_shared<QuantLib::VanillaSwap>(type, notional,
+                                                            fixedSchedule, fixedRate,
+                                                            fixedLegDayCounter,
+                                                            floatSchedule, indexSixMonths, 0.0,
+                                                            indexSixMonths->dayCounter());
+    swap->setPricingEngine(qlext::make_shared<QuantLib::DiscountingSwapEngine>(rhTermStructure));
 
     // Build swaptions that will be used to calibrate model to
     // the volatility matrix.

@@ -1,3 +1,8 @@
+2024-07-21  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/hullwhite.cpp: Minor refactoring and C++ update
+	* src/bermudan.cpp: Idem
+
 2024-07-14  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/utils.cpp (getFutureDate): New helper function

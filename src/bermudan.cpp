@@ -171,15 +171,15 @@ Rcpp::List bermudanFromYieldEngine(Rcpp::List rparam,
     std::list<QuantLib::Time> times;
     for (i=0; i<(QuantLib::Size)numRows; i++) {
         //QuantLib::ext::shared_ptr<QuantLib::Quote> vol(new QuantLib::SimpleQuote(swaptionVols[i][numCols-i-1]));
-        QuantLib::ext::shared_ptr<QuantLib::Quote> vol(new QuantLib::SimpleQuote(swaptionVols(i, numCols-i-1)));
-        swaptions.push_back(QuantLib::ext::shared_ptr<QuantLib::BlackCalibrationHelper>(new QuantLib::SwaptionHelper(swaptionMaturities[i],
-                                                                                                             QuantLib::Period(swapLengths[numCols-i-1], QuantLib::Years),
-                                                                                                             QuantLib::Handle<QuantLib::Quote>(vol),
-                                                                                                             indexSixMonths,
-                                                                                                             indexSixMonths->tenor(),
-                                                                                                             indexSixMonths->dayCounter(),
-                                                                                                             indexSixMonths->dayCounter(),
-                                                                                                             rhTermStructure)));
+        auto vol = qlext::make_shared<QuantLib::SimpleQuote>(swaptionVols(i, numCols-i-1));
+        swaptions.push_back(qlext::make_shared<QuantLib::SwaptionHelper>(swaptionMaturities[i],
+                                                                         QuantLib::Period(swapLengths[numCols-i-1], QuantLib::Years),
+                                                                         QuantLib::Handle<QuantLib::Quote>(vol),
+                                                                         indexSixMonths,
+                                                                         indexSixMonths->tenor(),
+                                                                         indexSixMonths->dayCounter(),
+                                                                         indexSixMonths->dayCounter(),
+                                                                         rhTermStructure));
         swaptions.back()->addTimesTo(times);
 
     }
@@ -189,22 +189,22 @@ Rcpp::List bermudanFromYieldEngine(Rcpp::List rparam,
 
     // Get Bermudan swaption exercise dates.
     std::vector<QuantLib::Date> bermudanDates;
-    const std::vector<QuantLib::ext::shared_ptr<QuantLib::CashFlow> >& leg = swap->fixedLeg();
+    const std::vector<QuantLib::ext::shared_ptr<QuantLib::CashFlow>>& leg = swap->fixedLeg();
     for (i=0; i<leg.size(); i++) {
         QuantLib::ext::shared_ptr<QuantLib::Coupon> coupon = QuantLib::ext::dynamic_pointer_cast<QuantLib::Coupon>(leg[i]);
         bermudanDates.push_back(coupon->accrualStartDate());
     }
-    QuantLib::ext::shared_ptr<QuantLib::Exercise> bermudaExercise(new QuantLib::BermudanExercise(bermudanDates));
+    auto bermudaExercise = qlext::make_shared<QuantLib::BermudanExercise>(bermudanDates);
 
     // Price based on method selected.
     if (method.compare("G2Analytic") == 0) {
 
-        QuantLib::ext::shared_ptr<QuantLib::G2> modelG2(new QuantLib::G2(rhTermStructure));
+        auto modelG2 = qlext::make_shared<QuantLib::G2>(rhTermStructure);
         Rprintf((char*)"G2/Jamshidian (analytic) calibration\n");
-        for(i = 0; i < swaptions.size(); i++)
-            swaptions[i]->setPricingEngine(QuantLib::ext::shared_ptr<QuantLib::PricingEngine>(new QuantLib::G2SwaptionEngine(modelG2, 6.0, 16)));
+        for (i = 0; i < swaptions.size(); i++)
+            swaptions[i]->setPricingEngine(qlext::make_shared<QuantLib::G2SwaptionEngine>(modelG2, 6.0, 16));
         calibrateModel(modelG2, swaptions, 0.05, swaptionMat, swapLengths, swaptionVols);
-        QuantLib::ext::shared_ptr<QuantLib::PricingEngine> engine(new QuantLib::TreeSwaptionEngine(modelG2, 50));
+        auto engine = qlext::make_shared<QuantLib::TreeSwaptionEngine>(modelG2, 50);
         QuantLib::Swaption bermudanSwaption(mySwap, bermudaExercise);
         bermudanSwaption.setPricingEngine(engine);
         return Rcpp::List::create(Rcpp::Named("a")         = modelG2->params()[0],
@@ -218,12 +218,12 @@ Rcpp::List bermudanFromYieldEngine(Rcpp::List rparam,
 
     } else if (method.compare("HWAnalytic") == 0) {
 
-        QuantLib::ext::shared_ptr<QuantLib::HullWhite> modelHW(new QuantLib::HullWhite(rhTermStructure));
+        auto modelHW = qlext::make_shared<QuantLib::HullWhite>(rhTermStructure);
         Rprintf((char*)"Hull-White (analytic) calibration\n");
         for (i=0; i<swaptions.size(); i++)
-            swaptions[i]->setPricingEngine(QuantLib::ext::shared_ptr<QuantLib::PricingEngine>(new QuantLib::JamshidianSwaptionEngine(modelHW)));
+            swaptions[i]->setPricingEngine(qlext::make_shared<QuantLib::JamshidianSwaptionEngine>(modelHW));
         calibrateModel(modelHW, swaptions, 0.05, swaptionMat, swapLengths, swaptionVols);
-        QuantLib::ext::shared_ptr<QuantLib::PricingEngine> engine(new QuantLib::TreeSwaptionEngine(modelHW, 50));
+        auto engine = qlext::make_shared<QuantLib::TreeSwaptionEngine>(modelHW, 50);
         QuantLib::Swaption bermudanSwaption(mySwap, bermudaExercise);
         bermudanSwaption.setPricingEngine(engine);
         return Rcpp::List::create(Rcpp::Named("a") = modelHW->params()[0],
@@ -233,13 +233,13 @@ Rcpp::List bermudanFromYieldEngine(Rcpp::List rparam,
         //Rcpp::Named("params") = params);
 
     } else if (method.compare("HWTree") == 0) {
-        QuantLib::ext::shared_ptr<QuantLib::HullWhite> modelHW2(new QuantLib::HullWhite(rhTermStructure));
+        auto modelHW2 = qlext::make_shared<QuantLib::HullWhite>(rhTermStructure);
         Rprintf((char*)"Hull-White (tree) calibration\n");
         for (i=0; i<swaptions.size(); i++)
-            swaptions[i]->setPricingEngine(QuantLib::ext::shared_ptr<QuantLib::PricingEngine>(new QuantLib::TreeSwaptionEngine(modelHW2,grid)));
+            swaptions[i]->setPricingEngine(qlext::make_shared<QuantLib::TreeSwaptionEngine>(modelHW2,grid));
 
         calibrateModel(modelHW2, swaptions, 0.05, swaptionMat, swapLengths, swaptionVols);
-        QuantLib::ext::shared_ptr<QuantLib::PricingEngine> engine(new QuantLib::TreeSwaptionEngine(modelHW2, 50));
+        auto engine = qlext::make_shared<QuantLib::TreeSwaptionEngine>(modelHW2, 50);
         QuantLib::Swaption bermudanSwaption(mySwap, bermudaExercise);
         bermudanSwaption.setPricingEngine(engine);
         return Rcpp::List::create(Rcpp::Named("a") = modelHW2->params()[0],

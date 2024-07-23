@@ -1,3 +1,7 @@
+2024-07-23  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/bonds.cpp: Minor refactoring and C++ update
+
 2024-07-22  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/bermudan.cpp: Finalised refactoring and C++ update

@@ -1,6 +1,7 @@
 2024-07-23  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/bonds.cpp: Minor refactoring and C++ update
+	* src/utils.cpp: Idem
 
 2024-07-22  Dirk Eddelbuettel  <edd@debian.org>
 

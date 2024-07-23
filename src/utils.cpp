@@ -35,51 +35,50 @@ QuantLib::Option::Type getOptionType(const std::string &type) {
 }
 
 // cf QuantLib-0.9.0/test-suite/europeanoption.cpp
-QuantLib::ext::shared_ptr<QuantLib::VanillaOption>
-makeOption(const QuantLib::ext::shared_ptr<QuantLib::StrikedTypePayoff>& payoff,
-           const QuantLib::ext::shared_ptr<QuantLib::Exercise>& exercise,
-           const QuantLib::ext::shared_ptr<QuantLib::Quote>& u,
-           const QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure>& q,
-           const QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure>& r,
-           const QuantLib::ext::shared_ptr<QuantLib::BlackVolTermStructure>& vol,
+qlext::shared_ptr<QuantLib::VanillaOption>
+makeOption(const qlext::shared_ptr<QuantLib::StrikedTypePayoff>& payoff,
+           const qlext::shared_ptr<QuantLib::Exercise>& exercise,
+           const qlext::shared_ptr<QuantLib::Quote>& u,
+           const qlext::shared_ptr<QuantLib::YieldTermStructure>& q,
+           const qlext::shared_ptr<QuantLib::YieldTermStructure>& r,
+           const qlext::shared_ptr<QuantLib::BlackVolTermStructure>& vol,
            EngineType engineType,
            QuantLib::Size binomialSteps,
            QuantLib::Size samples) {
 
-    QuantLib::ext::shared_ptr<QuantLib::GeneralizedBlackScholesProcess> stochProcess = makeProcess(u,q,r,vol);
-    QuantLib::ext::shared_ptr<QuantLib::PricingEngine> engine;
-    typedef QuantLib::ext::shared_ptr<QuantLib::PricingEngine> spPE; // shorthand used below
+    qlext::shared_ptr<QuantLib::GeneralizedBlackScholesProcess> stochProcess = makeProcess(u,q,r,vol);
+    qlext::shared_ptr<QuantLib::PricingEngine> engine;
 
     switch (engineType) {
     case Analytic:
-        engine = spPE(new QuantLib::AnalyticEuropeanEngine(stochProcess));
+        engine = qlext::make_shared<QuantLib::AnalyticEuropeanEngine>(stochProcess);
         break;
     case JR:
-        engine = spPE(new QuantLib::BinomialVanillaEngine<QuantLib::JarrowRudd>(stochProcess, binomialSteps));
+        engine = qlext::make_shared<QuantLib::BinomialVanillaEngine<QuantLib::JarrowRudd>>(stochProcess, binomialSteps);
         break;
     case CRR:
-        engine = spPE(new QuantLib::BinomialVanillaEngine<QuantLib::CoxRossRubinstein>(stochProcess, binomialSteps));
+        engine = qlext::make_shared<QuantLib::BinomialVanillaEngine<QuantLib::CoxRossRubinstein>>(stochProcess, binomialSteps);
         break;
     case EQP:
-        engine = spPE(new QuantLib::BinomialVanillaEngine<QuantLib::AdditiveEQPBinomialTree>(stochProcess, binomialSteps));
+        engine = qlext::make_shared<QuantLib::BinomialVanillaEngine<QuantLib::AdditiveEQPBinomialTree>>(stochProcess, binomialSteps);
         break;
     case TGEO:
-        engine = spPE(new QuantLib::BinomialVanillaEngine<QuantLib::Trigeorgis>(stochProcess, binomialSteps));
+        engine = qlext::make_shared<QuantLib::BinomialVanillaEngine<QuantLib::Trigeorgis>>(stochProcess, binomialSteps);
         break;
     case TIAN:
-        engine = spPE(new QuantLib::BinomialVanillaEngine<QuantLib::Tian>(stochProcess, binomialSteps));
+        engine = qlext::make_shared<QuantLib::BinomialVanillaEngine<QuantLib::Tian>>(stochProcess, binomialSteps);
         break;
     case LR:
-        engine = spPE(new QuantLib::BinomialVanillaEngine<QuantLib::LeisenReimer>(stochProcess, binomialSteps));
+        engine = qlext::make_shared<QuantLib::BinomialVanillaEngine<QuantLib::LeisenReimer>>(stochProcess, binomialSteps);
         break;
     case JOSHI:
-        engine = spPE(new QuantLib::BinomialVanillaEngine<QuantLib::Joshi4>(stochProcess, binomialSteps));
+        engine = qlext::make_shared<QuantLib::BinomialVanillaEngine<QuantLib::Joshi4>>(stochProcess, binomialSteps);
         break;
     case FiniteDifferences:
-        engine = spPE(new QuantLib::FdBlackScholesVanillaEngine(stochProcess, binomialSteps, samples));
+        engine = qlext::make_shared<QuantLib::FdBlackScholesVanillaEngine>(stochProcess, binomialSteps, samples);
         break;
     case Integral:
-        engine = spPE(new QuantLib::IntegralEngine(stochProcess));
+        engine = qlext::make_shared<QuantLib::IntegralEngine>(stochProcess);
         break;
     case PseudoMonteCarlo:
         engine = QuantLib::MakeMCEuropeanEngine<QuantLib::PseudoRandom>(stochProcess)
@@ -95,15 +94,15 @@ makeOption(const QuantLib::ext::shared_ptr<QuantLib::StrikedTypePayoff>& payoff,
     default:
         QL_FAIL("Unknown engine type");
     }
-    QuantLib::ext::shared_ptr<QuantLib::VanillaOption> option(new QuantLib::EuropeanOption(payoff, exercise));
+    auto option = qlext::make_shared<QuantLib::EuropeanOption>(payoff, exercise);
     option->setPricingEngine(engine);
     return option;
 }
 
 // QuantLib option setup utils, copied from the test-suite sources
-QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure> buildTermStructure(Rcpp::List rparam, Rcpp::List tslist) {
+qlext::shared_ptr<QuantLib::YieldTermStructure> buildTermStructure(Rcpp::List rparam, Rcpp::List tslist) {
 
-    QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure> curve;
+    qlext::shared_ptr<QuantLib::YieldTermStructure> curve;
 
     Rcpp::CharacterVector tsnames = tslist.names();
     QuantLib::Date todaysDate(Rcpp::as<QuantLib::Date>(rparam["tradeDate"]));
@@ -132,25 +131,22 @@ QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure> buildTermStructure(Rcpp:
 
     if (firstQuoteName.compare("flat") == 0) {	// Create a flat term structure.
         double rateQuote = Rcpp::as<double>(tslist[0]);
-        QuantLib::ext::shared_ptr<QuantLib::Quote> flatRate(new QuantLib::SimpleQuote(rateQuote));
-        QuantLib::ext::shared_ptr<QuantLib::FlatForward>
-            ts(new QuantLib::FlatForward(settlementDate, QuantLib::Handle<QuantLib::Quote>(flatRate), QuantLib::Actual365Fixed()));
-        curve =  ts;
+        auto flatRate = qlext::make_shared<QuantLib::SimpleQuote>(rateQuote);
+        auto ts = qlext::make_shared<QuantLib::FlatForward>(settlementDate, QuantLib::Handle<QuantLib::Quote>(flatRate), QuantLib::Actual365Fixed());
+        curve = ts;
     } else {									// Build curve based on a set of observed rates and/or prices.
-        std::vector<QuantLib::ext::shared_ptr<QuantLib::RateHelper> > curveInput;
+        std::vector<qlext::shared_ptr<QuantLib::RateHelper>> curveInput;
         for (int i = 0; i < tslist.size(); i++) {
             std::string name = Rcpp::as<std::string>(tsnames[i]);
             double val = Rcpp::as<double>(tslist[i]);
-            QuantLib::ext::shared_ptr<QuantLib::RateHelper> rh = ObservableDB::instance().getRateHelper(name, val);
+            qlext::shared_ptr<QuantLib::RateHelper> rh = ObservableDB::instance().getRateHelper(name, val);
             // edd 2009-11-01 FIXME NULL_RateHelper no longer builds under 0.9.9
             // if (rh == NULL_RateHelper)
             if (rh.get() == NULL)
                 Rcpp::stop("Unknown rate in getRateHelper");
             curveInput.push_back(rh);
         }
-        QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure> ts =
-            getTermStructure(interpWhat, interpHow, settlementDate, curveInput,
-                             termStructureDayCounter, tolerance);
+        auto ts = getTermStructure(interpWhat, interpHow, settlementDate, curveInput, termStructureDayCounter, tolerance);
         curve = ts;
     }
     return curve;
@@ -164,7 +160,7 @@ QuantLib::Schedule getSchedule(Rcpp::List rparam) {
     std::string cal = Rcpp::as<std::string>(rparam["calendar"]);
     QuantLib::Calendar calendar;
     if(!cal.empty()) {
-        QuantLib::ext::shared_ptr<QuantLib::Calendar> p = getCalendar(cal);
+        qlext::shared_ptr<QuantLib::Calendar> p = getCalendar(cal);
         calendar = *p;
     }
     QuantLib::BusinessDayConvention businessDayConvention =
@@ -193,8 +189,9 @@ QuantLib::Schedule getSchedule(Rcpp::List rparam) {
     return schedule;
 }
 
-QuantLib::ext::shared_ptr<QuantLib::FixedRateBond> getFixedRateBond(
-    Rcpp::List bondparam, std::vector<double> ratesVec, Rcpp::List scheduleparam) {
+qlext::shared_ptr<QuantLib::FixedRateBond> getFixedRateBond(Rcpp::List bondparam,
+                                                            std::vector<double> ratesVec,
+                                                            Rcpp::List scheduleparam) {
 
     // get bond parameters
     double settlementDays = Rcpp::as<double>(bondparam["settlementDays"]);
@@ -215,7 +212,7 @@ QuantLib::ext::shared_ptr<QuantLib::FixedRateBond> getFixedRateBond(
     }
     QuantLib::Calendar paymentCalendar;
     if(bondparam.containsElementNamed("paymentCalendar") ) {
-        QuantLib::ext::shared_ptr<QuantLib::Calendar> p = getCalendar(Rcpp::as<std::string>(bondparam["paymentCalendar"]));
+        qlext::shared_ptr<QuantLib::Calendar> p = getCalendar(Rcpp::as<std::string>(bondparam["paymentCalendar"]));
         paymentCalendar = *p;
     }
     QuantLib::Period exCouponPeriod;
@@ -224,7 +221,7 @@ QuantLib::ext::shared_ptr<QuantLib::FixedRateBond> getFixedRateBond(
     }
     QuantLib::Calendar exCouponCalendar;
     if(bondparam.containsElementNamed("exCouponCalendar") ) {
-        QuantLib::ext::shared_ptr<QuantLib::Calendar> p = getCalendar(Rcpp::as<std::string>(bondparam["exCouponCalendar"]));
+        qlext::shared_ptr<QuantLib::Calendar> p = getCalendar(Rcpp::as<std::string>(bondparam["exCouponCalendar"]));
         exCouponCalendar = *p;
     }
     QuantLib::BusinessDayConvention exCouponConvention = QuantLib::Unadjusted;
@@ -237,53 +234,40 @@ QuantLib::ext::shared_ptr<QuantLib::FixedRateBond> getFixedRateBond(
     }
 
     QuantLib::Schedule schedule = getSchedule(scheduleparam);
-    QuantLib::ext::shared_ptr<QuantLib::FixedRateBond> result(
-        new QuantLib::FixedRateBond(settlementDays,
-                                    faceAmount,
-                                    schedule,
-                                    ratesVec,
-                                    accrualDayCounter,
-                                    paymentConvention,
-                                    redemption,
-                                    issueDate,
-                                    paymentCalendar,
-                                    exCouponPeriod,
-                                    exCouponCalendar,
-                                    exCouponConvention,
-                                    exCouponEndOfMonth));
+    auto result = qlext::make_shared<QuantLib::FixedRateBond>(settlementDays, faceAmount, schedule, ratesVec,
+                                                              accrualDayCounter, paymentConvention, redemption,
+                                                              issueDate, paymentCalendar, exCouponPeriod,
+                                                              exCouponCalendar, exCouponConvention, exCouponEndOfMonth);
     return result;
 }
 
-QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure>
-rebuildCurveFromZeroRates(std::vector<QuantLib::Date> dates,
-                          std::vector<double> zeros) {
-    QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure>
-        rebuilt_curve(new QuantLib::InterpolatedZeroCurve<QuantLib::LogLinear>(dates,
-                                                                               zeros,
-                                                                               QuantLib::Actual365Fixed()));
+qlext::shared_ptr<QuantLib::YieldTermStructure> rebuildCurveFromZeroRates(std::vector<QuantLib::Date> dates,
+                                                                          std::vector<double> zeros) {
+    auto rebuilt_curve = qlext::make_shared<QuantLib::InterpolatedZeroCurve<QuantLib::LogLinear>>(dates, zeros,
+                                                                                                  QuantLib::Actual365Fixed());
     return rebuilt_curve;
 }
 
-QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure> getFlatCurve(Rcpp::List curve) {
+qlext::shared_ptr<QuantLib::YieldTermStructure> getFlatCurve(Rcpp::List curve) {
     QuantLib::Rate riskFreeRate = Rcpp::as<double>(curve["riskFreeRate"]);
     QuantLib::Date today(Rcpp::as<QuantLib::Date>(curve["todayDate"]));
-    QuantLib::ext::shared_ptr<QuantLib::SimpleQuote> rRate(new QuantLib::SimpleQuote(riskFreeRate));
+    auto rRate = qlext::make_shared<QuantLib::SimpleQuote>(riskFreeRate);
     QuantLib::Settings::instance().evaluationDate() = today;
     return flatRate(today, rRate, QuantLib::Actual360());
 }
 
-QuantLib::ext::shared_ptr<QuantLib::IborIndex> getIborIndex(Rcpp::List rparam, const QuantLib::Date today) {
+qlext::shared_ptr<QuantLib::IborIndex> getIborIndex(Rcpp::List rparam, const QuantLib::Date today) {
     std::string type = Rcpp::as<std::string>(rparam["type"]);
     if (type == "USDLibor"){
         double riskFreeRate = Rcpp::as<double>(rparam["riskFreeRate"]);
         double period = Rcpp::as<double>(rparam["period"]);
-        QuantLib::ext::shared_ptr<QuantLib::SimpleQuote> rRate(new QuantLib::SimpleQuote(riskFreeRate));
+        auto rRate = qlext::make_shared<QuantLib::SimpleQuote>(riskFreeRate);
         QuantLib::Settings::instance().evaluationDate() = today;
         QuantLib::Handle<QuantLib::YieldTermStructure> curve(flatRate(today, rRate, QuantLib::Actual360()));
-        QuantLib::ext::shared_ptr<QuantLib::IborIndex> iindex(new QuantLib::USDLibor(period * QuantLib::Months, curve));
+        auto iindex = qlext::make_shared<QuantLib::USDLibor>(period * QuantLib::Months, curve);
         return iindex;
     }
-    else return QuantLib::ext::shared_ptr<QuantLib::IborIndex>();
+    else return qlext::shared_ptr<QuantLib::IborIndex>();
 }
 
 // std::vector<double> getDoubleVector(SEXP vecSexp) {
@@ -294,49 +278,38 @@ QuantLib::ext::shared_ptr<QuantLib::IborIndex> getIborIndex(Rcpp::List rparam, c
 //     }
 // }
 
-QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure>
-makeFlatCurve(const QuantLib::Date& today,
-              const QuantLib::ext::shared_ptr<QuantLib::Quote>& forward,
-              const QuantLib::DayCounter& dc) {
-    return QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure>(new QuantLib::FlatForward(today, QuantLib::Handle<QuantLib::Quote>(forward), dc));
+qlext::shared_ptr<QuantLib::YieldTermStructure> makeFlatCurve(const QuantLib::Date& today,
+                                                              const qlext::shared_ptr<QuantLib::Quote>& forward,
+                                                              const QuantLib::DayCounter& dc) {
+    return qlext::make_shared<QuantLib::FlatForward>(today, QuantLib::Handle<QuantLib::Quote>(forward), dc);
 }
 
-QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure>
-flatRate(const QuantLib::Date& today,
-         const QuantLib::ext::shared_ptr<QuantLib::Quote>& forward,
-         const QuantLib::DayCounter& dc) {
-    return QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure>(new QuantLib::FlatForward(today, QuantLib::Handle<QuantLib::Quote>(forward), dc));
+qlext::shared_ptr<QuantLib::YieldTermStructure> flatRate(const QuantLib::Date& today,
+                                                         const qlext::shared_ptr<QuantLib::Quote>& forward,
+                                                         const QuantLib::DayCounter& dc) {
+    return qlext::make_shared<QuantLib::FlatForward>(today, QuantLib::Handle<QuantLib::Quote>(forward), dc);
 }
 
-QuantLib::ext::shared_ptr<QuantLib::BlackVolTermStructure>
-makeFlatVolatility(const QuantLib::Date& today,
-                   const QuantLib::ext::shared_ptr<QuantLib::Quote>& vol,
-                   const QuantLib::DayCounter dc) {
-    return QuantLib::ext::shared_ptr<QuantLib::BlackVolTermStructure>(new QuantLib::BlackConstantVol(today,
-                                                                                             QuantLib::NullCalendar(),
-                                                                                             QuantLib::Handle<QuantLib::Quote>(vol), dc));
+qlext::shared_ptr<QuantLib::BlackVolTermStructure> makeFlatVolatility(const QuantLib::Date& today,
+                                                                      const qlext::shared_ptr<QuantLib::Quote>& vol,
+                                                                      const QuantLib::DayCounter dc) {
+    return qlext::make_shared<QuantLib::BlackConstantVol>(today, QuantLib::NullCalendar(), QuantLib::Handle<QuantLib::Quote>(vol), dc);
 }
 
-QuantLib::ext::shared_ptr<QuantLib::BlackVolTermStructure>
-flatVol(const QuantLib::Date& today,
-        const QuantLib::ext::shared_ptr<QuantLib::Quote>& vol,
-        const QuantLib::DayCounter& dc) {
-    return QuantLib::ext::shared_ptr<QuantLib::BlackVolTermStructure>(
-           new QuantLib::BlackConstantVol(today,
-                                          QuantLib::NullCalendar(),
-                                          QuantLib::Handle<QuantLib::Quote>(vol), dc));
+qlext::shared_ptr<QuantLib::BlackVolTermStructure> flatVol(const QuantLib::Date& today,
+                                                           const qlext::shared_ptr<QuantLib::Quote>& vol,
+                                                           const QuantLib::DayCounter& dc) {
+    return qlext::make_shared<QuantLib::BlackConstantVol>(today, QuantLib::NullCalendar(), QuantLib::Handle<QuantLib::Quote>(vol), dc);
 }
 
-typedef QuantLib::BlackScholesMertonProcess BSMProcess; // shortcut
-QuantLib::ext::shared_ptr<QuantLib::GeneralizedBlackScholesProcess>
-makeProcess(const QuantLib::ext::shared_ptr<QuantLib::Quote>& u,
-            const QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure>& q,
-            const QuantLib::ext::shared_ptr<QuantLib::YieldTermStructure>& r,
-            const QuantLib::ext::shared_ptr<QuantLib::BlackVolTermStructure>& vol) {
-    return QuantLib::ext::shared_ptr<BSMProcess>(new BSMProcess(QuantLib::Handle<QuantLib::Quote>(u),
-                                                        QuantLib::Handle<QuantLib::YieldTermStructure>(q),
-                                                        QuantLib::Handle<QuantLib::YieldTermStructure>(r),
-                                                        QuantLib::Handle<QuantLib::BlackVolTermStructure>(vol)));
+qlext::shared_ptr<QuantLib::GeneralizedBlackScholesProcess> makeProcess(const qlext::shared_ptr<QuantLib::Quote>& u,
+                                                                        const qlext::shared_ptr<QuantLib::YieldTermStructure>& q,
+                                                                        const qlext::shared_ptr<QuantLib::YieldTermStructure>& r,
+                                                                        const qlext::shared_ptr<QuantLib::BlackVolTermStructure>& vol) {
+    return qlext::make_shared<QuantLib::BlackScholesMertonProcess>(QuantLib::Handle<QuantLib::Quote>(u),
+                                                                   QuantLib::Handle<QuantLib::YieldTermStructure>(q),
+                                                                   QuantLib::Handle<QuantLib::YieldTermStructure>(r),
+                                                                   QuantLib::Handle<QuantLib::BlackVolTermStructure>(vol));
 }
 
 // R uses dates indexed to Jan 1, 1970. RcppDate uses an internal Julian Date representation,
@@ -507,42 +480,42 @@ QuantLib::DateGeneration::Rule getDateGenerationRule(const double n){
         return QuantLib::DateGeneration::TwentiethIMM;
 }
 
-QuantLib::ext::shared_ptr<QuantLib::IborIndex> buildIborIndex(std::string type,
-                                                              const QuantLib::Handle<QuantLib::YieldTermStructure>& iborStrc){
+qlext::shared_ptr<QuantLib::IborIndex> buildIborIndex(std::string type,
+                                                      const QuantLib::Handle<QuantLib::YieldTermStructure>& iborStrc){
 #if QL_HEX_VERSION >= 0x013500c0
-    if (type == "EuriborSW") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor1W(iborStrc));
-    if (type == "Euribor1M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor(1*QuantLib::Months, iborStrc));
-    if (type == "Euribor2M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor(2*QuantLib::Months, iborStrc));
-    if (type == "Euribor2W") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor(2*QuantLib::Months, iborStrc));
-    if (type == "Euribor3M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor(3*QuantLib::Months, iborStrc));
-    if (type == "Euribor3W") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor(3*QuantLib::Months, iborStrc));
-    if (type == "Euribor4M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor(4*QuantLib::Months, iborStrc));
-    if (type == "Euribor5M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor(5*QuantLib::Months, iborStrc));
-    if (type == "Euribor6M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor(6*QuantLib::Months, iborStrc));
-    if (type == "Euribor7M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor(7*QuantLib::Months, iborStrc));
-    if (type == "Euribor8M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor(8*QuantLib::Months, iborStrc));
-    if (type == "Euribor9M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor(9*QuantLib::Months, iborStrc));
-    if (type == "Euribor10M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor(10*QuantLib::Months, iborStrc));
-    if (type == "Euribor11M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor(11*QuantLib::Months, iborStrc));
-    if (type == "Euribor1Y")  return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor(1*QuantLib::Years, iborStrc));
+    if (type == "EuriborSW") return qlext::make_shared<QuantLib::Euribor1W>(iborStrc);
+    if (type == "Euribor1M") return qlext::make_shared<QuantLib::Euribor>(1*QuantLib::Months, iborStrc);
+    if (type == "Euribor2M") return qlext::make_shared<QuantLib::Euribor>(2*QuantLib::Months, iborStrc);
+    if (type == "Euribor2W") return qlext::make_shared<QuantLib::Euribor>(2*QuantLib::Months, iborStrc);
+    if (type == "Euribor3M") return qlext::make_shared<QuantLib::Euribor>(3*QuantLib::Months, iborStrc);
+    if (type == "Euribor3W") return qlext::make_shared<QuantLib::Euribor>(3*QuantLib::Months, iborStrc);
+    if (type == "Euribor4M") return qlext::make_shared<QuantLib::Euribor>(4*QuantLib::Months, iborStrc);
+    if (type == "Euribor5M") return qlext::make_shared<QuantLib::Euribor>(5*QuantLib::Months, iborStrc);
+    if (type == "Euribor6M") return qlext::make_shared<QuantLib::Euribor>(6*QuantLib::Months, iborStrc);
+    if (type == "Euribor7M") return qlext::make_shared<QuantLib::Euribor>(7*QuantLib::Months, iborStrc);
+    if (type == "Euribor8M") return qlext::make_shared<QuantLib::Euribor>(8*QuantLib::Months, iborStrc);
+    if (type == "Euribor9M") return qlext::make_shared<QuantLib::Euribor>(9*QuantLib::Months, iborStrc);
+    if (type == "Euribor10M") return qlext::make_shared<QuantLib::Euribor>(10*QuantLib::Months, iborStrc);
+    if (type == "Euribor11M") return qlext::make_shared<QuantLib::Euribor>(11*QuantLib::Months, iborStrc);
+    if (type == "Euribor1Y")  return qlext::make_shared<QuantLib::Euribor>(1*QuantLib::Years, iborStrc);
 #else
-    if (type == "EuriborSW") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::EuriborSW(iborStrc));
-    if (type == "Euribor1M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor1M(iborStrc));
-    if (type == "Euribor2M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor2M(iborStrc));
-    if (type == "Euribor2W") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor2W(iborStrc));
-    if (type == "Euribor3M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor3M(iborStrc));
-    if (type == "Euribor3W") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor3W(iborStrc));
-    if (type == "Euribor4M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor4M(iborStrc));
-    if (type == "Euribor5M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor5M(iborStrc));
-    if (type == "Euribor6M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor6M(iborStrc));
-    if (type == "Euribor7M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor7M(iborStrc));
-    if (type == "Euribor8M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor8M(iborStrc));
-    if (type == "Euribor9M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor9M(iborStrc));
-    if (type == "Euribor10M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor10M(iborStrc));
-    if (type == "Euribor11M") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor11M(iborStrc));
-    if (type == "Euribor1Y") return QuantLib::ext::shared_ptr<QuantLib::IborIndex>(new QuantLib::Euribor1Y(iborStrc));
+    if (type == "EuriborSW") return qlext::make_shared<QuantLib::EuriborSW>(iborStrc);
+    if (type == "Euribor1M") return qlext::make_shared<QuantLib::Euribor1M>(iborStrc);
+    if (type == "Euribor2M") return qlext::make_shared<QuantLib::Euribor2M>(iborStrc);
+    if (type == "Euribor2W") return qlext::make_shared<QuantLib::Euribor2W>(iborStrc);
+    if (type == "Euribor3M") return qlext::make_shared<QuantLib::Euribor3M>(iborStrc);
+    if (type == "Euribor3W") return qlext::make_shared<QuantLib::Euribor3W>(iborStrc);
+    if (type == "Euribor4M") return qlext::make_shared<QuantLib::Euribor4M>(iborStrc);
+    if (type == "Euribor5M") return qlext::make_shared<QuantLib::Euribor5M>(iborStrc);
+    if (type == "Euribor6M") return qlext::make_shared<QuantLib::Euribor6M>(iborStrc);
+    if (type == "Euribor7M") return qlext::make_shared<QuantLib::Euribor7M>(iborStrc);
+    if (type == "Euribor8M") return qlext::make_shared<QuantLib::Euribor8M>(iborStrc);
+    if (type == "Euribor9M") return qlext::make_shared<QuantLib::Euribor9M>(iborStrc);
+    if (type == "Euribor10M") return qlext::make_shared<QuantLib::Euribor10M>(iborStrc);
+    if (type == "Euribor11M") return qlext::make_shared<QuantLib::Euribor11M>(iborStrc);
+    if (type == "Euribor1Y") return qlext::make_shared<QuantLib::Euribor1Y>(iborStrc);
 #endif
-    return QuantLib::ext::shared_ptr<QuantLib::IborIndex>();
+    return qlext::shared_ptr<QuantLib::IborIndex>();
 }
 
 Rcpp::DataFrame getCashFlowDataFrame(const QuantLib::Leg &bondCashFlow) {
@@ -576,9 +549,9 @@ QuantLib::DividendSchedule getDividendSchedule(Rcpp::DataFrame divScheDF) {
             Rcpp::Date rd = Rcpp::Date(n3v[row]);
             QuantLib::Date d(Rcpp::as<QuantLib::Date>(Rcpp::wrap(rd))); //table[row][3].getDateValue()));
             if (type==1) {
-                dividendSchedule.push_back(QuantLib::ext::shared_ptr<QuantLib::Dividend>(new QuantLib::FixedDividend(amount, d)));
+                dividendSchedule.push_back(qlext::make_shared<QuantLib::FixedDividend>(amount, d));
             } else {
-                dividendSchedule.push_back(QuantLib::ext::shared_ptr<QuantLib::Dividend>(new QuantLib::FractionalDividend(rate, amount, d)));
+                dividendSchedule.push_back(qlext::make_shared<QuantLib::FractionalDividend>(rate, amount, d));
             }
         }
     } catch (std::exception& ex) {
@@ -615,11 +588,9 @@ QuantLib::CallabilitySchedule getCallabilitySchedule(Rcpp::DataFrame callScheDF)
             Rcpp::Date rd = Rcpp::Date(n2v[row]);
             QuantLib::Date d(Rcpp::as<QuantLib::Date>(Rcpp::wrap(rd)));
             if (type==1){
-                callabilitySchedule.push_back(QuantLib::ext::shared_ptr<QuantLib::Callability>
-                                              (new QuantLib::Callability(QlBondPrice(price, QlBondPrice::Clean), QuantLib::Callability::Put,d )));
+                callabilitySchedule.push_back(qlext::make_shared<QuantLib::Callability>(QlBondPrice(price, QlBondPrice::Clean), QuantLib::Callability::Put, d));
             } else {
-                callabilitySchedule.push_back(QuantLib::ext::shared_ptr<QuantLib::Callability>
-                                              (new QuantLib::Callability(QlBondPrice(price, QlBondPrice::Clean), QuantLib::Callability::Call,d )));
+                callabilitySchedule.push_back(qlext::make_shared<QuantLib::Callability>(QlBondPrice(price, QlBondPrice::Clean), QuantLib::Callability::Call, d));
             }
         }
     } catch (std::exception& ex){

@@ -1,5 +1,7 @@
 2024-07-24  Dirk Eddelbuettel  <edd@debian.org>
 
+	* DESCRIPTION (Version, Date): Roll micro release and date
+
 	* src/vanilla.cpp: Accommodate builds on QuantLib versions as old as
 	1.25 by retaining the previous dividend treatment under #ifdef
 

@@ -40,6 +40,10 @@ jobs:
       - name: Test
         run: ./run.sh run_tests
 
+      - name: Logs
+        if: failure()
+        run: ./run.sh dump_logs
+
       #- name: Coverage
       #  if: ${{ matrix.os == 'ubuntu-latest' }}
       #  run: ./run.sh coverage

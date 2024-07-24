@@ -67,9 +67,15 @@ Rcpp::List europeanOptionEngine(std::string type,
                                                        QuantLib::Handle<QuantLib::YieldTermStructure>(rTS),
                                                        QuantLib::Handle<QuantLib::BlackVolTermStructure>(volTS));
 
+#if QL_HEX_VERSION >= 0x013500c0 || defined(__APPLE__)
         auto engine = qlext::make_shared<QuantLib::AnalyticDividendEuropeanEngine>(stochProcess, QuantLib::DividendVector(discDivDates, discDividends));
-
         QuantLib::VanillaOption option(payoff, exercise);
+#else
+        QL_DEPRECATED_DISABLE_WARNING
+        auto engine = qlext::make_shared<QuantLib::AnalyticDividendEuropeanEngine>(stochProcess);
+        QuantLib::DividendVanillaOption option(payoff, exercise, discDivDates, discDividends);
+        QL_DEPRECATED_ENABLE_WARNING
+#endif
         option.setPricingEngine(engine);
 
         return Rcpp::List::create(Rcpp::Named("value") = option.NPV(),
@@ -143,7 +149,13 @@ Rcpp::List americanOptionEngine(std::string type,
             discDividends[i] = divvalues[i];
         }
 
+#if QL_HEX_VERSION >= 0x013500c0 || defined(__APPLE__)
         QuantLib::VanillaOption option(payoff, exercise);
+#else
+        QL_DEPRECATED_DISABLE_WARNING
+        QuantLib::DividendVanillaOption option(payoff, exercise, discDivDates, discDividends);
+        QL_DEPRECATED_ENABLE_WARNING
+#endif
 
         if (engine=="BaroneAdesiWhaley") {
             Rcpp::warning("Discrete dividends, engine switched to CrankNicolson");
@@ -151,8 +163,13 @@ Rcpp::List americanOptionEngine(std::string type,
         }
 
         if (engine=="CrankNicolson") { // FDDividendAmericanEngine only works with CrankNicolson
+#if QL_HEX_VERSION >= 0x013500c0 || defined(__APPLE__)
             // see eg test-suite/americanoption.cc
             option.setPricingEngine(QuantLib::MakeFdBlackScholesVanillaEngine(stochProcess).withCashDividends(discDivDates, discDividends));
+#else
+            auto fdcengine = qlext::make_shared<QuantLib::FdBlackScholesVanillaEngine>(stochProcess, timeSteps, gridPoints);
+            option.setPricingEngine(fdcengine);
+#endif
             return Rcpp::List::create(Rcpp::Named("value") = option.NPV(),
                                       Rcpp::Named("delta") = option.delta(),
                                       Rcpp::Named("gamma") = option.gamma(),

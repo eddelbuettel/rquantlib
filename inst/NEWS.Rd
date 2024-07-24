@@ -4,7 +4,17 @@
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rquantlib/issues/#1}{##1}}
 \newcommand{\ghrp}{\href{https://github.com/#1}{##1}}
 
-\section{Changes in \pkg{RQuantLib} version 0.4.22 (2024-04-xx)}{
+\section{Changes in \pkg{RQuantLib} version 0.4.23 (2024-07-23)}{
+  \itemize{
+    \item Adjustments for QuantLib 1.35 and removal of deprecated code
+    (in utility functions and dividend case of vanilla options)
+    \item Adjustments for new changes in QuantLib 1.35
+    \item Refactoring most C++ files making more use of both \code{auto} and
+    \code{make_shared} to simplify and shorten expressions
+  }
+}
+
+\section{Changes in \pkg{RQuantLib} version 0.4.22 (2024-04-25)}{
   \itemize{
     \item Small code cleanup removing duplicate R code
     \item Small improvements to C++ compilation flags

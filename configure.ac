@@ -93,19 +93,23 @@ if test x"${QUANTLIB}" == x"yes" ; then
     AC_SUBST([PKG_LIBS],["${PKG_LIBS} $pkg_libs"])
 
 elif test "`uname`" == "Darwin" ; then
-  quantlib="https://github.com/autobrew/bundler/releases/download/quantlib-1.31.1/quantlib-1.31.1-universal.tar.xz"
-  quantlibdir="$PWD/.deps"
-  mkdir -p $quantlibdir
-  echo "downloading $quantlib"
-  curl -sSL "$quantlib" -o quantlib.tar.xz
-  tar xf quantlib.tar.xz --strip 1 -C "$quantlibdir"
-  rm quantlib.tar.xz
-  pkg_cxxflags="-I${quantlibdir}/include"
-  pkg_libs="-L${quantlibdir}/lib -lQuantLib"
+    quantlib="https://github.com/autobrew/bundler/releases/download/quantlib-1.31.1/quantlib-1.31.1-universal.tar.xz"
+    quantlibdir="$PWD/.deps"
+    mkdir -p $quantlibdir
+    echo "downloading $quantlib"
+    curl -sSL "$quantlib" -o quantlib.tar.xz
+    tar xf quantlib.tar.xz --strip 1 -C "$quantlibdir"
+    rm quantlib.tar.xz
+    pkg_cxxflags="-I${quantlibdir}/include"
+    pkg_libs="-L${quantlibdir}/lib -lQuantLib"
 
-  # Same as above
-  AC_SUBST([PKG_CXXFLAGS],["${PKG_CXXFLAGS} $pkg_cxxflags"])
-  AC_SUBST([PKG_LIBS],["${PKG_LIBS} $pkg_libs"])
+    # Same as above
+    AC_SUBST([PKG_CXXFLAGS],["${PKG_CXXFLAGS} $pkg_cxxflags"])
+    AC_SUBST([PKG_LIBS],["${PKG_LIBS} $pkg_libs"])
+
+    # Boost test needs CXXFLAGS set to find Boost headers in macOS tar.xz
+    CXXFLAGS="$CXXFLAGS $pkg_cxxflags"
+    LDFLAGS="$LDFLAGS $pkg_libs"
 
 else
     AC_MSG_ERROR([Please install QuantLib before trying to build RQuantLib.])
@@ -175,8 +179,8 @@ AC_CONFIG_FILES([src/Makevars])
 AC_OUTPUT
 
 echo "
-${PACKAGE_NAME} $PACKAGE_VERSION
-================
+${PACKAGE_NAME} $PACKAGE_VERSION (using QuantLib ${pkg_version})
+======================================
 
 cxxflags:  ${PKG_CXXFLAGS}
 libs:      ${PKG_LIBS}

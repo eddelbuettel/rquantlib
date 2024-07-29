@@ -1,7 +1,7 @@
 Package: RQuantLib
 Title: R Interface to the 'QuantLib' Library
-Version: 0.4.23.1
-Date: 2024-07-24
+Version: 0.4.23.2
+Date: 2024-07-29
 Maintainer: Dirk Eddelbuettel <edd@debian.org>
 Author: Dirk Eddelbuettel, Khanh Nguyen (2009-2010), Terry Leitch (since 2016)
 Description: The 'RQuantLib' package makes parts of 'QuantLib' accessible from R
@@ -12,7 +12,7 @@ Description: The 'RQuantLib' package makes parts of 'QuantLib' accessible from R
 Suggests: tinytest, rgl, shiny
 Imports: methods, Rcpp (>= 0.11.0), stats, graphics, zoo
 LinkingTo: Rcpp
-SystemRequirements: QuantLib library (>= 1.14) from https://quantlib.org,
+SystemRequirements: QuantLib library (>= 1.25) from https://quantlib.org,
  Boost library from https://www.boost.org
 License: GPL (>= 2)
 URL: https://github.com/eddelbuettel/rquantlib, https://dirk.eddelbuettel.com/code/rquantlib.html

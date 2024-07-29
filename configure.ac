@@ -10,7 +10,7 @@ AC_PREREQ([2.69])
 # Process this file with autoconf to produce a configure script.
 
 # Would like to extract R package version from R DESCRIPTION file
-AC_INIT([RQuantlib],[0.4.23],[edd@debian.org])
+AC_INIT([RQuantlib],[0.4.24],[edd@debian.org])
 
 # Set CXX and CXXFLAGS based on the R configuration (with thanks to KH)
 : ${R_HOME=`R RHOME`}
@@ -25,15 +25,15 @@ AC_LANG(C++)
 AC_REQUIRE_CPP
 
 AC_PROG_CXX
-if test "${GXX}" = yes; then
-    gxx_version=`${CXX} -v 2>&1 | grep "^.*g.. version" | \\
-		       sed -e 's/^.*g.. version *//'`
-    case ${gxx_version} in
-	4.6.*|4.7.*|4.8.*|4.9.*|5.*|6.*|7.*|8.*|9.*|10.*|11.*|12.*|13.*)
-	     gxx_newer_than_45="-fpermissive"
-	;;
-    esac
-fi
+#if test "${GXX}" = yes; then
+#    gxx_version=`${CXX} -v 2>&1 | grep "^.*g.. version" | \\
+#		       sed -e 's/^.*g.. version *//'`
+#    case ${gxx_version} in
+#	4.6.*|4.7.*|4.8.*|4.9.*|5.*|6.*|7.*|8.*|9.*|10.*|11.*|12.*|13.*|14.*|15.*|16.*|17.*)
+#	     gxx_newer_than_45="-fpermissive"
+#	;;
+#    esac
+#fi
 
 AC_DEFUN([AC_PROG_R], [AC_CHECK_PROG(R,R,yes)])
 AC_PROG_R
@@ -76,22 +76,22 @@ if test x"${QUANTLIB}" == x"yes" ; then
 
     # also test for quantlib version using result from quantlib-config --version
     case ${pkg_version} in
-    0.1.*|0.2.*|0.3.*|0.4.*|0.8.*|0.9.*|1.0.*|1.1.*|1.2.*|1.3.*|1.4.*|1.5.*|1.6.*|1.7.*|1.8*|1.9.*|1.10.*|1.11.*|1.12.*|1.13.*|1.14.*|1.15.*|1.16.*|1.17.*)
-	AC_MSG_WARN([RQuantLib requires QuantLib (>= 1.18).])
+    0.*|1.0*|1.1*|1.20.*|1.21.*|1.22.*|1.23.*|1.24.*)
+	AC_MSG_WARN([RQuantLib requires QuantLib (>= 1.25).])
 	AC_MSG_ERROR([Please upgrade to a current version.])
 	;;
-    1.18.*|1.19.*|1.20.*|1.21.*|1.22.*|1.23.*|1.24.*)
-	echo "checking for suitable QuantLib version... sort-of (${pkg_version}). Consider upgrading."
+    1.25.*|1.26*|1.27*|1.28*|1.29*|1.30.*|1.31.*|1.32.*|1.33.*|1.34.*)
+	echo "checking for suitable QuantLib version... version ${pkg_version} is not the most recent one. Consider upgrading."
 	;;
-    1.25.*|1.26*|1.27*|1.28*|1.29*|1.30*|1.31*)
+    1.*)
 	echo "checking for suitable QuantLib version... yes (${pkg_version})"
 	;;
     esac
 
     # now use all these
-    AC_SUBST([CXXFLAGS],["${CXXFLAGS} "])
-    AC_SUBST([CXXFLAGS],["${CXXFLAGS} ${pkg_cxxflags} ${gxx_newer_than_45}"])
-    AC_SUBST([LDFLAGS],["${LDFLAGS} $pkg_libs"])
+    AC_SUBST([PKG_CXXFLAGS],["${PKG_CXXFLAGS} ${pkg_cxxflags} ${gxx_newer_than_45}"])
+    AC_SUBST([PKG_LIBS],["${PKG_LIBS} $pkg_libs"])
+
 elif test "`uname`" == "Darwin" ; then
   quantlib="https://github.com/autobrew/bundler/releases/download/quantlib-1.31.1/quantlib-1.31.1-universal.tar.xz"
   quantlibdir="$PWD/.deps"
@@ -104,8 +104,9 @@ elif test "`uname`" == "Darwin" ; then
   pkg_libs="-L${quantlibdir}/lib -lQuantLib"
 
   # Same as above
-  AC_SUBST([CXXFLAGS],["${CXXFLAGS} $pkg_cxxflags"])
-  AC_SUBST([LDFLAGS],["${LDFLAGS} $pkg_libs"])
+  AC_SUBST([PKG_CXXFLAGS],["${PKG_CXXFLAGS} $pkg_cxxflags"])
+  AC_SUBST([PKG_LIBS],["${PKG_LIBS} $pkg_libs"])
+
 else
     AC_MSG_ERROR([Please install QuantLib before trying to build RQuantLib.])
 fi
@@ -121,14 +122,14 @@ AC_ARG_WITH([boost-include],
             [ql_boost_include_path=$withval],
             [ql_boost_include_path=""])
 if test [ -n "$ql_boost_include_path" ] ; then
-   AC_SUBST([CXXFLAGS],["${CXXFLAGS} -I${ql_boost_include_path}"])
+   AC_SUBST([PKG_CXXFLAGS],["${PKG_CXXFLAGS} -I${ql_boost_include_path}"])
 fi
 AC_ARG_WITH([boost-lib],
             AS_HELP_STRING([--with-boost-lib=LIB_PATH],[Supply the location of Boost libraries]),
             [ql_boost_lib_path=$withval],
             [ql_boost_lib_path=""])
 if test [ -n "$ql_boost_lib_path" ] ; then
-   AC_SUBST([LDFLAGS],["${LDFLAGS} -L${ql_boost_lib_path}"])
+   AC_SUBST([PKG_LIBS],["${PKG_LIBS} -L${ql_boost_lib_path}"])
 fi
 ##
 ## Check for Boost components
@@ -168,12 +169,18 @@ AC_DEFUN([QL_CHECK_BOOST],
 QL_CHECK_BOOST
 
 
-AC_SUBST(CXXFLAGS)
-AC_SUBST(LDFLAGS)
+AC_SUBST(PKG_CXXFLAGS)
+AC_SUBST(PKG_LIBS)
 AC_CONFIG_FILES([src/Makevars])
 AC_OUTPUT
 
-echo "Configured ${PACKAGE_NAME} ${PACKAGE_VERSION}"
+echo "
+${PACKAGE_NAME} $PACKAGE_VERSION
+================
+
+cxxflags:  ${PKG_CXXFLAGS}
+libs:      ${PKG_LIBS}
+"
 
 ### Local Variables: ***
 ### mode: autoconf ***

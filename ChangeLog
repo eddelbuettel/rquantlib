@@ -1,9 +1,18 @@
+2024-07-29  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll micro release and date
+
+	* configure.ac: Use PKG_LIBS and PKG_CXXFLAGS as internal variables,
+	no longer need to (conditionally) set -fpermissive
+
 2024-07-24  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Roll micro release and date
 
 	* src/vanilla.cpp: Accommodate builds on QuantLib versions as old as
 	1.25 by retaining the previous dividend treatment under #ifdef
+
+	* configure.ac: Update optional version checking to current versions
 
 2024-07-23  Dirk Eddelbuettel  <edd@debian.org>
 

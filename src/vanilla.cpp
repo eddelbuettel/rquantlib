@@ -67,7 +67,7 @@ Rcpp::List europeanOptionEngine(std::string type,
                                                        QuantLib::Handle<QuantLib::YieldTermStructure>(rTS),
                                                        QuantLib::Handle<QuantLib::BlackVolTermStructure>(volTS));
 
-#if QL_HEX_VERSION >= 0x013500c0 || defined(__APPLE__)
+#if QL_HEX_VERSION >= 0x013500c0
         auto engine = qlext::make_shared<QuantLib::AnalyticDividendEuropeanEngine>(stochProcess, QuantLib::DividendVector(discDivDates, discDividends));
         QuantLib::VanillaOption option(payoff, exercise);
 #else
@@ -149,7 +149,7 @@ Rcpp::List americanOptionEngine(std::string type,
             discDividends[i] = divvalues[i];
         }
 
-#if QL_HEX_VERSION >= 0x013500c0 || defined(__APPLE__)
+#if QL_HEX_VERSION >= 0x013500c0
         QuantLib::VanillaOption option(payoff, exercise);
 #else
         QL_DEPRECATED_DISABLE_WARNING
@@ -163,7 +163,7 @@ Rcpp::List americanOptionEngine(std::string type,
         }
 
         if (engine=="CrankNicolson") { // FDDividendAmericanEngine only works with CrankNicolson
-#if QL_HEX_VERSION >= 0x013500c0 || defined(__APPLE__)
+#if QL_HEX_VERSION >= 0x013500c0
             // see eg test-suite/americanoption.cc
             option.setPricingEngine(QuantLib::MakeFdBlackScholesVanillaEngine(stochProcess).withCashDividends(discDivDates, discDividends));
 #else

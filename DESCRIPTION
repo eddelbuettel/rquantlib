@@ -5,7 +5,8 @@ Date: 2024-07-31
 Authors@R: c(person("Dirk", "Eddelbuettel", role = c("aut", "cre"), email = "edd@debian.org",
                     comment = c(ORCID = "0000-0001-6419-907X")),
              person("Khanh", "Nguyen", role = "aut", comment = "2009-2010"),
-             person("Terry", "Leitch", role = "aut", comment = "since 2016"))
+             person("Terry", "Leitch", role = "aut",
+                    comment = c(ORCID = "0000-0003-1706-4070", "since 2016")))
 Description: The 'RQuantLib' package makes parts of 'QuantLib' accessible from R
  The 'QuantLib' project aims to provide a comprehensive software framework
  for quantitative finance. The goal is to provide a standard open source library

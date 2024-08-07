@@ -100,7 +100,7 @@ elif test "`uname`" == "Darwin" ; then
     curl -sSL "$quantlib" -o quantlib.tar.xz
     tar xf quantlib.tar.xz --strip 1 -C "$quantlibdir"
     rm quantlib.tar.xz
-    pkg_cxxflags="-I${quantlibdir}/include"
+    pkg_cxxflags="-I${quantlibdir}/include -Wno-enum-constexpr-conversion"
     pkg_libs="-L${quantlibdir}/lib -lQuantLib"
 
     # Same as above

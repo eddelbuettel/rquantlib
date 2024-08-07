@@ -1,3 +1,12 @@
+2024-08-07  Dirk Eddelbuettel  <edd@debian.org>
+
+	* configure.ac: Add minor comment
+
+2024-08-06  Jeroen Ooms  <jeroenooms@gmail.com>
+
+	* configure.ac: Accomodate macOS 14 with new compiler flag
+	* configure: Idem
+
 2024-08-05  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Authors@R): Added ORCID for Terry

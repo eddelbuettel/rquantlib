@@ -93,6 +93,7 @@ if test x"${QUANTLIB}" == x"yes" ; then
     AC_SUBST([PKG_LIBS],["${PKG_LIBS} $pkg_libs"])
 
 elif test "`uname`" == "Darwin" ; then
+    # this is a non-CRAN code patch as CRAN does have QuantLib locally installed
     quantlib="https://github.com/autobrew/bundler/releases/download/quantlib-1.31.1/quantlib-1.31.1-universal.tar.xz"
     quantlibdir="$PWD/.deps"
     mkdir -p $quantlibdir
@@ -100,6 +101,7 @@ elif test "`uname`" == "Darwin" ; then
     curl -sSL "$quantlib" -o quantlib.tar.xz
     tar xf quantlib.tar.xz --strip 1 -C "$quantlibdir"
     rm quantlib.tar.xz
+    # compiler flag needed on macOS 14, see PR #190
     pkg_cxxflags="-I${quantlibdir}/include -Wno-enum-constexpr-conversion"
     pkg_libs="-L${quantlibdir}/lib -lQuantLib"
 

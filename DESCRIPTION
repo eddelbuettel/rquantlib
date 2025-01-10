@@ -1,7 +1,7 @@
 Package: RQuantLib
 Title: R Interface to the 'QuantLib' Library
-Version: 0.4.24
-Date: 2024-07-31
+Version: 0.4.24.1
+Date: 2025-01-10
 Authors@R: c(person("Dirk", "Eddelbuettel", role = c("aut", "cre"), email = "edd@debian.org",
                     comment = c(ORCID = "0000-0001-6419-907X")),
              person("Khanh", "Nguyen", role = "aut", comment = "2009-2010"),

@@ -1,5 +1,7 @@
 2025-01-10  Dirk Eddelbuettel  <edd@debian.org>
 
+	* DESCRIPTION (Version, Date): Roll micro release and date
+
 	* configure.ac: Correct two possible bashisms
 	* configure: Regenerated
 

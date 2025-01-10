@@ -41,7 +41,7 @@
     \item Generalize Windows build to arm64 (Jeroen in \ghpr{181})
     \item Generalize version string use to support \code{cmake} use (Jeroen
     in \ghpr{181} fixing \ghit{180})
-    \item Minor update to `ci.yaml` github action (Dirk)
+    \item Minor update to \code{ci.yaml} github action (Dirk)
   }
 }
 

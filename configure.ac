@@ -67,7 +67,7 @@ AC_PROG_R
 # borrowed from a check for gnome in GNU gretl: define a check for quantlib-config
 AC_DEFUN([AC_PROG_QUANTLIB], [AC_CHECK_PROG(QUANTLIB,quantlib-config,yes)])
 AC_PROG_QUANTLIB
-if test x"${QUANTLIB}" == x"yes" ; then
+if test x"${QUANTLIB}" = x"yes" ; then
     # use quantlib-config for QL settings
     pkg_cxxflags=`quantlib-config --cflags`
     pkg_libs=`quantlib-config --libs`
@@ -92,7 +92,7 @@ if test x"${QUANTLIB}" == x"yes" ; then
     AC_SUBST([PKG_CXXFLAGS],["${PKG_CXXFLAGS} ${pkg_cxxflags} ${gxx_newer_than_45}"])
     AC_SUBST([PKG_LIBS],["${PKG_LIBS} $pkg_libs"])
 
-elif test "`uname`" == "Darwin" ; then
+elif test "`uname`" = "Darwin" ; then
     # this is a non-CRAN code patch as CRAN does have QuantLib locally installed
     quantlib="https://github.com/autobrew/bundler/releases/download/quantlib-1.31.1/quantlib-1.31.1-universal.tar.xz"
     quantlibdir="$PWD/.deps"

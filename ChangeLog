@@ -1,3 +1,8 @@
+2025-01-10  Dirk Eddelbuettel  <edd@debian.org>
+
+	* configure.ac: Correct two possible bashisms
+	* configure: Regenerated
+
 2024-08-07  Dirk Eddelbuettel  <edd@debian.org>
 
 	* configure.ac: Add minor comment

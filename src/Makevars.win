@@ -6,10 +6,17 @@
 # Copyright 2011         Uwe Ligges, Brian Ripley, and Josh Ulrich
 # Copyright 2018 - 2024  Jeroen Ooms
 
-RWINLIB=../windows/quantlib
-PKG_CPPFLAGS=-I$(RWINLIB)/include -I../inst/include
-PKG_CXXFLAGS=-DBOOST_NO_AUTO_PTR
-PKG_LIBS = -L$(RWINLIB)/lib$(R_ARCH) -L$(RWINLIB)/lib -lQuantLib
+PKG_CPPFLAGS = $(shell pkg-config --cflags quantlib 2>/dev/null)
+PKG_LIBS = $(shell pkg-config --libs quantlib 2>/dev/null)
+
+ifeq ($(PKG_LIBS),)
+  RWINLIB = ../windows/quantlib
+  PKG_CPPFLAGS = -I$(RWINLIB)/include
+  PKG_LIBS = -L$(RWINLIB)/lib$(R_ARCH) -L$(RWINLIB)/lib -lQuantLib
+endif
+
+PKG_CPPFLAGS += -I../inst/include
+PKG_CXXFLAGS = -DBOOST_NO_AUTO_PTR
 
 all: clean winlibs
 
@@ -17,4 +24,7 @@ clean:
 	rm -f $(SHLIB) $(OBJECTS)
 
 winlibs:
+ifneq ($(RWINLIB),)
 	"${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" "../tools/winlibs.R"
+endif
+

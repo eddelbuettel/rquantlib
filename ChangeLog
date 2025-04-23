@@ -1,5 +1,7 @@
 2025-04-23  Dirk Eddelbuettel  <edd@debian.org>
 
+	* DESCRIPTION (Version, Date): Roll micro release and date
+
 	* inst/tinytest/test_schedule.R: Three adjustments for test behaviour
 	in QuantLib 1.38 (released today)
 

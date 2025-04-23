@@ -3,6 +3,7 @@ library(RQuantLib)
 
 ## For QuantLib 1.31 or newer we need to adjust three test expectations
 is131 <- gsub("-[a-z]+", "", RQuantLib::getQuantLibVersion()) >= "1.31"
+is138 <- gsub("-[a-z]+", "", RQuantLib::getQuantLibVersion()) >= "1.38"
 
 #test.Schedule <- function() {
 ## these tests are taken from the QuantLib test-suite/schedule.cpp file
@@ -23,7 +24,7 @@ params <- list(effectiveDate= as.Date("2009-09-30"),
                dateGeneration="Forward",
                endOfMonth=T)
 expected <- as.Date(c("2009-09-30", "2010-03-31", "2010-09-30", "2011-03-31", "2011-09-30",
-                      "2012-03-30",
+                      if (is138) "2012-04-02" else "2012-03-30",
                       if (is131) "2012-06-15" else "2012-06-29"))
 expect_equal(Schedule(params), expected, info="Testing end date for schedule with end-of-month adjustment...")
 
@@ -76,8 +77,13 @@ params <- list(effectiveDate = as.Date("1996-08-22"),
                terminationDateConvention="Following",
                dateGeneration="Backward",
                endOfMonth=T)
-expected <- if (is131) { as.Date(c("1996-08-22", "1996-08-30", "1997-02-28", "1997-09-02"))
-            } else { as.Date(c("1996-08-30", "1997-02-28", "1997-08-29")) }
+expected <- if (is138) {
+                as.Date(c("1996-08-22", "1996-09-03", "1997-02-28", "1997-09-02"))
+            } else if (is131) {
+                as.Date(c("1996-08-22", "1996-08-30", "1997-02-28", "1997-09-02"))
+            } else {
+                as.Date(c("1996-08-30", "1997-02-28", "1997-08-29"))
+            }
 expect_equal(Schedule(params), expected, info=paste("Testing that the first date is not duplicated due to",
                                                    "EOM convention when going backwards..."))
 

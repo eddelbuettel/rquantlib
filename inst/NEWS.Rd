@@ -4,6 +4,14 @@
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rquantlib/issues/#1}{##1}}
 \newcommand{\ghrp}{\href{https://github.com/#1}{##1}}
 
+\section{Changes in \pkg{RQuantLib} version 0.4.26 (2025-04-24)}{
+  \itemize{
+    \item Use system QuantLib (if found by pkg-config) on Windows too (Tomas
+    Kalibera in \ghpr{192})
+    \item Accommodate same test changes for schedules in QuantLib 1.38
+  }
+}
+
 \section{Changes in \pkg{RQuantLib} version 0.4.25 (2025-03-24)}{
   \itemize{
     \item Support macOS 14 with a new compiler flag (Jeroen in \ghpr{190})

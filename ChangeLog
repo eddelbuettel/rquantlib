@@ -1,3 +1,7 @@
+2026-02-04  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/RcppExports.cpp: Updated under current Rcpp
+
 2025-09-24  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .github/workflows/ci.yaml: Use r-ci with embedded bootstrap

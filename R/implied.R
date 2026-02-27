@@ -30,7 +30,7 @@ EuropeanOptionImpliedVolatility.default <- function(type, value, underlying,
                                                     strike, dividendYield,
                                                     riskFreeRate, maturity,
                                                     volatility) {
-    
+
     val <- europeanOptionImpliedVolatilityEngine(type, value, underlying, strike,
                                                  dividendYield, riskFreeRate,
                                                  maturity, volatility)
@@ -43,15 +43,25 @@ EuropeanOptionImpliedVolatility.default <- function(type, value, underlying,
 AmericanOptionImpliedVolatility <- function(type, value, underlying, strike,
                                             dividendYield, riskFreeRate,
                                             maturity, volatility,
-                                            timeSteps=150, gridPoints=151) {
+                                            timeSteps=150, gridPoints=151,
+                                            dayCounter=0) {
     UseMethod("AmericanOptionImpliedVolatility")
 }
 
 AmericanOptionImpliedVolatility.default <- function(type, value, underlying, strike,
                                                     dividendYield, riskFreeRate, maturity,
-                                                    volatility, timeSteps=150, gridPoints=151) {
-    val <- americanOptionImpliedVolatilityEngine(type, value, underlying, strike, dividendYield,
-                                                 riskFreeRate, maturity, volatility, timeSteps, gridPoints)
+                                                    volatility, timeSteps=150, gridPoints=151,
+                                                    dayCounter=0) {
+    if (inherits(maturity, "Date")) {
+        val <- americanOptionImpliedVolatilityEngineByDate(type, value, underlying, strike,
+                                                           dividendYield, riskFreeRate, maturity,
+                                                           volatility, timeSteps, gridPoints,
+                                                           dayCounter)
+    } else {
+        val <- americanOptionImpliedVolatilityEngine(type, value, underlying, strike, dividendYield,
+                                                     riskFreeRate, maturity, volatility, timeSteps,
+                                                     gridPoints, dayCounter)
+    }
     class(val) <- c("AmericanOptionImpliedVolatility","ImpliedVolatility")
     val
 }

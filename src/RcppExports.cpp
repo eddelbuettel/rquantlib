@@ -1306,8 +1306,8 @@ RcppExport SEXP _RQuantLib_europeanOptionImpliedVolatilityEngine(SEXP typeSEXP, 
     return rcpp_result_gen;
 }
 // americanOptionImpliedVolatilityEngine
-double americanOptionImpliedVolatilityEngine(std::string type, double value, double underlying, double strike, double dividendYield, double riskFreeRate, double maturity, double volguess, int timesteps, int gridpoints);
-static SEXP _RQuantLib_americanOptionImpliedVolatilityEngine_try(SEXP typeSEXP, SEXP valueSEXP, SEXP underlyingSEXP, SEXP strikeSEXP, SEXP dividendYieldSEXP, SEXP riskFreeRateSEXP, SEXP maturitySEXP, SEXP volguessSEXP, SEXP timestepsSEXP, SEXP gridpointsSEXP) {
+double americanOptionImpliedVolatilityEngine(std::string type, double value, double underlying, double strike, double dividendYield, double riskFreeRate, double maturity, double volguess, int timesteps, int gridpoints, int dayCounter);
+static SEXP _RQuantLib_americanOptionImpliedVolatilityEngine_try(SEXP typeSEXP, SEXP valueSEXP, SEXP underlyingSEXP, SEXP strikeSEXP, SEXP dividendYieldSEXP, SEXP riskFreeRateSEXP, SEXP maturitySEXP, SEXP volguessSEXP, SEXP timestepsSEXP, SEXP gridpointsSEXP, SEXP dayCounterSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< std::string >::type type(typeSEXP);
@@ -1320,15 +1320,60 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type volguess(volguessSEXP);
     Rcpp::traits::input_parameter< int >::type timesteps(timestepsSEXP);
     Rcpp::traits::input_parameter< int >::type gridpoints(gridpointsSEXP);
-    rcpp_result_gen = Rcpp::wrap(americanOptionImpliedVolatilityEngine(type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volguess, timesteps, gridpoints));
+    Rcpp::traits::input_parameter< int >::type dayCounter(dayCounterSEXP);
+    rcpp_result_gen = Rcpp::wrap(americanOptionImpliedVolatilityEngine(type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volguess, timesteps, gridpoints, dayCounter));
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP _RQuantLib_americanOptionImpliedVolatilityEngine(SEXP typeSEXP, SEXP valueSEXP, SEXP underlyingSEXP, SEXP strikeSEXP, SEXP dividendYieldSEXP, SEXP riskFreeRateSEXP, SEXP maturitySEXP, SEXP volguessSEXP, SEXP timestepsSEXP, SEXP gridpointsSEXP) {
+RcppExport SEXP _RQuantLib_americanOptionImpliedVolatilityEngine(SEXP typeSEXP, SEXP valueSEXP, SEXP underlyingSEXP, SEXP strikeSEXP, SEXP dividendYieldSEXP, SEXP riskFreeRateSEXP, SEXP maturitySEXP, SEXP volguessSEXP, SEXP timestepsSEXP, SEXP gridpointsSEXP, SEXP dayCounterSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(_RQuantLib_americanOptionImpliedVolatilityEngine_try(typeSEXP, valueSEXP, underlyingSEXP, strikeSEXP, dividendYieldSEXP, riskFreeRateSEXP, maturitySEXP, volguessSEXP, timestepsSEXP, gridpointsSEXP));
+        rcpp_result_gen = PROTECT(_RQuantLib_americanOptionImpliedVolatilityEngine_try(typeSEXP, valueSEXP, underlyingSEXP, strikeSEXP, dividendYieldSEXP, riskFreeRateSEXP, maturitySEXP, volguessSEXP, timestepsSEXP, gridpointsSEXP, dayCounterSEXP));
+    }
+    Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
+    if (rcpp_isInterrupt_gen) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    bool rcpp_isLongjump_gen = Rcpp::internal::isLongjumpSentinel(rcpp_result_gen);
+    if (rcpp_isLongjump_gen) {
+        Rcpp::internal::resumeJump(rcpp_result_gen);
+    }
+    Rboolean rcpp_isError_gen = Rf_inherits(rcpp_result_gen, "try-error");
+    if (rcpp_isError_gen) {
+        SEXP rcpp_msgSEXP_gen = Rf_asChar(rcpp_result_gen);
+        UNPROTECT(1);
+        (Rf_error)("%s", CHAR(rcpp_msgSEXP_gen));
+    }
+    UNPROTECT(1);
+    return rcpp_result_gen;
+}
+// americanOptionImpliedVolatilityEngineByDate
+double americanOptionImpliedVolatilityEngineByDate(std::string type, double value, double underlying, double strike, double dividendYield, double riskFreeRate, QuantLib::Date exDate, double volguess, int timesteps, int gridpoints, int dayCounter);
+static SEXP _RQuantLib_americanOptionImpliedVolatilityEngineByDate_try(SEXP typeSEXP, SEXP valueSEXP, SEXP underlyingSEXP, SEXP strikeSEXP, SEXP dividendYieldSEXP, SEXP riskFreeRateSEXP, SEXP exDateSEXP, SEXP volguessSEXP, SEXP timestepsSEXP, SEXP gridpointsSEXP, SEXP dayCounterSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< std::string >::type type(typeSEXP);
+    Rcpp::traits::input_parameter< double >::type value(valueSEXP);
+    Rcpp::traits::input_parameter< double >::type underlying(underlyingSEXP);
+    Rcpp::traits::input_parameter< double >::type strike(strikeSEXP);
+    Rcpp::traits::input_parameter< double >::type dividendYield(dividendYieldSEXP);
+    Rcpp::traits::input_parameter< double >::type riskFreeRate(riskFreeRateSEXP);
+    Rcpp::traits::input_parameter< QuantLib::Date >::type exDate(exDateSEXP);
+    Rcpp::traits::input_parameter< double >::type volguess(volguessSEXP);
+    Rcpp::traits::input_parameter< int >::type timesteps(timestepsSEXP);
+    Rcpp::traits::input_parameter< int >::type gridpoints(gridpointsSEXP);
+    Rcpp::traits::input_parameter< int >::type dayCounter(dayCounterSEXP);
+    rcpp_result_gen = Rcpp::wrap(americanOptionImpliedVolatilityEngineByDate(type, value, underlying, strike, dividendYield, riskFreeRate, exDate, volguess, timesteps, gridpoints, dayCounter));
+    return rcpp_result_gen;
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP _RQuantLib_americanOptionImpliedVolatilityEngineByDate(SEXP typeSEXP, SEXP valueSEXP, SEXP underlyingSEXP, SEXP strikeSEXP, SEXP dividendYieldSEXP, SEXP riskFreeRateSEXP, SEXP exDateSEXP, SEXP volguessSEXP, SEXP timestepsSEXP, SEXP gridpointsSEXP, SEXP dayCounterSEXP) {
+    SEXP rcpp_result_gen;
+    {
+        Rcpp::RNGScope rcpp_rngScope_gen;
+        rcpp_result_gen = PROTECT(_RQuantLib_americanOptionImpliedVolatilityEngineByDate_try(typeSEXP, valueSEXP, underlyingSEXP, strikeSEXP, dividendYieldSEXP, riskFreeRateSEXP, exDateSEXP, volguessSEXP, timestepsSEXP, gridpointsSEXP, dayCounterSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -1647,7 +1692,8 @@ static int _RQuantLib_RcppExport_validate(const char* sig) {
         signatures.insert("std::vector<double>(*yearFraction)(std::vector<QuantLib::Date>,std::vector<QuantLib::Date>,std::vector<double>)");
         signatures.insert("bool(*setEvaluationDate)(QuantLib::Date)");
         signatures.insert("double(*europeanOptionImpliedVolatilityEngine)(std::string,double,double,double,double,double,double,double)");
-        signatures.insert("double(*americanOptionImpliedVolatilityEngine)(std::string,double,double,double,double,double,double,double,int,int)");
+        signatures.insert("double(*americanOptionImpliedVolatilityEngine)(std::string,double,double,double,double,double,double,double,int,int,int)");
+        signatures.insert("double(*americanOptionImpliedVolatilityEngineByDate)(std::string,double,double,double,double,double,QuantLib::Date,double,int,int,int)");
         signatures.insert("Rcpp::DateVector(*CreateSchedule)(Rcpp::List)");
         signatures.insert("std::string(*getQuantLibVersion)()");
         signatures.insert("Rcpp::LogicalVector(*getQuantLibCapabilities)()");
@@ -1684,6 +1730,7 @@ RcppExport SEXP _RQuantLib_RcppExport_registerCCallable() {
     R_RegisterCCallable("RQuantLib", "_RQuantLib_setEvaluationDate", (DL_FUNC)_RQuantLib_setEvaluationDate_try);
     R_RegisterCCallable("RQuantLib", "_RQuantLib_europeanOptionImpliedVolatilityEngine", (DL_FUNC)_RQuantLib_europeanOptionImpliedVolatilityEngine_try);
     R_RegisterCCallable("RQuantLib", "_RQuantLib_americanOptionImpliedVolatilityEngine", (DL_FUNC)_RQuantLib_americanOptionImpliedVolatilityEngine_try);
+    R_RegisterCCallable("RQuantLib", "_RQuantLib_americanOptionImpliedVolatilityEngineByDate", (DL_FUNC)_RQuantLib_americanOptionImpliedVolatilityEngineByDate_try);
     R_RegisterCCallable("RQuantLib", "_RQuantLib_CreateSchedule", (DL_FUNC)_RQuantLib_CreateSchedule_try);
     R_RegisterCCallable("RQuantLib", "_RQuantLib_getQuantLibVersion", (DL_FUNC)_RQuantLib_getQuantLibVersion_try);
     R_RegisterCCallable("RQuantLib", "_RQuantLib_getQuantLibCapabilities", (DL_FUNC)_RQuantLib_getQuantLibCapabilities_try);
@@ -1745,7 +1792,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_RQuantLib_calibrateHullWhiteUsingCapsEngine", (DL_FUNC) &_RQuantLib_calibrateHullWhiteUsingCapsEngine, 7},
     {"_RQuantLib_calibrateHullWhiteUsingSwapsEngine", (DL_FUNC) &_RQuantLib_calibrateHullWhiteUsingSwapsEngine, 7},
     {"_RQuantLib_europeanOptionImpliedVolatilityEngine", (DL_FUNC) &_RQuantLib_europeanOptionImpliedVolatilityEngine, 8},
-    {"_RQuantLib_americanOptionImpliedVolatilityEngine", (DL_FUNC) &_RQuantLib_americanOptionImpliedVolatilityEngine, 10},
+    {"_RQuantLib_americanOptionImpliedVolatilityEngine", (DL_FUNC) &_RQuantLib_americanOptionImpliedVolatilityEngine, 11},
+    {"_RQuantLib_americanOptionImpliedVolatilityEngineByDate", (DL_FUNC) &_RQuantLib_americanOptionImpliedVolatilityEngineByDate, 11},
     {"_RQuantLib_sabrengine", (DL_FUNC) &_RQuantLib_sabrengine, 9},
     {"_RQuantLib_CreateSchedule", (DL_FUNC) &_RQuantLib_CreateSchedule, 1},
     {"_RQuantLib_getQuantLibVersion", (DL_FUNC) &_RQuantLib_getQuantLibVersion, 0},

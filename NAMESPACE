@@ -123,3 +123,6 @@ S3method("print", "Bond")
 S3method("summary", "Bond")
 
 S3method("print", "FixedRateBond")
+
+S3method("print", "ImpliedVolatility")
+S3method("summary", "ImpliedVolatility")

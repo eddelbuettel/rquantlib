@@ -1,3 +1,16 @@
+2026-02-27  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/implieds.cpp (americanOptionImpliedVolatilityEngine): More
+	careful about use of evaluation date, new parameter daycounter
+	(americanOptionImpliedVolatilityEngineByDate): New (experimental)
+	variant taking explicit expiry date as argument, also daycounter
+	* R/implied.R (AmericanOptionImpliedVolatility)
+	(AmericanOptionImpliedVolatility.default):  Expose new interface
+	* inst/include/RQuantLib_RcppExports.h: Regenerated
+	* src/RcppExports.cpp: Idem
+	* R/RcppExports.R: Idem
+	* NAMESPACE: Added two omitted 'ImpliedVolatility' S3 exports
+
 2026-02-04  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .github/workflows/ci.yaml: Switch to actions/checkout@v6

@@ -189,8 +189,12 @@ europeanOptionImpliedVolatilityEngine <- function(type, value, underlying, strik
     .Call(`_RQuantLib_europeanOptionImpliedVolatilityEngine`, type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volatility)
 }
 
-americanOptionImpliedVolatilityEngine <- function(type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volguess, timesteps, gridpoints) {
-    .Call(`_RQuantLib_americanOptionImpliedVolatilityEngine`, type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volguess, timesteps, gridpoints)
+americanOptionImpliedVolatilityEngine <- function(type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volguess, timesteps, gridpoints, dayCounter) {
+    .Call(`_RQuantLib_americanOptionImpliedVolatilityEngine`, type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volguess, timesteps, gridpoints, dayCounter)
+}
+
+americanOptionImpliedVolatilityEngineByDate <- function(type, value, underlying, strike, dividendYield, riskFreeRate, exDate, volguess, timesteps, gridpoints, dayCounter) {
+    .Call(`_RQuantLib_americanOptionImpliedVolatilityEngineByDate`, type, value, underlying, strike, dividendYield, riskFreeRate, exDate, volguess, timesteps, gridpoints, dayCounter)
 }
 
 sabrengine <- function(rparam, legParams, dateVec, zeroVec, swaptionMat, swapLengths, atmVols, strikes, smirkVols) {

@@ -1,11 +1,26 @@
 2026-02-27  Dirk Eddelbuettel  <edd@debian.org>
 
+	* src/implieds.cpp (europeanOptionImpliedVolatilityEngine): More
+	careful about use of evaluation date, new parameter daycounter
+	(europeanOptionImpliedVolatilityEngineByDate): New (experimental)
+	variant taking explicit expiry date as argument, also daycounter
+	* R/implied.R (EuropeanOptionImpliedVolatility)
+	(EuropeanOptionImpliedVolatility.default):  Expose new interface
+	* man/EuropeanOptionImpliedVolatility.Rd: Updated
+	* inst/include/RQuantLib_RcppExports.h: Regenerated
+	* src/RcppExports.cpp: Idem
+	* R/RcppExports.R: Idem
+	* NAMESPACE: Added two omitted 'ImpliedVolatility' S3 exports
+
+2026-02-26  Dirk Eddelbuettel  <edd@debian.org>
+
 	* src/implieds.cpp (americanOptionImpliedVolatilityEngine): More
 	careful about use of evaluation date, new parameter daycounter
 	(americanOptionImpliedVolatilityEngineByDate): New (experimental)
 	variant taking explicit expiry date as argument, also daycounter
 	* R/implied.R (AmericanOptionImpliedVolatility)
 	(AmericanOptionImpliedVolatility.default):  Expose new interface
+	* man/AmericanOptionImpliedVolatility.Rd: Updated
 	* inst/include/RQuantLib_RcppExports.h: Regenerated
 	* src/RcppExports.cpp: Idem
 	* R/RcppExports.R: Idem

@@ -1,6 +1,6 @@
 ##  RQuantLib -- R interface to the QuantLib libraries
 ##
-##  Copyright (C) 2002 - 2014  Dirk Eddelbuettel <edd@debian.org>
+##  Copyright (C) 2002 - 2026  Dirk Eddelbuettel <edd@debian.org>
 ##
 ##  This file is part of RQuantLib.
 ##
@@ -22,18 +22,24 @@
 EuropeanOptionImpliedVolatility <- function(type, value, underlying,
                                             strike, dividendYield,
                                             riskFreeRate, maturity,
-                                            volatility) {
+                                            volatility, dayCounter=0) {
         UseMethod("EuropeanOptionImpliedVolatility")
 }
 
 EuropeanOptionImpliedVolatility.default <- function(type, value, underlying,
                                                     strike, dividendYield,
                                                     riskFreeRate, maturity,
-                                                    volatility) {
+                                                    volatility, dayCounter=0)  {
 
-    val <- europeanOptionImpliedVolatilityEngine(type, value, underlying, strike,
-                                                 dividendYield, riskFreeRate,
-                                                 maturity, volatility)
+    if (inherits(maturity, "Date")) {
+        val <- europeanOptionImpliedVolatilityEngineByDate(type, value, underlying, strike,
+                                                           dividendYield, riskFreeRate,
+                                                           maturity, volatility, dayCounter)
+    } else {
+        val <- europeanOptionImpliedVolatilityEngine(type, value, underlying, strike,
+                                                     dividendYield, riskFreeRate,
+                                                     maturity, volatility, dayCounter)
+    }
     class(val) <- c("EuropeanOptionImpliedVolatility","ImpliedVolatility")
     val
 }
@@ -88,7 +94,7 @@ print.ImpliedVolatility <- function(x, digits=3, ...) {
 summary.ImpliedVolatility <- function(object, digits=3, ...) {
     impvol <- object[[1]]
     cat("Implied Volatility for", class(object)[1], "is", round(impvol, digits), "\n")
-    cat("with parameters\n")
-    print(unlist(object[[2]]))
+    #cat("with parameters\n")
+    #print(unlist(object[[2]]))
     invisible(object)
 }

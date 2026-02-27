@@ -9,7 +9,7 @@
 \usage{
 \method{AmericanOptionImpliedVolatility}{default}(type, value,
 		underlying, strike,dividendYield, riskFreeRate, maturity, volatility,
-	        timeSteps=150, gridPoints=151)
+	        timeSteps=150, gridPoints=151, dayCounter=0)
 }
 \arguments{
   \item{type}{A string with one of the values \code{call} or \code{put}}
@@ -18,14 +18,16 @@
   \item{strike}{Strike price of the option}
   \item{dividendYield}{Continuous dividend yield (as a fraction) of the stock}
   \item{riskFreeRate}{Risk-free rate}
-  \item{maturity}{Time to maturity (in fractional years)}
+  \item{maturity}{Time to maturity in either fractional years or as a
+    \sQuote{Date} object specifying the expiry date)}
   \item{volatility}{Initial guess for the volatility of the underlying
     stock}
   \item{timeSteps}{Time steps for the Finite Differences method, default
     value is 150}
   \item{gridPoints}{Grid points for the Finite Differences method,
     default value is 151}
-
+  \item{dayCounter}{Integer denoting the selected QuantLib day counter
+    convention, default value is 0 for \sQuote{Actual360}}
 }
 \value{
   The \code{AmericanOptionImpliedVolatility} function returns an numeric
@@ -37,7 +39,7 @@
 
   Please see any decent Finance textbook for background reading, and the
   \code{QuantLib} documentation for details on the \code{QuantLib}
-  implementation.  
+  implementation.
 }
 \references{\url{https://www.quantlib.org/} for details on \code{QuantLib}.}
 \author{Dirk Eddelbuettel \email{edd@debian.org} for the \R interface;
@@ -49,7 +51,6 @@
 \examples{
 AmericanOptionImpliedVolatility(type="call", value=11.10, underlying=100,
 	strike=100, dividendYield=0.01, riskFreeRate=0.03,
-	maturity=0.5, volatility=0.4)
+	maturity=0.5, volatility=0.4, dayCounter=1)
 }
 \keyword{misc}
-

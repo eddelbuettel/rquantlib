@@ -52,8 +52,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // binaryOptionEngine
-Rcpp::List binaryOptionEngine(std::string binType, std::string type, std::string excType, double underlying, double strike, double dividendYield, double riskFreeRate, double maturity, double volatility, double cashPayoff);
-RcppExport SEXP _RQuantLib_binaryOptionEngine(SEXP binTypeSEXP, SEXP typeSEXP, SEXP excTypeSEXP, SEXP underlyingSEXP, SEXP strikeSEXP, SEXP dividendYieldSEXP, SEXP riskFreeRateSEXP, SEXP maturitySEXP, SEXP volatilitySEXP, SEXP cashPayoffSEXP) {
+Rcpp::List binaryOptionEngine(std::string binType, std::string type, std::string excType, double underlying, double strike, double dividendYield, double riskFreeRate, double maturity, double volatility, double cashPayoff, int dayCounter);
+RcppExport SEXP _RQuantLib_binaryOptionEngine(SEXP binTypeSEXP, SEXP typeSEXP, SEXP excTypeSEXP, SEXP underlyingSEXP, SEXP strikeSEXP, SEXP dividendYieldSEXP, SEXP riskFreeRateSEXP, SEXP maturitySEXP, SEXP volatilitySEXP, SEXP cashPayoffSEXP, SEXP dayCounterSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -67,13 +67,14 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type maturity(maturitySEXP);
     Rcpp::traits::input_parameter< double >::type volatility(volatilitySEXP);
     Rcpp::traits::input_parameter< double >::type cashPayoff(cashPayoffSEXP);
-    rcpp_result_gen = Rcpp::wrap(binaryOptionEngine(binType, type, excType, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, cashPayoff));
+    Rcpp::traits::input_parameter< int >::type dayCounter(dayCounterSEXP);
+    rcpp_result_gen = Rcpp::wrap(binaryOptionEngine(binType, type, excType, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, cashPayoff, dayCounter));
     return rcpp_result_gen;
 END_RCPP
 }
 // binaryOptionImpliedVolatilityEngine
-double binaryOptionImpliedVolatilityEngine(std::string type, double value, double underlying, double strike, double dividendYield, double riskFreeRate, double maturity, double volatility, double cashPayoff);
-RcppExport SEXP _RQuantLib_binaryOptionImpliedVolatilityEngine(SEXP typeSEXP, SEXP valueSEXP, SEXP underlyingSEXP, SEXP strikeSEXP, SEXP dividendYieldSEXP, SEXP riskFreeRateSEXP, SEXP maturitySEXP, SEXP volatilitySEXP, SEXP cashPayoffSEXP) {
+double binaryOptionImpliedVolatilityEngine(std::string type, double value, double underlying, double strike, double dividendYield, double riskFreeRate, double maturity, double volatility, double cashPayoff, int dayCounter);
+RcppExport SEXP _RQuantLib_binaryOptionImpliedVolatilityEngine(SEXP typeSEXP, SEXP valueSEXP, SEXP underlyingSEXP, SEXP strikeSEXP, SEXP dividendYieldSEXP, SEXP riskFreeRateSEXP, SEXP maturitySEXP, SEXP volatilitySEXP, SEXP cashPayoffSEXP, SEXP dayCounterSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -86,13 +87,14 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type maturity(maturitySEXP);
     Rcpp::traits::input_parameter< double >::type volatility(volatilitySEXP);
     Rcpp::traits::input_parameter< double >::type cashPayoff(cashPayoffSEXP);
-    rcpp_result_gen = Rcpp::wrap(binaryOptionImpliedVolatilityEngine(type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, cashPayoff));
+    Rcpp::traits::input_parameter< int >::type dayCounter(dayCounterSEXP);
+    rcpp_result_gen = Rcpp::wrap(binaryOptionImpliedVolatilityEngine(type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, cashPayoff, dayCounter));
     return rcpp_result_gen;
 END_RCPP
 }
 // barrierOptionEngine
-Rcpp::List barrierOptionEngine(std::string barrType, std::string type, double underlying, double strike, double dividendYield, double riskFreeRate, double maturity, double volatility, double barrier, double rebate);
-RcppExport SEXP _RQuantLib_barrierOptionEngine(SEXP barrTypeSEXP, SEXP typeSEXP, SEXP underlyingSEXP, SEXP strikeSEXP, SEXP dividendYieldSEXP, SEXP riskFreeRateSEXP, SEXP maturitySEXP, SEXP volatilitySEXP, SEXP barrierSEXP, SEXP rebateSEXP) {
+Rcpp::List barrierOptionEngine(std::string barrType, std::string type, double underlying, double strike, double dividendYield, double riskFreeRate, double maturity, double volatility, double barrier, double rebate, int dayCounter);
+RcppExport SEXP _RQuantLib_barrierOptionEngine(SEXP barrTypeSEXP, SEXP typeSEXP, SEXP underlyingSEXP, SEXP strikeSEXP, SEXP dividendYieldSEXP, SEXP riskFreeRateSEXP, SEXP maturitySEXP, SEXP volatilitySEXP, SEXP barrierSEXP, SEXP rebateSEXP, SEXP dayCounterSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -106,7 +108,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type volatility(volatilitySEXP);
     Rcpp::traits::input_parameter< double >::type barrier(barrierSEXP);
     Rcpp::traits::input_parameter< double >::type rebate(rebateSEXP);
-    rcpp_result_gen = Rcpp::wrap(barrierOptionEngine(barrType, type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, barrier, rebate));
+    Rcpp::traits::input_parameter< int >::type dayCounter(dayCounterSEXP);
+    rcpp_result_gen = Rcpp::wrap(barrierOptionEngine(barrType, type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, barrier, rebate, dayCounter));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1792,9 +1795,9 @@ RcppExport SEXP _rcpp_module_boot_BondsMod();
 static const R_CallMethodDef CallEntries[] = {
     {"_RQuantLib_affineWithRebuiltCurveEngine", (DL_FUNC) &_RQuantLib_affineWithRebuiltCurveEngine, 7},
     {"_RQuantLib_asianOptionEngine", (DL_FUNC) &_RQuantLib_asianOptionEngine, 11},
-    {"_RQuantLib_binaryOptionEngine", (DL_FUNC) &_RQuantLib_binaryOptionEngine, 10},
-    {"_RQuantLib_binaryOptionImpliedVolatilityEngine", (DL_FUNC) &_RQuantLib_binaryOptionImpliedVolatilityEngine, 9},
-    {"_RQuantLib_barrierOptionEngine", (DL_FUNC) &_RQuantLib_barrierOptionEngine, 10},
+    {"_RQuantLib_binaryOptionEngine", (DL_FUNC) &_RQuantLib_binaryOptionEngine, 11},
+    {"_RQuantLib_binaryOptionImpliedVolatilityEngine", (DL_FUNC) &_RQuantLib_binaryOptionImpliedVolatilityEngine, 10},
+    {"_RQuantLib_barrierOptionEngine", (DL_FUNC) &_RQuantLib_barrierOptionEngine, 11},
     {"_RQuantLib_bermudanFromYieldEngine", (DL_FUNC) &_RQuantLib_bermudanFromYieldEngine, 5},
     {"_RQuantLib_bermudanWithRebuiltCurveEngine", (DL_FUNC) &_RQuantLib_bermudanWithRebuiltCurveEngine, 6},
     {"_RQuantLib_zeroPriceByYieldEngine", (DL_FUNC) &_RQuantLib_zeroPriceByYieldEngine, 8},

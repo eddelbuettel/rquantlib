@@ -7,9 +7,9 @@ This function evaluations an Barrier option on a common stock
 using a closed-form solution. The option value as well as the common first
 derivatives ("Greeks") are returned.}
 \usage{
-\method{BarrierOption}{default}(barrType, type, underlying, strike, 
-                                dividendYield, riskFreeRate, maturity, 
-                                volatility, barrier, rebate=0.0)
+\method{BarrierOption}{default}(barrType, type, underlying, strike,
+                                dividendYield, riskFreeRate, maturity,
+                                volatility, barrier, rebate=0.0, dayCounter=0)
 }
 \arguments{
   \item{barrType}{A string with one of the values \code{downin},
@@ -23,16 +23,18 @@ derivatives ("Greeks") are returned.}
   \item{volatility}{Volatility of the underlying stock}
   \item{barrier}{Option barrier value}
   \item{rebate}{Optional option rebate, defaults to 0.0}
+  \item{dayCounter}{Integer denoting the selected QuantLib day counter
+    convention, default value is 0 for \sQuote{Actual360}}
 }
 \value{
   An object of class \code{BarrierOption} (which inherits from class
   \code{\link{Option}}) is returned. It contains a list with the
-  following components: 
+  following components:
   \item{value}{Value of option}
   \item{delta}{Sensitivity of the option value for a change in the underlying}
   \item{gamma}{Sensitivity of the option delta for a change in the underlying}
   \item{vega}{Sensitivity of the option value for a change in the
-    underlying's volatility} 
+    underlying's volatility}
   \item{theta}{Sensitivity of the option value for a change in t, the
     remaining time to maturity}
   \item{rho}{Sensitivity of the option value for a change in the
@@ -48,7 +50,7 @@ derivatives ("Greeks") are returned.}
   A closed-form solution is used to value the Barrier Option. In the
   case of Barrier options, the calculations are from Haug's "Option
   pricing formulas" book (McGraw-Hill).
-  
+
   Please see any decent Finance textbook for background reading, and
   the \code{QuantLib} documentation for details on the \code{QuantLib}
   implementation.
@@ -66,4 +68,3 @@ BarrierOption(barrType="downin", type="call", underlying=100,
 	maturity=0.5, volatility=0.4, barrier=90)
 }
 \keyword{misc}
-

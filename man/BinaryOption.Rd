@@ -9,7 +9,7 @@ derivatives ("Greeks") are returned.}
 \usage{
 \method{BinaryOption}{default}(binType, type, excType, underlying,
         strike, dividendYield,
-	riskFreeRate, maturity, volatility, cashPayoff)
+	riskFreeRate, maturity, volatility, cashPayoff, dayCounter=0)
 }
 \arguments{
   \item{binType}{A string with one of the values \code{cash},
@@ -25,16 +25,18 @@ derivatives ("Greeks") are returned.}
   \item{maturity}{Time to maturity (in fractional years)}
   \item{volatility}{Volatility of the underlying stock}
   \item{cashPayoff}{Payout amount}
+  \item{dayCounter}{Integer denoting the selected QuantLib day counter
+    convention, default value is 0 for \sQuote{Actual360}}
 }
 \value{
   An object of class \code{BinaryOption} (which inherits from class
   \code{\link{Option}}) is returned. It contains a list with the
-  following components: 
+  following components:
   \item{value}{Value of option}
   \item{delta}{Sensitivity of the option value for a change in the underlying}
   \item{gamma}{Sensitivity of the option delta for a change in the underlying}
   \item{vega}{Sensitivity of the option value for a change in the
-    underlying's volatility} 
+    underlying's volatility}
   \item{theta}{Sensitivity of the option value for a change in t, the
     remaining time to maturity}
   \item{rho}{Sensitivity of the option value for a change in the
@@ -44,10 +46,10 @@ derivatives ("Greeks") are returned.}
 }
 \details{
   A closed-form solution is used to value the Binary Option.
-  
+
   Please see any decent Finance textbook for background reading, and
   the \code{QuantLib} documentation for details on the \code{QuantLib}
-  implementation. 
+  implementation.
 }
 \references{\url{https://www.quantlib.org/} for details on \code{QuantLib}.}
 \author{Dirk Eddelbuettel \email{edd@debian.org} for the \R interface;
@@ -62,4 +64,3 @@ BinaryOption(binType="asset", type="call", excType="european",
              riskFreeRate=0.03, maturity=0.5, volatility=0.4, cashPayoff=10)
 }
 \keyword{misc}
-

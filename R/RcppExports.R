@@ -9,16 +9,16 @@ asianOptionEngine <- function(averageType, type, underlying, strike, dividendYie
     .Call(`_RQuantLib_asianOptionEngine`, averageType, type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, first, length, fixings)
 }
 
-binaryOptionEngine <- function(binType, type, excType, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, cashPayoff) {
-    .Call(`_RQuantLib_binaryOptionEngine`, binType, type, excType, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, cashPayoff)
+binaryOptionEngine <- function(binType, type, excType, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, cashPayoff, dayCounter) {
+    .Call(`_RQuantLib_binaryOptionEngine`, binType, type, excType, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, cashPayoff, dayCounter)
 }
 
-binaryOptionImpliedVolatilityEngine <- function(type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, cashPayoff) {
-    .Call(`_RQuantLib_binaryOptionImpliedVolatilityEngine`, type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, cashPayoff)
+binaryOptionImpliedVolatilityEngine <- function(type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, cashPayoff, dayCounter) {
+    .Call(`_RQuantLib_binaryOptionImpliedVolatilityEngine`, type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, cashPayoff, dayCounter)
 }
 
-barrierOptionEngine <- function(barrType, type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, barrier, rebate) {
-    .Call(`_RQuantLib_barrierOptionEngine`, barrType, type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, barrier, rebate)
+barrierOptionEngine <- function(barrType, type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, barrier, rebate, dayCounter) {
+    .Call(`_RQuantLib_barrierOptionEngine`, barrType, type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, barrier, rebate, dayCounter)
 }
 
 bermudanFromYieldEngine <- function(rparam, yield, swaptionMat, swapLengths, swaptionVols) {

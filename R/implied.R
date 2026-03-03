@@ -58,17 +58,12 @@ AmericanOptionImpliedVolatility.default <- function(type, value, underlying, str
                                                     dividendYield, riskFreeRate, maturity,
                                                     volatility, timeSteps=150, gridPoints=151,
                                                     dayCounter=0) {
-    if (inherits(maturity, "Date")) {
-        val <- americanOptionImpliedVolatilityEngineByDate(type, value, underlying, strike,
-                                                           dividendYield, riskFreeRate, maturity,
-                                                           volatility, timeSteps, gridPoints,
-                                                           dayCounter)
-    } else {
-        val <- americanOptionImpliedVolatilityEngine(type, value, underlying, strike, dividendYield,
-                                                     riskFreeRate, maturity, volatility, timeSteps,
-                                                     gridPoints, dayCounter)
-    }
-    class(val) <- c("AmericanOptionImpliedVolatility","ImpliedVolatility")
+    val <- americanOptionImpliedVolatilityEngine(type, value, underlying, strike,
+                                                 dividendYield, riskFreeRate,
+                                                 if (inherits(maturity, "numeric")) maturity else NULL,
+                                                 if (inherits(maturity, "Date")) maturity else NULL,
+                                                 volatility, timeSteps, gridPoints,
+                                                 dayCounter)
     val
 }
 

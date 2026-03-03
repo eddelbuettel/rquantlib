@@ -528,38 +528,17 @@ namespace RQuantLib {
         return Rcpp::as<double >(rcpp_result_gen);
     }
 
-    inline double americanOptionImpliedVolatilityEngine(std::string type, double value, double underlying, double strike, double dividendYield, double riskFreeRate, double maturity, double volguess, int timesteps, int gridpoints, int dayCounter) {
-        typedef SEXP(*Ptr_americanOptionImpliedVolatilityEngine)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
+    inline double americanOptionImpliedVolatilityEngine(std::string type, double value, double underlying, double strike, double dividendYield, double riskFreeRate, Rcpp::Nullable<double> maturity_, Rcpp::Nullable<QuantLib::Date> exDate_, double volguess, int timesteps, int gridpoints, int dayCounter) {
+        typedef SEXP(*Ptr_americanOptionImpliedVolatilityEngine)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_americanOptionImpliedVolatilityEngine p_americanOptionImpliedVolatilityEngine = NULL;
         if (p_americanOptionImpliedVolatilityEngine == NULL) {
-            validateSignature("double(*americanOptionImpliedVolatilityEngine)(std::string,double,double,double,double,double,double,double,int,int,int)");
+            validateSignature("double(*americanOptionImpliedVolatilityEngine)(std::string,double,double,double,double,double,Rcpp::Nullable<double>,Rcpp::Nullable<QuantLib::Date>,double,int,int,int)");
             p_americanOptionImpliedVolatilityEngine = (Ptr_americanOptionImpliedVolatilityEngine)R_GetCCallable("RQuantLib", "_RQuantLib_americanOptionImpliedVolatilityEngine");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_americanOptionImpliedVolatilityEngine(Shield<SEXP>(Rcpp::wrap(type)), Shield<SEXP>(Rcpp::wrap(value)), Shield<SEXP>(Rcpp::wrap(underlying)), Shield<SEXP>(Rcpp::wrap(strike)), Shield<SEXP>(Rcpp::wrap(dividendYield)), Shield<SEXP>(Rcpp::wrap(riskFreeRate)), Shield<SEXP>(Rcpp::wrap(maturity)), Shield<SEXP>(Rcpp::wrap(volguess)), Shield<SEXP>(Rcpp::wrap(timesteps)), Shield<SEXP>(Rcpp::wrap(gridpoints)), Shield<SEXP>(Rcpp::wrap(dayCounter)));
-        }
-        if (rcpp_result_gen.inherits("interrupted-error"))
-            throw Rcpp::internal::InterruptedException();
-        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
-            throw Rcpp::LongjumpException(rcpp_result_gen);
-        if (rcpp_result_gen.inherits("try-error"))
-            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
-        return Rcpp::as<double >(rcpp_result_gen);
-    }
-
-    inline double americanOptionImpliedVolatilityEngineByDate(std::string type, double value, double underlying, double strike, double dividendYield, double riskFreeRate, QuantLib::Date exDate, double volguess, int timesteps, int gridpoints, int dayCounter) {
-        typedef SEXP(*Ptr_americanOptionImpliedVolatilityEngineByDate)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
-        static Ptr_americanOptionImpliedVolatilityEngineByDate p_americanOptionImpliedVolatilityEngineByDate = NULL;
-        if (p_americanOptionImpliedVolatilityEngineByDate == NULL) {
-            validateSignature("double(*americanOptionImpliedVolatilityEngineByDate)(std::string,double,double,double,double,double,QuantLib::Date,double,int,int,int)");
-            p_americanOptionImpliedVolatilityEngineByDate = (Ptr_americanOptionImpliedVolatilityEngineByDate)R_GetCCallable("RQuantLib", "_RQuantLib_americanOptionImpliedVolatilityEngineByDate");
-        }
-        RObject rcpp_result_gen;
-        {
-            RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_americanOptionImpliedVolatilityEngineByDate(Shield<SEXP>(Rcpp::wrap(type)), Shield<SEXP>(Rcpp::wrap(value)), Shield<SEXP>(Rcpp::wrap(underlying)), Shield<SEXP>(Rcpp::wrap(strike)), Shield<SEXP>(Rcpp::wrap(dividendYield)), Shield<SEXP>(Rcpp::wrap(riskFreeRate)), Shield<SEXP>(Rcpp::wrap(exDate)), Shield<SEXP>(Rcpp::wrap(volguess)), Shield<SEXP>(Rcpp::wrap(timesteps)), Shield<SEXP>(Rcpp::wrap(gridpoints)), Shield<SEXP>(Rcpp::wrap(dayCounter)));
+            rcpp_result_gen = p_americanOptionImpliedVolatilityEngine(Shield<SEXP>(Rcpp::wrap(type)), Shield<SEXP>(Rcpp::wrap(value)), Shield<SEXP>(Rcpp::wrap(underlying)), Shield<SEXP>(Rcpp::wrap(strike)), Shield<SEXP>(Rcpp::wrap(dividendYield)), Shield<SEXP>(Rcpp::wrap(riskFreeRate)), Shield<SEXP>(Rcpp::wrap(maturity_)), Shield<SEXP>(Rcpp::wrap(exDate_)), Shield<SEXP>(Rcpp::wrap(volguess)), Shield<SEXP>(Rcpp::wrap(timesteps)), Shield<SEXP>(Rcpp::wrap(gridpoints)), Shield<SEXP>(Rcpp::wrap(dayCounter)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();

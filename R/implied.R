@@ -1,6 +1,6 @@
 ##  RQuantLib -- R interface to the QuantLib libraries
 ##
-##  Copyright (C) 2002 - 2026  Dirk Eddelbuettel <edd@debian.org>
+##  Copyright (C) 2002-2026  Dirk Eddelbuettel <edd@debian.org>
 ##
 ##  This file is part of RQuantLib.
 ##
@@ -31,15 +31,11 @@ EuropeanOptionImpliedVolatility.default <- function(type, value, underlying,
                                                     riskFreeRate, maturity,
                                                     volatility, dayCounter=0)  {
 
-    if (inherits(maturity, "Date")) {
-        val <- europeanOptionImpliedVolatilityEngineByDate(type, value, underlying, strike,
-                                                           dividendYield, riskFreeRate,
-                                                           maturity, volatility, dayCounter)
-    } else {
-        val <- europeanOptionImpliedVolatilityEngine(type, value, underlying, strike,
-                                                     dividendYield, riskFreeRate,
-                                                     maturity, volatility, dayCounter)
-    }
+    val <- europeanOptionImpliedVolatilityEngine(type, value, underlying, strike,
+                                                 dividendYield, riskFreeRate,
+                                                 if (inherits(maturity, "numeric")) maturity else NULL,
+                                                 if (inherits(maturity, "Date")) maturity else NULL,
+                                                 volatility, dayCounter)
     class(val) <- c("EuropeanOptionImpliedVolatility","ImpliedVolatility")
     val
 }

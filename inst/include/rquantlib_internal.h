@@ -200,6 +200,9 @@ QuantLib::Date advanceDate(QuantLib::Date issueDate, int days);
 
 // utils.cpp
 QuantLib::Date getFutureDate(const QuantLib::Date today, double maturity);
+QuantLib::Date getFutureDate(const QuantLib::Date today,
+                             Rcpp::Nullable<double> maturity,
+                             Rcpp::Nullable<QuantLib::Date> exDate);
 
 // convenience namespace shortcut
 namespace qlext = QuantLib::ext;

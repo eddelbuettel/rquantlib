@@ -1,3 +1,16 @@
+2026-03-04  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/implieds.cpp (europeanOptionImpliedVolatilityEngine): Use new
+	helper function with two Nullable<> args, remove alternate function
+	* src/utils.cpp (getFutureDate): Helper function for expiry date
+	given either maturity as fractional year or actual dates
+	* R/implied.R (EuropeanOptionImpliedVolatility.default): Use simpler
+	interface testing for either fractional time, or Date type
+	* inst/include/rquantlib_internal.h: Declare it
+	* inst/include/RQuantLib_RcppExports.h: Regenerated
+	* src/RcppExports.cpp: Idem
+	* R/RcppExports.R: Idem
+
 2026-03-03  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/implieds.cpp (americanOptionImpliedVolatilityEngine): Use

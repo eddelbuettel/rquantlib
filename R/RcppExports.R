@@ -185,12 +185,8 @@ calibrateHullWhiteUsingSwapsEngine <- function(termStrcDateVec, termStrcZeroVec,
     .Call(`_RQuantLib_calibrateHullWhiteUsingSwapsEngine`, termStrcDateVec, termStrcZeroVec, swapDF, iborDateVec, iborZeroVec, iborType, evalDate)
 }
 
-europeanOptionImpliedVolatilityEngine <- function(type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, dayCounter) {
-    .Call(`_RQuantLib_europeanOptionImpliedVolatilityEngine`, type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, dayCounter)
-}
-
-europeanOptionImpliedVolatilityEngineByDate <- function(type, value, underlying, strike, dividendYield, riskFreeRate, exDate, volatility, dayCounter) {
-    .Call(`_RQuantLib_europeanOptionImpliedVolatilityEngineByDate`, type, value, underlying, strike, dividendYield, riskFreeRate, exDate, volatility, dayCounter)
+europeanOptionImpliedVolatilityEngine <- function(type, value, underlying, strike, dividendYield, riskFreeRate, maturity_, exDate_, volatility, dayCounter) {
+    .Call(`_RQuantLib_europeanOptionImpliedVolatilityEngine`, type, value, underlying, strike, dividendYield, riskFreeRate, maturity_, exDate_, volatility, dayCounter)
 }
 
 americanOptionImpliedVolatilityEngine <- function(type, value, underlying, strike, dividendYield, riskFreeRate, maturity_, exDate_, volguess, timesteps, gridpoints, dayCounter) {

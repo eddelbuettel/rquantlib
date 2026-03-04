@@ -1,7 +1,7 @@
 
 //  RQuantLib -- R interface to the QuantLib libraries
 //
-//  Copyright (C) 2002 - 2026  Dirk Eddelbuettel <edd@debian.org>
+//  Copyright (C) 2002-2026  Dirk Eddelbuettel <edd@debian.org>
 //
 //  This file is part of RQuantLib.
 //
@@ -29,7 +29,8 @@ double europeanOptionImpliedVolatilityEngine(std::string type,
                                              double strike,
                                              double dividendYield,
                                              double riskFreeRate,
-                                             double maturity,
+                                             Rcpp::Nullable<double> maturity,
+                                             Rcpp::Nullable<QuantLib::Date> exDate,
                                              double volatility,
                                              int dayCounter) {
 
@@ -39,7 +40,7 @@ double europeanOptionImpliedVolatilityEngine(std::string type,
     QuantLib::Option::Type optionType = getOptionType(type);
 
     QuantLib::Date evalDate = QuantLib::Settings::instance().evaluationDate();
-    QuantLib::Date exDate = getFutureDate(evalDate, maturity);
+    QuantLib::Date expiryDate = getFutureDate(evalDate, maturity, exDate);
 
     // new framework as per QuantLib 0.3.5
     // updated for 0.3.7
@@ -53,49 +54,7 @@ double europeanOptionImpliedVolatilityEngine(std::string type,
     auto rRate = qlext::make_shared<QuantLib::SimpleQuote>(riskFreeRate);
     auto rTS = flatRate(evalDate,rRate,dc);
 
-    auto exercise = qlext::make_shared<QuantLib::EuropeanExercise>(exDate);
-    auto payoff = qlext::make_shared<QuantLib::PlainVanillaPayoff>(optionType, strike);
-    auto option = makeOption(payoff, exercise, spot, qTS, rTS, volTS, Analytic,
-                             QuantLib::Null<QuantLib::Size>(), QuantLib::Null<QuantLib::Size>());
-    auto process = makeProcess(spot, qTS, rTS,volTS);
-
-    double volguess = volatility;
-    vol->setValue(volguess);
-
-    return option->impliedVolatility(value, process, tolerance, maxEvaluations);
-}
-
-// [[Rcpp::export]]
-double europeanOptionImpliedVolatilityEngineByDate(std::string type,
-                                                   double value,
-                                                   double underlying,
-                                                   double strike,
-                                                   double dividendYield,
-                                                   double riskFreeRate,
-                                                   QuantLib::Date exDate,
-                                                   double volatility,
-                                                   int dayCounter) {
-
-    const QuantLib::Size maxEvaluations = 100;
-    const double tolerance = 1.0e-6;
-
-    QuantLib::Option::Type optionType = getOptionType(type);
-
-    QuantLib::Date evalDate = QuantLib::Settings::instance().evaluationDate();
-
-    // new framework as per QuantLib 0.3.5
-    // updated for 0.3.7
-    QuantLib::DayCounter dc = getDayCounter(dayCounter);
-
-    auto spot = qlext::make_shared<QuantLib::SimpleQuote>(underlying);
-    auto vol = qlext::make_shared<QuantLib::SimpleQuote>(volatility);
-    auto volTS = flatVol(evalDate, vol, dc);
-    auto qRate = qlext::make_shared<QuantLib::SimpleQuote>(dividendYield);
-    auto qTS = flatRate(evalDate,qRate,dc);
-    auto rRate = qlext::make_shared<QuantLib::SimpleQuote>(riskFreeRate);
-    auto rTS = flatRate(evalDate,rRate,dc);
-
-    auto exercise = qlext::make_shared<QuantLib::EuropeanExercise>(exDate);
+    auto exercise = qlext::make_shared<QuantLib::EuropeanExercise>(expiryDate);
     auto payoff = qlext::make_shared<QuantLib::PlainVanillaPayoff>(optionType, strike);
     auto option = makeOption(payoff, exercise, spot, qTS, rTS, volTS, Analytic,
                              QuantLib::Null<QuantLib::Size>(), QuantLib::Null<QuantLib::Size>());
@@ -114,8 +73,8 @@ double americanOptionImpliedVolatilityEngine(std::string type,
                                              double strike,
                                              double dividendYield,
                                              double riskFreeRate,
-                                             Rcpp::Nullable<double> maturity_,
-                                             Rcpp::Nullable<QuantLib::Date> exDate_,
+                                             Rcpp::Nullable<double> maturity,
+                                             Rcpp::Nullable<QuantLib::Date> exDate,
                                              double volguess,
                                              int timesteps,
                                              int gridpoints,
@@ -127,16 +86,7 @@ double americanOptionImpliedVolatilityEngine(std::string type,
     QuantLib::Option::Type optionType = getOptionType(type);
 
     QuantLib::Date evalDate = QuantLib::Settings::instance().evaluationDate();
-    QuantLib::Date exDate;
-    if (maturity_.isUsable()) {
-        exDate = getFutureDate(evalDate, Rcpp::as<double>(maturity_));
-    } else if (exDate_.isUsable()) {
-        exDate = Rcpp::as<QuantLib::Date>(exDate_);
-    } else {
-        Rcpp::stop("One of 'maturity' and 'exDate' has to be supplied.");
-    }
-    Rcpp::Rcout << "Eval " << evalDate << std::endl;
-    Rcpp::Rcout << "Ex " << exDate << std::endl;
+    QuantLib::Date expiryDate = getFutureDate(evalDate, maturity, exDate);
 
     // new framework as per QuantLib 0.3.5
     QuantLib::DayCounter dc = getDayCounter(dayCounter);
@@ -148,7 +98,7 @@ double americanOptionImpliedVolatilityEngine(std::string type,
     auto rRate = qlext::make_shared<QuantLib::SimpleQuote>(riskFreeRate);
     auto rTS = flatRate(evalDate,rRate,dc);
 
-    auto exercise = qlext::make_shared<QuantLib::AmericanExercise>(evalDate, exDate);
+    auto exercise = qlext::make_shared<QuantLib::AmericanExercise>(evalDate, expiryDate);
     auto payoff = qlext::make_shared<QuantLib::PlainVanillaPayoff>(optionType, strike);
     auto option = makeOption(payoff, exercise, spot, qTS, rTS, volTS, JR);
 

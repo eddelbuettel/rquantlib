@@ -677,3 +677,25 @@ QuantLib::Date getFutureDate(const QuantLib::Date today, double maturity) {
 
     #endif
 }
+
+QuantLib::Date getFutureDate(const QuantLib::Date today,
+                             Rcpp::Nullable<double> maturity,
+                             Rcpp::Nullable<QuantLib::Date> exDate) {
+    if (exDate.isUsable()) {
+        return Rcpp::as<QuantLib::Date>(exDate);
+    } else if (maturity.isUsable()) {
+        double mat = Rcpp::as<double>(maturity);
+        // depending on the compile-time option, this is either intra-day or not
+        #ifdef QL_HIGH_RESOLUTION_DATE
+            // in minutes
+            auto length = boost::posix_time::minutes(boost::uint64_t(mat * 360 * 24 * 60));
+            return QuantLib::Date{today.dateTime() + length}; // high-res time ctos
+        #else
+            int length  = int(mat * 360 + 0.5); 			  // FIXME: this could be better
+            return QuantLib::Date{today + length};
+        #endif
+    } else {
+        Rcpp::stop("Excactly one of 'maturity' or 'exDate' needs to be supplied and be non-null.");
+        return QuantLib::Date(); // not reached
+    }
+}

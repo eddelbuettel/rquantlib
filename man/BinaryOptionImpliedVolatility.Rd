@@ -19,7 +19,8 @@
   \item{strike}{Strike price of the option}
   \item{dividendYield}{Continuous dividend yield (as a fraction) of the stock}
   \item{riskFreeRate}{Risk-free rate}
-  \item{maturity}{Time to maturity (in fractional years)}
+  \item{maturity}{Time to maturity in either fractional years or as a
+    \sQuote{Date} object specifying the expiry date)}
   \item{volatility}{Initial guess for the volatility of the underlying
     stock}
   \item{cashPayoff}{Binary payout if options is exercised, default is 1}

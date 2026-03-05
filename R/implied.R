@@ -70,8 +70,10 @@ BinaryOptionImpliedVolatility <- function(type, value, underlying, strike, divid
 
 BinaryOptionImpliedVolatility.default <- function(type, value, underlying, strike, dividendYield, riskFreeRate,
                                                   maturity, volatility, cashPayoff=1, dayCounter=0) {
-    val <- binaryOptionImpliedVolatilityEngine(type, value, underlying, strike, dividendYield,
-                                               riskFreeRate, maturity, volatility, cashPayoff, dayCounter)
+    val <- binaryOptionImpliedVolatilityEngine(type, value, underlying, strike, dividendYield, riskFreeRate,
+                                               if (inherits(maturity, "numeric")) maturity else NULL,
+                                               if (inherits(maturity, "Date")) maturity else NULL,
+                                               volatility, cashPayoff, dayCounter)
     class(val) <- c("BinaryOptionImpliedVolatility","ImpliedVolatility")
     val
 }

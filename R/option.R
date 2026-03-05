@@ -1,6 +1,6 @@
 ##  RQuantLib -- R interface to the QuantLib libraries
 ##
-##  Copyright (C) 2002 - 2016  Dirk Eddelbuettel <edd@debian.org>
+##  Copyright (C) 2002-2026  Dirk Eddelbuettel <edd@debian.org>
 ##
 ##  This file is part of RQuantLib.
 ##
@@ -58,20 +58,20 @@ AmericanOption.default <- function(type, underlying, strike, dividendYield,
 }
 
 BinaryOption <- function(binType, type, excType, underlying, strike, dividendYield,
-                         riskFreeRate, maturity, volatility,
-                         cashPayoff,dayCounter=0) {
+                         riskFreeRate, maturity, volatility, cashPayoff, dayCounter=0) {
     UseMethod("BinaryOption")
 }
 
 BinaryOption.default <- function(binType, type, excType, underlying, strike, dividendYield,
-                                 riskFreeRate, maturity, volatility,
-                                 cashPayoff, dayCounter=0) {
+                                 riskFreeRate, maturity, volatility, cashPayoff, dayCounter=0) {
     type <- match.arg(type, c("call", "put"))
     binType <- match.arg(binType, c("cash", "asset", "gap"))
     excType <- match.arg(excType, c("american", "european"))
     val <- binaryOptionEngine(binType, type, excType, underlying,
                               strike, dividendYield, riskFreeRate,
-                              maturity, volatility, cashPayoff, dayCounter)
+                              if (inherits(maturity, "numeric")) maturity else NULL,
+                              if (inherits(maturity, "Date")) maturity else NULL,
+                              volatility, cashPayoff, dayCounter)
     class(val) <- c("BinaryOption", "Option")
     val
 }

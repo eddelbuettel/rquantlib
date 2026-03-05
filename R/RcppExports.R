@@ -9,12 +9,12 @@ asianOptionEngine <- function(averageType, type, underlying, strike, dividendYie
     .Call(`_RQuantLib_asianOptionEngine`, averageType, type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, first, length, fixings)
 }
 
-binaryOptionEngine <- function(binType, type, excType, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, cashPayoff, dayCounter) {
-    .Call(`_RQuantLib_binaryOptionEngine`, binType, type, excType, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, cashPayoff, dayCounter)
+binaryOptionEngine <- function(binType, type, excType, underlying, strike, dividendYield, riskFreeRate, maturity, exDate, volatility, cashPayoff, dayCounter) {
+    .Call(`_RQuantLib_binaryOptionEngine`, binType, type, excType, underlying, strike, dividendYield, riskFreeRate, maturity, exDate, volatility, cashPayoff, dayCounter)
 }
 
-binaryOptionImpliedVolatilityEngine <- function(type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, cashPayoff, dayCounter) {
-    .Call(`_RQuantLib_binaryOptionImpliedVolatilityEngine`, type, value, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, cashPayoff, dayCounter)
+binaryOptionImpliedVolatilityEngine <- function(type, value, underlying, strike, dividendYield, riskFreeRate, maturity, exDate, volatility, cashPayoff, dayCounter) {
+    .Call(`_RQuantLib_binaryOptionImpliedVolatilityEngine`, type, value, underlying, strike, dividendYield, riskFreeRate, maturity, exDate, volatility, cashPayoff, dayCounter)
 }
 
 barrierOptionEngine <- function(barrType, type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, barrier, rebate, dayCounter) {
@@ -185,12 +185,12 @@ calibrateHullWhiteUsingSwapsEngine <- function(termStrcDateVec, termStrcZeroVec,
     .Call(`_RQuantLib_calibrateHullWhiteUsingSwapsEngine`, termStrcDateVec, termStrcZeroVec, swapDF, iborDateVec, iborZeroVec, iborType, evalDate)
 }
 
-europeanOptionImpliedVolatilityEngine <- function(type, value, underlying, strike, dividendYield, riskFreeRate, maturity_, exDate_, volatility, dayCounter) {
-    .Call(`_RQuantLib_europeanOptionImpliedVolatilityEngine`, type, value, underlying, strike, dividendYield, riskFreeRate, maturity_, exDate_, volatility, dayCounter)
+europeanOptionImpliedVolatilityEngine <- function(type, value, underlying, strike, dividendYield, riskFreeRate, maturity, exDate, volatility, dayCounter) {
+    .Call(`_RQuantLib_europeanOptionImpliedVolatilityEngine`, type, value, underlying, strike, dividendYield, riskFreeRate, maturity, exDate, volatility, dayCounter)
 }
 
-americanOptionImpliedVolatilityEngine <- function(type, value, underlying, strike, dividendYield, riskFreeRate, maturity_, exDate_, volguess, timesteps, gridpoints, dayCounter) {
-    .Call(`_RQuantLib_americanOptionImpliedVolatilityEngine`, type, value, underlying, strike, dividendYield, riskFreeRate, maturity_, exDate_, volguess, timesteps, gridpoints, dayCounter)
+americanOptionImpliedVolatilityEngine <- function(type, value, underlying, strike, dividendYield, riskFreeRate, maturity, exDate, volguess, timesteps, gridpoints, dayCounter) {
+    .Call(`_RQuantLib_americanOptionImpliedVolatilityEngine`, type, value, underlying, strike, dividendYield, riskFreeRate, maturity, exDate, volguess, timesteps, gridpoints, dayCounter)
 }
 
 sabrengine <- function(rparam, legParams, dateVec, zeroVec, swaptionMat, swapLengths, atmVols, strikes, smirkVols) {

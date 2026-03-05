@@ -28,7 +28,8 @@ Rcpp::List binaryOptionEngine(std::string binType,
                               double strike,
                               double dividendYield,
                               double riskFreeRate,
-                              double maturity,
+                              Rcpp::Nullable<double> maturity,
+                              Rcpp::Nullable<QuantLib::Date> exDate,
                               double volatility,
                               double cashPayoff,
                               int dayCounter) {
@@ -39,7 +40,7 @@ Rcpp::List binaryOptionEngine(std::string binType,
     // updated again for QuantLib 0.9.0,
     // cf QuantLib-0.9.0/test-suite/digitaloption.cpp
     QuantLib::Date evalDate = QuantLib::Settings::instance().evaluationDate();
-    QuantLib::Date exDate = getFutureDate(evalDate, maturity);
+    QuantLib::Date expiryDate = getFutureDate(evalDate, maturity, exDate);
 
     QuantLib::DayCounter dc = getDayCounter(dayCounter);
     auto spot  = qlext::make_shared<QuantLib::SimpleQuote>(underlying);
@@ -63,9 +64,9 @@ Rcpp::List binaryOptionEngine(std::string binType,
 
     QuantLib::ext::shared_ptr<QuantLib::Exercise> exercise;
     if (excType=="american") {
-        exercise = qlext::make_shared<QuantLib::AmericanExercise>(evalDate, exDate);
+        exercise = qlext::make_shared<QuantLib::AmericanExercise>(evalDate, expiryDate);
     } else if (excType=="european") {
-        exercise = qlext::make_shared<QuantLib::EuropeanExercise>(exDate);
+        exercise = qlext::make_shared<QuantLib::EuropeanExercise>(expiryDate);
     } else {
         throw std::range_error("Unknown binary exercise type " + excType);
     }
@@ -106,7 +107,8 @@ double binaryOptionImpliedVolatilityEngine(std::string type,
                                            double strike,
                                            double dividendYield,
                                            double riskFreeRate,
-                                           double maturity,
+                                           Rcpp::Nullable<double> maturity,
+                                           Rcpp::Nullable<QuantLib::Date> exDate,
                                            double volatility,
                                            double cashPayoff,
                                            int dayCounter) {
@@ -117,7 +119,7 @@ double binaryOptionImpliedVolatilityEngine(std::string type,
     // cf QuantLib-0.9.0/test-suite/digitaloption.cpp
     QuantLib::Date evalDate = QuantLib::Settings::instance().evaluationDate();
     QuantLib::DayCounter dc = getDayCounter(dayCounter);
-    QuantLib::Date exDate = getFutureDate(evalDate, maturity);
+    QuantLib::Date expiryDate = getFutureDate(evalDate, maturity, exDate);
     auto spot  = qlext::make_shared<QuantLib::SimpleQuote>(underlying);
     auto qRate = qlext::make_shared<QuantLib::SimpleQuote>(dividendYield);
     auto qTS   = flatRate(evalDate, qRate, dc);
@@ -128,7 +130,7 @@ double binaryOptionImpliedVolatilityEngine(std::string type,
 
     auto payoff = qlext::make_shared<QuantLib::CashOrNothingPayoff>(optionType, strike, cashPayoff);
 
-    auto exercise = qlext::make_shared<QuantLib::EuropeanExercise>(exDate);
+    auto exercise = qlext::make_shared<QuantLib::EuropeanExercise>(expiryDate);
 
     auto stochProcess = qlext::make_shared<QuantLib::BlackScholesMertonProcess>(QuantLib::Handle<QuantLib::Quote>(spot),
                                                                                 QuantLib::Handle<QuantLib::YieldTermStructure>(qTS),

@@ -22,7 +22,8 @@ derivatives ("Greeks") are returned.}
   \item{strike}{Strike price of the option}
   \item{dividendYield}{Continuous dividend yield (as a fraction) of the stock}
   \item{riskFreeRate}{Risk-free rate}
-  \item{maturity}{Time to maturity (in fractional years)}
+  \item{maturity}{Time to maturity in either fractional years or as a
+    \sQuote{Date} object specifying the expiry date)}
   \item{volatility}{Volatility of the underlying stock}
   \item{cashPayoff}{Payout amount}
   \item{dayCounter}{Integer denoting the selected QuantLib day counter

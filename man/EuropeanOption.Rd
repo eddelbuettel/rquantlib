@@ -10,8 +10,8 @@
 }
 \usage{
 \method{EuropeanOption}{default}(type, underlying, strike,
-	dividendYield, riskFreeRate, maturity, volatility, 
-	discreteDividends, discreteDividendsTimeUntil)
+	dividendYield, riskFreeRate, maturity, volatility,
+	discreteDividends, discreteDividendsTimeUntil, dayCounter)
 }
 \arguments{
   \item{type}{A string with one of the values \code{call} or \code{put}}
@@ -22,19 +22,20 @@
   \item{maturity}{Time to maturity (in fractional years)}
   \item{volatility}{Volatility of the underlying stock}
   \item{discreteDividends}{Vector of discrete dividends (optional)}
-  \item{discreteDividendsTimeUntil}{Vector of times to discrete dividends 
+  \item{discreteDividendsTimeUntil}{Vector of times to discrete dividends
     (in fractional years, optional)}
-}
+  \item{dayCounter}{Integer denoting the selected QuantLib day counter
+    convention, default value is 0 for \sQuote{Actual360}}}
 \value{
   The \code{EuropeanOption} function returns an object of class
-  \code{EuropeanOption} (which inherits from class 
+  \code{EuropeanOption} (which inherits from class
   \code{\link{Option}}). It contains a list with the following
   components:
   \item{value}{Value of option}
   \item{delta}{Sensitivity of the option value for a change in the underlying}
   \item{gamma}{Sensitivity of the option delta for a change in the underlying}
   \item{vega}{Sensitivity of the option value for a change in the
-    underlying's volatility} 
+    underlying's volatility}
   \item{theta}{Sensitivity of the option value for a change in t, the
     remaining time to maturity}
   \item{rho}{Sensitivity of the option value for a change in the
@@ -50,7 +51,7 @@
 
   Please see any decent Finance textbook for background reading, and the
   \code{QuantLib} documentation for details on the \code{QuantLib}
-  implementation.  
+  implementation.
 }
 \references{\url{https://www.quantlib.org/} for details on \code{QuantLib}.}
 \author{Dirk Eddelbuettel \email{edd@debian.org} for the \R interface;
@@ -65,12 +66,11 @@
 ## simple call with unnamed parameters
 EuropeanOption("call", 100, 100, 0.01, 0.03, 0.5, 0.4)
 ## simple call with some explicit parameters, and slightly increased vol:
-EuropeanOption(type="call", underlying=100, strike=100, dividendYield=0.01, 
+EuropeanOption(type="call", underlying=100, strike=100, dividendYield=0.01,
 riskFreeRate=0.03, maturity=0.5, volatility=0.5)
-## simple call with slightly shorter maturity: QuantLib 1.7 compiled with 
+## simple call with slightly shorter maturity: QuantLib 1.7 compiled with
 ## intra-day time calculation support with create slightly changed values
-EuropeanOption(type="call", underlying=100, strike=100, dividendYield=0.01, 
+EuropeanOption(type="call", underlying=100, strike=100, dividendYield=0.01,
 riskFreeRate=0.03, maturity=0.499, volatility=0.5)
 }
 \keyword{misc}
-

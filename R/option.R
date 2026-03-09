@@ -19,17 +19,20 @@
 
 EuropeanOption <- function(type, underlying, strike, dividendYield,
                            riskFreeRate, maturity, volatility,
-                           discreteDividends = NULL, discreteDividendsTimeUntil = NULL) {
+                           discreteDividends = NULL, discreteDividendsTimeUntil = NULL,
+                           dayCounter = 0) {
     UseMethod("EuropeanOption")
 }
 
 EuropeanOption.default <- function(type, underlying, strike, dividendYield,
                                    riskFreeRate, maturity, volatility,
-                                   discreteDividends = NULL, discreteDividendsTimeUntil = NULL) {
+                                   discreteDividends = NULL, discreteDividendsTimeUntil = NULL,
+                                   dayCounter = 0) {
     type <- match.arg(type, c("call", "put"))
-    val <- europeanOptionEngine(type, underlying, strike, dividendYield,
-                                riskFreeRate, maturity, volatility,
-                                discreteDividends, discreteDividendsTimeUntil)
+    val <- europeanOptionEngine(type, underlying, strike, dividendYield, riskFreeRate,
+                                if (inherits(maturity, "numeric")) maturity else NULL,
+                                if (inherits(maturity, "Date")) maturity else NULL,
+                                volatility, discreteDividends, discreteDividendsTimeUntil, dayCounter)
     class(val) <- c("EuropeanOption", "Option")
     val
 }

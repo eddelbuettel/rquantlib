@@ -1521,8 +1521,8 @@ RcppExport SEXP _RQuantLib_europeanOptionEngine(SEXP typeSEXP, SEXP underlyingSE
     return rcpp_result_gen;
 }
 // americanOptionEngine
-Rcpp::List americanOptionEngine(std::string type, double underlying, double strike, double dividendYield, double riskFreeRate, double maturity, double volatility, int timeSteps, int gridPoints, std::string engine, Rcpp::Nullable<Rcpp::NumericVector> discreteDividends, Rcpp::Nullable<Rcpp::NumericVector> discreteDividendsTimeUntil);
-static SEXP _RQuantLib_americanOptionEngine_try(SEXP typeSEXP, SEXP underlyingSEXP, SEXP strikeSEXP, SEXP dividendYieldSEXP, SEXP riskFreeRateSEXP, SEXP maturitySEXP, SEXP volatilitySEXP, SEXP timeStepsSEXP, SEXP gridPointsSEXP, SEXP engineSEXP, SEXP discreteDividendsSEXP, SEXP discreteDividendsTimeUntilSEXP) {
+Rcpp::List americanOptionEngine(std::string type, double underlying, double strike, double dividendYield, double riskFreeRate, Rcpp::Nullable<double> maturity, Rcpp::Nullable<QuantLib::Date> exDate, double volatility, int timeSteps, int gridPoints, std::string engine, Rcpp::Nullable<Rcpp::NumericVector> discreteDividends, Rcpp::Nullable<Rcpp::NumericVector> discreteDividendsTimeUntil, int dayCounter);
+static SEXP _RQuantLib_americanOptionEngine_try(SEXP typeSEXP, SEXP underlyingSEXP, SEXP strikeSEXP, SEXP dividendYieldSEXP, SEXP riskFreeRateSEXP, SEXP maturitySEXP, SEXP exDateSEXP, SEXP volatilitySEXP, SEXP timeStepsSEXP, SEXP gridPointsSEXP, SEXP engineSEXP, SEXP discreteDividendsSEXP, SEXP discreteDividendsTimeUntilSEXP, SEXP dayCounterSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< std::string >::type type(typeSEXP);
@@ -1530,22 +1530,24 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type strike(strikeSEXP);
     Rcpp::traits::input_parameter< double >::type dividendYield(dividendYieldSEXP);
     Rcpp::traits::input_parameter< double >::type riskFreeRate(riskFreeRateSEXP);
-    Rcpp::traits::input_parameter< double >::type maturity(maturitySEXP);
+    Rcpp::traits::input_parameter< Rcpp::Nullable<double> >::type maturity(maturitySEXP);
+    Rcpp::traits::input_parameter< Rcpp::Nullable<QuantLib::Date> >::type exDate(exDateSEXP);
     Rcpp::traits::input_parameter< double >::type volatility(volatilitySEXP);
     Rcpp::traits::input_parameter< int >::type timeSteps(timeStepsSEXP);
     Rcpp::traits::input_parameter< int >::type gridPoints(gridPointsSEXP);
     Rcpp::traits::input_parameter< std::string >::type engine(engineSEXP);
     Rcpp::traits::input_parameter< Rcpp::Nullable<Rcpp::NumericVector> >::type discreteDividends(discreteDividendsSEXP);
     Rcpp::traits::input_parameter< Rcpp::Nullable<Rcpp::NumericVector> >::type discreteDividendsTimeUntil(discreteDividendsTimeUntilSEXP);
-    rcpp_result_gen = Rcpp::wrap(americanOptionEngine(type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, timeSteps, gridPoints, engine, discreteDividends, discreteDividendsTimeUntil));
+    Rcpp::traits::input_parameter< int >::type dayCounter(dayCounterSEXP);
+    rcpp_result_gen = Rcpp::wrap(americanOptionEngine(type, underlying, strike, dividendYield, riskFreeRate, maturity, exDate, volatility, timeSteps, gridPoints, engine, discreteDividends, discreteDividendsTimeUntil, dayCounter));
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP _RQuantLib_americanOptionEngine(SEXP typeSEXP, SEXP underlyingSEXP, SEXP strikeSEXP, SEXP dividendYieldSEXP, SEXP riskFreeRateSEXP, SEXP maturitySEXP, SEXP volatilitySEXP, SEXP timeStepsSEXP, SEXP gridPointsSEXP, SEXP engineSEXP, SEXP discreteDividendsSEXP, SEXP discreteDividendsTimeUntilSEXP) {
+RcppExport SEXP _RQuantLib_americanOptionEngine(SEXP typeSEXP, SEXP underlyingSEXP, SEXP strikeSEXP, SEXP dividendYieldSEXP, SEXP riskFreeRateSEXP, SEXP maturitySEXP, SEXP exDateSEXP, SEXP volatilitySEXP, SEXP timeStepsSEXP, SEXP gridPointsSEXP, SEXP engineSEXP, SEXP discreteDividendsSEXP, SEXP discreteDividendsTimeUntilSEXP, SEXP dayCounterSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(_RQuantLib_americanOptionEngine_try(typeSEXP, underlyingSEXP, strikeSEXP, dividendYieldSEXP, riskFreeRateSEXP, maturitySEXP, volatilitySEXP, timeStepsSEXP, gridPointsSEXP, engineSEXP, discreteDividendsSEXP, discreteDividendsTimeUntilSEXP));
+        rcpp_result_gen = PROTECT(_RQuantLib_americanOptionEngine_try(typeSEXP, underlyingSEXP, strikeSEXP, dividendYieldSEXP, riskFreeRateSEXP, maturitySEXP, exDateSEXP, volatilitySEXP, timeStepsSEXP, gridPointsSEXP, engineSEXP, discreteDividendsSEXP, discreteDividendsTimeUntilSEXP, dayCounterSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -1663,7 +1665,7 @@ static int _RQuantLib_RcppExport_validate(const char* sig) {
         signatures.insert("std::string(*getQuantLibVersion)()");
         signatures.insert("Rcpp::LogicalVector(*getQuantLibCapabilities)()");
         signatures.insert("Rcpp::List(*europeanOptionEngine)(std::string,double,double,double,double,Rcpp::Nullable<double>,Rcpp::Nullable<QuantLib::Date>,double,Rcpp::Nullable<Rcpp::NumericVector>,Rcpp::Nullable<Rcpp::NumericVector>,int)");
-        signatures.insert("Rcpp::List(*americanOptionEngine)(std::string,double,double,double,double,double,double,int,int,std::string,Rcpp::Nullable<Rcpp::NumericVector>,Rcpp::Nullable<Rcpp::NumericVector>)");
+        signatures.insert("Rcpp::List(*americanOptionEngine)(std::string,double,double,double,double,Rcpp::Nullable<double>,Rcpp::Nullable<QuantLib::Date>,double,int,int,std::string,Rcpp::Nullable<Rcpp::NumericVector>,Rcpp::Nullable<Rcpp::NumericVector>,int)");
         signatures.insert("Rcpp::List(*europeanOptionArraysEngine)(std::string,Rcpp::NumericMatrix)");
     }
     return signatures.find(sig) != signatures.end();
@@ -1762,7 +1764,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_RQuantLib_getQuantLibVersion", (DL_FUNC) &_RQuantLib_getQuantLibVersion, 0},
     {"_RQuantLib_getQuantLibCapabilities", (DL_FUNC) &_RQuantLib_getQuantLibCapabilities, 0},
     {"_RQuantLib_europeanOptionEngine", (DL_FUNC) &_RQuantLib_europeanOptionEngine, 11},
-    {"_RQuantLib_americanOptionEngine", (DL_FUNC) &_RQuantLib_americanOptionEngine, 12},
+    {"_RQuantLib_americanOptionEngine", (DL_FUNC) &_RQuantLib_americanOptionEngine, 14},
     {"_RQuantLib_europeanOptionArraysEngine", (DL_FUNC) &_RQuantLib_europeanOptionArraysEngine, 2},
     {"_RQuantLib_zeroprice", (DL_FUNC) &_RQuantLib_zeroprice, 5},
     {"_RQuantLib_zeroyield", (DL_FUNC) &_RQuantLib_zeroyield, 5},

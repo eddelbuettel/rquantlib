@@ -232,8 +232,8 @@ europeanOptionEngine <- function(type, underlying, strike, dividendYield, riskFr
     .Call(`_RQuantLib_europeanOptionEngine`, type, underlying, strike, dividendYield, riskFreeRate, maturity, exDate, volatility, discreteDividends, discreteDividendsTimeUntil, dayCounter)
 }
 
-americanOptionEngine <- function(type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, timeSteps, gridPoints, engine, discreteDividends, discreteDividendsTimeUntil) {
-    .Call(`_RQuantLib_americanOptionEngine`, type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, timeSteps, gridPoints, engine, discreteDividends, discreteDividendsTimeUntil)
+americanOptionEngine <- function(type, underlying, strike, dividendYield, riskFreeRate, maturity, exDate, volatility, timeSteps, gridPoints, engine, discreteDividends, discreteDividendsTimeUntil, dayCounter) {
+    .Call(`_RQuantLib_americanOptionEngine`, type, underlying, strike, dividendYield, riskFreeRate, maturity, exDate, volatility, timeSteps, gridPoints, engine, discreteDividends, discreteDividendsTimeUntil, dayCounter)
 }
 
 europeanOptionArraysEngine <- function(type, par) {

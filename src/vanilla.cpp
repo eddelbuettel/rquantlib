@@ -108,31 +108,32 @@ Rcpp::List americanOptionEngine(std::string type,
                                 double strike,
                                 double dividendYield,
                                 double riskFreeRate,
-                                double maturity,
+                                Rcpp::Nullable<double> maturity,
+                                Rcpp::Nullable<QuantLib::Date> exDate,
                                 double volatility,
                                 int timeSteps,
                                 int gridPoints,
                                 std::string engine,
                                 Rcpp::Nullable<Rcpp::NumericVector> discreteDividends,
-                                Rcpp::Nullable<Rcpp::NumericVector> discreteDividendsTimeUntil) {
+                                Rcpp::Nullable<Rcpp::NumericVector> discreteDividendsTimeUntil,
+                                int dayCounter) {
 
     QuantLib::Option::Type optionType = getOptionType(type);
+    QuantLib::Date evalDate = QuantLib::Settings::instance().evaluationDate();
+    QuantLib::Date expiryDate = getFutureDate(evalDate, maturity, exDate);
+    QuantLib::DayCounter dc = getDayCounter(dayCounter);
 
-    QuantLib::Date today = QuantLib::Date::todaysDate();
-    QuantLib::Settings::instance().evaluationDate() = today;
-    QuantLib::Date exDate = getFutureDate(today, maturity);
-    QuantLib::DayCounter dc = QuantLib::Actual360();
     auto spot  = qlext::make_shared<QuantLib::SimpleQuote>(underlying);
     auto qRate = qlext::make_shared<QuantLib::SimpleQuote>(dividendYield);
-    auto qTS   = flatRate(today, qRate, dc); 	// cf src/utils.cpp
+    auto qTS   = flatRate(evalDate, qRate, dc); 	// cf src/utils.cpp
     auto rRate = qlext::make_shared<QuantLib::SimpleQuote>(riskFreeRate);
-    auto rTS   = flatRate(today, rRate, dc); 	// cf src/utils.cpp
+    auto rTS   = flatRate(evalDate, rRate, dc); 	// cf src/utils.cpp
     auto vol   = qlext::make_shared<QuantLib::SimpleQuote>(volatility);
-    auto volTS = flatVol(today, vol, dc); 		// cf src/utils.cpp
+    auto volTS = flatVol(evalDate, vol, dc); 		// cf src/utils.cpp
 
     bool withDividends = discreteDividends.isNotNull() && discreteDividendsTimeUntil.isNotNull();
 
-    auto exercise = qlext::make_shared<QuantLib::AmericanExercise>(today, exDate);
+    auto exercise = qlext::make_shared<QuantLib::AmericanExercise>(evalDate, expiryDate);
     auto payoff   = qlext::make_shared<QuantLib::PlainVanillaPayoff>(optionType, strike);
 
     typedef QuantLib::BlackScholesMertonProcess qlBSMp;
@@ -147,7 +148,7 @@ Rcpp::List americanOptionEngine(std::string type,
         std::vector<QuantLib::Date> discDivDates(n);
         std::vector<double> discDividends(n);
         for (int i = 0; i < n; i++) {
-            discDivDates[i] = getFutureDate(today, divtimes[i]);
+            discDivDates[i] = getFutureDate(evalDate, divtimes[i]);
             discDividends[i] = divvalues[i];
         }
 

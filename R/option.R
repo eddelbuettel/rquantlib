@@ -39,23 +39,24 @@ EuropeanOption.default <- function(type, underlying, strike, dividendYield,
 
 AmericanOption <- function(type, underlying, strike, dividendYield,
                            riskFreeRate, maturity, volatility,
-                           timeSteps=150, gridPoints=149,
-                           engine="BaroneAdesiWhaley",
-                           discreteDividends = NULL, discreteDividendsTimeUntil = NULL) {
+                           timeSteps=150, gridPoints=149, engine="BaroneAdesiWhaley",
+                           discreteDividends = NULL, discreteDividendsTimeUntil = NULL,
+                           dayCounter = 0) {
     UseMethod("AmericanOption")
 }
 
 AmericanOption.default <- function(type, underlying, strike, dividendYield,
                                    riskFreeRate, maturity, volatility,
-                                   timeSteps=150, gridPoints=149,
-                                   engine="BaroneAdesiWhaley",
-                                   discreteDividends = NULL, discreteDividendsTimeUntil = NULL) {
+                                   timeSteps=150, gridPoints=149, engine="BaroneAdesiWhaley",
+                                   discreteDividends = NULL, discreteDividendsTimeUntil = NULL,
+                                   dayCounter = 0) {
     type <- match.arg(type, c("call", "put"))
     engine <- match.arg(engine, c("BaroneAdesiWhaley", "CrankNicolson"))
-    val <- americanOptionEngine(type, underlying, strike, dividendYield,
-                                riskFreeRate, maturity, volatility,
-                                timeSteps, gridPoints, engine,
-                                discreteDividends, discreteDividendsTimeUntil)
+    val <- americanOptionEngine(type, underlying, strike, dividendYield, riskFreeRate,
+                                if (inherits(maturity, "numeric")) maturity else NULL,
+                                if (inherits(maturity, "Date")) maturity else NULL,
+                                volatility, timeSteps, gridPoints, engine,
+                                discreteDividends, discreteDividendsTimeUntil, dayCounter)
     class(val) <- c("AmericanOption","Option")
     val
 }

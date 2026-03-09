@@ -19,13 +19,15 @@
   \item{strike}{Strike price of the option}
   \item{dividendYield}{Continuous dividend yield (as a fraction) of the stock}
   \item{riskFreeRate}{Risk-free rate}
-  \item{maturity}{Time to maturity (in fractional years)}
+  \item{maturity}{Time to maturity in either fractional years or as a
+    \sQuote{Date} object specifying the expiry date)}
   \item{volatility}{Volatility of the underlying stock}
   \item{discreteDividends}{Vector of discrete dividends (optional)}
   \item{discreteDividendsTimeUntil}{Vector of times to discrete dividends
     (in fractional years, optional)}
   \item{dayCounter}{Integer denoting the selected QuantLib day counter
-    convention, default value is 0 for \sQuote{Actual360}}}
+    convention, default value is 0 for \sQuote{Actual360}}
+}
 \value{
   The \code{EuropeanOption} function returns an object of class
   \code{EuropeanOption} (which inherits from class

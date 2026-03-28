@@ -1,3 +1,8 @@
+2026-03-28  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/utils.cpp (getDividendSchedule,getCallabilitySchedule): Remove
+	one old layer of try/catch and rely on the one provided by Rcpp
+
 2026-03-09  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/vanilla.cpp (europeanOptionEngine,americanOptionEngine): More

@@ -535,27 +535,23 @@ Rcpp::DataFrame getCashFlowDataFrame(const QuantLib::Leg &bondCashFlow) {
 QuantLib::DividendSchedule getDividendSchedule(Rcpp::DataFrame divScheDF) {
 
     QuantLib::DividendSchedule dividendSchedule;
-    try {
-        Rcpp::CharacterVector s0v = divScheDF[0];
-        Rcpp::NumericVector n1v = divScheDF[1];
-        Rcpp::NumericVector n2v = divScheDF[2];
-        Rcpp::NumericVector n3v = divScheDF[3];
-        int nrow = s0v.size();
+    Rcpp::CharacterVector s0v = divScheDF[0];
+    Rcpp::NumericVector n1v = divScheDF[1];
+    Rcpp::NumericVector n2v = divScheDF[2];
+    Rcpp::NumericVector n3v = divScheDF[3];
+    int nrow = s0v.size();
 
-        for (int row=0; row<nrow; row++){
-            int type = (s0v[row] == "Fixed") ? 1 : 0; //  (table[row][0].getStringValue()=="Fixed") ? 1 : 0;
-            double amount = n1v[row]; // table[row][1].getDoubleValue();
-            double rate = n2v[row]; // table[row][2].getDoubleValue();
-            Rcpp::Date rd = Rcpp::Date(n3v[row]);
-            QuantLib::Date d(Rcpp::as<QuantLib::Date>(Rcpp::wrap(rd))); //table[row][3].getDateValue()));
-            if (type==1) {
-                dividendSchedule.push_back(qlext::make_shared<QuantLib::FixedDividend>(amount, d));
-            } else {
-                dividendSchedule.push_back(qlext::make_shared<QuantLib::FractionalDividend>(rate, amount, d));
-            }
+    for (int row=0; row<nrow; row++){
+        int type = (s0v[row] == "Fixed") ? 1 : 0; //  (table[row][0].getStringValue()=="Fixed") ? 1 : 0;
+        double amount = n1v[row]; // table[row][1].getDoubleValue();
+        double rate = n2v[row]; // table[row][2].getDoubleValue();
+        Rcpp::Date rd = Rcpp::Date(n3v[row]);
+        QuantLib::Date d(Rcpp::as<QuantLib::Date>(Rcpp::wrap(rd))); //table[row][3].getDateValue()));
+        if (type==1) {
+            dividendSchedule.push_back(qlext::make_shared<QuantLib::FixedDividend>(amount, d));
+        } else {
+            dividendSchedule.push_back(qlext::make_shared<QuantLib::FractionalDividend>(rate, amount, d));
         }
-    } catch (std::exception& ex) {
-        forward_exception_to_r(ex);
     }
     return dividendSchedule;
 }
@@ -574,27 +570,23 @@ QuantLib::CallabilitySchedule getCallabilitySchedule(Rcpp::DataFrame callScheDF)
     typedef QuantLib::Callability::Price QlBondPrice;
 #endif
 
-    try {
-        // RcppFrame rcppCallabilitySchedule(callabilityScheduleFrame);
-        // std::vector<std::vector<ColDatum> > table = rcppCallabilitySchedule.getTableData();
-        // int nrow = table.size();
-        Rcpp::NumericVector n0v = callScheDF[0];
-        Rcpp::CharacterVector s1v = callScheDF[1];
-        Rcpp::NumericVector n2v = callScheDF[2];
-        int nrow = n0v.size();
-        for (int row=0; row<nrow; row++) {
-            double price = n0v[row]; //table[row][0].getDoubleValue();
-            int type = (s1v[row]=="P") ? 1 : 0;
-            Rcpp::Date rd = Rcpp::Date(n2v[row]);
-            QuantLib::Date d(Rcpp::as<QuantLib::Date>(Rcpp::wrap(rd)));
-            if (type==1){
-                callabilitySchedule.push_back(qlext::make_shared<QuantLib::Callability>(QlBondPrice(price, QlBondPrice::Clean), QuantLib::Callability::Put, d));
-            } else {
-                callabilitySchedule.push_back(qlext::make_shared<QuantLib::Callability>(QlBondPrice(price, QlBondPrice::Clean), QuantLib::Callability::Call, d));
-            }
+    // RcppFrame rcppCallabilitySchedule(callabilityScheduleFrame);
+    // std::vector<std::vector<ColDatum> > table = rcppCallabilitySchedule.getTableData();
+    // int nrow = table.size();
+    Rcpp::NumericVector n0v = callScheDF[0];
+    Rcpp::CharacterVector s1v = callScheDF[1];
+    Rcpp::NumericVector n2v = callScheDF[2];
+    int nrow = n0v.size();
+    for (int row=0; row<nrow; row++) {
+        double price = n0v[row]; //table[row][0].getDoubleValue();
+        int type = (s1v[row]=="P") ? 1 : 0;
+        Rcpp::Date rd = Rcpp::Date(n2v[row]);
+        QuantLib::Date d(Rcpp::as<QuantLib::Date>(Rcpp::wrap(rd)));
+        if (type==1){
+            callabilitySchedule.push_back(qlext::make_shared<QuantLib::Callability>(QlBondPrice(price, QlBondPrice::Clean), QuantLib::Callability::Put, d));
+        } else {
+            callabilitySchedule.push_back(qlext::make_shared<QuantLib::Callability>(QlBondPrice(price, QlBondPrice::Clean), QuantLib::Callability::Call, d));
         }
-    } catch (std::exception& ex){
-        forward_exception_to_r(ex);
     }
     return callabilitySchedule;
 }

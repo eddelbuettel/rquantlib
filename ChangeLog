@@ -1,3 +1,12 @@
+2026-04-07  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/barrier_binary.cpp (barrierOptionEngine): For barrier option,
+	more careful about use of evaluation date, new parameter daycounter
+	* R/option.R (BarrierOption.default):  Allow fractional year to
+	expiry as well as date
+	* src/RcppExports.cpp: Regenerated
+	* R/RcppExports.R: Idem
+
 2026-03-28  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/utils.cpp (getDividendSchedule,getCallabilitySchedule): Remove

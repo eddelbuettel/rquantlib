@@ -17,8 +17,8 @@ binaryOptionImpliedVolatilityEngine <- function(type, value, underlying, strike,
     .Call(`_RQuantLib_binaryOptionImpliedVolatilityEngine`, type, value, underlying, strike, dividendYield, riskFreeRate, maturity, exDate, volatility, cashPayoff, dayCounter)
 }
 
-barrierOptionEngine <- function(barrType, type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, barrier, rebate, dayCounter) {
-    .Call(`_RQuantLib_barrierOptionEngine`, barrType, type, underlying, strike, dividendYield, riskFreeRate, maturity, volatility, barrier, rebate, dayCounter)
+barrierOptionEngine <- function(barrType, type, underlying, strike, dividendYield, riskFreeRate, maturity, exDate, volatility, barrier, rebate, dayCounter) {
+    .Call(`_RQuantLib_barrierOptionEngine`, barrType, type, underlying, strike, dividendYield, riskFreeRate, maturity, exDate, volatility, barrier, rebate, dayCounter)
 }
 
 bermudanFromYieldEngine <- function(rparam, yield, swaptionMat, swapLengths, swaptionVols) {

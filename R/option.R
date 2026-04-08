@@ -91,8 +91,10 @@ BarrierOption.default <- function(barrType, type, underlying, strike,
                                   volatility, barrier, rebate=0.0, dayCounter=0) {
     type <- match.arg(type, c("call", "put"))
     barrType <- match.arg(barrType, c("downin", "upin", "downout", "upout"))
-    val <- barrierOptionEngine(barrType, type, underlying, strike, dividendYield,
-                               riskFreeRate, maturity, volatility, barrier, rebate, dayCounter)
+    val <- barrierOptionEngine(barrType, type, underlying, strike, dividendYield, riskFreeRate,
+                               if (inherits(maturity, "numeric")) maturity else NULL,
+                               if (inherits(maturity, "Date")) maturity else NULL,
+                               volatility, barrier, rebate, dayCounter)
     class(val) <- c("BarrierOption", "Option")
     val
 }

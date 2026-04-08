@@ -151,7 +151,8 @@ Rcpp::List barrierOptionEngine(std::string barrType,
                                double strike,
                                double dividendYield,
                                double riskFreeRate,
-                               double maturity,
+                               Rcpp::Nullable<double> maturity,
+                               Rcpp::Nullable<QuantLib::Date> exDate,
                                double volatility,
                                double barrier,
                                double rebate,
@@ -176,8 +177,8 @@ Rcpp::List barrierOptionEngine(std::string barrType,
     // updated again for QuantLib 0.9.0,
     // cf QuantLib-0.9.0/test-suite/barrieroption.cpp
     QuantLib::Date evalDate = QuantLib::Settings::instance().evaluationDate();
+    QuantLib::Date expiryDate = getFutureDate(evalDate, maturity, exDate);
     QuantLib::DayCounter dc = getDayCounter(dayCounter);
-    QuantLib::Date exDate = getFutureDate(evalDate, maturity);
     auto spot = qlext::make_shared<QuantLib::SimpleQuote>(underlying);
     auto qRate = qlext::make_shared<QuantLib::SimpleQuote>(dividendYield);
     auto qTS = flatRate(evalDate, qRate, dc);
@@ -186,7 +187,7 @@ Rcpp::List barrierOptionEngine(std::string barrType,
     auto vol = qlext::make_shared<QuantLib::SimpleQuote>(volatility);
     auto volTS = flatVol(evalDate, vol, dc);
 
-    auto exercise = qlext::make_shared<QuantLib::EuropeanExercise>(exDate);
+    auto exercise = qlext::make_shared<QuantLib::EuropeanExercise>(expiryDate);
 
     auto payoff = qlext::make_shared<QuantLib::PlainVanillaPayoff>(optionType, strike);
 

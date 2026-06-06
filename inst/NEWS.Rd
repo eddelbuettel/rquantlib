@@ -7,7 +7,7 @@
 \section{Changes in \pkg{RQuantLib} version 0.4.27 (2026-04-xx)}{
   \itemize{
     \item All equity option functions can now take either a (fractional) time
-    span to expiry, or a given date, and also accept a daycounter setter.
+    span to expiry or a given date, and accept a daycounter setter.
     \item Two very old schedule helpers had a superfluous \code{try/catch}
     removed.
     \item The continuous integration setup received a minor update.

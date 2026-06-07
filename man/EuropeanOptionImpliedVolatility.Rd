@@ -8,7 +8,8 @@
   the other required parameters to value an option.}
 \usage{
 \method{EuropeanOptionImpliedVolatility}{default}(type, value,
-	underlying, strike, dividendYield, riskFreeRate, maturity, volatility, dayCounter=0)
+	underlying, strike, dividendYield, riskFreeRate, maturity,
+        volatility, dayCounter=0)
 }
 \arguments{
   \item{type}{A string with one of the values \code{call} or \code{put}}

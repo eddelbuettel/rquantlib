@@ -4,7 +4,7 @@
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rquantlib/issues/#1}{##1}}
 \newcommand{\ghrp}{\href{https://github.com/#1}{##1}}
 
-\section{Changes in \pkg{RQuantLib} version 0.4.27 (2026-04-xx)}{
+\section{Changes in \pkg{RQuantLib} version 0.4.27 (2026-06-07)}{
   \itemize{
     \item All equity option functions can now take either a (fractional) time
     span to expiry or a given date, and accept a daycounter setter.

@@ -1,6 +1,7 @@
 2026-06-09  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .github/workflows/windows.yaml: Update checkout action
+	* .github/workflows/docker.yaml: Update all actions
 
 2026-06-07  Dirk Eddelbuettel  <edd@debian.org>
 

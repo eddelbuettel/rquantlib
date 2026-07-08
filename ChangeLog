@@ -1,3 +1,7 @@
+2026-07-08  Dirk Eddelbuettel  <edd@debian.org>
+
+	* .github/workflows/ci.yaml: Add ccache-with-R action
+
 2026-06-09  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .github/workflows/windows.yaml: Update checkout action

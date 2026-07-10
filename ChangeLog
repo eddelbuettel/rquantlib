@@ -1,3 +1,7 @@
+2026-07-10  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/calendars.cpp: Remove an old header guard
+
 2026-07-08  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .github/workflows/ci.yaml: Add ccache-with-R action

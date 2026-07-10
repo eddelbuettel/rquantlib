@@ -14,3 +14,4 @@ tests/RQuantlib.Rout.save
 ^.editorconfig
 ubuntu-older-ql
 ^\.github
+^\.ccache

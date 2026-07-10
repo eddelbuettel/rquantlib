@@ -1,6 +1,11 @@
 2026-07-10  Dirk Eddelbuettel  <edd@debian.org>
 
-	* src/calendars.cpp: Remove an old header guard
+	* DESCRIPTION (Version, Date): Roll micro release and date
+
+	* src/calendars.cpp: Adjust to QuantLib 1.43 and its Israel calendar
+	ctor change, also remove a very old #ifdef version guard
+
+	* .Rbuildignore: Add .ccache
 
 2026-07-08  Dirk Eddelbuettel  <edd@debian.org>
 

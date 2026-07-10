@@ -99,10 +99,19 @@ QuantLib::ext::shared_ptr<QuantLib::Calendar> getCalendar(const std::string &cal
     } else if (calstr == "Indonesia") {
         pcal.reset(new QuantLib::Indonesia());
 
+#if QL_HEX_VERSION <= 0x014201f0
     } else if (calstr == "Israel" || calstr == "Israel/Settlement") {
         pcal.reset(new QuantLib::Israel(QuantLib::Israel::Settlement));
     } else if (calstr == "Israel/TASE") {
         pcal.reset(new QuantLib::Israel(QuantLib::Israel::TASE));
+#else
+    } else if (calstr == "Israel" || calstr == "Israel/TASE") {
+        pcal.reset(new QuantLib::Israel(QuantLib::Israel::TASE));
+    } else if (calstr == "Israel/SHIR") {
+        pcal.reset(new QuantLib::Israel(QuantLib::Israel::SHIR));
+    } else if (calstr == "Israel/Telbor") {
+        pcal.reset(new QuantLib::Israel(QuantLib::Israel::Telbor));
+#endif
 
     } else if (calstr == "Italy" || calstr == "Italy/Settlement") {
         pcal.reset(new QuantLib::Italy(QuantLib::Italy::Settlement));

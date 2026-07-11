@@ -4,6 +4,13 @@
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rquantlib/issues/#1}{##1}}
 \newcommand{\ghrp}{\href{https://github.com/#1}{##1}}
 
+\section{Changes in \pkg{RQuantLib} version 0.4.28 (2026-07-10)}{
+  \itemize{
+    \item Adjust to Israel calendar constructor change in QuantLib 1.43
+    \item Continuous integration uses ccache-with-R action
+  }
+}
+
 \section{Changes in \pkg{RQuantLib} version 0.4.27 (2026-06-07)}{
   \itemize{
     \item All equity option functions can now take either a (fractional) time

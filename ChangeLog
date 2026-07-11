@@ -5,6 +5,9 @@
 	* src/calendars.cpp: Adjust to QuantLib 1.43 and its Israel calendar
 	ctor change, also remove a very old #ifdef version guard
 
+	* man/Enum.Rd: Add a small usage section with comment that is about
+	a parameter to other functions
+
 	* .Rbuildignore: Add .ccache
 
 2026-07-08  Dirk Eddelbuettel  <edd@debian.org>

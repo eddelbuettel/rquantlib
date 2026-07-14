@@ -193,11 +193,16 @@ QuantLib::ext::shared_ptr<QuantLib::Calendar> getCalendar(const std::string &cal
         pcal.reset(new QuantLib::Montenegro());
 #endif
 
+#if QL_HEX_VERSION >= 0x013700f0
     } else if (calstr == "NewZealand" ||
                calstr == "NewZealand/Wellington") {
         pcal.reset(new QuantLib::NewZealand(QuantLib::NewZealand::Wellington));
     } else if (calstr == "NewZealand/Auckland") {
         pcal.reset(new QuantLib::NewZealand(QuantLib::NewZealand::Auckland));
+#else
+    } else if (calstr == "NewZealand") {
+        pcal.reset(new QuantLib::NewZealand());
+#endif
 
 #if QL_HEX_VERSION >= 0x014300f0
     } else if (calstr == "NorthMacedonia") {

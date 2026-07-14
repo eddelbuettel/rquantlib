@@ -1,5 +1,8 @@
 2026-07-14  Dirk Eddelbuettel  <edd@debian.org>
 
+	* R/calendars.R: Updated set of calendars
+	* src/calendars.cpp: Idem
+
 	* tests/tinytest.R: Removed some old and now-unneeded versioning
 
 	* .github/workflows/windows.yank: Add ccache-with-R action

@@ -1,7 +1,7 @@
 ## RQuantLib -- R interface to the QuantLib libraries
 ##
-## Copyright (C) 2002 - 2021 Dirk Eddelbuettel
-## Copyright (C) 2010        Dirk Eddelbuettel and Khanh Nguyen
+## Copyright (C) 2002-2026 Dirk Eddelbuettel
+## Copyright (C) 2010      Dirk Eddelbuettel and Khanh Nguyen
 ##
 ## This file is part of the RQuantLib library for GNU R.
 ## It is made available under the terms of the GNU General Public
@@ -26,8 +26,10 @@ calendars <- c("TARGET",
                "UnitedStates/GovernmentBond",
                "UnitedStates/NERC",
                "UnitedStates/FederalReserve",
+               "UnitedStates/SOFR",
                "Argentina",
                "Australia",
+               "Australia/ASX",
                "Austria",
                "Austria/Exchange",
                "Bespoke",
@@ -39,6 +41,7 @@ calendars <- c("TARGET",
                "Chile",
                "China",
                "China/IB",
+               "Croatia",
                "CzechRepublic",
                "Denmark",
                "Finland",
@@ -55,19 +58,28 @@ calendars <- c("TARGET",
                "India",
                "Indonesia",
                "Israel",
+               "Israel/TASE",
+               "Israel/SHIR",
+               "Israel/Telbor",
                "Italy",
                "Italy/Exchange",
                "Japan",
+               "Malta",
                "Mexico",
+               "Montenegro",
                "NewZealand",
+               "NewZealand/Auckland",
+               "NorthMacedonia",
                "Norway",
                "Null",
                "Poland",
                "Romania",
                "Russia",
                "SaudiArabia",
+               "Serbia",
                "Singapore",
                "Slovakia",
+               "Slovenia",
                "SouthAfrica",
                "SouthKorea",
                "SouthKorea/KRX",
@@ -80,6 +92,7 @@ calendars <- c("TARGET",
                "UnitedKingdom",
                "UnitedKingdom/Exchange",
                "UnitedKingdom/Metals",
+               "Uzbekistan",
                "WeekendsOnly")
 
 ## isBusinessDay <- function(calendar="TARGET", dates=Sys.Date()) {

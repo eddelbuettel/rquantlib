@@ -2,6 +2,8 @@
 
 	* tests/tinytest.R: Removed some old and now-unneeded versioning
 
+	* .github/workflows/windows.yank: Add ccache-with-R action
+
 2026-07-10  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Release 0.4.28

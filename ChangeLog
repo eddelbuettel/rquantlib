@@ -1,3 +1,12 @@
+2026-07-20  Dirk Eddelbuettel  <edd@debian.org>
+
+	* configure.ac: Refresh version list triggering 'outdated' message;
+	add test for local compilation using additional flags
+	* configure: Idem
+
+	* src/Makevars.in: Minor edits to comments
+	* src/Makevars.win: Idem
+
 2026-07-14  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Roll micro release and date

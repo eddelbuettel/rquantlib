@@ -3375,7 +3375,7 @@ if test x"${QUANTLIB}" = x"yes" ; then
 printf "%s\n" "$as_me: WARNING: RQuantLib requires QuantLib (>= 1.25)." >&2;}
 	as_fn_error $? "Please upgrade to a current version." "$LINENO" 5
 	;;
-    1.25.*|1.26*|1.27*|1.28*|1.29*|1.30.*|1.31.*|1.32.*|1.33.*|1.34.*)
+    1.25.*|1.26*|1.27*|1.28*|1.29*|1.30.*|1.31.*|1.32.*|1.33.*|1.34.*|1.35.*|1.36.*|1.37.*|1.38.*|1.39.*|1.40.*|1.41.*|1.42.*)
 	echo "checking for suitable QuantLib version... version ${pkg_version} is not the most recent one. Consider upgrading."
 	;;
     1.*)
@@ -3383,8 +3383,8 @@ printf "%s\n" "$as_me: WARNING: RQuantLib requires QuantLib (>= 1.25)." >&2;}
 	;;
     esac
 
-    # now use all these
-    PKG_CXXFLAGS="${PKG_CXXFLAGS} ${pkg_cxxflags} ${gxx_newer_than_45}"
+    # now use both
+    PKG_CXXFLAGS="${PKG_CXXFLAGS} ${pkg_cxxflags}"
 
     PKG_LIBS="${PKG_LIBS} $pkg_libs"
 
@@ -3527,6 +3527,19 @@ rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
 
 
 
+
+# Check if building locally
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for .git directory" >&5
+printf %s "checking for .git directory... " >&6; }
+if test -d "$srcdir/.git"; then
+    { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes, adding extra flags" >&5
+printf "%s\n" "yes, adding extra flags" >&6; }
+    #AC_SUBST([PKG_CXXFLAGS],["${PKG_CXXFLAGS} "-Wno-nonnull -Wno-maybe-uninitialized"])
+else
+    { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf "%s\n" "no" >&6; }
+    # Action if directory is missing
+fi
 
 
 

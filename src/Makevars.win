@@ -1,10 +1,10 @@
 # -*- mode: Makefile -*-
 #
-# Copyright 2005 - 2006  Dominick Samperi
-# Copyright 2005         Uwe Ligges
-# Copyright 2008 - 2018  Dirk Eddelbuettel
-# Copyright 2011         Uwe Ligges, Brian Ripley, and Josh Ulrich
-# Copyright 2018 - 2024  Jeroen Ooms
+# Copyright 2005-2006  Dominick Samperi
+# Copyright 2005       Uwe Ligges
+# Copyright 2008-2018  Dirk Eddelbuettel
+# Copyright 2011       Uwe Ligges, Brian Ripley, and Josh Ulrich
+# Copyright 2018-2024  Jeroen Ooms
 
 PKG_CPPFLAGS = $(shell pkg-config --cflags quantlib 2>/dev/null)
 PKG_LIBS = $(shell pkg-config --libs quantlib 2>/dev/null)
@@ -27,4 +27,3 @@ winlibs:
 ifneq ($(RWINLIB),)
 	"${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" "../tools/winlibs.R"
 endif
-

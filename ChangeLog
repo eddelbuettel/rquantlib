@@ -1,3 +1,8 @@
+2026-07-21  Maximilian Muecke  <muecke.maximilian@gmail.com>
+
+	* src/utils.cpp: Correct Euribor2W and Euribor3W tenors when using
+	QuantLib 1.35 or later
+
 2026-07-20  Dirk Eddelbuettel  <edd@debian.org>
 
 	* configure.ac: Refresh version list triggering 'outdated' message;

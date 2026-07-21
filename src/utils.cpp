@@ -486,9 +486,9 @@ qlext::shared_ptr<QuantLib::IborIndex> buildIborIndex(std::string type,
     if (type == "EuriborSW") return qlext::make_shared<QuantLib::Euribor1W>(iborStrc);
     if (type == "Euribor1M") return qlext::make_shared<QuantLib::Euribor>(1*QuantLib::Months, iborStrc);
     if (type == "Euribor2M") return qlext::make_shared<QuantLib::Euribor>(2*QuantLib::Months, iborStrc);
-    if (type == "Euribor2W") return qlext::make_shared<QuantLib::Euribor>(2*QuantLib::Months, iborStrc);
+    if (type == "Euribor2W") return qlext::make_shared<QuantLib::Euribor>(2*QuantLib::Weeks, iborStrc);
     if (type == "Euribor3M") return qlext::make_shared<QuantLib::Euribor>(3*QuantLib::Months, iborStrc);
-    if (type == "Euribor3W") return qlext::make_shared<QuantLib::Euribor>(3*QuantLib::Months, iborStrc);
+    if (type == "Euribor3W") return qlext::make_shared<QuantLib::Euribor>(3*QuantLib::Weeks, iborStrc);
     if (type == "Euribor4M") return qlext::make_shared<QuantLib::Euribor>(4*QuantLib::Months, iborStrc);
     if (type == "Euribor5M") return qlext::make_shared<QuantLib::Euribor>(5*QuantLib::Months, iborStrc);
     if (type == "Euribor6M") return qlext::make_shared<QuantLib::Euribor>(6*QuantLib::Months, iborStrc);

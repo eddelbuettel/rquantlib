@@ -52,9 +52,9 @@ AffineSwaption.default <- function(params,
         params$european=TRUE
         warning("affine swaption european flag not set defaulting to european")
     }
-    if(is.null(params$payFix)){
-        params$payFix=TRUE
-        warning("affine swaption payFix flag not set defaulting to pay fix swap")
+    if(is.null(params$payFixed)){
+        params$payFixed=TRUE
+        warning("affine swaption payFixed flag not set defaulting to pay fixed swap")
     }
 
     matYears=as.numeric(params$maturity-params$tradeDate)/365

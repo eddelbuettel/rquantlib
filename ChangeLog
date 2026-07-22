@@ -1,5 +1,7 @@
 2026-07-22  Maximilian Muecke  <muecke.maximilian@gmail.com>
 
+	* R/affine.R (AffineSwaption.default): Correct default handling of the
+	payFixed parameter
 	* src/utils.cpp: Accept "Euribor1W" as an alias for "EuriborSW" in
 	buildIborIndex
 

@@ -60,6 +60,7 @@ AmericanOptionImpliedVolatility.default <- function(type, value, underlying, str
                                                  if (inherits(maturity, "Date")) maturity else NULL,
                                                  volatility, timeSteps, gridPoints,
                                                  dayCounter)
+    class(val) <- c("AmericanOptionImpliedVolatility", "ImpliedVolatility")
     val
 }
 

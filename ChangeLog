@@ -1,3 +1,8 @@
+2026-07-22  Maximilian Muecke  <muecke.maximilian@gmail.com>
+
+	* src/utils.cpp: Accept "Euribor1W" as an alias for "EuriborSW" in
+	buildIborIndex
+
 2026-07-21  Maximilian Muecke  <muecke.maximilian@gmail.com>
 
 	* src/utils.cpp: Correct Euribor2W and Euribor3W tenors when using

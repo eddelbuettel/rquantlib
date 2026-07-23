@@ -152,8 +152,16 @@ QuantLib::ext::shared_ptr<QuantLib::Calendar> getCalendar(const std::string &cal
     } else if (calstr == "India") {
         pcal.reset(new QuantLib::India());
 
-    } else if (calstr == "Indonesia") {
-        pcal.reset(new QuantLib::Indonesia());
+    } else if (calstr == "Indonesia" ||
+               calstr == "Indonesia/IDX" ||
+               calstr == "Indonesia::IDX") {
+        pcal.reset(new QuantLib::Indonesia(QuantLib::Indonesia::IDX));
+    } else if (calstr == "Indonesia/BEJ" ||
+               calstr == "Indonesia::BEJ") {
+        pcal.reset(new QuantLib::Indonesia(QuantLib::Indonesia::BEJ));
+    } else if (calstr == "Indonesia/JSX" ||
+               calstr == "Indonesia::JSX") {
+        pcal.reset(new QuantLib::Indonesia(QuantLib::Indonesia::JSX));
 
 #if QL_HEX_VERSION <= 0x014201f0
     } else if (calstr == "Israel" || calstr == "Israel/Settlement") {
@@ -217,16 +225,34 @@ QuantLib::ext::shared_ptr<QuantLib::Calendar> getCalendar(const std::string &cal
                calstr == "NULL") {
         pcal.reset(new QuantLib::NullCalendar());
 
+#if QL_HEX_VERSION >= 0x013600f0
+    } else if (calstr == "Poland" ||
+               calstr == "Poland/Settlement" ||
+               calstr == "Poland::Settlement") {
+        pcal.reset(new QuantLib::Poland(QuantLib::Poland::Settlement));
+    } else if (calstr == "Poland/WSE" ||
+               calstr == "Poland::WSE") {
+        pcal.reset(new QuantLib::Poland(QuantLib::Poland::WSE));
+#else
     } else if (calstr == "Poland") {
         pcal.reset(new QuantLib::Poland());
+#endif
 
-    } else if (calstr == "Romania" || calstr == "Romania/Public") {
+    } else if (calstr == "Romania" ||
+               calstr == "Romania/Public" ||
+               calstr == "Romania::Public") {
         pcal.reset(new QuantLib::Romania(QuantLib::Romania::Public));
-    } else if (calstr == "Romania/BVB") {
+    } else if (calstr == "Romania/BVB" ||
+               calstr == "Romania::BVB") {
         pcal.reset(new QuantLib::Romania(QuantLib::Romania::BVB));
 
-    } else if (calstr == "Russia") {
-        pcal.reset(new QuantLib::Russia());
+    } else if (calstr == "Russia" ||
+               calstr == "Russia/Settlement" ||
+               calstr == "Russia::Settlement") {
+        pcal.reset(new QuantLib::Russia(QuantLib::Russia::Settlement));
+    } else if (calstr == "Russia/MOEX" ||
+               calstr == "Russia::MOEX") {
+        pcal.reset(new QuantLib::Russia(QuantLib::Russia::MOEX));
 
     } else if (calstr == "SaudiArabia") {
         pcal.reset(new QuantLib::SaudiArabia());
@@ -287,9 +313,6 @@ QuantLib::ext::shared_ptr<QuantLib::Calendar> getCalendar(const std::string &cal
 
     } else if (calstr == "WeekendsOnly") {
         pcal.reset(new QuantLib::WeekendsOnly());
-
-    } else if (calstr == "Null" || calstr == "null" || calstr == "NULL") {
-        pcal.reset(new QuantLib::NullCalendar());
 
     } else {
         throw std::invalid_argument("Calendar " + calstr + " not recognised ");

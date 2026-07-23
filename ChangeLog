@@ -1,3 +1,9 @@
+2026-07-23  Maximilian Muecke  <muecke.maximilian@gmail.com>
+
+	* R/calendars.R, src/calendars.cpp: Add missing market calendars for
+	Indonesia, Poland, Romania, and Russia
+	* src/calendars.cpp: Remove an unreachable duplicate Null calendar branch
+
 2026-07-22  Maximilian Muecke  <muecke.maximilian@gmail.com>
 
 	* R/implied.R (AmericanOptionImpliedVolatility.default): Assign the

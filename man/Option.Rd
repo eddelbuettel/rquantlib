@@ -3,7 +3,7 @@
 \alias{plot.Option}
 \alias{print.Option}
 \alias{summary.Option}
-\title{Base class for option price evalution}
+\title{Base class for option price evaluation}
 \description{
   This class forms the basis from which the more specific classes are
   derived. }

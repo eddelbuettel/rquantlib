@@ -4,7 +4,7 @@
 \alias{print.Bond}
 \alias{print.FixedRateBond}
 \alias{summary.Bond}
-\title{Base class for Bond price evalution}
+\title{Base class for Bond price evaluation}
 \description{
   This class forms the basis from which the more specific classes are
   derived. }

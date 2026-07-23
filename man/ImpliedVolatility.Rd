@@ -2,7 +2,7 @@
 \alias{ImpliedVolatility}
 \alias{print.ImpliedVolatility}
 \alias{summary.ImpliedVolatility}
-\title{Base class for option-price implied volatility evalution}
+\title{Base class for option-price implied volatility evaluation}
 \description{
   This class forms the basis from which the more specific classes are
   derived. }

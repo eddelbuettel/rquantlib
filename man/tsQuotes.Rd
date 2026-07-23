@@ -6,7 +6,7 @@
 \title{Vol Cube Example Data  
  
 Short time series examples}
-\format{A series of tenors and rates approppriate for calling DiscountCurve}
+\format{A series of tenors and rates appropriate for calling DiscountCurve}
 \source{
 TBA
 }

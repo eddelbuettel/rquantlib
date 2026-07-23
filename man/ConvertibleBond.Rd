@@ -60,13 +60,13 @@ the bond is returned. For detail, see \code{test-suite/convertiblebond.cpp}.
        \code{}        \tab  Default value is an empty frame, or no dividend. \cr
        \code{callSch} \tab (Optional) a data frame whose columns are "Price",\cr
        \code{}        \tab "Type" and "Date" corresponding to QuantLib's \cr
-       \code{}        \tab CallabilitySchedule. Defaule is an empty frame, \cr
+       \code{}        \tab CallabilitySchedule. Default is an empty frame, \cr
        \code{}         \tab or no callability.\cr
      }
    }
 
 \item{iborindex}{a DiscountCurve object, represents an IborIndex}
-\item{spread}{ a double vector, represents paramter 'spreads' in ConvertibleFloatingBond's constructor. }
+\item{spread}{ a double vector, represents parameter 'spreads' in ConvertibleFloatingBond's constructor. }
 \item{coupon}{a double vector of coupon rate}
 \item{process}{arguments to construct a BlackScholes process and set up the binomial pricing engine for this bond.
   \tabular{ll}{
@@ -82,7 +82,7 @@ the bond is returned. For detail, see \code{test-suite/convertiblebond.cpp}.
     \code{settlementDays} \tab (Optional) a double, settlement days. \cr
     \code{}        \tab Default value is 1.\cr
     \code{calendar} \tab (Optional) a string, either 'us' or 'uk' \cr
-    \code{}        \tab corresponding to US Goverment Bond \cr
+    \code{}        \tab corresponding to US Government Bond \cr
     \code{}		   \tab calendar and UK Exchange calendar.\cr
     \code{}        \tab  Default value is 'us'.\cr
     \code{dayCounter} \tab (Optional) a number or string, \cr
@@ -141,7 +141,7 @@ the bond is returned. For detail, see \code{test-suite/convertiblebond.cpp}.
 \references{
   \url{https://www.quantlib.org/} for details on \code{QuantLib}.
 }
-\author{Khanh Nguyen \email{knguyen@cs.umb.edu} for the inplementation; Dirk Eddelbuettel \email{edd@debian.org} for the \R interface;
+\author{Khanh Nguyen \email{knguyen@cs.umb.edu} for the implementation; Dirk Eddelbuettel \email{edd@debian.org} for the \R interface;
   the QuantLib Group for \code{QuantLib}
 }
 \examples{

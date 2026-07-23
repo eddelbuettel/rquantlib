@@ -6,7 +6,7 @@
   \code{SabrSwaption} prices a swaption with specified
   expiration or time range if Bermudan, strike, and maturity, using quantlibs SABR model for europeans
   and quantlib's markovfunctional for Bermudans.  Currently the input is a zero offset log-normal vol surface.
-  An example of a dataset can be found in the dataset \code{rqlib} inlcuded with Rquantlib. It is assumed that the
+  An example of a dataset can be found in the dataset \code{rqlib} included with Rquantlib. It is assumed that the
   swaption is
   exercisable  at the start of a forward start swap if \code{params$european} flag is set to \code{TRUE} or starting
   immediately on each reset date (Bermudan) of an existing underlying swap or spot start
@@ -19,7 +19,7 @@ tsUp01 = NA, tsDn01 = NA, vega = FALSE)}
 \arguments{
   \item{params}{A list specifying the \code{tradeDate} (month/day/year),
     \code{settlementDate}, logical flags \code{payFixed} & \code{european}
-    (european=FALSE generates Bermudan vlaue), \code{strike}, pricing \code{method}, and curve
+    (european=FALSE generates Bermudan value), \code{strike}, pricing \code{method}, and curve
     construction options (see \emph{Examples} section below). Curve construction options are
     \code{interpWhat} (possible values are \code{discount},
     \code{forward}, and \code{zero}) and
@@ -34,12 +34,12 @@ tsUp01 = NA, tsDn01 = NA, vega = FALSE)}
   \item{volCubeDF}{The swaption volatility cube in dataframe format with columns Expiry, Tenor, Spread,
   and LogNormalVol stored by rows. See the example below.}
     \item{legparams}{A list specifying the \code{dayCounter} the day count convention for the
-   fixed leg (default is Thirty360), and  \code{fixFreq}, fixed coupon frequecny (defualt is Annual),
+   fixed leg (default is Thirty360), and  \code{fixFreq}, fixed coupon frequency (default is Annual),
    \code{floatFreq}, floating leg reset frequency (default is Semiannual).
   }
-    \item{tsUp01}{Discount for a user specied up move in rates.}
-    \item{tsDn01}{Discount for a user specied down move in rates.}
-    \item{vega}{Discount for a user specied up move.}
+    \item{tsUp01}{Discount for a user specified up move in rates.}
+    \item{tsDn01}{Discount for a user specified down move in rates.}
+    \item{vega}{Discount for a user specified up move.}
  }
 \value{
   \code{SabrSwaption} returns a list containing the value of the payer and receiver swaptions at the
@@ -52,9 +52,9 @@ tsUp01 = NA, tsDn01 = NA, vega = FALSE)}
   for swap at expiration for bermudan}
   \item{vol}{vol for swaption at swap start date and rate strike for european or vol for swaption
   for given expiration and strike for bermudan}
-  \item{rcvDv01}{reveiver value for a change in rates defined by dv01Up}
+  \item{rcvDv01}{receiver value for a change in rates defined by dv01Up}
   \item{payDv01}{payer value for a change in rates defined by dv01Up}
-  \item{rcvCnvx}{reveiver second order value change for a change in rates defined by dv01Up & dv01Dn}
+  \item{rcvCnvx}{receiver second order value change for a change in rates defined by dv01Up & dv01Dn}
   \item{payCnvx}{payer second order value for a change in rates defined by dv01Up & dv01Dn}
   \item{strike}{swaption strike}
 
@@ -92,7 +92,7 @@ params <- list(tradeDate=as.Date('2016-2-15'),
                interpWhat="discount",
                interpHow="loglinear")
 
-# Set leg paramters for generating discount curve
+# Set leg parameters for generating discount curve
 dclegparams=list(dayCounter="Thirty360",
                  fixFreq="Annual",
                  floatFreq="Semiannual")

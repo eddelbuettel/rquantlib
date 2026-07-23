@@ -24,7 +24,7 @@ volMatrix,legparams)
 \arguments{
   \item{params}{A list specifying the \code{tradeDate} (month/day/year),
     \code{settlementDate}, logical flags \code{payFixed} & \code{european}
-    (european=FALSE generates Bermudan vlaue), \code{strike}, pricing \code{method}, and curve construction options
+    (european=FALSE generates Bermudan value), \code{strike}, pricing \code{method}, and curve construction options
     (see \emph{Examples} section below). Curve construction options are
     \code{interpWhat} (possible values are \code{discount},
     \code{forward}, and \code{zero}) and
@@ -50,13 +50,13 @@ volMatrix,legparams)
   \item{volMatrix}{The swaption volatility matrix. Must be a 2D matrix
   stored by rows. See the example below.}
     \item{legparams}{A list specifying the \code{dayCounter} the day count convention for the
-   fixed leg (default is Thirty360), and  \code{fixFreq}, fixed coupon frequecny (defualt is Annual), \code{floatFreq},
+   fixed leg (default is Thirty360), and  \code{fixFreq}, fixed coupon frequency (default is Annual), \code{floatFreq},
    floating leg reset frequency (default is Semiannual).
   }
  }
 \value{
   \code{AffineSwaption} returns a list containing calibrated model
-  paramters (what parameters are returned depends on the model
+  parameters (what parameters are returned depends on the model
   selected) along with:
   \item{NPV}{NPV of swaption in basis points (actual price
   equals \code{price} times notional divided by 10,000)}

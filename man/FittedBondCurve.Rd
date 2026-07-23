@@ -53,7 +53,7 @@ FittedBondCurve(curveparams, lengths, coupons, marketQuotes, dateparams)
 \references{
   \url{https://www.quantlib.org/} for details on \code{QuantLib}.
 }
-\author{Khanh Nguyen \email{knguyen@cs.umb.edu} for the inplementation; Dirk Eddelbuettel \email{edd@debian.org} for the \R interface;
+\author{Khanh Nguyen \email{knguyen@cs.umb.edu} for the implementation; Dirk Eddelbuettel \email{edd@debian.org} for the \R interface;
   the QuantLib Group for \code{QuantLib}
 }
 

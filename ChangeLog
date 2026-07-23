@@ -3,6 +3,8 @@
 	* R/calendars.R, src/calendars.cpp: Add missing market calendars for
 	Indonesia, Poland, Romania, and Russia
 	* src/calendars.cpp: Remove an unreachable duplicate Null calendar branch
+	* src/calendars.cpp: Accept '::' alias spellings for Israel, Japan,
+	NewZealand, SouthKorea, and UnitedKingdom market calendars
 
 2026-07-22  Maximilian Muecke  <muecke.maximilian@gmail.com>
 

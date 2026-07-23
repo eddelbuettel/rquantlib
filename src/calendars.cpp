@@ -164,16 +164,23 @@ QuantLib::ext::shared_ptr<QuantLib::Calendar> getCalendar(const std::string &cal
         pcal.reset(new QuantLib::Indonesia(QuantLib::Indonesia::JSX));
 
 #if QL_HEX_VERSION <= 0x014201f0
-    } else if (calstr == "Israel" || calstr == "Israel/Settlement") {
+    } else if (calstr == "Israel" ||
+               calstr == "Israel/Settlement" ||
+               calstr == "Israel::Settlement") {
         pcal.reset(new QuantLib::Israel(QuantLib::Israel::Settlement));
-    } else if (calstr == "Israel/TASE") {
+    } else if (calstr == "Israel/TASE" ||
+               calstr == "Israel::TASE") {
         pcal.reset(new QuantLib::Israel(QuantLib::Israel::TASE));
 #else
-    } else if (calstr == "Israel" || calstr == "Israel/TASE") {
+    } else if (calstr == "Israel" ||
+               calstr == "Israel/TASE" ||
+               calstr == "Israel::TASE") {
         pcal.reset(new QuantLib::Israel(QuantLib::Israel::TASE));
-    } else if (calstr == "Israel/SHIR") {
+    } else if (calstr == "Israel/SHIR" ||
+               calstr == "Israel::SHIR") {
         pcal.reset(new QuantLib::Israel(QuantLib::Israel::SHIR));
-    } else if (calstr == "Israel/Telbor") {
+    } else if (calstr == "Israel/Telbor" ||
+               calstr == "Israel::Telbor") {
         pcal.reset(new QuantLib::Israel(QuantLib::Israel::Telbor));
 #endif
 
@@ -185,7 +192,9 @@ QuantLib::ext::shared_ptr<QuantLib::Calendar> getCalendar(const std::string &cal
                calstr == "Italy::Exchange") {
         pcal.reset(new QuantLib::Italy(QuantLib::Italy::Exchange));
 
-    } else if (calstr == "Japan" || calstr == "Japan/Settlement") {
+    } else if (calstr == "Japan" ||
+               calstr == "Japan/Settlement" ||
+               calstr == "Japan::Settlement") {
         pcal.reset(new QuantLib::Japan());
 
 #if QL_HEX_VERSION >= 0x014300f0
@@ -203,9 +212,11 @@ QuantLib::ext::shared_ptr<QuantLib::Calendar> getCalendar(const std::string &cal
 
 #if QL_HEX_VERSION >= 0x013700f0
     } else if (calstr == "NewZealand" ||
-               calstr == "NewZealand/Wellington") {
+               calstr == "NewZealand/Wellington" ||
+               calstr == "NewZealand::Wellington") {
         pcal.reset(new QuantLib::NewZealand(QuantLib::NewZealand::Wellington));
-    } else if (calstr == "NewZealand/Auckland") {
+    } else if (calstr == "NewZealand/Auckland" ||
+               calstr == "NewZealand::Auckland") {
         pcal.reset(new QuantLib::NewZealand(QuantLib::NewZealand::Auckland));
 #else
     } else if (calstr == "NewZealand") {
@@ -276,9 +287,12 @@ QuantLib::ext::shared_ptr<QuantLib::Calendar> getCalendar(const std::string &cal
     } else if (calstr == "SouthAfrica") {
         pcal.reset(new QuantLib::SouthAfrica());
 
-    } else if (calstr == "SouthKorea" || calstr == "SouthKorea/Settlement") {
+    } else if (calstr == "SouthKorea" ||
+               calstr == "SouthKorea/Settlement" ||
+               calstr == "SouthKorea::Settlement") {
         pcal.reset(new QuantLib::SouthKorea(QuantLib::SouthKorea::Settlement));
-    } else if (calstr == "SouthKorea/KRX") {
+    } else if (calstr == "SouthKorea/KRX" ||
+               calstr == "SouthKorea::KRX") {
         pcal.reset(new QuantLib::SouthKorea(QuantLib::SouthKorea::KRX));
 
     } else if (calstr == "Sweden") {
@@ -299,11 +313,15 @@ QuantLib::ext::shared_ptr<QuantLib::Calendar> getCalendar(const std::string &cal
     } else if (calstr == "Ukraine") {
         pcal.reset(new QuantLib::Ukraine());
 
-    } else if (calstr == "UnitedKingdom" || calstr == "UnitedKingdom/Settlement") {
+    } else if (calstr == "UnitedKingdom" ||
+               calstr == "UnitedKingdom/Settlement" ||
+               calstr == "UnitedKingdom::Settlement") {
         pcal.reset(new QuantLib::UnitedKingdom(QuantLib::UnitedKingdom::Settlement));
-    } else if (calstr == "UnitedKingdom/Exchange") {
+    } else if (calstr == "UnitedKingdom/Exchange" ||
+               calstr == "UnitedKingdom::Exchange") {
         pcal.reset(new QuantLib::UnitedKingdom(QuantLib::UnitedKingdom::Exchange));
-    } else if (calstr == "UnitedKingdom/Metals") {
+    } else if (calstr == "UnitedKingdom/Metals" ||
+               calstr == "UnitedKingdom::Metals") {
         pcal.reset(new QuantLib::UnitedKingdom(QuantLib::UnitedKingdom::Metals));
 
 #if QL_HEX_VERSION >= 0x014300f0

@@ -8,7 +8,7 @@
 \title{Zero-Coupon bond pricing}
 \description{
   The \code{ZeroCouponBond} function evaluates a zero-coupon plainly using discount curve. 
-  More specificly, the calculation is done by DiscountingBondEngine from QuantLib.
+  More specifically, the calculation is done by DiscountingBondEngine from QuantLib.
   The NPV, clean price, dirty price, accrued interest, yield and cash flows of the bond is returned. 
   For more detail, see the source code in the QuantLib file \code{test-suite/bond.cpp}.
 
@@ -63,7 +63,7 @@
     \code{settlementDays} \tab (Optional) a double, settlement days. \cr 
     \code{}        \tab Default value is 1.\cr
     \code{calendar} \tab (Optional) a string, either 'us' or 'uk' \cr 
-    \code{}        \tab corresponding to US Goverment Bond \cr
+    \code{}        \tab corresponding to US Government Bond \cr
     \code{}		   \tab calendar and UK Exchange calendar.\cr
     \code{}        \tab  Default value is 'us'.\cr
     \code{businessDayConvention} \tab (Optional) a number or string, \cr 
@@ -116,7 +116,7 @@
 }
 \references{\url{https://www.quantlib.org/} for details on \code{QuantLib}.}
 
-\author{Khanh Nguyen \email{knguyen@cs.umb.edu} for the inplementation; Dirk Eddelbuettel \email{edd@debian.org} for the \R interface;
+\author{Khanh Nguyen \email{knguyen@cs.umb.edu} for the implementation; Dirk Eddelbuettel \email{edd@debian.org} for the \R interface;
   the QuantLib Group for \code{QuantLib}}
 \note{The interface might change in future release as \code{QuantLib}
   stabilises its own API.}

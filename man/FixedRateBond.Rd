@@ -8,7 +8,7 @@
 \title{Fixed-Rate bond pricing}
 \description{
   The \code{FixedRateBond} function evaluates a fixed rate bond using discount curve, the yield or the clean price. 
-  More specificly, when a discount curve is provided the calculation is done by DiscountingBondEngine from QuantLib.
+  More specifically, when a discount curve is provided the calculation is done by DiscountingBondEngine from QuantLib.
   The NPV, clean price, dirty price, accrued interest, yield, duration, actual settlement date and cash flows of the bond is returned.
   When a yield is provided instead, no engine is provided to the bond class and prices are computed from yield. In the latter case, NPV is set to NA. Same situation when the clean price is given instead of discount curve or yield.
   For more detail, see the source codes in QuantLib's file \code{test-suite/bond.cpp}.
@@ -180,7 +180,7 @@
 }
 \references{\url{https://www.quantlib.org/} for details on \code{QuantLib}.}
 
-\author{Khanh Nguyen \email{knguyen@cs.umb.edu} for the inplementation; Dirk Eddelbuettel \email{edd@debian.org} for the \R interface;
+\author{Khanh Nguyen \email{knguyen@cs.umb.edu} for the implementation; Dirk Eddelbuettel \email{edd@debian.org} for the \R interface;
   the QuantLib Group for \code{QuantLib}}
 \note{The interface might change in future release as \code{QuantLib}
   stabilises its own API.}

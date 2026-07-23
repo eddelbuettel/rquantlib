@@ -1,3 +1,22 @@
+2026-07-23  Maximilian Muecke  <muecke.maximilian@gmail.com>
+
+	* man/AffineSwaption.Rd: Correct several typos
+	* man/AsianOption.Rd: Idem
+	* man/BermudanSwaption.Rd: Idem
+	* man/Bond.Rd: Idem
+	* man/CallableBond.Rd: Idem
+	* man/ConvertibleBond.Rd: Idem
+	* man/DiscountCurve.Rd: Idem
+	* man/FittedBondCurve.Rd: Idem
+	* man/FixedRateBond.Rd: Idem
+	* man/FloatingRateBond.Rd: Idem
+	* man/ImpliedVolatility.Rd: Idem
+	* man/Option.Rd: Idem
+	* man/SabrSwaption.Rd: Idem
+	* man/Schedule.Rd: Idem
+	* man/ZeroCouponBond.Rd: Idem
+	* man/tsQuotes.Rd: Idem
+
 2026-07-22  Maximilian Muecke  <muecke.maximilian@gmail.com>
 
 	* R/implied.R (AmericanOptionImpliedVolatility.default): Assign the

@@ -48,7 +48,7 @@
 }
 \references{\url{https://www.quantlib.org/} for details on \code{QuantLib}.}
 \author{
-  Michele Salvadore \email{michele.salvadore@gmail.com} for the inplementation;
+  Michele Salvadore \email{michele.salvadore@gmail.com} for the implementation;
   Dirk Eddelbuettel \email{edd@debian.org} for the \R interface;
   the QuantLib Group for \code{QuantLib}
 }

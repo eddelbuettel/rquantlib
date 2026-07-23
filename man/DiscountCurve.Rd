@@ -73,7 +73,7 @@ DiscountCurve(params, tsQuotes, times, legparams)
     maturity of the instruments used for calibration (no extrapolation).
     }
   \item{legparams}{A list specifying the \code{dayCounter} the day count convention for the
-   fixed leg (default is Thirty360), and  \code{fixFreq}, fixed coupon frequecny (defualt is Annual), \code{floatFreq},
+   fixed leg (default is Thirty360), and  \code{fixFreq}, fixed coupon frequency (default is Annual), \code{floatFreq},
    floating leg reset frequency (default is Semiannual).
   }
 

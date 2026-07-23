@@ -15,7 +15,7 @@
 	                  volatility, first=0, length=11.0/12.0, fixings=26)
 }
 \arguments{
-  \item{averageType}{Specifiy averaging type, either \dQuote{geometric} or \dQuote{arithmetic} }
+  \item{averageType}{Specify averaging type, either \dQuote{geometric} or \dQuote{arithmetic} }
   \item{type}{A string with one of the values \code{call} or \code{put}}
   \item{underlying}{Current price of the underlying stock}
   \item{strike}{Strike price of the option}

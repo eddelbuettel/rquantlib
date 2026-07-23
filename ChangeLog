@@ -1,3 +1,11 @@
+2026-07-23  Maximilian Muecke  <muecke.maximilian@gmail.com>
+
+	* R/affine.R: Correct typo in a warning message
+	* R/bermudan.R: Idem
+	* R/discount.R: Correct typo in an error message
+	* src/utils.cpp: Idem
+	* R/datasets.R: Correct typo in documentation
+
 2026-07-22  Maximilian Muecke  <muecke.maximilian@gmail.com>
 
 	* R/implied.R (AmericanOptionImpliedVolatility.default): Assign the

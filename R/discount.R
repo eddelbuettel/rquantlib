@@ -48,7 +48,7 @@ DiscountCurve.default <- function(params, tsQuotes, times=seq(0,10,.1),
   
     ## Check the times vector
     if (!is.numeric(times) || length(times) == 0) {
-        stop("The times parameter must be a non-emptry numeric vector", call.=FALSE)
+        stop("The times parameter must be a non-empty numeric vector", call.=FALSE)
     }
   
     ## Finally ready to make the call...

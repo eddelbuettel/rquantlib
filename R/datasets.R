@@ -16,6 +16,6 @@ NULL
 #'  
 #' @name tsQuotes 
 #' @docType data
-#' @format A series of tenors and rates approppriate for calling DiscountCurve
+#' @format A series of tenors and rates appropriate for calling DiscountCurve
 #' @source TBA
 NULL

@@ -94,7 +94,7 @@ AffineSwaption.default <- function(params,
     # remove if search was out of bounds
     expiry=expiry[expiry>0];tenor=tenor[tenor>0];vol=vol[vol>0]
     if(length(expiry)<5){
-        warning("Insufficent vols to fit affine model")
+        warning("Insufficient vols to fit affine model")
         return(NULL)
     }
     #Take 1st 5 which includes closest to initial date

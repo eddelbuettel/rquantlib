@@ -179,4 +179,4 @@ plotOptionSurface <- function(EOres, ylabel="", xlabel="", zlabel="", fov=60) {
     }
 }
 
-utils::globalVariables(c("clear3d", "bg3d", "ligh3d", "view3d", "surface3d", "text3d"))
+utils::globalVariables(c("clear3d", "bg3d", "light3d", "view3d", "surface3d", "text3d"))

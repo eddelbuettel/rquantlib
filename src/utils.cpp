@@ -687,7 +687,7 @@ QuantLib::Date getFutureDate(const QuantLib::Date today,
             return QuantLib::Date{today + length};
         #endif
     } else {
-        Rcpp::stop("Excactly one of 'maturity' or 'exDate' needs to be supplied and be non-null.");
+        Rcpp::stop("Exactly one of 'maturity' or 'exDate' needs to be supplied and be non-null.");
         return QuantLib::Date(); // not reached
     }
 }

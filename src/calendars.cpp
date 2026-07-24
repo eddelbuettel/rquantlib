@@ -217,8 +217,16 @@ QuantLib::ext::shared_ptr<QuantLib::Calendar> getCalendar(const std::string &cal
                calstr == "NULL") {
         pcal.reset(new QuantLib::NullCalendar());
 
+#if QL_HEX_VERSION >= 0x013600f0
+    } else if (calstr == "Poland" ||
+               calstr == "Poland/Settlement") {
+        pcal.reset(new QuantLib::Poland(QuantLib::Poland::Settlement));
+    } else if (calstr == "Poland/WSE") {
+        pcal.reset(new QuantLib::Poland(QuantLib::Poland::WSE));
+#else
     } else if (calstr == "Poland") {
         pcal.reset(new QuantLib::Poland());
+#endif
 
     } else if (calstr == "Romania" || calstr == "Romania/Public") {
         pcal.reset(new QuantLib::Romania(QuantLib::Romania::Public));

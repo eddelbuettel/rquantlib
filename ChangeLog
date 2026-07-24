@@ -26,6 +26,8 @@
 	* R/discount.R: Correct typo in an error message
 	* src/utils.cpp: Idem
 	* R/datasets.R: Correct typo in documentation
+	* R/calendars.R, src/calendars.cpp: Add Poland market calendars for
+	QuantLib 1.36 or later
 
 2026-07-22  Maximilian Muecke  <muecke.maximilian@gmail.com>
 

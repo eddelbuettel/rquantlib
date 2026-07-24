@@ -178,5 +178,3 @@ plotOptionSurface <- function(EOres, ylabel="", xlabel="", zlabel="", fov=60) {
         message("Please install the 'rgl' package before using this function.")
     }
 }
-
-utils::globalVariables(c("clear3d", "bg3d", "light3d", "view3d", "surface3d", "text3d"))

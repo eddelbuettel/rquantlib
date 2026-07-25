@@ -1,6 +1,6 @@
 ## RQuantLib -- R interface to the QuantLib libraries
 ##
-##  Copyright (C) 2002 - 2014  Dirk Eddelbuettel <edd@debian.org>
+##  Copyright (C) 2002 - 2026  Dirk Eddelbuettel <edd@debian.org>
 ##  Copyright (C) 2009         Khanh Nguyen <knguyen@cs.umb.edu>
 ##  Copyright (C) 2010 - 2011  Dirk Eddelbuettel and Khanh Nguyen
 ##
@@ -118,7 +118,7 @@ FixedRateBond.default <- function(bond = list(),
     # exCouponConvention
     # exCouponEndOfMonth
     bond <- matchParams(bond)
-    
+
     # check schedule params
     if (is.null(schedule$effectiveDate)){
       stop("schedule effective date undefined.")
@@ -133,7 +133,7 @@ FixedRateBond.default <- function(bond = list(),
     if (is.null(schedule$dateGeneration)) schedule$dateGeneration <- 'Backward'
     if (is.null(schedule$endOfMonth)) schedule$endOfMonth <- 0
     schedule <- matchParams(schedule)
-    
+
     # check calc params
     if (is.null(calc$dayCounter)) calc$dayCounter <- 'ActualActual.ISMA'
     if (is.null(calc$compounding)) calc$compounding <- 'Compounded'
@@ -146,14 +146,14 @@ FixedRateBond.default <- function(bond = list(),
     which.calc <- !c(is.null(discountCurve), is.na(yield), is.na(price))
     if (sum(which.calc) != 1)
         stop("one and only one of discountCurve, yield or price must be defined.")
-    
+
     if (!is.null(discountCurve)) {
         val <- FixedRateWithRebuiltCurve(
             bond, rates, schedule, calc, c(discountCurve$table$date), discountCurve$table$zeroRates)
-      
+
     } else if (!is.na(yield)) {
       val <- FixedRateWithYield(bond, rates, schedule, calc, yield)
-      
+
     } else if (!is.na(price)) {
       val <- FixedRateWithPrice(bond, rates, schedule, calc, price)
     }
@@ -484,6 +484,7 @@ FittedBondCurve.default <- function(curveparams,
                                     marketQuotes,
                                     dateparams){
     val <- 0
+    curveparams <- matchParams(curveparams)
     dateparams <- matchParams(dateparams)
     val <- fittedBondCurveEngine(curveparams, lengths, coupons, marketQuotes, dateparams)
     class(val) <- c("DiscountCurve")
@@ -513,51 +514,52 @@ FittedBondCurve.default <- function(curveparams,
 # matching functions
 
 matchDayCounter <- function(daycounter = c("Actual360", "ActualFixed", "ActualActual",
-                 "Business252", "OneDayCounter", "SimpleDayCounter", "Thirty360", "Actual365NoLeap",
-                 "ActualActual.ISMA", "ActualActual.Bond", "ActualActual.ISDA", "ActualActual.Historical", "ActualActual.AFB", "ActualActual.Euro"))
-{
-  
-     if (!is.numeric(daycounter)) {
-         daycounter <- match.arg(daycounter)
-         daycounter <- switch(daycounter,
-                              Actual360 = 0,
-                              ActualFixed = 1,
-                              ActualActual = 2,
-                              Business252 = 3,
-                              OneDayCounter = 4,
-                              SimpleDayCounter = 5,
-                              Thirty360 = 6,
-                              Actual365NoLeap = 7,
-                              ActualActual.ISMA = 8,
-                              ActualActual.Bond = 9,
-                              ActualActual.ISDA = 10,
-                              ActualActual.Historical = 11,
-                              ActualActual.AFB = 12,
-                              ActualActual.Euro = 13)
-     }
-     daycounter
+                                           "Business252", "OneDayCounter", "SimpleDayCounter",
+                                           "Thirty360", "Actual365NoLeap", "ActualActual.ISMA",
+                                           "ActualActual.Bond", "ActualActual.ISDA",
+                                           "ActualActual.Historical", "ActualActual.AFB",
+                                           "ActualActual.Euro")) {
+    if (!is.numeric(daycounter)) {
+        daycounter <- match.arg(daycounter)
+        daycounter <- switch(daycounter,
+                             Actual360 = 0,
+                             ActualFixed = 1,
+                             ActualActual = 2,
+                             Business252 = 3,
+                             OneDayCounter = 4,
+                             SimpleDayCounter = 5,
+                             Thirty360 = 6,
+                             Actual365NoLeap = 7,
+                             ActualActual.ISMA = 8,
+                             ActualActual.Bond = 9,
+                             ActualActual.ISDA = 10,
+                             ActualActual.Historical = 11,
+                             ActualActual.AFB = 12,
+                             ActualActual.Euro = 13)
+    }
+    daycounter
 }
 
 matchBDC <- function(bdc = c("Following", "ModifiedFollowing",
                              "Preceding", "ModifiedPreceding",
                              "Unadjusted", "HalfMonthModifiedFollowing", "Nearest")) {
-     if (!is.numeric(bdc)){
-         bdc <- match.arg(bdc)
-         bdc <- switch(bdc,
-                       Following = 0,
-                       ModifiedFollowing = 1,
-                       Preceding = 2,
-                       ModifiedPreceding = 3,
-                       Unadjusted = 4,
-                       HalfMonthModifiedFollowing = 5,
-                       Nearest = 6)
-     }
-     bdc
+    if (!is.numeric(bdc)){
+        bdc <- match.arg(bdc)
+        bdc <- switch(bdc,
+                      Following = 0,
+                      ModifiedFollowing = 1,
+                      Preceding = 2,
+                      ModifiedPreceding = 3,
+                      Unadjusted = 4,
+                      HalfMonthModifiedFollowing = 5,
+                      Nearest = 6)
+    }
+    bdc
 }
 
 matchCompounding <- function(cp = c("Simple", "Compounded",
                                     "Continuous", "SimpleThenCompounded")) {
-     if (!is.numeric(cp)){
+    if (!is.numeric(cp)){
         cp <- match.arg(cp)
         cp <- switch(cp,
                      Simple = 0,
@@ -584,18 +586,16 @@ matchFrequency <- function(freq = c("NoFrequency","Once", "Annual",
     freq
 }
 
-
-
 matchFloatFrequency <- function(freq = c( "Annual",
-                                    "Semiannual", "EveryFourthMonth",
-                                    "Quarterly", "Bimonthly", "Monthly")) {
+                                         "Semiannual", "EveryFourthMonth",
+                                         "Quarterly", "Bimonthly", "Monthly")) {
     if (!is.numeric(freq)){
-       freq <- match.arg(freq)
-       freq <- switch(freq,
-                      Annual = 12,
-                      Semiannual = 6, EveryFourthMonth = 4,
-                      Quarterly = 3, Bimonthly = 2,
-                      Monthly = 1)
+        freq <- match.arg(freq)
+        freq <- switch(freq,
+                       Annual = 12,
+                       Semiannual = 6, EveryFourthMonth = 4,
+                       Quarterly = 3, Bimonthly = 2,
+                       Monthly = 1)
     }
     freq
 }
@@ -603,31 +603,35 @@ matchFloatFrequency <- function(freq = c( "Annual",
 matchDateGen <- function(dg = c("Backward", "Forward", "Zero",
                                 "ThirdWednesday", "Twentieth",
                                 "TwentiethIMM", "OldCDS", "CDS")){
-   if (!is.numeric(dg)){
-      dg <- match.arg(dg)
-      dg <- switch(dg,
-                   Backward = 0, Forward = 1,
-                   Zero = 2, ThirdWednesday = 3,
-                   Twentieth = 4, TwentiethIMM = 5, OldCDS=6, CDS=7)
-   }
-   dg
+    if (!is.numeric(dg)){
+        dg <- match.arg(dg)
+        dg <- switch(dg,
+                     Backward = 0, Forward = 1,
+                     Zero = 2, ThirdWednesday = 3,
+                     Twentieth = 4, TwentiethIMM = 5, OldCDS=6, CDS=7)
+    }
+    dg
 }
-
 
 matchDurationType <- function(dt = c("Simple", "Macaulay", "Modified")) {
-  if (!is.numeric(dt)){
-    dt <- match.arg(dt)
-    dt <- switch(dt,
-                 Simple = 0,
-                 Macaulay = 1,
-                 Modified = 2)
-  }
-  dt
+    if (!is.numeric(dt)){
+        dt <- match.arg(dt)
+        dt <- switch(dt,
+                     Simple = 0,
+                     Macaulay = 1,
+                     Modified = 2)
+    }
+    dt
 }
 
+matchMethod <- function(m = c("ExponentialSplinesFitting",
+                              "SimplePolynomialFitting",
+                              "NelsonSiegelFitting")) {
+    m <- match.arg(m)
+    m
+}
 
 matchParams <- function(params) {
-
     if (!is.null(params$dayCounter)) {
         params$dayCounter <- matchDayCounter(params$dayCounter)
     }
@@ -646,7 +650,6 @@ matchParams <- function(params) {
     if (!is.null(params$floatFreq)) {
         params$floatFreq <- matchFloatFrequency(params$floatFreq)
     }
-    
     if (!is.null(params$businessDayConvention)) {
         params$businessDayConvention <- matchBDC(params$businessDayConvention)
     }
@@ -670,6 +673,9 @@ matchParams <- function(params) {
     }
     if (!is.null(params$durationType)) {
       params$durationType <- matchDurationType(params$durationType)
+    }
+    if (!is.null(params$method)) {
+        params$method <- matchMethod(params$method)
     }
     params
 

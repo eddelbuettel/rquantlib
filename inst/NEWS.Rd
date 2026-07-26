@@ -4,10 +4,31 @@
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rquantlib/issues/#1}{##1}}
 \newcommand{\ghrp}{\href{https://github.com/#1}{##1}}
 
+\section{Changes in \pkg{RQuantLib} version 0.4.29 (2026-07-24)}{
+  \itemize{
+    \item Configure check for outdate QuantLib version updated,
+    \item Adjust two instantiations on macOS x86_64 with old compilers
+    \item Correct Euribor2W and Euribor3W tenors setters (Maximilian Muecke
+    in \ghpr{196})
+    \item Accect Euribor1W as alias for EuriborSW tenor (Maximilian Muecke in
+    \ghpr{197})
+    \item Correct default handling of the payFixed parameter (Maximilian Muecke in
+    \ghpr{198})
+    \item Assign missing S3 class to American option implied volatitly return
+    (Maximilian Muecke in \ghpr{199})
+    \item Correct spelling in manual pages and R code (Maximilian Muecke in
+    \ghpr{202}, \ghpr{203})
+    \item Support additional Polish settlements (Maximilian Muecke in \ghpr{204})
+    \item Check for curve parameters in FittedBondCurve (Dirk in \ghpr{205}
+    fixing \ghit{201})
+  }
+}
+
 \section{Changes in \pkg{RQuantLib} version 0.4.28 (2026-07-10)}{
   \itemize{
-    \item Adjust to Israel calendar constructor change in QuantLib 1.43
-    \item Continuous integration uses ccache-with-R action
+    \item Adjustment to Israel calendar constructor change in QuantLib 1.43
+    (\ghpr{194})
+    \item Continuous integration uses ccache-with-R action (\ghpr{195})
   }
 }
 

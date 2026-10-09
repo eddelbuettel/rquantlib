@@ -173,9 +173,11 @@ QuantLib::ext::shared_ptr<QuantLib::Calendar> getCalendar(const std::string &cal
                calstr == "Italy/Settlement" ||
                calstr == "Italy::Settlement") {
         pcal.reset(new QuantLib::Italy(QuantLib::Italy::Settlement));
+#if QL_HEX_VERSION < 0x014400c0
     } else if (calstr == "Italy/Exchange" ||
-               calstr == "Italy::Exchange") {
-        pcal.reset(new QuantLib::Italy(QuantLib::Italy::Exchange));
+                calstr == "Italy::Exchange") {
+         pcal.reset(new QuantLib::Italy(QuantLib::Italy::Exchange));
+#endif
 
     } else if (calstr == "Japan" || calstr == "Japan/Settlement") {
         pcal.reset(new QuantLib::Japan());

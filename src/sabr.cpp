@@ -204,14 +204,22 @@ Rcpp::List sabrengine(Rcpp::List rparam,
 
     // create swaps for european swaption here to get atm fwd rate, these are ignored for bermudan  //
     QuantLib::ext::shared_ptr<VanillaSwap> underlyingCall =
+#if QL_HEX_VERSION < 0x014400c0
+        MakeVanillaSwap(Years*(((maturity-expiryDate)/365.0)), iborIndex1, strike)
+#else
         MakeVanillaSwap(Years*(((maturity-expiryDate)/365.0)), iborIndex1)
         .withFixedRate(strike)
+#endif
         .withEffectiveDate(expiryDate)
         .receiveFixed(false);
 
     QuantLib::ext::shared_ptr<VanillaSwap> underlyingPut =
+#if QL_HEX_VERSION < 0x014400c0
+        MakeVanillaSwap(Years*((maturity-expiryDate)/365.0), iborIndex1, strike)
+#else
         MakeVanillaSwap(Years*((maturity-expiryDate)/365.0), iborIndex1)
         .withFixedRate(strike)
+#endif
         .withEffectiveDate(expiryDate)
         .receiveFixed(true);
     QuantLib::ext::shared_ptr<PricingEngine> swapEngine(new DiscountingSwapEngine(yldCrv));
@@ -225,14 +233,22 @@ Rcpp::List sabrengine(Rcpp::List rparam,
     // calculate if bermudan here //
     if(!european)  {
         QuantLib::ext::shared_ptr<VanillaSwap> underlyingCall2 =
+#if QL_HEX_VERSION < 0x014400c0
+            MakeVanillaSwap(Years*(((maturity-startDate)/365.0)), iborIndex1, strike)
+#else
             MakeVanillaSwap(Years*(((maturity-startDate)/365.0)), iborIndex1)
             .withFixedRate(strike)
+#endif
             .withEffectiveDate(startDate)
             .receiveFixed(false);
 
         QuantLib::ext::shared_ptr<VanillaSwap> underlyingPut2 =
+#if QL_HEX_VERSION < 0x014400c0
+            MakeVanillaSwap(Years*((maturity-startDate)/365.0), iborIndex1, strike)
+#else
             MakeVanillaSwap(Years*((maturity-startDate)/365.0), iborIndex1)
             .withFixedRate(strike)
+#endif
             .withEffectiveDate(startDate)
             .receiveFixed(true);
         QuantLib::ext::shared_ptr<PricingEngine> swapEngine(new DiscountingSwapEngine(yldCrv));

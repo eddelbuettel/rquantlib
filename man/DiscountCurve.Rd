@@ -118,7 +118,7 @@ DiscountCurve(params, tsQuotes, times, legparams)
   For information about \code{QuantLib} see \url{https://www.quantlib.org/}.
 
   For information about \code{RQuantLib} see
-\url{http://dirk.eddelbuettel.com/code/rquantlib.html}.
+\url{https://dirk.eddelbuettel.com/code/rquantlib.html}.
 
 }
 \author{Dominick Samperi}

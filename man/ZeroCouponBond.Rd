@@ -7,32 +7,32 @@
 \alias{ZeroYield.default}
 \title{Zero-Coupon bond pricing}
 \description{
-  The \code{ZeroCouponBond} function evaluates a zero-coupon plainly using discount curve. 
+  The \code{ZeroCouponBond} function evaluates a zero-coupon plainly using discount curve.
   More specifically, the calculation is done by DiscountingBondEngine from QuantLib.
-  The NPV, clean price, dirty price, accrued interest, yield and cash flows of the bond is returned. 
+  The NPV, clean price, dirty price, accrued interest, yield and cash flows of the bond is returned.
   For more detail, see the source code in the QuantLib file \code{test-suite/bond.cpp}.
 
-  The \code{ZeroPriceYield} function evaluates a zero-coupon clean price based on its yield. 
+  The \code{ZeroPriceYield} function evaluates a zero-coupon clean price based on its yield.
 
   The \code{ZeroYield} function evaluations a zero-coupon yield based.
-  See also http://www.mathworks.com/access/helpdesk/help/toolbox/finfixed/zeroyield.html
+  See also https://www.mathworks.com/access/helpdesk/help/toolbox/finfixed/zeroyield.html
 }
 \usage{
 \method{ZeroCouponBond}{default}(bond, discountCurve, dateparams)
 
-\method{ZeroPriceByYield}{default}(yield, faceAmount, 
-                            issueDate, maturityDate, 
-                            dayCounter=2, frequency=2, 
+\method{ZeroPriceByYield}{default}(yield, faceAmount,
+                            issueDate, maturityDate,
+                            dayCounter=2, frequency=2,
                             compound=0, businessDayConvention=4)
 
-\method{ZeroYield}{default}(price, faceAmount, 
-                            issueDate, maturityDate, 
-                            dayCounter=2, frequency=2, 
+\method{ZeroYield}{default}(price, faceAmount,
+                            issueDate, maturityDate,
+                            dayCounter=2, frequency=2,
                             compound=0, businessDayConvention=4)
 }
 \arguments{
 
-\item{bond}{bond parameters, a named list whose elements are: 
+\item{bond}{bond parameters, a named list whose elements are:
   \tabular{ll}{
     \code{issueDate}     \tab a Date, the bond's issue date\cr
     \code{maturityDate}  \tab a Date, the bond's maturity date\cr
@@ -46,28 +46,28 @@
 \item{discountCurve}{Can be one of the following:
   \tabular{ll}{
     \code{a DiscountCurve} \tab  a object of DiscountCurve class \cr
-    \code{}                \tab For more detail, see example or \cr 
+    \code{}                \tab For more detail, see example or \cr
     \code{}                \tab the discountCurve function \cr
-    \code{A 2 items list} \tab specifies a flat curve in two \cr 
+    \code{A 2 items list} \tab specifies a flat curve in two \cr
     \code{}               \tab values "todayDate" and "rate"   \cr
     \code{A 3 items list} \tab specifies three values to construct a \cr
-    \code{}                \tab DiscountCurve object, "params" , \cr 
+    \code{}                \tab DiscountCurve object, "params" , \cr
     \code{} \tab "tsQuotes", "times". \cr
-    \code{}                \tab For more detail, see example or \cr 
+    \code{}                \tab For more detail, see example or \cr
     \code{}                \tab the discountCurve function \cr
   }
 }
 
-\item{dateparams}{(Optional) a named list, QuantLib's date parameters of the bond. 
+\item{dateparams}{(Optional) a named list, QuantLib's date parameters of the bond.
   \tabular{ll}{
-    \code{settlementDays} \tab (Optional) a double, settlement days. \cr 
+    \code{settlementDays} \tab (Optional) a double, settlement days. \cr
     \code{}        \tab Default value is 1.\cr
-    \code{calendar} \tab (Optional) a string, either 'us' or 'uk' \cr 
+    \code{calendar} \tab (Optional) a string, either 'us' or 'uk' \cr
     \code{}        \tab corresponding to US Government Bond \cr
     \code{}		   \tab calendar and UK Exchange calendar.\cr
     \code{}        \tab  Default value is 'us'.\cr
-    \code{businessDayConvention} \tab (Optional) a number or string, \cr 
-    \code{}                 \tab business day convention. \cr 
+    \code{businessDayConvention} \tab (Optional) a number or string, \cr
+    \code{}                 \tab business day convention. \cr
     \tab See \link{Enum}. Default value is 'Following'. \cr
   }
   See example below.
@@ -85,7 +85,7 @@
 }
 \value{
   The \code{ZeroCouponBond} function returns an object of class
-  \code{ZeroCouponBond} (which inherits from class 
+  \code{ZeroCouponBond} (which inherits from class
   \code{Bond}). It contains a list with the following
   components:
   \item{NPV}{net present value of the bond}
@@ -96,23 +96,23 @@
   \item{cashFlows}{cash flows of the bond}
 
   The \code{ZeroPriceByYield} function returns an object of class
-  \code{ZeroPriceByYield} (which inherits from class 
+  \code{ZeroPriceByYield} (which inherits from class
   \code{Bond}). It contains a list with the following
   components:
   \item{price}{price of the bond}
 
   The \code{ZeroYield} function returns an object of class
-  \code{ZeroYield} (which inherits from class 
+  \code{ZeroYield} (which inherits from class
   \code{Bond}). It contains a list with the following
   components:
   \item{yield}{yield of the bond}
 }
 \details{
-  A discount curve is built to calculate the bond value. 
+  A discount curve is built to calculate the bond value.
 
   Please see any decent Finance textbook for background reading, and the
   \code{QuantLib} documentation for details on the \code{QuantLib}
-  implementation.  
+  implementation.
 }
 \references{\url{https://www.quantlib.org/} for details on \code{QuantLib}.}
 
@@ -176,4 +176,3 @@ ZeroYield(90, 100, as.Date("1993-6-24"), as.Date("1993-11-1"))
 
 }
 \keyword{misc}
-
